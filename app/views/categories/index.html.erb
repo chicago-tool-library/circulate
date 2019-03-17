@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Full Name</th>
       <th>Slug</th>
       <th colspan="3"></th>
     </tr>
@@ -15,6 +16,7 @@
     <% @categories.each do |category| %>
       <tr>
         <td><%= category.name %></td>
+        <td><%= full_category_name(category) %></td>
         <td><%= category.slug %></td>
         <td><%= link_to 'Show', category %></td>
         <td><%= link_to 'Edit', edit_category_path(category) %></td>

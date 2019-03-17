@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.alpha_tree
   end
 
   # GET /categories/1
@@ -15,10 +15,12 @@ class CategoriesController < ApplicationController
   # GET /categories/new
   def new
     @category = Category.new
+    set_all_categories
   end
 
   # GET /categories/1/edit
   def edit
+    set_all_categories
   end
 
   # POST /categories
@@ -31,6 +33,7 @@ class CategoriesController < ApplicationController
         format.html { redirect_to @category, notice: 'Category was successfully created.' }
         format.json { render :show, status: :created, location: @category }
       else
+        set_all_categories
         format.html { render :new }
         format.json { render json: @category.errors, status: :unprocessable_entity }
       end
@@ -45,6 +48,7 @@ class CategoriesController < ApplicationController
         format.html { redirect_to @category, notice: 'Category was successfully updated.' }
         format.json { render :show, status: :ok, location: @category }
       else
+        set_all_categories
         format.html { render :edit }
         format.json { render json: @category.errors, status: :unprocessable_entity }
       end
@@ -67,8 +71,12 @@ class CategoriesController < ApplicationController
       @category = Category.find(params[:id])
     end
 
+    def set_all_categories
+      @all_categories = Category.alpha_tree
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.require(:category).permit(:name, :slug)
+      params.require(:category).permit(:name, :slug, :parent_id)
     end
 end
