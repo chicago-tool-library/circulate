@@ -1,6 +1,8 @@
 class Category < ApplicationRecord
   has_ancestry
 
+  has_many :categorizations
+
   validates :name, presence: true
   validates :slug, presence: true,  uniqueness: true
 
