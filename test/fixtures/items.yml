@@ -1,5 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+complete:
+  name: Hammer
+  number: 1
+  description: MyString
+  size: MyString
+  brand: Stanley
+  model: SuperHammer
+  serial: ABCD1234
+
 one:
   name: MyString
   description: MyString
@@ -7,11 +16,4 @@ one:
   brand: MyString
   model: MyString
   serial: MyString
-
-two:
-  name: MyString
-  description: MyString
-  size: MyString
-  brand: MyString
-  model: MyString
-  serial: MyString
+  number: 100
