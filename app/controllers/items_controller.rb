@@ -15,10 +15,12 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+    set_categories
   end
 
   # GET /items/1/edit
   def edit
+    set_categories
   end
 
   # POST /items
@@ -31,6 +33,7 @@ class ItemsController < ApplicationController
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
+        set_categories
         format.html { render :new }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -45,6 +48,7 @@ class ItemsController < ApplicationController
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
       else
+        set_categories
         format.html { render :edit }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -67,8 +71,12 @@ class ItemsController < ApplicationController
       @item = Item.find(params[:id])
     end
 
+    def set_categories
+      @categories = Category.all
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:name, :description, :size, :brand, :model, :serial)
+      params.require(:item).permit(:name, :description, :size, :brand, :model, :serial, :number, category_ids:[])
     end
 end

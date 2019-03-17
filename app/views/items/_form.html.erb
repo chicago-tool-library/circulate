@@ -22,6 +22,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :category_ids, "Categories" %>
+    <%= form.collection_select :category_ids, @categories, :id, :name, {}, multiple: true %>
+  </div>
+
+  <div class="field">
     <%= form.label :description %>
     <%= form.rich_text_area :description %>
   </div>

@@ -6,6 +6,9 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
 
+  has_many :categorizations, dependent: :destroy
+  has_many :categories, through: :categorizations
+
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
     return 1 unless last_item
