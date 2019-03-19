@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Full name:</strong>
+  <%= @member.full_name %>
+</p>
+
+<p>
+  <strong>Preferred name:</strong>
+  <%= @member.preferred_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @member.email %>
+</p>
+
+<p>
+  <strong>Pronoun:</strong>
+  <%= @member.pronoun %>
+</p>
+
+<p>
+  <strong>Custom pronoun:</strong>
+  <%= @member.custom_pronoun %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @member.phone_number %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @member.notes %>
+</p>
+
+<p>
+  <strong>Id kind:</strong>
+  <%= @member.id_kind %>
+</p>
+
+<p>
+  <strong>Custom:</strong>
+  <%= @member.other_id_kind %>
+</p>
+
+<p>
+  <strong>Id number:</strong>
+  <%= @member.id_number %>
+</p>
+
+<p>
+  <strong>Address verified:</strong>
+  <%= @member.address_verified %>
+</p>
+
+<%= link_to 'Edit', edit_member_path(@member) %> |
+<%= link_to 'Back', members_path %>

@@ -1,0 +1,14 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+complete:
+  full_name: Ida B. Wells
+  preferred_name: Ida
+  email: ida@example.com
+  pronoun: 2
+  custom_pronoun: 
+  phone_number: 3121234567
+  notes: 
+  id_kind: 1
+  other_id_kind: 
+  id_number: A132132231
+  address_verified: true

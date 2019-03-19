@@ -1,0 +1,72 @@
+<%= form_with(model: member, local: true) do |form| %>
+  <% if member.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(member.errors.count, "error") %> prohibited this member from being saved:</h2>
+
+      <ul>
+      <% member.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :full_name %>
+    <%= form.text_field :full_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :preferred_name %>
+    <%= form.text_field :preferred_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pronoun %>
+    <%= form.select :pronoun, options_for_select(member_pronoun_options), prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :custom_pronoun %>
+    <%= form.text_field :custom_pronoun %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :id_kind %>
+    <%= form.select :id_kind, options_for_select(member_id_kind_options), prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :other_id_kind %>
+    <%= form.text_field :other_id_kind %>
+  </div>
+
+  <div class="field">
+    <%= form.label :id_number %>
+    <%= form.text_field :id_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address_verified %>
+    <%= form.check_box :address_verified %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
