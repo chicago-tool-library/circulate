@@ -41,7 +41,14 @@ class LoansController < ApplicationController
   # PATCH/PUT /loans/1.json
   def update
     respond_to do |format|
-      if @loan.update(loan_params)
+      update_loan_params = loan_params
+
+      if update_loan_params.key? :ended
+        ended_at = update_loan_params[:ended] == "1" ? Time.now : nil
+        update_loan_params = update_loan_params.except(:ended).merge(ended_at: ended_at)
+      end
+
+      if @loan.update(update_loan_params)
         format.html { redirect_to @loan, notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else
@@ -69,6 +76,6 @@ class LoansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_params
-      params.require(:loan).permit(:item_id, :member_id, :due_at, :ended_at)
+      params.require(:loan).permit(:item_id, :member_id, :due_at, :ended)
     end
 end

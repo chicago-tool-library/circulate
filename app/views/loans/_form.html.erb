@@ -26,6 +26,11 @@
     <%= form.datetime_select :due_at %>
   </div>
 
+  <div class="field">
+    <%= form.label :ended? %>
+    <%= form.check_box :ended? %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

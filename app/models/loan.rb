@@ -9,4 +9,8 @@ class Loan < ApplicationRecord
       record.errors.add(attr, "is already on loan")
     end
   end
+
+  def ended?
+    ended_at.present?
+  end
 end

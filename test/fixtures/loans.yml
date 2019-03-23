@@ -6,7 +6,7 @@ active:
   due_at: 2020-03-21 23:59:59
   ended_at: nil
 
-past:
+ended:
   item: complete
   member: complete
   due_at: 2020-03-21 23:59:59
