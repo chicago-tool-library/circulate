@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_19_024125) do
+ActiveRecord::Schema.define(version: 2019_03_22_030007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,18 @@ ActiveRecord::Schema.define(version: 2019_03_19_024125) do
     t.integer "number", null: false
   end
 
+  create_table "loans", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "member_id"
+    t.datetime "due_at"
+    t.datetime "ended_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_active_loans_on_item_id", unique: true, where: "(ended_at IS NULL)"
+    t.index ["item_id"], name: "index_loans_on_item_id"
+    t.index ["member_id"], name: "index_loans_on_member_id"
+  end
+
   create_table "members", force: :cascade do |t|
     t.string "full_name", null: false
     t.string "preferred_name"
@@ -97,4 +109,6 @@ ActiveRecord::Schema.define(version: 2019_03_19_024125) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
+  add_foreign_key "loans", "items"
+  add_foreign_key "loans", "members"
 end

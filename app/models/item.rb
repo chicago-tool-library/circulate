@@ -8,6 +8,8 @@ class Item < ApplicationRecord
 
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
+  has_many :loans, dependent: :destroy
+  has_one :active_loan, -> { where "ended_at IS NULL" }, class_name: "Loan"
 
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
@@ -19,5 +21,13 @@ class Item < ApplicationRecord
     if number.blank?
       self.number = self.class.next_number
     end
+  end
+
+  def due_on
+    active_loan.due_at.to_date
+  end
+
+  def available?
+    !active_loan.present?
   end
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+active:
+  item: checked_out
+  member: complete
+  due_at: 2020-03-21 23:59:59
+  ended_at: nil
+
+past:
+  item: complete
+  member: complete
+  due_at: 2020-03-21 23:59:59
+  ended_at: 2019-03-19 18:00:00

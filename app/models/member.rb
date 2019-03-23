@@ -8,4 +8,6 @@ class Member < ApplicationRecord
 
   enum pronoun: [:"he/him", :"she/her", :"they/their", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
+
+  has_many :loans, dependent: :destroy
 end

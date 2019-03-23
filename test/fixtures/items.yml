@@ -9,11 +9,20 @@ complete:
   model: SuperHammer
   serial: ABCD1234
 
-one:
-  name: MyString
-  description: MyString
-  size: MyString
-  brand: MyString
-  model: MyString
-  serial: MyString
+checked_out:
+  name: Drill/Driver Kit
+  description: This drill is small, light, and powerful.
+  size: 12-Volt
+  brand: Bosch
+  model: PS31-2A
+  serial: ABCD1234
   number: 100
+
+available:
+  name: Drill/Driver Kit
+  description: This drill is small, light, and powerful.
+  size: 12-Volt
+  brand: Bosch
+  model: PS31-2A
+  serial: ABCD1234
+  number: 101
