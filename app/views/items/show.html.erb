@@ -1,5 +1,12 @@
 <p id="notice"><%= notice %></p>
 
+<% if @item.image.attached? %>
+  <p>
+    <strong>Image:</strong>
+    <%= image_tag url_for @item.image.variant(resize_to_limit: [200, 140]) %>
+  </p>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @item.name %>

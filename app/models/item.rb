@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
 
   has_rich_text :description
+  has_one_attached :image
 
   before_validation :assign_number, on: :create
 
