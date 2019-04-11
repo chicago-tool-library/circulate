@@ -10,6 +10,9 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
+    @new_item_numbers = []
+    @new_loans = {}
+    @active_loans = @member.loans.active
   end
 
   # GET /members/new

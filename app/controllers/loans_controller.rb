@@ -24,14 +24,18 @@ class LoansController < ApplicationController
   # POST /loans
   # POST /loans.json
   def create
-    @loan = Loan.new(loan_params)
+    item_id = Item.where(number: new_loan_params[:item_number]).pluck(:id).first
+    @loan = Loan.new(member_id: new_loan_params[:member_id], item_id: item_id, due_at: Date.today.end_of_day + 7.days)
 
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to @loan, notice: 'Loan was successfully created.' }
+        format.html { redirect_to @loan.member, notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
-        format.html { render :new }
+        format.html do
+          flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
+          redirect_to @loan.member
+        end
         format.json { render json: @loan.errors, status: :unprocessable_entity }
       end
     end
@@ -41,18 +45,16 @@ class LoansController < ApplicationController
   # PATCH/PUT /loans/1.json
   def update
     respond_to do |format|
-      update_loan_params = loan_params
+      ended_at = update_loan_params[:ended] == "1" ? Time.now : nil
 
-      if update_loan_params.key? :ended
-        ended_at = update_loan_params[:ended] == "1" ? Time.now : nil
-        update_loan_params = update_loan_params.except(:ended).merge(ended_at: ended_at)
-      end
-
-      if @loan.update(update_loan_params)
-        format.html { redirect_to @loan, notice: 'Loan was successfully updated.' }
+      if @loan.update(ended_at: ended_at)
+        format.html { redirect_to @loan.member, notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else
-        format.html { render :edit }
+        format.html do
+          flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
+          redirect_to @loan.member
+        end
         format.json { render json: @loan.errors, status: :unprocessable_entity }
       end
     end
@@ -75,7 +77,11 @@ class LoansController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def loan_params
-      params.require(:loan).permit(:item_id, :member_id, :due_at, :ended)
+    def new_loan_params
+      params.require(:loan).permit(:item_number, :member_id)
+    end
+
+    def update_loan_params
+      params.require(:loan).permit(:ended)
     end
 end

@@ -1,59 +1,70 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Full name:</strong>
-  <%= @member.full_name %>
-</p>
+<div class="columns">
+  <div class="column col-sm-6">
+    <h1>
+      <%= @member.preferred_name %>
+      <small class="label"><%= member_pronoun(@member) %></small>
+    </h1>
+    <p><%= @member.full_name %></p>
+  </div>
+  <div class="column col-sm-3">
+  </div>
+  <div class="column col-sm-3">
+    <p>
+      <span class="label">Email:</span>
+      <%= @member.email %>
+    </p>
 
-<p>
-  <strong>Preferred name:</strong>
-  <%= @member.preferred_name %>
-</p>
+    <p>
+      <span class="label">Phone:</span>
+      <%= @member.phone_number %>
+    </p>
+  </div>
+</div>
 
-<p>
-  <strong>Email:</strong>
-  <%= @member.email %>
-</p>
-
-<p>
-  <strong>Pronoun:</strong>
-  <%= @member.pronoun %>
-</p>
-
-<p>
-  <strong>Custom pronoun:</strong>
-  <%= @member.custom_pronoun %>
-</p>
-
-<p>
-  <strong>Phone number:</strong>
-  <%= @member.phone_number %>
-</p>
+<%= link_to 'Edit', edit_member_path(@member), class: "btn" %>
 
 <p>
   <strong>Notes:</strong>
   <%= @member.notes %>
 </p>
 
-<p>
-  <strong>Id kind:</strong>
-  <%= @member.id_kind %>
-</p>
+<div class="divider"></div>
 
-<p>
-  <strong>Custom:</strong>
-  <%= @member.other_id_kind %>
-</p>
+<h2>Currently Checked Out</h2>
 
-<p>
-  <strong>Id number:</strong>
-  <%= @member.id_number %>
-</p>
+<div class="container">
+  <% @active_loans.each do |loan| %>
+    <div class="columns">
+      <div class="col-lg-1 col-sm-4">
+        <p><%= loan.item.number %></p>
+      </div>
+      <div class="col-lg-3 col-sm-8">
+        <p><%= loan.item.name %></p>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <p><%= checked_out_date(loan.created_at) %></p>
+        <p><%= time_ago_in_words(loan.due_at) %> ago</p>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <%= button_to "Return", loan_path(loan), params: {loan: {ended: 1}}, method: :patch, class:"btn btn-lg btn-primary" %>
+        <button class="btn btn-lg" disabled>Renew</button>
+        <button class="btn btn-lg" disabled>Has Issue</button>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-<p>
-  <strong>Address verified:</strong>
-  <%= @member.address_verified %>
-</p>
+<h2>Checkout Additional Items</h2>
 
-<%= link_to 'Edit', edit_member_path(@member) %> |
-<%= link_to 'Back', members_path %>
+<%= form_tag loans_path, method: :post do %>
+  <% if flash.key? :checkout_error %>
+    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+  <% end %>
+
+  Lookup an item by number: 
+  <%= text_field_tag "loan[item_number]", "", pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
+  <%= hidden_field_tag "loan[member_id", @member.id %>
+  <%= button_tag "Checkout", class: "btn" %> 
+<% end %>

@@ -8,13 +8,7 @@
       <th>Full name</th>
       <th>Preferred name</th>
       <th>Email</th>
-      <th>Pronoun</th>
-      <th>Custom pronoun</th>
       <th>Phone number</th>
-      <th>Notes</th>
-      <th colspan="2">ID</th>
-      <th>Id number</th>
-      <th>Address verified</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,14 +19,7 @@
         <td><%= member.full_name %></td>
         <td><%= member.preferred_name %></td>
         <td><%= member.email %></td>
-        <td><%= member.pronoun %></td>
-        <td><%= member.custom_pronoun %></td>
         <td><%= member.phone_number %></td>
-        <td><%= member.notes %></td>
-        <td><%= member.id_kind %></td>
-        <td><%= member.other_id_kind %></td>
-        <td><%= member.id_number %></td>
-        <td><%= member.address_verified %></td>
         <td><%= link_to 'Show', member %></td>
         <td><%= link_to 'Edit', edit_member_path(member) %></td>
         <td><%= link_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' } %></td>

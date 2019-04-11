@@ -10,4 +10,5 @@ class Member < ApplicationRecord
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
 
   has_many :loans, dependent: :destroy
+  has_many :active_loans, -> { includes(:item).merge(Loan.active) }, class_name: "Loan"
 end

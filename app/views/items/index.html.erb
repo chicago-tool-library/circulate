@@ -2,17 +2,15 @@
 
 <h1>Items</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
-      <th>Number</th>
+      <th>#</th>
       <th>Name</th>
       <th>Categories</th>
-      <th>Description</th>
       <th>Size</th>
       <th>Brand</th>
       <th>Model</th>
-      <th>Serial</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,12 +20,16 @@
       <tr>
         <td><%= item.number %></td>
         <td><%= item.name %></td>
-        <td><%= item_categories(item) %></td>
-        <td><%= item.description %></td>
+        <td>
+        <ul>
+          <% item.categories.each do |category| %>
+            <li><%= category.name %></li>
+          <% end %>
+        </ul>
+        </td>
         <td><%= item.size %></td>
         <td><%= item.brand %></td>
         <td><%= item.model %></td>
-        <td><%= item.serial %></td>
         <td><%= link_to 'Show', item %></td>
         <td><%= link_to 'Edit', edit_item_path(item) %></td>
         <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
