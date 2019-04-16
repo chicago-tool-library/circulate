@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
 
-  has_rich_text :description
+  # has_rich_text :description
   has_one_attached :image
 
   before_validation :assign_number, on: :create
@@ -10,7 +10,7 @@ class Item < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
   has_many :loans, dependent: :destroy
-  has_one :active_loan, -> { where "ended_at IS NULL" }, class_name: "Loan"
+  has_one :active_loan, -> { where("ended_at IS NULL").readonly }, class_name: "Loan"
 
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
