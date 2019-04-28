@@ -1,62 +1,16 @@
-<%= form_with(model: item, local: true) do |form| %>
-  <% if item.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+<%= form_with(model: item, local: true, builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+  <%= form.text_field :name %>
+  <%= form.text_field :number %>
+  <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
+  <%= form.rich_text_area :description %>
+  <%= form.text_field :size %>
+  <%= form.text_field :brand %>
+  <%= form.text_field :model %>
+  <%= form.text_field :serial %>
+  <%= form.file_field :image %>
 
-      <ul>
-      <% item.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <%= form.actions do %>
+    <%= form.submit %> or <%= link_to "cancel", :back %>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number %>
-    <%= form.text_field :number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :category_ids, "Categories" %>
-    <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.rich_text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :size %>
-    <%= form.text_field :size %>
-  </div>
-
-  <div class="field">
-    <%= form.label :brand %>
-    <%= form.text_field :brand %>
-  </div>
-
-  <div class="field">
-    <%= form.label :model %>
-    <%= form.text_field :model %>
-  </div>
-
-  <div class="field">
-    <%= form.label :serial %>
-    <%= form.text_field :serial %>
-  </div>
-
-  <div class="field">
-    <%= form.label :image %>
-    <%= form.file_field :image %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
