@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
+gem 'audited', github: 'bonekost/audited'
 
 # Use Active Storage variant
 gem 'image_processing', '~> 1.2'
