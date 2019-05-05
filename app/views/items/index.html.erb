@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Items</h1>
+<%= index_header "Items" do %>
+  <%= link_to 'New Item', new_item_path, class: "btn btn-primary" %>
+<% end %>
 
 <table class="table">
   <thead>
@@ -37,7 +39,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Item', new_item_path %>

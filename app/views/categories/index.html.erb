@@ -1,8 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Categories</h1>
+<%= index_header "Categories" do %>
+  <%= link_to 'New Category', new_category_path, class: "btn btn-primary" %>
+<% end %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
@@ -25,7 +27,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Category', new_category_path %>

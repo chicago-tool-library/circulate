@@ -1,12 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Loans</h1>
+<%= index_header "Loans" do %>
+  <%= link_to 'New Loan', new_loan_path, class: "btn btn-primary" %>
+<% end %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Item</th>
       <th>Member</th>
+      <th>Checked out</th>
       <th>Due at</th>
       <th>Ended at</th>
       <th colspan="3"></th>
@@ -18,6 +21,7 @@
       <tr>
         <td><%= loan.item.name %></td>
         <td><%= loan.member.full_name %></td>
+        <td><%= loan.created_at %></td>
         <td><%= loan.due_at %></td>
         <td><%= loan.ended_at %></td>
         <td><%= link_to 'Show', loan %></td>
@@ -27,7 +31,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Loan', new_loan_path %>
