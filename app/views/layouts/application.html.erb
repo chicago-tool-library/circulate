@@ -4,7 +4,8 @@
     <title>Circulate</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -29,6 +30,9 @@
           </div> %>
         </section>
       </header>
+      <%= flash_message :success  %>
+      <%= flash_message :warning  %>
+      <%= flash_message :error  %>
       <%= yield %>
     </div>
   </body>

@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 gem 'audited', github: 'bonekost/audited'
+gem 'turbolinks_render'
 
 # Use Active Storage variant
 gem 'image_processing', '~> 1.2'

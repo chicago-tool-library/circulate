@@ -7,3 +7,17 @@ $error-color: #DF6C54;
 
 @import 'spectre.css/src/spectre';
 @import 'trix/dist/trix.css';
+
+form details {
+  summary {
+    margin-bottom: 0.3rem;
+  }
+
+  label.form-label {
+    display: none;
+  }
+}
+
+.container {
+  padding-bottom: 3rem;
+}

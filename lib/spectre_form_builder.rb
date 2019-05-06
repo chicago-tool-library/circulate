@@ -1,28 +1,28 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def text_field(method, options={})
     options[:class] = "form-input"
-    sequence_layout(method) do
+    sequence_layout(method, options) do
       super method, options
     end
   end
 
   def text_area(method, options={})
     options[:class] = "form-input"
-    sequence_layout(method) do
+    sequence_layout(method, options) do
       super method, options
     end
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] = "form-select"
-    sequence_layout(method) do
+    sequence_layout(method, options) do
       super method, collection, value_method, text_method, options, html_options
     end
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] = "form-select"
-    sequence_layout(method) do
+    sequence_layout(method, options) do
       super method, choices, options, html_options, &block
     end
   end
@@ -83,15 +83,15 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
       end
     end
 
-    messages = @object.errors.include?(method) &&
-      @object.errors.messages[method].join(", ")
+    has_error = @object.errors.include?(method)
+    messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
-    hint = messages ? @template.tag.p(messages, class: "form-input-hint") : ""
+    hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 
-    @template.content_tag :div, class: "form-group #{'has-error' if messages}" do
+    @template.content_tag :div, class: "form-group #{'has-error' if has_error}" do
       label(method, label_text, {class: "form-label #{options[:label_class]}"}) +
         yield +
-        hint
+        hint_content
     end
   end
   
