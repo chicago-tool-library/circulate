@@ -12,6 +12,10 @@ class ItemsController < ApplicationController
   def show
   end
 
+  def number
+    @item = Item.find(params[:item_id])
+  end
+
   # GET /items/new
   def new
     @item = Item.new
@@ -30,7 +34,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, success: 'Item was successfully created.' }
+        format.html { redirect_to item_number_path(@item), success: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
         set_categories
