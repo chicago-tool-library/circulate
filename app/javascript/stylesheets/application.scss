@@ -6,6 +6,8 @@ $primary-color: #2F7890;
 $error-color: #DF6C54;
 
 @import 'spectre.css/src/spectre';
+@import 'spectre.css/src/spectre-icons';
+@import 'spectre.css/src/spectre-exp';
 @import 'trix/dist/trix.css';
 
 form details {
@@ -28,4 +30,9 @@ header.navbar {
 
 .toast {
   margin-bottom: 1rem;
+}
+
+.off-canvas .off-canvas-content {
+  padding-left: 3rem;
+  height: 3rem;
 }

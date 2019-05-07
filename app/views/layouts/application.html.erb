@@ -6,13 +6,48 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <% unless request.get? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbolinks-cache-control" content="no-preview">
+    <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <div class="off-canvas" data-controller="sidebar">
+      <a class="off-canvas-toggle btn btn-primary btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
+        <i class="icon icon-menu"></i>
+      </a>
+
+      <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
+        <header class="navbar">
+          <section class="navbar-section">
+            <span class="navbar-brand mr-2">Circulate</span>
+          </section>
+        </header>
+
+        <ul class="nav">
+          <li class="nav-item"><%= link_to "Items", items_path %></li>
+          <li class="nav-item"><%= link_to "Members", members_path %></li>
+          <li class="nav-item"><%= link_to "Loans", loans_path %></li>
+          <li class="nav-item"><%= link_to "Categories", categories_path %></li>
+        </ul>
+        <ul class="nav">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
+
+      <div class="off-canvas-content show-md"></div>
+    </div>
+
     <div class="container grid-lg">
-      <header class="navbar">
+      <header class="navbar hide-md">
         <section class="navbar-section">
           <span class="navbar-brand mr-2">Circulate</span>
           <%= link_to "Items", items_path, class: "btn btn-link" %>
@@ -30,10 +65,12 @@
           </div> %>
         </section>
       </header>
+
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>
       <%= yield %>
     </div>
+
   </body>
 </html>
