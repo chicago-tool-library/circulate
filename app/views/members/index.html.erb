@@ -2,28 +2,25 @@
   <%= link_to 'New Member', new_member_path, class: "btn" %>
 <% end %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Full name</th>
-      <th>Preferred name</th>
-      <th>Email</th>
-      <th>Phone number</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="responsive-table five-columns">
+  <%= tag.div "Full Name", class: "responsive-table-header" %>
+  <%= tag.div "Name and Pronoun", class: "responsive-table-header" %>
+  <%= tag.div "Email", class: "responsive-table-header" %>
+  <%= tag.div "Phone", class: "responsive-table-header" %>
+  <%= tag.div "", class: "responsive-table-header" %>
 
-  <tbody>
-    <% @members.each do |member| %>
-      <tr>
-        <td><%= member.full_name %></td>
-        <td><%= member.preferred_name %></td>
-        <td><%= member.email %></td>
-        <td><%= member.phone_number %></td>
-        <td><%= link_to 'Show', member %></td>
-        <td><%= link_to 'Edit', edit_member_path(member) %></td>
-        <td><%= link_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+  <% @members.each do |member| %>
+    <%= tag.div member.full_name, class: "responsive-table-cell" %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= member.preferred_name %>
+      <%= tag.div member_pronoun(member), class: "label" %>
     <% end %>
-  </tbody>
-</table>
+    <%= tag.div member.email, class: "responsive-table-cell" %>
+    <%= tag.div member.phone_number, class: "responsive-table-cell" %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= link_to 'Show', member %>
+      <%= link_to 'Edit', edit_member_path(member) %>
+      <%= link_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+</div>

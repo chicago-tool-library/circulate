@@ -36,3 +36,65 @@ header.navbar {
   padding-left: 3rem;
   height: 3rem;
 }
+
+.responsive-table {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 3em 0;
+  padding: 0;
+
+  .responsive-table-cell,
+  .responsive-table-header {
+    box-sizing: border-box;
+    flex-grow: 1;
+    width: 100%;  // Default to full width
+    overflow: hidden; // Or flex might break
+    list-style: none;
+    border-bottom: .05rem solid #dadee4;
+    padding: .6rem .4rem;
+  }
+  .responsive-table-cell {
+    > h1, > h2, > h3, > h4, > h5, > h6 { margin: 0; }
+  }
+  .responsive-table-header {
+    font-weight: bold;
+    font-size: .7rem;
+  }
+}
+
+.responsive-table-cell, .responsive-table-header {
+  .responsive-table.two-columns   > & { width: 50%; }
+  .responsive-table.three-columns > & { width: 33.33%; }
+  .responsive-table.four-columns  > & { width: 25%; }
+  .responsive-table.five-columns  > & { width: 20%; }
+  .responsive-table.six-columns   > & { width: 16.6%; }
+}
+
+@media all and (max-width: 840px) {
+  .responsive-table {
+    display: block;
+    & .responsive-table-header { display: none; }
+    & .responsive-table-cell { 
+      width: 100% !important;
+      &:empty {
+        display: none;
+      }
+    }
+  }
+  .responsive-table-cell {
+    .responsive-table.two-columns   > &:nth-of-type(2n+1),
+    .responsive-table.three-columns > &:nth-of-type(3n+1),
+    .responsive-table.four-columns  > &:nth-of-type(4n+1),
+    .responsive-table.five-columns  > &:nth-of-type(5n+1),
+    .responsive-table.six-columns   > &:nth-of-type(6n+1) { 
+      font-weight: bold;
+    }
+    .responsive-table.two-columns   > &:nth-of-type(2n),
+    .responsive-table.three-columns > &:nth-of-type(3n),
+    .responsive-table.four-columns  > &:nth-of-type(4n),
+    .responsive-table.five-columns  > &:nth-of-type(5n),
+    .responsive-table.six-columns   > &:nth-of-type(6n) { 
+      margin-bottom: 2rem;
+    }
+  }
+}

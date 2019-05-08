@@ -2,38 +2,32 @@
   <%= link_to 'New Item', new_item_path, class: "btn" %>
 <% end %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Categories</th>
-      <th>Size</th>
-      <th>Brand</th>
-      <th>Model</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="responsive-table four-columns">
+  <%= tag.div "# Name (Size)", class: "responsive-table-header" %>
+  <%= tag.div "Brand, Model", class: "responsive-table-header" %>
+  <%= tag.div "Categories", class: "responsive-table-header" %>
+  <%= tag.div "", class: "responsive-table-header" %>
 
-  <tbody>
-    <% @items.each do |item| %>
-      <tr>
-        <td><%= item.number %></td>
-        <td><%= item.name %></td>
-        <td>
-        <ul>
-          <% item.categories.each do |category| %>
-            <li><%= category.name %></li>
-          <% end %>
-        </ul>
-        </td>
-        <td><%= item.size %></td>
-        <td><%= item.brand %></td>
-        <td><%= item.model %></td>
-        <td><%= link_to 'Show', item %></td>
-        <td><%= link_to 'Edit', edit_item_path(item) %></td>
-        <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+  <% @items.each do |item| %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <strong><%= item.number %></strong>
+      <%= item.name %>
+      <% if item.size.present? %>
+        <span class="label"><%= item.size %></span>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+
+    <%= tag.div [item.brand, item.model].select(&:present?).join(", "), class: "responsive-table-cell" %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <% item.categories.each do |category| %>
+        <%= category.name %><br>
+      <% end %>
+    <% end %>
+
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= link_to 'Show', item %>
+      <%= link_to 'Edit', edit_item_path(item) %>
+      <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+</div>
