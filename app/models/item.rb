@@ -16,6 +16,8 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
 
+  enum status: [:new, :active, :maintence, :retired], _prefix: true
+
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
     return 1 unless last_item
