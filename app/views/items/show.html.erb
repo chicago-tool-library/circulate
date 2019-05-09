@@ -45,5 +45,19 @@
   <%= @item.serial %>
 </p>
 
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<%= link_to 'Edit', edit_item_path(@item) %>
+
+<table class="table table-scroll">
+  <% @item.audits.each do |audit| %>
+    <tr>
+      <td><%= audit.created_at %></td>
+      <td>
+        <ul>
+          <% audit.audited_changes.each do |key, values| %>
+            <li><strong><%= key %></strong> set to <em><%= audit.action == "create" ? values : values.last %></em></li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+  <% end %>
+</table>

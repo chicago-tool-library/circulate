@@ -1,13 +1,15 @@
 class Item < ApplicationRecord
-  audited
-
   has_many :categorizations, dependent: :destroy
-  has_many :categories, through: :categorizations
+  has_many :categories, through: :categorizations,
+    before_add: :cache_category_ids,
+    before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
   has_one :active_loan, -> { where("ended_at IS NULL").readonly }, class_name: "Loan"
 
   has_rich_text :description
   has_one_attached :image
+
+  audited
 
   validates :name, presence: true
   validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
@@ -32,5 +34,25 @@ class Item < ApplicationRecord
 
   def available?
     !active_loan.present?
+  end
+
+  private
+
+  def cache_category_ids(category)
+    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
+  end
+
+  # called when item is created
+  def audited_attributes
+    super.merge("category_ids" => category_ids.sort)
+  end
+
+  # called when item is updated
+  def audited_changes
+    if @current_category_ids.present? && @current_category_ids != category_ids.sort
+      super.merge("category_ids" => [@current_category_ids, category_ids.sort])
+    else
+      super
+    end
   end
 end
