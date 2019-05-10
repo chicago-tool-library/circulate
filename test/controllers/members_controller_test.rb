@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class MembersControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @member = members(:complete)
+    @user = users(:admin)
+    sign_in @user
   end
 
   test "should get index" do

@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class ItemsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @item = items(:complete)
+    @user = users(:admin)
+    sign_in @user
   end
 
   test "should get index" do
@@ -20,7 +24,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
       post items_url, params: { item: { brand: @item.brand, description: @item.description, model: @item.model, name: @item.name, serial: @item.serial, size: @item.size } }
     end
 
-    assert_redirected_to item_url(Item.last)
+    assert_redirected_to item_number_url(Item.last)
   end
 
   test "should show item" do
