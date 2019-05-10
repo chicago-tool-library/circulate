@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   resources :loans
   resources :members
 
-  root to: "items#index"
+  root to: "home#index"
 end
