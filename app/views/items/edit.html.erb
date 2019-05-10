@@ -1,3 +1,7 @@
 <h1>Editing Item</h1>
 
 <%= render 'form', item: @item %>
+
+<div class="destroy-button">
+  <%= link_to 'Destroy Item', @item, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-error btn-block btn-sm" %>
+</div>

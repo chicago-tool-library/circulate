@@ -1,3 +1,12 @@
+<ul class="breadcrumb">
+  <li class="breadcrumb-item">
+    <%= link_to "Items", items_path %>
+  </li>
+  <li class="breadcrumb-item">
+    <%= link_to @item.name, item_path(@item) %>
+  </li>
+</ul>
+
 <% if @item.image.attached? %>
   <p>
     <strong>Image:</strong>

@@ -14,13 +14,13 @@
 
   <%= form.text_field :size, hint: "e.g. blade diameter, voltage, width or height" %>
   <%= form.text_field :brand, hint: "e.g. Dewalt, Craftsman, Singer" %>
-  <%= form.text_field :model, hint: "e.g. ABC-123" %>
+  <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
   <%= form.file_field :image, data: {"turbolinks-permanent": true} %>
 
-  <%= form.text_field :serial %>
+  <%= form.text_field :serial, hint: "Usually near the model number" %>
   <%= form.text_field :number unless item.new_record? %>
 
   <%= form.actions do %>
-    <%= form.submit %> or <%= link_to "cancel", :back %>
+    <%= form.submit %>
   <% end %>
 <% end %>

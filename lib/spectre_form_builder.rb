@@ -53,7 +53,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label=nil, options={})
-    super(label, options.merge(class: "btn btn-primary btn-lg"))
+    super(label, options.merge(class: "btn btn-primary btn-lg btn-block"))
   end
 
   def errors
@@ -65,13 +65,6 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   private
-
-  # def merge_options(defaults, new_options)
-  #   (defaults.keys + new_options.keys).inject({}) {|h,key|
-  #     h[key] = [defaults[key], new_options[key]].compact.join(" ")
-  #     h
-  #   }
-  # end
 
   def sequence_layout(method, options={})
     label_text = options.fetch(:label) do |key|
