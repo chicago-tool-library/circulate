@@ -18,6 +18,9 @@ class Item < ApplicationRecord
 
   enum status: [:new, :active, :maintence, :retired], _prefix: true
 
+  scope :name_contains, -> (query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :brand_contains, -> (query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
+
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
     return 1 unless last_item
