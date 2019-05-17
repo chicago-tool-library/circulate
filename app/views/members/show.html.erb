@@ -37,20 +37,20 @@
 <div class="container">
   <% @active_loans.each do |loan| %>
     <div class="columns">
-      <div class="col-lg-1 col-sm-4">
+      <div class="col-xl-1 col-lg-1 col-sm-4">
         <p><%= loan.item.number %></p>
       </div>
-      <div class="col-lg-3 col-sm-8">
+      <div class="col-xl-3 col-lg-3 col-sm-8">
         <p><%= loan.item.name %></p>
       </div>
-      <div class="col-lg-4 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-sm-12">
         <p><%= checked_out_date(loan.created_at) %></p>
-        <p><%= time_ago_in_words(loan.due_at) %> ago</p>
+        <p>due <%= time_ago_in_words(loan.due_at) %> ago</p>
       </div>
-      <div class="col-lg-4 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-sm-12">
         <%= button_to "Return", loan_path(loan), params: {loan: {ended: 1}}, method: :patch, class:"btn btn-lg btn-primary" %>
-        <button class="btn btn-lg" disabled>Renew</button>
-        <button class="btn btn-lg" disabled>Has Issue</button>
+        <button class="btn btn-sm" disabled>Renew</button>
+        <button class="btn btn-sm" disabled>Has Issue</button>
       </div>
     </div>
   <% end %>

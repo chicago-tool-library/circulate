@@ -2,7 +2,7 @@
   <%= form.errors %>
 
   <%= tag.div data: {controller: "autocomplete", action:"input->autocomplete#input", autocomplete_path: "/ui/names.json"} do %>
-    <%= form.text_field :name, hint: "Generic name for the tool, e.g. impact driver, orchard ladder, flathead screwdriver", data: { target: "autocomplete.input"} %>
+    <%= form.text_field :name, autofocus: true, hint: "Generic name for the tool, e.g. Impact driver, Orchard ladder, Flathead screwdriver", data: { target: "autocomplete.input"} %>
   <% end %>
 
   <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
@@ -10,7 +10,7 @@
   <% if item.new_record? %>
     <details>
       <summary>Description</summary>
-      <%= form.rich_text_area :description %>
+      <%= form.rich_text_area :description, hint: "Optional; additional information about this tool" %>
     </details>
   <% else %>
     <%= form.rich_text_area :description %>

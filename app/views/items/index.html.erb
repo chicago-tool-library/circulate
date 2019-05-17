@@ -2,31 +2,36 @@
   <%= link_to 'New Item', new_item_path, class: "btn" %>
 <% end %>
 
-<div class="responsive-table three-columns">
-  <%= tag.div "# Name (Size)", class: "responsive-table-header" %>
-  <%= tag.div "Brand, Model", class: "responsive-table-header" %>
-  <%= tag.div "Categories", class: "responsive-table-header" %>
-
+<div class="items-table">
   <% @items.each do |item| %>
-    <%= tag.div class: "responsive-table-cell" do %>
-      <strong><%= item.number %></strong>
-      <%= link_to item.name, item_path(item) %>
-      <% if item.size.present? %>
-        <span class="label"><%= item.size %></span>
+      <%= tag.div class: "items-table-image" do %>
+        <% if item.image.attached? %>
+          <%= image_tag url_for item.image.variant(resize_to_limit: [200, 140]) %>
+        <% else %>
+          <div class="image-placeholder"></div>
+        <% end %>
       <% end %>
-      <%= tag.div class: "float-right" do %>
-        <%= link_to edit_item_path(item) do %>
+
+      <%= tag.div class: "items-table-name" do %>
+        <strong><%= item.number %></strong><br>
+        <%= link_to item.name, item_path(item) %>
+        <% if item.size.present? %>
+          <span class="label"><%= item.size %></span>
+        <% end %>
+        <br>
+
+        <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+
+        <%= link_to edit_item_path(item), class: "items-table-edit-link" do %>
           <i class="icon icon-edit"></i>
         <% end %>
       <% end %>
-    <% end %>
 
-    <%= tag.div [item.brand, item.model].select(&:present?).join(", "), class: "responsive-table-cell" %>
-    <%= tag.div class: "responsive-table-cell" do %>
-      <% item.categories.each do |category| %>
-        <%= category.name %><br>
+      <%= tag.div class: "items-table-categories" do %>
+        <% item.categories.each do |category| %>
+          <%= category.name %><br>
+        <% end %>
       <% end %>
-    <% end %>
-
+      <div class="item-table-divider"></div>
   <% end %>
 </div>

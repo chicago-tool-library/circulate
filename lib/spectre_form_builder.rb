@@ -33,9 +33,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def rich_text_area(method, *args)
-    sequence_layout(method) do
-      super method, *args
+  def rich_text_area(method, options={})
+    sequence_layout(method, options) do
+      super method, options
     end
   end
 
