@@ -37,6 +37,12 @@ header.navbar {
   height: 3rem;
 }
 
+.sidebar-logo {
+  opacity: 0.2;
+  margin: 8px 0 0 8px;
+  font-size: 1rem;
+}
+
 .items-table {
   display: grid;
 
@@ -108,7 +114,6 @@ $photo-width: 187px;
     }
   }
 }
-
 
 .image-placeholder {
   display: inline-block;
