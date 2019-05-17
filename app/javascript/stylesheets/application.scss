@@ -43,6 +43,10 @@ header.navbar {
   font-size: 1rem;
 }
 
+.form-buttons {
+  margin-top: 2rem;
+}
+
 .items-table {
   display: grid;
 
@@ -187,4 +191,8 @@ $photo-width: 187px;
 
 .destroy-button {
   padding-top: 3rem;
+}
+
+form .awesomplete {
+  display: block;
 }

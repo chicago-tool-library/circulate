@@ -1,14 +1,13 @@
 <%= form_with(model: item, builder: SpectreFormBuilder, data: {controller: "form"}, id: dom_id(item)) do |form| %>
   <%= form.errors %>
 
-  <%= tag.div data: {controller: "autocomplete", action:"input->autocomplete#input", autocomplete_path: "/ui/names.json"} do %>
-    <%= form.text_field :name, autofocus: true, hint: "Generic name for the tool, e.g. Impact driver, Orchard ladder, Flathead screwdriver", data: { target: "autocomplete.input"} %>
-  <% end %>
+  <%= form.autocomplete_text_field :name, path: "/ui/names.json", autofocus: true, 
+      hint: "Generic name for the tool, e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
   <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
 
   <% if item.new_record? %>
-    <details>
+    <details class="form-group">
       <summary>Description</summary>
       <%= form.rich_text_area :description, hint: "Optional; additional information about this tool" %>
     </details>
@@ -18,15 +17,19 @@
 
   <%= form.text_field :size, hint: "e.g. blade diameter, voltage, width or height" %>
 
-  <%= tag.div data: {controller: "autocomplete", action:"input->autocomplete#input", autocomplete_path: "/ui/brands.json"} do %>
-    <%= form.text_field :brand, hint: "e.g. Dewalt, Craftsman, Singer", data: { target: "autocomplete.input"} %>
-  <% end %>
+  <%= form.autocomplete_text_field :brand, path: "/ui/brands.json", hint: "e.g. Dewalt, Craftsman, Singer" %>
+
+  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
 
   <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
-  <%= form.file_field :image, data: {"turbolinks-permanent": true} %>
-
   <%= form.text_field :serial, hint: "Usually near the model number" %>
-  <%= form.text_field :number unless item.new_record? %>
+
+  <% unless item.new_record? %>
+    <details>
+      <summary>Number: <strong><%= item.number %></strong></summary>
+      <%= form.text_field :number, hint: "Only change this with good reason!" %>
+    </details>
+  <% end %>
 
   <%= form.actions do %>
     <%= form.submit %>

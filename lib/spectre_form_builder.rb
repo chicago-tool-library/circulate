@@ -27,9 +27,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def file_field(method, *args)
-    sequence_layout(method) do
-      super method, *args
+  def file_field(method, options={})
+    sequence_layout(method, options) do
+      super method, options
     end
   end
 
@@ -46,8 +46,24 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def text_field(method, options={})
+    options[:class] = "form-input"
+    sequence_layout(method, options) do
+      super method, options
+    end
+  end
+
+  def autocomplete_text_field(method, options={})
+    text_field(method, options.merge(
+        wrapper_options: {
+          data: {controller: "autocomplete", action:"input->autocomplete#input", autocomplete_path: options.delete(:path)}
+        },
+        data: { target: "autocomplete.input"} 
+    ))
+  end
+
   def actions(&block)
-    @template.content_tag :div, class: "pt-2" do
+    @template.content_tag :div, class: "form-buttons" do
       yield
     end
   end
@@ -66,37 +82,29 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   private
 
+  # Use this method for inputs where the label has to preceed the input as a sibling
   def sequence_layout(method, options={})
-    label_text = options.fetch(:label) do |key|
-      method_string = method.to_s
-      if method_string =~ /_ids\z/
-        method_string.sub("_ids", "").pluralize.titleize
-      else
-        method_string.humanize
-      end
-    end
+    label_text = label_or_default(options[:label], method)
 
     has_error = @object.errors.include?(method)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 
-    @template.content_tag :div, class: "form-group #{'has-error' if has_error}" do
+    wrapper_options = options.delete(:wrapper_options) || {}
+    wrapper_options[:class] ||= "" << " form-group #{'has-error' if has_error}"
+    wrapper_options[:class].strip!
+
+    @template.content_tag :div, wrapper_options do
       label(method, label_text, {class: "form-label #{options[:label_class]}"}) +
         yield +
         hint_content
     end
   end
   
+  # Use this method for inputs where the label has to wrap the input
   def wrapped_layout(method, options={})
-    label_text = options.fetch(:label) do |key|
-      method_string = method.to_s
-      if method_string =~ /_ids\z/
-        method_string.sub("_ids", "").pluralize.titleize
-      else
-        method_string.humanize
-      end
-    end
+    label_text = label_or_default(options[:label], method)
 
     messages = @object.errors.include?(method) &&
       @object.errors.messages[method].join(", ")
@@ -109,6 +117,17 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
         label_text
       end + 
       hint
+    end
+  end
+
+  def label_or_default(label, method)
+    return label if label
+
+    method_string = method.to_s
+    if method_string =~ /_ids\z/
+      method_string.sub("_ids", "").pluralize.titleize
+    else
+      method_string.humanize
     end
   end
 end
