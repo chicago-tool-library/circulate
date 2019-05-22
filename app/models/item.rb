@@ -16,7 +16,7 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
 
-  enum status: [:new, :active, :maintence, :retired], _prefix: true
+  enum status: [:pending, :active, :maintenance, :retired], _prefix: true
 
   scope :name_contains, -> (query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :brand_contains, -> (query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }

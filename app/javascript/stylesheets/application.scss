@@ -11,8 +11,27 @@ $error-color: #DF6C54;
 @import 'trix/dist/trix.css';
 
 form details {
+  margin-top: 1em;
+
   summary {
     margin-bottom: 0.3rem;
+    color: $link-color;
+    outline: none;
+
+    &:focus {
+      @include control-shadow();
+    }
+
+    &:focus,
+    &:hover,
+    &:active,
+    &.active {
+      color: $link-color-dark;
+      text-decoration: underline;
+    }
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   label.form-label {

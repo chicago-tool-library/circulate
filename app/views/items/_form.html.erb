@@ -24,6 +24,8 @@
   <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
   <%= form.text_field :serial, hint: "Usually near the model number" %>
 
+  <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
+
   <% unless item.new_record? %>
     <details>
       <summary>Number: <strong><%= item.number %></strong></summary>
