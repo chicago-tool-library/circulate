@@ -22,4 +22,13 @@ class ItemTest < ActiveSupport::TestCase
   test "it is available" do
     assert items(:complete).available?
   end
+
+  test "validations" do
+    item = Item.new(status: nil)
+
+    refute item.valid?
+
+    assert_equal ["can't be blank"], item.errors[:name]
+    assert_equal ["is not included in the list"], item.errors[:status]
+  end
 end

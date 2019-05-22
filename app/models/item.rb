@@ -9,17 +9,18 @@ class Item < ApplicationRecord
   has_rich_text :description
   has_one_attached :image
 
+  enum status: [:pending, :active, :maintenance, :retired]
+
   audited
-
-  validates :name, presence: true
-  validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
-
-  before_validation :assign_number, on: :create
-
-  enum status: [:pending, :active, :maintenance, :retired], _prefix: true
 
   scope :name_contains, -> (query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :brand_contains, -> (query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
+
+  validates :name, presence: true
+  validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
+  validates :status, inclusion: { in: Item.statuses.keys }
+
+  before_validation :assign_number, on: :create
 
   def self.next_number
     last_item = order("number DESC NULLS LAST").limit(1).first
