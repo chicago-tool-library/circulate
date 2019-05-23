@@ -16,7 +16,14 @@ class Category < ApplicationRecord
     end
   end
 
+  # Return an Array of all categories in alphabetized hierarchy order
   def self.alpha_tree
-    sort_by_ancestry(sorted_by_name)
+    sort_by_ancestry(all) { |a, b| a.name <=> b.name }
+  end
+
+  # Return a string representation of alpha_tree, using indentation
+  # to indicate nesting
+  def self.inspect_all
+    alpha_tree.map { |c| ("  " * c.ancestor_ids.size) + c.name }.join("\n")
   end
 end
