@@ -1,0 +1,10 @@
+<div class="empty">
+  <% if !icon.nil? %>
+    <div class="empty-icon">
+      <%= tag.i class: "icon icon-#{icon}" %>
+    </div>
+  <% end %>
+  <p class="empty-title h5"><%= title %></p>
+  <p class="empty-subtitle"><%= subtitle %></p>
+  <div class="empty-action"><%= yield %></div>
+</div>

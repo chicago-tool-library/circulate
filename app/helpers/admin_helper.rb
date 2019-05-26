@@ -1,5 +1,4 @@
 module AdminHelper
-
   def index_header(title, &block)
     render "shared/index_header", title: title, &block
   end
@@ -12,4 +11,7 @@ module AdminHelper
     end
   end
 
+  def empty_state(title, subtitle:nil, icon:nil, &block)
+    render "shared/empty_state", title: title, subtitle: subtitle, icon:icon, &block
+  end
 end
