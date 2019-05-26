@@ -27,3 +27,5 @@ end
 YAML.load_file("db/categories.yaml").each do |name, kids|
   create_category(name, kids: kids)
 end
+
+User.create!(email: "admin@chicagotoollibrary.org", password: "password")
