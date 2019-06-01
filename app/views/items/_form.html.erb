@@ -26,6 +26,8 @@
 
   <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
 
+  <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default), hint: "Borrowing rules used for this item" %>
+
   <% unless item.new_record? %>
     <details>
       <summary>Number: <strong><%= item.number %></strong></summary>

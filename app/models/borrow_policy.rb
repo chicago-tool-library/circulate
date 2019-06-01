@@ -9,4 +9,8 @@ class BorrowPolicy < ApplicationRecord
     only_integer: true, greater_than_or_equal_to: 1, less_than: 365
   validates_numericality_of :fine_period,
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
+
+  def self.default
+    where(name: "Default").first
+  end
 end

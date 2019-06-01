@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class BorrowPoliciesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @borrow_policy = borrow_policies(:one)
+    @borrow_policy = borrow_policies(:default)
+    @user = users(:admin)
+    sign_in @user
   end
 
   test "should get index" do
@@ -17,7 +21,7 @@ class BorrowPoliciesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create borrow_policy" do
     assert_difference('BorrowPolicy.count') do
-      post borrow_policies_url, params: { borrow_policy: { duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: @borrow_policy.name } }
+      post borrow_policies_url, params: { borrow_policy: { duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: "New Borrow Policy" } }
     end
 
     assert_redirected_to borrow_policy_url(BorrowPolicy.last)

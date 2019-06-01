@@ -14,4 +14,10 @@ module ItemsHelper
       ["#{key.titleize} (#{explainations[key]})", key]
     end
   end
+
+  def borrow_policy_options
+    BorrowPolicy.all.map do |borrow_policy|
+      [borrow_policy.name, borrow_policy.id]
+    end
+  end
 end

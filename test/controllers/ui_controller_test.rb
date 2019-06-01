@@ -10,7 +10,7 @@ class UIControllerTest < ActionDispatch::IntegrationTest
 
   test "autocompletes item names" do
     ["impact hammer", "Impact hammer", "Impact wrench", "hammer drill"].each do |name|
-      Item.create!(name: name)
+      Item.create!(name: name, borrow_policy: borrow_policies(:default))
     end
 
     get ui_names_url(q: "im")
@@ -21,7 +21,7 @@ class UIControllerTest < ActionDispatch::IntegrationTest
 
   test "autocompletes item brands" do
     ["Dewalt", "Delta", "ACDelco", "Dremel"].each do |brand|
-      Item.create!(name: "Tool name", brand: brand)
+      Item.create!(name: "Tool name", brand: brand, borrow_policy: borrow_policies(:default))
     end
 
     get ui_brands_url(q: "de")

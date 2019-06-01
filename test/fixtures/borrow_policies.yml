@@ -1,13 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  duration: 
-  fine_cents: 
-  fine_period: 
-
-two:
-  name: MyString
-  duration: 
-  fine_cents: 
-  fine_period: 
+default:
+  name: Default
+  duration: 7
+  fine_cents: 1.00
+  fine_period: 7

@@ -8,6 +8,7 @@ complete:
   brand: Stanley
   model: SuperHammer
   serial: ABCD1234
+  borrow_policy: default
 
 checked_out:
   name: Drill/Driver Kit
@@ -17,6 +18,7 @@ checked_out:
   model: PS31-2A
   serial: ABCD1234
   number: 100
+  borrow_policy: default
 
 available:
   name: Drill/Driver Kit
@@ -26,3 +28,4 @@ available:
   model: PS31-2A
   serial: ABCD1234
   number: 101
+  borrow_policy: default

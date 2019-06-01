@@ -5,6 +5,7 @@ class Item < ApplicationRecord
     before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
   has_one :active_loan, -> { where("ended_at IS NULL").readonly }, class_name: "Loan"
+  belongs_to :borrow_policy
 
   has_rich_text :description
   has_one_attached :image
@@ -19,6 +20,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
   validates :status, inclusion: { in: Item.statuses.keys }
+  validates :borrow_policy_id, inclusion: { in: ->(item) { BorrowPolicy.pluck(:id)}}
 
   before_validation :assign_number, on: :create
 
