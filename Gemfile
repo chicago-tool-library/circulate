@@ -28,6 +28,7 @@ gem 'turbolinks_render'
 gem 'image_processing', '~> 1.2'
 
 gem 'ancestry'
+gem 'money-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.1', require: false

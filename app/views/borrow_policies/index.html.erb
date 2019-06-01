@@ -1,0 +1,30 @@
+<%= index_header "Borrow Policies" do %>
+  <%= link_to 'New Borrow Policy', new_borrow_policy_path, class: "btn" %>
+<% end %>
+
+<% if @borrow_policies.any? %>
+  <div class="responsive-table five-columns">
+    <%= tag.div "Name", class: "responsive-table-header" %>
+    <%= tag.div "Duration", class: "responsive-table-header" %>
+    <%= tag.div "Fine", class: "responsive-table-header" %>
+    <%= tag.div "Fine Period", class: "responsive-table-header" %>
+    <%= tag.div "", class: "responsive-table-header" %>
+
+    <% @borrow_policies.each do |borrow_policy| %>
+      <%= tag.div borrow_policy.name, class: "responsive-table-cell" %>
+      <%= tag.div borrow_policy.duration, class: "responsive-table-cell" %>
+      <%= tag.div borrow_policy.fine, class: "responsive-table-cell" %>
+      <%= tag.div borrow_policy.fine_period, class: "responsive-table-cell" %>
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to 'Show', borrow_policy %>
+        <%= link_to 'Edit', edit_borrow_policy_path(borrow_policy) %>
+        <%= link_to 'Destroy', borrow_policy, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    <% end %>
+  </div>
+
+<% else %>
+  <%= empty_state "There are no borrow policies.", subtitle:"Create one?" do %>
+    <%= link_to "Add a Borrow Policy", new_borrow_policy_path, class: "btn btn-primary" %>
+  <% end %>
+<% end %>

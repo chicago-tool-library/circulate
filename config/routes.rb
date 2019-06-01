@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :borrow_policies
   devise_for :users
 
   resources :categories

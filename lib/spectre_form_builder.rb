@@ -1,8 +1,24 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
+  alias_method :parent_text_field, :text_field
+
   def text_field(method, options={})
     options[:class] = "form-input"
+    options[:prefix] ||= ""
+
     sequence_layout(method, options) do
-      super method, options
+      options[:prefix] + super(method, options)
+    end
+  end
+
+  def money_field(method, options={})
+    options[:class] = "form-input"
+
+    options[:value] ||= @template.request.params.dig @object.class.to_s.underscore, method
+    sequence_layout(method, options) do
+      @template.tag.div class: "input-group" do
+        @template.tag.span("$", class: "input-group-addon") + 
+        parent_text_field(method, options)
+      end
     end
   end
 
@@ -85,7 +101,6 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   # Use this method for inputs where the label has to preceed the input as a sibling
   def sequence_layout(method, options={})
     label_text = label_or_default(options[:label], method)
-
     has_error = @object.errors.include?(method)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
