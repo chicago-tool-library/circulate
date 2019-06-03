@@ -29,3 +29,4 @@ YAML.load_file("db/categories.yaml").each do |name, kids|
 end
 
 User.create!(email: "admin@chicagotoollibrary.org", password: "password")
+BorrowPolicy.create!(name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
