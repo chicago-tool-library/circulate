@@ -13,6 +13,7 @@ class Loan < ApplicationRecord
   end
 
   scope :active, -> { where("ended_at IS NULL").includes(:item) }
+  scope :recently_returned, -> { where("ended_at IS NOT NULL AND ended_at >= ?", Time.current - 7.days).includes(:item) }
 
   def ended?
     ended_at.present?

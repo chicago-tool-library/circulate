@@ -24,8 +24,13 @@ class LoansController < ApplicationController
   # POST /loans
   # POST /loans.json
   def create
-    item_id = Item.where(number: new_loan_params[:item_number]).pluck(:id).first
-    @loan = Loan.new(member_id: new_loan_params[:member_id], item_id: item_id, due_at: Date.today.end_of_day + 7.days)
+    @item = Item.where(number: new_loan_params[:item_number]).first
+    due_at = item_id = nil
+    if @item
+      due_at = Time.zone.today.end_of_day + @item.borrow_policy.duration.days
+      item_id = @item.id
+    end
+    @loan = Loan.new(member_id: new_loan_params[:member_id], item_id: item_id, due_at: due_at)
 
     respond_to do |format|
       if @loan.save

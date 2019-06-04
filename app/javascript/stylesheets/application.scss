@@ -215,3 +215,20 @@ $photo-width: 187px;
 form .awesomplete {
   display: block;
 }
+
+
+.date-debug {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.8em;
+  .btn-sm {
+    transform: scale(0.7);
+  }
+  input {
+    width: 200px;
+  }
+  form {
+    display: inline-block;
+  }
+}

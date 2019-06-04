@@ -52,6 +52,7 @@
     </div>
 
     <div class="container grid-lg">
+      <%= render partial: "shared/time_override" if Rails.env.development? %>
       <header class="navbar hide-md">
         <section class="navbar-section">
           <span class="navbar-brand mr-2"><%= link_to "Circulate", root_path %></span>

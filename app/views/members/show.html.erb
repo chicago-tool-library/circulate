@@ -32,6 +32,28 @@
 
 <div class="divider"></div>
 
+<h2>Recent Loans</h2>
+
+<div class="container">
+  <% @recent_loans.each do |loan| %>
+    <div class="columns">
+      <div class="col-xl-1 col-lg-1 col-sm-4">
+        <p><%= loan.item.number %></p>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-sm-8">
+        <p><%= loan.item.name %></p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+        <p>
+          <%= checked_out_date(loan.created_at) %> ->
+          <%= checked_out_date(loan.ended_at) %>
+        </p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12"></div>
+    </div>
+  <% end %>
+</div>
+
 <h2>Currently Checked Out</h2>
 
 <div class="container">
@@ -45,7 +67,11 @@
       </div>
       <div class="col-xl-4 col-lg-4 col-sm-12">
         <p><%= checked_out_date(loan.created_at) %></p>
-        <p>due <%= time_ago_in_words(loan.due_at) %> ago</p>
+        <p>
+          due <%= "in " if loan.due_at >= Time.current %>
+          <%= time_ago_in_words(loan.due_at) %>
+          <%= "ago" if loan.due_at < Time.current %>
+        </p>
       </div>
       <div class="col-xl-4 col-lg-4 col-sm-12">
         <%= button_to "Return", loan_path(loan), params: {loan: {ended: 1}}, method: :patch, class:"btn btn-lg btn-primary" %>

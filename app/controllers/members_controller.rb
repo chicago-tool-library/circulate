@@ -13,6 +13,7 @@ class MembersController < ApplicationController
     @new_item_numbers = []
     @new_loans = {}
     @active_loans = @member.loans.active
+    @recent_loans = @member.loans.recently_returned
   end
 
   # GET /members/new
