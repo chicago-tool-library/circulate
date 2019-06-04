@@ -50,9 +50,18 @@ class LoansController < ApplicationController
   # PATCH/PUT /loans/1.json
   def update
     respond_to do |format|
-      ended_at = update_loan_params[:ended] == "1" ? Time.now : nil
+      ended_at = update_loan_params[:ended] == "1" ? Time.current : nil
 
       if @loan.update(ended_at: ended_at)
+
+        if @loan.ended_at 
+          policy = @loan.item.borrow_policy
+          amount = FineCalculator.new.amount(fine: policy.fine, period: policy.fine_period, due_at: @loan.due_at, returned_at: @loan.ended_at)
+          if amount > 0
+            Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: Adjustment.kinds[:fine])
+          end
+        end
+
         format.html { redirect_to @loan.member, notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else

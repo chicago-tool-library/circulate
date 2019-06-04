@@ -12,8 +12,8 @@ class MembersController < ApplicationController
   def show
     @new_item_numbers = []
     @new_loans = {}
-    @active_loans = @member.loans.active
-    @recent_loans = @member.loans.recently_returned
+    @active_loans = @member.active_loans.by_creation_date
+    @recent_loans = @member.loans.recently_returned.includes(:adjustment).by_creation_date
   end
 
   # GET /members/new

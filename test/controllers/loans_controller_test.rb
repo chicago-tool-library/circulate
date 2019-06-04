@@ -40,10 +40,11 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update loan" do
-    patch loan_url(@loan), params: { loan: { due_at: @loan.due_at, ended: "1", item_id: @loan.item_id, member_id: @loan.member_id } }
+    patch loan_url(@loan), params: { loan: { ended: "1" } }
     assert_redirected_to member_url(@loan.member)
 
     @loan.reload
+    refute flash[:checkout_error]
     assert @loan.ended_at.present?
   end
 

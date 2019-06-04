@@ -23,6 +23,13 @@
   </div>
 </div>
 
+<p>
+  <strong>Account balance:</strong>
+  <%= @member.account_balance.format %>
+</p>
+
+
+
 <%= link_to 'Edit', edit_member_path(@member), class: "btn" %>
 
 <p>
@@ -49,7 +56,11 @@
           <%= checked_out_date(loan.ended_at) %>
         </p>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-12"></div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+       <% if loan.adjustment %>
+        <%= loan.adjustment.amount.format %>
+       <% end %>
+      </div>
     </div>
   <% end %>
 </div>

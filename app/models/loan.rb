@@ -1,8 +1,10 @@
 class Loan < ApplicationRecord
   belongs_to :item
   belongs_to :member
+  has_one :adjustment, as: :adjustable
 
   validates :due_at, presence: true
+  validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan){ loan.due_at }
 
   validates_each :item_id do |record, attr, value|
     if !value
@@ -14,6 +16,7 @@ class Loan < ApplicationRecord
 
   scope :active, -> { where("ended_at IS NULL").includes(:item) }
   scope :recently_returned, -> { where("ended_at IS NOT NULL AND ended_at >= ?", Time.current - 7.days).includes(:item) }
+  scope :by_creation_date, -> { order("created_at ASC") }
 
   def ended?
     ended_at.present?
