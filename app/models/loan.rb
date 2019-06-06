@@ -4,13 +4,15 @@ class Loan < ApplicationRecord
   has_one :adjustment, as: :adjustable
 
   validates :due_at, presence: true
-  validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan){ loan.due_at }
+  validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan){ loan.created_at }
 
   validates_each :item_id do |record, attr, value|
     if !value
       record.errors.add(attr, "does not exist")
     elsif record.item.active_loan && record.item.active_loan.id != record.id
       record.errors.add(attr, "is already on loan")
+    elsif !record.item.active?
+      record.errors.add(attr, "is not available to loan")
     end
   end
 

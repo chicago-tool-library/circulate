@@ -9,6 +9,7 @@ complete:
   model: SuperHammer
   serial: ABCD1234
   borrow_policy: default
+  status: active
 
 checked_out:
   name: Drill/Driver Kit
@@ -19,6 +20,7 @@ checked_out:
   serial: ABCD1234
   number: 100
   borrow_policy: default
+  status: active
 
 available:
   name: Drill/Driver Kit
@@ -29,3 +31,37 @@ available:
   serial: ABCD1234
   number: 101
   borrow_policy: default
+  status: active
+
+pending:
+  name: Drill/Driver Kit
+  description: This drill is small, light, and powerful.
+  size: 12-Volt
+  brand: Bosch
+  model: PS31-2A
+  serial: ABCD1234
+  number: 201
+  borrow_policy: default
+  status: pending
+
+maintenance:
+  name: Drill/Driver Kit
+  description: This drill is small, light, and powerful.
+  size: 12-Volt
+  brand: Bosch
+  model: PS31-2A
+  serial: ABCD1234
+  number: 202
+  borrow_policy: default
+  status: maintenance
+
+retired:
+  name: Drill/Driver Kit
+  description: This drill is small, light, and powerful.
+  size: 12-Volt
+  brand: Bosch
+  model: PS31-2A
+  serial: ABCD1234
+  number: 203
+  borrow_policy: default
+  status: retired

@@ -26,4 +26,13 @@ class LoanTest < ActiveSupport::TestCase
     loan.save!
   end
 
+  %i(pending maintenance retired).each do |status|
+    test "is invalid with an item with #{status} status" do
+      item = items(status)
+      loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
+
+      refute loan.save
+      assert_equal ["is not available to loan"], loan.errors[:item_id]
+    end
+  end
 end
