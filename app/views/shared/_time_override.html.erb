@@ -1,11 +1,25 @@
-<div class="date-debug">
-  <%= form_tag "/dev/time" do %>
-    Change time to: <%= text_field_tag "new_time", Time.zone.now.to_s %>
-    <%= hidden_field_tag "return_to", request.path %>
-    <%= button_tag "Set", type: "submit", class: "btn btn-sm" %>
-  <% end %>
-  <%= form_tag "/dev/time", method: "DELETE" do %>
-    <%= hidden_field_tag "return_to", request.path %>
-    <%= button_tag "Reset", type: "submit", class: "btn btn-sm" %>
-  <% end %>
-</div>
+<section class="navbar-section">
+  <div class="dropdown">
+    <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+      Change Time <i class="icon icon-caret"></i>
+    </a>
+    <ul class="menu">
+      <li class="divider" data-content="Set time">
+      <li class="menu-item">
+        <%= form_tag "/dev/time", class: "form" do %>
+          <div class="input-group input-inline">
+            <%= text_field_tag "new_time", Time.zone.now.to_s, class: "form-input" %>
+            <%= hidden_field_tag "return_to", request.path %>
+          </div>
+        <% end %>
+      </li>
+      <li class="divider" data-content="Clear override">
+      <li class="menu-item">
+        <%= form_tag "/dev/time", method: "DELETE", class: "form" do %>
+          <%= hidden_field_tag "return_to", request.path %>
+          <%= button_tag "Reset", type: "submit", class: "btn btn-sm" %>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</section>

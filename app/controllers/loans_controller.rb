@@ -4,7 +4,7 @@ class LoansController < ApplicationController
   # GET /loans
   # GET /loans.json
   def index
-    @loans = Loan.all
+    @loans = Loan.includes(:member, :item).all
   end
 
   # GET /loans/1
