@@ -14,6 +14,8 @@ class Member < ApplicationRecord
   validates :custom_pronoun, presence: true, if: Proc.new {|m| m.custom_pronoun?}
   validates :other_id_kind, presence: true, if: Proc.new {|m| m.other_id_kind?}
 
+  scope :matching, ->(query){ where("email = ? OR full_name ILIKE ?", query, "%#{query}%")}
+
   def account_balance
     @account_balance ||= Money.new(adjustments.calculate("SUM", :amount_cents))
   end

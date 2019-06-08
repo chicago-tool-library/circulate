@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     end
     resources :loans
     resources :members
+
+    post "search", to: "searches#create"
+    get "search", to: "searches#show"
   end
 
   scope :register do
