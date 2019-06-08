@@ -4,7 +4,14 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.includes(:categories).all
+    if params[:category]
+      @category = Category.where(id: params[:category]).first
+      redirect_to(items_path, error: "Category not found") and return unless @category
+
+      @items = Item.within_category(@category)
+    else
+      @items = Item.includes(:categories)
+    end
   end
 
   # GET /items/1
@@ -18,7 +25,7 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
-    @item = Item.new
+    @item = Item.new(category_ids: [params[:category_id]])
     set_categories
   end
 

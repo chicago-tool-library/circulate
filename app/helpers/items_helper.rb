@@ -20,4 +20,17 @@ module ItemsHelper
       [borrow_policy.name, borrow_policy.id]
     end
   end
+
+  def category_nav(categories, current_category=nil)
+    return unless categories
+
+    tag.div class: "nav" do
+      categories.keys.sort_by {|c| c.name }.map do |category|
+        tag.li(class: "nav-item #{'active' if category == current_category}") do
+          link_to(category.name, category: category.id)
+        end +
+        category_nav(categories[category], current_category)
+      end.join.html_safe
+    end
+  end
 end
