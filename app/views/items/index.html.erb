@@ -8,7 +8,7 @@
     <% @items.each do |item| %>
         <%= tag.div class: "items-table-image" do %>
           <% if item.image.attached? %>
-            <%= image_tag url_for item.image.variant(resize_to_limit: [200, 140]) %>
+            <%= image_tag url_for(item.image.variant(resize_to_limit: [200, 140])), class: "p-centered" %>
           <% else %>
             <div class="image-placeholder"></div>
           <% end %>

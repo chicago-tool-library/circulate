@@ -7,66 +7,72 @@
   </li>
 </ul>
 
-<% if @item.image.attached? %>
-  <p>
-    <strong>Image:</strong>
-    <%= image_tag url_for @item.image.variant(resize_to_limit: [200, 140]) %>
-  </p>
+<%= index_header @item.name do %>
+  <%= link_to 'Edit', edit_item_path(@item), class: "btn" %>
 <% end %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @item.name %>
-</p>
+<div class="columns">
+  <div class="column col-4">
+    <p>
+      <strong>Number:</strong>
+      <%= @item.number %>
+    </p>
 
-<p>
-  <strong>Number:</strong>
-  <%= @item.number %>
-</p>
+    <p>
+      <strong>Size:</strong>
+      <%= @item.size %>
+    </p>
 
-<p>
-  <strong>Categories:</strong>
-  <%= item_categories(@item) %>
-</p>
+    <p>
+      <strong>Brand:</strong>
+      <%= @item.brand %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @item.description %>
-</p>
+    <p>
+      <strong>Model:</strong>
+      <%= @item.model %>
+    </p>
 
-<p>
-  <strong>Size:</strong>
-  <%= @item.size %>
-</p>
+    <p>
+      <strong>Serial:</strong>
+      <%= @item.serial %>
+    </p>
 
-<p>
-  <strong>Brand:</strong>
-  <%= @item.brand %>
-</p>
+    <p>
+      <strong>Categories:</strong>
+      <%= item_categories(@item) %>
+    </p>
+  </div>
 
-<p>
-  <strong>Model:</strong>
-  <%= @item.model %>
-</p>
+  <div class="column col-4">
+    <%= @item.description %>
+  </div>
 
-<p>
-  <strong>Serial:</strong>
-  <%= @item.serial %>
-</p>
+  <div class="column col-4">
+    <% if @item.image.attached? %>
+      <%= image_tag url_for(@item.image.variant(resize_to_limit: [200, 140])), class: "p-centered" %>
+    <% end %>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_item_path(@item) %>
+<h2>Edit history</h2>
 
-<table class="table table-scroll">
-  <% @item.audits.each do |audit| %>
-    <tr>
-      <td><%= audit.created_at %></td>
-      <td>
-        <ul>
-          <% audit.audited_changes.each do |key, values| %>
-            <li><strong><%= key %></strong> set to <em><%= audit.action == "create" ? values : values.last %></em></li>
-          <% end %>
-        </ul>
-      </td>
-    </tr>
+<div class="timeline item-edit-history">
+  <% @item.audits.reverse.each do |audit| %>
+    <div class="timeline-item" id="<%= dom_id(audit) %>">
+      <div class="timeline-left">
+        <a class="timeline-icon" href="#<%= dom_id(audit) %>"></a>
+      </div>
+      <div class="timeline-content">
+        <div class="tile-content">
+          <p class="tile-title"><%= audit.created_at.to_s(:short) %> by <%= audit.user.email %></p>
+        </div>
+        <% audit.audited_changes.each do |key, values| %>
+          <p class="tile-subtitle">
+            <em><%= key %></em> set to <em><%= audit.action == "create" ? values : values.last %></em></li>
+          </p>
+        <% end %>
+      </div>
+    </div>
   <% end %>
-</table>
+</div>
