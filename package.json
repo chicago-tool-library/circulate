@@ -8,7 +8,6 @@
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.2",
     "awesomplete": "^1.1.4",
-    "bulma": "^0.7.4",
     "spectre.css": "^0.5.8",
     "stimulus": "^1.1.1",
     "trix": "^1.0.0",
