@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 gem 'audited', github: 'bonekost/audited'
+gem 'acts_as_list'
 gem 'turbolinks_render'
 
 # Use Active Storage variant
