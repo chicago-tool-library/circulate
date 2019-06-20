@@ -238,3 +238,10 @@ form .awesomplete {
     margin-bottom: 0.2rem;
   }
 }
+
+.conditional-field-child {
+  margin-bottom: 0.4rem;
+  label {
+    display: none;
+  }
+}
