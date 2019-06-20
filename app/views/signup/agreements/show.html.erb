@@ -1,0 +1,13 @@
+<%= render 'signup/steps', steps: @steps %>
+
+<h1><%= @agreement.name %></h1>
+
+<%= @agreement.body %>
+
+<%= form_with(model: @acceptance, url: signup_agreement_acceptance_url(agreement_id: @agreement), builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+  <%= form.check_box :terms, class: "input-lg", label: "I have read, understand, and agree to these terms." %>
+  <%= form.actions do %>
+    <%= form.submit "Continue" %>
+  <% end %>
+<% end %>

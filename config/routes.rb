@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  namespace :signup do
+    resources :members, only: [:new, :create]
+    resources :agreements, only: [:show] do
+      resource :acceptance, only: [:create, :destroy]
+    end
+    get "confirmation", to: "confirmations#show"
+  end
+
   scope :admin do
+    resources :agreements
     resources :borrow_policies
     resources :categories
     resources :items do
@@ -12,9 +21,6 @@ Rails.application.routes.draw do
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
-  end
-
-  scope :register do
   end
 
   get "/ui/names", to: "ui#names"

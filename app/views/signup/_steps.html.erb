@@ -1,0 +1,7 @@
+<ul class="step">
+  <% steps.each do |step| %>
+    <li class="step-item <%= "active" if step.active %>">
+      <a href="#" class="tooltip" data-tooltip="<%= step.tooltip %>"><%= step.name %></a>
+    </li>
+  <% end %>
+</ul>
