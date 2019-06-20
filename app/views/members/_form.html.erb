@@ -1,28 +1,7 @@
-<%= form_with(model: member, local: true, builder: SpectreFormBuilder) do |form| %>
-  <%= form.errors %>
+<%= form_with(model: member, builder: SpectreFormBuilder) do |form| %>
+  <%= render 'fields', form: form %>
 
-  <%= form.text_field :full_name %>
-  <%= form.text_field :preferred_name %>
-  <%= form.text_field :email %>
-
-  <div data-controller="conditional-field" data-conditional-field-trigger="custom_pronoun">
-    <%= form.select :pronoun, options_for_select(member_pronoun_options), {prompt: true}, data: {action: "conditional-field#change"} %>
-    <%= tag.div data: {target: "conditional-field.child"} do %>
-      <%= form.text_field :custom_pronoun %>
-    <% end %>
-  </div>
-
-  <%= form.text_field :phone_number %>
   <%= form.text_area :notes %>
-
-  <div data-controller="conditional-field" data-conditional-field-trigger="other_id_kind">
-    <%= form.select :id_kind, options_for_select(member_id_kind_options), {prompt: true, label: "ID Type"}, data: {action: "conditional-field#change"} %>
-    <%= tag.div data: {target: "conditional-field.child"} do %>
-      <%= form.text_field :other_id_kind, label: "Other ID Type" %>
-    <% end %>
-  </div>
-
-  <%= form.text_field :id_number, label: "ID Number" %>
   <%= form.check_box :address_verified %>
 
   <%= form.actions do %>

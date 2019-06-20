@@ -21,7 +21,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create member" do
     assert_difference('Member.count') do
-      post members_url, params: { member: { address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, id_number: @member.id_number, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun } }
+      post members_url, params: { member: { address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun } }
     end
 
     assert_redirected_to member_url(Member.last)
@@ -38,7 +38,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update member" do
-    patch member_url(@member), params: { member: { address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, id_number: @member.id_number, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun } }
+    patch member_url(@member), params: { member: { address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun } }
     assert_redirected_to member_url(@member)
   end
 

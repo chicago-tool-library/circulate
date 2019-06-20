@@ -1,15 +1,6 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   alias_method :parent_text_field, :text_field
 
-  def text_field(method, options={})
-    options[:class] = "form-input"
-    options[:prefix] ||= ""
-
-    sequence_layout(method, options) do
-      options[:prefix] + super(method, options)
-    end
-  end
-
   def money_field(method, options={})
     options[:class] = "form-input"
 
@@ -49,15 +40,22 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def number_field(method, options={})
+    sequence_layout(method, options) do
+      super method, options
+    end
+  end
+
   def rich_text_area(method, options={})
     sequence_layout(method, options) do
       super method, options
     end
   end
 
-  def check_box(method, *args)
-    wrapped_layout(method, label_class: "form-checkbox") do
-      super(method, *args) +
+  def check_box(method, options={}, *args)
+    options[:label_class] = "form-checkbox"
+    wrapped_layout(method, options) do
+      super +
         @template.tag.i(class:"form-icon")
     end
   end
@@ -120,18 +118,21 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   # Use this method for inputs where the label has to wrap the input
   def wrapped_layout(method, options={})
     label_text = label_or_default(options[:label], method)
+    has_error = @object.errors.include?(method)
+    messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
-    messages = @object.errors.include?(method) &&
-      @object.errors.messages[method].join(", ")
+    hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 
-    hint = messages ? @template.tag.p(messages, class: "form-input-hint") : ""
+    wrapper_options = options.delete(:wrapper_options) || {}
+    wrapper_options[:class] ||= "" << " form-group #{'has-error' if has_error}"
+    wrapper_options[:class].strip!
 
-    @template.content_tag :div, class: "form-group #{'has-error' if messages} #{options[:class]}" do
+    @template.content_tag :div, wrapper_options do
       label(method, class: "form-label #{options[:label_class]}") do
         yield + 
         label_text
       end + 
-      hint
+      hint_content
     end
   end
 
