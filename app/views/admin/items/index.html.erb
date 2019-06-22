@@ -1,0 +1,70 @@
+<%= index_header "Items" do %>
+  <%= link_to 'New Item', new_admin_item_path, class: "btn" %>
+<% end %>
+
+<ul class="breadcrumb">
+  <li class="breadcrumb-item">
+    <%= link_to "All Items", admin_items_path %>
+  </li>
+  <% if @category %>
+    <% @category.ancestors.each do |ancestor| %>
+      <li class="breadcrumb-item">
+        <%= link_to ancestor.name, admin_items_path(category: ancestor) %>
+      </li>
+    <% end %>
+    <li class="breadcrumb-item">
+      <%= link_to @category.name, admin_items_path(category: @category) %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="columns">
+  <div class="column col-9">
+
+    <% if @items.any? %>
+      <div class="items-table">
+        <% @items.each do |item| %>
+          <%= tag.div class: "items-table-image" do %>
+            <% if item.image.attached? %>
+              <%= image_tag url_for(item.image.variant(resize_to_limit: [200, 140])), class: "p-centered" %>
+            <% else %>
+              <div class="image-placeholder"></div>
+            <% end %>
+          <% end %>
+
+          <%= tag.div class: "items-table-name" do %>
+            <strong><%= item.number %></strong><br>
+            <%= link_to item.name, admin_item_path(item) %>
+            <% if item.size.present? %>
+              <span class="label"><%= item.size %></span>
+            <% end %>
+            <br>
+
+            <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+
+            <%= link_to edit_admin_item_path(item), class: "items-table-edit-link" do %>
+              <i class="icon icon-edit"></i>
+            <% end %>
+          <% end %>
+
+          <%= tag.div class: "items-table-categories" do %>
+            <% item.categories.each do |category| %>
+              <%= link_to category.name, category: category.id %><br>
+            <% end %>
+          <% end %>
+          <div class="item-table-divider"></div>
+        <% end %>
+      </div>
+
+    <% else %>
+      <%= empty_state "There are no items in this category", subtitle:"Create one?" do %>
+        <%= link_to "Add an Item to #{@category.name}", new_admin_item_path(category_id: @category.id), class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="column col-3">
+    <%= category_nav(Category.all.arrange, @category) %>
+  </div>
+
+</div>

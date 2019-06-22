@@ -6,18 +6,18 @@
     <ul class="menu">
       <li class="divider" data-content="Set time">
       <li class="menu-item">
-        <%= form_tag "/dev/time", class: "form" do %>
+        <%= form_with url: admin_dev_time_path, class: "form" do |form| %>
           <div class="input-group input-inline">
-            <%= text_field_tag "new_time", Time.zone.now.to_s, class: "form-input" %>
-            <%= hidden_field_tag "return_to", request.path %>
+            <%= form.text_field :new_time, value: Time.zone.now.to_s, class: "form-input" %>
+            <%= form.hidden_field :return_to, value: request.path %>
           </div>
         <% end %>
       </li>
       <li class="divider" data-content="Clear override">
       <li class="menu-item">
-        <%= form_tag "/dev/time", method: "DELETE", class: "form" do %>
-          <%= hidden_field_tag "return_to", request.path %>
-          <%= button_tag "Reset", type: "submit", class: "btn btn-sm" %>
+        <%= form_with url: admin_dev_time_path, method: :delete, class: "form" do |form| %>
+          <%= form.hidden_field :return_to, value: request.path %>
+          <%= form.button "Reset", type: "submit", class: "btn btn-sm" %>
         <% end %>
       </li>
     </ul>

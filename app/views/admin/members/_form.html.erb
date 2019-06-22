@@ -1,0 +1,10 @@
+<%= form_with(model: [:admin, member], builder: SpectreFormBuilder) do |form| %>
+  <%= render 'fields', form: form %>
+
+  <%= form.text_area :notes %>
+  <%= form.check_box :address_verified %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

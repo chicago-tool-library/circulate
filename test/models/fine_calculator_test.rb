@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class FineCalculatorTest < ActiveSupport::TestCase
   setup do
@@ -35,5 +35,4 @@ class FineCalculatorTest < ActiveSupport::TestCase
     amount = FineCalculator.new.amount(fine: @fine, period: 7, due_at: @june_first, returned_at: @june_first + 14.days + 1.second)
     assert_equal Money.new(300), amount
   end
-
 end

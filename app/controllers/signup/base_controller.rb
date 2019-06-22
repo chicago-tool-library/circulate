@@ -11,7 +11,7 @@ module Signup
 
     def load_steps
       @steps = [
-        Step.new(name: "Profile", tooltip: "Information about you")
+        Step.new(name: "Profile", tooltip: "Information about you"),
       ]
       @agreements.each do |agreement|
         @steps << Step.new(name: agreement.name, tooltip: agreement.summary)
@@ -32,9 +32,9 @@ module Signup
       @steps[index + 1].active = true
     end
 
-    def next_signup_step(agreement=nil)
+    def next_signup_step(agreement = nil)
       index = @agreements.index(agreement)
-      next_agreement = @agreements[index+1]
+      next_agreement = @agreements[index + 1]
       if next_agreement
         signup_agreement_path(next_agreement)
       else

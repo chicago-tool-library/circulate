@@ -1,0 +1,41 @@
+<%= form_with(model: [:admin, item], builder: SpectreFormBuilder, data: {controller: "form"}, id: dom_id(item)) do |form| %>
+  <%= form.errors %>
+
+  <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
+      hint: "Generic name for the tool, e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
+
+  <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
+
+  <% if item.new_record? %>
+    <details class="form-group">
+      <summary>Description</summary>
+      <%= form.rich_text_area :description, hint: "Optional; additional information about this tool" %>
+    </details>
+  <% else %>
+    <%= form.rich_text_area :description %>
+  <% end %>
+
+  <%= form.text_field :size, hint: "e.g. blade diameter, voltage, width or height" %>
+
+  <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
+
+  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
+
+  <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
+  <%= form.text_field :serial, hint: "Usually near the model number" %>
+
+  <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
+
+  <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default), hint: "Borrowing rules used for this item" %>
+
+  <% unless item.new_record? %>
+    <details>
+      <summary>Number: <strong><%= item.number %></strong></summary>
+      <%= form.text_field :number, hint: "Only change this with good reason!" %>
+    </details>
+  <% end %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

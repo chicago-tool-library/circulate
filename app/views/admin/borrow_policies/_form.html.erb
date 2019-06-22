@@ -1,0 +1,12 @@
+<%= form_with(model: [:admin, borrow_policy], builder: SpectreFormBuilder, data: {controller: "form"}, id: dom_id(borrow_policy)) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name %>
+  <%= form.text_field :duration, label: "Loan Length", hint: "How long can an item be kept when loaned?" %>
+  <%= form.money_field :fine, value: borrow_policy.fine || 0 %>
+  <%= form.text_field :fine_period, hint: "Days that pass before assigning the fine; 1 is every day after something is late, 7 is every week, etc." %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

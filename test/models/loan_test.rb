@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class LoanTest < ActiveSupport::TestCase
   test "an item can only have a single active loan" do
@@ -26,7 +26,7 @@ class LoanTest < ActiveSupport::TestCase
     loan.save!
   end
 
-  %i(pending maintenance retired).each do |status|
+  %i[pending maintenance retired].each do |status|
     test "is invalid with an item with #{status} status" do
       item = items(status)
       loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get "confirmation", to: "confirmations#show"
   end
 
-  scope :admin do
+  namespace :admin do
     resources :agreements
     resources :borrow_policies
     resources :categories
@@ -21,15 +21,14 @@ Rails.application.routes.draw do
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
+
+    get "/ui/names", to: "ui#names"
+    get "/ui/brands", to: "ui#brands"
+
+    if Rails.env.development?
+      post "/dev/time", to: "dev#set_time"
+      delete "/dev/time", to: "dev#clear_time"
+    end
   end
-
-  get "/ui/names", to: "ui#names"
-  get "/ui/brands", to: "ui#brands"
-
-  if Rails.env.development?
-    post "/dev/time", to: "dev#set_time"
-    delete "/dev/time", to: "dev#clear_time"
-  end
-
   root to: "home#index"
 end

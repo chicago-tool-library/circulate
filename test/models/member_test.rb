@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class MemberTest < ActiveSupport::TestCase
   test "strips no digits from phone number" do

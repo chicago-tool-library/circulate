@@ -12,7 +12,7 @@ module Signup
         session[:member_id] = @member.id
         session[:timeout] = Time.current + 15.minutes
 
-        redirect_to @member, notice: 'Member was successfully created.'
+        redirect_to @member, notice: "Member was successfully created."
       else
         activate_member_step
         render :new

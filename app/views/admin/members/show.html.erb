@@ -1,0 +1,107 @@
+<p id="notice"><%= notice %></p>
+
+<div class="columns">
+  <div class="column col-sm-6">
+    <h1>
+      <%= @member.preferred_name %>
+      <small class="label"><%= member_pronoun(@member) %></small>
+    </h1>
+    <p><%= @member.full_name %></p>
+  </div>
+  <div class="column col-sm-3">
+  </div>
+  <div class="column col-sm-3">
+    <p>
+      <span class="label">Email:</span>
+      <%= @member.email %>
+    </p>
+
+    <p>
+      <span class="label">Phone:</span>
+      <%= @member.phone_number %>
+    </p>
+  </div>
+</div>
+
+<p>
+  <strong>Account balance:</strong>
+  <%= @member.account_balance.format %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_admin_member_path(@member), class: "btn" %>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @member.notes %>
+</p>
+
+<div class="divider"></div>
+
+<h2>Recent Loans</h2>
+
+<div class="container">
+  <% @recent_loans.each do |loan| %>
+    <div class="columns">
+      <div class="col-xl-1 col-lg-1 col-sm-4">
+        <p><%= loan.item.number %></p>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-sm-8">
+        <p><%= loan.item.name %></p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+        <p>
+          <%= checked_out_date(loan.created_at) %> ->
+          <%= checked_out_date(loan.ended_at) %>
+        </p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+       <% if loan.adjustment %>
+        <%= loan.adjustment.amount.format %>
+       <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<h2>Currently Checked Out</h2>
+
+<div class="container">
+  <% @active_loans.each do |loan| %>
+    <div class="columns">
+      <div class="col-xl-1 col-lg-1 col-sm-4">
+        <p><%= loan.item.number %></p>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-sm-8">
+        <p><%= loan.item.name %></p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+        <p><%= checked_out_date(loan.created_at) %></p>
+        <p>
+          due <%= "in " if loan.due_at >= Time.current %>
+          <%= time_ago_in_words(loan.due_at) %>
+          <%= "ago" if loan.due_at < Time.current %>
+        </p>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-sm-12">
+        <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-lg btn-primary" %>
+        <button class="btn btn-sm" disabled>Renew</button>
+        <button class="btn btn-sm" disabled>Has Issue</button>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<h2 id="checkout">Checkout Additional Items</h2>
+
+<%= form_with(model: [:admin, @member.loans.new]) do |form| %>
+  <% if flash.key? :checkout_error %>
+    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+  <% end %>
+
+  Lookup an item by number: 
+  <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
+  <%= form.hidden_field :member_id %>
+  <%= button_tag "Checkout", class: "btn" %> 
+<% end %>

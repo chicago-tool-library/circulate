@@ -25,7 +25,7 @@ module Signup
       if session[:timeout] < Time.current - 15.minutes
         session.delete :timeout
         session.delete :member_id
-        flash[:error]= "Your session expired. Please come into the library to complete signup."
+        flash[:error] = "Your session expired. Please come into the library to complete signup."
         redirect_to new_signup_member_path
       end
       @member = Member.find(session[:member_id])

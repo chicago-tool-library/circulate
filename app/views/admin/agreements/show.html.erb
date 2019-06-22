@@ -1,0 +1,26 @@
+<p>
+  <strong>Name:</strong>
+  <%= @agreement.name %>
+</p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @agreement.summary %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @agreement.body %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @agreement.position %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @agreement.active %>
+</p>
+
+<%= link_to 'Edit', edit_admin_agreement_path(@agreement) %> |

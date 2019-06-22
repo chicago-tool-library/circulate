@@ -1,0 +1,20 @@
+<h1>
+  Please write<br>
+  <strong><%= @item.number %></strong><br>
+  on the item.
+</h1>
+
+<p>
+  Try to use a contrasting color to maximize visibility.
+</p>
+
+<p>
+  <%= link_to "View the new item", admin_item_path(@item) %>
+</p>
+
+<p>
+  <%= link_to "Add another item", new_admin_item_path %>
+  or
+  <%= link_to "View all items", admin_items_path %>
+</p>
+
