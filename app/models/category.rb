@@ -4,7 +4,7 @@ class Category < ApplicationRecord
   has_many :categorizations, dependent: :destroy
 
   validates :name, presence: true
-  validates :slug, presence: true,  uniqueness: true
+  validates :slug, presence: true, uniqueness: true
 
   before_validation :assign_slug
 

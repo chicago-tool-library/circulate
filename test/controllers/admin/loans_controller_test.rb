@@ -21,7 +21,6 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create loan" do
-    item = items(:available)
     assert_difference("Loan.count") do
       post admin_loans_url, params: {loan: {item_number: @item.number, member_id: @loan.member_id}}
     end

@@ -6,6 +6,6 @@ class Agreement < ApplicationRecord
 
   validates_presence_of :name
 
-  scope :active, ->{ where(active: true) }
-  scope :ordered, ->{ order("position ASC") }
+  scope :active, -> { where(active: true) }
+  scope :ordered, -> { order("position ASC") }
 end

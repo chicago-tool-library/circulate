@@ -1,8 +1,8 @@
 class Item < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations,
-    before_add: :cache_category_ids,
-    before_remove: :cache_category_ids
+                        before_add: :cache_category_ids,
+                        before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
   has_one :active_loan, -> { where("ended_at IS NULL").readonly }, class_name: "Loan"
   belongs_to :borrow_policy
@@ -14,14 +14,14 @@ class Item < ApplicationRecord
 
   audited
 
-  scope :name_contains, -> (query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :brand_contains, -> (query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :within_category, -> (category) { joins(:categories).where("categories.id IN (?)", category.subtree_ids) }
+  scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :brand_contains, ->(query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :within_category, ->(category) { joins(:categories).where("categories.id IN (?)", category.subtree_ids) }
 
   validates :name, presence: true
-  validates :number, presence: true, numericality: { only_integer: true },  uniqueness: true
-  validates :status, inclusion: { in: Item.statuses.keys }
-  validates :borrow_policy_id, inclusion: { in: ->(item) { BorrowPolicy.pluck(:id)}}
+  validates :number, presence: true, numericality: {only_integer: true}, uniqueness: true
+  validates :status, inclusion: {in: Item.statuses.keys}
+  validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
 

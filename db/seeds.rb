@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-def create_category(name, kids:nil, parent_id: nil)
+def create_category(name, kids: nil, parent_id: nil)
   category = Category.create!(name: name, parent_id: parent_id)
   return if kids.nil?
 
@@ -18,7 +18,7 @@ def create_category(name, kids:nil, parent_id: nil)
       create_category(kid, parent_id: category.id)
     end
   when Hash
-    create_category(kids.keys.first, kids:kids.values.first, parent_id: category.id)
+    create_category(kids.keys.first, kids: kids.values.first, parent_id: category.id)
   else
     raise "kids was not a String, Array, or Hash"
   end

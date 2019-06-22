@@ -7,15 +7,15 @@ class Member < ApplicationRecord
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
   enum status: [:pending, :active, :suspended], _prefix: true
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email" }
+  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
 
   validates :full_name, presence: true
-  validates :phone_number, length: { is: 10, blank: false, message: "must be 10 digits" }
+  validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
   validates :id_kind, presence: true
-  validates :custom_pronoun, presence: true, if: Proc.new {|m| m.custom_pronoun?}
-  validates :other_id_kind, presence: true, if: Proc.new {|m| m.other_id_kind?}
+  validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
+  validates :other_id_kind, presence: true, if: proc { |m| m.other_id_kind? }
 
-  scope :matching, ->(query){ where("email = ? OR full_name ILIKE ?", query, "%#{query}%")}
+  scope :matching, ->(query) { where("email = ? OR full_name ILIKE ?", query, "%#{query}%") }
 
   before_validation :strip_phone_number
 

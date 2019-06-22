@@ -4,7 +4,7 @@ module Signup
     attr_accessor :tooltip
     attr_accessor :active
 
-    def initialize(name:, tooltip:, active:false)
+    def initialize(name:, tooltip:, active: false)
       @name = name
       @tooltip = tooltip
       @active = active

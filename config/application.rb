@@ -1,19 +1,19 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails'
-require 'active_record/railtie'
-require 'active_storage/engine'
-require 'action_controller/railtie'
-require 'action_view/railtie'
-require 'action_mailer/railtie'
-require 'active_job/railtie'
+require "rails"
+require "active_record/railtie"
+require "active_storage/engine"
+require "action_controller/railtie"
+require "action_view/railtie"
+require "action_mailer/railtie"
+require "active_job/railtie"
 # require 'action_cable/engine'
 # require 'action_mailbox/engine'
-require 'action_text/engine'
-require 'rails/test_unit/railtie'
+require "action_text/engine"
+require "rails/test_unit/railtie"
 
 # require 'sprockets/railtie'
-require 'rails/test_unit/railtie'
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,10 +23,11 @@ module Circulate
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    # config.autoloader = :classic
 
     config.active_storage.variant_processor = :vips
 
-    config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join("lib")
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -35,6 +36,6 @@ module Circulate
   end
 end
 
-ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+ActionView::Base.field_error_proc = proc do |html_tag, instance|
   html_tag.html_safe
 end
