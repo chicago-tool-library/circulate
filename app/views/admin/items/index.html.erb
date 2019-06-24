@@ -38,6 +38,9 @@
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
             <% end %>
+            <% if item.strength.present? %>
+              <span class="label"><%= item.strength %></span>
+            <% end %>
             <br>
 
             <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>

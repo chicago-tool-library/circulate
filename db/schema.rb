@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_16_014227) do
+ActiveRecord::Schema.define(version: 2019_06_24_133416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2019_06_16_014227) do
     t.integer "number", null: false
     t.integer "status", default: 1, null: false
     t.bigint "borrow_policy_id", null: false
+    t.string "strength"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 

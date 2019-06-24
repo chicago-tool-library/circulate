@@ -15,7 +15,8 @@
     <%= form.rich_text_area :description %>
   <% end %>
 
-  <%= form.text_field :size, hint: "e.g. blade diameter, voltage, width or height" %>
+  <%= form.text_field :size, hint: "blade or bit diameter, r height; e.g. 3/8" %>
+  <%= form.text_field :strength, hint: "e.g. voltage, amps" %>
 
   <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
 

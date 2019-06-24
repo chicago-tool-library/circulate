@@ -14,7 +14,8 @@ complete:
 checked_out:
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
-  size: 12-Volt
+  size: 3/8"
+  strength: 12v
   brand: Bosch
   model: PS31-2A
   serial: ABCD1234

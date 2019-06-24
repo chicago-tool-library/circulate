@@ -21,7 +21,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create item" do
     assert_difference("Item.count") do
-      post admin_items_url, params: {item: {brand: @item.brand, description: @item.description, model: @item.model, name: @item.name, serial: @item.serial, size: @item.size, borrow_policy_id: @item.borrow_policy_id}}
+      post admin_items_url, params: {item: {brand: @item.brand, description: @item.description, model: @item.model, name: @item.name, serial: @item.serial, size: @item.size, strength: @item.strength, borrow_policy_id: @item.borrow_policy_id}}
     end
 
     assert_redirected_to admin_item_number_url(Item.last)
