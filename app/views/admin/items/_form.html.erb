@@ -2,7 +2,7 @@
   <%= form.errors %>
 
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
-      hint: "Generic name for the tool, e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
+      hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
   <%= form.collection_select :category_ids, @categories, :id, proc{|c| full_category_name(c) }, {}, multiple: true %>
 
@@ -15,7 +15,7 @@
     <%= form.rich_text_area :description %>
   <% end %>
 
-  <%= form.text_field :size, hint: "blade or bit diameter, r height; e.g. 3/8" %>
+  <%= form.text_field :size, hint: "Blade or bit diameter, width or height; e.g. 3/8" %>
   <%= form.text_field :strength, hint: "e.g. voltage, amps" %>
 
   <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
