@@ -1,6 +1,10 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   alias parent_text_field text_field
 
+  private def validation_inspector
+    @validation_inspector = ValidationInspector.new(@object.class)
+  end
+
   def money_field(method, options = {})
     options[:class] = "form-input"
 
@@ -109,9 +113,17 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class].strip!
 
     @template.content_tag :div, wrapper_options do
-      label(method, label_text, {class: "form-label #{options[:label_class]}"}) +
+      label(method, (label_text + required_label(method)).html_safe, {class: "form-label #{options[:label_class]}"}) +
         yield +
         hint_content
+    end
+  end
+
+  def required_label(method)
+    if validation_inspector.attribute_required?(method)
+      @template.tag.span("required", class: "label label-required-field").html_safe
+    else
+      ""
     end
   end
 
@@ -130,7 +142,8 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag :div, wrapper_options do
       label(method, class: "form-label #{options[:label_class]}") {
         yield +
-          label_text
+          label_text +
+          required_label(method)
       } +
         hint_content
     end

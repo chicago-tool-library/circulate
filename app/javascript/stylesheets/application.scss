@@ -239,6 +239,19 @@ form .awesomplete {
   }
 }
 
+.label-required-field {
+  font-size: 0.8em;
+  margin-left: 1em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  float: right;
+}
+
+.form-group.has-error .label-required-field {
+  background: $error-color;
+  color: $light-color;
+}
+
 .conditional-field-child {
   margin-bottom: 0.4rem;
   label {
