@@ -1,7 +1,9 @@
+<h1>Sign up</h1>
+
 <%= render 'signup/steps', steps: @steps %>
 
 <%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
-  <%= render 'members/fields', form: form %>
+  <%= render 'admin/members/fields', form: form %>
 
   <%= form.actions do %>
     <%= form.submit "Save and Continue" %>
