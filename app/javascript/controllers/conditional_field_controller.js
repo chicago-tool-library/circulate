@@ -1,14 +1,14 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "child" ]
+  static targets = [ "parent", "child" ]
 
   connect() {
-    this.childTarget.style.display = "none"
+    this.change();
   }
 
-  change(event) {
-    let value = event.target.value;
+  change() {
+    let value = this.parentTarget.value;
     let displayValue = value === this.data.get("trigger") ? "block" : "none";
     this.childTarget.style.display = displayValue;
   }

@@ -4,7 +4,7 @@
   <%= form.text_field :preferred_name, hint: "What you like to be called; e.g. Tavi" %>
 
   <div data-controller="conditional-field" data-conditional-field-trigger="custom_pronoun">
-    <%= form.select :pronoun, options_for_select(member_pronoun_options), {prompt: true, hint: "How do you like to be addressed?"}, data: {action: "conditional-field#change"} %>
+    <%= form.select :pronoun, options_for_select(member_pronoun_options, form.object.pronoun), {prompt: true, hint: "How do you like to be addressed?"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
     <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child" do %>
       <%= form.text_field :custom_pronoun, placeholder: "Please specify" %>
     <% end %>
@@ -13,10 +13,10 @@
   <%= form.text_field :email, hint: "e.g. you@domain.com" %>
   <%= form.text_field :phone_number, value: number_to_phone(form.object.phone_number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip, hint: "Include area code; e.g. 312 123 4567" %>
 
-  <%= form.text_field :postal_code, label: "ZIP code", hint: "5 or 9 digits" %>
+  <%= form.text_field :postal_code, label: "ZIP code", hint: "5 digits only" %>
 
   <div data-controller="conditional-field" data-conditional-field-trigger="other_id_kind">
-    <%= form.select :id_kind, options_for_select(member_id_kind_options), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change"} %>
+    <%= form.select :id_kind, options_for_select(member_id_kind_options, form.object.id_kind), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
     <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child" do %>
       <%= form.text_field :other_id_kind, label: "Other ID Type", placeholder: "Please specify" %>
     <% end %>
