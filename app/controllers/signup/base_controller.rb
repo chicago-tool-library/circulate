@@ -33,8 +33,7 @@ module Signup
     end
 
     def next_signup_step(agreement = nil)
-      index = @agreements.index(agreement)
-      next_agreement = @agreements[index + 1]
+      next_agreement = agreement ? @agreements[@agreements.index(agreement) + 1] : @agreements.first
       if next_agreement
         signup_agreement_path(next_agreement)
       else
