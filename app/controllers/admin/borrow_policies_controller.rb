@@ -5,7 +5,7 @@ module Admin
     # GET /borrow_policies
     # GET /borrow_policies.json
     def index
-      @borrow_policies = BorrowPolicy.all
+      @borrow_policies = BorrowPolicy.alpha_by_code
     end
 
     # GET /borrow_policies/1
@@ -71,7 +71,7 @@ module Admin
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def borrow_policy_params
-      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered)
+      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description)
     end
   end
 end

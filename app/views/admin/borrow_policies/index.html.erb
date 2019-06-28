@@ -12,7 +12,7 @@
     <%= tag.div "", class: "responsive-table-header" %>
 
     <% @borrow_policies.each do |borrow_policy| %>
-      <%= tag.div borrow_policy.name, class: "responsive-table-cell" %>
+      <%= tag.div "#{borrow_policy.code} #{borrow_policy.name}", class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.duration, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.fine, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.fine_period, class: "responsive-table-cell" %>

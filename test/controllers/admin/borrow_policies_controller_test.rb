@@ -21,7 +21,7 @@ class BorrowPoliciesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create borrow_policy" do
     assert_difference("BorrowPolicy.count") do
-      post admin_borrow_policies_url, params: {borrow_policy: {duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: "New Borrow Policy"}}
+      post admin_borrow_policies_url, params: {borrow_policy: {duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: "New Borrow Policy", code: "A"}}
     end
 
     assert_redirected_to admin_borrow_policy_url(BorrowPolicy.last)
@@ -38,7 +38,7 @@ class BorrowPoliciesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update borrow_policy" do
-    patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: @borrow_policy.name}}
+    patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: @borrow_policy.duration, fine_cents: @borrow_policy.fine_cents, fine_period: @borrow_policy.fine_period, name: @borrow_policy.name, code: "Q"}}
     assert_redirected_to admin_borrow_policy_url(@borrow_policy)
   end
 

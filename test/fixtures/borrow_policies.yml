@@ -5,3 +5,4 @@ default:
   duration: 7
   fine_cents: 1.00
   fine_period: 7
+  code: D
