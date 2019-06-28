@@ -5,6 +5,7 @@
   <%= form.text_field :duration, label: "Loan Length", hint: "How long can an item be kept when loaned?" %>
   <%= form.money_field :fine, value: borrow_policy.fine || 0 %>
   <%= form.text_field :fine_period, hint: "Days that pass before assigning the fine; 1 is every day after something is late, 7 is every week, etc." %>
+  <%= form.check_box :uniquely_numbered, hint: "Is each item with this policy given a unique identification number?"%>
 
   <%= form.actions do %>
     <%= form.submit %>
