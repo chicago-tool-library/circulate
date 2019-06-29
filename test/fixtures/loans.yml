@@ -5,9 +5,11 @@ active:
   member: complete
   due_at: 2019-03-21 23:59:59
   ended_at: nil
+  uniquely_numbered: true
 
 ended:
   item: complete
   member: complete
   due_at: 2019-03-21 23:59:59
   ended_at: 2019-03-19 18:00:00
+  uniquely_numbered: true

@@ -4,7 +4,7 @@ class Item < ApplicationRecord
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
-  has_one :active_loan, -> { where("ended_at IS NULL").readonly }, class_name: "Loan"
+  has_one :active_exclusive_loan, -> { active.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
 
   has_rich_text :description
@@ -38,11 +38,11 @@ class Item < ApplicationRecord
   end
 
   def due_on
-    active_loan.due_at.to_date
+    active_exclusive_loan.due_at.to_date
   end
 
   def available?
-    !active_loan.present?
+    !active_exclusive_loan.present?
   end
 
   private

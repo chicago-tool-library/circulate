@@ -31,7 +31,7 @@ module Admin
         due_at = Time.zone.today.end_of_day + @item.borrow_policy.duration.days
         item_id = @item.id
       end
-      @loan = Loan.new(member_id: new_loan_params[:member_id], item_id: item_id, due_at: due_at)
+      @loan = Loan.new(member_id: new_loan_params[:member_id], item_id: item_id, due_at: due_at, uniquely_numbered: @item.borrow_policy.uniquely_numbered)
 
       respond_to do |format|
         if @loan.save

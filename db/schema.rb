@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_042057) do
+ActiveRecord::Schema.define(version: 2019_06_28_171313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,7 +156,8 @@ ActiveRecord::Schema.define(version: 2019_06_28_042057) do
     t.datetime "ended_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id"], name: "index_active_loans_on_item_id", unique: true, where: "(ended_at IS NULL)"
+    t.boolean "uniquely_numbered", null: false
+    t.index ["item_id"], name: "index_active_numbered_loans_on_item_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
     t.index ["item_id"], name: "index_loans_on_item_id"
     t.index ["member_id"], name: "index_loans_on_member_id"
   end

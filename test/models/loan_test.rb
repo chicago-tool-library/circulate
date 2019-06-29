@@ -3,20 +3,27 @@ require "test_helper"
 class LoanTest < ActiveSupport::TestCase
   test "an item can only have a single active loan" do
     item = items(:complete)
-    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
-    loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
+    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
+    loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
 
     refute loan.save
     assert_equal ["is already on loan"], loan.errors[:item_id]
   end
 
-  test "an item can only have a single active loan enforced by the index" do
+  test "an item can only have a single numbered active loan enforced by the index" do
     item = items(:complete)
-    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
-    loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
+    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
+    loan = Loan.new(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
 
     assert_raises ActiveRecord::RecordNotUnique do
       loan.save(validate: false)
+    end
+  end
+
+  test "an uncountable item can have multiple active loans" do
+    item = items(:complete)
+    2.times do
+      Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: false)
     end
   end
 

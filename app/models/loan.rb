@@ -9,7 +9,7 @@ class Loan < ApplicationRecord
   validates_each :item_id do |record, attr, value|
     if !value
       record.errors.add(attr, "does not exist")
-    elsif record.item.active_loan && record.item.active_loan.id != record.id
+    elsif record.item.active_exclusive_loan && record.item.active_exclusive_loan.id != record.id
       record.errors.add(attr, "is already on loan")
     elsif !record.item.active?
       record.errors.add(attr, "is not available to loan")
@@ -17,6 +17,7 @@ class Loan < ApplicationRecord
   end
 
   scope :active, -> { where("ended_at IS NULL").includes(:item) }
+  scope :exclusive, -> { where(uniquely_numbered: true) }
   scope :recently_returned, -> { where("ended_at IS NOT NULL AND ended_at >= ?", Time.current - 7.days).includes(:item) }
   scope :by_creation_date, -> { order("created_at ASC") }
 

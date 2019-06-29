@@ -10,7 +10,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "it has a due_on date" do
     item = items(:complete)
-    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day)
+    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
 
     assert Date.tomorrow, item.due_on
   end
