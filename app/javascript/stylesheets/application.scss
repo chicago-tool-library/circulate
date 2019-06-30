@@ -177,6 +177,7 @@ $photo-width: 187px;
   .responsive-table.four-columns  > & { width: 25%; }
   .responsive-table.five-columns  > & { width: 20%; }
   .responsive-table.six-columns   > & { width: 16.6%; }
+  .responsive-table.seven-columns   > & { width: 14.2%; }
 }
 
 @media all and (max-width: 840px) {
@@ -195,14 +196,16 @@ $photo-width: 187px;
     .responsive-table.three-columns > &:nth-of-type(3n+1),
     .responsive-table.four-columns  > &:nth-of-type(4n+1),
     .responsive-table.five-columns  > &:nth-of-type(5n+1),
-    .responsive-table.six-columns   > &:nth-of-type(6n+1) { 
+    .responsive-table.six-columns   > &:nth-of-type(6n+1),
+    .responsive-table.seven-columns > &:nth-of-type(7n+1) { 
       font-weight: bold;
     }
     .responsive-table.two-columns   > &:nth-of-type(2n),
     .responsive-table.three-columns > &:nth-of-type(3n),
     .responsive-table.four-columns  > &:nth-of-type(4n),
     .responsive-table.five-columns  > &:nth-of-type(5n),
-    .responsive-table.six-columns   > &:nth-of-type(6n) { 
+    .responsive-table.six-columns   > &:nth-of-type(6n),
+    .responsive-table.seven-columns > &:nth-of-type(7n) { 
       margin-bottom: 2rem;
     }
   }

@@ -15,6 +15,16 @@ class BorrowPolicy < ApplicationRecord
   scope :alpha_by_code, -> { order("code ASC") }
 
   def self.default
-    where(name: "Default").first
+    where(default: true).first
+  end
+
+  after_save :make_only_default
+
+  private
+
+  def make_only_default
+    if default
+      self.class.where("id != ?", id).update_all(default: false)
+    end
   end
 end
