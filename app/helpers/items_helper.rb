@@ -16,8 +16,8 @@ module ItemsHelper
   end
 
   def borrow_policy_options
-    BorrowPolicy.all.map do |borrow_policy|
-      [borrow_policy.name, borrow_policy.id]
+    BorrowPolicy.alpha_by_code.map do |borrow_policy|
+      ["(#{borrow_policy.code}) #{borrow_policy.name}: #{borrow_policy.description}", borrow_policy.id]
     end
   end
 
