@@ -1,5 +1,6 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   alias parent_text_field text_field
+  alias parent_collection_select collection_select
 
   private def validation_inspector
     @validation_inspector = ValidationInspector.new(@object.class)
@@ -28,6 +29,16 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     html_options[:class] = "form-select"
     sequence_layout(method, options) do
       super method, collection, value_method, text_method, options, html_options
+    end
+  end
+
+  def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+    options.merge!( wrapper_options: { data: {controller: "multi-select"} })
+    html_options.merge!( data: {target: "multi-select.control", action: "multi-select#change"}, class: "form-select")
+
+    sequence_layout(method, options) do
+      parent_collection_select(method, collection, value_method, text_method, options, html_options) + 
+        @template.tag.div(data: { target: "multi-select.summary" }, class: "multi-select-summary")
     end
   end
 
