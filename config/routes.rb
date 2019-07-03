@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
     get "/ui/names", to: "ui#names"
     get "/ui/brands", to: "ui#brands"
+    get "/ui/sizes", to: "ui#sizes"
+    get "/ui/strengths", to: "ui#strengths"
 
     if Rails.env.development?
       post "/dev/time", to: "dev#set_time"

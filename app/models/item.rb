@@ -16,6 +16,9 @@ class Item < ApplicationRecord
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
+
   scope :within_category, ->(category) { joins(:categories).where("categories.id IN (?)", category.subtree_ids) }
 
   validates :name, presence: true

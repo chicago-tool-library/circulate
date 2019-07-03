@@ -20,5 +20,27 @@ module Admin
 
       render json: brands
     end
+
+    def sizes
+      sizes = Item
+        .size_contains(params[:q])
+        .pluck(:size)
+        .uniq
+        .sort
+
+      render json: sizes
+    end
+
+    def strengths
+      strengths = Item
+        .strength_contains(params[:q])
+        .pluck(:strength)
+        .uniq
+        .sort
+
+      render json: strengths
+    end
+
+
   end
 end
