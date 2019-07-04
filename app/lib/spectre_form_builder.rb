@@ -33,12 +33,13 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    options.merge!( wrapper_options: { data: {controller: "multi-select"} })
-    html_options.merge!( data: {target: "multi-select.control", action: "multi-select#change"}, class: "form-select")
+    options[:wrapper_options] = {data: {controller: "multi-select"}}
+    html_options[:data] = {target: "multi-select.control", action: "multi-select#change"}
+    html_options[:class] = "form-select"
 
     sequence_layout(method, options) do
-      parent_collection_select(method, collection, value_method, text_method, options, html_options) + 
-        @template.tag.div(data: { target: "multi-select.summary" }, class: "multi-select-summary")
+      parent_collection_select(method, collection, value_method, text_method, options, html_options) +
+        @template.tag.div(data: {target: "multi-select.summary"}, class: "multi-select-summary")
     end
   end
 

@@ -10,7 +10,7 @@ class BorrowPolicy < ApplicationRecord
   validates_numericality_of :fine_period,
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
   validates :code,
-    length: { is: 1 }
+    length: {is: 1}
 
   scope :alpha_by_code, -> { order("code ASC") }
 

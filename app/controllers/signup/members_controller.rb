@@ -1,6 +1,9 @@
 module Signup
   class MembersController < BaseController
     def new
+      if session[:member_id]
+        redirect_to(next_signup_step) && return
+      end
       @member = Member.new
       activate_member_step
     end

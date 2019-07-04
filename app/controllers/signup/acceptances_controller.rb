@@ -21,16 +21,6 @@ module Signup
       params.require(:agreement_acceptance).permit(:terms)
     end
 
-    def load_member
-      if session[:timeout] < Time.current - 15.minutes
-        session.delete :timeout
-        session.delete :member_id
-        flash[:error] = "Your session expired. Please come into the library to complete signup."
-        redirect_to new_signup_member_path
-      end
-      @member = Member.find(session[:member_id])
-    end
-
     def load_agreement
       @agreement = Agreement.find(params[:agreement_id])
     end

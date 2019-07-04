@@ -40,7 +40,5 @@ module Admin
 
       render json: strengths
     end
-
-
   end
 end

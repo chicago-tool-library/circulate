@@ -4,5 +4,5 @@ class Adjustment < ApplicationRecord
   belongs_to :adjustable, polymorphic: true
   belongs_to :member
 
-  enum kind: [:fine]
+  enum kind: [:fine, :membership]
 end

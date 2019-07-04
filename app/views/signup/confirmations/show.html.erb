@@ -1,3 +1,9 @@
-<h1>Signup Complete!</h1>
-
 <%= render 'signup/steps', steps: @steps %>
+
+<h1>Signup Complete</h1>
+
+<p>Thank you for your membership payment of <%= @adjustment.amount.format %>!</p>
+
+<div class="toast toast-success">
+  <p>Please bring your proof of address and photo ID when you come into the library so we can verify your information.</p>
+</div>

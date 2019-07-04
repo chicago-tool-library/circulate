@@ -1,7 +1,9 @@
 module Signup
   class ConfirmationsController < BaseController
+    before_action :load_member
+
     def show
-      activate_complete_step
+      @adjustment = @member.adjustments.last
     end
   end
 end
