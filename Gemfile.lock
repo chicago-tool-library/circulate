@@ -245,6 +245,8 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
+    sentry-raven (2.9.0)
+      faraday (>= 0.7.6, < 1.0)
     solargraph (0.32.5)
       backport (~> 1.1)
       bundler (>= 1.17.2)
@@ -330,6 +332,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rails (~> 6.0.0.rc1)
   selenium-webdriver
+  sentry-raven
   solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -342,7 +345,7 @@ DEPENDENCIES
   webpacker (>= 4.0.0.rc.3)
 
 RUBY VERSION
-   ruby 2.6.1p33
+   ruby 2.6.3p62
 
 BUNDLED WITH
    2.0.2
