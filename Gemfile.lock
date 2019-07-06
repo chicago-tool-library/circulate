@@ -327,6 +327,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
+  mini_magick
   money-rails
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
