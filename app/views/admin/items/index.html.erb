@@ -59,7 +59,7 @@
         <% end %>
       </div>
 
-    <% else %>
+    <% elsif @category %>
       <%= empty_state "There are no items in this category", subtitle:"Create one?" do %>
         <%= link_to "Add an Item to #{@category.name}", new_admin_item_path(category_id: @category.id), class: "btn btn-primary" %>
       <% end %>
