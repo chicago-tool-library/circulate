@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  namespace :signup do
-    resources :members, only: [:new, :create]
-    resources :agreements, only: [:show] do
-      resource :acceptance, only: [:create, :destroy]
+  if ENV["CIRCULATE_SIGNUP"]
+    namespace :signup do
+      resources :members, only: [:new, :create]
+      resources :agreements, only: [:show] do
+        resource :acceptance, only: [:create, :destroy]
+      end
+      resources :payments, only: [:new, :create]
+      get "payments/callback", to: "payments#callback"
+      get "confirmation", to: "confirmations#show"
     end
-    resources :payments, only: [:new, :create]
-    get "payments/callback", to: "payments#callback"
-    get "confirmation", to: "confirmations#show"
   end
 
   namespace :admin do
