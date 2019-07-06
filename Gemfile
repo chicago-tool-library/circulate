@@ -26,6 +26,7 @@ gem "acts_as_list"
 gem "turbolinks_render"
 
 gem "square.rb"
+gem "aws-sdk-s3", require: false
 
 # Use Active Storage variant
 gem "image_processing", "~> 1.2"
