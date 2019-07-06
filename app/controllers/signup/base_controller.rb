@@ -3,6 +3,8 @@ module Signup
     before_action :load_agreements
     before_action :load_steps
 
+    layout "signup"
+
     private
 
     def load_agreements
@@ -15,8 +17,9 @@ module Signup
         session.delete :member_id
         flash[:error] = "Your session expired. Please come into the library to complete signup."
         redirect_to new_signup_member_path
+      else
+        @member = Member.find(session[:member_id])
       end
-      @member = Member.find(session[:member_id])
     end
 
     def load_steps
@@ -26,7 +29,7 @@ module Signup
       @agreements.each do |agreement|
         @steps << Step.new(name: agreement.name, tooltip: agreement.summary)
       end
-      @steps << Step.new(name: "Payment", tooltip: "")
+      @steps << Step.new(name: "Membership Fee", tooltip: "")
       @steps << Step.new(name: "Complete", tooltip: "All done!")
     end
 
@@ -36,6 +39,10 @@ module Signup
 
     def activate_complete_step
       @steps.last.active = true
+    end
+
+    def activate_payment_step
+      @steps[-2].active = true
     end
 
     def activate_agreement_step(agreement)

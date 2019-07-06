@@ -1,13 +1,16 @@
-<%= render 'signup/steps', steps: @steps %>
+<div class="columns">
+  <div class="column col-12">
 
-<h1><%= @agreement.name %></h1>
+    <h2><%= @agreement.name %></h2>
 
-<%= @agreement.body %>
+    <%= @agreement.body %>
 
-<%= form_with(model: @acceptance, url: signup_agreement_acceptance_url(agreement_id: @agreement), builder: SpectreFormBuilder) do |form| %>
-  <%= form.errors %>
-  <%= form.check_box :terms, class: "input-lg", label: "I have read, understand, and agree to these terms." %>
-  <%= form.actions do %>
-    <%= form.submit "Continue" %>
-  <% end %>
-<% end %>
+    <%= form_with(model: @acceptance, url: signup_agreement_acceptance_url(agreement_id: @agreement), builder: SpectreFormBuilder) do |form| %>
+      <%= form.errors %>
+      <%= form.check_box :terms, class: "input-lg", label: "I have read, understand, and agree to these terms." %>
+      <%= form.actions do %>
+        <%= form.submit "Continue" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

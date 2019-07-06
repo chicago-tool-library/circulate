@@ -1,7 +1,9 @@
-<ul class="step">
-  <% steps.each do |step| %>
-    <li class="step-item <%= "active" if step.active %>">
-      <a href="#"><%= step.name %></a>
-    </li>
-  <% end %>
-</ul>
+<div class="signup-steps">
+  <ul class="step">
+    <% steps.each do |step| %>
+      <li class="step-item <%= "active" if step.active %>">
+        <a href="#"><%= step.name %></a>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -28,15 +28,23 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
 
-  def self.next_number
-    last_item = order("number DESC NULLS LAST").limit(1).first
+  def self.next_number(limit=nil)
+    item_scope = order("number DESC NULLS LAST")
+    if limit
+      item_scope = item_scope.where("number <= ?", limit)
+    end
+    last_item = item_scope.limit(1).first
     return 1 unless last_item
     last_item.number.to_i + 1
   end
 
   def assign_number
     if number.blank?
-      self.number = self.class.next_number
+      if borrow_policy.code == "A"
+        self.number = self.class.next_number(999)
+      else
+        self.number = self.class.next_number
+      end
     end
   end
 

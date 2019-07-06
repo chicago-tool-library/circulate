@@ -1,11 +1,11 @@
-<h3>New Member Signup</h3>
+<div class="columns">
+  <div class="column col-12">
+    <%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
+      <%= render 'admin/members/fields', form: form %>
 
-<%= render 'signup/steps', steps: @steps %>
-
-<%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
-  <%= render 'admin/members/fields', form: form %>
-
-  <%= form.actions do %>
-    <%= form.submit "Save and Continue" %>
-  <% end %>
-<% end %>
+      <%= form.actions do %>
+        <%= form.submit "Save and Continue" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

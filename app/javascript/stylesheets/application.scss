@@ -268,3 +268,20 @@ form .awesomplete {
   padding: 0.5em;
   white-space: pre;
 }
+
+.signup-steps {
+  margin: 1rem 0 2rem;
+}
+
+.signup-logo {
+  text-align: center;
+  margin-top: 1rem;
+  img {
+    max-width: 30%;
+    margin-bottom: .6rem;
+  }
+}
+
+.signup-fee-description {
+  margin-bottom: 2rem;
+}

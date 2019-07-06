@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :agreements, only: [:show] do
       resource :acceptance, only: [:create, :destroy]
     end
-    resources :payments, only: [:new]
+    resources :payments, only: [:new, :create]
     get "payments/callback", to: "payments#callback"
     get "confirmation", to: "confirmations#show"
   end

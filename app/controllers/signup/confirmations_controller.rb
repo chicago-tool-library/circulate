@@ -4,6 +4,7 @@ module Signup
 
     def show
       @adjustment = @member.adjustments.last
+      session.delete :member_id
     end
   end
 end
