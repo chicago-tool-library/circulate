@@ -1,1 +1,1 @@
-web: bundle exec puma -C config/puma.rb
+web: jemalloc.sh bundle exec puma -C config/puma.rb
