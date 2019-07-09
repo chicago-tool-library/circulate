@@ -5,6 +5,12 @@ GIT
     audited (4.7.0)
       activerecord (>= 4.2, < 6.1)
 
+PATH
+  remote: gems/active_storage_log_suppressor
+  specs:
+    active_storage_log_suppressor (0.1.0)
+      rails (~> 6.0.0.rc1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -318,6 +324,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_storage_log_suppressor!
   acts_as_list
   ancestry
   audited!
