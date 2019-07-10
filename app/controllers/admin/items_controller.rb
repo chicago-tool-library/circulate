@@ -5,14 +5,16 @@ module Admin
     # GET /items
     # GET /items.json
     def index
+      item_scope = Item
+
       if params[:category]
         @category = Category.where(id: params[:category]).first
         redirect_to(items_path, error: "Category not found") && return unless @category
 
-        @items = Item.within_category(@category)
-      else
-        @items = Item.includes(:categories)
+        item_scope = item_scope.within_category(@category)
       end
+
+      @items = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
     end
 
     # GET /items/1
@@ -94,6 +96,15 @@ module Admin
         :name, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
         :borrow_policy_id, category_ids: []
       )
+    end
+
+    def index_order
+      options = {
+        "name" => "items.name ASC",
+        "number" => "items.number ASC",
+        "newest" => "items.created_at DESC",
+      }
+      options.fetch(params[:sort]) { options["name"] }
     end
   end
 end

@@ -33,7 +33,7 @@
           <% end %>
 
           <%= tag.div class: "items-table-name" do %>
-            <strong><%= item.number %></strong><br>
+            <strong><%= item.borrow_policy.code %>-<%= item.number %></strong><br>
             <%= link_to item.name, admin_item_path(item) %>
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
