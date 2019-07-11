@@ -87,7 +87,7 @@ module Admin
     end
 
     def set_categories
-      @categories = Category.alpha_tree
+      @categories = Category.sorted_by_name
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -19,7 +19,7 @@ class Item < ApplicationRecord
   scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
 
-  scope :within_category, ->(category) { joins(:categories).where("categories.id IN (?)", category.subtree_ids) }
+  scope :within_category, ->(category) { joins(:categories).where("categories.id = ?", category.id) }
 
   validates :name, presence: true
   validates :number, presence: true, numericality: {only_integer: true}, uniqueness: true
@@ -40,6 +40,8 @@ class Item < ApplicationRecord
 
   def assign_number
     if number.blank?
+      return unless borrow_policy
+
       if borrow_policy.code == "A"
         self.number = self.class.next_number(999)
       else

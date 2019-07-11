@@ -34,7 +34,6 @@ gem "mini_magick"
 
 gem "barnes"
 
-gem "ancestry"
 gem "money-rails"
 
 # Reduces boot times through caching; required in config/boot.rb

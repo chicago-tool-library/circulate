@@ -25,11 +25,10 @@ module ItemsHelper
     return unless categories
 
     tag.div class: "nav" do
-      categories.keys.sort_by { |c| c.name }.map { |category|
+      categories.map { |category|
         tag.li(class: "nav-item #{"active" if category == current_category}") {
           link_to(category.name, category: category.id)
-        } +
-          category_nav(categories[category], current_category)
+        }
       }.join.html_safe
     end
   end

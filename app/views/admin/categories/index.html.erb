@@ -4,14 +4,12 @@
 
 <div class="responsive-table five-columns">
   <%= tag.div "Name", class: "responsive-table-header" %>
-  <%= tag.div "Parent", class: "responsive-table-header" %>
   <%= tag.div "Items", class: "responsive-table-header" %>
   <%= tag.div "Slug", class: "responsive-table-header" %>
   <%= tag.div "", class: "responsive-table-header" %>
 
   <% @categories.each do |category| %>
     <%= tag.div category.name, class: "responsive-table-cell" %>
-    <%= tag.div full_category_parent_name(category), class: "responsive-table-cell" %>
     <%= tag.div category.categorizations_count, class: "responsive-table-cell" %>
     <%= tag.div category.slug, class: "responsive-table-cell" %>
 

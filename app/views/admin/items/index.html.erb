@@ -7,11 +7,6 @@
     <%= link_to "All Items", admin_items_path %>
   </li>
   <% if @category %>
-    <% @category.ancestors.each do |ancestor| %>
-      <li class="breadcrumb-item">
-        <%= link_to ancestor.name, admin_items_path(category: ancestor) %>
-      </li>
-    <% end %>
     <li class="breadcrumb-item">
       <%= link_to @category.name, admin_items_path(category: @category) %>
     </li>
@@ -67,7 +62,7 @@
   </div>
 
   <div class="column col-3">
-    <%= category_nav(Category.all.arrange, @category) %>
+    <%= category_nav(Category.sorted_by_name, @category) %>
   </div>
 
 </div>

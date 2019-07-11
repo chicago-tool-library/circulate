@@ -5,7 +5,7 @@ module Admin
     # GET /categories
     # GET /categories.json
     def index
-      @categories = Category.alpha_tree
+      @categories = Category.sorted_by_name
     end
 
     # GET /categories/1
@@ -74,7 +74,7 @@ module Admin
     end
 
     def set_all_categories
-      @all_categories = Category.alpha_tree
+      @all_categories = Category.sorted_by_name
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
