@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version     = ActiveStorageLogSuppressor::VERSION
   spec.authors     = ["Jim Benton"]
   spec.email       = ["jim@autonomousmachine.com"]
-  spec.homepage    = "github.com/jim/active_storate_log_suppressor"
+  spec.homepage    = "https://github.com/jim/active_storate_log_suppressor"
   spec.summary     = "Silences ActiveStorage requests in development mode."
   spec.description = "Silences ActiveStorage requests in development mode."
   spec.license     = "MIT"
