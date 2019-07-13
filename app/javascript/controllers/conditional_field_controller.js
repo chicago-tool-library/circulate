@@ -9,7 +9,8 @@ export default class extends Controller {
 
   change() {
     let value = this.parentTarget.value;
-    let displayValue = value === this.data.get("trigger") ? "block" : "none";
+    let triggers = this.data.get("trigger").split(",");
+    let displayValue = triggers.includes(value) ? "block" : "none";
     this.childTarget.style.display = displayValue;
   }
 }

@@ -94,7 +94,7 @@ module Admin
     def item_params
       params.require(:item).permit(
         :name, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :borrow_policy_id, category_ids: []
+        :borrow_policy_id, :quantity, category_ids: []
       )
     end
 

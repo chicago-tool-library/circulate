@@ -13,9 +13,14 @@ class BorrowPolicy < ApplicationRecord
     length: {is: 1}
 
   scope :alpha_by_code, -> { order("code ASC") }
+  scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
 
   def self.default
     where(default: true).first
+  end
+
+  def self.not_uniquely_numbered_ids
+    not_uniquely_numbered.pluck(:id)
   end
 
   after_save :make_only_default
