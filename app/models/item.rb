@@ -1,8 +1,8 @@
 class Item < ApplicationRecord
-  has_many :categorizations, dependent: :destroy
-  has_many :categories, through: :categorizations,
-                        before_add: :cache_category_ids,
-                        before_remove: :cache_category_ids
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings,
+                        before_add: :cache_tag_ids,
+                        before_remove: :cache_tag_ids
   has_many :loans, dependent: :destroy
   has_one :active_exclusive_loan, -> { active.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
@@ -19,7 +19,7 @@ class Item < ApplicationRecord
   scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
 
-  scope :within_category, ->(category) { joins(:categories).where("categories.id = ?", category.id) }
+  scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
 
   validates :name, presence: true
   validates :number, presence: true, numericality: {only_integer: true}, uniqueness: true
@@ -60,19 +60,19 @@ class Item < ApplicationRecord
 
   private
 
-  def cache_category_ids(category)
-    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
+  def cache_tag_ids(tag)
+    @current_tag_ids ||= Tagging.where(item_id: id).pluck(:tag_id).sort
   end
 
   # called when item is created
   def audited_attributes
-    super.merge("category_ids" => category_ids.sort)
+    super.merge("tag_ids" => tag_ids.sort)
   end
 
   # called when item is updated
   def audited_changes
-    if @current_category_ids.present? && @current_category_ids != category_ids.sort
-      super.merge("category_ids" => [@current_category_ids, category_ids.sort])
+    if @current_tag_ids && @current_tag_ids != tag_ids.sort
+      super.merge("tag_ids" => [@current_tag_ids, tag_ids.sort])
     else
       super
     end

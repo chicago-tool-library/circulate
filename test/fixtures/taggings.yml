@@ -2,8 +2,8 @@
 
 one:
   item: one
-  category: one
+  tag: one
 
 two:
   item: two
-  category: two
+  tag: two

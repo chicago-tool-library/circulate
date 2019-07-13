@@ -116,6 +116,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def sequence_layout(method, options = {})
     label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
+    display_required = options.fetch(:required) { true }
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
@@ -125,14 +126,14 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class].strip!
 
     @template.content_tag :div, wrapper_options do
-      label(method, (label_text + required_label(method)).html_safe, {class: "form-label #{options[:label_class]}"}) +
+      label(method, (label_text + required_label(method, display_required)).html_safe, {class: "form-label #{options[:label_class]}"}) +
         yield +
         hint_content
     end
   end
 
-  def required_label(method)
-    if validation_inspector.attribute_required?(method)
+  def required_label(method, show_label)
+    if validation_inspector.attribute_required?(method) && show_label
       @template.tag.span("required", class: "label label-required-field").html_safe
     else
       ""
@@ -143,6 +144,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def wrapped_layout(method, options = {})
     label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
+    display_required = options.fetch(:required) { true }
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
@@ -155,7 +157,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
       label(method, class: "form-label #{options[:label_class]}") {
         yield +
           label_text +
-          required_label(method)
+          required_label(method, display_required)
       } +
         hint_content
     end

@@ -1,0 +1,22 @@
+<%= index_header "Tags" do %>
+  <%= link_to 'New Tag', new_admin_tag_path, class: "btn" %>
+<% end %>
+
+<div class="responsive-table four-columns">
+  <%= tag.div "Name", class: "responsive-table-header" %>
+  <%= tag.div "Items", class: "responsive-table-header" %>
+  <%= tag.div "Slug", class: "responsive-table-header" %>
+  <%= tag.div "", class: "responsive-table-header" %>
+
+  <% @tags.each do |a_tag| %>
+    <%= tag.div a_tag.name, class: "responsive-table-cell" %>
+    <%= tag.div a_tag.taggings_count, class: "responsive-table-cell" %>
+    <%= tag.div a_tag.slug, class: "responsive-table-cell" %>
+
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= link_to 'Show', [:admin, a_tag] %>
+      <%= link_to 'Edit', edit_admin_tag_path(a_tag) %>
+      <%= link_to 'Destroy', [:admin, a_tag], method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+</div>

@@ -6,9 +6,9 @@
   <li class="breadcrumb-item">
     <%= link_to "All Items", admin_items_path %>
   </li>
-  <% if @category %>
+  <% if @tag %>
     <li class="breadcrumb-item">
-      <%= link_to @category.name, admin_items_path(category: @category) %>
+      <%= link_to @tag.name, admin_items_path(tag: @tag) %>
     </li>
   <% end %>
 </ul>
@@ -60,24 +60,24 @@
             <% end %>
           <% end %>
 
-          <%= tag.div class: "items-table-categories" do %>
-            <% item.categories.each do |category| %>
-              <%= link_to category.name, category: category.id %><br>
+          <%= tag.div class: "items-table-tags" do %>
+            <% item.tags.each do |tag| %>
+              <%= link_to tag.name, tag: tag.id %><br>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
         <% end %>
       </div>
 
-    <% elsif @category %>
-      <%= empty_state "There are no items in this category", subtitle:"Create one?" do %>
-        <%= link_to "Add an Item to #{@category.name}", new_admin_item_path(category_id: @category.id), class: "btn btn-primary" %>
+    <% elsif @tag %>
+      <%= empty_state "There are no items in this tag", subtitle:"Create one?" do %>
+        <%= link_to "Add an Item to #{@tag.name}", new_admin_item_path(tag_id: @tag.id), class: "btn btn-primary" %>
       <% end %>
     <% end %>
   </div>
 
   <div class="column col-3">
-    <%= category_nav(Category.sorted_by_name, @category) %>
+    <%= tag_nav(Tag.sorted_by_name, @tag) %>
   </div>
 
 </div>

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :agreements
     resources :borrow_policies
-    resources :categories
+    resources :tags
     resources :items do
       get :number
     end

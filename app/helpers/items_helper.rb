@@ -1,6 +1,6 @@
 module ItemsHelper
-  def item_categories(item)
-    item.categories.map(&:name).sort.join(", ")
+  def item_tags(item)
+    item.tags.map(&:name).sort.join(", ")
   end
 
   def item_status_options
@@ -21,13 +21,13 @@ module ItemsHelper
     end
   end
 
-  def category_nav(categories, current_category = nil)
-    return unless categories
+  def tag_nav(tags, current_tag = nil)
+    return unless tags
 
     tag.div class: "nav" do
-      categories.map { |category|
-        tag.li(class: "nav-item #{"active" if category == current_category}") {
-          link_to(category.name, category: category.id)
+      tags.map { |a_tag|
+        tag.li(class: "nav-item #{"active" if a_tag == current_tag}") {
+          link_to(a_tag.name, tag: a_tag.id)
         }
       }.join.html_safe
     end

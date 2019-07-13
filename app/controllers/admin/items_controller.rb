@@ -7,14 +7,14 @@ module Admin
     def index
       item_scope = Item
 
-      if params[:category]
-        @category = Category.where(id: params[:category]).first
-        redirect_to(items_path, error: "Category not found") && return unless @category
+      if params[:tag]
+        @tag = Tag.where(id: params[:tag]).first
+        redirect_to(items_path, error: "Tag not found") && return unless @tag
 
-        item_scope = @category.items
+        item_scope = @tag.items
       end
 
-      @items = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
+      @items = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
     end
 
     # GET /items/1
@@ -28,13 +28,13 @@ module Admin
 
     # GET /items/new
     def new
-      @item = Item.new(category_ids: [params[:category_id]])
-      set_categories
+      @item = Item.new(tag_ids: [params[:tag_id]])
+      set_tags
     end
 
     # GET /items/1/edit
     def edit
-      set_categories
+      set_tags
     end
 
     # POST /items
@@ -47,7 +47,7 @@ module Admin
           format.html { redirect_to admin_item_number_path(@item), success: "Item was successfully created." }
           format.json { render :show, status: :created, location: @item }
         else
-          set_categories
+          set_tags
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @item.errors, status: :unprocessable_entity }
         end
@@ -62,7 +62,7 @@ module Admin
           format.html { redirect_to [:admin, @item], success: "Item was successfully updated." }
           format.json { render :show, status: :ok, location: @item }
         else
-          set_categories
+          set_tags
           format.html { render :edit }
           format.json { render json: @item.errors, status: :unprocessable_entity }
         end
@@ -86,15 +86,15 @@ module Admin
       @item = Item.find(params[:id])
     end
 
-    def set_categories
-      @categories = Category.sorted_by_name
+    def set_tags
+      @tags = Tag.sorted_by_name
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
       params.require(:item).permit(
         :name, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :borrow_policy_id, :quantity, category_ids: []
+        :borrow_policy_id, :quantity, tag_ids: []
       )
     end
 
