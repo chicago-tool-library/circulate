@@ -4,7 +4,9 @@
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
       hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
-  <%= form.summarized_collection_select :tag_ids, @tags, :id, proc{|t| t.name }, {}, multiple: true %>
+  <%# <%= form.summarized_collection_select :tag_ids, @tags, :id, proc{|t| t.name }, {}, multiple: true %>
+
+  <%= form.tag_select :tag_ids, @tags %>
 
   <% if item.new_record? %>
     <details class="form-group">
@@ -29,7 +31,6 @@
   <%= form.text_field :serial, hint: "Usually near the model number" %>
 
   <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
-
 
   <div data-controller="conditional-field" data-conditional-field-trigger="<%= BorrowPolicy.not_uniquely_numbered_ids.join(",") %>">
     <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default&.id), {hint: "Borrowing rules used for this item"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
