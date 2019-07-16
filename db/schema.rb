@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_143604) do
+ActiveRecord::Schema.define(version: 2019_07_16_012142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,16 +68,6 @@ ActiveRecord::Schema.define(version: 2019_07_15_143604) do
     t.index ["member_id"], name: "index_agreement_acceptances_on_member_id"
   end
 
-  create_table "agreements", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "summary"
-    t.text "body"
-    t.integer "position", null: false
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -112,6 +102,15 @@ ActiveRecord::Schema.define(version: 2019_07_15_143604) do
     t.string "code", null: false
     t.string "description"
     t.boolean "default", default: false, null: false
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "summary"
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "code"
   end
 
   create_table "items", force: :cascade do |t|
@@ -211,7 +210,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_143604) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
-  add_foreign_key "agreement_acceptances", "agreements"
+  add_foreign_key "agreement_acceptances", "documents", column: "agreement_id"
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "members"

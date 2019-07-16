@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.6.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", github: "rails/rails", branch: "6-0-stable" #"~> 6.0.0.rc1"
+gem "rails", github: "rails/rails", branch: "6-0-stable" # "~> 6.0.0.rc1"
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
@@ -22,7 +22,6 @@ gem "jbuilder", "~> 2.5"
 
 gem "devise"
 gem "audited", github: "bonekost/audited"
-gem "acts_as_list"
 gem "turbolinks_render"
 
 gem "square.rb"

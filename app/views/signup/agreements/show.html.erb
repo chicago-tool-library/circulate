@@ -1,11 +1,11 @@
 <div class="columns">
   <div class="column col-12">
 
-    <h2><%= @agreement.name %></h2>
+    <h2><%= @document.name %></h2>
 
-    <%= @agreement.body %>
+    <%= @document.body %>
 
-    <%= form_with(model: @acceptance, url: signup_agreement_acceptance_url(agreement_id: @agreement), builder: SpectreFormBuilder) do |form| %>
+    <%= form_with(model: @acceptance, url: signup_document_acceptance_url(document_id: @document), builder: SpectreFormBuilder) do |form| %>
       <%= form.errors %>
       <%= form.check_box :terms, class: "input-lg", label: "I have read, understand, and agree to these terms." %>
       <%= form.actions do %>

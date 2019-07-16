@@ -1,11 +1,11 @@
 module Signup
-  class AgreementsController < BaseController
+  class DocumentsController < BaseController
     before_action :load_member
 
     def show
-      @agreement = Agreement.find(params[:id])
-      @acceptance = @agreement.acceptances.new
-      activate_agreement_step(@agreement)
+      @document = Document.find(params[:id])
+      @acceptance = @document.acceptances.new
+      activate_document_step(@document)
     end
   end
 end

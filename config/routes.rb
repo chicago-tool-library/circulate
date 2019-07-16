@@ -4,17 +4,18 @@ Rails.application.routes.draw do
   if ENV["CIRCULATE_SIGNUP"]
     namespace :signup do
       resources :members, only: [:new, :create]
-      resources :agreements, only: [:show] do
+      resources :documents, only: [:show] do
         resource :acceptance, only: [:create, :destroy]
       end
       resources :payments, only: [:new, :create]
       get "payments/callback", to: "payments#callback"
       get "confirmation", to: "confirmations#show"
+      get "/", to: "home#index"
     end
   end
 
   namespace :admin do
-    resources :agreements
+    resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies
     resources :tags
     resources :items do
