@@ -1,7 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  member: one
-
-two:
-  member: two
+agreement:
+  code: agreement
+  name: Agreement
+  summary: Agreement

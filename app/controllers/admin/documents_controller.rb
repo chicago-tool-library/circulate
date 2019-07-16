@@ -1,6 +1,6 @@
 module Admin
   class DocumentsController < BaseController
-    before_action :set_document, only: [:show, :edit, :update, :destroy]
+    before_action :set_document, only: [:show, :edit, :update]
 
     # GET /documents
     # GET /documents.json
@@ -13,29 +13,8 @@ module Admin
     def show
     end
 
-    # GET /documents/new
-    def new
-      @document = Document.new
-    end
-
     # GET /documents/1/edit
     def edit
-    end
-
-    # POST /documents
-    # POST /documents.json
-    def create
-      @document = Document.new(document_params)
-
-      respond_to do |format|
-        if @document.save
-          format.html { redirect_to [:admin, @document], notice: "Document was successfully created." }
-          format.json { render :show, status: :created, location: [:admin, @document] }
-        else
-          format.html { render :new }
-          format.json { render json: @document.errors, status: :unprocessable_entity }
-        end
-      end
     end
 
     # PATCH/PUT /documents/1
@@ -52,21 +31,11 @@ module Admin
       end
     end
 
-    # DELETE /documents/1
-    # DELETE /documents/1.json
-    def destroy
-      @document.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_documents_url, notice: "Document was successfully destroyed." }
-        format.json { head :no_content }
-      end
-    end
-
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_document
-      @document = Document.find(params[:id])
+      @document = Document.coded(params[:id]).first!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

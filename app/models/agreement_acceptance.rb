@@ -1,5 +1,4 @@
-class DocumentAcceptance < ApplicationRecord
-  belongs_to :document
+class AgreementAcceptance < ApplicationRecord
   belongs_to :member
 
   validates_acceptance_of :terms

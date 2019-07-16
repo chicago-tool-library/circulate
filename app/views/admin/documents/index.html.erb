@@ -5,8 +5,8 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Code</th>
       <th>Name</th>
+      <th>Code</th>
       <th>Summary</th>
       <th></th>
     </tr>
@@ -15,8 +15,8 @@
   <tbody>
     <% @documents.each do |document| %>
       <tr>
-        <td><%= document.code %></td>
         <td><%= document.name %></td>
+        <td><%= document.code %></td>
         <td><%= document.summary %></td>
         <td>
           <%= link_to 'Show', [:admin, document] %>
