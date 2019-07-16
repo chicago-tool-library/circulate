@@ -1,8 +1,8 @@
 class Item < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings,
-                        before_add: :cache_tag_ids,
-                        before_remove: :cache_tag_ids
+                  before_add: :cache_tag_ids,
+                  before_remove: :cache_tag_ids
   has_many :loans, dependent: :destroy
   has_one :active_exclusive_loan, -> { active.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
@@ -28,7 +28,7 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
 
-  def self.next_number(limit=nil)
+  def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
     if limit
       item_scope = item_scope.where("number <= ?", limit)
@@ -42,10 +42,10 @@ class Item < ApplicationRecord
     if number.blank?
       return unless borrow_policy
 
-      if borrow_policy.code == "A"
-        self.number = self.class.next_number(999)
+      self.number = if borrow_policy.code == "A"
+        self.class.next_number(999)
       else
-        self.number = self.class.next_number
+        self.class.next_number
       end
     end
   end

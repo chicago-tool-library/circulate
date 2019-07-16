@@ -33,9 +33,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def tag_select(method, tags)
-    @template.tag.div(data: { controller: "tag-editor" }) do
+    @template.tag.div(data: {controller: "tag-editor"}) do
       sequence_layout(method, options) do
-        parent_collection_select method, tags, :id, proc{|t| t.name }, {}, data: { target: "tag-editor.input"},  multiple: true
+        parent_collection_select method, tags, :id, proc { |t| t.name }, {}, data: {target: "tag-editor.input"}, multiple: true
       end
     end
   end
