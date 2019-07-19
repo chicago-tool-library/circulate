@@ -4,6 +4,7 @@
 
 $primary-color: #2F7890;
 $error-color: #DF6C54;
+$gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are easier to read
 
 @import 'spectre.css/src/spectre';
 @import 'spectre.css/src/spectre-icons';
@@ -219,6 +220,14 @@ form .awesomplete {
   display: block;
 }
 
+fieldset {
+  margin-top: 1rem;
+}
+legend {
+  margin-bottom: .4rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
 
 .date-debug {
   position: absolute;
@@ -282,10 +291,6 @@ form .awesomplete {
   }
 }
 
-.signup-fee-description {
-  margin-bottom: 3rem;
-}
-
 form.membership-amount {
   label, .input-group {
     float: left;
@@ -293,7 +298,6 @@ form.membership-amount {
   label {
     margin-right: 1rem;
     line-height: 2.3rem;
-    font-weight: bold;
   }
   .form-input {
     height: 3rem;
@@ -318,15 +322,20 @@ form.membership-amount {
   }
 }
 
-.complete-in-person {
-  align-self: center;
-  // text-align: center;
+@media (min-width: $size-md + 1) {
+  .complete-in-person {
+    margin-left: 1rem;
+  }
+
+  .pay-online {
+    margin-right: 1rem;
+    // text-align: center;
+  }
 }
 
-.pay-online {
-  // text-align: center;
+.divider.small-horizontal-divider {
+  margin-top: 2rem;
 }
-
 .sort-controls {
   margin-bottom: 1rem;
 }

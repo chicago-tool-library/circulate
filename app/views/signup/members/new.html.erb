@@ -1,5 +1,5 @@
 <div class="columns">
-  <div class="column col-12">
+  <div class="column col-8 col-sm-12 col-mx-auto">
     <%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
       <%= render 'admin/members/fields', form: form %>
 

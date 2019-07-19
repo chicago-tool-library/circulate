@@ -14,3 +14,21 @@
   <%= form.text_field :phone_number, value: number_to_phone(form.object.phone_number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip, hint: "Include area code; e.g. 312 123 4567" %>
 
   <%= form.text_field :postal_code, label: "ZIP code", hint: "5 digits only" %>
+
+  <%= form.text_area :desires, label: "What tools do you want to checkout from the library?", hint: "It's OK if we don't have them yet! This info will be helpful as we grow our inventory." %>
+
+  <fieldset>
+    <legend>Loan Reminders</legend>
+    <%= form.check_box :reminders_via_email, label: "Send me loan reminders via email" %>
+    <%= form.check_box :reminders_via_text, label: "Send me loan reminders via text (coming soon)" %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Subscribe to our Newsletter</legend>
+    <%= form.check_box :receive_newsletter, label: "Send me occasional news about the library" %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Want to help us out?</legend>
+    <%= form.check_box :volunteer_interest, label: "I am interested in volunteering with the library" %>
+  </fieldset>

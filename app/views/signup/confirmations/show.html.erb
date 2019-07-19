@@ -1,7 +1,11 @@
-<% if @adjustment %>
-  <p>Thank you for your membership payment of <%= @adjustment.amount.format %>! We have sent you an email confirmation that includes copies of the documents you agreed to.</p>
-<% end %>
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <% if @adjustment %>
+      <p>Thank you for your membership payment of <%= @adjustment.amount.format %>! We have sent you an email confirmation that includes copies of the documents you agreed to.</p>
+    <% end %>
 
-<div class="toast toast-success">
-  <p>Please bring your proof of address and photo ID when you come into the library so we can verify your information.</p>
+    <div class="toast toast-success">
+      <p>Please bring your proof of address and photo ID when you come into the library so we can verify your information.</p>
+    </div>
+  </div>
 </div>
