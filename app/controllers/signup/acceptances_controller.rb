@@ -1,13 +1,14 @@
 module Signup
   class AcceptancesController < BaseController
     before_action :load_member
-    before_action :load_document
 
     def create
-      @acceptance = @document.acceptances.new(member: @member, terms: document_params[:terms])
+      @acceptance = @member.acceptances.new(member: @member, terms: acceptance_params[:terms])
       if @acceptance.save
-        redirect_to next_signup_step(@document)
+        redirect_to new_signup_payment_url
       else
+        activate_step(:agreement)
+        @document = Document.agreement
         render "signup/documents/show"
       end
     end
@@ -17,12 +18,8 @@ module Signup
 
     private
 
-    def document_params
-      params.require(:document_acceptance).permit(:terms)
-    end
-
-    def load_document
-      @document = Document.find(params[:document_id])
+    def acceptance_params
+      params.require(:agreement_acceptance).permit(:terms)
     end
   end
 end

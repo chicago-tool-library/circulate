@@ -1,37 +1,39 @@
-<%= form_with(model: @payment, url: signup_payments_url, builder: SpectreFormBuilder) do |form| %>
-
-  <div class="columns">
-    <div class="column col-12">
-      <div class="signup-fee-description">
-        <p>
-          We suggest that members pay <strong>$1</strong> for every <strong>$1,000</strong> they make in a year.
-          For example, if a person makes <strong>$35,000</strong> in a year, their recommended annual membership fee would be <strong>$35</strong>.
-        </p>
-        
-        <%= form.money_field :amount_dollars, label: "Your membership fee for this year", class: "input-lg" %>
-      </div>
+<div class="columns">
+  <div class="column col-10 col-sm-12 col-mx-auto">
+    <div class="signup-fee-description">
+      <p>
+        We suggest that members pay <strong>$1</strong> for every <strong>$1,000</strong> they make in a year.
+        For example, if a person makes <strong>$35,000</strong> in a year, their recommended annual membership fee would be <strong>$35</strong>.
+      </p>
+      
     </div>
   </div>
+</div>
 
-  <div class="columns">
-    <div class="column col-sm-12 col-6">
-      <p>
-        You can save time by paying now using a credit card or Apple/Google Pay:
-      </p>
+<div class="columns">
+  <div class="column col-sm-12 col-5 col-mx-auto pay-online">
+    <p>
+      You can save time by paying online using a credit card or Apple/Google Pay.
+    </p>
 
+    <%= form_with(model: @payment, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
+      <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
       <%= form.actions do %>
-        <%= form.submit "Pay Online" %>
+        <%= form.submit "Pay Online Now" %>
       <% end %>
-    </div>
-
-    <div class="column col-sm-12 col-6">
-      <p>
-        You can also pay in person at the library using any payment method, including cash:
-      </p>
-
-      <%= form.actions do %>
-        <%= form.submit "Pay at the Library" %>
-      <% end %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+
+  <div class="divider-vert hide-sm" data-content="OR"></div>
+  <div class="column col-sm-12 show-sm">
+    <div class="divider text-center" data-content="OR"></div>
+  </div>
+
+  <div class="column col-sm-12 col-5 col-mx-auto complete-in-person">
+    <p>
+      You can also complete signup in person at the library. We accept all payment methods, including cash.
+    </p>
+
+    <%= link_to "Complete in Person", signup_confirmation_path, class: "btn btn-lg btn-block" %>
+  </div>
+</div>

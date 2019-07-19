@@ -4,13 +4,13 @@ module Signup
 
     def new
       @payment = Payment.new
-      activate_payment_step
+      activate_step(:payment)
     end
 
     def create
       @payment = Payment.new(payment_params)
       unless @payment.valid?
-        activate_payment_step
+        activate_step(:payment)
         render :new, status: :unprocessable_entity
         return
       end
@@ -19,16 +19,15 @@ module Signup
       if result.success?
         redirect_to result.value
       else
-        activate_complete_step
         flash[:error] = result.errors
-        redirect_to new_signup_payment_path
+        redirect_to new_signup_payment_url
       end
     end
 
     def callback
       result = checkout.record_transaction(member: @member, transaction_id: params[:transactionId])
       if result.success?
-        redirect_to signup_confirmation_path
+        redirect_to signup_confirmation_url
       else
         flash[:error] = result.errors
         redirect_to :new

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   if ENV["CIRCULATE_SIGNUP"]
     namespace :signup do
       resources :members, only: [:new, :create]
-      resources :documents, only: [:show] do
+      resource :document, only: [:show] do
         resource :acceptance, only: [:create, :destroy]
       end
       resources :payments, only: [:new, :create]

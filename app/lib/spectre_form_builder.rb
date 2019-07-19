@@ -112,9 +112,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   def errors
     if @object.errors.any?
-      kind = @object.class.name.downcase
-      message = @template.pluralize(@object.errors.count, "error") + " prevented this #{kind} from being saved!"
-      @template.tag.div message, class: "toast toast-error mb-2"
+      @template.tag.div "Please correct the errors below!", class: "toast toast-error mb-2"
     end
   end
 

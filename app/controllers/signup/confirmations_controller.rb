@@ -5,6 +5,7 @@ module Signup
     def show
       @adjustment = @member.adjustments.last
       session.delete :member_id
+      activate_step(:complete)
     end
   end
 end

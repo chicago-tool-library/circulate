@@ -1,6 +1,4 @@
 class Document < ApplicationRecord
-  has_many :acceptances, class_name: "DocumentAcceptance", dependent: :destroy
-
   has_rich_text :body
 
   validates_presence_of :name, :summary
@@ -9,5 +7,13 @@ class Document < ApplicationRecord
 
   def to_param
     code
+  end
+
+  def self.borrow_policy
+    coded("borrow_policy").first!
+  end
+
+  def self.agreement
+    coded("agreement").first!
   end
 end

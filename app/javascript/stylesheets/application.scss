@@ -283,7 +283,48 @@ form .awesomplete {
 }
 
 .signup-fee-description {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+}
+
+form.membership-amount {
+  label, .input-group {
+    float: left;
+  }
+  label {
+    margin-right: 1rem;
+    line-height: 2.3rem;
+    font-weight: bold;
+  }
+  .form-input {
+    height: 3rem;
+    width: 4rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .form-input-hint {
+    float: left;
+    margin-left: .5rem;
+    line-height: 2.3rem;
+  }
+  .input-group-addon {
+    line-height: 2.4rem;
+    font-size: 1.1rem;
+  }
+  .form-group {
+    overflow: hidden;
+  }
+  .form-buttons {
+    margin-top: 1.5rem;
+  }
+}
+
+.complete-in-person {
+  align-self: center;
+  // text-align: center;
+}
+
+.pay-online {
+  // text-align: center;
 }
 
 .sort-controls {

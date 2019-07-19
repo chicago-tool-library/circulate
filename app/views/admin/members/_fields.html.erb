@@ -14,10 +14,3 @@
   <%= form.text_field :phone_number, value: number_to_phone(form.object.phone_number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip, hint: "Include area code; e.g. 312 123 4567" %>
 
   <%= form.text_field :postal_code, label: "ZIP code", hint: "5 digits only" %>
-
-  <div data-controller="conditional-field" data-conditional-field-trigger="other_id_kind">
-    <%= form.select :id_kind, options_for_select(member_id_kind_options, form.object.id_kind), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
-    <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
-      <%= form.text_field :other_id_kind, label: "Other ID Type", placeholder: "Please specify" %>
-    <% end %>
-  </div>

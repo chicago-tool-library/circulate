@@ -3,6 +3,7 @@ class Member < ApplicationRecord
   has_many :adjustments
   has_many :loans, dependent: :destroy
   has_many :memberships, dependent: :destroy
+  has_many :acceptances, class_name: "AgreementAcceptance", dependent: :destroy
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
