@@ -34,7 +34,7 @@ gem "mini_magick"
 
 gem "barnes"
 gem "skylight"
-gem "sidekiq"
+gem 'sucker_punch'
 gem "dotenv-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
