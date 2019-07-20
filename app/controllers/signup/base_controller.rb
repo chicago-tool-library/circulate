@@ -19,7 +19,7 @@ module Signup
 
     def load_steps
       agreement = Document.agreement
-      @steps = [ Step.new(:profile, name: "Profile") ]
+      @steps = [Step.new(:profile, name: "Profile")]
       @steps << Step.new(:agreement, name: agreement.name)
       @steps << Step.new(:payment, name: "Membership Fee")
       @steps << Step.new(:complete, name: "Complete")
@@ -29,7 +29,7 @@ module Signup
       @steps.each do |step|
         if step.id == step_id
           step.active = true
-          return
+          break
         end
       end
     end
