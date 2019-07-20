@@ -19,6 +19,7 @@ module Signup
       if @member.save
         session[:member_id] = @member.id
         session[:timeout] = Time.current + 15.minutes
+        MemberMailer.with(member: @member).welcome_message.deliver_later
 
         redirect_to signup_document_url
       else
