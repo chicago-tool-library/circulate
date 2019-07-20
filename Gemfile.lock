@@ -142,6 +142,7 @@ GEM
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     concurrent-ruby (1.1.5)
+    connection_pool (2.2.2)
     crass (1.0.4)
     devise (4.6.2)
       bcrypt (~> 3.0)
@@ -220,6 +221,8 @@ GEM
     public_suffix (3.1.1)
     puma (3.12.1)
     rack (2.0.7)
+    rack-protection (2.0.5)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -234,6 +237,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    redis (4.1.2)
     regexp_parser (1.6.0)
     responders (3.0.0)
       actionpack (>= 5.0)
@@ -259,6 +263,11 @@ GEM
       rubyzip (~> 1.2, >= 1.2.2)
     sentry-raven (2.9.0)
       faraday (>= 0.7.6, < 1.0)
+    sidekiq (5.2.7)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     skylight (4.1.2)
       skylight-core (= 4.1.2)
     skylight-core (4.1.2)
@@ -352,6 +361,7 @@ DEPENDENCIES
   rails!
   selenium-webdriver
   sentry-raven
+  sidekiq
   skylight
   solargraph
   spring
@@ -360,7 +370,6 @@ DEPENDENCIES
   standard
   turbolinks (~> 5)
   turbolinks_render
-  tzinfo-data
   web-console (>= 3.3.0)
   webpacker (>= 4.0.0.rc.3)
 

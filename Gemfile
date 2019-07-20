@@ -23,25 +23,22 @@ gem "jbuilder", "~> 2.5"
 gem "devise"
 gem "audited", github: "bonekost/audited"
 gem "turbolinks_render"
+gem "money-rails"
+gem "mjml-rails"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
 
-# Use Active Storage variant
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
 
 gem "barnes"
 gem "skylight"
-
-gem 'mjml-rails'
-
-gem "money-rails"
+gem "sidekiq"
+gem "dotenv-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
-
-gem "dotenv-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -73,4 +70,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
