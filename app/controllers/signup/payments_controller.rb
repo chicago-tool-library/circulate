@@ -29,6 +29,7 @@ module Signup
       if result.success?
         redirect_to signup_confirmation_url
       else
+        Raven.capture_exception(result.errors)
         flash[:error] = result.errors
         redirect_to :new
       end
