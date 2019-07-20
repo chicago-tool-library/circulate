@@ -9,6 +9,7 @@
     "@rails/webpacker": "^4.0.2",
     "awesomplete": "^1.1.4",
     "jquery": "^3.4.1",
+    "mjml": "^4.4.0",
     "selectize": "^0.12.6",
     "spectre.css": "^0.5.8",
     "stimulus": "^1.1.1",

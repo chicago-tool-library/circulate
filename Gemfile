@@ -34,6 +34,8 @@ gem "mini_magick"
 gem "barnes"
 gem "skylight"
 
+gem 'mjml-rails'
+
 gem "money-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
