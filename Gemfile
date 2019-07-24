@@ -24,7 +24,7 @@ gem "devise"
 gem "audited", github: "bonekost/audited"
 gem "turbolinks_render"
 gem "money-rails"
-gem "mjml-rails"
+gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
