@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <div class="container grid-lg">
+    <div class="container grid-lg signup">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>
@@ -25,7 +25,7 @@
             <%= image_pack_tag "logo.jpg" %> 
             <h1>New Member Signup</h1>
           </div>
-          <%= render 'signup/steps', steps: @steps %>
+          <%= render 'signup/steps', steps: @steps unless @hide_steps %>
         </div>
       </div>
 

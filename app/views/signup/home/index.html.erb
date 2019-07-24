@@ -1,9 +1,11 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
-    <h1>Become a Member</h1>
+    <div class="rich-text">
+      <%= @borrow_policy.body %>
+    </div>
 
-    <%= @borrow_policy.body %>
-
-    <%= link_to "Signup online", new_signup_member_url, class: "btn btn-primary btn-block btn-lg" %>
+    <p>
+      <%= link_to "Signup online", new_signup_member_url, class: "btn btn-primary btn-block btn-lg" %>
+    </p>
   </div>
 </div>
