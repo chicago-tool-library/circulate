@@ -9,7 +9,7 @@ module Signup
       else
         activate_step(:agreement)
         @document = Document.agreement
-        render "signup/documents/show"
+        render "signup/documents/agreement"
       end
     end
 

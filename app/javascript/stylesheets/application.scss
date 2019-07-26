@@ -289,6 +289,20 @@ legend {
     max-width: 30%;
     margin-bottom: .6rem;
   }
+  &.on-step {
+    img {
+      display: inline;
+      max-width: 10%;
+      vertical-align: middle;
+    }
+    h1 {
+      display: inline;
+      font-size: 1.3rem;
+      margin: 0 0 0 .3em;
+      position: relative;
+      top: .25em;
+    }
+  }
 }
 
 form.membership-amount {
@@ -343,5 +357,34 @@ form.membership-amount {
 .signup {
   .rich-text {
     margin-bottom: 2rem;
+  }
+  .callout-box {
+    background: #f7f8f9;
+    padding: 1rem .5rem .5rem 1.5rem;
+    margin-bottom: 1rem;
+    ul {
+      list-style: outside;
+    }
+  }
+  .activation-instructions {
+    ul {
+      list-style: outside;
+    }
+  }
+}
+
+.instructions {
+  color: $primary-color;
+  .main {
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: 1.2rem;
+    margin-bottom: 0.5em;
+  }
+  .sub {
+    font-size: 1rem;
+  }
+  .divider {
+    margin-bottom: 1rem;
   }
 }

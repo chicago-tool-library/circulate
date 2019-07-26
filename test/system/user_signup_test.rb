@@ -1,8 +1,30 @@
 require "application_system_test_case"
 
 class UserSignupTest < ApplicationSystemTestCase
+  include ActionMailer::TestHelper
+  include ActiveJob::TestHelper
+
+  def setup
+    Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
+  end
+
+  def assert_delivered_email(to:, &block)
+    delivered_mail = ActionMailer::Base.deliveries.last
+    assert_equal [to], delivered_mail.to
+
+    html = delivered_mail.body.parts[0].body.to_s
+    text = delivered_mail.body.parts[1].body.to_s
+    yield html, text
+  end
+
   def complete_first_three_steps
-    visit new_signup_member_url
+    visit signup_url
+
+    click_on "Signup Online Now"
+
+    assert_selector "li.step-item.active", text: "Rules"
+    
+    click_on "Continue"
 
     assert_selector "li.step-item.active", text: "Profile"
 
@@ -21,15 +43,23 @@ class UserSignupTest < ApplicationSystemTestCase
     first("label", text: "I have read, understand, and agree to these terms.").click
     click_on "Continue"
 
-    assert_selector "li.step-item.active", text: "Membership Fee"
+    assert_selector "li.step-item.active", text: "Payment"
   end
 
   test "signup and complete in person" do
     complete_first_three_steps
 
-    click_on "Complete in Person"
+    perform_enqueued_jobs do
+      click_on "Complete in Person"
 
-    assert_selector "li.step-item.active", text: "Complete"
+      assert_selector "li.step-item.active", text: "Complete", wait: 5
+    end
+
+    assert_emails 1
+    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+      assert_includes html, "Thank you for signing up"
+      refute_includes html, "Your payment of"
+    end
   end
 
   test "signup and pay through square" do
@@ -50,11 +80,20 @@ class UserSignupTest < ApplicationSystemTestCase
     page.within_frame("sq-cvv") { page.find("input").fill_in with: "123" }
     page.within_frame("sq-postal-code") { page.first("input").fill_in with: "60647" }
 
-    click_on "Place Order"
+    perform_enqueued_jobs do
+      click_on "Place Order"
+    
+      # Back in the app
+      assert_selector "li.step-item.active", text: "Complete", wait: 5
+    end
 
-    # Back in the app
+    assert_content "Your payment of $42.00"
+    assert_content "See you at the library!"
 
-    assert_selector "li.step-item.active", text: "Complete"
-    assert_content "Thank you for your membership payment of $42.00!"
+    assert_emails 1
+    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+      assert_includes html, "Thank you for signing up"
+      assert_includes html, "Your payment of $42.00"
+    end
   end
 end

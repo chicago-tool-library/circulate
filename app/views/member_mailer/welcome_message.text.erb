@@ -1,5 +1,9 @@
 Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!
 
+<% if @amount %>
+Your payment of <%= @amount.format %> has been processed and applied to your account.
+<% end %>
+
 To complete the signup process, please bring the following with you to the library the first time you visit:
 
 * Proof of your address. This needs to include your name and current address in Chicago. Utility bills, leases, and other official mail work well for this.

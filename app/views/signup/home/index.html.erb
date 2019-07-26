@@ -1,11 +1,22 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
-    <div class="rich-text">
-      <%= @borrow_policy.body %>
+
+    <p>Hello! We are excited to have you join The Chicago Tool Library. We are a lot like your local public library, except instead of lending out books, we offer tools such as drills, saws, sewing machines, crock pots, and microphones.</p>
+    <p>This website will guide you through the process of becoming a member. Before we get started, though, it is important to make sure that you fulfill a few basic requirements:</p>
+
+    <div class="callout-box">
+      <h5>Membership Requirements</h5>
+      <ul>
+        <li>You must be at least 18 years of age.</li>
+        <li>You must reside in the City of Chicago and provide proof of address.</li>
+        <li>You must provide a form of photo identification.</li>
+      </ul>
     </div>
 
+    <p>If you fulfill the above requirements, click below to start the signup process! It only takes a few minutes to complete.</p>
+
     <p>
-      <%= link_to "Signup online", new_signup_member_url, class: "btn btn-primary btn-block btn-lg" %>
+      <%= link_to "Signup Online Now", signup_rules_url, class: "btn btn-primary btn-block btn-lg" %>
     </p>
   </div>
 </div>

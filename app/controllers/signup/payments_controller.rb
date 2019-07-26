@@ -15,7 +15,7 @@ module Signup
         return
       end
 
-      result = checkout.checkout_url(amount: @payment.amount, email: @member.email, return_to: signup_payments_callback_url, member_id: @member.id)
+      result = checkout.checkout_url(amount: @payment.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id)
       if result.success?
         redirect_to result.value
       else
@@ -24,9 +24,20 @@ module Signup
       end
     end
 
+    def skip
+      # completing in person
+      MemberMailer.with(member: @member).welcome_message.deliver_later
+      reset_session
+      redirect_to signup_confirmation_url
+    end
+
     def callback
       result = checkout.record_transaction(member: @member, transaction_id: params[:transactionId])
       if result.success?
+        amount = @member.adjustments.last.amount
+        MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
+        reset_session
+        session[:amount] = amount.cents
         redirect_to signup_confirmation_url
       else
         Raven.capture_exception(result.errors)

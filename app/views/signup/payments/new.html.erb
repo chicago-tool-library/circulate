@@ -1,5 +1,10 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Select a Payment Option</p>
+      <p class="sub">You can pay online now or in person at the library.</p>
+      <div class="divider"></div>
+    </div
     <div class="signup-fee-description">
       <p>
         Membership fees to The Chicago Tool Library will give you access for one year.
@@ -22,7 +27,7 @@
       <fieldset>
         <legend>Pay Online</legend>
         <p>
-          You can save time by paying online using a credit card or Apple/Google Pay.
+          You can save time by making one-time payment online using a credit card or Apple/Google Pay.
         </p>
         <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
       </fieldset>
@@ -38,14 +43,16 @@
   </div>
 
   <div class="column col-sm-12 col-4 col-mr-auto complete-in-person">
-    <fieldset>
-      <legend>Complete Signup at the Library</legend>
-      <p>
-        You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and 
-        are happy to answer any questions you have about membership.
-      </p>
-    </fieldset>
+    <%= form_with(url: skip_signup_payments_url, builder: SpectreFormBuilder) do |form| %>
+      <fieldset>
+        <legend>Complete Signup at the Library</legend>
+        <p>
+          You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and 
+          are happy to answer any questions you have about membership.
+        </p>
+      </fieldset>
 
-    <%= link_to "Complete in Person", signup_confirmation_path, class: "btn btn-lg btn-block" %>
+      <%= button_tag "Complete in Person", class: "btn btn-lg btn-block" %>
+    <% end %>
   </div>
 </div>

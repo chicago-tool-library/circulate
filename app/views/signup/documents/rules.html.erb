@@ -1,0 +1,17 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Please read through the following description of our policies.</p>
+      <p class="sub">When you're done, click <em>Continue</em> to go on to the next step.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="rich-text">
+      <%= @document.body %>
+    </div>
+
+    <p>
+      <%= link_to "Continue", new_signup_member_url, class: "btn btn-primary btn-block btn-lg" %>
+    </p>
+  </div>
+</div>

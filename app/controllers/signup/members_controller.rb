@@ -2,7 +2,7 @@ module Signup
   class MembersController < BaseController
     def new
       if session[:member_id]
-        redirect_to signup_document_url
+        redirect_to signup_agreement_url
         return
       end
       @member = Member.new(
@@ -19,9 +19,8 @@ module Signup
       if @member.save
         session[:member_id] = @member.id
         session[:timeout] = Time.current + 15.minutes
-        MemberMailer.with(member: @member).welcome_message.deliver_later
 
-        redirect_to signup_document_url
+        redirect_to signup_agreement_url
       else
         activate_step(:profile)
         render :new

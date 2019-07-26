@@ -1,11 +1,13 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
-    <% if @adjustment %>
-      <p>Thank you for your membership payment of <%= @adjustment.amount.format %>!</p>
-    <% end %>
-
-    <div class="toast toast-success">
-      <p>Please bring your proof of address and photo ID when you come into the library so we can verify your information.</p>
+    <div class="instructions">
+      <p class="main">Signup Complete</p>
+      <div class="divider"></div>
     </div>
+    <div class="activation-instructions">
+      <%= render partial: "instructions" %>
+    </div>
+    <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>See you at the library!</p>
   </div>
 </div>
