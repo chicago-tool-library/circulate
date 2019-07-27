@@ -23,7 +23,7 @@ class UserSignupTest < ApplicationSystemTestCase
     click_on "Signup Online Now"
 
     assert_selector "li.step-item.active", text: "Rules"
-    
+
     click_on "Continue"
 
     assert_selector "li.step-item.active", text: "Profile"
@@ -82,7 +82,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs do
       click_on "Place Order"
-    
+
       # Back in the app
       assert_selector "li.step-item.active", text: "Complete", wait: 5
     end
