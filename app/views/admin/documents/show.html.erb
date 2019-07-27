@@ -1,21 +1,26 @@
-<p>
-  <strong>Code:</strong>
-  <%= @document.code %>
-</p>
+<ul class="breadcrumb">
+  <li class="breadcrumb-item">
+    <%= link_to "Documents", admin_documents_path %>
+  </li>
+  <li class="breadcrumb-item">
+    <%= link_to @document.name, admin_document_path(@document) %>
+  </li>
+</ul>
 
-<p>
-  <strong>Name:</strong>
-  <%= @document.name %>
-</p>
+<%= index_header @document.name do %>
+  <%= link_to 'Edit', edit_admin_document_path(@document), class: "btn" %>
+<% end %>
 
-<p>
-  <strong>Summary:</strong>
-  <%= @document.summary %>
-</p>
+<div class="summary-box">
+  <p>
+    <%= @document.summary %>
+  </p>
+</div>
 
-<p>
-  <strong>Body:</strong>
-  <%= @document.body %>
-</p>
+<div class="divider"></div>
 
-<%= link_to 'Edit', edit_admin_document_path(@document) %> |
+<div class="rich-text">
+  <blockquote>
+    <%= @document.body %>
+  </blockquote>
+</div>
