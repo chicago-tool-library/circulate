@@ -1,6 +1,4 @@
-<%= index_header "Borrow Policies" do %>
-  <%= link_to 'New Borrow Policy', new_admin_borrow_policy_path, class: "btn" %>
-<% end %>
+<%= index_header "Borrow Policies" %>
 
 <% if @borrow_policies.any? %>
   <div class="responsive-table seven-columns">
@@ -20,9 +18,7 @@
       <%= tag.div borrow_policy.uniquely_numbered, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.default, class: "responsive-table-cell" %>
       <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to 'Show', [:admin, borrow_policy] %>
         <%= link_to 'Edit', edit_admin_borrow_policy_path(borrow_policy) %>
-        <%= link_to 'Destroy', [:admin, borrow_policy], method: :delete, data: { confirm: 'Are you sure?' } %>
       <% end %>
     <% end %>
   </div>
