@@ -1,4 +1,6 @@
 module ItemsHelper
+  include Pagy::Frontend
+
   def item_tags(item)
     item.tags.map(&:name).sort.join(", ")
   end

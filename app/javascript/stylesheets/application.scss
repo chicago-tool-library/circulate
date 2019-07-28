@@ -394,3 +394,17 @@ form.membership-amount {
     margin-top: 2em;
   }
 }
+
+.public {
+  .items-summary {
+    margin-bottom: 2em;
+  }
+  .items-show {
+    .item-image {
+      position: relative;
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 module Admin
   class ImagesController < BaseController
-
     def show
       @item = Item.find(params[:item_id])
       @image = @item.image

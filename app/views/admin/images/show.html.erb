@@ -7,7 +7,7 @@
     <a href="#" data-action="image-editor#left">⟲</a>
     <a href="#" data-action="image-editor#right">⟳</a>
 
-    <%= f.hidden_field :rotation, data: {target: "image-editor.field"} %>
+    <%= f.hidden_field :rotation, value: @image.metadata["rotation"], data: {target: "image-editor.field"} %>
 
     <%= f.submit "Save" %>
   <% end %>

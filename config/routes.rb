@@ -43,5 +43,8 @@ Rails.application.routes.draw do
       delete "/dev/time", to: "dev#clear_time"
     end
   end
+
+  resources :items, only: [:index, :show]
+
   root to: "home#index"
 end

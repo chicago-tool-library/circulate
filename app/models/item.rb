@@ -18,11 +18,12 @@ class Item < ApplicationRecord
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
 
   scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
 
   validates :name, presence: true
-  validates :number, presence: true, numericality: {only_integer: true}, uniqueness: true
+  validates :number, numericality: {only_integer: true}, uniqueness: true
   validates :status, inclusion: {in: Item.statuses.keys}
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 

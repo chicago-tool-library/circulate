@@ -1,0 +1,61 @@
+<div class="items-show">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Items", items_path %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to @item.name, item_path(@item) %>
+    </li>
+  </ul>
+
+  <h1><%= @item.name %></h1>
+
+  <div class="columns">
+
+    <div class="column col-6 item-image">
+      <% if @item.image.attached? %>
+        <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [600, 600])), class: "p-centered" %>
+      <% end %>
+    </div>
+
+    <div class="column col-6">
+      <p>
+        <strong>Number:</strong>
+        <%= @item.number %>
+      </p>
+
+      <p>
+        <strong>Size:</strong>
+        <%= @item.size %>
+      </p>
+
+      <p>
+        <strong>Strength:</strong>
+        <%= @item.strength %>
+      </p>
+
+      <p>
+        <strong>Brand:</strong>
+        <%= @item.brand %>
+      </p>
+
+      <p>
+        <strong>Model:</strong>
+        <%= @item.model %>
+      </p>
+
+      <p>
+        <strong>Serial:</strong>
+        <%= @item.serial %>
+      </p>
+
+      <p>
+        <strong>Categories:</strong>
+        <%= item_tags(@item) %>
+      </p>
+
+      <%= @item.description %>
+    </div>
+
+  </div>
+</div>
