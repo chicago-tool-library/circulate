@@ -32,4 +32,11 @@ module ItemsHelper
       }.join.html_safe
     end
   end
+
+  def rotated_variant(image, options = {})
+    if image.metadata.key? "rotation"
+      options[:rotate] ||= image.metadata["rotation"]
+    end
+    image.variant(options)
+  end
 end

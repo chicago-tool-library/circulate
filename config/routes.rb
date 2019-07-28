@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :tags
     resources :items do
       get :number
+      resource :image, only: [:show, :update]
     end
     resources :loans
     resources :members
