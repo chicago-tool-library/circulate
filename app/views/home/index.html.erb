@@ -1,4 +1,19 @@
-<p>Welcome to Circulate.</p>
+<div class="columns">
+  <div class="column col-12 col text-center">
+    <%= image_pack_tag "logo.png", class:"site-logo" %> 
+  </div>
+</div>
 
-<h1><%= link_to "Items", admin_items_path %></h1>
-<h1><%= link_to "Members", admin_members_path %></h1>
+<div class="columns landing-options">
+  <div class="column col-sm-12 col-md-3 col-4 col-ml-auto text-center">
+    <%= link_to "View our inventory", items_path %>
+  </div>
+
+  <div class="column col-sm-12 col-4 text-center">
+    <%= link_to "Become a member", signup_path %>
+  </div>
+
+  <div class="column col-sm-12 col-md-3 col-4 col-mr-auto text-center">
+    <%= link_to "Visit our website", "https://chicagotoollibrary.org" %>
+  </div>
+</div>

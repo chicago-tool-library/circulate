@@ -408,3 +408,16 @@ form.membership-amount {
     }
   }
 }
+
+.landing-page {
+  background: #fafafa url("../images/website-banner.png") 0 400px no-repeat;
+  img.site-logo {
+    max-width: 200px;
+    margin: 2rem 0 3rem;
+  }
+  font-size: 1.5rem;
+  line-height: 1.1;
+  .landing-options .column {
+    margin-bottom: .5em;
+  }
+}

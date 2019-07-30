@@ -13,7 +13,7 @@
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <%= tag.body class: @body_class do %>
 
     <div class="container grid-lg public">
       <%= flash_message :success  %>
@@ -22,5 +22,5 @@
       <%= yield %>
     </div>
 
-  </body>
+  <% end %>
 </html>
