@@ -31,4 +31,18 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal ["can't be blank"], item.errors[:name]
     assert_equal ["is not included in the list"], item.errors[:status]
   end
+
+  test "strips whitespace before validating" do
+    item = Item.new(name: " name ", brand: " brand ", size: " 12v", model: "123 ",
+      serial: " a bc", strength: " heavy")
+
+    item.valid?
+
+    assert_equal "name", item.name
+    assert_equal "brand", item.brand
+    assert_equal "12v", item.size
+    assert_equal "123", item.model
+    assert_equal "a bc", item.serial
+    assert_equal "heavy", item.strength
+  end
 end

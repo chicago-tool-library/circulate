@@ -28,6 +28,7 @@ class Item < ApplicationRecord
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
+  before_validation :strip_whitespace
 
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
@@ -60,6 +61,14 @@ class Item < ApplicationRecord
   end
 
   private
+
+  def strip_whitespace
+    %w{name brand size model serial strength}.each do |attr_name|
+      value = attributes[attr_name]
+      next unless value.present?
+      write_attribute attr_name, value.strip
+    end
+  end
 
   def cache_tag_ids(tag)
     @current_tag_ids ||= Tagging.where(item_id: id).pluck(:tag_id).sort
