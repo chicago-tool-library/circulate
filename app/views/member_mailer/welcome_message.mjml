@@ -17,14 +17,14 @@
   </mj-head>
   <mj-body background-color="#F4F4F4">
     <mj-section>
-      <mj-group>
-        <mj-column width="50%" padding-left="40px" padding-top="20px">
-          <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" />
-        </mj-column>
-        <mj-column width="50%" padding-top="40px">
-          <mj-text font-size="48px" line-height="48px" font-weight="bold" padding-left="0"><%= simple_format @intro %></mj-text>
-        </mj-column>
-      </mj-group>
+      <mj-column padding-top="20px">
+        <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Welcome!</mj-text>
+      </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
