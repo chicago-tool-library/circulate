@@ -11,7 +11,7 @@
   </div>
 
   <%= form.text_field :email, hint: "e.g. you@domain.com" %>
-  <%= form.text_field :phone_number, value: number_to_phone(form.object.phone_number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip, hint: "Include area code; e.g. 312 123 4567" %>
+  <%= form.text_field :phone_number, value: format_phone_number(form.object.phone_number), hint: "Include area code; e.g. 312 123 4567" %>
 
   <%= form.text_field :postal_code, label: "ZIP code", hint: "5 digits only" %>
 

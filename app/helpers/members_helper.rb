@@ -27,4 +27,8 @@ module MembersHelper
     format = "%A, %B %d"
     datetime.strftime(format)
   end
+
+  def format_phone_number(number)
+    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip
+  end
 end
