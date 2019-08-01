@@ -421,3 +421,9 @@ form.membership-amount {
     margin-bottom: .5em;
   }
 }
+
+.member-active-loans, .member-recent-loans {
+  p {
+    margin-bottom: 0;
+  }
+}

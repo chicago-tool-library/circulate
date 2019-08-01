@@ -26,9 +26,12 @@ Rails.application.routes.draw do
     resources :items do
       get :number
       resource :image, only: [:show, :update]
+      resource :loan_history, only: :show
     end
     resources :loans
-    resources :members
+    resources :members, except: :destroy do
+      resource :loan_history, only: :show
+    end
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

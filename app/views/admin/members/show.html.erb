@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div class="columns">
   <div class="column col-sm-6">
     <h1>
@@ -7,8 +5,6 @@
       <small class="label"><%= member_pronoun(@member) %></small>
     </h1>
     <p><%= @member.full_name %></p>
-  </div>
-  <div class="column col-sm-3">
   </div>
   <div class="column col-sm-3">
     <p>
@@ -20,43 +16,45 @@
       <span class="label">Phone:</span>
       <%= format_phone_number @member.phone_number %>
     </p>
+
+    <p>
+      <span class="label">Account balance:</span>
+      <%= @member.account_balance.format %>
+    </p>
+  </div>
+  <div class="column col-sm-3">
+    <%= link_to 'Edit Member', edit_admin_member_path(@member), class: "btn" %>
   </div>
 </div>
 
-<p>
-  <strong>Account balance:</strong>
-  <%= @member.account_balance.format %>
-</p>
-
-
-
-<%= link_to 'Edit', edit_admin_member_path(@member), class: "btn" %>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @member.notes %>
-</p>
+<% unless @member.notes.blank? %>
+  <div class="rich-text">
+    <%= @member.notes %>
+  </div>
+<% end %>
 
 <div class="divider"></div>
 
 <h2>Recent Loans</h2>
 
-<div class="container">
+<%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
+
+<div class="container member-recent-loans">
   <% @recent_loans.each do |loan| %>
     <div class="columns">
-      <div class="col-xl-1 col-lg-1 col-sm-4">
-        <p><%= loan.item.number %></p>
+      <div class="col-1 col-sm-4">
+        <p><%= full_item_number(loan.item) %></p>
       </div>
-      <div class="col-xl-3 col-lg-3 col-sm-8">
+      <div class="col-3 col-sm-8">
         <p><%= loan.item.name %></p>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-12">
+      <div class="col-4 col-sm-12">
         <p>
           <%= checked_out_date(loan.created_at) %> ->
           <%= checked_out_date(loan.ended_at) %>
         </p>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-12">
+      <div class="col-4 col-sm-12">
        <% if loan.adjustment %>
         <%= loan.adjustment.amount.format %>
        <% end %>
@@ -67,29 +65,27 @@
 
 <h2>Currently Checked Out</h2>
 
-<div class="container">
+<div class="container member-active-loans">
   <% @active_loans.each do |loan| %>
     <div class="columns">
-      <div class="col-xl-1 col-lg-1 col-sm-4">
-        <p><%= loan.item.number %></p>
+      <div class="col-1 col-sm-4">
+        <p><%= full_item_number(loan.item) %></p>
       </div>
-      <div class="col-xl-3 col-lg-3 col-sm-8">
+      <div class="col-3 col-sm-8">
         <p><%= loan.item.name %></p>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-12">
-        <p><%= checked_out_date(loan.created_at) %></p>
-        <p>
+      <div class="col-4 col-sm-12">
+        <p><%= checked_out_date(loan.created_at) %> &mdash;
           due <%= "in " if loan.due_at >= Time.current %>
           <%= time_ago_in_words(loan.due_at) %>
           <%= "ago" if loan.due_at < Time.current %>
         </p>
       </div>
-      <div class="col-xl-4 col-lg-4 col-sm-12">
-        <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-lg btn-primary" %>
-        <button class="btn btn-sm" disabled>Renew</button>
-        <button class="btn btn-sm" disabled>Has Issue</button>
+      <div class="col-4 col-sm-12">
+        <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-sm btn-primary" %>
       </div>
     </div>
+    <div class="divider"></div>
   <% end %>
 </div>
 

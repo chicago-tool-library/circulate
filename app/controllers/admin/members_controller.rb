@@ -14,7 +14,7 @@ module Admin
       @new_item_numbers = []
       @new_loans = {}
       @active_loans = @member.active_loans.by_creation_date
-      @recent_loans = @member.loans.recently_returned.includes(:adjustment).by_creation_date
+      @recent_loans = @member.loans.recently_returned.includes(:adjustment).by_end_date.limit(10)
     end
 
     # GET /members/new

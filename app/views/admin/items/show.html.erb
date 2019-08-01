@@ -9,6 +9,7 @@
 
 <%= index_header @item.name do %>
   <%= link_to 'Edit', edit_admin_item_path(@item), class: "btn" %>
+  <%= link_to 'Loan History', admin_item_loan_history_path(@item), class: "btn" %>
 <% end %>
 
 <div class="columns">

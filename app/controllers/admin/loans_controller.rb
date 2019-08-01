@@ -5,7 +5,12 @@ module Admin
     # GET /loans
     # GET /loans.json
     def index
-      @loans = Loan.includes(:member, :item).all
+      scope = if params[:member_id]
+        Member.find(params[:member_id]).loans
+      else 
+        Loan
+      end
+      @loans = scope.includes(:member, :item).all
     end
 
     # GET /loans/1
@@ -63,7 +68,7 @@ module Admin
             end
           end
 
-          format.html { redirect_to admin_member_path(@loan.member, anchor: "checkout"), notice: "Loan was successfully updated." }
+          format.html { redirect_to admin_member_path(@loan.member, anchor: "checkout"), success: "Loan was successfully updated." }
           format.json { render :show, status: :ok, location: @loan }
         else
           format.html do

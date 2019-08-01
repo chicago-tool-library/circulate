@@ -20,6 +20,7 @@ class Loan < ApplicationRecord
   scope :exclusive, -> { where(uniquely_numbered: true) }
   scope :recently_returned, -> { where("ended_at IS NOT NULL AND ended_at >= ?", Time.current - 7.days).includes(:item) }
   scope :by_creation_date, -> { order("created_at ASC") }
+  scope :by_end_date, -> { order("ended_at ASC") }
 
   def ended?
     ended_at.present?

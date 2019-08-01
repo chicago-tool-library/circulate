@@ -41,4 +41,8 @@ module ItemsHelper
     end
     image.variant(options)
   end
+
+  def full_item_number(item)
+    "#{item.borrow_policy.code}-#{item.number}"
+  end
 end
