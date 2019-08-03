@@ -1,25 +1,5 @@
 module Volunteer
-  class Event
-    def title
-      "Event Title"
-    end
 
-    def slots
-      4
-    end
-
-    def available_slots
-      @available_slots ||= (slots * rand).floor
-    end
-
-    def reserved_slots
-      slots - available_slots
-    end
-
-    def times
-      "10am-3pm"
-    end
-  end
   class Day
     def initialize(date, today, state=nil)
       @date = date
@@ -27,13 +7,16 @@ module Volunteer
       @state = state
     end
     def events
-      [Event.new]
+      [Event.new(@date.to_s)]
     end
     def number
       @date.day
     end
     def today?
       @today == @date
+    end
+    def past?
+      @date < @today
     end
     def previous_month?
       @state == :previous

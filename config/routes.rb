@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   namespace :volunteer do
-    resources :shifts, only: :index
+    resources :shifts, only: [:index, :new]
   end
 
   namespace :admin do

@@ -10,6 +10,10 @@ module Volunteer
       end
     end
 
+    def new
+      @event = Event.new(params[:event_id])
+    end
+
     private
 
     def date_from_params

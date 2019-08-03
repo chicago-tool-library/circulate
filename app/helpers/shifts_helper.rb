@@ -11,15 +11,21 @@ module ShiftsHelper
       tag.button(day.number, class: button_classes) +
       tag.div(class: "calendar-events") do
         day.events.map do |event|
-          event_classes = ["calendar-event", "text-light", "tooltip"]
-          if event.reserved_slots < 2
-            event_classes << "bg-warning"
-          else
-            event_classes << "bg-primary"
+          event_classes = ["calendar-event"]
+          unless day.past?
+            event_classes << "text-light"
+            if event.reserved_slots < 2
+              event_classes << "bg-warning"
+            else
+              event_classes << "bg-primary"
+            end
           end
           title = "#{event.available_slots}/#{pluralize(event.slots, "shift")} available"
-          tag.a(event.times, class:event_classes, href:"#calendars", data: {tooltip: event.times})+
-          tag.a(title, class: "calendar-event")
+          output = tag.a(event.times, class:event_classes, href:"#calendars")
+          unless day.past?
+            output << link_to(title, new_volunteer_shift_path(event_id: event.id), class: "calendar-event")
+          end
+          output
         end.join.html_safe
       end
     end
