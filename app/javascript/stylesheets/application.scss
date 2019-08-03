@@ -374,14 +374,15 @@ form.membership-amount {
 }
 
 .instructions {
-  color: $primary-color;
   .main {
+    color: $primary-color;
     font-weight: 500;
     line-height: 1.2;
     font-size: 1.2rem;
     margin-bottom: 0.5em;
   }
   .sub {
+    color: $primary-color;
     font-size: 1rem;
   }
   .divider {

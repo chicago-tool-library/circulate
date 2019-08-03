@@ -31,4 +31,12 @@ module MembersHelper
   def format_phone_number(number)
     number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip
   end
+
+  def member_status(member)
+    classes = ["chip"]
+    if member.status_active?
+      classes << "bg-success"
+    end
+    tag.span(member.status.titlecase, class: classes)
+  end
 end

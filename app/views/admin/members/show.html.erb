@@ -1,10 +1,23 @@
 <div class="columns">
+  <div class="column col-12">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item">
+        <%= link_to "All Members", admin_members_path %>
+      </li>
+        <li class="breadcrumb-item">
+        <%= link_to @member.preferred_name, admin_member_path(@member) %>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="columns">
   <div class="column col-sm-6">
     <h1>
       <%= @member.preferred_name %>
       <small class="label"><%= member_pronoun(@member) %></small>
     </h1>
     <p><%= @member.full_name %></p>
+    <%= member_status(@member) %>
   </div>
   <div class="column col-sm-3">
     <p>

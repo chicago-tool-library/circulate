@@ -1,0 +1,28 @@
+<h1>Member Activation</h1>
+<div class="instructions">
+  <p class="main">Members must present the following to activate their membership:</p>
+  <ul>
+    <li><strong>Proof of address</strong><br>This needs to include their name and current address in Chicago. Utility bills, leases, and other official mail work well for this.</li>
+    <li><strong>A photo ID</strong></br>This needs to show their name and a photo and can be from the state, a job, school, etc.</li>
+  </ul>
+  <p class="sub">Members can't checkout items until these items have been verified.</p>
+  <div class="divider"></div>
+</div>
+
+<%= form_with(model: @activation, url: admin_member_activation_path(@member), method: :patch, builder: SpectreFormBuilder) do |form| %>
+  <fieldset>
+    <legend>Activate <%= @member.preferred_name %>'s Membership</legend>
+    <div data-controller="conditional-field" data-conditional-field-trigger="other_id_kind">
+      <%= form.select :id_kind, options_for_select(member_id_kind_options, form.object.id_kind), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
+      <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
+        <%= form.text_field :other_id_kind, label: "Other ID Type", placeholder: "Please specify" %>
+      <% end %>
+    </div>
+
+    <%= form.check_box :address_verified, hint: "The member reported living in zipcode <strong>#{@member.postal_code}</strong>. If this isn't correct, you should #{link_to "update the member", edit_admin_member_path(@member)} before completing verification.".html_safe %>
+  </fieldset>
+
+  <%= form.actions do %>
+    <%= form.submit "Activate Membership" %>
+  <% end %>
+<% end %>

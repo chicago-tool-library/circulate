@@ -5,7 +5,7 @@ module Admin
     # GET /members
     # GET /members.json
     def index
-      @members = Member.all
+      @members = Member.all.order(index_order)
     end
 
     # GET /members/1
@@ -75,7 +75,15 @@ module Admin
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :notes, :id_kind, :other_id_kind, :postal_code, :address_verified)
+      params.require(:member).permit(:full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :notes, :postal_code)
+    end
+    
+    def index_order
+      options = {
+        "full_name" => "lower(members.full_name) ASC",
+        "added" => "members.created_at DESC",
+      }
+      options.fetch(params[:sort]) { options["added"] }
     end
   end
 end
