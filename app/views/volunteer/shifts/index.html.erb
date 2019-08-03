@@ -1,0 +1,29 @@
+<h1>Volunteer Shifts</h1>
+
+<div class="calendar calendar-lg shift-schedule">
+  <div class="calendar-nav navbar">
+    <%= link_to path_to_previous_month, class:"btn btn-action btn-link btn-lg" do %>
+      <i class="icon icon-arrow-left"></i>
+    <% end %>
+    <div class="navbar-primary"><%= @month.title %></div>
+    <%= link_to path_to_next_month, class:"btn btn-action btn-link btn-lg" do %>
+      <i class="icon icon-arrow-right"></i>
+    <% end %>
+  </div>
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <div class="calendar-date">Sun</div>
+      <div class="calendar-date">Mon</div>
+      <div class="calendar-date">Tue</div>
+      <div class="calendar-date">Wed</div>
+      <div class="calendar-date">Thu</div>
+      <div class="calendar-date">Fri</div>
+      <div class="calendar-date">Sat</div>
+    </div>
+    <div class="calendar-body">
+      <% @month.each_day do |day| %>
+        <%= render_day(day) %>
+      <% end %>
+    </div>
+  </div>
+</div>

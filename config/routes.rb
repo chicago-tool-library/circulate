@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :volunteer do
+    resources :shifts, only: :index
+  end
+
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
