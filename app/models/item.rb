@@ -1,4 +1,7 @@
 class Item < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: { prefix: true } }
+
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings,
                   before_add: :cache_tag_ids,

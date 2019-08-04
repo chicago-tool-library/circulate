@@ -26,6 +26,7 @@ gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
+gem "pg_search"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false

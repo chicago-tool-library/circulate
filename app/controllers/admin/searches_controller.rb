@@ -9,10 +9,11 @@ module Admin
       member = Member.matching(query).first
       redirect_to(admin_member_path(member)) && return if member
 
-      redirect_to admin_search_path
+      redirect_to admin_search_path(query: params[:query])
     end
 
     def show
+      @items = Item.search_by_anything(params[:query]).order("items.name ASC")
     end
   end
 end
