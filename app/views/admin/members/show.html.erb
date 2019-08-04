@@ -10,7 +10,8 @@
     </ul>
   </div>
 </div>
-<div class="columns">
+
+<div class="columns member-details">
   <div class="column col-sm-6">
     <h1>
       <%= @member.preferred_name %>
@@ -41,76 +42,112 @@
 </div>
 
 <% unless @member.notes.blank? %>
-  <div class="rich-text">
-    <%= @member.notes %>
+  <div class="columns">
+    <div class="column col-12">
+      <div class="rich-text">
+        <%= @member.notes %>
+      </div>
+    </div>
   </div>
 <% end %>
 
-<div class="divider"></div>
+<% if @member.status_active? %>
+  <div class="columns">
+    <div class="column col-12">
+        <% if @member.active_membership %>
+          <div class="toast">
+            <p>Current membership expires on <%= @member.active_membership.ended_on.strftime() %>.</p>
+          </div>
+        <% else %>
+          <div class="toast toast-warning">
+            <p>Does not have an active membership.</p>
+          </div>
+        <% end %>
+    </div>
+  </div>
 
-<h2>Recent Loans</h2>
-
-<%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
-
-<div class="container member-recent-loans">
-  <% @recent_loans.each do |loan| %>
+  <% if @member.loans.any? %>
     <div class="columns">
-      <div class="col-1 col-sm-4">
-        <p><%= full_item_number(loan.item) %></p>
-      </div>
-      <div class="col-3 col-sm-8">
-        <p><%= loan.item.name %></p>
-      </div>
-      <div class="col-4 col-sm-12">
-        <p>
-          <%= checked_out_date(loan.created_at) %> ->
-          <%= checked_out_date(loan.ended_at) %>
-        </p>
-      </div>
-      <div class="col-4 col-sm-12">
-       <% if loan.adjustment %>
-        <%= loan.adjustment.amount.format %>
-       <% end %>
+      <div class="column col-12">
+        <h2>Recent Loans</h2>
+        <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
+        <div class="container member-recent-loans">
+          <% @recent_loans.each do |loan| %>
+            <div class="columns">
+              <div class="col-1 col-sm-4">
+                <p><%= full_item_number(loan.item) %></p>
+              </div>
+              <div class="col-3 col-sm-8">
+                <p><%= loan.item.name %></p>
+              </div>
+              <div class="col-4 col-sm-12">
+                <p>
+                  <%= checked_out_date(loan.created_at) %> ->
+                  <%= checked_out_date(loan.ended_at) %>
+                </p>
+              </div>
+              <div class="col-4 col-sm-12">
+              <% if loan.adjustment %>
+                <%= loan.adjustment.amount.format %>
+              <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   <% end %>
-</div>
 
-<h2>Currently Checked Out</h2>
+  <% if @member.active_loans.any? %>
 
-<div class="container member-active-loans">
-  <% @active_loans.each do |loan| %>
-    <div class="columns">
-      <div class="col-1 col-sm-4">
-        <p><%= full_item_number(loan.item) %></p>
-      </div>
-      <div class="col-3 col-sm-8">
-        <p><%= loan.item.name %></p>
-      </div>
-      <div class="col-4 col-sm-12">
-        <p><%= checked_out_date(loan.created_at) %> &mdash;
-          due <%= "in " if loan.due_at >= Time.current %>
-          <%= time_ago_in_words(loan.due_at) %>
-          <%= "ago" if loan.due_at < Time.current %>
-        </p>
-      </div>
-      <div class="col-4 col-sm-12">
-        <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-sm btn-primary" %>
-      </div>
+    <h2>Currently Checked Out</h2>
+
+    <div class="container member-active-loans">
+      <% @active_loans.each do |loan| %>
+        <div class="columns">
+          <div class="col-1 col-sm-4">
+            <p><%= full_item_number(loan.item) %></p>
+          </div>
+          <div class="col-3 col-sm-8">
+            <p><%= loan.item.name %></p>
+          </div>
+          <div class="col-4 col-sm-12">
+            <p><%= checked_out_date(loan.created_at) %> &mdash;
+              due <%= "in " if loan.due_at >= Time.current %>
+              <%= time_ago_in_words(loan.due_at) %>
+              <%= "ago" if loan.due_at < Time.current %>
+            </p>
+          </div>
+          <div class="col-4 col-sm-12">
+            <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-sm btn-primary" %>
+          </div>
+        </div>
+        <div class="divider"></div>
+      <% end %>
     </div>
-    <div class="divider"></div>
-  <% end %>
-</div>
-
-<h2 id="checkout">Checkout Additional Items</h2>
-
-<%= form_with(model: [:admin, @member.loans.new]) do |form| %>
-  <% if flash.key? :checkout_error %>
-    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>
 
-  Lookup an item by number: 
-  <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
-  <%= form.hidden_field :member_id %>
-  <%= button_tag "Checkout", class: "btn" %> 
+  <h2 id="checkout">Checkout Items</h2>
+
+  <%= form_with(model: [:admin, @member.loans.new]) do |form| %>
+    <% if flash.key? :checkout_error %>
+      <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+    <% end %>
+
+    Lookup an item by number: 
+    <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
+    <%= form.hidden_field :member_id %>
+    <%= button_tag "Checkout", class: "btn" %> 
+  <% end %>
+
+<% elsif @member.status_pending? %>
+
+  <div class="divider"></div>
+
+  <div class="toast toast-warning">
+    <h6>Member not active</h6>
+    <p>
+      This member must be <%= link_to "activated", edit_admin_member_activation_path(@member) %> before checking out items.
+    </p>
+  </div>
 <% end %>

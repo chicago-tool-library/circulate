@@ -1,9 +1,12 @@
 class Member < ApplicationRecord
-  has_many :active_loans, -> { includes(:item).merge(Loan.active) }, class_name: "Loan"
-  has_many :adjustments
-  has_many :loans, dependent: :destroy
-  has_many :memberships, dependent: :destroy
   has_many :acceptances, class_name: "AgreementAcceptance", dependent: :destroy
+  has_many :adjustments
+
+  has_many :loans, dependent: :destroy
+  has_many :active_loans, -> { includes(:item).merge(Loan.active) }, class_name: "Loan"
+
+  has_many :memberships, dependent: :destroy
+  has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
