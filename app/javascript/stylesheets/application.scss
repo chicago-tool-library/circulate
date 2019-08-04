@@ -98,10 +98,6 @@ $photo-width: 187px;
       grid-column: 3;
       grid-row: span 2;
     }
-    .items-table-edit-link {
-      display: block;
-      margin-top: 1em;
-    }
   }
 }
 
@@ -128,13 +124,6 @@ $photo-width: 187px;
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;
-    }
-    .items-table-edit-link {
-      position: absolute;
-      right: 10px;
-      top: 0;
-      margin: 0;
-      font-size: 1.2em;
     }
   }
 }
@@ -431,4 +420,8 @@ form.membership-amount {
 
 .member-details {
   margin-bottom: 2em;
+}
+
+.items-index-buttons {
+  margin-top: 1em;
 }

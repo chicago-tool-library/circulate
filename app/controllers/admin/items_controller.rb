@@ -28,7 +28,13 @@ module Admin
 
     # GET /items/new
     def new
-      @item = Item.new(tag_ids: [params[:tag_id]])
+      if params[:item_id]
+        item_to_duplicate = Item.find(params[:item_id])
+        @item = Item.new(item_to_duplicate.attributes.except(:id).merge(tag_ids: item_to_duplicate.tag_ids))
+      else
+        @item = Item.new(tag_ids: [params[:tag_id]])
+      end
+
       set_tags
     end
 
