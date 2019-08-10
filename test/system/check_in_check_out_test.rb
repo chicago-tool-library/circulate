@@ -1,12 +1,18 @@
 require "application_system_test_case"
 
 class CheckInCheckOutTest < ApplicationSystemTestCase
-  include ActionMailer::TestHelper
-  include ActiveJob::TestHelper
-
   def setup
     @user = FactoryBot.create(:user)
     login_as(@user, :scope => :user)
+  end
+
+  test "pending member can't checkout items" do
+    @member = create(:member)
+
+    visit admin_member_url(@member)
+
+    assert_content "Member not active"
+    refute_selector ".member-checkout-items"
   end
 
   test "checks out items to member" do

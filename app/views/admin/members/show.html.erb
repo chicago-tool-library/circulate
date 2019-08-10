@@ -129,18 +129,22 @@
     </div>
   <% end %>
 
-  <h2 id="checkout">Checkout Items</h2>
+  <div class="columns member-checkout-items">
+    <div class="column col-12">
+      <h2 id="checkout">Checkout Items</h2>
 
-  <%= form_with(model: [:admin, @member.loans.new]) do |form| %>
-    <% if flash.key? :checkout_error %>
-      <div class="toast toast-error"><%= flash[:checkout_error] %></div>
-    <% end %>
+      <%= form_with(model: [:admin, @member.loans.new]) do |form| %>
+        <% if flash.key? :checkout_error %>
+          <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+        <% end %>
 
-    Lookup an item by number: 
-    <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
-    <%= form.hidden_field :member_id %>
-    <%= button_tag "Checkout", class: "btn" %> 
-  <% end %>
+        Lookup an item by number: 
+        <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
+        <%= form.hidden_field :member_id %>
+        <%= button_tag "Checkout", class: "btn" %> 
+      <% end %>
+    </div>
+  </div>
 
 <% elsif @member.status_pending? %>
 
