@@ -56,7 +56,7 @@ module Signup
 
         membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 364.days)
         member.adjustments.create!(amount: -amount, adjustable: membership)
-        member.adjustments.create!(amount: amount, square_transaction_id: transaction_id)
+        member.adjustments.create!(amount: amount, square_transaction_id: transaction_id, payment_source: "square")
 
         Result.success(amount)
       else
