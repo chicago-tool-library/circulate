@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: dc0be869f335aa7c112b0540811840e56effbe16
+  revision: 4f912de2fd23b1ba3465a73d26d3dbaf732028cb
   branch: 6-0-stable
   specs:
     actioncable (6.0.0.rc2)
@@ -40,7 +40,7 @@ GIT
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
+      rails-html-sanitizer (~> 1.0, >= 1.2.0)
     actiontext (6.0.0.rc2)
       actionpack (= 6.0.0.rc2)
       activerecord (= 6.0.0.rc2)
@@ -52,7 +52,7 @@ GIT
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.0, >= 1.0.3)
+      rails-html-sanitizer (~> 1.1, >= 1.2.0)
     activejob (6.0.0.rc2)
       activesupport (= 6.0.0.rc2)
       globalid (>= 0.3.6)
@@ -103,6 +103,9 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    activerecord-postgres_enum (0.6.0)
+      activerecord (>= 4.2.0)
+      pg
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     archive-zip (0.12.0)
@@ -124,7 +127,7 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
-    backport (1.1.1)
+    backport (1.1.2)
     barnes (0.0.7)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
@@ -242,7 +245,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.4)
+    rails-html-sanitizer (1.2.0)
       loofah (~> 2.2, >= 2.2.2)
     rainbow (3.0.0)
     rake (12.3.3)
@@ -278,7 +281,7 @@ GEM
       skylight-core (= 4.1.2)
     skylight-core (4.1.2)
       activesupport (>= 4.2.0)
-    solargraph (0.35.1)
+    solargraph (0.35.2)
       backport (~> 1.1)
       bundler (>= 1.17.2)
       htmlentities (~> 4.3, >= 4.3.4)
@@ -290,10 +293,6 @@ GEM
       thor (~> 0.19, >= 0.19.4)
       tilt (~> 2.0)
       yard (~> 0.9)
-    spring (2.1.0)
-    spring-watcher-listen (2.0.1)
-      listen (>= 2.7, < 4.0)
-      spring (>= 1.2, < 3.0)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -349,6 +348,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_storage_log_suppressor!
+  activerecord-postgres_enum
   audited!
   aws-sdk-s3
   barnes
@@ -374,8 +374,6 @@ DEPENDENCIES
   sentry-raven
   skylight
   solargraph
-  spring
-  spring-watcher-listen (~> 2.0.0)
   square.rb
   standard
   sucker_punch

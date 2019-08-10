@@ -3,10 +3,10 @@
 <% end %>
 
 <ul class="breadcrumb">
-  <li class="breadcrumb-item">
-    <%= link_to "All Items", admin_items_path %>
-  </li>
   <% if @tag %>
+    <li class="breadcrumb-item">
+      <%= link_to "All Items", admin_items_path %>
+    </li>
     <li class="breadcrumb-item">
       <%= link_to @tag.name, admin_items_path(tag: @tag) %>
     </li>

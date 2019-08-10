@@ -55,12 +55,14 @@
   <div class="columns">
     <div class="column col-12">
         <% if @member.active_membership %>
-          <div class="toast">
-            <p>Current membership expires on <%= @member.active_membership.ended_on.strftime() %>.</p>
+          <div class="info-box clearfix member-membership">
+            <p class="float-left">Current membership expires on <%= @member.active_membership.ended_on.strftime("%B %-d, %Y") %>.</p>
+            <p class="float-right"><%= link_to "Membership History", admin_member_memberships_path(@member) %></p>
           </div>
         <% else %>
-          <div class="toast toast-warning">
-            <p>Does not have an active membership.</p>
+          <div class="toast toast-warning member-membership clearfix">
+            <p class="float-left">Does not have an active membership.</p>
+            <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(@member) %></p>
           </div>
         <% end %>
     </div>
@@ -69,7 +71,7 @@
   <% if @member.loans.any? %>
     <div class="columns">
       <div class="column col-12">
-        <h2>Recent Loans</h2>
+        <h2 class="float-left">Recent Loans</h2>
         <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
         <div class="container member-recent-loans">
           <% @recent_loans.each do |loan| %>
@@ -78,7 +80,7 @@
                 <p><%= full_item_number(loan.item) %></p>
               </div>
               <div class="col-3 col-sm-8">
-                <p><%= loan.item.name %></p>
+                <p><%= link_to loan.item.name, admin_item_path(loan.item) %></p>
               </div>
               <div class="col-4 col-sm-12">
                 <p>

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :members, except: :destroy do
       resource :loan_history, only: :show
       resource :activation, only: [:edit, :update]
+      resources :memberships, only: [:index, :new, :create]
     end
 
     post "search", to: "searches#create"

@@ -1,0 +1,18 @@
+<h1>New Membership</h1>
+
+<div class="instructions">
+  <p class="main">Memberships provide one year of borrowing privileges.</p>
+  <p class="sub">We ask that members pay what they can.</p>
+    <p>Our recommendation is that folks pay $1 for every $1,000 of income they make in a year.<br>For example, if a person makes $40,000 each year, we recommend their membership fee be $40.</p>
+  <div class="divider"></div>
+</div>
+
+<%= form_with model: @membership_payment, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
+  <%= form.money_field :amount_dollars, label: "This year's membership fee:", class: "input-lg" %>
+
+  <%= form.select :payment_source, options_for_select(adjustment_payment_source_options, @membership_payment.payment_source || "cash"), prompt: true %>
+
+  <%= form.actions do %>
+    <%= form.submit "Save Membership" %>
+  <% end %>
+<% end %>

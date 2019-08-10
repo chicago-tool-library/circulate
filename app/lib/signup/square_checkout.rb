@@ -1,6 +1,6 @@
 module Signup
   class SquareCheckout
-    def initialize(access_token:, location_id:, now: Time.zone.now)
+    def initialize(access_token:, location_id:, now: Time.current)
       @client = Square::Client.new(access_token: access_token)
       @location_id = location_id
       @now = now
@@ -53,8 +53,11 @@ module Signup
         raise "non-USD currency is not supported" unless amount_money[:currency] == "USD"
 
         amount = Money.new(amount_money[:amount])
-        membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 1.year)
-        member.adjustments.create!(kind: :membership, amount: amount, adjustable: membership)
+
+        membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 364.days)
+        member.adjustments.create!(amount: -amount, adjustable: membership)
+        member.adjustments.create!(amount: amount, square_transaction_id: transaction_id)
+
         Result.success(amount)
       else
         Result.failure(transaction_response.errors)

@@ -10,10 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_19_033026) do
+ActiveRecord::Schema.define(version: 2019_08_07_020247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_enum :adjustment_source, [
+    "cash",
+    "square",
+  ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -47,14 +52,15 @@ ActiveRecord::Schema.define(version: 2019_07_19_033026) do
   end
 
   create_table "adjustments", force: :cascade do |t|
-    t.string "adjustable_type", null: false
-    t.bigint "adjustable_id", null: false
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.bigint "member_id", null: false
-    t.integer "kind", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "payment_source", enum_name: "adjustment_source"
+    t.string "square_transaction_id"
+    t.string "adjustable_type"
+    t.bigint "adjustable_id"
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end
