@@ -2,8 +2,7 @@ require "application_system_test_case"
 
 class MemberActivationTest < ApplicationSystemTestCase
   def setup
-    @user = FactoryBot.create(:user)
-    login_as(@user, :scope => :user)
+    sign_in_as_admin
   end
 
   test "activate pending member without membership" do

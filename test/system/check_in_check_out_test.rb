@@ -2,8 +2,7 @@ require "application_system_test_case"
 
 class CheckInCheckOutTest < ApplicationSystemTestCase
   def setup
-    @user = FactoryBot.create(:user)
-    login_as(@user, :scope => :user)
+    sign_in_as_admin
   end
 
   test "pending member can't checkout items" do

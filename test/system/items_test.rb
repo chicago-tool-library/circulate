@@ -2,50 +2,55 @@ require "application_system_test_case"
 
 class ItemsTest < ApplicationSystemTestCase
   setup do
-    @item = items(:one)
+    sign_in_as_admin
   end
 
-  test "visiting the index" do
-    visit items_url
-    assert_selector "h1", text: "Items"
-  end
+  test "creating an item" do
+    @item = build(:item)
 
-  test "creating a Item" do
-    visit items_url
+    visit admin_items_url
     click_on "New Item"
 
-    fill_in "Brand", with: @item.brand
-    fill_in "Description", with: @item.description
-    fill_in "Model", with: @item.model
     fill_in "Name", with: @item.name
-    fill_in "Serial", with: @item.serial
+    find("summary", text: "Description").click
+    fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
+    fill_in "Strength", with: @item.strength
+    fill_in "Brand", with: @item.brand
+    fill_in "Model", with: @item.model
+    fill_in "Serial", with: @item.serial
     click_on "Create Item"
 
     assert_text "Item was successfully created"
-    click_on "Back"
   end
 
-  test "updating a Item" do
-    visit items_url
-    click_on "Edit", match: :first
+  test "updating an item" do
+    audited_as_admin do
+      @item = create(:item)
+    end
 
-    fill_in "Brand", with: @item.brand
-    fill_in "Description", with: @item.description
-    fill_in "Model", with: @item.model
+    visit admin_item_url(@item)
+    click_on "Edit"
+
     fill_in "Name", with: @item.name
+    fill_in "Brand", with: @item.brand
+    fill_in_rich_text_area "item_description", with: @item.description
+    fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
     fill_in "Size", with: @item.size
     click_on "Update Item"
 
     assert_text "Item was successfully updated"
-    click_on "Back"
   end
 
-  test "destroying a Item" do
-    visit items_url
+  test "destroying an item" do
+    audited_as_admin do
+      @item = create(:item)
+    end
+
+    visit edit_admin_item_url(@item)
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_on "Destroy Item"
     end
 
     assert_text "Item was successfully destroyed"

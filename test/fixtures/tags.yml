@@ -1,8 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-power_tools:
-  name: Power Tools
-  slug: power-tools
-
-hand_tools:
-  name: Hand Tools
-  slug: hand-tools
