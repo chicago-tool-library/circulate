@@ -28,6 +28,29 @@ class MemberActivationTest < ApplicationSystemTestCase
     assert_content "Current membership expires on"
   end
 
+  test "activate pending member without membership using square" do
+    @member = create(:member)
+
+    visit admin_member_url(@member)
+
+    assert_content "Member not active"
+    click_on "activated"
+
+    select "State", from: "Photo ID"
+    first("label", text: "Address verified").click
+    click_on "Activate Membership"
+
+    assert_content "Does not have an active membership"
+    click_on "Create Membership"
+
+    fill_in "This year's membership fee", with: "43"
+    select "square", from: "Payment source"
+
+    click_on "Save Membership"
+
+    assert_content "Current membership expires on"
+  end
+
   test "activate pending member with a membership" do
     @member = create(:member)
     create(:membership, member: @member)

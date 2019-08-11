@@ -8,11 +8,11 @@ class AdjustmentTest < ActiveSupport::TestCase
     create(:square_payment_adjustment)
   end
 
-  test "requires a square_transaction_id when source is square" do
-    adjustment = build(:adjustment, payment_source: "square")
+  # test "requires a square_transaction_id when source is square" do
+  #   adjustment = build(:adjustment, payment_source: "square")
 
-    refute adjustment.valid?
+  #   refute adjustment.valid?
 
-    assert_equal ["can't be blank"], adjustment.errors[:square_transaction_id]
-  end
+  #   assert_equal ["can't be blank"], adjustment.errors[:square_transaction_id]
+  # end
 end

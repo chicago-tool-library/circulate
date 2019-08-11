@@ -9,7 +9,7 @@ class Adjustment < ApplicationRecord
   belongs_to :adjustable, polymorphic: true, optional: true
   belongs_to :member
 
-  validates_presence_of :square_transaction_id, if: ->(a) { a.square? }
+  # validates_presence_of :square_transaction_id, if: ->(a) { a.square? }
   validates_inclusion_of :payment_source, in: payment_sources, if: ->(a) { a.adjustable.blank? }
 end
 
