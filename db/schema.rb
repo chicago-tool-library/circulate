@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 2019_08_07_020247) do
   end
 
   create_table "adjustments", force: :cascade do |t|
+    t.string "adjustable_type"
+    t.bigint "adjustable_id"
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.bigint "member_id", null: false
@@ -59,8 +61,6 @@ ActiveRecord::Schema.define(version: 2019_08_07_020247) do
     t.datetime "updated_at", precision: 6, null: false
     t.enum "payment_source", enum_name: "adjustment_source"
     t.string "square_transaction_id"
-    t.string "adjustable_type"
-    t.bigint "adjustable_id"
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end
