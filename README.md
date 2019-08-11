@@ -20,6 +20,15 @@ It is most convenient to run `rails server` in one terminal and `bundle exec bin
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
 
+### Documentation
+
+Circulate leans heavily on a handful of open source frameworks and libraries, the documentation for which will be useful to developers:
+
+* Ruby on Rails web framework [Guides](https://edgeguides.rubyonrails.org), [API](https://edgeapi.rubyonrails.org)
+* Stimulus JS framework [Docs](https://stimulusjs.org/reference)
+* Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
+* MJML responsive email framework [Docs](https://mjml.io/documentation/)
+
 ## Deployment
 
 Circulate is currently running on Heroku in production, but it should run just as well anywhere Rails applications can be run.
@@ -40,6 +49,6 @@ sendgrid (sendgrid-tetrahedral-xxxxx)            starter    free      created
  └─ as SENDGRID
  ```
 
- Using a different way of configuring the file storage or email services would require trivial code changes.
+ Using a different way of configuring the file storage or email services should require trivial code changes.
 
  The `Procfile` is configured to run database migrations during the release stage of deployment.
