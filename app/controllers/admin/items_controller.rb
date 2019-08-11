@@ -1,5 +1,7 @@
 module Admin
   class ItemsController < BaseController
+    include Pagy::Backend
+
     before_action :set_item, only: [:show, :edit, :update, :destroy]
 
     # GET /items
@@ -14,7 +16,9 @@ module Admin
         item_scope = @tag.items
       end
 
-      @items = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
+      item_scope = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
+  
+      @pagy, @items = pagy(item_scope)
     end
 
     # GET /items/1
