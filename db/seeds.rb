@@ -11,4 +11,4 @@ YAML.load_file("db/tags.yaml").each do |name|
 end
 
 User.create!(email: "admin@chicagotoollibrary.org", password: "password")
-BorrowPolicy.create!(name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
+BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
