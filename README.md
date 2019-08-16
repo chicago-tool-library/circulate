@@ -12,6 +12,18 @@ There is content and information hard-coded in many of the views that is specifi
 
 Circulate is a fairly basic Rails application. It requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
 
+## Integrations
+
+The following third party services are used:
+
+* Sendgrid for sending email
+* Amazon S3 for image storage
+* Square for payment processing
+* Gmail and Google Calendar for volunteer scheduling
+* Mailchimp for mailing list management
+* Sentry for error collection
+* Skylight for app performance monitoring
+
 ## Development
 
 It is most convenient to run `rails server` in one terminal and `bundle exec bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development.
@@ -25,6 +37,7 @@ Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
 Circulate leans heavily on a handful of open source frameworks and libraries, the documentation for which will be useful to developers:
 
 * Ruby on Rails web framework [Guides](https://edgeguides.rubyonrails.org), [API](https://edgeapi.rubyonrails.org)
+* FactoryBot test data generator [Getting Started guide](https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md)
 * Stimulus JS framework [Docs](https://stimulusjs.org/reference)
 * Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
 * MJML responsive email framework [Docs](https://mjml.io/documentation/)

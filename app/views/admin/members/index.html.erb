@@ -9,6 +9,16 @@
 <% end %>
 
 <div class="sort-controls">
+  showing:
+  <div class="btn-group">
+    <%= link_to_unless params[:filter].blank?, "pending and active", {}, class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">pending and active</button>
+    <% end %>
+    <%= link_to_unless_current "closed", {filter: "closed"}, class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">closed</button>
+    <% end %>
+  </div> 
+
   sort by: 
   <div class="btn-group">
     <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {}, class: "btn btn-sm" do %>

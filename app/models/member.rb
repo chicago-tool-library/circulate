@@ -10,7 +10,7 @@ class Member < ApplicationRecord
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
-  enum status: [:pending, :active, :suspended], _prefix: true
+  enum status: [:pending, :active, :suspended, :deactivated], _prefix: true
 
   validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
   validates :full_name, presence: true
@@ -19,6 +19,7 @@ class Member < ApplicationRecord
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
   scope :matching, ->(query) { where("email = ? OR full_name ILIKE ?", query, "%#{query}%") }
+  scope :closed, -> { where("status IN ?", statuses.slice(:suspended, :deactivated))}
 
   before_validation :strip_phone_number
 
