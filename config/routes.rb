@@ -28,7 +28,9 @@ Rails.application.routes.draw do
       resource :image, only: [:show, :update]
       resource :loan_history, only: :show
     end
-    resources :loans
+    resources :loans do
+      resources :renewals, only: :create
+    end
     resources :members, except: :destroy do
       resource :loan_history, only: :show
       resource :activation, only: [:edit, :update]

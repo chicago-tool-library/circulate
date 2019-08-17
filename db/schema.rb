@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_07_020247) do
+ActiveRecord::Schema.define(version: 2019_08_16_152137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,6 +141,9 @@ ActiveRecord::Schema.define(version: 2019_08_07_020247) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "uniquely_numbered", null: false
+    t.integer "renewal_count", default: 0, null: false
+    t.bigint "initial_loan_id"
+    t.index ["initial_loan_id"], name: "index_loans_on_initial_loan_id"
     t.index ["item_id"], name: "index_active_numbered_loans_on_item_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
     t.index ["item_id"], name: "index_loans_on_item_id"
     t.index ["member_id"], name: "index_loans_on_member_id"
@@ -220,6 +223,7 @@ ActiveRecord::Schema.define(version: 2019_08_07_020247) do
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "loans", "items"
+  add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "taggings", "items"

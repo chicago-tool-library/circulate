@@ -2,6 +2,8 @@ class Loan < ApplicationRecord
   belongs_to :item
   belongs_to :member
   has_one :adjustment, as: :adjustable
+  has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  belongs_to :initial_loan, class_name: "Loan", optional: true
 
   validates :due_at, presence: true
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
@@ -24,5 +26,9 @@ class Loan < ApplicationRecord
 
   def ended?
     ended_at.present?
+  end
+
+  def renewal?
+    renewal_count > 0
   end
 end

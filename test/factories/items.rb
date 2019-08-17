@@ -3,7 +3,7 @@ FactoryBot.define do
 
   factory :item do
     number
-    name { "Drill/Driver Kit" }
+    name { "Item ##{number}" }
     status { Item.statuses[:active] }
     before :create, &:assign_number
     borrow_policy

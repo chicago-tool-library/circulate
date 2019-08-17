@@ -71,8 +71,10 @@
   <% if @member.loans.any? %>
     <div class="columns">
       <div class="column col-12">
-        <h2 class="float-left">Recent Loans</h2>
-        <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
+        <div class="clearfix">
+          <h2 class="float-left">Recent Loans</h2>
+          <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
+        </div>
         <div class="container member-recent-loans">
           <% @recent_loans.each do |loan| %>
             <div class="columns">
@@ -113,15 +115,19 @@
           <div class="col-3 col-sm-8">
             <p><%= loan.item.name %></p>
           </div>
-          <div class="col-4 col-sm-12">
+          <div class="col-6 col-sm-12">
             <p><%= checked_out_date(loan.created_at) %> &mdash;
               due <%= "in " if loan.due_at >= Time.current %>
               <%= time_ago_in_words(loan.due_at) %>
               <%= "ago" if loan.due_at < Time.current %>
             </p>
+            <% if loan.renewal? %>
+              <p><em>Renewed <%= pluralize(loan.renewal_count, "time") %> (initial check out <%= checked_out_date(loan.initial_loan.created_at) %>.)</em></p>
+            <% end %>
           </div>
-          <div class="col-4 col-sm-12">
-            <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-sm btn-primary" %>
+          <div class="col-2 col-sm-12">
+            <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary float-left mr-2" %>
+            <%= button_to "Renew", admin_loan_renewals_path(loan), method: :post, class:"btn" %>
           </div>
         </div>
         <div class="divider"></div>
@@ -131,7 +137,7 @@
 
   <div class="columns member-checkout-items">
     <div class="column col-12">
-      <h2 id="checkout">Checkout Items</h2>
+      <h2 id="checkout">New Loan</h2>
 
       <%= form_with(model: [:admin, @member.loans.new]) do |form| %>
         <% if flash.key? :checkout_error %>

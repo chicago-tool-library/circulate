@@ -42,4 +42,12 @@ class LoanTest < ActiveSupport::TestCase
       assert_equal ["is not available to loan"], loan.errors[:item_id]
     end
   end
+
+  test "knows if it is a renewal" do
+    loan = create(:loan, renewal_count: 0)
+    refute loan.renewal?
+
+    renewal = create(:loan, renewal_count: 1)
+    assert renewal.renewal?
+  end
 end
