@@ -28,6 +28,7 @@ gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
 gem "pg_search"
 gem "activerecord-postgres_enum"
+gem "scenic"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false

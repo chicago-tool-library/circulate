@@ -31,4 +31,24 @@ class Loan < ApplicationRecord
   def renewal?
     renewal_count > 0
   end
+
+  def renew!(now = Time.current)
+    transaction do
+      return!(now)
+      Loan.create!(
+        member_id: member_id,
+        item_id: item_id,
+        initial_loan_id: id,
+        created_at: now,
+        renewal_count: renewal_count + 1,
+        due_at: now.end_of_day + item.borrow_policy.duration.days,
+        uniquely_numbered: uniquely_numbered,
+      )
+    end
+  end
+
+  def return!(now = Time.current)
+    update!(ended_at: now)
+    self
+  end
 end

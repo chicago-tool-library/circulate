@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_152137) do
+ActiveRecord::Schema.define(version: 2019_08_17_190131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,4 +228,19 @@ ActiveRecord::Schema.define(version: 2019_08_16_152137) do
   add_foreign_key "memberships", "members"
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
+
+  create_view "loan_summaries", sql_definition: <<-SQL
+      SELECT loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      min(loans.created_at) AS created_at,
+      min(loans.due_at) AS due_at,
+          CASE
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              ELSE NULL::timestamp without time zone
+          END AS ended_at,
+      max(loans.renewal_count) AS renewal_count
+     FROM loans
+    GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+  SQL
 end
