@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :borrow_policy do
-    name { "Most Tools" }
-    code { "B" }
+    sequence(:code, "a")
+    name { "Policy ##{code}" }
     duration { 7 }
     fine_cents { 100 }
     fine_currency { "USD" }
