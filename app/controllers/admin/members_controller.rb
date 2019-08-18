@@ -5,7 +5,7 @@ module Admin
     # GET /members
     # GET /members.json
     def index
-      member_scope = params[:filter] == "closed" ? Member.closed : Member.all
+      member_scope = params[:filter] == "closed" ? Member.closed : Member.open
       @members = member_scope.order(index_order)
     end
 

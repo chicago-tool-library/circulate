@@ -19,6 +19,7 @@ class Member < ApplicationRecord
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
   scope :matching, ->(query) { where("email = ? OR full_name ILIKE ?", query, "%#{query}%") }
+  scope :open, -> { where(status: statuses.slice(:pending, :activate).values)}
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values)}
 
   before_validation :strip_phone_number
