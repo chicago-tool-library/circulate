@@ -1,9 +1,3 @@
-<ul class="breadcrumb">
-  <li class="breadcrumb-item">
-    <%= link_to "All Members", admin_members_path %>
-  </li>
-</ul>
-
 <%= index_header "Members" do %>
   <%= link_to 'New Member', new_admin_member_path, class: "btn" %>
 <% end %>
@@ -11,20 +5,20 @@
 <div class="sort-controls">
   showing:
   <div class="btn-group">
-    <%= link_to_unless params[:filter].blank?, "pending and active", {}, class: "btn btn-sm" do %>
+    <%= link_to_unless params[:filter].blank?, "pending and active", {sort: params[:sort]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">pending and active</button>
     <% end %>
-    <%= link_to_unless_current "closed", {filter: "closed"}, class: "btn btn-sm" do %>
+    <%= link_to_unless params[:filter] == "closed", "closed", {filter: "closed", sort: params[:sort]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">closed</button>
     <% end %>
   </div> 
 
   sort by: 
   <div class="btn-group">
-    <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {}, class: "btn btn-sm" do %>
+    <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">added</button>
     <% end %>
-    <%= link_to_unless_current "full name", {sort: "full_name"}, class: "btn btn-sm" do %>
+    <%= link_to_unless params[:sort] == "full_name", "full name", {sort: "full_name", filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">full name</button>
     <% end %>
   </div> 

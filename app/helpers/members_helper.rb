@@ -19,6 +19,12 @@ module MembersHelper
     end
   end
 
+  def member_status_options
+    Member.statuses.map do |key, value|
+      [key.titleize, key]
+    end
+  end
+
   def member_pronoun(member)
     member.custom_pronoun? ? member.custom_pronoun : member.pronoun
   end

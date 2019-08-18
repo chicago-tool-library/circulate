@@ -2,6 +2,7 @@
   <%= render 'fields', form: form %>
 
   <%= form.text_area :notes %>
+  <%= form.select :status, options_for_select(member_status_options, member.status), prompt: true %>
 
   <%= form.actions do %>
     <%= form.submit %>

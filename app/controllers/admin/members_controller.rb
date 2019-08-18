@@ -5,7 +5,8 @@ module Admin
     # GET /members
     # GET /members.json
     def index
-      @members = Member.all.order(index_order)
+      member_scope = params[:filter] == "closed" ? Member.closed : Member.all
+      @members = member_scope.order(index_order)
     end
 
     # GET /members/1
@@ -75,7 +76,11 @@ module Admin
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :notes, :postal_code)
+      params.require(:member).permit(
+        :full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :postal_code,
+        :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter, :volunteer_interest,
+        :notes, :status,
+      )
     end
     
     def index_order
