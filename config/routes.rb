@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resource :activation, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
     end
+    resources :member_requests, only: :index
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

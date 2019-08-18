@@ -1,5 +1,7 @@
 module Admin
   class MembersController < BaseController
+    include MemberOrdering
+
     before_action :set_member, only: [:show, :edit, :update, :destroy]
 
     # GET /members
@@ -81,14 +83,6 @@ module Admin
         :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter, :volunteer_interest,
         :notes, :status,
       )
-    end
-    
-    def index_order
-      options = {
-        "full_name" => "lower(members.full_name) ASC",
-        "added" => "members.created_at DESC",
-      }
-      options.fetch(params[:sort]) { options["added"] }
     end
   end
 end
