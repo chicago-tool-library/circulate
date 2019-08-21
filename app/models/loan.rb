@@ -48,6 +48,7 @@ class Loan < ApplicationRecord
   end
 
   def return!(now = Time.current)
+    # raise an error if already returned
     update!(ended_at: now)
     self
   end

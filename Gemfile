@@ -29,6 +29,7 @@ gem "pagy"
 gem "pg_search"
 gem "activerecord-postgres_enum"
 gem "scenic"
+gem "reverse_markdown"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false

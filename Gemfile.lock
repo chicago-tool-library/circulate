@@ -366,6 +366,7 @@ DEPENDENCIES
   pg_search
   puma (~> 3.11)
   rails!
+  reverse_markdown
   scenic
   selenium-webdriver
   sentry-raven
