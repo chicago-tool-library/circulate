@@ -29,7 +29,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <%= render partial: "member_mailer/loans", locals: {loans: @loans} %>
+          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries} %>
         </mj-text>
       </mj-column>
     </mj-section>
