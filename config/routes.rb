@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resource :loan_history, only: :show
       resource :activation, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
+      resources :adjustments, only: :index
     end
     resources :member_requests, only: :index
 

@@ -11,6 +11,10 @@ class Adjustment < ApplicationRecord
 
   # validates_presence_of :square_transaction_id, if: ->(a) { a.square? }
   validates_inclusion_of :payment_source, in: payment_sources, if: ->(a) { a.adjustable.blank? }
+
+  def payment?
+    adjustable_id.nil?
+  end
 end
 
 # fine:

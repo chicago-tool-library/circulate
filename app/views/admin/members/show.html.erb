@@ -32,8 +32,9 @@
     </p>
 
     <p>
-      <span class="label">Account balance:</span>
+      <span class="label">Balance:</span>
       <%= @member.account_balance.format %>
+      <%= link_to "Account History", admin_member_adjustments_path(@member) %>
     </p>
   </div>
   <div class="column col-sm-3">
