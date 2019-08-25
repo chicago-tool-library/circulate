@@ -9,7 +9,9 @@
     <% end %>
 
     <%= tag.div class: "items-table-name" do %>
-      <strong><%= full_item_number(item) %></strong><br>
+      <strong><%= full_item_number(item) %></strong>
+      <%= item_status_label(item) %>
+      <br>
       <%= link_to item.name, admin_item_path(item) %>
       <% if item.size.present? %>
         <span class="label"><%= item.size %></span>

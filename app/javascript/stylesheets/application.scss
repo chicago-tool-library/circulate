@@ -88,9 +88,13 @@ $photo-width: 187px;
 
     .items-table-image {
       grid-column: 1;
-      grid-row: span 2
+      grid-row: span 2;
+      img, .image-placeholder {
+        max-width: 100%;
+      }
     }
     .items-table-name {
+      position: relative;
       grid-column: 2;
       grid-row: span 2;
     }
@@ -385,10 +389,11 @@ form.membership-amount {
   }
 }
 
+.items-summary {
+  margin-bottom: 2em;
+}
+
 .public {
-  .items-summary {
-    margin-bottom: 2em;
-  }
   .items-show {
     .item-image {
       position: relative;
@@ -429,6 +434,12 @@ form.membership-amount {
 
 .items-index-buttons {
   margin-top: 1em;
+}
+
+.item-checkout-status {
+  font-size: 0.8em;
+  position: relative;
+  top: -1px;
 }
 
 .member-membership p {

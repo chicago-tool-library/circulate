@@ -45,4 +45,17 @@ module ItemsHelper
   def full_item_number(item)
     "#{item.borrow_policy.code}-#{item.number}"
   end
+
+  def item_status_label(item)
+    class_name, label = if item.active?
+      if item.active_exclusive_loan
+        ["label-primary", "Checked Out"]
+      else
+        ["label-success", "Available"]
+      end
+    else
+      ["", "Unavailable"]
+    end
+    tag.span label, class: "label item-checkout-status #{class_name}"
+  end
 end
