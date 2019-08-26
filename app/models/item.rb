@@ -18,9 +18,9 @@ class Item < ApplicationRecord
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :brand_contains, ->(query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
+  scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
+  scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
 
   scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
