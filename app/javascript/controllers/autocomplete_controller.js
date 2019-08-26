@@ -6,7 +6,9 @@ export default class extends Controller {
   static targets = [ "input" ]
 
   connect() {
-    this.awesomplete = new Awesomplete(this.inputTarget, {});
+    this.awesomplete = new Awesomplete(this.inputTarget, {
+      minChars: 1,
+    });
   }
 
   input(event) {
