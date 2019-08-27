@@ -12,7 +12,7 @@ class MemberMailer < ApplicationMailer
   def loan_summaries
     @member = params[:member]
     @summaries = params[:summaries]
-    @title = "Summary of today's loans"
+    @title = "Today's account summary"
     mail(to: @member.email, subject: @title)
   end
 end

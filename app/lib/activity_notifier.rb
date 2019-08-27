@@ -5,7 +5,7 @@ class ActivityNotifier
 
   def send_daily_loan_summaries
     Member.active_on(@now).each do |member|
-      summaries = member.loan_summaries.active_on(@now)
+      summaries = member.loan_summaries.active_today(@now)
       MemberMailer.with(member: member, summaries: summaries).loan_summaries.deliver
     end
   end

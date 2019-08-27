@@ -63,6 +63,10 @@ class Item < ApplicationRecord
     !active_exclusive_loan.present?
   end
 
+  def complete_number
+    "#{borrow_policy.code}-#{number}"
+  end
+
   private
 
   def strip_whitespace

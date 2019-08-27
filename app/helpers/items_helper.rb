@@ -43,7 +43,7 @@ module ItemsHelper
   end
 
   def full_item_number(item)
-    "#{item.borrow_policy.code}-#{item.number}"
+    item.complete_number
   end
 
   def item_status_label(item)

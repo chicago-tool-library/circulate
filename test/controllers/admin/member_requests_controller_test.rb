@@ -5,9 +5,9 @@ class MemberRequestsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     3.times do
-      members(:complete)
+      create(:member)
     end
-    @user = users(:admin)
+    @user = create(:user)
     sign_in @user
   end
 

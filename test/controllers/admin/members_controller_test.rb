@@ -4,7 +4,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    @member = members(:complete)
+    @member = create(:member)
     @user = users(:admin)
     sign_in @user
   end

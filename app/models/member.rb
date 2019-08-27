@@ -4,6 +4,7 @@ class Member < ApplicationRecord
 
   has_many :loans, dependent: :destroy
   has_many :active_loans, -> { includes(:item).merge(Loan.active) }, class_name: "Loan"
+  has_many :loan_summaries
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"

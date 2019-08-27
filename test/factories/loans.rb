@@ -6,6 +6,7 @@ FactoryBot.define do
     uniquely_numbered { true }
 
     factory :ended_loan do
+      created_at { Time.current - 3.weeks }
       due_at { Time.current - 2.weeks }
       ended_at { Time.current - 1.week }
     end
