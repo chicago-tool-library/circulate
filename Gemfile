@@ -38,7 +38,6 @@ gem "image_processing", "~> 1.2"
 gem "mini_magick"
 
 gem "barnes"
-gem "skylight"
 gem "sucker_punch"
 gem "dotenv-rails"
 
@@ -65,6 +64,7 @@ end
 
 group :production do
   gem "sentry-raven"
+  gem "skylight"
 end
 
 group :test do
