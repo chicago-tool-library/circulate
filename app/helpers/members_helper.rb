@@ -30,7 +30,7 @@ module MembersHelper
   end
 
   def checked_out_date(datetime, day_of_week: false)
-    format = "%A, %B %d"
+    format = "%A, %B %-d"
     datetime.strftime(format)
   end
 
