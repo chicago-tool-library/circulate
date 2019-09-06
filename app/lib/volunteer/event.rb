@@ -1,13 +1,12 @@
 module Volunteer
   class Event
-    attr_reader :id
+    attr_reader :id, :start, :finish
 
-    def initialize(id)
+    def initialize(id:, start:, finish:, attendees:)
       @id = id
-    end
-
-    def title
-      "Event Title"
+      @start = start
+      @finish = finish
+      @attendees = attendees
     end
 
     def slots
@@ -15,15 +14,16 @@ module Volunteer
     end
 
     def available_slots
-      @available_slots ||= (slots * rand).floor
+      slots - reserved_slots
     end
 
     def reserved_slots
-      slots - available_slots
+      @attendees.size
     end
 
     def times
-      "10am-3pm"
+      hour_meridian = "%l%P"
+      @start.strftime(hour_meridian) + "-" + @finish.strftime(hour_meridian)
     end
   end
 end

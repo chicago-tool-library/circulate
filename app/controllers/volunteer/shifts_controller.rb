@@ -4,14 +4,24 @@ module Volunteer
       Date.beginning_of_week = :sunday
 
       if params[:month] && params[:year]
-        @month = MonthCalendar.new(date_from_params, Time.current.to_date)
+
+        now = Date.current
+        if params[:month].to_i == now.month && params[:year].to_i == now.year
+          redirect_to volunteer_shifts_url
+          return
+        end
+
+        events = GoogleCalendar.new.upcoming_events(date_from_params, date_from_params.end_of_month).value
+        @month = MonthCalendar.new(events, date_from_params, Time.current.to_date)
       else
-        @month = MonthCalendar.new(Time.current.to_date)
+        events = GoogleCalendar.new.upcoming_events(Time.current.beginning_of_day, Time.current.end_of_month).value
+        @month = MonthCalendar.new(events, Time.current.to_date)
       end
     end
 
     def new
-      @event = Event.new(params[:event_id])
+      events = GoogleCalendar.new.upcoming_events(date_from_params, date_from_params.end_of_month).value
+      @event = events.find { |e| e.id == params[:event_id] }
     end
 
     private
@@ -19,7 +29,7 @@ module Volunteer
     def date_from_params
       Date.new(params[:year].to_i, params[:month].to_i)
     rescue ArgumentError
-      Time.current.to_date
+      Date.current
     end
   end
 end

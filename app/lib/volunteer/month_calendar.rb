@@ -1,13 +1,13 @@
 module Volunteer
 
   class Day
-    def initialize(date, today, state=nil)
+    attr_reader :events
+
+    def initialize(date, today, events, state=nil)
       @date = date
       @today = today
+      @events = events
       @state = state
-    end
-    def events
-      [Event.new(@date.to_s)]
     end
     def number
       @date.day
@@ -29,7 +29,8 @@ module Volunteer
     attr_reader :first_date
     attr_reader :last_date
 
-    def initialize(day, today = nil)
+    def initialize(events, day, today = nil)
+      @events = events
       @first_date = day.beginning_of_month.beginning_of_week
       @last_date = day.end_of_month.end_of_week
       @day = day
@@ -49,7 +50,10 @@ module Volunteer
         elsif date < @day.beginning_of_month
           :previous
         end
-        yield Day.new(date, @today, state)
+        events = @events.select { |event|
+          date.beginning_of_day <= event.start && date.end_of_day >= event.start
+        }
+        yield Day.new(date, @today, events, state)
         date = date + 1.day
       end
     end

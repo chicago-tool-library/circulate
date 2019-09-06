@@ -1,6 +1,12 @@
 <h1>Shift Signup</h1>
 
-<p>Do you want to signup to work the librarian shift on $DAY from $TIMES?</p>
+<p>
+  Do you want to signup to work the librarian shift on 
+  <strong><%= @event.start.strftime("%A, %B %-d, %Y") %></strong> 
+  from
+  <strong><%= @event.start.strftime("%-H:%M%P") %> - <%= @event.finish.strftime("%-I:%M%P") %></strong>
+  ?
+</p>
 
 <p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
 
