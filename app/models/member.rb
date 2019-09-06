@@ -22,7 +22,7 @@ class Member < ApplicationRecord
   scope :matching, ->(query) { where("email = ? OR full_name ILIKE ?", query, "%#{query}%") }
   scope :open, -> { where(status: statuses.slice(:pending, :active).values)}
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values)}
-  scope :active_on, ->(date) { joins(:loans).merge(Loan.updated_on(date))}
+  scope :active_on, ->(date) { joins(:loans).merge(Loan.updated_on(date)).distinct }
 
   before_validation :strip_phone_number
 
