@@ -1,5 +1,5 @@
 module Admin
-  class MembershipPayment
+  class Payment
     include ActiveModel::Model
 
     attr_accessor :amount_dollars

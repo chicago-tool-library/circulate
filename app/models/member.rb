@@ -27,7 +27,7 @@ class Member < ApplicationRecord
   before_validation :strip_phone_number
 
   def account_balance
-    @account_balance ||= Money.new(adjustments.calculate("SUM", :amount_cents))
+    Money.new(adjustments.calculate("SUM", :amount_cents))
   end
 
   private

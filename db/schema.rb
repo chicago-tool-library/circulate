@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_17_190131) do
+ActiveRecord::Schema.define(version: 2019_09_11_020605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_enum :adjustment_kind, [
+    "fine",
+    "membership",
+    "donation",
+    "payment",
+  ]
   create_enum :adjustment_source, [
     "cash",
     "square",
@@ -61,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_08_17_190131) do
     t.datetime "updated_at", precision: 6, null: false
     t.enum "payment_source", enum_name: "adjustment_source"
     t.string "square_transaction_id"
+    t.enum "kind", null: false, enum_name: "adjustment_kind"
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end

@@ -1,25 +1,20 @@
 module Admin
-  class MembershipsController < BaseController
+  class PaymentsController < BaseController
     before_action :load_member
 
-    def index
-      @memberships = @member.memberships
-    end
-
     def new
-      @payment = Payment.new
+      @amount_due = default_payment_value
+      @payment = Payment.new(amount_dollars: @amount_due)
     end
 
     def create
       @payment = Payment.new(payment_params)
 
       if @payment.valid?
-        membership = @member.memberships.create!(started_on: Time.current.to_date, ended_on: Time.current.to_date + 364.days)
-        Adjustment.record_membership(membership, @payment.amount)
         Adjustment.record_member_payment(@member, @payment.amount, @payment.payment_source)
-
-        redirect_to admin_member_path(@member), success: "Membership created."
+        redirect_to admin_member_path(@member), success: "Payment recorded."
       else
+        @amount_due = default_payment_value
         render :new
       end
     end
@@ -28,6 +23,10 @@ module Admin
 
     def load_member
       @member = Member.find(params[:member_id])
+    end
+
+    def default_payment_value
+      Money.new([-@member.account_balance, 0].max)
     end
 
     def payment_params

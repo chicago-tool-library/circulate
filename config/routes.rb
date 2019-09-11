@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resource :activation, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
+      resources :payments, only: [:new, :create]
     end
     resources :member_requests, only: :index
 

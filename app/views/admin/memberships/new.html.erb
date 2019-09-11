@@ -7,10 +7,10 @@
   <div class="divider"></div>
 </div>
 
-<%= form_with model: @membership_payment, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
+<%= form_with model: @payment, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
   <%= form.money_field :amount_dollars, label: "This year's membership fee:", class: "input-lg" %>
 
-  <%= form.select :payment_source, options_for_select(adjustment_payment_source_options, @membership_payment.payment_source || "cash"), prompt: true %>
+  <%= form.select :payment_source, options_for_select(adjustment_payment_source_options, @payment.payment_source || "cash"), prompt: true %>
 
   <%= form.actions do %>
     <%= form.submit "Save Membership" %>

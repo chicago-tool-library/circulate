@@ -9,7 +9,8 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def money_field(method, options = {})
     options[:class] = "form-input"
 
-    options[:value] ||= @template.request.params.dig @object.class.to_s.underscore, method
+    value_from_params = @template.request.params.dig @object.class.to_s.underscore, method
+    options[:value] = value_from_params || object.send(method)
     sequence_layout(method, options) do
       @template.tag.div class: "input-group" do
         @template.tag.span("$", class: "input-group-addon") +

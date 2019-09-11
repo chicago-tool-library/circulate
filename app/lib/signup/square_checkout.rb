@@ -55,8 +55,8 @@ module Signup
         amount = Money.new(amount_money[:amount])
 
         membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 364.days)
-        member.adjustments.create!(amount: -amount, adjustable: membership)
-        member.adjustments.create!(amount: amount, square_transaction_id: transaction_id, payment_source: "square")
+        Adjustment.record_membership(membership, amount)
+        Adjustment.record_member_payment(member, amount, "square", transaction_id)
 
         Result.success(amount)
       else
