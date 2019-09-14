@@ -360,9 +360,6 @@ form.membership-amount {
     }
   }
   .activation-instructions {
-    ul {
-      list-style: outside;
-    }
   }
 }
 
@@ -380,6 +377,10 @@ form.membership-amount {
   }
   .divider {
     margin-bottom: 1rem;
+  }
+  ul {
+    list-style: outside;
+    margin-left: 1.5rem;
   }
 }
 
