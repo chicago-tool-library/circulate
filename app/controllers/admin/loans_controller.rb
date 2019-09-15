@@ -64,7 +64,7 @@ module Admin
             policy = @loan.item.borrow_policy
             amount = FineCalculator.new.amount(fine: policy.fine, period: policy.fine_period, due_at: @loan.due_at, returned_at: @loan.ended_at)
             if amount > 0
-              Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1)
+              Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: "fine")
             end
           end
 
