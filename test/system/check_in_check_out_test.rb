@@ -45,4 +45,25 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
       assert_text @item.name
     end
   end
+
+  test "returns loaned overdue item" do
+    @item = create(:item)
+    @member = create(:active_member)
+    create(:loan, item: @item, member: @member, due_at: 2.weeks.ago)
+
+    visit admin_member_url(@member)
+
+    within ".member-active-loans" do
+      assert_text @item.name
+      click_on "Return"
+    end
+
+    refute_selector ".member-active-loans"
+
+    within ".member-recent-loans" do
+      assert_text @item.name
+    end
+
+    assert_content "Balance: $-15.00"
+  end
 end
