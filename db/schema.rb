@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_011430) do
+ActiveRecord::Schema.define(version: 2019_09_16_013208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_011430) do
       loans.member_id,
       COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
       min(loans.created_at) AS created_at,
-      min(loans.due_at) AS due_at,
+      max(loans.due_at) AS due_at,
           CASE
               WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
               ELSE NULL::timestamp without time zone
