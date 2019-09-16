@@ -40,7 +40,7 @@ module Signup
         session[:amount] = amount.cents
         redirect_to signup_confirmation_url
       else
-        Raven.capture_exception(result.errors)
+        Raven.capture_message(result.errors.inspect)
         Rails.logger.error result.errors
         flash[:error] = "Your payment could not be processed. Please come into the library to complete signup."
         redirect_to :new
