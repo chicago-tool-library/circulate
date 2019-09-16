@@ -47,11 +47,11 @@ class Loan < ApplicationRecord
       Loan.create!(
         member_id: member_id,
         item_id: item_id,
-        initial_loan_id: id,
-        created_at: now,
+        initial_loan_id: initial_loan_id || id,
         renewal_count: renewal_count + 1,
-        due_at: now.end_of_day + item.borrow_policy.duration.days,
+        due_at: due_at + item.borrow_policy.duration.days,
         uniquely_numbered: uniquely_numbered,
+        created_at: now,
       )
     end
   end
