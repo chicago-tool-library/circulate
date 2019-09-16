@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_11_020605) do
+ActiveRecord::Schema.define(version: 2019_09_16_011430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_020605) do
   create_enum :adjustment_source, [
     "cash",
     "square",
+    "forgiveness",
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|

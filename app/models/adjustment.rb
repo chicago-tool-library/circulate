@@ -4,6 +4,7 @@ class Adjustment < ApplicationRecord
   enum payment_source: {
     cash: "cash",
     square: "square",
+    forgiveness: "forgiveness"
   }
 
   enum kind: {
@@ -20,8 +21,6 @@ class Adjustment < ApplicationRecord
   validates_inclusion_of :payment_source, in: payment_sources, if: ->(a) { a.payment? }
   validates_absence_of :payment_source, unless: ->(a) { a.payment? }
   validates_inclusion_of :kind, in: kinds
-
-
 
   def self.record_membership(membership, amount)
     membership.member.adjustments.create!(amount: -amount, adjustable: membership, kind: "membership")
