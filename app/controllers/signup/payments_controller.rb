@@ -32,12 +32,18 @@ module Signup
     end
 
     def callback
-      result = checkout.record_transaction(member: @member, transaction_id: params[:transactionId])
+      transaction_id = params[:transactionId]
+      result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+
       if result.success?
-        amount = @member.adjustments.last.amount
+        amount = result.value
+        membership = Membership.create_for_member(@member, amount, square_transaction_id: transaction_id)
+
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
+
         reset_session
         session[:amount] = amount.cents
+
         redirect_to signup_confirmation_url
       else
         Rails.logger.error result.errors

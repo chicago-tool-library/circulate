@@ -37,7 +37,7 @@ module Signup
       end
     end
 
-    def record_transaction(member:, transaction_id:)
+    def fetch_transaction(member:, transaction_id:)
       transaction_response = @client.transactions.retrieve_transaction(
         location_id: @location_id,
         transaction_id: transaction_id,
@@ -53,10 +53,6 @@ module Signup
         raise "non-USD currency is not supported" unless amount_money[:currency] == "USD"
 
         amount = Money.new(amount_money[:amount])
-
-        membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 364.days)
-        Adjustment.record_membership(membership, amount)
-        Adjustment.record_member_payment(member, amount, "square", transaction_id)
 
         Result.success(amount)
       else

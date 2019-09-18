@@ -92,7 +92,7 @@ module Signup
 
       Square::Client.stub :new, mock_client do
         checkout = SquareCheckout.new(access_token: "SQ_ACCESS_TOKEN", location_id: "SQ_LOCATION_ID")
-        result = checkout.record_transaction(member: member, transaction_id: "transaction_1")
+        result = checkout.fetch_transaction(member: member, transaction_id: "transaction_1")
 
         assert result.success?
         assert_equal Money.new(1200), result.value
