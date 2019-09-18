@@ -6,11 +6,11 @@ module Signup
       @now = now
     end
 
-    def checkout_url(amount:, email:, member_id:, return_to:)
+    def checkout_url(amount:, email:, member_id:, return_to:, idempotency_key: random_idempotency_key)
       checkout_response = @client.checkout.create_checkout(
         location_id: @location_id,
         body: {
-          idempotency_key: rand(1_000_000_000).to_s,
+          idempotency_key: idempotency_key,
           redirect_url: return_to,
           pre_populate_buyer_email: email,
           order: {
@@ -63,5 +63,12 @@ module Signup
         Result.failure(transaction_response.errors)
       end
     end
+
+    private
+
+    def random_idempotency_key
+      rand(1_000_000_000).to_s
+    end
+
   end
 end
