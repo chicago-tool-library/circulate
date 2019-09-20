@@ -19,7 +19,7 @@ module Signup
       if result.success?
         redirect_to result.value
       else
-        flash[:error] = result.errors
+        flash[:error] = result.error
         redirect_to new_signup_payment_url
       end
     end
@@ -46,8 +46,8 @@ module Signup
 
         redirect_to signup_confirmation_url
       else
-        Rails.logger.error result.errors
-        Raven.capture_message(result.errors.inspect)
+        Rails.logger.error result.error
+        Raven.capture_message(result.error.inspect)
         flash[:error] = "Your payment could not be processed. Please come into the library to complete signup."
         redirect_to :new
       end

@@ -11,12 +11,12 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   test "is a failure" do
-    result = Result.failure(["something bad happened"])
+    result = Result.failure("something bad happened")
 
     assert result.failure?
     refute result.success?
 
-    assert_equal ["something bad happened"], result.errors
+    assert_equal "something bad happened", result.error
     assert_nil result.value
   end
 end

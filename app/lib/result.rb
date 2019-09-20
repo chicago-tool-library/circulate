@@ -1,26 +1,27 @@
 class Result
-  attr_reader :errors
+  attr_reader :error
   attr_reader :value
 
-  def initialize(success, value, errors)
+  def initialize(success, value, error)
     @value = value
     @success = success
-    @errors = errors
+    @error = error
   end
 
   def success?
-    @success
+    @error.nil?
   end
 
   def failure?
-    !@success
+    !success?
   end
 
   def self.success(value)
     new(true, value, nil)
   end
 
-  def self.failure(errors = [])
-    new(false, nil, errors)
+  def self.failure(error)
+    raise "error can not be nil" if error.nil?
+    new(false, nil, error)
   end
 end
