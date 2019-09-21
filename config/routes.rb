@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :payments, only: [:new, :create]
     end
     resources :member_requests, only: :index
+    resources :monthly_adjustments, only: :index
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

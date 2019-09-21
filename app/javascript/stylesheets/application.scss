@@ -454,3 +454,30 @@ form.membership-amount {
     margin-bottom: 1em;
   }
 }
+
+table.monthly-adjustments {
+  thead tr:first-of-type {
+    line-height: 0.8em;
+    font-size: 0.8em;
+    color: $gray-color;
+    th {
+      border: 0;
+    }
+  }
+  thead tr:last-of-type {
+    line-height: 1em;
+    th {
+      padding-top: 0;
+    }
+  }
+  tbody tr:last-of-type, tfoot tr {
+    td {
+      border-bottom: 0;
+    }
+  }
+  tfoot tr td {
+    background: $dark-color;
+    color: $light-color;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,45 @@
+<table class="table monthly-adjustments">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="2">Memberships</th>
+      <th colspan="2">Fines</th>
+      <th colspan="3">Payments</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th>Count</th>
+      <th>Fees</th>
+      <th>Count</th>
+      <th>Fees</th>
+      <th>Square</th>
+      <th>Cash</th>
+      <th>Forgiven</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @monthly_adjustments.each do |ma| %>
+      <tr>
+        <td><%= Date::MONTHNAMES[ma.month] %> <%= ma.year %></td>
+        <td><%= ma.membership_count if ma.membership_count > 0 %></td>
+        <td><%= ma.membership_total&.format %></td>
+        <td><%= ma.fine_count if ma.fine_count > 0 %></td>
+        <td><%= ma.fine_total&.format %></td>
+        <td><%= ma.square_total&.format %></td>
+        <td><%= ma.cash_total&.format %></td>
+        <td><%= ma.forgiveness_total&.format %></td>
+      </tr>
+    <% end %>
+  <tfoot>
+    <tr>
+      <td>Total</td>
+      <td><%= @monthly_adjustments.sum(&:membership_count) %></td>
+      <td><%= Money.new(@monthly_adjustments.map(&:membership_total).compact.sum).format %></td>
+      <td><%= @monthly_adjustments.sum(&:fine_count) %></td>
+      <td><%= Money.new(@monthly_adjustments.map(&:fine_total).compact.sum).format %></td>
+      <td><%= Money.new(@monthly_adjustments.map(&:square_total).compact.sum).format %></td>
+      <td><%= Money.new(@monthly_adjustments.map(&:cash_total).compact.sum).format %></td>
+      <td><%= Money.new(@monthly_adjustments.map(&:forgiveness_total).compact.sum).format %></td>
+    </tr>
+  </tfoot>
+</table>
