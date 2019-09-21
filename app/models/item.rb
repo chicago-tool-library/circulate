@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   include PgSearch::Model
-  pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: { prefix: true } }
+  pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: {prefix: true}}
 
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings,
@@ -70,7 +70,7 @@ class Item < ApplicationRecord
   private
 
   def strip_whitespace
-    %w{name brand size model serial strength}.each do |attr_name|
+    %w[name brand size model serial strength].each do |attr_name|
       value = attributes[attr_name]
       next unless value.present?
       write_attribute attr_name, value.strip

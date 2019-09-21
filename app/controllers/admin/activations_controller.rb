@@ -1,7 +1,7 @@
 module Admin
   class ActivationsController < BaseController
     before_action :load_member
-    
+
     def edit
       @activation = Activation.new(@member.attributes.slice("id_kind", "id_kind_other", "address_verified"))
     end

@@ -17,7 +17,7 @@ module Admin
       end
 
       item_scope = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
-  
+
       @pagy, @items = pagy(item_scope)
     end
 

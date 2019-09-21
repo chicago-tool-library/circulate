@@ -7,7 +7,7 @@ module Admin
     def index
       scope = if params[:member_id]
         Member.find(params[:member_id]).loans
-      else 
+      else
         Loan
       end
       @loans = scope.includes(:member, :item).all

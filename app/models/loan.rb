@@ -9,7 +9,7 @@ class Loan < ApplicationRecord
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
 
   validates_each :item_id do |record, attr, value|
-    if !value
+    unless value
       record.errors.add(attr, "does not exist")
       return
     end

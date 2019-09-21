@@ -34,7 +34,7 @@ class AdjustmentTest < ActiveSupport::TestCase
 
     assert_equal 2, adjustments.size
     assert adjustments.first.donation?
-    assert_equal -500, adjustments.first.amount_cents
+    assert_equal(-500, adjustments.first.amount_cents)
     assert_nil adjustments.first.payment_source
 
     assert adjustments.second.payment?

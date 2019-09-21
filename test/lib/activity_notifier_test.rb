@@ -13,10 +13,10 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       notifier = ActivityNotifier.new
       notifier.send_daily_loan_summaries
     end
-    
+
     refute ActionMailer::Base.deliveries.empty?
 
-    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email]}
+    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
     refute mail.nil?
 
     assert_equal "Today's account summary", mail.subject
@@ -25,7 +25,6 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   end
 
   test "doesn't send emails with old activity" do
-
     Time.use_zone("America/Chicago") do
       end_of_previous_day = Time.current.beginning_of_day - 1.minute
 
@@ -37,7 +36,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       notifier = ActivityNotifier.new
       notifier.send_daily_loan_summaries
     end
-    
+
     assert ActionMailer::Base.deliveries.empty?
   end
 end

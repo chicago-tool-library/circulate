@@ -54,7 +54,7 @@ class MemberActivationTest < ApplicationSystemTestCase
   test "activate pending member with a membership" do
     @member = create(:member)
     create(:membership, member: @member)
-    
+
     visit admin_member_url(@member)
 
     assert_content "Member not active"

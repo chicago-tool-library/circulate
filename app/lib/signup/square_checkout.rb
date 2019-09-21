@@ -65,6 +65,5 @@ module Signup
     def random_idempotency_key
       rand(1_000_000_000).to_s
     end
-
   end
 end

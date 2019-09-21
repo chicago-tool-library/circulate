@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class LoanSummaryTest < ActiveSupport::TestCase
   test "summarizes the state of a two loans" do

@@ -4,14 +4,14 @@ class Adjustment < ApplicationRecord
   enum payment_source: {
     cash: "cash",
     square: "square",
-    forgiveness: "forgiveness"
+    forgiveness: "forgiveness",
   }
 
   enum kind: {
     fine: "fine",
     membership: "membership",
     donation: "donation",
-    payment: "payment"
+    payment: "payment",
   }
 
   belongs_to :adjustable, polymorphic: true, optional: true
@@ -26,7 +26,7 @@ class Adjustment < ApplicationRecord
     membership.member.adjustments.create!(amount: -amount, adjustable: membership, kind: "membership")
   end
 
-  def self.record_member_payment(member, amount, source, square_transaction_id=nil)
+  def self.record_member_payment(member, amount, source, square_transaction_id = nil)
     donation_amount = amount + member.account_balance
     adjustments = []
     if donation_amount > 0

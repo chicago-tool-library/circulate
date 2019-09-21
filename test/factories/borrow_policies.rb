@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   factory :borrow_policy do
     sequence(:code, "b")
     name { "Policy ##{code.upcase}" }

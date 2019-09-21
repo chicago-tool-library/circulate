@@ -3,7 +3,7 @@ require "test_helper"
 class LoanTest < ActiveSupport::TestCase
   test "an item can only have a single active loan" do
     item = create(:item)
-    first_loan = create(:loan, item: item)
+    create(:loan, item: item)
     loan = build(:loan, item: item)
 
     refute loan.save
@@ -12,7 +12,7 @@ class LoanTest < ActiveSupport::TestCase
 
   test "an item can only have a single numbered active loan enforced by the index" do
     item = create(:item)
-    first_loan = create(:loan, item: item)
+    create(:loan, item: item)
     loan = build(:loan, item: item)
 
     assert_raises ActiveRecord::RecordNotUnique do
@@ -91,5 +91,4 @@ class LoanTest < ActiveSupport::TestCase
     assert_equal tonight + 14.days, second_renewal.due_at
     assert_equal 2, second_renewal.renewal_count
   end
-
 end

@@ -3,7 +3,6 @@ require "minitest/mock"
 
 module Signup
   class SquareCheckoutTest < ActiveSupport::TestCase
-
     test "generates a checkout URL" do
       member = create(:member)
       payment = Payment.new
@@ -20,29 +19,30 @@ module Signup
 
       mock_checkout = Minitest::Mock.new
       mock_checkout.expect :create_checkout, mock_response, [
-      {
-        location_id: "SQ_LOCATION_ID",
-        body: {
-          idempotency_key: "test",
-          redirect_url: "http://example.com/callback",
-          pre_populate_buyer_email: member.email,
-          order: {
+        {
+          location_id: "SQ_LOCATION_ID",
+          body: {
+            idempotency_key: "test",
+            redirect_url: "http://example.com/callback",
+            pre_populate_buyer_email: member.email,
             order: {
-              location_id: "SQ_LOCATION_ID",
-              reference_id: member.id.to_s,
-              line_items: [{
-                name: "Annual Membership",
-                quantity: "1",
-                base_price_money: {
-                  amount: payment.amount.cents,
-                  currency: "USD",
-                },
-              }],
+              order: {
+                location_id: "SQ_LOCATION_ID",
+                reference_id: member.id.to_s,
+                line_items: [{
+                  name: "Annual Membership",
+                  quantity: "1",
+                  base_price_money: {
+                    amount: payment.amount.cents,
+                    currency: "USD",
+                  },
+                }],
+              },
             },
+            note: "Circulate signup payment",
           },
-          note: "Circulate signup payment",
-        }
-      } ]
+        },
+      ]
 
       mock_client = Minitest::Mock.new
       mock_client.expect :checkout, mock_checkout
@@ -54,7 +54,8 @@ module Signup
           email: member.email,
           return_to: "http://example.com/callback",
           member_id: member.id,
-          idempotency_key: "test")
+          idempotency_key: "test"
+        )
 
         assert result.success?
         assert_equal "http://squareup.com/checkout", result.value
@@ -77,29 +78,30 @@ module Signup
 
       mock_checkout = Minitest::Mock.new
       mock_checkout.expect :create_checkout, mock_response, [
-      {
-        location_id: "SQ_LOCATION_ID",
-        body: {
-          idempotency_key: "test",
-          redirect_url: "http://example.com/callback",
-          pre_populate_buyer_email: member.email,
-          order: {
+        {
+          location_id: "SQ_LOCATION_ID",
+          body: {
+            idempotency_key: "test",
+            redirect_url: "http://example.com/callback",
+            pre_populate_buyer_email: member.email,
             order: {
-              location_id: "SQ_LOCATION_ID",
-              reference_id: member.id.to_s,
-              line_items: [{
-                name: "Annual Membership",
-                quantity: "1",
-                base_price_money: {
-                  amount: payment.amount.cents,
-                  currency: "USD",
-                },
-              }],
+              order: {
+                location_id: "SQ_LOCATION_ID",
+                reference_id: member.id.to_s,
+                line_items: [{
+                  name: "Annual Membership",
+                  quantity: "1",
+                  base_price_money: {
+                    amount: payment.amount.cents,
+                    currency: "USD",
+                  },
+                }],
+              },
             },
+            note: "Circulate signup payment",
           },
-          note: "Circulate signup payment",
-        }
-      } ]
+        },
+      ]
 
       mock_client = Minitest::Mock.new
       mock_client.expect :checkout, mock_checkout
@@ -111,7 +113,8 @@ module Signup
           email: member.email,
           return_to: "http://example.com/callback",
           member_id: member.id,
-          idempotency_key: "test")
+          idempotency_key: "test"
+        )
 
         refute result.success?
         assert_equal "ERRORS", result.error
@@ -124,8 +127,6 @@ module Signup
 
     test "handles a successful charge" do
       member = create(:member)
-      payment = Payment.new
-
       mock_body_transaction = Minitest::Mock.new
       mock_body_transaction.expect :[], member.id.to_s, [:reference_id]
       mock_body_transaction.expect :[], [{amount_money: {amount: 1200, currency: "USD"}}], [:tenders]
@@ -160,7 +161,6 @@ module Signup
 
     test "handles not finding a transaction" do # handles 404 and 429
       member = create(:member)
-      payment = Payment.new
 
       mock_response = Minitest::Mock.new
       mock_response.expect :success?, false

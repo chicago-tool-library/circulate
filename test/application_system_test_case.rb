@@ -20,7 +20,7 @@ end
 
 Capybara.register_driver(:headless_chrome) do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[headless disable-gpu] }
+    chromeOptions: {args: %w[headless disable-gpu]}
   )
 
   Capybara::Selenium::Driver.new(
@@ -40,7 +40,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def sign_in_as_admin
     @user = FactoryBot.create(:user)
-    login_as(@user, :scope => :user)
+    login_as(@user, scope: :user)
   end
 
   def audited_as_admin(&block)
