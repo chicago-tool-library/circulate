@@ -11,12 +11,12 @@
     <tr>
       <th>Month</th>
       <th>Count</th>
-      <th>Fees</th>
+      <th class="text-right fees">Fees</th>
       <th>Count</th>
-      <th>Fees</th>
-      <th>Square</th>
-      <th>Cash</th>
-      <th>Forgiven</th>
+      <th class="text-right fees">Fees</th>
+      <th class="text-right fees">Square</th>
+      <th class="text-right fees">Cash</th>
+      <th class="text-right fees">Forgiven</th>
     </tr>
   </thead>
   <tbody>
@@ -24,24 +24,24 @@
       <tr>
         <td><%= Date::MONTHNAMES[ma.month] %> <%= ma.year %></td>
         <td><%= ma.membership_count if ma.membership_count > 0 %></td>
-        <td><%= ma.membership_total&.format %></td>
+        <td class="text-right fees"><%= ma.membership_total&.format %></td>
         <td><%= ma.fine_count if ma.fine_count > 0 %></td>
-        <td><%= ma.fine_total&.format %></td>
-        <td><%= ma.square_total&.format %></td>
-        <td><%= ma.cash_total&.format %></td>
-        <td><%= ma.forgiveness_total&.format %></td>
+        <td class="text-right fees"><%= ma.fine_total&.format %></td>
+        <td class="text-right fees"><%= ma.square_total&.format %></td>
+        <td class="text-right fees"><%= ma.cash_total&.format %></td>
+        <td class="text-right"><%= ma.forgiveness_total&.format %></td>
       </tr>
     <% end %>
   <tfoot>
     <tr>
       <td>Total</td>
       <td><%= @monthly_adjustments.sum(&:membership_count) %></td>
-      <td><%= Money.new(@monthly_adjustments.map(&:membership_total).compact.sum).format %></td>
+      <td class="text-right fees"><%= Money.new(@monthly_adjustments.map(&:membership_total).compact.sum).format %></td>
       <td><%= @monthly_adjustments.sum(&:fine_count) %></td>
-      <td><%= Money.new(@monthly_adjustments.map(&:fine_total).compact.sum).format %></td>
-      <td><%= Money.new(@monthly_adjustments.map(&:square_total).compact.sum).format %></td>
-      <td><%= Money.new(@monthly_adjustments.map(&:cash_total).compact.sum).format %></td>
-      <td><%= Money.new(@monthly_adjustments.map(&:forgiveness_total).compact.sum).format %></td>
+      <td class="text-right fees"><%= Money.new(@monthly_adjustments.map(&:fine_total).compact.sum).format %></td>
+      <td class="text-right fees"><%= Money.new(@monthly_adjustments.map(&:square_total).compact.sum).format %></td>
+      <td class="text-right fees"><%= Money.new(@monthly_adjustments.map(&:cash_total).compact.sum).format %></td>
+      <td class="text-right"><%= Money.new(@monthly_adjustments.map(&:forgiveness_total).compact.sum).format %></td>
     </tr>
   </tfoot>
 </table>

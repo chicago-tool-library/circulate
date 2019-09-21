@@ -480,4 +480,7 @@ table.monthly-adjustments {
     color: $light-color;
     font-weight: bold;
   }
+  td.fees, th.fees {
+    padding-right: 2em;
+  }
 }
