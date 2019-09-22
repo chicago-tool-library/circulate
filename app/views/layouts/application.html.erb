@@ -16,9 +16,23 @@
   <%= tag.body class: @body_class do %>
 
     <div class="container grid-lg public">
+
+      <header class="navbar">
+        <section class="navbar-section">
+          <span class="navbar-brand mr-2"><%= link_to "Chicago Tool Library", "https://chicagotoollibrary.org" %></span>
+          <%= link_to "Item Inventory", items_path, class: "btn btn-link" %>
+          <%= form_with url: search_path, method: :get, local: true do |form| %>
+            <div class="input-group input-inline">
+              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+            </div>
+          <% end %>
+        </section>
+      </header>
+
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>
+
       <%= yield %>
     </div>
 

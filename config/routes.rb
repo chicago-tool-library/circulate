@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   end
 
   resources :items, only: [:index, :show]
+  get "search", to: "searches#show"
 
   root to: "home#index"
 end
