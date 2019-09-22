@@ -461,7 +461,7 @@ table.monthly-adjustments {
     font-size: 0.8em;
     color: $gray-color;
     th {
-      border: 0;
+      border-bottom: 0;
     }
   }
   thead tr:last-of-type {
@@ -481,6 +481,13 @@ table.monthly-adjustments {
     font-weight: bold;
   }
   td.fees, th.fees {
-    padding-right: 2em;
+    padding-right: .7rem;
+  }
+  td.left-lined, th.left-lined {
+    border-left: 1px solid $gray-color-light;
+    padding-left: .7rem;
+  }
+  tfoot td.left-lined {
+    border-color: transparent;
   }
 }
