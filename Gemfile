@@ -38,6 +38,7 @@ gem "reverse_markdown"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
+gem "sentry-raven"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
@@ -48,6 +49,7 @@ gem "dotenv-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -68,7 +70,6 @@ group :development do
 end
 
 group :production do
-  gem "sentry-raven"
   gem "skylight"
 end
 

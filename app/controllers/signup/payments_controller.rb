@@ -48,7 +48,7 @@ module Signup
         Rails.logger.error result.error
         Raven.capture_message(result.error.inspect)
         flash[:error] = "Your payment could not be processed. Please come into the library to complete signup."
-        redirect_to :new
+        redirect_to new_signup_payment_url
       end
     end
 
