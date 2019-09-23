@@ -1,6 +1,7 @@
 module Signup
   class PaymentsController < BaseController
     before_action :load_member
+    before_action :set_raven_context
 
     def new
       @payment = Payment.new
@@ -76,6 +77,10 @@ module Signup
         access_token: ENV.fetch("SQUARE_ACCESS_TOKEN"),
         location_id: ENV.fetch("SQUARE_LOCATION_ID")
       )
+    end
+  
+    def set_raven_context
+      Raven.extra_context(session)
     end
   end
 end
