@@ -19,7 +19,7 @@ module Signup
       if result.success?
         redirect_to result.value
       else
-        flash[:error] = result.error
+        flash[:error] = "There was a problem connecting to our payment processor."
         redirect_to new_signup_payment_url
       end
     end
@@ -34,6 +34,7 @@ module Signup
     def callback
       transaction_id = params[:transactionId]
       result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+      session[:attempts] ||= 0
 
       if result.success?
         amount = result.value
@@ -44,10 +45,22 @@ module Signup
         session[:amount] = amount.cents
 
         redirect_to signup_confirmation_url
+
       else
-        Rails.logger.error result.error
-        Raven.capture_message(result.error.inspect)
-        flash[:error] = "Your payment could not be processed. Please come into the library to complete signup."
+        error = result.error
+        Rails.logger.error(error)
+        Raven.capture_message(error.inspect)
+        
+        if error[:code] == "NOT_FOUND"
+          # Give Square a little while for the transaction data to be available
+          session[:attempts] += 1
+          if session[:attempts] <= 10
+            render :wait, layout: nil
+            return
+          end
+        end
+
+        flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
         redirect_to new_signup_payment_url
       end
     end

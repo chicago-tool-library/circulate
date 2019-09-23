@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circulate</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="3">
+    <%= stylesheet_pack_tag 'styles', media: 'all' %>
+  </head>
+
+  <%= tag.body class: @body_class do %>
+    <div class="container grid-lg public">
+      <p>Please wait...</p>
+    </div>
+  <% end %>
+</html>
