@@ -12,7 +12,12 @@
 
   <%= tag.body class: @body_class do %>
     <div class="container grid-lg public">
-      <p>Please wait...</p>
+      <div class="columns">
+        <div class="column col-12 please-wait">
+          <p class="text-center">Your payment is being processed.</p>
+          <div class="loading loading-lg"></div>
+        </div>
+      </div>
     </div>
   <% end %>
 </html>
