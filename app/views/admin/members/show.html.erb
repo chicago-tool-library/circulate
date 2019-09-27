@@ -78,23 +78,23 @@
           <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
         </div>
         <div class="container member-recent-loans">
-          <% @recent_loans.each do |loan| %>
+          <% @recent_loan_summaries.each do |summary| %>
             <div class="columns">
               <div class="col-1 col-sm-4">
-                <p><%= full_item_number(loan.item) %></p>
+                <p><%= full_item_number(summary.item) %></p>
               </div>
               <div class="col-3 col-sm-8">
-                <p><%= link_to loan.item.name, admin_item_path(loan.item) %></p>
+                <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
               </div>
               <div class="col-4 col-sm-12">
                 <p>
-                  <%= checked_out_date(loan.created_at) %> ->
-                  <%= checked_out_date(loan.ended_at) %>
+                  <%= checked_out_date(summary.created_at) %> ->
+                  <%= checked_out_date(summary.ended_at) %>
                 </p>
               </div>
               <div class="col-4 col-sm-12">
-              <% if loan.adjustment %>
-                <%= loan.adjustment.amount.format %>
+              <% if summary.adjustment %>
+                <%= summary.adjustment.amount.format %>
               <% end %>
               </div>
             </div>
@@ -104,32 +104,32 @@
     </div>
   <% end %>
 
-  <% if @member.active_loans.any? %>
+  <% if @active_loan_summaries.any? %>
 
     <h2>Currently Checked Out</h2>
 
     <div class="container member-active-loans">
-      <% @active_loans.each do |loan| %>
+      <% @active_loan_summaries.each do |summary| %>
         <div class="columns">
           <div class="col-1 col-sm-4">
-            <p><%= full_item_number(loan.item) %></p>
+            <p><%= full_item_number(summary.item) %></p>
           </div>
           <div class="col-3 col-sm-8">
-            <p><%= link_to loan.item.name, admin_item_path(loan.item) %></p>
+            <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
           </div>
           <div class="col-6 col-sm-12">
-            <p><%= checked_out_date(loan.created_at) %> &mdash;
-              due <%= "in " if loan.due_at >= Time.current %>
-              <%= time_ago_in_words(loan.due_at) %>
-              <%= "ago" if loan.due_at < Time.current %>
+            <p><%= checked_out_date(summary.created_at) %> &mdash;
+              due <%= "in " if summary.due_at >= Time.current %>
+              <%= time_ago_in_words(summary.due_at) %>
+              <%= "ago" if summary.due_at < Time.current %>
             </p>
-            <% if loan.renewal? %>
-              <p><em>Renewed <%= pluralize(loan.renewal_count, "time") %> (initial check out <%= checked_out_date(loan.initial_loan.created_at) %>.)</em></p>
+            <% if summary.renewed? %>
+              <p><em>Renewed <%= pluralize(summary.renewal_count, "time") %> (initial check out <%= checked_out_date(summary.created_at) %>.)</em></p>
             <% end %>
           </div>
           <div class="col-2 col-sm-12">
-            <%= button_to "Return", [:admin, loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary float-left mr-2" %>
-            <%= button_to "Renew", admin_loan_renewals_path(loan), method: :post, class:"btn" %>
+            <%= button_to "Return", [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary float-left mr-2" %>
+            <%= button_to "Renew", admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn" %>
           </div>
         </div>
         <div class="divider"></div>

@@ -22,16 +22,17 @@ class Loan < ApplicationRecord
     end
   end
 
-  scope :active, -> { where("ended_at IS NULL").includes(:item) }
+  scope :active, -> { where(ended_at: nil) }
+  scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 7.days) }
   scope :exclusive, -> { where(uniquely_numbered: true) }
-  scope :recently_returned, -> { where("ended_at IS NOT NULL AND ended_at >= ?", Time.current - 7.days).includes(:item) }
-  scope :by_creation_date, -> { order("created_at ASC") }
-  scope :by_end_date, -> { order("ended_at ASC") }
   scope :updated_on, ->(date) {
     morning = date.beginning_of_day.utc
     night = date.end_of_day.utc
     where("loans.updated_at BETWEEN ? AND ?", morning, night)
   }
+
+  scope :by_creation_date, -> { order(created_at: :asc) }
+  scope :by_end_date, -> { order(ended_at: :asc) }
 
   def ended?
     ended_at.present?

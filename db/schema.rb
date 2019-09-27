@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_21_013902) do
+ActiveRecord::Schema.define(version: 2019_09_25_030512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,20 +237,6 @@ ActiveRecord::Schema.define(version: 2019_09_21_013902) do
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
 
-  create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT loans.item_id,
-      loans.member_id,
-      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
-      min(loans.created_at) AS created_at,
-      max(loans.due_at) AS due_at,
-          CASE
-              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
-              ELSE NULL::timestamp without time zone
-          END AS ended_at,
-      max(loans.renewal_count) AS renewal_count
-     FROM loans
-    GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
-  SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
       (date_part('month'::text, adjustments.created_at))::integer AS month,
@@ -264,5 +250,20 @@ ActiveRecord::Schema.define(version: 2019_09_21_013902) do
       sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
      FROM adjustments
     GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "loan_summaries", sql_definition: <<-SQL
+      SELECT loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      max(loans.id) AS latest_loan_id,
+      min(loans.created_at) AS created_at,
+      max(loans.due_at) AS due_at,
+          CASE
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              ELSE NULL::timestamp without time zone
+          END AS ended_at,
+      max(loans.renewal_count) AS renewal_count
+     FROM loans
+    GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
 end
