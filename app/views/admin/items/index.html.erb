@@ -21,13 +21,13 @@
       sorted by: 
 
       <div class="btn-group">
-        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {}, class: "btn btn-sm" do %>
+        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">name</button>
         <% end %>
-        <%= link_to_unless_current "number", {sort: "number"}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "number", {sort: "number", tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">number</button>
         <% end %>
-        <%= link_to_unless_current "added", {sort: "added"}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "added", {sort: "added", tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">added</button>
         <% end %>
       </div>

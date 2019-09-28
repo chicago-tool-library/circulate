@@ -24,6 +24,8 @@ class Member < ApplicationRecord
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loans).merge(Loan.updated_on(date)).distinct }
 
+  scope :by_full_name, -> { order(full_name: :desc) }
+
   before_validation :strip_phone_number
 
   def account_balance

@@ -3,17 +3,19 @@ module Admin
     def create
       query = params[:query]
 
-      item = Item.where(number: query).first
-      redirect_to(admin_item_path(item)) && return if item
+      # item = Item.where(number: query).first
+      # redirect_to(admin_item_path(item)) && return if item
 
-      member = Member.matching(query).first
-      redirect_to(admin_member_path(member)) && return if member
+      # member = Member.matching(query).first
+      # redirect_to(admin_member_path(member)) && return if member
 
-      redirect_to admin_search_path(query: params[:query])
+      redirect_to admin_search_path(query: query)
     end
 
     def show
-      @items = Item.search_by_anything(params[:query]).order("items.name ASC")
+      query = params[:query]
+      @items = Item.search_by_anything(query).by_name
+      @members = Member.matching(query).by_full_name
     end
   end
 end

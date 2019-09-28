@@ -1,6 +1,6 @@
 class SearchesController < ApplicationController
   def show
     @items = Item.search_by_anything(params[:query]).order("items.name ASC")
-    render "admin/searches/show"
+    render :show
   end
 end

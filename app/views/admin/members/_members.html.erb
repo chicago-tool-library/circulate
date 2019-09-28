@@ -1,0 +1,25 @@
+<div class="responsive-table five-columns members-table">
+  <%= tag.div "Full Name", class: "responsive-table-header" %>
+  <%= tag.div "Name and Pronoun", class: "responsive-table-header" %>
+  <%= tag.div "Email", class: "responsive-table-header" %>
+  <%= tag.div "Phone", class: "responsive-table-header" %>
+  <%= tag.div "", class: "responsive-table-header" %>
+
+  <% @members.each do |member| %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= link_to member.full_name, [:admin, member] %>
+    <% end %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= member.preferred_name %>
+      <%= tag.div member_pronoun(member), class: "label" %>
+    <% end %>
+    <%= tag.div member.email, class: "responsive-table-cell" %>
+    <%= tag.div member.phone_number, class: "responsive-table-cell" %>
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= member_status(member) %>
+      <% if member.status_pending? %>
+        <%= link_to 'Activate', edit_admin_member_activation_path(member), class: "btn btn-sm" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
