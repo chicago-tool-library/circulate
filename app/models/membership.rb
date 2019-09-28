@@ -3,6 +3,10 @@ class Membership < ApplicationRecord
   has_one :adjustment, as: "adjustable"
   scope :active, -> { where("started_on <= ? AND ended_on >= ?", Time.current, Time.current) }
 
+  def amount
+    adjustment ? adjustment.amount*-1 : Money.new(0)
+  end
+
   def self.create_for_member(member, amount, now: Time.current.to_date, square_transaction_id: nil)
     membership = member.memberships.create!(started_on: now, ended_on: now + 364.days)
     Adjustment.record_membership(membership, amount)
