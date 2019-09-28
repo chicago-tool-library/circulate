@@ -107,6 +107,10 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def button(label = nil, options = {})
+    super(label, options.merge(class: "btn btn-lg btn-block"))
+  end
+
   def submit(label = nil, options = {})
     super(label, options.merge(class: "btn btn-primary btn-lg btn-block"))
   end
