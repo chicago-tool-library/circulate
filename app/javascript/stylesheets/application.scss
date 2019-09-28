@@ -98,9 +98,12 @@ $photo-width: 187px;
       grid-column: 2;
       grid-row: span 2;
     }
-    .items-table-categories {
+    .items-table-tags {
       grid-column: 3;
       grid-row: span 2;
+      a {
+        display: inline-block;
+      }
     }
   }
 }
@@ -124,7 +127,7 @@ $photo-width: 187px;
       grid-row: span 1;
       position: relative;
     }
-    .items-table-categories {
+    .items-table-tags {
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;

@@ -38,7 +38,7 @@
 </div>
 
 <div class="columns">
-  <div class="column col-9">
+  <div class="column col-9-sm col-12-xs">
 
     <% if @items.any? %>
       <%= render partial: "admin/items/items", locals: { items: @items } %>
@@ -50,7 +50,7 @@
     <% end %>
   </div>
 
-  <div class="column col-3">
+  <div class="column col-3 hide-xs">
     <%= tag_nav(Tag.sorted_by_name, @tag) %>
   </div>
 

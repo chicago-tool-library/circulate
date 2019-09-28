@@ -37,7 +37,7 @@
 </div>
 
 <div class="columns">
-  <div class="column col-9">
+  <div class="column col-9-sm col-12-xs">
     <% if @items.any? %>
       <div class="items-table">
         <% @items.each do |item| %>
@@ -67,7 +67,7 @@
 
           <%= tag.div class: "items-table-tags" do %>
             <% item.tags.each do |tag| %>
-              <%= link_to tag.name, {tag: tag.id}, class: "chip" %><br>
+              <%= link_to tag.name, {tag: tag.id} %><br>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
@@ -82,7 +82,7 @@
     <% end %>
   </div>
 
-  <div class="column col-3">
+  <div class="column col-3 hide-xs">
     <strong>View items tagged with:</strong><br/>
     <%= tag_nav(Tag.sorted_by_name, @tag) %>
   </div>
