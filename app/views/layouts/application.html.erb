@@ -19,7 +19,7 @@
 
       <header class="navbar">
         <section class="navbar-section">
-          <span class="navbar-brand mr-2"><%= link_to "Chicago Tool Library", "https://chicagotoollibrary.org" %></span>
+          <span class="navbar-brand mr-2"><%= link_to "Chicago Tool Library", root_url %></span>
           <%= link_to "Item Inventory", items_path, class: "btn btn-link" %>
           <%= form_with url: search_path, method: :get, local: true do |form| %>
             <div class="input-group input-inline">

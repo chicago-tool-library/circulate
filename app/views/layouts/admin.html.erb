@@ -27,16 +27,28 @@
         </header>
 
         <ul class="nav">
-          <li class="nav-item"><%= link_to "Home", admin_items_path %></li>
-        </ul>
-
-        <ul class="nav">
           <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
           <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
-          <li class="nav-item"><%= link_to "Loans", admin_loans_path %></li>
-          <li class="nav-item"><%= link_to "Tags", admin_tags_path %></li>
-          <li class="nav-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
+
+          <li class="nav-item">
+            <span class="nav-category">Reports</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
+              <li class="nav-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
+            </ul>          
+          </li>
+
+          <li class="nav-item">
+            <span class="nav-category">Settings</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
+              <li class="nav-item"><%= link_to "Documents", admin_documents_path %></li>
+              <li class="nav-item"><%= link_to "Loans", admin_loans_path %></li>
+              <li class="nav-item"><%= link_to "Tags", admin_tags_path %></li>
+            </ul>          
+          </li>
         </ul>
+
         <ul class="nav">
           <% if user_signed_in? %>
             <li class="nav-item">
@@ -57,7 +69,6 @@
           <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_items_path %></span>
           <%= link_to "Items", admin_items_path, class: "btn btn-link" %>
           <%= link_to "Members", admin_members_path, class: "btn btn-link" %>
-          <%= link_to "Loans", admin_loans_path, class: "btn btn-link" %>
           <div class="dropdown">
             <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
               Reports <i class="icon icon-caret"></i>
@@ -73,6 +84,7 @@
             </a>
             <ul class="menu">
               <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
+              <li class="menu-item"><%= link_to "Loans", admin_loans_path %></li>
               <li class="menu-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
               <li class="menu-item"><%= link_to "Tags", admin_tags_path %></li>
             </ul>
