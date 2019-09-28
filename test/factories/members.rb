@@ -17,8 +17,11 @@ FactoryBot.define do
         id_kind { 1 }
         address_verified { true }
         status { "active" }
-        after(:create) do |member, evaluator|
-          create_list(:membership, 1, member: member)
+
+        factory :active_member_with_membership do
+          after(:create) do |member, evaluator|
+            create_list(:membership, 1, member: member)
+          end
         end
       end
     end

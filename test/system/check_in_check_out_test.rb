@@ -16,7 +16,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "checks out items to member" do
     @item = create(:item)
-    @member = create(:active_member)
+    @member = create(:active_member_with_membership)
 
     visit admin_member_url(@member)
 
@@ -29,7 +29,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "returns loaned item" do
     @item = create(:item)
-    @member = create(:active_member)
+    @member = create(:active_member_with_membership)
     create(:loan, item: @item, member: @member)
 
     visit admin_member_url(@member)
@@ -48,7 +48,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "returns loaned overdue item" do
     @item = create(:item)
-    @member = create(:active_member)
+    @member = create(:active_member_with_membership)
     create(:loan, item: @item, member: @member, due_at: 2.weeks.ago)
 
     visit admin_member_url(@member)

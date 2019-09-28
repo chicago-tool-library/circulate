@@ -66,4 +66,18 @@ class MemberActivationTest < ApplicationSystemTestCase
 
     assert_content "Current membership expires on"
   end
+
+  test "create membership without a payment" do
+    @member = create(:active_member)
+
+    visit admin_member_url(@member)
+
+    click_on "Create Membership"
+    click_on "Create Membership Without Payment"
+
+    assert_content "Current membership expires on"
+
+    click_on "Membership History"
+    assert_content "$0.00"
+  end
 end
