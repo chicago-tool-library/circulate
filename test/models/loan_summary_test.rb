@@ -36,20 +36,20 @@ class LoanSummaryTest < ActiveSupport::TestCase
     assert_nil hammer_summary.ended_at
     assert_equal hammer_loan.created_at, hammer_summary.created_at
     assert_equal 1, hammer_summary.renewal_count
-    assert_equal hammer_renewal.due_at, hammer_summary.due_at
+    assert_in_delta hammer_renewal.due_at, hammer_summary.due_at, 1.second
 
     assert_equal @drill.id, drill_summary.item_id
     assert_equal drill_loan.id, drill_summary.initial_loan_id
     assert_nil drill_summary.ended_at
     assert_equal drill_summary.created_at, drill_summary.created_at
     assert_equal 0, drill_summary.renewal_count
-    assert_equal drill_loan.due_at, drill_summary.due_at
+    assert_in_delta drill_loan.due_at, drill_summary.due_at, 1.second
 
     assert_equal @loom.id, loom_summary.item_id
     assert_equal loom_loan.id, loom_summary.initial_loan_id
-    assert_equal loom_renewal.ended_at, loom_summary.ended_at
-    assert_equal loom_loan.created_at, loom_summary.created_at
+    assert_in_delta loom_renewal.ended_at, loom_summary.ended_at, 1.second
+    assert_in_delta loom_loan.created_at, loom_summary.created_at, 1.second
     assert_equal 1, loom_summary.renewal_count
-    assert_equal loom_renewal.due_at, loom_summary.due_at
+    assert_in_delta loom_renewal.due_at, loom_summary.due_at, 1.second
   end
 end
