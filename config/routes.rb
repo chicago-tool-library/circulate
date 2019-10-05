@@ -53,6 +53,8 @@ Rails.application.routes.draw do
       post "/dev/time", to: "dev#set_time"
       delete "/dev/time", to: "dev#clear_time"
     end
+    
+    get "/", to: redirect("/admin/items")
   end
 
   resources :items, only: [:index, :show]
