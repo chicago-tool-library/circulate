@@ -18,6 +18,7 @@ class Item < ApplicationRecord
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }

@@ -7,6 +7,13 @@
     </p>
 
     <div class="search-result-type">
+      <% if @items_by_number.any? %>
+        <h2>Items by number</h2>
+        <%= render partial: "admin/items/items", locals: { items: @items_by_number } %>
+      <% end %>
+    </div>
+
+    <div class="search-result-type">
       <h2>Items</h2>
       <% if @items.any? %>
         <%= render partial: "admin/items/items", locals: { items: @items } %>
