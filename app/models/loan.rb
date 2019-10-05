@@ -9,16 +9,15 @@ class Loan < ApplicationRecord
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
 
   validates_each :item_id do |record, attr, value|
-    unless value
+    if value
+      record.item.reload
+      if record.item.active_exclusive_loan && record.item.active_exclusive_loan.id != record.id
+        record.errors.add(attr, "is already on loan")
+      elsif !record.item.active?
+        record.errors.add(attr, "is not available to loan")
+      end
+    else
       record.errors.add(attr, "does not exist")
-      return
-    end
-
-    record.item.reload
-    if record.item.active_exclusive_loan && record.item.active_exclusive_loan.id != record.id
-      record.errors.add(attr, "is already on loan")
-    elsif !record.item.active?
-      record.errors.add(attr, "is not available to loan")
     end
   end
 

@@ -20,6 +20,10 @@ class LoanTest < ActiveSupport::TestCase
     end
   end
 
+  test "validates an empty record" do
+    refute Loan.new.valid?
+  end
+
   test "an uncountable item can have multiple active loans" do
     item = create(:item)
     2.times do
