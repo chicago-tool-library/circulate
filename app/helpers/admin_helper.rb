@@ -14,4 +14,10 @@ module AdminHelper
   def empty_state(title, subtitle: nil, icon: nil, &block)
     render "shared/empty_state", title: title, subtitle: subtitle, icon: icon, &block
   end
+
+  def preferred_or_default_name(member)
+    return member.preferred_name if member.preferred_name.present?
+
+    member.full_name.split.first
+  end
 end

@@ -10,7 +10,7 @@ module Admin
       get admin_search_url(query: "hammer")
       assert_response :success
       assert_select ".items-table a", "A Large Hammer"
-      assert_select ".members-table a", "MC Hammer"
+      assert_select ".members-table a", "MC"
     end
   end
 end

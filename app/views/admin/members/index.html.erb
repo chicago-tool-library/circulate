@@ -16,8 +16,8 @@
     <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">added</button>
     <% end %>
-    <%= link_to_unless params[:sort] == "full_name", "full name", {sort: "full_name", filter: params[:filter]}, class: "btn btn-sm" do %>
-      <button class="btn btn-sm active">full name</button>
+    <%= link_to_unless params[:sort] == "name", "name", {sort: "name", filter: params[:filter]}, class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">name</button>
     <% end %>
   </div> 
 </div> 

@@ -1,9 +1,9 @@
 module MemberOrdering
   def index_order
     options = {
-      "full_name" => "lower(members.full_name) ASC",
+      "name" => "lower(coalesce(nullif(members.preferred_name, ''), members.full_name)) ASC",
       "added" => "members.created_at DESC",
     }
-    options.fetch(params[:sort]) { options["added"] }
+    Arel.sql options.fetch(params[:sort]) { options["added"] }
   end
 end
