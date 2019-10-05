@@ -13,7 +13,7 @@ class LoanSummary < ApplicationRecord
   }
 
   scope :active, -> { where(ended_at: nil) }
-  scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 7.days) }
+  scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 30.days) }
   scope :by_end_date, -> { order(ended_at: :asc) }
 
   def ended?
