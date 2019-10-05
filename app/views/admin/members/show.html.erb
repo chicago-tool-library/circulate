@@ -78,6 +78,13 @@
           <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
         </div>
         <div class="container member-recent-loans">
+          <% if @recent_loan_summaries.empty? %>
+            <div class="columns">
+              <div class="col-12">
+                <p>No completed loans in the last 30 days.</p>
+              </div>
+            </div>
+          <% end%>
           <% @recent_loan_summaries.each do |summary| %>
             <div class="columns">
               <div class="col-1 col-sm-4">
@@ -118,13 +125,11 @@
             <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
           </div>
           <div class="col-6 col-sm-12">
-            <p><%= checked_out_date(summary.created_at) %> &mdash;
-              due <%= "in " if summary.due_at >= Time.current %>
-              <%= time_ago_in_words(summary.due_at) %>
-              <%= "ago" if summary.due_at < Time.current %>
+            <p>Due <strong><%= checked_out_date(summary.due_at) %></strong>
+              (<%= "in " if summary.due_at >= Time.current -%><%= time_ago_in_words(summary.due_at) -%><%= " ago" if summary.due_at < Time.current -%>)
             </p>
             <% if summary.renewed? %>
-              <p><em>Renewed <%= pluralize(summary.renewal_count, "time") %> (initial check out <%= checked_out_date(summary.created_at) %>.)</em></p>
+              <p><em>Renewed <%= pluralize(summary.renewal_count, "time") %> (initial check out <%= checked_out_date(summary.created_at) %>)</em></p>
             <% end %>
           </div>
           <div class="col-2 col-sm-12">
