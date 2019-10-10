@@ -20,6 +20,15 @@ module Volunteer
       end
     end
 
+    def fetch_event(event_id)
+      event_url = EVENTS_ENDPOINT + "/#{event_id}"
+      event_response = client.get(event_url)
+      unless event_response.status == 200
+        return Result.failure(event_response.body.to_s)
+      end
+      Result.success(gcal_event_to_event(event_response.parse))
+    end
+
     def add_attendee_to_event(attendee, event_id)
       # get event by id
       event_url = EVENTS_ENDPOINT + "/#{event_id}"
@@ -73,7 +82,7 @@ module Volunteer
         start: Time.iso8601(gcal_event["start"]["dateTime"]),
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
         attendees: gcal_event.fetch("attendees", []).map { |attendee| 
-          Attendee.new(email: attendee["email"], name: attendee["displayName"])
+          Attendee.new(attendee["email"], attendee["displayName"])
         },
       )
     end

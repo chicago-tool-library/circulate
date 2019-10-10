@@ -1,20 +1,23 @@
-<h1>Shift Signup</h1>
+<div class="columns">
+  <div class="column col-12">
+    <h1>Shift Sign Up</h1>
 
-<p>
-  Do you want to signup to work the librarian shift on 
-  <strong><%= @event.start.strftime("%A, %B %-d, %Y") %></strong> 
-  from
-  <strong><%= @event.start.strftime("%-H:%M%P") %> - <%= @event.finish.strftime("%-I:%M%P") %></strong>
-  ?
-</p>
+    <p>
+      Do you want to sign up to work the librarian shift on 
+      <strong><%= @event.start.strftime("%A, %B %-d, %Y") %></strong> 
+      from
+      <strong><%= @event.start.strftime("%-H:%M%P") %> - <%= @event.finish.strftime("%-I:%M%P") %></strong>
+      ?
+    </p>
 
-<% unless signed_in_via_google? %>
-  <p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
-<% end %>
+    <% unless signed_in_via_google? %>
+      <p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
+    <% end %>
 
-<%= form_with url: volunteer_shifts_path, method: :post do |f| %>
-  <%= f.hidden_field :event_id, value: params[:event_id] %>
-  <%= f.button "Yes, I'd like to work this shift", class:"btn btn-lg btn-primary" %>
-<% end %>
-
-<%= link_to "No thanks, take me back to the calendar", volunteer_shifts_path, class: "btn btn-lg" %>
+    <%= form_with url: volunteer_shifts_path, method: :post do |f| %>
+      <%= f.hidden_field :event_id, value: params[:event_id] %>
+      <%= f.button "Yes, I'd like to work this shift", class:"btn btn-lg btn-primary" %>
+      <%= link_to "Nope, take me back to the calendar", volunteer_shifts_path, class: "btn btn-lg" %>
+    <% end %>
+  </div>
+</div>

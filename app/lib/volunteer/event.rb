@@ -1,6 +1,6 @@
 module Volunteer
   class Event
-    attr_reader :id, :start, :finish
+    attr_reader :id, :start, :finish, :attendees
 
     def initialize(id:, start:, finish:, attendees:)
       @id = id
@@ -9,21 +9,17 @@ module Volunteer
       @attendees = attendees
     end
 
-    def slots
-      4
-    end
-
-    def available_slots
-      slots - reserved_slots
-    end
-
-    def reserved_slots
+    def attendees_count
       @attendees.size
     end
 
     def times
       hour_meridian = "%l%P"
-      @start.strftime(hour_meridian) + "-" + @finish.strftime(hour_meridian)
+      @start.strftime(hour_meridian) + " - " + @finish.strftime(hour_meridian).strip
+    end
+
+    def attended_by?(email)
+      @attendees.any? { |a| a.email == email }
     end
   end
 end

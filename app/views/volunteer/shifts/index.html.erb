@@ -1,3 +1,4 @@
+
 <h1>Volunteer Shifts</h1>
 
 <div>
@@ -9,30 +10,30 @@
   <% end %>
 </div>
 
-<div class="calendar calendar-lg shift-schedule">
-  <div class="calendar-nav navbar">
-    <%= link_to path_to_previous_month, class:"btn btn-action btn-link btn-lg" do %>
-      <i class="icon icon-arrow-left"></i>
-    <% end %>
-    <div class="navbar-primary"><%= @month.title %></div>
-    <%= link_to path_to_next_month, class:"btn btn-action btn-link btn-lg" do %>
-      <i class="icon icon-arrow-right"></i>
-    <% end %>
-  </div>
-  <div class="calendar-container">
-    <div class="calendar-header">
-      <div class="calendar-date">Sun</div>
-      <div class="calendar-date">Mon</div>
-      <div class="calendar-date">Tue</div>
-      <div class="calendar-date">Wed</div>
-      <div class="calendar-date">Thu</div>
-      <div class="calendar-date">Fri</div>
-      <div class="calendar-date">Sat</div>
-    </div>
-    <div class="calendar-body">
-      <% @month.each_day do |day| %>
-        <%= render_day(day) %>
+<div class="shift-schedule">
+  <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
+    <div class="columns">
+      <div class="column col-12">
+        <h3><%= date.strftime("%A, %B %-d, %Y") %></h3>
+      </div>
+
+      <% daily_events.each do |event| %>
+        <div class="column col-3">
+          <h4><%= event.times %></h4>
+          <p>
+            <%= pluralize(event.attendees_count, "person") %> signed up
+          </p>
+        </div>
+        <div class="column col-3">
+          <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
+            <%= link_to("Signed up", "", class: "btn btn-lg btn-success", disabled: true) %>
+          <% else %>
+            <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn btn-lg") %>
+          <% end %>
+        </div>
       <% end %>
     </div>
-  </div>
+
+    <div class="divider">
+  <% end %>
 </div>
