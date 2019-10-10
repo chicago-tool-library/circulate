@@ -29,6 +29,8 @@ gem "pagy"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
+gem 'omniauth-google-oauth2'
+
 gem "http"
 
 gem "image_processing", "~> 1.2"

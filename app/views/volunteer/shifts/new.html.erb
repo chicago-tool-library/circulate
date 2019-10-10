@@ -8,8 +8,13 @@
   ?
 </p>
 
-<p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
+<% unless signed_in_via_google? %>
+  <p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
+<% end %>
 
-<button class="btn btn-lg btn-primary">Yes, I'd like to work this shift</button>
+<%= form_with url: volunteer_shifts_path, method: :post do |f| %>
+  <%= f.hidden_field :event_id, value: params[:event_id] %>
+  <%= f.button "Yes, I'd like to work this shift", class:"btn btn-lg btn-primary" %>
+<% end %>
 
 <%= link_to "No thanks, take me back to the calendar", volunteer_shifts_path, class: "btn btn-lg" %>

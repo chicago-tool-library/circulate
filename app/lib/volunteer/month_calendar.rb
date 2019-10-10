@@ -1,5 +1,4 @@
 module Volunteer
-
   class Day
     attr_reader :events
 
@@ -25,6 +24,7 @@ module Volunteer
       @state == :next
     end
   end
+
   class MonthCalendar
     attr_reader :first_date
     attr_reader :last_date

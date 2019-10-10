@@ -20,8 +20,10 @@ Rails.application.routes.draw do
   end
 
   namespace :volunteer do
-    resources :shifts, only: [:index, :new]
+    resources :shifts, only: [:index, :new, :create]
+    resource :session, only: [:destroy]
   end
+  get '/auth/google_oauth2/callback', to: 'volunteer/sessions#create'
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]

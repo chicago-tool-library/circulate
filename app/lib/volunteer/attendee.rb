@@ -1,3 +1,3 @@
 module Volunteer
-  Attendee = Struct.new(:email)
+  Attendee = Struct.new(:email, :name)
 end

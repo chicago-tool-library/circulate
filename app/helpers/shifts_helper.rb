@@ -40,4 +40,8 @@ module ShiftsHelper
     next_date = @month.first_date - 1.day
     volunteer_shifts_path(month: next_date.month, year: next_date.year)
   end
+
+  def signed_in_via_google?
+    session[:email].present?
+  end
 end
