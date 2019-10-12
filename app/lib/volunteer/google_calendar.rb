@@ -83,7 +83,7 @@ module Volunteer
         start: Time.iso8601(gcal_event["start"]["dateTime"]),
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
         attendees: gcal_event.fetch("attendees", []).map { |attendee| 
-          Attendee.new(attendee["email"], attendee["displayName"])
+          Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
         },
       )
     end

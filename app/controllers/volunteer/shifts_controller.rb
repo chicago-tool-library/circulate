@@ -5,7 +5,7 @@ module Volunteer
 
     def index
       load_upcoming_events
-      @attendee = Attendee.new(session[:email], session[:name])
+      @attendee = Attendee.new(email: session[:email], name: session[:name])
     end
 
     def new

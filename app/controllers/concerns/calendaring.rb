@@ -15,7 +15,7 @@ module Calendaring
   end
 
   def event_signup(event_id)
-    @attendee = Volunteer::Attendee.new(session[:email], session[:name])
+    @attendee = Volunteer::Attendee.new(email: session[:email], name: session[:name])
     result = google_calendar.add_attendee_to_event(@attendee, event_id)
     if result.success?
       redirect_to volunteer_shifts_url, success: "You have signed up for the shift."
