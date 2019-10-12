@@ -23,7 +23,7 @@
               <td>
                 <% event.attendees.each do |a| %>
                   <%= tag.span a.name, title: a.email %>
-                  <% unless a.accepted? %><em><%= a.status %><% end %>
+                  <% unless a.accepted? %><em><%= a.status %></em><% end %>
                   <br>
                 <% end %>
               </td>

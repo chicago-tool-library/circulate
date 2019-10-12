@@ -7,12 +7,13 @@
         We try to have at least 2 people at each shift, but more is OK!
       </p>
     </div>
-    <p>
-      <% if signed_in_via_google? %>
-        Signed in as <strong><%= @attendee.email %></strong> &ndash;
-        <%= link_to "Sign out", volunteer_session_path, method: :delete %>
-      <% end %>
-    </p>
+    <% if signed_in_via_google? %>
+      <p>
+          Signed in as <strong><%= @attendee.email %></strong> &ndash;
+          <%= link_to "Sign out", volunteer_session_path, method: :delete %>
+      </p>
+      <p>If you can no longer attend a shift you signed up for, please decline the invitation in your calendar.</p>
+    <% end %>
   </div>
 </div>
 
