@@ -1,0 +1,17 @@
+<ul>
+<% summaries.each do |summary| %>
+  <li>
+    <strong><%= full_item_number(summary.item) %> - <%= summary.item.name %></strong>
+    <% if summary.ended? %>
+      returned
+    <% else %>
+      <% if summary.renewed? %>
+        renewed until
+      <% else %>
+        due
+      <% end %>
+      <%= checked_out_date(summary.due_at) %>
+    <% end %>
+  </li>
+<% end %>
+</ul>

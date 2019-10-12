@@ -1,1 +1,35 @@
-Search results will be here.
+<div class="columns">
+  <div class="column col-12">
+    <h1>Search</h1>
+    <p>
+      Showing search results for
+      <strong><%= params[:query] %></strong>.
+    </p>
+
+    <div class="search-result-type">
+      <% if @items_by_number.any? %>
+        <h2>Items by number</h2>
+        <%= render partial: "admin/items/items", locals: { items: @items_by_number } %>
+      <% end %>
+    </div>
+
+    <div class="search-result-type">
+      <h2>Items</h2>
+      <% if @items.any? %>
+        <%= render partial: "admin/items/items", locals: { items: @items } %>
+      <% else %>
+        <p>No matching items found.</p> 
+      <% end %>
+    </div>
+
+    <div class="search-result-type">
+      <h2>Members</h2>
+      <% if @members.any? %>
+        <%= render partial: "admin/members/members", locals: { members: @members } %>
+      <% else %>
+        <p>No matching members found.</p> 
+      <% end %>
+    </div>
+
+  </div>
+</div>

@@ -20,13 +20,13 @@
       sorted by: 
 
       <div class="btn-group">
-        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {}, class: "btn btn-sm" do %>
+        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">name</button>
         <% end %>
-        <%= link_to_unless_current "number", {sort: "number"}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "number", {sort: "number", tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">number</button>
         <% end %>
-        <%= link_to_unless_current "added", {sort: "added"}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "added", {sort: "added", tag: params[:tag]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">added</button>
         <% end %>
       </div>
@@ -37,7 +37,7 @@
 </div>
 
 <div class="columns">
-  <div class="column col-9">
+  <div class="column col-9-sm col-12-xs">
     <% if @items.any? %>
       <div class="items-table">
         <% @items.each do |item| %>
@@ -50,7 +50,9 @@
           <% end %>
 
           <%= tag.div class: "items-table-name" do %>
-            <strong><%= full_item_number(item) %></strong><br>
+            <strong><%= full_item_number(item) %></strong>
+            <%= item_status_label(item) %>
+            <br>
             <%= link_to item.name, item_path(item) %>
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
@@ -65,7 +67,7 @@
 
           <%= tag.div class: "items-table-tags" do %>
             <% item.tags.each do |tag| %>
-              <%= link_to tag.name, {tag: tag.id}, class: "chip" %><br>
+              <%= link_to tag.name, {tag: tag.id} %><br>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
@@ -80,7 +82,7 @@
     <% end %>
   </div>
 
-  <div class="column col-3">
+  <div class="column col-3 hide-xs">
     <strong>View items tagged with:</strong><br/>
     <%= tag_nav(Tag.sorted_by_name, @tag) %>
   </div>

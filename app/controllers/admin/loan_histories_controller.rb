@@ -5,7 +5,7 @@ module Admin
         Member.find(params[:member_id]).loans
       elsif params[:item_id]
         Item.find(params[:item_id]).loans
-      else 
+      else
         Loan
       end
       @loans = scope.includes(:member, item: :borrow_policy).all

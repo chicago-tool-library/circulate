@@ -1,74 +1,48 @@
-<%= index_header "Items" do %>
-  <%= link_to 'New Item', new_admin_item_path, class: "btn" %>
-<% end %>
-
-<ul class="breadcrumb">
-  <li class="breadcrumb-item">
-    <%= link_to "All Items", admin_items_path %>
-  </li>
-  <% if @tag %>
-    <li class="breadcrumb-item">
-      <%= link_to @tag.name, admin_items_path(tag: @tag) %>
-    </li>
-  <% end %>
-</ul>
-
-<div class="sort-controls">
-  sort by: 
-  <div class="btn-group">
-    <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {}, class: "btn btn-sm" do %>
-      <button class="btn btn-sm active">name</button>
-    <% end %>
-    <%= link_to_unless_current "number", {sort: "number"}, class: "btn btn-sm" do %>
-      <button class="btn btn-sm active">number</button>
-    <% end %>
-    <%= link_to_unless_current "added", {sort: "added"}, class: "btn btn-sm" do %>
-      <button class="btn btn-sm active">added</button>
-    <% end %>
-  </div> 
-</div> 
 
 <div class="columns">
-  <div class="column col-9">
+  <div class="column col-12">
 
-    <% if @items.any? %>
-      <div class="items-table">
-        <% @items.each do |item| %>
-          <%= tag.div class: "items-table-image" do %>
-            <% if item.image.attached? %>
-              <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
-            <% else %>
-              <div class="image-placeholder"></div>
-            <% end %>
-          <% end %>
+    <%= index_header "Items" do %>
+      <%= link_to 'New Item', new_admin_item_path, class: "btn" %>
+    <% end %>
 
-          <%= tag.div class: "items-table-name" do %>
-            <strong><%= full_item_number(item) %></strong><br>
-            <%= link_to item.name, admin_item_path(item) %>
-            <% if item.size.present? %>
-              <span class="label"><%= item.size %></span>
-            <% end %>
-            <% if item.strength.present? %>
-              <span class="label"><%= item.strength %></span>
-            <% end %>
-            <br>
+    <div class="items-summary">
+      Viewing
+      <% if @tag %>
+        <strong><%= pluralize @pagy.count, "item" %></strong> tagged with
+        <span class="chip">
+          <%= @tag.name %>
+          <%= link_to "", items_path, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
+        </span>,
+      <% else %>
+        all <strong><%= pluralize @pagy.count, "item" %></strong>,
+      <% end %>
 
-            <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+      sorted by: 
 
-            <%= link_to edit_admin_item_path(item), class: "items-table-edit-link" do %>
-              <i class="icon icon-edit"></i>
-            <% end %>
-          <% end %>
-
-          <%= tag.div class: "items-table-tags" do %>
-            <% item.tags.each do |tag| %>
-              <%= link_to tag.name, tag: tag.id %><br>
-            <% end %>
-          <% end %>
-          <div class="item-table-divider"></div>
+      <div class="btn-group">
+        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {tag: params[:tag]}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">name</button>
+        <% end %>
+        <%= link_to_unless_current "number", {sort: "number", tag: params[:tag]}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">number</button>
+        <% end %>
+        <%= link_to_unless_current "added", {sort: "added", tag: params[:tag]}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">added</button>
         <% end %>
       </div>
 
+    </div> 
+
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-9-sm col-12-xs">
+
+    <% if @items.any? %>
+      <%= render partial: "admin/items/items", locals: { items: @items } %>
+      <%== pagy_bootstrap_nav(@pagy) %>
     <% elsif @tag %>
       <%= empty_state "There are no items in this tag", subtitle:"Create one?" do %>
         <%= link_to "Add an Item to #{@tag.name}", new_admin_item_path(tag_id: @tag.id), class: "btn btn-primary" %>
@@ -76,7 +50,7 @@
     <% end %>
   </div>
 
-  <div class="column col-3">
+  <div class="column col-3 hide-xs">
     <%= tag_nav(Tag.sorted_by_name, @tag) %>
   </div>
 

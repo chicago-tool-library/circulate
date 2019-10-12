@@ -1,0 +1,39 @@
+<div class="items-table">
+  <% items.each do |item| %>
+    <%= tag.div class: "items-table-image" do %>
+      <% if item.image.attached? %>
+        <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+      <% else %>
+        <div class="image-placeholder"></div>
+      <% end %>
+    <% end %>
+
+    <%= tag.div class: "items-table-name" do %>
+      <strong><%= full_item_number(item) %></strong>
+      <%= item_status_label(item) %>
+      <br>
+      <%= link_to item.name, admin_item_path(item) %>
+      <% if item.size.present? %>
+        <span class="label"><%= item.size %></span>
+      <% end %>
+      <% if item.strength.present? %>
+        <span class="label"><%= item.strength %></span>
+      <% end %>
+      <br>
+
+      <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+
+      <div class="items-index-buttons">
+        <%= link_to "Edit", edit_admin_item_path(item), class: "btn btn-sm" %>
+        <%= link_to "Duplicate", new_admin_item_path(item_id:item), class: "btn btn-sm" %>
+      </div>
+    <% end %>
+
+    <%= tag.div class: "items-table-tags" do %>
+      <% item.tags.each do |tag| %>
+        <%= link_to tag.name, admin_items_path(tag: tag.id) %>
+      <% end %>
+    <% end %>
+    <div class="item-table-divider"></div>
+  <% end %>
+</div>

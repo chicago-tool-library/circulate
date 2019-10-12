@@ -24,11 +24,10 @@
       hint: "i.e. voltage or amps; e.g. 18v, heavy duty" %>
 
   <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
-
-  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
-
   <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
   <%= form.text_field :serial, hint: "Usually near the model number" %>
+
+  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
 
   <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
 

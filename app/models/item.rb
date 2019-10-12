@@ -1,4 +1,7 @@
 class Item < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: {prefix: true}}
+
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings,
                   before_add: :cache_tag_ids,
@@ -15,12 +18,14 @@ class Item < ApplicationRecord
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :brand_contains, ->(query) { where("brand ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :size_contains, ->(query) { where("size ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :strength_contains, ->(query) { where("strength ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
+  scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
+  scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
+  scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
-
   scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
+
+  scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
   validates :number, numericality: {only_integer: true}, uniqueness: true
@@ -60,10 +65,14 @@ class Item < ApplicationRecord
     !active_exclusive_loan.present?
   end
 
+  def complete_number
+    "#{borrow_policy.code}-#{number}"
+  end
+
   private
 
   def strip_whitespace
-    %w{name brand size model serial strength}.each do |attr_name|
+    %w[name brand size model serial strength].each do |attr_name|
       value = attributes[attr_name]
       next unless value.present?
       write_attribute attr_name, value.strip

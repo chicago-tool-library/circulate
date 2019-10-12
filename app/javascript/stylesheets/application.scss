@@ -88,19 +88,22 @@ $photo-width: 187px;
 
     .items-table-image {
       grid-column: 1;
-      grid-row: span 2
+      grid-row: span 2;
+      img, .image-placeholder {
+        max-width: 100%;
+      }
     }
     .items-table-name {
+      position: relative;
       grid-column: 2;
       grid-row: span 2;
     }
-    .items-table-categories {
+    .items-table-tags {
       grid-column: 3;
       grid-row: span 2;
-    }
-    .items-table-edit-link {
-      display: block;
-      margin-top: 1em;
+      a {
+        display: inline-block;
+      }
     }
   }
 }
@@ -124,17 +127,10 @@ $photo-width: 187px;
       grid-row: span 1;
       position: relative;
     }
-    .items-table-categories {
+    .items-table-tags {
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;
-    }
-    .items-table-edit-link {
-      position: absolute;
-      right: 10px;
-      top: 0;
-      margin: 0;
-      font-size: 1.2em;
     }
   }
 }
@@ -367,25 +363,27 @@ form.membership-amount {
     }
   }
   .activation-instructions {
-    ul {
-      list-style: outside;
-    }
   }
 }
 
 .instructions {
-  color: $primary-color;
   .main {
+    color: $primary-color;
     font-weight: 500;
     line-height: 1.2;
     font-size: 1.2rem;
     margin-bottom: 0.5em;
   }
   .sub {
+    color: $primary-color;
     font-size: 1rem;
   }
   .divider {
     margin-bottom: 1rem;
+  }
+  ul {
+    list-style: outside;
+    margin-left: 1.5rem;
   }
 }
 
@@ -395,10 +393,11 @@ form.membership-amount {
   }
 }
 
+.items-summary {
+  margin-bottom: 2em;
+}
+
 .public {
-  .items-summary {
-    margin-bottom: 2em;
-  }
   .items-show {
     .item-image {
       position: relative;
@@ -406,6 +405,9 @@ form.membership-amount {
         max-width: 100%;
       }
     }
+  }
+  h1 {
+    margin-bottom: .1em;
   }
 }
 
@@ -420,6 +422,11 @@ form.membership-amount {
   .landing-options .column {
     margin-bottom: .5em;
   }
+}
+
+.admin-login-link {
+  font-size: 1rem;
+  margin-top: 3rem;
 }
 
 .member-active-loans, .member-recent-loans {
@@ -445,4 +452,80 @@ form.membership-amount {
     list-style: outside;
     font-size: 0.9em;
   }
+}
+
+.member-details {
+  margin-bottom: 2em;
+}
+
+.items-index-buttons {
+  margin-top: 1em;
+}
+
+.item-checkout-status {
+  font-size: 0.8em;
+  position: relative;
+  top: -1px;
+}
+
+.member-membership p {
+  margin-bottom: 0;
+}
+
+.admin {
+  .info-box {
+    background: #f7f8f9;
+    padding: .5em .7em;
+    margin-bottom: 1em;
+  }
+}
+
+table.monthly-adjustments {
+  thead tr:first-of-type {
+    line-height: 0.8em;
+    font-size: 0.8em;
+    color: $gray-color;
+    th {
+      border-bottom: 0;
+    }
+  }
+  thead tr:last-of-type {
+    line-height: 1em;
+    th {
+      padding-top: 0;
+    }
+  }
+  tbody tr:last-of-type, tfoot tr {
+    td {
+      border-bottom: 0;
+    }
+  }
+  tfoot tr td {
+    background: $dark-color;
+    color: $light-color;
+    font-weight: bold;
+  }
+  td.fees, th.fees {
+    padding-right: .7rem;
+  }
+  td.left-lined, th.left-lined {
+    border-left: 1px solid $gray-color-light;
+    padding-left: .7rem;
+  }
+  tfoot td.left-lined {
+    border-color: transparent;
+  }
+}
+
+.please-wait {
+  margin-top: 2rem;
+}
+
+.search-result-type {
+  margin-top: 2em;
+}
+
+.nav-category {
+  padding: 0.2rem 0.4rem;
+  color: $gray-color;
 }

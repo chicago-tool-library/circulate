@@ -1,8 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  adjustable: one (Loan)
-  amount_cents: -100
-  amount_currency: USD
-  member: one
-  kind: 0

@@ -35,10 +35,18 @@ Rails.application.routes.draw do
       resource :image, only: [:show, :update]
       resource :loan_history, only: :show
     end
-    resources :loans
+    resources :loans do
+      resources :renewals, only: :create
+    end
     resources :members, except: :destroy do
       resource :loan_history, only: :show
+      resource :activation, only: [:edit, :update]
+      resources :memberships, only: [:index, :new, :create]
+      resources :adjustments, only: :index
+      resources :payments, only: [:new, :create]
     end
+    resources :member_requests, only: :index
+    resources :monthly_adjustments, only: :index
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
@@ -52,9 +60,12 @@ Rails.application.routes.draw do
       post "/dev/time", to: "dev#set_time"
       delete "/dev/time", to: "dev#clear_time"
     end
+    
+    get "/", to: redirect("/admin/items")
   end
 
   resources :items, only: [:index, :show]
+  get "search", to: "searches#show"
 
   root to: "home#index"
 end

@@ -1,0 +1,12 @@
+<h1>Create a Payment</h1>
+
+<p>The member's account balance is <%= @amount_due.format %>. <strong>Any amount over this balance will be recorded as a donation</strong>.</p>
+
+<%= form_with model: @payment, url: admin_member_payments_path(@member), builder: SpectreFormBuilder do |form| %>
+  <%= form.money_field :amount_dollars, label: "Payment amount", class: "input-lg" %>
+  <%= form.select :payment_source, options_for_select(adjustment_payment_source_options, @payment.payment_source || "cash"), prompt: true %>
+
+  <%= form.actions do %>
+    <%= form.submit "Save Payment" %>
+  <% end %>
+<% end %>

@@ -4,7 +4,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    @tag = tags(:power_tools)
+    @tag = create(:tag)
     @user = users(:admin)
     sign_in @user
   end

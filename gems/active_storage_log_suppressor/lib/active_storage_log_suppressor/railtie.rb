@@ -15,7 +15,7 @@ module ActiveStorageLogSuppressor
     # request is detected.
     def install!
       message = "Hiding all ActiveStorage logging in development mode. Disable by setting SHOW_ACTIVE_STORAGE_LOGS."
-      puts "[active_support_log_suppressor] #{red(message)}"
+      puts "[active_storage_log_suppressor] #{red(message)}"
 
       require "action_controller/log_subscriber"
       ::ActionController::LogSubscriber.send :prepend, ActionControllerLoggingFilters

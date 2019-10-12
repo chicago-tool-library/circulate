@@ -1,33 +1,28 @@
 module Admin
   class MembersController < BaseController
+    include MemberOrdering
+
     before_action :set_member, only: [:show, :edit, :update, :destroy]
 
-    # GET /members
-    # GET /members.json
     def index
-      @members = Member.all
+      member_scope = params[:filter] == "closed" ? Member.closed : Member.open
+      @members = member_scope.order(index_order)
     end
 
-    # GET /members/1
-    # GET /members/1.json
     def show
       @new_item_numbers = []
       @new_loans = {}
-      @active_loans = @member.active_loans.by_creation_date
-      @recent_loans = @member.loans.recently_returned.includes(:adjustment).by_end_date.limit(10)
+      @active_loan_summaries = @member.loan_summaries.active.includes(:latest_loan, item: :borrow_policy)
+      @recent_loan_summaries = @member.loan_summaries.recently_returned.includes(:adjustment).by_end_date.limit(10)
     end
 
-    # GET /members/new
     def new
       @member = Member.new
     end
 
-    # GET /members/1/edit
     def edit
     end
 
-    # POST /members
-    # POST /members.json
     def create
       @member = Member.new(member_params)
 
@@ -42,8 +37,6 @@ module Admin
       end
     end
 
-    # PATCH/PUT /members/1
-    # PATCH/PUT /members/1.json
     def update
       respond_to do |format|
         if @member.update(member_params)
@@ -56,8 +49,6 @@ module Admin
       end
     end
 
-    # DELETE /members/1
-    # DELETE /members/1.json
     def destroy
       @member.destroy
       respond_to do |format|
@@ -68,14 +59,16 @@ module Admin
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_member
       @member = Member.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :notes, :id_kind, :other_id_kind, :postal_code, :address_verified)
+      params.require(:member).permit(
+        :full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :postal_code,
+        :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter, :volunteer_interest,
+        :notes, :status,
+      )
     end
   end
 end

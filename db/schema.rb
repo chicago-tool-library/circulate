@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_19_033026) do
+ActiveRecord::Schema.define(version: 2019_09_25_030512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_enum :adjustment_kind, [
+    "fine",
+    "membership",
+    "donation",
+    "payment",
+  ]
+  create_enum :adjustment_source, [
+    "cash",
+    "square",
+    "forgiveness",
+  ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -47,14 +59,16 @@ ActiveRecord::Schema.define(version: 2019_07_19_033026) do
   end
 
   create_table "adjustments", force: :cascade do |t|
-    t.string "adjustable_type", null: false
-    t.bigint "adjustable_id", null: false
+    t.string "adjustable_type"
+    t.bigint "adjustable_id"
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.bigint "member_id", null: false
-    t.integer "kind", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "payment_source", enum_name: "adjustment_source"
+    t.string "square_transaction_id"
+    t.enum "kind", null: false, enum_name: "adjustment_kind"
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end
@@ -135,6 +149,9 @@ ActiveRecord::Schema.define(version: 2019_07_19_033026) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "uniquely_numbered", null: false
+    t.integer "renewal_count", default: 0, null: false
+    t.bigint "initial_loan_id"
+    t.index ["initial_loan_id"], name: "index_loans_on_initial_loan_id"
     t.index ["item_id"], name: "index_active_numbered_loans_on_item_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
     t.index ["item_id"], name: "index_loans_on_item_id"
     t.index ["member_id"], name: "index_loans_on_member_id"
@@ -214,8 +231,39 @@ ActiveRecord::Schema.define(version: 2019_07_19_033026) do
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "loans", "items"
+  add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
+
+  create_view "monthly_adjustments", sql_definition: <<-SQL
+      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
+      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
+      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
+     FROM adjustments
+    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "loan_summaries", sql_definition: <<-SQL
+      SELECT loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      max(loans.id) AS latest_loan_id,
+      min(loans.created_at) AS created_at,
+      max(loans.due_at) AS due_at,
+          CASE
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              ELSE NULL::timestamp without time zone
+          END AS ended_at,
+      max(loans.renewal_count) AS renewal_count
+     FROM loans
+    GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+  SQL
 end

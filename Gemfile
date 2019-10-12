@@ -4,17 +4,22 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.6.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", github: "rails/rails", branch: "6-0-stable" # "~> 6.0.0.rc1"
+gem "rails", "~> 6.0.0"
+
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
-gem "puma", "~> 3.11"
+gem "puma"
+
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem "webpacker", ">= 4.0.0.rc.3"
+
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.5"
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -26,18 +31,21 @@ gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
+gem "pg_search"
+gem "activerecord-postgres_enum"
+gem "scenic"
+gem "reverse_markdown"
+gem "http"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
+gem "sentry-raven"
 gem 'omniauth-google-oauth2'
-
-gem "http"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
 
 gem "barnes"
-gem "skylight"
 gem "sucker_punch"
 gem "dotenv-rails"
 
@@ -56,22 +64,20 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring"
-  gem "spring-watcher-listen", "~> 2.0.0"
+  # gem "spring"
+  # gem "spring-watcher-listen", "~> 2.0.0"
   gem "solargraph"
   gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
 end
 
 group :production do
-  gem "sentry-raven"
+  gem "skylight"
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem "chromedriver-helper"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,16 +1,16 @@
 module Signup
   class SquareCheckout
-    def initialize(access_token:, location_id:, now: Time.zone.now)
+    def initialize(access_token:, location_id:, now: Time.current)
       @client = Square::Client.new(access_token: access_token)
       @location_id = location_id
       @now = now
     end
 
-    def checkout_url(amount:, email:, member_id:, return_to:)
+    def checkout_url(amount:, email:, member_id:, return_to:, idempotency_key: random_idempotency_key)
       checkout_response = @client.checkout.create_checkout(
         location_id: @location_id,
         body: {
-          idempotency_key: rand(1_000_000_000).to_s,
+          idempotency_key: idempotency_key,
           redirect_url: return_to,
           pre_populate_buyer_email: email,
           order: {
@@ -37,7 +37,7 @@ module Signup
       end
     end
 
-    def record_transaction(member:, transaction_id:)
+    def fetch_transaction(member:, transaction_id:)
       transaction_response = @client.transactions.retrieve_transaction(
         location_id: @location_id,
         transaction_id: transaction_id,
@@ -53,12 +53,17 @@ module Signup
         raise "non-USD currency is not supported" unless amount_money[:currency] == "USD"
 
         amount = Money.new(amount_money[:amount])
-        membership = member.memberships.create!(started_on: @now.to_date, ended_on: @now.to_date + 1.year)
-        member.adjustments.create!(kind: :membership, amount: amount, adjustable: membership)
+
         Result.success(amount)
       else
         Result.failure(transaction_response.errors)
       end
+    end
+
+    private
+
+    def random_idempotency_key
+      rand(1_000_000_000).to_s
     end
   end
 end

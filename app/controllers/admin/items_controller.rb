@@ -1,11 +1,13 @@
 module Admin
   class ItemsController < BaseController
+    include Pagy::Backend
+
     before_action :set_item, only: [:show, :edit, :update, :destroy]
 
     # GET /items
     # GET /items.json
     def index
-      item_scope = Item
+      item_scope = Item.includes(:active_exclusive_loan)
 
       if params[:tag]
         @tag = Tag.where(id: params[:tag]).first
@@ -14,7 +16,9 @@ module Admin
         item_scope = @tag.items
       end
 
-      @items = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
+      item_scope = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
+
+      @pagy, @items = pagy(item_scope)
     end
 
     # GET /items/1
@@ -28,7 +32,13 @@ module Admin
 
     # GET /items/new
     def new
-      @item = Item.new(tag_ids: [params[:tag_id]])
+      if params[:item_id]
+        item_to_duplicate = Item.find(params[:item_id])
+        @item = Item.new(item_to_duplicate.attributes.except(:id).merge(tag_ids: item_to_duplicate.tag_ids))
+      else
+        @item = Item.new(tag_ids: [params[:tag_id]])
+      end
+
       set_tags
     end
 

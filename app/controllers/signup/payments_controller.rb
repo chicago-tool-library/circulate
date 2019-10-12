@@ -1,6 +1,7 @@
 module Signup
   class PaymentsController < BaseController
     before_action :load_member
+    before_action :set_raven_context
 
     def new
       @payment = Payment.new
@@ -19,7 +20,7 @@ module Signup
       if result.success?
         redirect_to result.value
       else
-        flash[:error] = result.errors
+        flash[:error] = "There was a problem connecting to our payment processor."
         redirect_to new_signup_payment_url
       end
     end
@@ -32,18 +33,37 @@ module Signup
     end
 
     def callback
-      result = checkout.record_transaction(member: @member, transaction_id: params[:transactionId])
+      transaction_id = params[:transactionId]
+      result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+      session[:attempts] ||= 0
+
       if result.success?
-        amount = @member.adjustments.last.amount
+        amount = result.value
+        Membership.create_for_member(@member, amount, square_transaction_id: transaction_id)
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
+
         reset_session
         session[:amount] = amount.cents
+
         redirect_to signup_confirmation_url
+
       else
-        Raven.capture_exception(result.errors)
-        Rails.logger.error result.errors
-        flash[:error] = "Your payment could not be processed. Please come into the library to complete signup."
-        redirect_to :new
+        errors = result.error
+        Rails.logger.error(errors)
+        Raven.capture_message(errors.inspect)
+        
+        if errors.first[:code] == "NOT_FOUND"
+          # Give Square a little while for the transaction data to be available
+          session[:attempts] += 1
+          if session[:attempts] <= 10
+            render :wait, layout: nil
+            return
+          end
+        end
+
+        reset_session
+        flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
+        redirect_to signup_confirmation_url
       end
     end
 
@@ -58,6 +78,10 @@ module Signup
         access_token: ENV.fetch("SQUARE_ACCESS_TOKEN"),
         location_id: ENV.fetch("SQUARE_LOCATION_ID")
       )
+    end
+  
+    def set_raven_context
+      Raven.extra_context(session)
     end
   end
 end

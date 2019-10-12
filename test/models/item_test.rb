@@ -2,25 +2,27 @@ require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
   test "assigns a number" do
-    item = Item.new(items(:complete).attributes.except("id", "number"))
+    borrow_policy = create(:borrow_policy)
+    item = build(:item, number: nil, borrow_policy: borrow_policy)
     item.save!
 
     assert item.number
   end
 
   test "it has a due_on date" do
-    item = items(:complete)
-    Loan.create!(item_id: item.id, member: members(:complete), due_at: Date.tomorrow.end_of_day, uniquely_numbered: true)
-
-    assert Date.tomorrow, item.due_on
+    loan = create(:loan, due_at: Date.tomorrow.end_of_day)
+    loan.item.reload
+    assert Date.tomorrow, loan.item.due_on
   end
 
   test "it is not available" do
-    refute items(:checked_out).available?
+    loan = create(:loan)
+    loan.item.reload
+    refute loan.item.available?
   end
 
   test "it is available" do
-    assert items(:complete).available?
+    assert create(:item).available?
   end
 
   test "validations" do
@@ -34,7 +36,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "strips whitespace before validating" do
     item = Item.new(name: " name ", brand: " brand ", size: " 12v", model: "123 ",
-      serial: " a bc", strength: " heavy")
+                    serial: " a bc", strength: " heavy")
 
     item.valid?
 

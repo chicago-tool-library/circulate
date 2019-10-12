@@ -1,0 +1,45 @@
+{
+  "transaction": {
+    "id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+    "location_id": "18YC4JDH91E1H",
+    "created_at": "2016-03-10T22:57:56Z",
+    "tenders": [
+      {
+        "id": "MtZRYYdDrYNQbOvV7nbuBvMF",
+        "location_id": "18YC4JDH91E1H",
+        "transaction_id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+        "created_at": "2016-03-10T22:57:56Z",
+        "note": "some optional note",
+        "amount_money": {
+          "amount": 5000,
+          "currency": "USD"
+        },
+        "processing_fee_money": {
+          "amount": 138,
+          "currency": "USD"
+        },
+        "type": "CARD",
+        "card_details": {
+          "status": "CAPTURED",
+          "card": {
+            "card_brand": "VISA",
+            "last_4": "1111"
+          },
+          "entry_method": "KEYED"
+        },
+        "additional_recipients": [
+          {
+            "location_id": "057P5VYJ4A5X1",
+            "description": "Application fees",
+            "amount_money": {
+              "amount": 20,
+              "currency": "USD"
+            }
+          }
+        ]
+      }
+    ],
+    "reference_id": "some optional reference id",
+    "product": "EXTERNAL_API"
+  }
+}
