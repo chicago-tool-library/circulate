@@ -8,6 +8,8 @@ module Calendaring
     if result.success?
       redirect_to volunteer_shifts_url, success: "You have signed up for the shift."
     else
+      Rails.logger.error(result.errors)
+      Raven.capture_message(result.errors.inspect)
       redirect_to new_volunteer_shift_url(event_id: event_id), error: result.errors
     end
   end
