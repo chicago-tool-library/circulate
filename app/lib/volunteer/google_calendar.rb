@@ -43,6 +43,7 @@ module Volunteer
       attendees << {
         email: attendee.email,
         displayName: attendee.name,
+        responseStatus: "accepted",
       }
 
       # update event
@@ -65,7 +66,7 @@ module Volunteer
     end
 
     def new_client
-      http = HTTP.use(logging: {logger: Logger.new(STDOUT)})
+      http = HTTP#.use(logging: {logger: Logger.new(STDOUT)})
       token_response = http.post(TOKEN_ENDPOINT, params: {
                                                   client_id: ENV.fetch("GCAL_CLIENT_ID"),
                                                   client_secret: ENV.fetch("GCAL_CLIENT_SECRET"),

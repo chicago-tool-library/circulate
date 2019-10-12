@@ -1,39 +1,62 @@
-
-<h1>Volunteer Shifts</h1>
-
-<div>
-  <% if signed_in_via_google? %>
-    Signed in as <strong><%= @attendee.email %></strong>.
-    <%= link_to "Sign out", volunteer_session_path, method: :delete %>
-  <% else %>
-    <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
-  <% end %>
+<div class="columns" id="page-title" data-turbolinks-permanent>
+  <div class="column col-12">
+    <div class="signup-logo on-step">
+      <%= image_pack_tag "logo.jpg" %> 
+      <h1>Volunteer Shifts</h1>
+    </div>
+  </div>
 </div>
 
-<div class="shift-schedule">
-  <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
-    <div class="columns">
-      <div class="column col-12">
-        <h3><%= date.strftime("%A, %B %-d, %Y") %></h3>
-      </div>
-
-      <% daily_events.each do |event| %>
-        <div class="column col-3">
-          <h4><%= event.times %></h4>
-          <p>
-            <%= pluralize(event.attendees_count, "person") %> signed up
-          </p>
-        </div>
-        <div class="column col-3">
-          <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
-            <%= link_to("Signed up", "", class: "btn btn-lg btn-success", disabled: true) %>
-          <% else %>
-            <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn btn-lg") %>
-          <% end %>
-        </div>
-      <% end %>
+<div class="columns">
+  <div class="column col-8 col-mx-auto col-md-10 col-sm-12">
+    <div class="instructions mt-2">
+      <p class="main">Click <em>Sign up</em> on a shift you'd like to cover.</p>
+      <p class="sub">
+        We try to have at least 2 people at each shift, but more is OK!
+      </p>
     </div>
+    <p>
+      <% if signed_in_via_google? %>
+        Signed in as <strong><%= @attendee.email %></strong> &ndash;
+        <%= link_to "Sign out", volunteer_session_path, method: :delete %>
+      <% end %>
+    </p>
+  </div>
+</div>
 
-    <div class="divider">
-  <% end %>
+<div class="columns">
+  <div class="column col-8 col-mx-auto col-md-10 col-sm-12">
+    <div class="shift-schedule">
+      <table class="table">
+        <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
+          <% daily_events.each_with_index do |event, i| %>
+            <tr>
+              <% if i == 0 %>
+                <td rowspan="<%= daily_events.size %>%">
+                  <strong>
+                    <span class="hide-sm"><%= date.strftime("%A, %B %-d, %Y") %></span>
+                    <span class="show-sm"><%= date.strftime("%a, %b %-d") %></span>
+                  </strong>
+                </td>
+              <% end %>
+              <td><%= event.times %></td>
+              <td><%= pluralize(event.attendees_count, "person") %> signed up</td>
+              <td>
+                <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
+                  <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
+                <% else %>
+                  <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if event.attendees_count < 2}") %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+    <p class="text-center mt-2">
+      <% unless signed_in_via_google? %>
+        <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+      <% end %>
+    </p>
+  </div>
 </div>

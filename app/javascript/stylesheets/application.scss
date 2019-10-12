@@ -432,4 +432,17 @@ form.membership-amount {
   h3 {
     margin-top: 1rem;
   }
+  .num-attending {
+    color: $success-color;
+  }
+  .attending-1 {
+    color: $warning-color;
+  }
+  .attending-0 {
+    color: $error-color;
+  }
+  .attendees {
+    list-style: outside;
+    font-size: 0.9em;
+  }
 }

@@ -1,0 +1,30 @@
+<div class="columns">
+  <div class="column col-12">
+
+    <h1>Volunteer Shifts</h1>
+
+    <div class="shift-schedule">
+      <table class="table">
+        <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
+          <% daily_events.each_with_index do |event, i| %>
+            <tr>
+              <% if i == 0 %>
+                <td rowspan="<%= daily_events.size %>%">
+                  <strong>
+                    <span class="hide-sm"><%= date.strftime("%A, %B %-d") %></span>
+                    <span class="show-sm"><%= date.strftime("%a, %b %-d") %></span>
+                  </strong>
+                </td>
+              <% end %>
+              <td><%= event.times %></td>
+              <%= tag.td class: "num-attending attending-#{event.attendees_count}" do %>
+                <%= pluralize(event.attendees_count, "person") %><span class="hide-sm"> signed up</span>
+              <% end %>
+              <td><%= event.attendees.map(&:name).join(", ") %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

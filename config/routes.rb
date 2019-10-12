@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
+    resources :shifts, only: :index
     resources :tags
     resources :items do
       get :number
