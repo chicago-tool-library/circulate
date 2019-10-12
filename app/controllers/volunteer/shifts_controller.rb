@@ -4,9 +4,7 @@ module Volunteer
     include Calendaring
 
     def index
-      Date.beginning_of_week = :sunday
-      cutoff = Time.current + 60.days
-      @events = google_calendar.upcoming_events(Time.current.beginning_of_day, cutoff).value
+      load_upcoming_events
       @attendee = Attendee.new(session[:email], session[:name])
     end
 
@@ -27,15 +25,6 @@ module Volunteer
         session[:event_id] = params[:event_id]
         redirect_to "/auth/google_oauth2"
       end
-    end
-
-    private
-
-
-    def date_from_params
-      Date.new(params[:year].to_i, params[:month].to_i)
-    rescue ArgumentError
-      Date.current
     end
   end
 end
