@@ -1,5 +1,5 @@
 module Volunteer
-  class SessionsController < ApplicationController
+  class SessionsController < BaseController
     include Calendaring
 
     def create

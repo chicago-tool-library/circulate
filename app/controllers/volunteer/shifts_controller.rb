@@ -1,5 +1,5 @@
 module Volunteer
-  class ShiftsController < ApplicationController
+  class ShiftsController < BaseController
     include ShiftsHelper
     include Calendaring
 
