@@ -17,10 +17,16 @@
                 </td>
               <% end %>
               <td><%= event.times %></td>
-              <%= tag.td class: "num-attending attending-#{event.attendees_count}" do %>
-                <%= pluralize(event.attendees_count, "person") %><span class="hide-sm"> signed up</span>
+              <%= tag.td class: "num-attending attending-#{event.accepted_attendees_count}" do %>
+                <%= pluralize(event.accepted_attendees_count, "person") %><span class="hide-sm"> signed up</span>
               <% end %>
-              <td><%= event.attendees.map(&:name).join(", ") %></td>
+              <td>
+                <% event.attendees.each do |a| %>
+                  <%= tag.span a.name, title: a.email %>
+                  <% unless a.accepted? %><em><%= a.status %><% end %>
+                  <br>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <% end %>

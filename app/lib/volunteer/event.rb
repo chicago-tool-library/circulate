@@ -9,8 +9,8 @@ module Volunteer
       @attendees = attendees
     end
 
-    def attendees_count
-      @attendees.size
+    def accepted_attendees_count
+      @attendees.select { |a| a.accepted? }.size
     end
 
     def times

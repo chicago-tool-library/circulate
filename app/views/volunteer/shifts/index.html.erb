@@ -32,12 +32,12 @@
                 </td>
               <% end %>
               <td><%= event.times %></td>
-              <td><%= pluralize(event.attendees_count, "person") %> signed up</td>
+              <td><%= pluralize(event.accepted_attendees_count, "person") %> signed up</td>
               <td>
                 <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
                   <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
                 <% else %>
-                  <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if event.attendees_count < 2}") %>
+                  <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if event.accepted_attendees_count < 2}") %>
                 <% end %>
               </td>
             </tr>
