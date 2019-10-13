@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resource :image, only: [:show, :update]
       resource :loan_history, only: :show
     end
+    resources :loan_summaries, only: :index
     resources :loans do
       resources :renewals, only: :create
     end
