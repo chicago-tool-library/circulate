@@ -19,7 +19,7 @@ class Member < ApplicationRecord
   validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
-  scope :matching, ->(query) { where("email = ? OR full_name ILIKE ?", query, "%#{query}%") }
+  scope :matching, ->(query) { where("email = ? OR full_name ILIKE ? OR phone_number LIKE ?", query, "%#{query}%", "%#{query}") }
   scope :active, -> { where(status: "active") }
   scope :open, -> { where(status: statuses.slice(:pending, :active).values) }
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }

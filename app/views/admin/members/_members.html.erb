@@ -10,7 +10,7 @@
       <%= tag.div(member_pronoun(member), class: "label") if member.pronoun %>
     <% end %>
     <%= tag.div member.email, class: "responsive-table-cell" %>
-    <%= tag.div member.phone_number, class: "responsive-table-cell" %>
+    <%= tag.div format_phone_number(member.phone_number), class: "responsive-table-cell" %>
     <%= tag.div class: "responsive-table-cell" do %>
       <%= member_status(member) %>
       <% if member.status_pending? %>
