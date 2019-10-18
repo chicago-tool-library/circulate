@@ -22,6 +22,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_equal "Today's loan summary", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
     assert_includes mail.encoded, loan2.item.complete_number
+    refute_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
   test "doesn't send emails with old activity" do
@@ -40,12 +41,27 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
+  test "sends a single email to folks with both overdue and active loans" do
+    loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
+    loan2 = create(:loan, member: loan.member, due_at: 7.days.since)
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      notifier.send_daily_loan_summaries
+    end
+
+    refute ActionMailer::Base.deliveries.empty?
+
+    mails = ActionMailer::Base.deliveries.select { |delivery| delivery.to == [loan.member.email] }
+    assert_equal 1, mails.size
+  end
+
   test "sends emails to folks with overdue items" do
     loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
+      notifier.send_overdue_notices
     end
 
     refute ActionMailer::Base.deliveries.empty?
@@ -59,18 +75,4 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
-  test "sends a single email to folks with both overdue and active loans" do
-    loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
-    loan2 = create(:loan, member: loan.member, created_at: 1.day.ago, due_at: 6.days.since)
-
-    Time.use_zone("America/Chicago") do
-      notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
-    end
-
-    refute ActionMailer::Base.deliveries.empty?
-
-    mails = ActionMailer::Base.deliveries.select { |delivery| delivery.to == [loan.member.email] }
-    assert_equal 1, mails.size
-  end
 end

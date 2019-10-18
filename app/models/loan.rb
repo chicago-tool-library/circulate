@@ -23,13 +23,6 @@ class Loan < ApplicationRecord
 
   scope :active, -> { where(ended_at: nil) }
   scope :exclusive, -> { where(uniquely_numbered: true) }
-  scope :updated_on, ->(date) {
-    morning = date.beginning_of_day.utc
-    night = date.end_of_day.utc
-    where("loans.updated_at BETWEEN ? AND ?", morning, night)
-  }
-  scope :due_after, ->(date) { where("loans.due_at < ?", date) }
-
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }
 

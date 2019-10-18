@@ -6,7 +6,7 @@ class LoanSummary < ApplicationRecord
   belongs_to :member
   has_one :adjustment, -> { unscope(where: :adjutable_type).where(adjustable_type: 'Loan') }, as: :adjustable
 
-  scope :active_today, ->(date) {
+  scope :active_on, ->(date) {
     morning = date.beginning_of_day.utc
     night = date.end_of_day.utc
     where("loan_summaries.created_at BETWEEN ? AND ? OR loan_summaries.ended_at BETWEEN ? AND ?", morning, night, morning, night)
@@ -14,7 +14,7 @@ class LoanSummary < ApplicationRecord
 
   scope :active, -> { where(ended_at: nil) }
   scope :checked_out, -> { where(ended_at: nil) }
-  scope :overdue, -> { checked_out.where("due_at < ?", Time.current.beginning_of_day) }
+  scope :overdue_as_of, -> (date) { active.where "due_at < ?", date }
   scope :returned, -> { where.not(ended_at: nil) }
   scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 30.days) }
   scope :by_end_date, -> { order(ended_at: :asc) }
@@ -29,5 +29,9 @@ class LoanSummary < ApplicationRecord
 
   def readonly?
     true
+  end
+
+  def overdue_as_of(time)
+    !ended? && due_at < time
   end
 end

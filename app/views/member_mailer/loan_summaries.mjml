@@ -35,7 +35,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, has_overdue_items: @has_overdue_items} %>
+          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, has_overdue_items: @has_overdue_items, now: @now} %>
         </mj-text>
       </mj-column>
     </mj-section>

@@ -5,7 +5,7 @@
     <% if summary.ended? %>
       returned
     <% else %>
-      <% if summary.due_at < Time.current %>
+      <% if summary.overdue_as_of(now) %>
         <span class="overdue">
           was due
           <%= checked_out_date(summary.due_at) %>
