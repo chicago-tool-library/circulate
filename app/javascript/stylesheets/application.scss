@@ -529,3 +529,8 @@ table.monthly-adjustments {
   padding: 0.2rem 0.4rem;
   color: $gray-color;
 }
+
+// Fix issue where the tag input is being drawn above the name autocomplete
+.form-group .awesomplete > ul {
+  z-index: 10;
+}
