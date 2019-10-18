@@ -9,7 +9,7 @@ class LoanSummary < ApplicationRecord
   scope :active_today, ->(date) {
     morning = date.beginning_of_day.utc
     night = date.end_of_day.utc
-    where("loan_summaries.ended_at IS NULL OR loan_summaries.ended_at BETWEEN ? AND ?", morning, night)
+    where("loan_summaries.created_at BETWEEN ? AND ? OR loan_summaries.ended_at BETWEEN ? AND ?", morning, night, morning, night)
   }
 
   scope :active, -> { where(ended_at: nil) }

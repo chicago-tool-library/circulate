@@ -24,6 +24,7 @@ class Member < ApplicationRecord
   scope :open, -> { where(status: statuses.slice(:pending, :active).values) }
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loans).merge(Loan.updated_on(date)).distinct }
+  scope :with_outstanding_items, ->(date) { joins(:loans).merge(Loan.active.due_after(date)).distinct }
 
   scope :by_full_name, -> { order(full_name: :desc) }
 

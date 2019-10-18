@@ -12,7 +12,12 @@ class MemberMailer < ApplicationMailer
   def loan_summaries
     @member = params[:member]
     @summaries = params[:summaries]
-    @title = "Today's account summary"
+    @has_overdue_items = @summaries.any? { |s| s.due_at < Time.current }
+    @title = if @has_overdue_items
+      "You have overdue items!" 
+    else
+      "Today's loan summary"
+    end
     mail(to: @member.email, subject: @title)
   end
 end

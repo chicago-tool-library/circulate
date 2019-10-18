@@ -5,13 +5,25 @@
     <% if summary.ended? %>
       returned
     <% else %>
-      <% if summary.renewed? %>
-        renewed until
-      <% else %>
-        due
+      <% if summary.due_at < Time.current %>
+        <span class="overdue">
+          was due
+          <%= checked_out_date(summary.due_at) %>
+          and is now overdue!
+        </span>
+      <% else %> 
+        <% if summary.renewed? %>
+          renewed until
+        <% else %>
+          due
+        <% end %>
+        <%= checked_out_date(summary.due_at) %>
       <% end %>
-      <%= checked_out_date(summary.due_at) %>
     <% end %>
   </li>
 <% end %>
 </ul>
+
+<% if has_overdue_items %>
+  <p class="overdue"><strong>Please return all overdue items as soon as possible so other members can check them out.</strong></p>
+<% end %>

@@ -13,6 +13,12 @@
       li {
         margin-bottom: 1em;
       }
+      .overdue {
+        color: #DF6C54;
+      }
+      p.overdue {
+        margin-bottom: 0;
+      }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
@@ -29,7 +35,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries} %>
+          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, has_overdue_items: @has_overdue_items} %>
         </mj-text>
       </mj-column>
     </mj-section>

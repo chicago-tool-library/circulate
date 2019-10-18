@@ -28,6 +28,7 @@ class Loan < ApplicationRecord
     night = date.end_of_day.utc
     where("loans.updated_at BETWEEN ? AND ?", morning, night)
   }
+  scope :due_after, ->(date) { where("loans.due_at < ?", date) }
 
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }
