@@ -7,7 +7,7 @@ class Item < ApplicationRecord
                   before_add: :cache_tag_ids,
                   before_remove: :cache_tag_ids
   has_many :loans, dependent: :destroy
-  has_one :active_exclusive_loan, -> { active.exclusive.readonly }, class_name: "Loan"
+  has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
 
   has_rich_text :description
@@ -58,11 +58,11 @@ class Item < ApplicationRecord
   end
 
   def due_on
-    active_exclusive_loan.due_at.to_date
+    checked_out_exclusive_loan.due_at.to_date
   end
 
   def available?
-    !active_exclusive_loan.present?
+    !checked_out_exclusive_loan.present?
   end
 
   def complete_number

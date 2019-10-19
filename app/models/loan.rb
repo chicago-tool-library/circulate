@@ -11,7 +11,7 @@ class Loan < ApplicationRecord
   validates_each :item_id do |record, attr, value|
     if value
       record.item.reload
-      if record.item.active_exclusive_loan && record.item.active_exclusive_loan.id != record.id
+      if record.item.checked_out_exclusive_loan && record.item.checked_out_exclusive_loan.id != record.id
         record.errors.add(attr, "is already on loan")
       elsif !record.item.active?
         record.errors.add(attr, "is not available to loan")
@@ -21,7 +21,7 @@ class Loan < ApplicationRecord
     end
   end
 
-  scope :active, -> { where(ended_at: nil) }
+  scope :checked_out, -> { where(ended_at: nil) }
   scope :exclusive, -> { where(uniquely_numbered: true) }
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }

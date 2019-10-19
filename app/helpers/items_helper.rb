@@ -48,7 +48,7 @@ module ItemsHelper
 
   def item_status_label(item)
     class_name, label = if item.active?
-      if item.active_exclusive_loan
+      if item.checked_out_exclusive_loan
         ["label-primary", "Checked Out"]
       else
         ["label-success", "Available"]

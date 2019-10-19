@@ -12,7 +12,7 @@ module Admin
     def show
       @new_item_numbers = []
       @new_loans = {}
-      @active_loan_summaries = @member.loan_summaries.active.includes(:latest_loan, item: :borrow_policy)
+      @active_loan_summaries = @member.loan_summaries.checked_out.includes(:latest_loan, item: :borrow_policy).chronologically
       @recent_loan_summaries = @member.loan_summaries.recently_returned.includes(:adjustment).by_end_date.limit(10)
     end
 

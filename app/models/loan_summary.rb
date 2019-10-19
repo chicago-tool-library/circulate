@@ -12,12 +12,12 @@ class LoanSummary < ApplicationRecord
     where("loan_summaries.created_at BETWEEN ? AND ? OR loan_summaries.ended_at BETWEEN ? AND ?", morning, night, morning, night)
   }
 
-  scope :active, -> { where(ended_at: nil) }
   scope :checked_out, -> { where(ended_at: nil) }
-  scope :overdue_as_of, -> (date) { active.where "due_at < ?", date }
+  scope :overdue_as_of, -> (date) { checked_out.where "due_at < ?", date }
   scope :returned, -> { where.not(ended_at: nil) }
   scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 30.days) }
   scope :by_end_date, -> { order(ended_at: :asc) }
+  scope :chronologically, -> { order(created_at: :asc) }
 
   def ended?
     ended_at.present?

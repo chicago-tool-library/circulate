@@ -7,7 +7,7 @@ module Admin
     # GET /items
     # GET /items.json
     def index
-      item_scope = Item.includes(:active_exclusive_loan)
+      item_scope = Item.includes(:checked_out_exclusive_loan)
 
       if params[:tag]
         @tag = Tag.where(id: params[:tag]).first
