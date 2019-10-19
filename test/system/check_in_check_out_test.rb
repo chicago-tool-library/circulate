@@ -21,7 +21,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     fill_in :loan_item_number, with: @item.number
-    click_on "Checkout"
+    click_on "Lend Item"
     within ".member-active-loans" do
       assert_text @item.name
     end

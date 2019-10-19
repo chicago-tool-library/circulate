@@ -146,15 +146,24 @@
     <div class="column col-12">
       <h2 id="checkout">New Loan</h2>
 
-      <%= form_with(model: [:admin, @member.loans.new]) do |form| %>
+      <%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
         <% if flash.key? :checkout_error %>
           <div class="toast toast-error"><%= flash[:checkout_error] %></div>
         <% end %>
 
-        Lookup an item by number: 
-        <%= form.text_field :item_number, pattern: "[0-9]{1,4}", placeholder: "1-4 digit item number", autofocus: true %>
+        <div data-controller="item-number-input">
+          <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member", 
+          pattern: "[0-9]{1,4}", 
+          placeholder: "1-4 digit item number", 
+          autofocus: true, 
+          data: {action: "keydown->item-number-input#keydown"}, 
+          hint: "Just the number; no need for letters, dashes, etc." %>
+        </div>
+
         <%= form.hidden_field :member_id %>
-        <%= button_tag "Checkout", class: "btn" %> 
+        <%= form.actions do %>
+          <%= button_tag "Lend Item", class: "btn btn-primary" %> 
+        <% end %>
       <% end %>
     </div>
   </div>
