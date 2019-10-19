@@ -534,3 +534,28 @@ table.monthly-adjustments {
 .form-group .awesomplete > ul {
   z-index: 10;
 }
+
+@media (max-width: $size-md) {
+    img {
+      max-width: 60vw;
+    }
+}
+
+.image-editor {
+  display: table;
+  margin: 4rem auto;
+  max-width: 90vw;
+  .rotation-control {
+    font-size: 2rem;
+    font-weight: bold;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 5vw;
+  }
+  img {
+    display: table-cell;
+  }
+  .image-editor-row {
+    display: table-row;
+  }
+}
