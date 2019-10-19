@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resources :tags
     resources :items do
       get :number
-      resource :image, only: [:show, :update]
+      resource :image, only: [:edit, :update]
       resource :loan_history, only: :show
     end
     resources :loan_summaries, only: :index

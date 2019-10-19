@@ -1,14 +1,11 @@
 module Admin
   class ImagesController < BaseController
-    def show
-      @item = Item.find(params[:item_id])
-      @image = @item.image
+    before_action :load_image
+
+    def edit
     end
 
     def update
-      @item = Item.find(params[:item_id])
-      @image = @item.image
-
       @image.metadata["rotation"] = image_params[:rotation]
       @image.attachment.blob.save!
 
@@ -19,6 +16,14 @@ module Admin
 
     def image_params
       params.require(:image).permit(:rotation)
+    end
+
+    def load_image
+      @item = Item.find(params[:item_id])
+      unless @item.image.attached?
+        redirect_to admin_item_path(@item), error: "Image not found" 
+      end
+      @image = @item.image
     end
   end
 end
