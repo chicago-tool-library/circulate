@@ -8,6 +8,7 @@
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.2",
     "awesomplete": "^1.1.4",
+    "clean-webpack-plugin": "^3.0.0",
     "jquery": "^3.4.1",
     "mjml": "^4.4.0",
     "selectize": "^0.12.6",
