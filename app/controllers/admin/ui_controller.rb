@@ -4,6 +4,7 @@ module Admin
       names = Item
         .name_contains(params[:q])
         .pluck(:name)
+        .map(&:strip)
         .map(&:humanize)
         .uniq
         .sort
@@ -15,6 +16,7 @@ module Admin
       brands = Item
         .brand_contains(params[:q])
         .pluck(:brand)
+        .map(&:strip)
         .uniq
         .sort
 
@@ -25,6 +27,7 @@ module Admin
       sizes = Item
         .size_contains(params[:q])
         .pluck(:size)
+        .map(&:strip)
         .uniq
         .sort
 
@@ -35,6 +38,7 @@ module Admin
       strengths = Item
         .strength_contains(params[:q])
         .pluck(:strength)
+        .map(&:strip)
         .uniq
         .sort
 
