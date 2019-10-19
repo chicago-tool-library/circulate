@@ -30,6 +30,10 @@ Capybara.register_driver(:headless_chrome) do |app|
   )
 end
 
+FactoryBot::SyntaxRunner.class_eval do
+  include ActionDispatch::TestProcess
+end
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
   driven_by :selenium, using: driver, screen_size: [1400, 1400]

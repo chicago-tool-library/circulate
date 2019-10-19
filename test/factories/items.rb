@@ -19,5 +19,9 @@ FactoryBot.define do
       quantity { 10 }
       borrow_policy factory: :unnumbered_borrow_policy
     end
+
+    trait :with_image do
+      image { fixture_file_upload(Rails.root.join('test', 'fixtures', 'files', 'tool-image.jpg'), 'image/jpg') }
+    end
   end
 end

@@ -55,4 +55,14 @@ class ItemsTest < ApplicationSystemTestCase
 
     assert_text "Item was successfully destroyed"
   end
+
+  test "editing an item's photo" do
+    audited_as_admin do
+      @item = create(:item, :with_image)
+    end
+
+    visit admin_item_url(@item)
+
+    click_on "Edit Photo"
+  end
 end
