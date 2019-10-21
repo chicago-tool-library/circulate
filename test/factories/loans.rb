@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :loan do
     item
-    member
+    association :member, factory: :active_member
     due_at { Time.current + 1.week }
     uniquely_numbered { true }
 

@@ -15,4 +15,15 @@ class LoanSummariesControllerTest < ActionDispatch::IntegrationTest
     get admin_loan_summaries_url
     assert_response :success
   end
+
+  test "should get index, filtered by overdue" do
+    create(:loan)
+    overdue_loan = create(:loan, due_at: 1.week.ago)
+    create(:ended_loan)
+
+    get admin_loan_summaries_url(filter: "overdue")
+    assert_response :success
+
+    assert_select "table a", overdue_loan.item.name
+  end
 end
