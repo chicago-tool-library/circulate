@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     end
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
+    resources :monthly_activities, only: :index
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

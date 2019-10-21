@@ -1,0 +1,4 @@
+#!/bin/sh
+
+script/pre-commit-format-javascript
+script/pre-commit-format-ruby

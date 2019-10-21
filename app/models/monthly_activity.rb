@@ -1,0 +1,2 @@
+class MonthlyActivity < ApplicationRecord
+end

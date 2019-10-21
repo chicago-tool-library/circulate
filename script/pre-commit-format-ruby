@@ -1,0 +1,16 @@
+#!/bin/sh
+# ./.git/hooks/pre-commit-format-ruby
+# Assumption: bundler has installed the standard gem
+# Based on the bash script prescribed at https://prettier.io/docs/en/precommit.html#option-5-bash-script
+
+rubyfiles=$(git diff --cached --name-only --diff-filter=ACM "*.rb" "*.rake" "Gemfile" "Rakefile" | tr '\n' ' ')
+[ -z "$rubyfiles" ] && exit 0
+
+# Standardize all ruby files
+echo "💅 Automatically formatting staged Ruby files using standardrb ($(echo $rubyfiles | wc -w | awk '{print $1}') total)"
+echo "$rubyfiles" | xargs bundle exec standardrb --fix
+
+# Add back the modified/prettified files to staging
+echo "$rubyfiles" | xargs git add
+
+exit 0

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ln -s script/pre-commit .git/hooks/pre-commit

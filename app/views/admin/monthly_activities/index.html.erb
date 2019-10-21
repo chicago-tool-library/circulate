@@ -1,0 +1,37 @@
+<h1>Activity</h1>
+
+<table class="table monthly-adjustments">
+  <thead>
+    <tr>
+      <th></th>
+      <th class="left-lined" colspan="2">Activity</th>
+      <th class="left-lined" colspan="3">Members</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th class="left-lined">Loans</th>
+      <th>Members</th>
+      <th class="left-lined">New</th>
+      <th>Pending</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @monthly_activities.each do |ma| %>
+      <tr>
+        <td><%= Date::MONTHNAMES[ma.month] %> <%= ma.year %></td>
+        <td class="left-lined"><%= ma.loans_count %></td>
+        <td class="left-lined"><%= ma.active_members_count %></td>
+        <td class="left-lined"><%= ma.new_members_count %></td>
+        <td class="left-lined"><%= ma.pending_members_count %></td>
+      </tr>
+    <% end %>
+  <tfoot>
+    <tr>
+      <td>Total</td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:loans_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:active_members_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:new_members_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:pending_members_count) %></td>
+    </tr>
+  </tfoot>
+</table>
