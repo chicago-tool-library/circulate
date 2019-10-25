@@ -24,6 +24,7 @@ class Member < ApplicationRecord
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loan_summaries).merge(LoanSummary.active_on(date)).distinct }
   scope :with_outstanding_items, ->(date) { joins(:loan_summaries).merge(LoanSummary.overdue_as_of(date)).distinct }
+  scope :volunteer, -> { where(volunteer_interest: true) }
 
   scope :by_full_name, -> { order(full_name: :desc) }
 
