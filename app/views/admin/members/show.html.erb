@@ -131,6 +131,12 @@
             <% if summary.renewed? %>
               <p><em>Renewed <%= pluralize(summary.renewal_count, "time") %> (initial check out <%= checked_out_date(summary.created_at) %>)</em></p>
             <% end %>
+            <% if summary.overdue_as_of?(Time.current) %>
+              <span class="text-error">
+                Current fine: 
+                <%= FineCalculator.for_overdue_loan(summary, Time.current).format %>
+              </span>
+            <% end %>
           </div>
           <div class="col-2 col-sm-12">
             <%= button_to "Return", [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary float-left mr-2" %>
