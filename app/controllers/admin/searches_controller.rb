@@ -16,7 +16,7 @@ module Admin
       query = params[:query]
       @items = Item.search_by_anything(query).by_name
       @items_by_number = Item.number_contains(query)
-      @members = Member.matching(query).by_full_name
+      @members = Member.matching(query).open.by_full_name
     end
   end
 end
