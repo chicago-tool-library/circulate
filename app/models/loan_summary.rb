@@ -33,7 +33,7 @@ class LoanSummary < ApplicationRecord
     true
   end
 
-  def overdue_as_of(time)
+  def overdue_as_of?(time)
     !ended? && due_at < time
   end
 end
