@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_005121) do
+ActiveRecord::Schema.define(version: 2019_10_28_022023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_005121) do
     t.boolean "uniquely_numbered", null: false
     t.integer "renewal_count", default: 0, null: false
     t.bigint "initial_loan_id"
+    t.index ["ended_at"], name: "index_loans_on_ended_at"
     t.index ["initial_loan_id"], name: "index_loans_on_initial_loan_id"
     t.index ["item_id"], name: "index_active_numbered_loans_on_item_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
     t.index ["item_id"], name: "index_loans_on_item_id"
