@@ -25,6 +25,16 @@ class Loan < ApplicationRecord
   scope :exclusive, -> { where(uniquely_numbered: true) }
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }
+  scope :due_whole_weeks_ago, -> {
+    zone = Time.zone.tzinfo.name
+    checked_out.where(
+      <<~SQL,
+        extract(day from date_trunc('day', now() at time zone ?) - 
+        date_trunc('day', due_at at time zone 'utc' at time zone ?))::integer % 7 = 0
+      SQL
+      zone, zone
+    ).order(due_at: :asc)
+  }
 
   def ended?
     ended_at.present?

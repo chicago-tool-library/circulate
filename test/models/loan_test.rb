@@ -95,4 +95,20 @@ class LoanTest < ActiveSupport::TestCase
     assert_equal tonight + 14.days, second_renewal.due_at
     assert_equal 2, second_renewal.renewal_count
   end
+
+  test "finds loans that were due whole weeks ago" do
+    tonight = Time.current.end_of_day
+    loan = create(:loan, due_at: tonight)
+
+    yesterday = Time.current.end_of_day - 1.day
+    loan2 = create(:loan, due_at: yesterday)
+
+    one_week_ago = Time.current.end_of_day - 1.week
+    week_ago_loan = create(:loan, due_at: one_week_ago)
+
+    many_weeks_ago = Time.current.end_of_day - 13.weeks
+    many_weeks_ago_loan = create(:loan, due_at: many_weeks_ago)
+
+    assert_equal [many_weeks_ago_loan.id, week_ago_loan.id, loan.id], Loan.due_whole_weeks_ago.pluck(:id)
+  end
 end
