@@ -29,7 +29,7 @@ class Loan < ApplicationRecord
     zone = Time.zone.tzinfo.name
     checked_out.where(
       <<~SQL,
-        extract(day from date_trunc('day', now() at time zone ?) - 
+        extract(day from date_trunc('day', now() at time zone ?) -
         date_trunc('day', loans.due_at at time zone 'utc' at time zone ?))::integer % 7 = 0
       SQL
       zone, zone

@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]
   end
-  get '/auth/google_oauth2/callback', to: 'volunteer/sessions#create'
+  get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       post "/dev/time", to: "dev#set_time"
       delete "/dev/time", to: "dev#clear_time"
     end
-    
+
     get "/", to: redirect("/admin/items")
   end
 

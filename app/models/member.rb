@@ -18,7 +18,7 @@ class Member < ApplicationRecord
   validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
-  scope :matching, ->(query) { 
+  scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
       "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
   }

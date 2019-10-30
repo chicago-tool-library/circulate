@@ -21,7 +21,7 @@ module Admin
     def load_image
       @item = Item.find(params[:item_id])
       unless @item.image.attached?
-        redirect_to admin_item_path(@item), error: "Image not found" 
+        redirect_to admin_item_path(@item), error: "Image not found"
       end
       @image = @item.image
     end

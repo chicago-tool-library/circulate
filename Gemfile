@@ -40,7 +40,7 @@ gem "http"
 gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "sentry-raven"
-gem 'omniauth-google-oauth2'
+gem "omniauth-google-oauth2"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"

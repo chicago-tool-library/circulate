@@ -4,7 +4,7 @@ class LoanSummary < ApplicationRecord
   belongs_to :item
   belongs_to :latest_loan, class_name: "Loan"
   belongs_to :member
-  has_one :adjustment, -> { unscope(where: :adjutable_type).where(adjustable_type: 'Loan') }, as: :adjustable
+  has_one :adjustment, -> { unscope(where: :adjutable_type).where(adjustable_type: "Loan") }, as: :adjustable
 
   scope :active_on, ->(date) {
     morning = date.beginning_of_day.utc
@@ -14,7 +14,7 @@ class LoanSummary < ApplicationRecord
 
   scope :checked_out, -> { where(ended_at: nil) }
   scope :overdue, -> { overdue_as_of(Time.current) }
-  scope :overdue_as_of, -> (date) { checked_out.where "due_at < ?", date }
+  scope :overdue_as_of, ->(date) { checked_out.where "due_at < ?", date }
   scope :returned, -> { where.not(ended_at: nil) }
   scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 30.days) }
 

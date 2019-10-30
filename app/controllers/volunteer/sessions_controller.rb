@@ -16,16 +16,16 @@ module Volunteer
         redirect_to volunteer_shifts_url, error: "Please try again."
       end
     end
- 
+
     def destroy
       reset_session
       redirect_to volunteer_shifts_url
     end
 
     private
-  
+
     def auth_hash
-      request.env['omniauth.auth']
+      request.env["omniauth.auth"]
     end
   end
 end

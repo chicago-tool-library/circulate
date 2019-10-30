@@ -51,7 +51,7 @@ module Signup
         errors = result.error
         Rails.logger.error(errors)
         Raven.capture_message(errors.inspect)
-        
+
         if errors.first[:code] == "NOT_FOUND"
           # Give Square a little while for the transaction data to be available
           session[:attempts] += 1
@@ -79,7 +79,7 @@ module Signup
         location_id: ENV.fetch("SQUARE_LOCATION_ID")
       )
     end
-  
+
     def set_raven_context
       Raven.extra_context(session)
     end

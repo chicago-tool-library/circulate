@@ -66,7 +66,7 @@ module Signup
 
       SquareCheckout.stub :new, mock_checkout do
         assert_difference "Membership.count" => 1, "Adjustment.count" => 2 do
-          get callback_signup_payments_url, params: {transactionId: "abcd1234" }
+          get callback_signup_payments_url, params: {transactionId: "abcd1234"}
         end
       end
 
@@ -88,7 +88,7 @@ module Signup
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
-          get callback_signup_payments_url, params: {transactionId: "abcd1234" }
+          get callback_signup_payments_url, params: {transactionId: "abcd1234"}
         end
       end
 
@@ -111,7 +111,7 @@ module Signup
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
-          get callback_signup_payments_url, params: {transactionId: "abcd1234" }
+          get callback_signup_payments_url, params: {transactionId: "abcd1234"}
         end
       end
 
@@ -134,7 +134,7 @@ module Signup
         mock_checkout.expect :fetch_transaction, mock_result, [Hash]
 
         SquareCheckout.stub :new, mock_checkout do
-          get callback_signup_payments_url, params: {transactionId: "abcd1234" }
+          get callback_signup_payments_url, params: {transactionId: "abcd1234"}
         end
 
         assert_mock mock_result
@@ -149,7 +149,6 @@ module Signup
           refute session[:attempts]
         end
       end
-
     end
   end
 end

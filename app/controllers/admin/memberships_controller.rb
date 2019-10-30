@@ -14,7 +14,7 @@ module Admin
       if params[:without_payment]
         @member.memberships.create!(started_on: Time.current.to_date, ended_on: Time.current.to_date + 364.days)
         redirect_to admin_member_path(@member), success: "Membership created."
-        return 
+        return
       end
 
       @payment = Payment.new(payment_params)

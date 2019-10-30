@@ -57,9 +57,9 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   end
 
   test "sends emails to folks with overdue items" do
-    loan = Time.use_zone("America/Chicago") do
+    loan = Time.use_zone("America/Chicago") {
       create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
-    end
+    }
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -76,18 +76,19 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   end
 
   test "only sends emails to folks with items that were due whole weeks ago" do
-
     days = 60
     item = create(:uncounted_item)
 
-    loans = Time.use_zone("America/Chicago") do
+    loans = Time.use_zone("America/Chicago") {
       days.times.map do |i|
         create(:nonexclusive_loan, item: item, due_at: Time.current.end_of_day - i.days, created_at: 1.week.ago)
       end
-    end
+    }
 
     black_hole = Object.new
-    def black_hole.method_missing(*args); self; end
+    def black_hole.method_missing(*args)
+      self
+    end
 
     mailer_spy = Spy.on(MemberMailer, :with).and_return(black_hole)
 
@@ -104,6 +105,5 @@ class ActivityNotifierTest < ActiveSupport::TestCase
         refute mailer_call
       end
     end
-
   end
 end

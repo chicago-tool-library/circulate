@@ -5,12 +5,12 @@ module Volunteer
 
     def upcoming_events(start_time, end_time)
       events_response = client.get(EVENTS_ENDPOINT, params: {
-                                                                  orderBy: "startTime",
-                                                                  singleEvents: true,
-                                                                  timeZone: "America/Chicago",
-                                                                  timeMin: start_time.rfc3339,
-                                                                  timeMax: end_time.rfc3339,
-                                                                })
+        orderBy: "startTime",
+        singleEvents: true,
+        timeZone: "America/Chicago",
+        timeMin: start_time.rfc3339,
+        timeMax: end_time.rfc3339,
+      })
 
       if events_response.status == 200
         events = events_response.parse.fetch("items", []).map { |event| gcal_event_to_event(event) }
@@ -48,7 +48,7 @@ module Volunteer
 
       # update event
       patch_response = client.patch(event_url, json: {
-        attendees: attendees
+        attendees: attendees,
       })
       if patch_response.status == 200
         event = gcal_event_to_event(patch_response.parse)
@@ -60,19 +60,18 @@ module Volunteer
 
     private
 
-
     def client
       @client ||= new_client
     end
 
     def new_client
-      http = HTTP#.use(logging: {logger: Logger.new(STDOUT)})
+      http = HTTP # .use(logging: {logger: Logger.new(STDOUT)})
       token_response = http.post(TOKEN_ENDPOINT, params: {
-                                                  client_id: ENV.fetch("GCAL_CLIENT_ID"),
-                                                  client_secret: ENV.fetch("GCAL_CLIENT_SECRET"),
-                                                  grant_type: "refresh_token",
-                                                  refresh_token: ENV.fetch("GCAL_REFRESH_TOKEN"),
-                                                })
+        client_id: ENV.fetch("GCAL_CLIENT_ID"),
+        client_secret: ENV.fetch("GCAL_CLIENT_SECRET"),
+        grant_type: "refresh_token",
+        refresh_token: ENV.fetch("GCAL_REFRESH_TOKEN"),
+      })
       token = token_response.parse["access_token"]
       http.auth("Bearer #{token}")
     end
@@ -82,7 +81,7 @@ module Volunteer
         id: gcal_event["id"],
         start: Time.iso8601(gcal_event["start"]["dateTime"]),
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
-        attendees: gcal_event.fetch("attendees", []).map { |attendee| 
+        attendees: gcal_event.fetch("attendees", []).map { |attendee|
           Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
         },
       )
