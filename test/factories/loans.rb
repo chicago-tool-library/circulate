@@ -10,5 +10,9 @@ FactoryBot.define do
       due_at { Time.current - 2.weeks }
       ended_at { Time.current - 1.week }
     end
+    
+    factory :nonexclusive_loan do
+      uniquely_numbered { false }
+    end
   end
 end

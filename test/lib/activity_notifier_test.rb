@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
   setup do
@@ -57,22 +58,53 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   end
 
   test "sends emails to folks with overdue items" do
-    loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
+    loan = Time.use_zone("America/Chicago") do
+      create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
+    end
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      notifier.send_overdue_notices
+      notifier.send_daily_loan_summaries
     end
 
     refute ActionMailer::Base.deliveries.empty?
 
-    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
-    refute mail.nil?
+    assert mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
 
     assert_equal "You have overdue items!", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
-    assert_includes mail.encoded, "is now overdue"
     assert_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
+  test "only sends emails to folks with items that were due whole weeks ago" do
+
+    days = 60
+    item = create(:uncounted_item)
+
+    loans = Time.use_zone("America/Chicago") do
+      days.times.map do |i|
+        create(:nonexclusive_loan, item: item, due_at: Time.current.end_of_day - i.days, created_at: 1.week.ago)
+      end
+    end
+
+    black_hole = Object.new
+    def black_hole.method_missing(*args); self; end
+
+    mailer_spy = Spy.on(MemberMailer, :with).and_return(black_hole)
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      notifier.send_daily_loan_summaries
+    end
+
+    days.times do |i|
+      mailer_call = mailer_spy.calls.find { |c| c.args[0][:member].email == loans[i].member.email }
+      if i % 7 == 0
+        assert mailer_call
+      else
+        refute mailer_call
+      end
+    end
+
+  end
 end

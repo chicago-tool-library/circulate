@@ -4,13 +4,11 @@ class ActivityNotifier
   end
 
   def send_daily_loan_summaries
-    Member.active_on(@now).each do |member|
-      MemberMailer.with(member: member, summaries: member.loan_summaries, now: @now).loan_summaries.deliver
-    end
-  end
+    members_active_today = Member.active_on(@now).pluck(:id)
+    members_with_overdue_items = Member.active.joins(:loans).merge(Loan.due_whole_weeks_ago).pluck(:id)
+    unique_ids = (members_active_today + members_with_overdue_items).uniq
 
-  def send_overdue_notices
-    Member.with_outstanding_items(@now).each do |member|
+    Member.includes(:loan_summaries).find(unique_ids).each do |member|
       MemberMailer.with(member: member, summaries: member.loan_summaries, now: @now).loan_summaries.deliver
     end
   end
