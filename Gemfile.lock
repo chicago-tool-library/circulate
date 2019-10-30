@@ -320,6 +320,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    spy (1.0.0)
     square.rb (3.20190925.0)
       certifi (~> 2018.1)
       faraday (~> 0.15)
@@ -400,6 +401,7 @@ DEPENDENCIES
   sentry-raven
   skylight
   solargraph
+  spy
   square.rb
   standard
   sucker_punch
