@@ -1,5 +1,4 @@
 require "test_helper"
-require "minitest/mock"
 
 module Signup
   class SquareCheckoutTest < ActiveSupport::TestCase
