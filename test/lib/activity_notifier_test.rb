@@ -11,7 +11,9 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
+      assert_difference "Notification.count" do
+        notifier.send_daily_loan_summaries
+      end
     end
 
     refute ActionMailer::Base.deliveries.empty?
@@ -35,7 +37,9 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       end
 
       notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
+      assert_no_difference "Notification.count" do
+        notifier.send_daily_loan_summaries
+      end
     end
 
     assert ActionMailer::Base.deliveries.empty?
@@ -63,7 +67,9 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
+      assert_difference "Notification.count" do
+        notifier.send_daily_loan_summaries
+      end
     end
 
     refute ActionMailer::Base.deliveries.empty?

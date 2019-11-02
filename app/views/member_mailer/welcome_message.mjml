@@ -1,6 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-preview><%= @title %></mj-preview>
+    <mj-preview><%= @subject %></mj-preview>
     <mj-attributes>
       <mj-all font-family="Montserrat, Helvetica, Arial, sans-serif"></mj-all>
       <mj-text font-weight="400" font-size="16px" color="#1D181A" line-height="24px"></mj-text>
