@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_022023) do
+ActiveRecord::Schema.define(version: 2019_11_02_002601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,12 @@ ActiveRecord::Schema.define(version: 2019_10_28_022023) do
     "cash",
     "square",
     "forgiveness",
+  ]
+  create_enum :notification_status, [
+    "pending",
+    "sent",
+    "bounced",
+    "error",
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -189,6 +195,19 @@ ActiveRecord::Schema.define(version: 2019_10_28_022023) do
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.string "address", null: false
+    t.string "action", null: false
+    t.bigint "member_id", null: false
+    t.uuid "uuid", null: false
+    t.enum "status", default: "pending", null: false, enum_name: "notification_status"
+    t.string "subject", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_notifications_on_member_id"
+    t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.bigint "tag_id", null: false
@@ -235,6 +254,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_022023) do
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
+  add_foreign_key "notifications", "members"
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
 
