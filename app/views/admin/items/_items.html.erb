@@ -2,7 +2,9 @@
   <% items.each do |item| %>
     <%= tag.div class: "items-table-image" do %>
       <% if item.image.attached? %>
-        <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+        <%= link_to admin_item_path(item) do %>
+          <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+        <% end %>
       <% else %>
         <div class="image-placeholder"></div>
       <% end %>
@@ -25,6 +27,9 @@
 
       <div class="items-index-buttons">
         <%= link_to "Edit", edit_admin_item_path(item), class: "btn btn-sm" %>
+        <% if item.image.attached? %>
+          <%= link_to "Edit Photo", edit_admin_item_image_path(item), class: "btn btn-sm" %>
+        <% end %>
         <%= link_to "Duplicate", new_admin_item_path(item_id:item), class: "btn btn-sm" %>
       </div>
     <% end %>

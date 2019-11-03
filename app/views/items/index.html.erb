@@ -43,7 +43,9 @@
         <% @items.each do |item| %>
           <%= tag.div class: "items-table-image" do %>
             <% if item.image.attached? %>
-              <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+              <%= link_to item_path(item) do %>
+                <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+              <% end %>
             <% else %>
               <div class="image-placeholder"></div>
             <% end %>
