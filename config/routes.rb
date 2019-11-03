@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
+    resources :notifications, only: :index
     resources :potential_volunteers, only: :index
 
     post "search", to: "searches#create"
