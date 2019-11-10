@@ -13,6 +13,12 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject)
   end
 
+  def membership_reminder
+    @member = params[:member]
+    @subject = "Don't forget to to activate your membership!"
+    mail(to: @member.email, subject: @subject)
+  end
+
   def loan_summaries
     @member = params[:member]
     @summaries = params[:summaries]

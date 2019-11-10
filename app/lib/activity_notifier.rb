@@ -12,4 +12,10 @@ class ActivityNotifier
       MemberMailer.with(member: member, summaries: member.loan_summaries, now: @now).loan_summaries.deliver
     end
   end
+
+  def remind_pending_members
+    Member.status_pending.where("created_at < ?", @now).each do |member|
+      MemberMailer.with(member: member).membership_reminder.deliver
+    end
+  end
 end
