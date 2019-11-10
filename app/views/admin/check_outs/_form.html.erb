@@ -1,0 +1,16 @@
+<%= form_with(model: @check_out, url: admin_member_check_outs_path(@member), builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <div data-controller="item-number-input">
+    <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member", 
+    pattern: "[0-9]{1,4}", 
+    placeholder: "1-4 digit item number", 
+    autofocus: true, 
+    data: {action: "keydown->item-number-input#keydown"}, 
+    hint: "Just the number; no need for letters, dashes, etc." %>
+  </div>
+
+  <%= form.actions do %>
+    <%= button_tag "Lookup", class: "btn btn-primary" %> 
+  <% end %>
+<% end %>

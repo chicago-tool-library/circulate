@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_02_002601) do
+ActiveRecord::Schema.define(version: 2019_11_03_015209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 2019_11_02_002601) do
     t.bigint "borrow_policy_id", null: false
     t.string "strength"
     t.integer "quantity"
+    t.string "checkout_notice"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 

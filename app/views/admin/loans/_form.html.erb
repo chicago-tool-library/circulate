@@ -1,37 +1,30 @@
-<%= form_with(model: [:admin, loan], local: true) do |form| %>
-  <% if loan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(loan.errors.count, "error") %> prohibited this loan from being saved:</h2>
+<p>
+  <%= full_item_number(@check_out.item) %>
+  <strong><%= @check_out.item.name %></strong>
+</p>
 
-      <ul>
-      <% loan.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<div class="info-box">
+  <p><%= @check_out.item.checkout_notice %></p>
+</div>
+
+<% if @check_out.item.image.attached? %>
+  <%= link_to admin_item_path(@check_out.item) do %>
+    <%= image_tag url_for(rotated_variant(@check_out.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+  <% end %>
+<% else %>
+  <div class="image-placeholder"></div>
+<% end %>
+
+<%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
+  <% if flash.key? :checkout_error %>
+    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :item_id %>
-    <%= form.text_field :item_id %>
-  </div>
+  <%= form.hidden_field :member_id %>
+  <%= form.hidden_field :item_id, value: @check_out.item_id %>
 
-  <div class="field">
-    <%= form.label :member_id %>
-    <%= form.text_field :member_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :due_at %>
-    <%= form.datetime_select :due_at %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ended? %>
-    <%= form.check_box :ended? %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= form.actions do %>
+    <%= button_tag "Lend Item", class: "btn btn-primary" %> 
+    <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn" %>
+  <% end %>
 <% end %>

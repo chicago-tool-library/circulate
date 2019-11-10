@@ -17,6 +17,8 @@
     <%= form.rich_text_area :description %>
   <% end %>
 
+  <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
+
   <%= form.autocomplete_text_field :size, path: admin_ui_sizes_path(format: :json), 
       hint: "Blade or bit diameter, width or height; e.g. 3/8\"" %>
 

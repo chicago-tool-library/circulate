@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       resources :renewals, only: :create
     end
     resources :members, except: :destroy do
+      resource :check_outs, only: :create
       resource :loan_history, only: :show
       resource :activation, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]

@@ -44,6 +44,11 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
+  def self.lend(item, to:)
+    due_at = Time.zone.today.end_of_day + item.borrow_policy.duration.days
+    Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
+  end
+
   def renew!(now = Time.current)
     transaction do
       return!(now)

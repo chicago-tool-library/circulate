@@ -150,27 +150,12 @@
 
   <div class="columns member-checkout-items">
     <div class="column col-12">
-      <h2 id="checkout">New Loan</h2>
+      <h2 id="checkout">Lookup Item</h2>
 
-      <%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
-        <% if flash.key? :checkout_error %>
-          <div class="toast toast-error"><%= flash[:checkout_error] %></div>
-        <% end %>
+      <div data-controller="portal" data-action="ajax:error->portal#replaceContent ajax:success->portal#replaceContent">
+        <%= render partial: "admin/check_outs/form" %>
+      </div>
 
-        <div data-controller="item-number-input">
-          <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member", 
-          pattern: "[0-9]{1,4}", 
-          placeholder: "1-4 digit item number", 
-          autofocus: true, 
-          data: {action: "keydown->item-number-input#keydown"}, 
-          hint: "Just the number; no need for letters, dashes, etc." %>
-        </div>
-
-        <%= form.hidden_field :member_id %>
-        <%= form.actions do %>
-          <%= button_tag "Lend Item", class: "btn btn-primary" %> 
-        <% end %>
-      <% end %>
     </div>
   </div>
 
