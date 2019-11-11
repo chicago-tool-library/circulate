@@ -9,7 +9,10 @@ class ActivityNotifier
     unique_ids = (members_active_today + members_with_overdue_items).uniq
 
     Member.find(unique_ids).each do |member|
-      summaries = member.loan_summaries.active_on(@now).or(member.loan_summaries.checked_out)
+      summaries = member.loan_summaries
+        .active_on(@now)
+        .or(member.loan_summaries.checked_out)
+        .includes(item: :borrow_policy)
       MemberMailer.with(member: member, summaries: summaries, now: @now).loan_summaries.deliver
     end
   end
