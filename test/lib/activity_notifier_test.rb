@@ -112,4 +112,24 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "only mentions items that are checked out or returned that day" do
+    returned_today = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago, ended_at: Time.current)
+    member = returned_today.member
+    checked_out_today = create(:loan, member: member, due_at: 7.days.since)
+    previous_loan = create(:ended_loan, member: member)
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      notifier.send_daily_loan_summaries
+    end
+
+    refute ActionMailer::Base.deliveries.empty?
+
+    mail = ActionMailer::Base.deliveries.select { |delivery| delivery.to == [member.email] }.first
+    assert_includes mail.encoded, returned_today.item.complete_number
+    assert_includes mail.encoded, checked_out_today.item.complete_number
+    refute_includes mail.encoded, previous_loan.item.complete_number
+  end
+
 end
