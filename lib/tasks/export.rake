@@ -5,7 +5,11 @@ namespace :export do
   desc "Export verified members to CSV"
   task verified_members_to_csv: :environment do
     columns = %w[ id preferred_name email ]
-    CSV.open(Rails.root + "exports" + "verified_members.csv", "wb") do |csv|
+    now = Time.current.rfc3339
+    path = Rails.root + "exports" + "verified_members-#{now}.csv"
+    puts "writing member info to #{path}"
+
+    CSV.open(path, "wb") do |csv|
       csv << [
         *columns
       ]
@@ -18,6 +22,7 @@ namespace :export do
       end
     end
   end
+
   desc "Export items to CSV"
   task items_to_csv: :environment do
     columns = %w[

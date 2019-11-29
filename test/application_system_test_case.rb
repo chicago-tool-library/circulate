@@ -42,10 +42,28 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include ActionMailer::TestHelper
   include ActiveJob::TestHelper
 
+  def fail_on_js_error(error)
+    return false if /the server responded with a status of 422/.match?(error.message)
+    error.level == "SEVERE"
+  end
+
+  teardown do
+    errors = page.driver.browser.manage.logs.get(:browser)
+    fail = false
+    if errors.present?
+      errors.each do |error|
+        warn "JS console (#{error.level.downcase}): #{error.message}"
+        fail = true if fail_on_js_error(error)
+      end
+    end
+
+    refute fail, "there were JavaScript errors"
+  end
+
   private
 
   def sign_in_as_admin
-    @user = FactoryBot.create(:user)
+    @user = FactoryBot.create(:user, role: "admin")
     login_as(@user, scope: :user)
   end
 

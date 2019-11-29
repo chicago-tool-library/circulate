@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_06_002240) do
+ActiveRecord::Schema.define(version: 2020_06_21_211015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,10 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     "sent",
     "bounced",
     "error"
+  ]
+  create_enum :user_role, [
+    "staff",
+    "admin"
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -192,6 +196,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.integer "quantity"
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
+    t.string "other_names"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
@@ -250,6 +255,16 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.string "notable_type", null: false
+    t.bigint "notable_id", null: false
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_notes_on_creator_id"
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.string "address", null: false
     t.string "action", null: false
@@ -287,6 +302,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "role", default: "staff", null: false, enum_name: "user_role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
@@ -307,6 +323,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
+  add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL

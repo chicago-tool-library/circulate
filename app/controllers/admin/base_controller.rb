@@ -20,5 +20,11 @@ module Admin
         yield
       end
     end
+
+    def require_admin
+      unless current_user.admin?
+        redirect_to admin_items_url, warning: "You do not have access to that page."
+      end
+    end
   end
 end

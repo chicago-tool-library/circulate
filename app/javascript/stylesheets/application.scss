@@ -594,7 +594,7 @@ form.membership-amount {
 }
 
 .landing-page {
-  background: #fafafa url("../images/website-banner.png") 0 400px no-repeat;
+  background: #fafafa;
   img.site-logo {
     max-width: 200px;
     margin: 2rem 0 3rem;
@@ -846,6 +846,37 @@ table.monthly-adjustments {
     li {
       margin: 0;
     }
+  }
+}
+
+.note-form {
+  padding: 0.5rem 1rem 1.2rem;
+  background: $background-color-dark;
+  margin-bottom: 1rem;
+  label {
+    font-weight: 500;
+  }
+  .form-buttons {
+    margin-top: 1rem;
+  }
+  .trix-button-group--file-tools {
+    display: none;
+  }
+  .toast-error {
+    width: auto;
+    margin: -0.5rem -1rem 0;
+  }
+}
+
+.note {
+  position: relative;
+  .edit-note {
+    position: absolute;
+    right: 0;
+    top: .4rem;
+  }
+  .trix-content {
+    margin-bottom: 1rem;
   }
 }
 

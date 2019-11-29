@@ -1,4 +1,4 @@
-<%= form_with(model: @member.holds.new, url: admin_member_member_holds_path(@member), builder: SpectreFormBuilder) do |form| %>
+<%= form_with(model: @member.holds.new, url: admin_member_holds_path(@member), builder: SpectreFormBuilder) do |form| %>
   <% if flash.key? :checkout_error %>
     <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>
@@ -10,5 +10,5 @@
     <%= feather_icon "clipboard" %>Hold
   <% end %>
 
-  <%= (@item.holds.count + 1).ordinalize %> in line
+  <%= (@item.holds.active.count + 1).ordinalize %> in line
 <% end %>
