@@ -849,6 +849,20 @@ table.monthly-adjustments {
   }
 }
 
+.note-form {
+  padding: 0.5rem 1rem 1.2rem;
+  background: $background-color-dark;
+  .form-buttons {
+    margin-top: 1rem;
+  }
+}
+
+.tile.note {
+  background: white;
+  padding: 1rem;
+  margin-bottom: .3rem;
+}
+
 .nav-header {
   background: $dark-color;
   padding: .4rem 0 .4rem;

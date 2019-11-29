@@ -1,5 +1,4 @@
 <%= render "profile" do %>
-
   <div class="item-description">
     <%= @item.description %>
   </div>
@@ -14,21 +13,12 @@
   <% end %>
 
   <% @item.notes.each do |note| %>
-    <div class="tile note">
-      <div class="tile-icon">
-        <%= feather_icon "message-square" %>
-      </div>
-      <div class="tile-content">
-        <p class="tile-title"><%= note.creator.email %></p>
-        <p class="tile-subtitle">Earth's Mightiest Heroes joined forces to take on threats that were too big for any one hero to tackle...</p>
-
-        <%= note.body %>
-      </div>
-      <div class="tile-action">
-        <button class="btn btn-sm">Edit</button>
-      </div>
-    </div>
+    <%= portal do %>
+      <%= render partial: "admin/notes/show", locals: {note: note, parent: @item } %>
+    <% end %>
   <% end %>
 
-  <%= render partial: "admin/notes/form", locals: { parent: @item } %>
+  <%= portal do %>
+    <%= render partial: "admin/notes/form", locals: { parent: @item } %>
+  <% end %>
 <% end %>
