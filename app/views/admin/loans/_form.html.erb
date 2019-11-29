@@ -1,30 +1,41 @@
-<p>
-  <%= full_item_number(@check_out.item) %>
-  <strong><%= @check_out.item.name %></strong>
-</p>
+<div class="columns">
 
-<div class="info-box">
-  <p><%= @check_out.item.checkout_notice %></p>
+
+  <div class="column col-8">
+    <h5>
+      <%= full_item_number(@check_out.item) %>
+      <strong><%= @check_out.item.name %></strong>
+    </h5>
+
+    <% if @check_out.item.checkout_notice.present? %>
+      <div class="info-box">
+        <p><%= @check_out.item.checkout_notice %></p>
+      </div>
+    <% end %>
+    
+    <%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
+      <% if flash.key? :checkout_error %>
+        <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+      <% end %>
+
+      <%= form.hidden_field :member_id %>
+      <%= form.hidden_field :item_id, value: @check_out.item_id %>
+
+      <%= form.actions do %>
+        <%= button_tag "Lend Item", class: "btn btn-primary" %> 
+        <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="column col-4">
+    <% if @check_out.item.image.attached? %>
+      <%= link_to admin_item_path(@check_out.item) do %>
+        <%= image_tag url_for(rotated_variant(@check_out.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+      <% end %>
+    <% else %>
+      <div class="image-placeholder"></div>
+    <% end %>
+  </div>
+
 </div>
-
-<% if @check_out.item.image.attached? %>
-  <%= link_to admin_item_path(@check_out.item) do %>
-    <%= image_tag url_for(rotated_variant(@check_out.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
-  <% end %>
-<% else %>
-  <div class="image-placeholder"></div>
-<% end %>
-
-<%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
-  <% if flash.key? :checkout_error %>
-    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
-  <% end %>
-
-  <%= form.hidden_field :member_id %>
-  <%= form.hidden_field :item_id, value: @check_out.item_id %>
-
-  <%= form.actions do %>
-    <%= button_tag "Lend Item", class: "btn btn-primary" %> 
-    <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn" %>
-  <% end %>
-<% end %>

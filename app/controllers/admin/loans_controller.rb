@@ -17,7 +17,7 @@ module Admin
 
       respond_to do |format|
         if @loan.save
-          format.html { redirect_to admin_member_path(@loan.member, anchor: "checkout"), notice: "Loan was successfully created." }
+          format.html { redirect_to admin_member_path(@loan.member, anchor: "checkout"), success: "Loan was successfully created." }
           format.json { render :show, status: :created, location: @loan }
         else
           format.html do
@@ -30,6 +30,8 @@ module Admin
     end
 
     def update
+      @loan = Loan.find(params[:id])
+
       respond_to do |format|
         ended_at = update_loan_params[:ended] == "1" ? Time.current : nil
 

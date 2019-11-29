@@ -152,9 +152,9 @@
     <div class="column col-12">
       <h2 id="checkout">Lookup Item</h2>
 
-      <div data-controller="portal" data-action="ajax:error->portal#replaceContent ajax:success->portal#replaceContent">
+      <%= portal do %>
         <%= render partial: "admin/check_outs/form" %>
-      </div>
+      <% end %>
 
     </div>
   </div>

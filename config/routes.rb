@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       resource :loan_history, only: :show
     end
     resources :loan_summaries, only: :index
-    resources :loans do
+    resources :loans, only: [:index, :create, :update] do
       resources :renewals, only: :create
     end
     resources :members, except: :destroy do

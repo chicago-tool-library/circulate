@@ -14,30 +14,13 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_admin_loan_url
-    assert_response :success
-  end
-
   test "should create loan" do
     member = create(:member)
     assert_difference("Loan.count") do
-      post admin_loans_url, params: {loan: {item_number: @item.number, member_id: member.id}}
+      post admin_loans_url, params: {loan: {item_id: @item.id, member_id: member.id}}
     end
 
     assert_redirected_to admin_member_url(member, anchor: "checkout")
-  end
-
-  test "should show loan" do
-    @loan = create(:loan, item: @item)
-    get admin_loan_url(@loan)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    @loan = create(:loan, item: @item)
-    get edit_admin_loan_url(@loan)
-    assert_response :success
   end
 
   test "should update loan" do
@@ -67,14 +50,5 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
 
     ended_loan.reload
     assert ended_loan.ended_at.nil?
-  end
-
-  test "should destroy loan" do
-    @loan = create(:loan, item: @item)
-    assert_difference("Loan.count", -1) do
-      delete admin_loan_url(@loan)
-    end
-
-    assert_redirected_to admin_loans_url
   end
 end
