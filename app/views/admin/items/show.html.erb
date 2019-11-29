@@ -18,7 +18,13 @@
     <% end %>
   <% end %>
 
-  <%= portal do %>
-    <%= render partial: "admin/notes/form", locals: { parent: @item } %>
-  <% end %>
+  <div data-controller="toggle">
+    <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">Add a note</button>
+
+    <div data-target="toggle.toggled">
+      <%= portal do %>
+        <%= render partial: "admin/notes/form", locals: { parent: @item } %>
+      <% end %>
+    </div>
+  </div>
 <% end %>

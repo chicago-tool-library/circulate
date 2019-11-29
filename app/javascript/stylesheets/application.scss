@@ -852,8 +852,15 @@ table.monthly-adjustments {
 .note-form {
   padding: 0.5rem 1rem 1.2rem;
   background: $background-color-dark;
+  margin-bottom: 1rem;
+  label {
+    font-weight: 500;
+  }
   .form-buttons {
     margin-top: 1rem;
+  }
+  .trix-button-group--file-tools {
+    display: none;
   }
 }
 
