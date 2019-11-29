@@ -23,22 +23,25 @@
     </mj-section>
     <mj-section>
       <mj-column>
-        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Welcome!</mj-text>
+        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">We'd love to see you!</mj-text>
       </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
         <mj-text>
-          <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
-          <%= render partial: "signup/confirmations/instructions" %>
+          <%= render partial: "member_mailer/reminder" %>
         </mj-text>
       </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
         <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
-          <p>See you at the library!</p>
+          <%= render partial: "signup/confirmations/instructions" %>
         </mj-text>
       </mj-column>
     </mj-section>
