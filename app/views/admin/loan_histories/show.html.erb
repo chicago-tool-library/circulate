@@ -7,9 +7,7 @@
       <th>Item</th>
       <th>Member</th>
       <th>Checked out</th>
-      <th>Due at</th>
-      <th>Ended at</th>
-      <th colspan="3"></th>
+      <th>Due / Returned</th>
     </tr>
   </thead>
 
@@ -17,14 +15,15 @@
     <% @loans.each do |loan| %>
       <tr>
         <td><%= full_item_number(loan.item) %></td>
-        <td><%= loan.item.name %></td>
-        <td><%= loan.member.full_name %></td>
+        <td><%= link_to loan.item.name, [:admin, loan.item] %></td>
+        <td><%= link_to preferred_or_default_name(loan.member), [:admin, loan.member] %></td>
         <td><%= loan.created_at %></td>
-        <td><%= loan.due_at %></td>
-        <td><%= loan.ended_at %></td>
-        <td><%= link_to 'Show', [:admin, loan] %></td>
-        <td><%= link_to 'Edit', edit_admin_loan_path(loan) %></td>
-        <td><%= link_to 'Destroy', [:admin, loan], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if loan.ended? %>    
+            returned <%= loan.ended_at %>
+          <% else %>
+            due <%= loan.due_at %></td>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
