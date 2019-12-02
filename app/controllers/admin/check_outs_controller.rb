@@ -1,16 +1,16 @@
 module Admin
   class CheckOutsController < BaseController
     include MemberPage
-    layout nil
+    include PortalRendering
 
     def create
       @member = Member.find(params[:member_id])
       @check_out = CheckOut.new(check_out_params.merge(member: @member))
 
       if @check_out.valid?
-        render partial: "admin/loans/form", turbolinks: false
+        render_to_portal "admin/loans/form"
       else
-        render partial: "admin/check_outs/form", turbolinks: false, status: 422
+        render_to_portal "admin/check_outs/form", status: 422
       end
     end
 

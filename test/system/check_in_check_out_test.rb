@@ -20,8 +20,15 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     visit admin_member_url(@member)
 
-    fill_in :loan_item_number, with: @item.number
+    fill_in :admin_check_out_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-checkout-items" do
+      assert_text @item.complete_number
+      assert_text @item.name
+    end
     click_on "Lend Item"
+
     within ".member-active-loans" do
       assert_text @item.name
     end
