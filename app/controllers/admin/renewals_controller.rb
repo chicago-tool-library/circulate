@@ -4,7 +4,7 @@ module Admin
       @loan = Loan.find(params[:loan_id])
       @loan.renew!
 
-      redirect_to admin_member_url(@loan.member_id, anchor: "checkout")
+      redirect_to admin_member_url(@loan.member_id, anchor: "current-loans")
     end
   end
 end

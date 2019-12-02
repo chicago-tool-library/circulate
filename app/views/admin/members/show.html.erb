@@ -74,7 +74,7 @@
     <div class="columns">
       <div class="column col-12">
         <div class="clearfix">
-          <h2 class="float-left">Recent Loans</h2>
+          <h2 class="float-left" id="recent-loans">Recent Loans</h2>
           <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
         </div>
         <div class="container member-recent-loans">
@@ -113,7 +113,7 @@
 
   <% if @active_loan_summaries.any? %>
 
-    <h2>Currently Checked Out</h2>
+    <h2 id="current-loans">Currently Checked Out</h2>
 
     <div class="container member-active-loans">
       <% @active_loan_summaries.each do |summary| %>
