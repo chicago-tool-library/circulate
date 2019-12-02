@@ -11,11 +11,11 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
   test "should renew loan" do
     @loan = create(:loan)
 
-    #    assert_difference("Loan.count") do
-    post admin_loan_renewals_url(@loan)
-    #    end
+    assert_difference("Loan.count") do
+      post admin_loan_renewals_url(@loan)
+    end
 
-    assert_redirected_to admin_member_url(@loan.member, anchor: "checkout")
+    assert_redirected_to admin_member_url(@loan.member, anchor: "current-loans")
 
     @loan.reload
 
