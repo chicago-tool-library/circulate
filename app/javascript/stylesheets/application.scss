@@ -477,6 +477,9 @@ form.membership-amount {
     background: #f7f8f9;
     padding: .5em .7em;
     margin-bottom: 1em;
+    p:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }
 
