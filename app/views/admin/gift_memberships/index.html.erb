@@ -1,0 +1,52 @@
+
+<div class="columns">
+  <div class="column col-12">
+
+    <%= index_header "Gift Memberships" do %>
+      <%= link_to 'New Gift Membership', new_admin_gift_membership_path, class: "btn" %>
+    <% end %>
+
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-9-sm col-12-xs">
+
+    <% if @gift_memberships.any? %>
+
+      <div class="responsive-table six-columns">
+        <%= tag.div "Purchaser Email", class: "responsive-table-header" %>
+        <%= tag.div "Purchaser Name", class: "responsive-table-header" %>
+        <%= tag.div "Amount", class: "responsive-table-header" %>
+        <%= tag.div "Code", class: "responsive-table-header" %>
+        <%= tag.div "Claimed by", class: "responsive-table-header" %>
+        <%= tag.div "", class: "responsive-table-header" %>
+
+        <% @gift_memberships.each do |gift_membership| %>
+          <%= tag.div gift_membership.purchaser_name, class: "responsive-table-cell" %>
+          <%= tag.div gift_membership.purchaser_email, class: "responsive-table-cell" %>
+          <%= tag.div gift_membership.amount.format, class: "responsive-table-cell" %>
+          <%= tag.div gift_membership.code.format, class: "responsive-table-cell" %>
+          <%= tag.div class: "responsive-table-cell" do %>
+            <% if gift_membership.membership %>
+              <%= link_to preferred_or_default_name(gift_membership.membership.member, [:admin, gift_membership.membership.member]) %>
+            <% end %>
+          <% end %>
+
+          <%= tag.div class: "responsive-table-cell" do %>
+            <%= link_to "Edit", edit_admin_gift_membership_path(gift_membership), class: "btn" %>
+
+          <% end %>
+
+        <% end %>
+      </div>
+
+      <%== pagy_bootstrap_nav(@pagy) %>
+    <% else %>
+      <%= empty_state "There are no gift memberships!", subtitle:"Create one?" do %>
+        <%= link_to "Create a new gift membership", new_admin_gift_membership_path, class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

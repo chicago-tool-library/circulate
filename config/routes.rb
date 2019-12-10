@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
     resources :tags
+    resources :gift_memberships
     resources :items do
       get :number
       resource :image, only: [:edit, :update]

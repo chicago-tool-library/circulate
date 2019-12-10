@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_03_015209) do
+ActiveRecord::Schema.define(version: 2019_12_10_022433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,17 @@ ActiveRecord::Schema.define(version: 2019_11_03_015209) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
+  end
+
+  create_table "gift_memberships", force: :cascade do |t|
+    t.string "purchaser_email", null: false
+    t.string "purchaser_name", null: false
+    t.integer "amount_cents", null: false
+    t.string "code", null: false
+    t.bigint "membership_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -251,6 +262,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_015209) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
+  add_foreign_key "gift_memberships", "memberships"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
@@ -274,20 +286,6 @@ ActiveRecord::Schema.define(version: 2019_11_03_015209) do
      FROM loans
     GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
-  create_view "monthly_adjustments", sql_definition: <<-SQL
-      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
-      (date_part('month'::text, adjustments.created_at))::integer AS month,
-      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
-      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
-     FROM adjustments
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
-  SQL
   create_view "monthly_activities", sql_definition: <<-SQL
       WITH dates AS (
            SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
@@ -308,5 +306,19 @@ ActiveRecord::Schema.define(version: 2019_11_03_015209) do
        LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
     GROUP BY months.month
     ORDER BY months.month;
+  SQL
+  create_view "monthly_adjustments", sql_definition: <<-SQL
+      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
+      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
+      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
+     FROM adjustments
+    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
   SQL
 end

@@ -1,0 +1,11 @@
+<%= form_with(model: [:admin, gift_membership], builder: SpectreFormBuilder, data: {controller: "form"}, id: dom_id(gift_membership)) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :purchaser_email %>
+  <%= form.text_field :purchaser_name %>
+  <%= form.money_field :amount, value: gift_membership.amount || 0, label: "Amount" %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>
