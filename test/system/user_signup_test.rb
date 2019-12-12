@@ -6,6 +6,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
   def setup
     Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
+    ActionMailer::Base.deliveries.clear
   end
 
   def assert_delivered_email(to:, &block)
