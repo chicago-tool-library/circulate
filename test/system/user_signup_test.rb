@@ -108,7 +108,7 @@ class UserSignupTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Redeem"
 
-      assert_content "See you at the library!", wait: 5
+      assert_content "See you at the library!", wait: 10
     end
     refute_content "Your payment"
 
