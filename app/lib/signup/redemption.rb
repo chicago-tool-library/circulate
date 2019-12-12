@@ -7,7 +7,8 @@ module Signup
 
     validates_each :code do |record, attr, value|
       if value
-        gift_membership = GiftMembership.where(code: value).first
+        stripped = value.gsub(/[\W]/, "")
+        gift_membership = GiftMembership.where(code: stripped).first
         record.gift_membership_id = gift_membership&.id
         if !gift_membership
           record.errors.add(attr, "is not a valid code")
