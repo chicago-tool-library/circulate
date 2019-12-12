@@ -6,7 +6,7 @@ class Notification < ApplicationRecord
     error: "error",
   }
 
-  belongs_to :member
+  belongs_to :member, required: false
 
   validates :address, presence: true
   validates :action, presence: true

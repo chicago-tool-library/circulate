@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_022433) do
+ActiveRecord::Schema.define(version: 2019_12_12_055236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_022433) do
   create_table "notifications", force: :cascade do |t|
     t.string "address", null: false
     t.string "action", null: false
-    t.bigint "member_id", null: false
+    t.bigint "member_id"
     t.uuid "uuid", null: false
     t.enum "status", default: "pending", null: false, enum_name: "notification_status"
     t.string "subject", null: false

@@ -23,6 +23,8 @@ module Admin
 
       respond_to do |format|
         if @gift_membership.save
+          GiftPurchaserMailer.with(gift_membership: @gift_membership).confirmation.deliver_later
+
           format.html { redirect_to admin_gift_memberships_url, success: 'Gift membership was successfully created.' }
           format.json { render :show, status: :created, location: [:admin, @gift_membership] }
         else

@@ -39,6 +39,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: driver, screen_size: [1400, 1400]
 
   include Warden::Test::Helpers
+  include ActionMailer::TestHelper
+  include ActiveJob::TestHelper
 
   private
 
@@ -55,5 +57,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def fill_in_rich_text_area(locator = nil, with:)
     find(:rich_text_area, locator).execute_script("this.editor.loadHTML(arguments[0])", with.to_s)
+  end
+
+  def assert_delivered_email(to:, &block)
+    delivered_mail = ActionMailer::Base.deliveries.last
+    assert_equal [to], delivered_mail.to
+
+    assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
+
+    html = delivered_mail.body.parts[0].body.to_s
+    text = delivered_mail.body.parts[1].body.to_s
+    yield html, text
   end
 end

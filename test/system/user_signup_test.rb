@@ -1,21 +1,10 @@
 require "application_system_test_case"
 
 class UserSignupTest < ApplicationSystemTestCase
-  include ActionMailer::TestHelper
-  include ActiveJob::TestHelper
 
   def setup
     Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
     ActionMailer::Base.deliveries.clear
-  end
-
-  def assert_delivered_email(to:, &block)
-    delivered_mail = ActionMailer::Base.deliveries.last
-    assert_equal [to], delivered_mail.to
-
-    html = delivered_mail.body.parts[0].body.to_s
-    text = delivered_mail.body.parts[1].body.to_s
-    yield html, text
   end
 
   def complete_first_three_steps
