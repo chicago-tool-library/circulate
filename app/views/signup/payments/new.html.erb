@@ -4,7 +4,7 @@
       <p class="main">Select a Payment Option</p>
       <p class="sub">You can pay online now or in person at the library.</p>
       <div class="divider"></div>
-    </div
+    </div>
     <div class="signup-fee-description">
       <p>
         Membership fees to The Chicago Tool Library will give you access for one year.
@@ -15,7 +15,6 @@
       <p>
         For example, if you make <strong>$35,000</strong> in a year, your recommended annual membership fee would be <strong>$35</strong>.
       </p>
-      
     </div>
   </div>
 </div>
@@ -54,5 +53,14 @@
 
       <%= button_tag "Complete in Person", class: "btn btn-lg btn-block" %>
     <% end %>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-12 col-ml-auto text-center gift-membership">
+    <p>
+      Have a <strong>gift membership</strong> code? Right this way:
+      <%= link_to "Redeem Gift Membership", new_signup_redemption_path, class: "btn"%>
+    </p>
   </div>
 </div>

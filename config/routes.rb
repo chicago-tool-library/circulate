@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         get :callback, on: :collection
         post :skip, on: :collection
       end
+      resources :redemptions, only: [:new, :create]
+      
       get "confirmation", to: "confirmations#show"
       get "/", to: "home#index"
     end

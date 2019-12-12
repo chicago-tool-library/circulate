@@ -16,6 +16,10 @@ class GiftMembership < ApplicationRecord
     where(code: code.value).count == 0
   end
 
+  def redeem(membership)
+    update_attribute(:membership_id, membership.id)
+  end
+
   # This is to work around an incompatibility between using composed_of and the 
   # built-in uniqueness validation.
   def read_attribute_for_validation(attr)

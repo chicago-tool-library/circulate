@@ -84,7 +84,7 @@ class UserSignupTest < ApplicationSystemTestCase
       click_on "Place Order"
 
       # Back in the app
-      assert_selector "li.step-item.active", text: "Complete", wait: 5
+      assert_selector "li.step-item.active", text: "Complete", wait: 10
     end
 
     assert_content "Your payment of $42.00"
@@ -94,6 +94,28 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
+    end
+  end
+
+  test "signup and redeem a gift membership" do
+    complete_first_three_steps
+    gift_membership = create(:gift_membership)
+
+    click_on "Redeem Gift Membership"
+
+    fill_in "signup_redemption_code", with: gift_membership.code.value
+
+    perform_enqueued_jobs do
+      click_on "Redeem"
+
+      assert_content "See you at the library!", wait: 5
+    end
+    refute_content "Your payment"
+
+    assert_emails 1
+    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+      assert_includes html, "Thank you for signing up"
+      refute_includes html, "Your payment"
     end
   end
 end
