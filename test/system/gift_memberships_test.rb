@@ -21,9 +21,10 @@ class GiftMembershipsTest < ApplicationSystemTestCase
 
     perform_enqueued_jobs do
       click_on "Create Gift membership"
-      
-      assert_text "Gift membership was successfully created"
+
+      assert_text "Gift membership was successfully created", wait: 10
     end
+    
     assert_text "$23.00"
     assert_text "created@place.biz"
     assert_text "created name"

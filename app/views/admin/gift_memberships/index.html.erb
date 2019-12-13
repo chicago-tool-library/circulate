@@ -1,4 +1,3 @@
-
 <div class="columns">
   <div class="column col-12">
 
@@ -29,7 +28,7 @@
           <%= tag.div gift_membership.code.format, class: "responsive-table-cell" %>
           <%= tag.div class: "responsive-table-cell" do %>
             <% if gift_membership.membership %>
-              <%= link_to preferred_or_default_name(gift_membership.membership.member, [:admin, gift_membership.membership.member]) %>
+              <%= link_to preferred_or_default_name(gift_membership.membership.member), [:admin, gift_membership.membership.member] %>
             <% end %>
           <% end %>
 

@@ -11,7 +11,7 @@ module Signup
       @redemption = Redemption.new(redemption_params)
       if @redemption.valid?
         Membership.transaction do
-          @membership = Membership.create_for_member(@member, Money.new(0))
+          @membership = Membership.create_for_member(@member)
           @gift_membership = GiftMembership.find(@redemption.gift_membership_id)
           @gift_membership.redeem(@membership)
         end

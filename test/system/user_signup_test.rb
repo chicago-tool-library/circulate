@@ -107,5 +107,7 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment"
     end
+
+    assert_equal 0, Member.last.adjustments.count
   end
 end

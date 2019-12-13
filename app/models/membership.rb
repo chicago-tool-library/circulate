@@ -7,10 +7,12 @@ class Membership < ApplicationRecord
     adjustment ? adjustment.amount * -1 : Money.new(0)
   end
 
-  def self.create_for_member(member, amount, now: Time.current.to_date, square_transaction_id: nil)
+  def self.create_for_member(member, amount: 0, source: nil, now: Time.current.to_date, square_transaction_id: nil)
     membership = member.memberships.create!(started_on: now, ended_on: now + 364.days)
-    Adjustment.record_membership(membership, amount)
-    Adjustment.record_member_payment(member, amount, "square", square_transaction_id)
+    if amount > 0
+      Adjustment.record_membership(membership, amount)
+      Adjustment.record_member_payment(member, amount, source, square_transaction_id)
+    end
     membership
   end
 end

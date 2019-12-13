@@ -39,7 +39,7 @@ module Signup
 
       if result.success?
         amount = result.value
-        Membership.create_for_member(@member, amount, square_transaction_id: transaction_id)
+        Membership.create_for_member(@member, amount: amount, square_transaction_id: transaction_id, source: "square")
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
 
         reset_session
