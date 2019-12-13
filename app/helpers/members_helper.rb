@@ -40,7 +40,7 @@ module MembersHelper
 
   def member_status(member)
     classes = ["chip"]
-    if member.status_active?
+    if member.status_verified?
       classes << "bg-success"
     end
     tag.span(member.status.titlecase, class: classes)

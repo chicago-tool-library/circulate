@@ -12,9 +12,11 @@
     <%= tag.div member.email, class: "responsive-table-cell" %>
     <%= tag.div format_phone_number(member.phone_number), class: "responsive-table-cell" %>
     <%= tag.div class: "responsive-table-cell" do %>
-      <%= member_status(member) %>
-      <% if member.status_pending? %>
-        <%= link_to 'Activate', edit_admin_member_activation_path(member), class: "btn btn-sm" %>
+      <% if member.active_membership %>
+        <span class="chip">membership</span>
+      <% end %>
+      <% if member.status_verified? %>
+        <span class="chip">verified</span>
       <% end %>
     <% end %>
   <% end %>

@@ -10,13 +10,22 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     visit admin_member_url(@member)
 
-    assert_content "Member not active"
+    assert_content "need to be verified"
+    refute_selector ".member-checkout-items"
+  end
+
+  test "member without membership can't checkout items" do
+    @member = create(:verified_member)
+
+    visit admin_member_url(@member)
+
+    assert_content "needs to start a membership"
     refute_selector ".member-checkout-items"
   end
 
   test "checks out items to member" do
     @item = create(:item)
-    @member = create(:active_member_with_membership)
+    @member = create(:verified_member_with_membership)
 
     visit admin_member_url(@member)
 
@@ -36,7 +45,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "returns loaned item" do
     @item = create(:item)
-    @member = create(:active_member_with_membership)
+    @member = create(:verified_member_with_membership)
     create(:loan, item: @item, member: @member)
 
     visit admin_member_url(@member)
@@ -55,7 +64,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "returns loaned overdue item" do
     @item = create(:item)
-    @member = create(:active_member_with_membership)
+    @member = create(:verified_member_with_membership)
     create(:loan, item: @item, member: @member, due_at: 2.weeks.ago)
 
     visit admin_member_url(@member)

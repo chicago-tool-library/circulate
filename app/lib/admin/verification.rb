@@ -1,5 +1,5 @@
 module Admin
-  class Activation
+  class Verification
     include ActiveModel::Model
 
     attr_accessor :address_verified

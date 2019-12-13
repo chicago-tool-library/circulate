@@ -3,8 +3,8 @@
 <div class="sort-controls">
   showing:
   <div class="btn-group">
-    <%= link_to_unless params[:filter].blank?, "pending and active", {sort: params[:sort]}, class: "btn btn-sm" do %>
-      <button class="btn btn-sm active">pending and active</button>
+    <%= link_to_unless params[:filter].blank?, "pending and verified", {sort: params[:sort]}, class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">pending and verified</button>
     <% end %>
     <%= link_to_unless params[:filter] == "closed", "closed", {filter: "closed", sort: params[:sort]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">closed</button>

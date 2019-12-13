@@ -6,7 +6,7 @@ module Admin
       loan_summaries_scope = LoanSummary.send(index_filter)
         .order(latest_loan_id: :desc)
         .joins(:member)
-        .merge(Member.active)
+        .merge(Member.verified)
         .includes(:item, :member)
       @pagy, @loan_summaries = pagy(loan_summaries_scope, items: 50)
     end

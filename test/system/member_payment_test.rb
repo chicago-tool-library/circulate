@@ -6,7 +6,7 @@ class MemberPaymentTest < ApplicationSystemTestCase
   end
 
   test "accepts a member payment" do
-    @member = create(:active_member_with_membership)
+    @member = create(:verified_member_with_membership)
     create(:fine_adjustment, member: @member, amount_cents: -1300)
 
     visit admin_member_url(@member)
@@ -30,7 +30,7 @@ class MemberPaymentTest < ApplicationSystemTestCase
   end
 
   test "forgives a member's fines" do
-    @member = create(:active_member_with_membership)
+    @member = create(:verified_member_with_membership)
     create(:fine_adjustment, member: @member, amount_cents: -1000)
 
     visit admin_member_url(@member)

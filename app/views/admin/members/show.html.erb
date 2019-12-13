@@ -53,23 +53,34 @@
   </div>
 <% end %>
 
-<% if @member.status_active? %>
+<div class="columns">
+  <div class="column col-12">
+      <% if @member.active_membership %>
+        <div class="info-box clearfix member-membership">
+          <p class="float-left">Current membership expires on <%= @member.active_membership.ended_on.strftime("%B %-d, %Y") %>.</p>
+          <p class="float-right"><%= link_to "Membership History", admin_member_memberships_path(@member) %></p>
+        </div>
+      <% else %>
+        <div class="toast member-membership clearfix">
+          <p class="float-left"><i class="icon icon-stop"></i> Member needs to start a membership.</p>
+          <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(@member) %></p>
+        </div>
+      <% end %>
+  </div>
+</div>
+
+<% unless @member.status_verified? %>
   <div class="columns">
     <div class="column col-12">
-        <% if @member.active_membership %>
-          <div class="info-box clearfix member-membership">
-            <p class="float-left">Current membership expires on <%= @member.active_membership.ended_on.strftime("%B %-d, %Y") %>.</p>
-            <p class="float-right"><%= link_to "Membership History", admin_member_memberships_path(@member) %></p>
-          </div>
-        <% else %>
-          <div class="toast toast-warning member-membership clearfix">
-            <p class="float-left">Does not have an active membership.</p>
-            <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(@member) %></p>
-          </div>
-        <% end %>
+      <div class="toast clearfix member-membership">
+        <p class="float-left"><i class="icon icon-stop"></i> Member's ID and zipcode need to be verified.</p>
+        <p class="float-right"><%= link_to "Verify Info", edit_admin_member_verification_path(@member) %></p>
+      </div>
     </div>
   </div>
+<% end %>
 
+<% if @member.status_verified? %>
   <% if @member.loans.any? %>
     <div class="columns">
       <div class="column col-12">
@@ -148,25 +159,16 @@
     </div>
   <% end %>
 
-  <div class="columns member-checkout-items">
-    <div class="column col-12">
-      <h2 id="checkout">Lookup Item</h2>
+  <% if @member.active_membership %>
+    <div class="columns member-checkout-items">
+      <div class="column col-12">
+        <h2 id="checkout">Lookup Item</h2>
 
-      <%= portal do %>
-        <%= render partial: "admin/check_outs/form" %>
-      <% end %>
+        <%= portal do %>
+          <%= render partial: "admin/check_outs/form" %>
+        <% end %>
 
+      </div>
     </div>
-  </div>
-
-<% elsif @member.status_pending? %>
-
-  <div class="divider"></div>
-
-  <div class="toast toast-warning">
-    <h6>Member not active</h6>
-    <p>
-      This member must be <%= link_to "activated", edit_admin_member_activation_path(@member) %> before checking out items.
-    </p>
-  </div>
+  <% end %>
 <% end %>

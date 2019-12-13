@@ -13,12 +13,12 @@ FactoryBot.define do
       preferred_name { "Ida" }
       pronoun { 2 }
 
-      factory :active_member do
+      factory :verified_member do
         id_kind { 1 }
         address_verified { true }
-        status { "active" }
+        status { "verified" }
 
-        factory :active_member_with_membership do
+        factory :verified_member_with_membership do
           after(:create) do |member, evaluator|
             create_list(:membership, 1, member: member)
           end

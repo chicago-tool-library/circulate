@@ -6,7 +6,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @admin = create(:user)
     sign_in @admin
-    @member = create(:active_member)
+    @member = create(:verified_member)
   end
 
   test "renders new form" do

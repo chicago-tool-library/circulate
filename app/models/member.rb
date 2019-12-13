@@ -10,7 +10,7 @@ class Member < ApplicationRecord
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
-  enum status: [:pending, :active, :suspended, :deactivated], _prefix: true
+  enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
   validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
   validates :full_name, presence: true
@@ -22,8 +22,8 @@ class Member < ApplicationRecord
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
       "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
   }
-  scope :active, -> { where(status: "active") }
-  scope :open, -> { where(status: statuses.slice(:pending, :active).values) }
+  scope :verified, -> { where(status: "verified") }
+  scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loan_summaries).merge(LoanSummary.active_on(date)).distinct }
   scope :with_outstanding_items, ->(date) { joins(:loan_summaries).merge(LoanSummary.overdue_as_of(date)).distinct }
