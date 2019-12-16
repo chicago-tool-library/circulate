@@ -52,12 +52,14 @@ class Loan < ApplicationRecord
   def renew!(now = Time.current)
     transaction do
       return!(now)
+
+      period_start_date = [due_at, now.end_of_day].max
       Loan.create!(
         member_id: member_id,
         item_id: item_id,
         initial_loan_id: initial_loan_id || id,
         renewal_count: renewal_count + 1,
-        due_at: due_at + item.borrow_policy.duration.days,
+        due_at: period_start_date + item.borrow_policy.duration.days,
         uniquely_numbered: uniquely_numbered,
         created_at: now,
       )

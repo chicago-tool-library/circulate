@@ -71,6 +71,28 @@ class LoanTest < ActiveSupport::TestCase
     assert renewal.uniquely_numbered
   end
 
+  test "renewal policy itself for a full period starting today" do
+    borrow_policy = create(:borrow_policy, duration: 7)
+    item = create(:item, borrow_policy: borrow_policy)
+
+    tonight = Time.current.end_of_day
+    loan = create(:loan, item: item, created_at: 17.days.ago, due_at: 10.days.ago.end_of_day, uniquely_numbered: true)
+    renewal = loan.renew!
+
+    assert_equal tonight + 7.days, renewal.due_at
+  end
+
+  test "renews itself for a full period starting at due date" do
+    borrow_policy = create(:borrow_policy, duration: 7)
+    item = create(:item, borrow_policy: borrow_policy)
+
+    tonight = Time.current.end_of_day
+    loan = create(:loan, item: item, created_at: 3.days.ago, due_at: 4.days.since.end_of_day, uniquely_numbered: true)
+    renewal = loan.renew!
+
+    assert_equal tonight + 11.days, renewal.due_at
+  end
+
   test "renews a loan that is due tomorrow" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
