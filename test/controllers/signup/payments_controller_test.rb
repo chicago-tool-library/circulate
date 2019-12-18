@@ -145,7 +145,7 @@ module Signup
           assert_equal i + 1, session[:attempts]
         else
           assert_redirected_to "http://www.example.com/signup/confirmation"
-          assert_match /There was an error processing your payment/, flash[:error]
+          assert_match(/There was an error processing your payment/, flash[:error])
           refute session[:attempts]
         end
       end

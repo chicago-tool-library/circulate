@@ -47,7 +47,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
   test "sends a single email to folks with both overdue and active loans" do
     loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
-    loan2 = create(:loan, member: loan.member, due_at: 7.days.since)
+    create(:loan, member: loan.member, due_at: 7.days.since)
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -92,8 +92,12 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     }
 
     black_hole = Object.new
-    def black_hole.method_missing(*args)
+    def black_hole.method_missing(*args) # rubocop:disable Style/MethodMissingSuper
       self
+    end
+
+    def black_hole.respond_to_missing?(*args)
+      true
     end
 
     mailer_spy = Spy.on(MemberMailer, :with).and_return(black_hole)
@@ -126,7 +130,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     refute ActionMailer::Base.deliveries.empty?
 
-    mail = ActionMailer::Base.deliveries.select { |delivery| delivery.to == [member.email] }.first
+    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [member.email] }
     assert_includes mail.encoded, returned_today.item.complete_number
     assert_includes mail.encoded, checked_out_today.item.complete_number
     refute_includes mail.encoded, previous_loan.item.complete_number

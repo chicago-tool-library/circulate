@@ -45,7 +45,7 @@ module ActiveStorageLogSuppressor
       status, headers, body = @app.call(env)
       body = ::Rack::BodyProxy.new(body) { finish(request) }
       [status, headers, body]
-    rescue Exception
+    rescue Exception # rubocop:disable Lint/RescueException
       finish(request)
       raise
     ensure

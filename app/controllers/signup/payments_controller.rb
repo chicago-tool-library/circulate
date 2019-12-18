@@ -46,25 +46,25 @@ module Signup
         session[:amount] = amount.cents
 
         redirect_to signup_confirmation_url
-
-      else
-        errors = result.error
-        Rails.logger.error(errors)
-        Raven.capture_message(errors.inspect)
-
-        if errors.first[:code] == "NOT_FOUND"
-          # Give Square a little while for the transaction data to be available
-          session[:attempts] += 1
-          if session[:attempts] <= 10
-            render :wait, layout: nil
-            return
-          end
-        end
-
-        reset_session
-        flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
-        redirect_to signup_confirmation_url
+        return
       end
+
+      errors = result.error
+      Rails.logger.error(errors)
+      Raven.capture_message(errors.inspect)
+
+      if errors.first[:code] == "NOT_FOUND"
+        # Give Square a little while for the transaction data to be available
+        session[:attempts] += 1
+        if session[:attempts] <= 10
+          render :wait, layout: nil
+          return
+        end
+      end
+
+      reset_session
+      flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
+      redirect_to signup_confirmation_url
     end
 
     private

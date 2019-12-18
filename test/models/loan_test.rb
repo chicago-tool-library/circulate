@@ -123,7 +123,7 @@ class LoanTest < ActiveSupport::TestCase
     loan = create(:loan, due_at: tonight)
 
     yesterday = Time.current.end_of_day - 1.day
-    loan2 = create(:loan, due_at: yesterday)
+    create(:loan, due_at: yesterday)
 
     one_week_ago = Time.current.end_of_day - 1.week
     week_ago_loan = create(:loan, due_at: one_week_ago)

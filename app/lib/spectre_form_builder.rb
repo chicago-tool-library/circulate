@@ -178,7 +178,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     return label if label
 
     method_string = method.to_s
-    if /_ids\z/.match?(method_string)
+    if method_string.ends_with?("_ids")
       method_string.sub("_ids", "").pluralize.titleize
     else
       method_string.humanize

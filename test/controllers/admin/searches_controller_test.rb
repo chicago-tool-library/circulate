@@ -10,8 +10,8 @@ module Admin
     end
 
     test "searches with a query" do
-      hammer = create(:item, name: "A Large Hammer")
-      member = create(:member, full_name: "MC Hammer")
+      create(:item, name: "A Large Hammer")
+      create(:member, full_name: "MC Hammer")
       get admin_search_url(query: "hammer")
       assert_response :success
       assert_select ".items-table a", "A Large Hammer"
@@ -19,7 +19,7 @@ module Admin
     end
 
     test "finds member using the last four of the phone number" do
-      member = create(:member, preferred_name: "The Count", phone_number: "1234567890")
+      create(:member, preferred_name: "The Count", phone_number: "1234567890")
       get admin_search_url(query: "7890")
       assert_response :success
       assert_select ".members-table a", "The Count"

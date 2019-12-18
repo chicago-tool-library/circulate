@@ -5,11 +5,11 @@ class MembershipTest < ActiveSupport::TestCase
     member = create(:member)
     now = Time.current.to_date
 
-    membership = assert_difference "Membership.count", 1 do
-      assert_difference "Adjustment.count", 0 do
+    membership = assert_difference("Membership.count", 1) {
+      assert_difference("Adjustment.count", 0) {
         Membership.create_for_member(member, now: now)
-      end
-    end
+      }
+    }
 
     assert_equal member, membership.member
     assert_equal now, membership.started_on
@@ -21,11 +21,11 @@ class MembershipTest < ActiveSupport::TestCase
     now = Time.current.to_date
     amount = Money.new(12.34)
 
-    membership = assert_difference "Membership.count", 1 do
-      assert_difference "Adjustment.count", 2 do
+    membership = assert_difference("Membership.count", 1) {
+      assert_difference("Adjustment.count", 2) {
         Membership.create_for_member(member, now: now, amount: amount, source: "cash")
-      end
-    end
+      }
+    }
 
     membership_adjustment = membership.adjustment
     assert_equal amount * -1, membership_adjustment.amount
@@ -46,11 +46,11 @@ class MembershipTest < ActiveSupport::TestCase
     now = Time.current.to_date
     amount = Money.new(12.34)
 
-    membership = assert_difference "Membership.count", 1 do
-      assert_difference "Adjustment.count", 2 do
+    membership = assert_difference("Membership.count", 1) {
+      assert_difference("Adjustment.count", 2) {
         Membership.create_for_member(member, now: now, amount: amount, source: "square", square_transaction_id: "sq_abcd")
-      end
-    end
+      }
+    }
 
     assert_equal member, membership.member
     assert_equal now, membership.started_on
