@@ -1,7 +1,6 @@
 require "test_helper"
 
 class MembershipTest < ActiveSupport::TestCase
-
   test "creates a membership for a member" do
     member = create(:member)
     now = Time.current.to_date
@@ -70,5 +69,4 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "sq_abcd", payment_adjustment.square_transaction_id
     assert_nil payment_adjustment.adjustable
   end
-
 end

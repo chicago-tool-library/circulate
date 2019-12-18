@@ -14,20 +14,20 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  %w{square cash}.each do |payment_source|
+  %w[square cash].each do |payment_source|
     test "creates new membership using #{payment_source}" do
       assert_difference "Adjustment.count", 2 do
         post admin_member_memberships_url(@member), params: {
           admin_payment: {
             amount_dollars: 12,
             payment_source: payment_source,
-          }
+          },
         }
       end
       assert_response :redirect
 
       membership = @member.memberships.last
-      membership_adjustment, payment_adjustment = @member.adjustments.to_a[-2,2]
+      membership_adjustment, payment_adjustment = @member.adjustments.to_a[-2, 2]
 
       assert_equal membership, membership_adjustment.adjustable
       assert_equal Money.new(-1200), membership_adjustment.amount

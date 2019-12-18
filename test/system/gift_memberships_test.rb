@@ -24,7 +24,7 @@ class GiftMembershipsTest < ApplicationSystemTestCase
 
       assert_text "Gift membership was successfully created", wait: 10
     end
-    
+
     assert_text "$23.00"
     assert_text "created@place.biz"
     assert_text "created name"

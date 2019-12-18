@@ -131,5 +131,4 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, checked_out_today.item.complete_number
     refute_includes mail.encoded, previous_loan.item.complete_number
   end
-
 end

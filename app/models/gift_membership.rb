@@ -3,7 +3,7 @@ class GiftMembership < ApplicationRecord
     greater_than_or_equal_to: 0,
   }
 
-  composed_of :code, class_name: "GiftMembershipCode", mapping: %w{code value}, allow_nil: true
+  composed_of :code, class_name: "GiftMembershipCode", mapping: %w[code value], allow_nil: true
 
   belongs_to :membership, required: false
   validates :purchaser_email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
@@ -20,7 +20,7 @@ class GiftMembership < ApplicationRecord
     update_attribute(:membership_id, membership.id)
   end
 
-  # This is to work around an incompatibility between using composed_of and the 
+  # This is to work around an incompatibility between using composed_of and the
   # built-in uniqueness validation.
   def read_attribute_for_validation(attr)
     if attr.to_sym == :code

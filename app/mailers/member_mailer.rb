@@ -41,13 +41,12 @@ class MemberMailer < ApplicationMailer
   def set_uuid_header
     headers["X-SMTPAPI"] = {
       unique_args: {
-        uuid: @uuid
-      }
+        uuid: @uuid,
+      },
     }.to_json
   end
 
   def store_notification
     Notification.create!(member: @member, uuid: @uuid, action: action_name, address: @member.email, subject: @subject)
   end
-
 end

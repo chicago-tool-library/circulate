@@ -17,7 +17,7 @@ module Signup
         end
 
         MemberMailer.with(member: @member).welcome_message.deliver_later
-        
+
         reset_session
         redirect_to signup_confirmation_url
       else

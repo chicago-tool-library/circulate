@@ -18,13 +18,12 @@ class GiftPurchaserMailer < ApplicationMailer
   def set_uuid_header
     headers["X-SMTPAPI"] = {
       unique_args: {
-        uuid: @uuid
-      }
+        uuid: @uuid,
+      },
     }.to_json
   end
 
   def store_notification
     Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject)
   end
-
 end

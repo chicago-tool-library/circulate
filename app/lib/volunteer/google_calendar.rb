@@ -14,9 +14,9 @@ module Volunteer
 
       if events_response.status == 200
         events = events_response.parse.fetch("items", []).map { |event| gcal_event_to_event(event) }
-        return Result.success(events)
+        Result.success(events)
       else
-        return Result.failure(events_response.body)
+        Result.failure(events_response.body)
       end
     end
 
@@ -52,9 +52,9 @@ module Volunteer
       })
       if patch_response.status == 200
         event = gcal_event_to_event(patch_response.parse)
-        return Result.success(event)
+        Result.success(event)
       else
-        return Result.failure(patch_response.body.to_s)
+        Result.failure(patch_response.body.to_s)
       end
     end
 

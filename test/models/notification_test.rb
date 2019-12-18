@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class NotificationTest < ActiveSupport::TestCase
   test "factory definitions" do

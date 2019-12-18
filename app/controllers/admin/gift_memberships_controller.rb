@@ -25,7 +25,7 @@ module Admin
         if @gift_membership.save
           GiftPurchaserMailer.with(gift_membership: @gift_membership).confirmation.deliver_later
 
-          format.html { redirect_to admin_gift_memberships_url, success: 'Gift membership was successfully created.' }
+          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully created." }
           format.json { render :show, status: :created, location: [:admin, @gift_membership] }
         else
           format.html { render :new }
@@ -37,7 +37,7 @@ module Admin
     def update
       respond_to do |format|
         if @gift_membership.update(gift_membership_params)
-          format.html { redirect_to admin_gift_memberships_url, success: 'Gift membership was successfully updated.' }
+          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully updated." }
           format.json { render :show, status: :ok, location: [:admin, @gift_membership] }
         else
           format.html { render :edit }
@@ -49,19 +49,19 @@ module Admin
     def destroy
       @gift_membership.destroy
       respond_to do |format|
-        format.html { redirect_to admin_gift_memberships_url, success: 'Gift membership was successfully destroyed.' }
+        format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully destroyed." }
         format.json { head :no_content }
       end
     end
 
     private
 
-      def set_gift_membership
-        @gift_membership = GiftMembership.find(params[:id])
-      end
+    def set_gift_membership
+      @gift_membership = GiftMembership.find(params[:id])
+    end
 
-      def gift_membership_params
-        params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount)
-      end
+    def gift_membership_params
+      params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount)
+    end
   end
 end

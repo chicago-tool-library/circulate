@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 module Admin
   class GiftMembershipsControllerTest < ActionDispatch::IntegrationTest
@@ -21,13 +21,13 @@ module Admin
     end
 
     test "should create gift_membership" do
-      assert_difference('GiftMembership.count') do
-        post admin_gift_memberships_url, params: { 
-          gift_membership: { 
+      assert_difference("GiftMembership.count") do
+        post admin_gift_memberships_url, params: {
+          gift_membership: {
             amount: "44",
             purchaser_email: "someone@somewhere.com",
-            purchaser_name: "Gift Giver"
-          }
+            purchaser_name: "Gift Giver",
+          },
         }
       end
 
@@ -49,18 +49,18 @@ module Admin
     test "should update gift_membership" do
       gift_membership = create(:gift_membership)
       patch admin_gift_membership_url(gift_membership), params: {
-        gift_membership: { 
+        gift_membership: {
           amount: "44",
           purchaser_email: "someone@somewhere.com",
-          purchaser_name: "Gift Giver"
-        }
+          purchaser_name: "Gift Giver",
+        },
       }
       assert_redirected_to admin_gift_memberships_url
     end
 
     test "should destroy gift_membership" do
       gift_membership = create(:gift_membership)
-      assert_difference('GiftMembership.count', -1) do
+      assert_difference("GiftMembership.count", -1) do
         delete admin_gift_membership_url(gift_membership)
       end
 

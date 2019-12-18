@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class GiftMembershipTest < ActiveSupport::TestCase
   test "generates a unique code upon creation" do
