@@ -6,6 +6,8 @@ class MemberPaymentTest < ApplicationSystemTestCase
   end
 
   test "accepts a member payment" do
+    skip "Disabled record payment button"
+
     @member = create(:verified_member_with_membership)
     create(:fine_adjustment, member: @member, amount_cents: -1300)
 
@@ -30,6 +32,8 @@ class MemberPaymentTest < ApplicationSystemTestCase
   end
 
   test "forgives a member's fines" do
+    skip "Disabled record payment button"
+
     @member = create(:verified_member_with_membership)
     create(:fine_adjustment, member: @member, amount_cents: -1000)
 
