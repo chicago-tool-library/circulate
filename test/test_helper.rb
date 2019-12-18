@@ -13,4 +13,20 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+
+  class << self
+    def env_tags
+      @env_tags ||= ENV.fetch("TAGS", "").split
+    end
+
+    def test(subject, *tags, &block)
+      if tags.include?(:remote) && !env_tags.include?("remote")
+        super subject do
+          skip "Skipping remote test"
+        end
+      else
+        super(subject, &block)
+      end
+    end
+  end
 end

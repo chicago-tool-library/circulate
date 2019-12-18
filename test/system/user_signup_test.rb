@@ -1,7 +1,6 @@
 require "application_system_test_case"
 
 class UserSignupTest < ApplicationSystemTestCase
-
   def setup
     Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
     ActionMailer::Base.deliveries.clear
@@ -52,7 +51,7 @@ class UserSignupTest < ApplicationSystemTestCase
     end
   end
 
-  test "signup and pay through square" do
+  test "signup and pay through square", :remote do
     complete_first_three_steps
 
     fill_in "Your membership fee:", with: "42"
