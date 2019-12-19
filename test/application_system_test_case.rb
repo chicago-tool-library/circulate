@@ -65,8 +65,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
 
-    html = delivered_mail.body.parts[0].body.to_s
-    text = delivered_mail.body.parts[1].body.to_s
-    yield html, text
+    if delivered_mail.attachments.size > 0
+      text = delivered_mail.body.parts[0].body.parts[0].body
+      html = delivered_mail.body.parts[0].body.parts[1].body
+      attachments = delivered_mail.attachments
+    else
+      html = delivered_mail.body.parts[0].body.to_s
+      text = delivered_mail.body.parts[1].body.to_s
+      attachments = []
+    end
+    yield html, text, attachments
   end
 end

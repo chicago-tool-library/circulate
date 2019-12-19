@@ -32,12 +32,15 @@ class GiftMembershipsTest < ApplicationSystemTestCase
     gift_membership = GiftMembership.last!
 
     assert_emails 1
-    assert_delivered_email(to: "created@place.biz") do |html, text|
+    assert_delivered_email(to: "created@place.biz") do |html, text, attachments|
       assert_includes html, "You have successfully purchased a One Year Gift Membership to the Chicago Tool Library"
       assert_includes html, gift_membership.code.format
 
       assert_includes text, "You have successfully purchased a One Year Gift Membership to the Chicago Tool Library"
       assert_includes text, gift_membership.code.format
+
+      assert_equal 1, attachments.size
+      assert_equal "certificate.jpg", attachments.first.filename
     end
   end
 
