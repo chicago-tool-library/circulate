@@ -9,10 +9,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run herokuish buidpack test
+    - name: Build app using buildpack
       run: |
         cp -R $GITHUB_WORKSPACE /tmp/app
         /bin/herokuish buildpack build
-        cd /tmp/app && yarn install --check-files
+    - name: Run rails test
+      run: cd /tmp/app && bundle exec rails test
+        
     container:
       image: gliderlabs/herokuish
