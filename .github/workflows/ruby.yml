@@ -9,10 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        path: /tmp/app
     - name: Run herokuish buidpack test
       run: |
+        cp -R $GITHUB_WORKSPACE/circulate /tmp/app
         /bin/herokuish buildpack test
     container:
       image: gliderlabs/herokuish
