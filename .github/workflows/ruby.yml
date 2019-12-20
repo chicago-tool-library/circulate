@@ -10,10 +10,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build app using buildpack
+      env:
+        TRACE: true
       run: |
         cp -R $GITHUB_WORKSPACE /tmp/app
         /bin/herokuish buildpack build
     - name: Run rails test
+      env:
+        TRACE: true
       run: /bin/herokuish procfile exec bundle exec rails test
         
     container:
