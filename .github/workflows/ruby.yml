@@ -9,10 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run rails test
+    - name: Run herokuish buidpack test
       run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-        bundle exec rails test
+        /bin/herokuish buildpack test
     container:
-      image: ruby:2.6.5
+      image: gliderlabs/herokuish
