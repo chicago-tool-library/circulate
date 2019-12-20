@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run herokuish buidpack test
       run: |
-        cp -R $GITHUB_WORKSPACE/circulate /tmp/app
+        cp -R $GITHUB_WORKSPACE /tmp/app
         /bin/herokuish buildpack test
     container:
       image: gliderlabs/herokuish
