@@ -14,7 +14,7 @@ jobs:
         cp -R $GITHUB_WORKSPACE /tmp/app
         /bin/herokuish buildpack build
     - name: Run rails test
-      run: cd /tmp/app && bundle exec rails test
+      run: /bin/herokuish procfile exec bundle exec rails test
         
     container:
       image: gliderlabs/herokuish
