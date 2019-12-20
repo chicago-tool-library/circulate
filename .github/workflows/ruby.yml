@@ -12,7 +12,7 @@ jobs:
     - name: Run herokuish buidpack test
       run: |
         cp -R $GITHUB_WORKSPACE /tmp/app
-        /bin/herokuish buildpack install
+        /bin/herokuish buildpack build
         cd /tmp/app && yarn install --check-files
     container:
       image: gliderlabs/herokuish
