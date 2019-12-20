@@ -11,6 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run herokuish buidpack test
       run: |
+        /bin/herokuish buildpack install https://github.com/heroku/heroku-buildpack-ruby.git
         /bin/herokuish buildpack test
     container:
       image: gliderlabs/herokuish
