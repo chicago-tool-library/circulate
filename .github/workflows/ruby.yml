@@ -7,8 +7,9 @@ jobs:
     runs-on: [ubuntu-18.04]
     steps:
     - uses: actions/checkout@v2
-    - name: Build app using buildpack
-      run: |
-        docker run --cidfile /tmp/built.cid -i -v $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build 
-        docker commit $(</tmp/built.cid) app:latest
-        docker run -i -v app:latest /exec bundle exec rails test
+    - name: Build app using herokuish
+      run: docker run --cidfile /tmp/built.cid -i -v $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build 
+    - name: Commit image
+      run: docker commit $(</tmp/built.cid) app:latest
+    - name: Run tests
+      run: docker run -i app:latest /exec bundle exec rails test
