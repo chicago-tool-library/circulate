@@ -8,18 +8,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build app using buildpack
-      env:
-        TRACE: true
       run: |
-        cp -R $GITHUB_WORKSPACE /tmp/app
-        /bin/herokuish buildpack build
-    - name: Run rails test
-      env:
-        TRACE: true
-      shell: bash
-      run: |
-        su -- herokuish
-        env
-        bundle exec rails test
-    container:
-      image: gliderlabs/herokuish
+        docker run -it -v --cidfile /tmp/built.cid $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build
+        docker run -it -v $(</tmp/built.cid) /exec bundle exec rails test
