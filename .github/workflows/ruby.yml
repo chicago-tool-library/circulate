@@ -8,7 +8,8 @@ jobs:
     services:
       postgres:
         image: postgres:11.5
-        ports: ["5432:5432"]
+        ports:
+          - 5432/tcp
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         
     steps:
@@ -18,4 +19,4 @@ jobs:
     - name: Commit image
       run: docker commit $(</tmp/built.cid) app:latest
     - name: Run tests
-      run: docker run -i -p 5432:5432 -e PGHOST=localhost -e PGUSER=postgres app:latest /exec bundle exec rails test
+      run: docker run -i -p ${{ job.services.postgres.ports[5432] }}:5432 -e PGHOST=localhost -e PGUSER=postgres app:latest /exec bundle exec rails test
