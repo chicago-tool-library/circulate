@@ -9,5 +9,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build app using buildpack
       run: |
-        docker run -it -v --cidfile /tmp/built.cid $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build
-        docker run -it -v $(</tmp/built.cid) /exec bundle exec rails test
+        docker run -i -v --cidfile /tmp/built.cid $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build
+        docker run -i -v $(</tmp/built.cid) /exec bundle exec rails test
