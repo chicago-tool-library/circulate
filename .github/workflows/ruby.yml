@@ -18,6 +18,6 @@ jobs:
         TRACE: true
       shell: bash
       run: |
-        /exec bundle exec rails test
+        bundle exec rails test
     container:
       image: gliderlabs/herokuish
