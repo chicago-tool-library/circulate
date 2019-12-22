@@ -18,6 +18,8 @@ jobs:
         TRACE: true
       shell: bash
       run: |
+        sudo su -- herokuish
+        env
         bundle exec rails test
     container:
       image: gliderlabs/herokuish
