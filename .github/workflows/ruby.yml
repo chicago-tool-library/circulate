@@ -10,4 +10,5 @@ jobs:
     - name: Build app using buildpack
       run: |
         docker run --cidfile /tmp/built.cid -i -v $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build 
-        docker run -i -v $(</tmp/built.cid) /exec bundle exec rails test
+        docker commit $(</tmp/built.cid) app:latest
+        docker run -i -v app:latest /exec bundle exec rails test
