@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: [ubuntu-18.04]
     steps:
     - uses: actions/checkout@v2
     - name: Build app using buildpack
@@ -18,7 +16,8 @@ jobs:
     - name: Run rails test
       env:
         TRACE: true
-      run: /bin/herokuish procfile exec bundle exec rails test
-        
+      shell: bash
+      run: |
+        /exec bundle exec rails test
     container:
       image: gliderlabs/herokuish
