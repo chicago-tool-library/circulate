@@ -2,7 +2,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ruby/2.6.5-buster
+    container: ruby:2.6.5-buster
     
     services:
       postgres:
