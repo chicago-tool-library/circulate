@@ -13,9 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Install PostgreSQL 11 client
+    - name: Install Yarn
       run: |
-        apt-get -yqq install libpq-dev
+        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+        apt update
+        apt install yarn
 
     - name: Build App
       env:
