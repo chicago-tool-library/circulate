@@ -1,21 +1,42 @@
-name: Ruby
-
 on: [push]
-
 jobs:
   build:
-    runs-on: [ubuntu-18.04]
+    runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:11.5
         ports: ["5432:5432"]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        
+
+container:
+      ruby/2.6.5-buster
+      
     steps:
-    - uses: actions/checkout@v2
-    - name: Build app using herokuish
-      run: docker run --cidfile /tmp/built.cid -i -v $GITHUB_WORKSPACE:/tmp/app gliderlabs/herokuish:latest /build 
-    - name: Commit image
-      run: docker commit $(</tmp/built.cid) app:latest
-    - name: Run tests
-      run: docker run -i -e PGHOST=postgres -e PGUSER=postgres app:latest /exec bundle exec rails test
+    - uses: actions/checkout@v1
+
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+
+    - name: Install PostgreSQL 11 client
+      run: |
+        sudo apt-get -yqq install libpq-dev
+
+    - name: Build App
+      env:
+        PGHOST: postgres
+        PGUSER: postgres
+        RAILS_ENV: test
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bin/rails db:setup
+
+    - name: Run Tests
+      env:
+        PGHOST: postgres
+        PGUSER: postgres
+        RAILS_ENV: test
+      run: bundle exec rake test
