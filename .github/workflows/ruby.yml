@@ -13,14 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.6.x
-
     - name: Install PostgreSQL 11 client
       run: |
-        sudo apt-get -yqq install libpq-dev
+        apt-get -yqq install libpq-dev
 
     - name: Build App
       env:
@@ -37,4 +32,4 @@ jobs:
         PGHOST: postgres
         PGUSER: postgres
         RAILS_ENV: test
-      run: bundle exec rake test
+      run: bundle exec rails test
