@@ -1,6 +1,8 @@
+name: Ruby
 on: [push]
 jobs:
-  build:
+  test:
+    name: App Tests
     runs-on: ubuntu-latest
     container: ruby:2.6.5-buster
     
@@ -34,9 +36,16 @@ jobs:
         yarn install
         bin/rails db:setup
 
-    - name: Run Tests
+    - name: Run App Tests
       env:
         PGHOST: postgres
         PGUSER: postgres
         RAILS_ENV: test
       run: bundle exec rails test
+
+    - name: Run System Tests
+      env:
+        PGHOST: postgres
+        PGUSER: postgres
+        RAILS_ENV: test
+      run: bundle exec rails test:system
