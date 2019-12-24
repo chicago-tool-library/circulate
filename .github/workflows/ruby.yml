@@ -19,6 +19,10 @@ jobs:
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
         apt update && apt-get -yqq install yarn
 
+    - name: Install Fonts
+      run: |
+        apt-get -yqq gsfonts
+
     - name: Build App
       env:
         PGHOST: postgres
