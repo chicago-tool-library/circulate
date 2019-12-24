@@ -48,4 +48,5 @@ jobs:
         PGHOST: postgres
         PGUSER: postgres
         RAILS_ENV: test
+        HEADLESS: true
       run: bundle exec rails test:system
