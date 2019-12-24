@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Fonts
       run: |
-        apt-get -yqq gsfonts
+        apt-get -yqq install gsfonts
 
     - name: Build App
       env:
