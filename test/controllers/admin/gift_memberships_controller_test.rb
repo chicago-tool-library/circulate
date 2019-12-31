@@ -27,11 +27,16 @@ module Admin
             amount: "44",
             purchaser_email: "someone@somewhere.com",
             purchaser_name: "Gift Giver",
+            recipient_name: "A Recipient",
           },
         }
       end
 
       assert_redirected_to admin_gift_memberships_url
+      gift_membership = GiftMembership.last
+
+      assert_equal Money.new(4400), gift_membership.amount
+      assert_equal "A Recipient", gift_membership.recipient_name
     end
 
     test "should show gift_membership" do

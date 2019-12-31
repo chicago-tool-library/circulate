@@ -13,30 +13,28 @@
 
     <% if @gift_memberships.any? %>
 
-      <div class="responsive-table six-columns">
-        <%= tag.div "Purchaser Email", class: "responsive-table-header" %>
-        <%= tag.div "Purchaser Name", class: "responsive-table-header" %>
-        <%= tag.div "Amount", class: "responsive-table-header" %>
+      <div class="responsive-table five-columns">
         <%= tag.div "Code", class: "responsive-table-header" %>
+        <%= tag.div "Purchaser", class: "responsive-table-header" %>
+        <%= tag.div "Amount", class: "responsive-table-header" %>
+        <%= tag.div "Recipient", class: "responsive-table-header" %>
         <%= tag.div "Claimed by", class: "responsive-table-header" %>
-        <%= tag.div "", class: "responsive-table-header" %>
 
         <% @gift_memberships.each do |gift_membership| %>
-          <%= tag.div gift_membership.purchaser_name, class: "responsive-table-cell" %>
-          <%= tag.div gift_membership.purchaser_email, class: "responsive-table-cell" %>
+          <%= tag.div class: "responsive-table-cell" do %>
+            <%= link_to gift_membership.code.format, edit_admin_gift_membership_path(gift_membership) %>
+          <% end %>
+          <%= tag.div class: "responsive-table-cell" do %>
+            <%= tag.strong gift_membership.purchaser_email %>
+            <%= gift_membership.purchaser_name %>
+          <% end %>
           <%= tag.div gift_membership.amount.format, class: "responsive-table-cell" %>
-          <%= tag.div gift_membership.code.format, class: "responsive-table-cell" %>
+          <%= tag.div gift_membership.recipient_name, class: "responsive-table-cell" %>
           <%= tag.div class: "responsive-table-cell" do %>
             <% if gift_membership.membership %>
               <%= link_to preferred_or_default_name(gift_membership.membership.member), [:admin, gift_membership.membership.member] %>
             <% end %>
           <% end %>
-
-          <%= tag.div class: "responsive-table-cell" do %>
-            <%= link_to "Edit", edit_admin_gift_membership_path(gift_membership), class: "btn" %>
-
-          <% end %>
-
         <% end %>
       </div>
 

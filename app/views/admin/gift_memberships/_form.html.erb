@@ -4,6 +4,7 @@
   <%= form.text_field :purchaser_email %>
   <%= form.text_field :purchaser_name %>
   <%= form.money_field :amount, value: gift_membership.amount || 0, label: "Amount" %>
+  <%= form.text_field :recipient_name %>
 
   <%= form.actions do %>
     <%= form.submit %>
