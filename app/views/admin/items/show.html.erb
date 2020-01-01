@@ -16,6 +16,20 @@
   <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn" %>
 <% end %>
 
+<% if @item.checked_out_exclusive_loan %>
+  <div class="columns">
+    <div class="column col-12">
+      <div class="info-box clearfix member-membership">
+        <p class="float-left">
+          <i class="icon icon-people"></i>
+          Currently on loan to <%= link_to preferred_or_default_name(@item.checked_out_exclusive_loan.member), [:admin, @item.checked_out_exclusive_loan.member] %>.
+        </p>
+        <p class="float-right">Due on <%= checked_out_date(@item.checked_out_exclusive_loan.due_at) %>.</p>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <div class="columns">
   <div class="column col-4">
     <p>
