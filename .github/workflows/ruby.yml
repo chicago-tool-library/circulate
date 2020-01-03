@@ -4,7 +4,7 @@ jobs:
   test:
     name: App Tests
     runs-on: ubuntu-latest
-    container: ruby:2.6.5-buster
+    container: circleci/ruby:2.6.5-node-browsers
     
     services:
       postgres:
@@ -14,12 +14,6 @@ jobs:
       
     steps:
     - uses: actions/checkout@v1
-
-    - name: Install Yarn
-      run: |
-        curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-        echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-        apt update && apt-get -yqq install yarn
 
     - name: Install Fonts
       run: |
@@ -31,7 +25,6 @@ jobs:
         PGUSER: postgres
         RAILS_ENV: test
       run: |
-        gem install bundler
         bundle install --jobs 4 --retry 3
         yarn install
         bin/rails db:setup
@@ -42,10 +35,6 @@ jobs:
         PGUSER: postgres
         RAILS_ENV: test
       run: bundle exec rails test
-
-    - name: Install Chrome
-      run: |
-        apt-get -y install chromium-browser chromium-chromedriver
 
     - name: Run System Tests
       env:
