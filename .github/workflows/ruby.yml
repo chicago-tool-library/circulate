@@ -45,18 +45,7 @@ jobs:
 
     - name: Install Chrome
       run: |
-        apt-get install -y unzip xvfb libxi6 libgconf-2-4
-        curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-        echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-        apt-get -y update
-        apt-get -y install google-chrome-stable
-
-        apt-get -y install libnss3
-        STABLE_CHROME_VERSION=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-        wget https://chromedriver.storage.googleapis.com/$STABLE_CHROME_VERSION/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        mv chromedriver /usr/bin/chromedriver
-        chmod +x /usr/bin/chromedriver
+        apt-get -y install chromium-browser chromium-chromedriver
 
     - name: Run System Tests
       env:
