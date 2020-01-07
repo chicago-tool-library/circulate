@@ -61,7 +61,7 @@ module Admin
     end
 
     def gift_membership_params
-      params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount)
+      params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount, :recipient_name)
     end
   end
 end

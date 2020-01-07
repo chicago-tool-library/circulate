@@ -1,5 +1,7 @@
 module Admin
   class MembersController < BaseController
+    include Pagy::Backend
+
     include MemberOrdering
     include MemberPage
 
@@ -7,7 +9,7 @@ module Admin
 
     def index
       member_scope = params[:filter] == "closed" ? Member.closed : Member.open
-      @members = member_scope.order(index_order)
+      @pagy, @members = pagy(member_scope.order(index_order), items: 100)
     end
 
     def show
