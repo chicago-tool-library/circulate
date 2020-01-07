@@ -3,14 +3,19 @@
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
-* Item management
+* Inventory management, including item photos and configurable borrowing rules
 * Item loaning to members, including fine calculation
+* Volunteer shift scheduling
+* Gift membership redemption
 
 There is content and information hard-coded in many of the views that is specific to The Chicago Tool Library, for which the software is being initially developed. Over time, the plan is for these specifics to make their way into configuration or user-editable content so that the software is easily used by other lending libraries.
 
 ## Requirements
 
-Circulate is a fairly basic Rails application. It requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
+Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
+
+* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests.
+* Imagemagick needs to be installed for gift memberships and item thumbnails to be generated.
 
 ## Integrations
 
@@ -20,7 +25,6 @@ The following third party services are used:
 * Amazon S3 for image storage
 * Square for payment processing
 * Gmail and Google Calendar for volunteer scheduling
-* Mailchimp for mailing list management
 * Sentry for error collection
 * Skylight for app performance monitoring
 
@@ -44,7 +48,7 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 
 ## Deployment
 
-Circulate is currently running on Heroku in production, but it should run just as well anywhere Rails applications can be run.
+Circulate is currently running on Heroku in production, but it should run fairly well anywhere Rails applications can be run.
 
 The following addons are expected to be enabled:
 
@@ -60,6 +64,12 @@ heroku-postgresql (postgresql-horizontal-xxxxx)  hobby-dev  free      created
 
 sendgrid (sendgrid-tetrahedral-xxxxx)            starter    free      created
  └─ as SENDGRID
+
+logdna (logdna-symmetrical-xxxxx)                zepto      $5/month  created
+ └─ as LOGDNA
+
+scheduler (scheduler-round-xxxxx)                standard   free      created
+ └─ as SCHEDULER
  ```
 
  Using a different way of configuring the file storage or email services should require trivial code changes.
