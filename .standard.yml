@@ -1,5 +1,0 @@
-fix: true               # default: false
-parallel: true          # default: false
-
-ignore:                 # default: []
-  - 'brew/**/*'
