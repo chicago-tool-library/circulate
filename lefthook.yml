@@ -21,4 +21,4 @@ pre-commit:
       tags: style
       glob: "*.rb"
       exclude: "application.rb|routes.rb"
-      run: bundle exec standardrb --fix
+      run: bundle exec standardrb
