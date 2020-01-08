@@ -65,6 +65,9 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: install bundler
+          command: gem install bundler:2.0.2
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run:
@@ -92,6 +95,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: install bundler
+          command: gem install bundler:2.0.2
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
