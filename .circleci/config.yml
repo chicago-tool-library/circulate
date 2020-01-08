@@ -84,6 +84,7 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
+          HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
       - run:
@@ -105,13 +106,11 @@ jobs:
       - run: bundle exec rake db:schema:load
       - run:
           name: run system tests
-          environment:
-            HEADLESS: 1
           command: |
             bundle exec rails test:system
       - store_artifacts:
-        path: ~/repo/tmp/screenshots
-        destination: test-screenshots
+          path: ~/repo/tmp/screenshots
+          destination: test-screenshots
 
 workflows:
   version: 2
