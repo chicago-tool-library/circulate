@@ -75,3 +75,4 @@ scheduler (scheduler-round-xxxxx)                standard   free      created
  Using a different way of configuring the file storage or email services should require trivial code changes.
 
  The `Procfile` is configured to run database migrations during the release stage of deployment.
+
