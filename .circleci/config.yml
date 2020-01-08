@@ -1,11 +1,13 @@
 version: 2
 jobs:
   bundler_dependencies:
+    working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
-
-    working_directory: ~/repo
-
+        environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
     steps:
       - checkout
       - run:
@@ -18,19 +20,16 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            bundle config set path 'vendor/bundle'
-            bundle check || bundle install --jobs=4 --retry=3
+            bundle check || bundle install
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
   yarn_dependencies:
+    working_directory: ~/repo
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
-
-    working_directory: ~/repo
-
     steps:
       - checkout
       - restore_cache:
@@ -44,15 +43,16 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
   test:
+    working_directory: ~/repo
     docker:
       # specify the version you desire here
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
       - image: circleci/postgres:11.5-ram
-
-    working_directory: ~/repo
-
     steps:
       - run:
           name: install prereqs
@@ -68,6 +68,7 @@ jobs:
       - run:
           name: install bundler
           command: gem install bundler:2.0.2
+      - run: bundle check || bundle install
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
       - run:
@@ -75,15 +76,15 @@ jobs:
           command: |
             bundle exec rails test
   test_system:
+    working_directory: ~/repo
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
       - image: circleci/postgres:11.5-ram
-
-    working_directory: ~/repo
-
     steps:
       - run:
           name: install prereqs
@@ -98,6 +99,7 @@ jobs:
       - run:
           name: install bundler
           command: gem install bundler:2.0.2
+      - run: bundle check || bundle install
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
@@ -107,6 +109,9 @@ jobs:
             HEADLESS: 1
           command: |
             bundle exec rails test:system
+      - store_artifacts:
+        path: ~/repo/tmp/screenshots
+        destination: test-screenshots
 
 workflows:
   version: 2
