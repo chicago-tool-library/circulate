@@ -67,6 +67,7 @@ jobs:
           root: .
           paths:
             - public/packs
+            - public/packs-test
 
   test:
     working_directory: ~/repo
