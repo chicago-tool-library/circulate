@@ -65,9 +65,9 @@ jobs:
       - run: bundle check || bundle install
       - run: bin/rails assets:precompile
       - persist_to_workspace:
-        root: .
-        paths:
-          - public/packs
+          root: .
+          paths:
+            - public/packs
 
   test:
     working_directory: ~/repo
@@ -82,7 +82,7 @@ jobs:
       - image: circleci/postgres:11.5-ram
     steps:
       - attach_workspace:
-        at: ~/repo
+          at: ~/repo
       - run:
           name: install prereqs
           command: sudo apt-get update && sudo apt-get install -y gsfonts
@@ -118,7 +118,7 @@ jobs:
       - image: circleci/postgres:11.5-ram
     steps:
       - attach_workspace:
-        at: ~/repo
+          at: ~/repo
       - run:
           name: install prereqs
           command: sudo apt-get update && sudo apt-get install -y gsfonts
