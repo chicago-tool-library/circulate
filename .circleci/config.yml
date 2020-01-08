@@ -45,7 +45,6 @@ jobs:
   build_assets:
     working_directory: ~/repo
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
           BUNDLE_JOBS: 4
@@ -72,7 +71,6 @@ jobs:
   test:
     working_directory: ~/repo
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
           BUNDLE_JOBS: 4
@@ -81,12 +79,12 @@ jobs:
           DATABASE_URL: postgres://postgres@localhost
       - image: circleci/postgres:11.5-ram
     steps:
+      - checkout
       - attach_workspace:
           at: ~/repo
       - run:
           name: install prereqs
           command: sudo apt-get update && sudo apt-get install -y gsfonts
-      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -117,12 +115,12 @@ jobs:
           HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
+      - checkout
       - attach_workspace:
           at: ~/repo
       - run:
           name: install prereqs
           command: sudo apt-get update && sudo apt-get install -y gsfonts
-      - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
