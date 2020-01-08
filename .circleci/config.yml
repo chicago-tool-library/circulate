@@ -78,6 +78,7 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
+          PARALLEL_WORKERS: 4
       - image: circleci/postgres:11.5-ram
     steps:
       - checkout
@@ -103,6 +104,8 @@ jobs:
           name: run tests
           command: |
             bundle exec rails test
+      - store_test_results:
+          path: ~/repo/test/reports
 
   test_system:
     working_directory: ~/repo
@@ -113,6 +116,7 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
+          PARALLEL_WORKERS: 4
           HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
@@ -142,6 +146,8 @@ jobs:
       - store_artifacts:
           path: ~/repo/tmp/screenshots
           destination: test-screenshots
+      - store_test_results:
+          path: ~/repo/test/reports
 
 workflows:
   version: 2
