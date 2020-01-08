@@ -1,0 +1,118 @@
+version: 2
+jobs:
+  bundler_dependencies:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install bundler
+          command: gem install bundler:2.0.2
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            bundle config set path 'vendor/bundle'
+            bundle check || bundle install --jobs=4 --retry=3
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  yarn_dependencies:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+  test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          DATABASE_URL: postgres://postgres@localhost
+      - image: circleci/postgres:11.5-ram
+
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: install prereqs
+          command: sudo apt-get update && sudo apt-get install -y gsfonts
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - run:
+          name: run tests
+          command: |
+            bundle exec rails test
+  test_system:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          DATABASE_URL: postgres://postgres@localhost
+      - image: circleci/postgres:11.5-ram
+
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: install prereqs
+          command: sudo apt-get update && sudo apt-get install -y gsfonts
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      - run:
+          name: run system tests
+          environment:
+            HEADLESS: 1
+          command: |
+            bundle exec rails test:system
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - bundler_dependencies
+      - yarn_dependencies
+      - test:
+          requires:
+            - bundler_dependencies
+            - yarn_dependencies
+      - test_system:
+          requires:
+            - bundler_dependencies
+            - yarn_dependencies
