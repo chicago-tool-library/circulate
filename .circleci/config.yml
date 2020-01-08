@@ -50,6 +50,7 @@ jobs:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
     steps:
       - checkout
       - restore_cache:
@@ -62,11 +63,10 @@ jobs:
           name: install bundler
           command: gem install bundler:2.0.2
       - run: bundle check || bundle install
-      - run: bin/rails assets:precompile
+      - run: bin/rails webpacker:compile
       - persist_to_workspace:
           root: .
           paths:
-            - public/packs
             - public/packs-test
 
   test:
