@@ -194,6 +194,8 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.13.0)
+    minitest-ci (3.4.0)
+      minitest (>= 5.0.6)
     monetize (1.9.2)
       money (~> 6.12)
     money (6.13.6)
@@ -393,6 +395,7 @@ DEPENDENCIES
   lefthook
   listen (>= 3.0.5, < 3.2)
   mini_magick
+  minitest-ci
   mjml-rails!
   money-rails
   omniauth-google-oauth2

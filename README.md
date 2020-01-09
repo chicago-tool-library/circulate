@@ -72,6 +72,19 @@ scheduler (scheduler-round-xxxxx)                standard   free      created
  └─ as SCHEDULER
  ```
 
- Using a different way of configuring the file storage or email services should require trivial code changes.
+Using a different way of configuring the file storage or email services should require trivial code changes.
 
- The `Procfile` is configured to run database migrations during the release stage of deployment.
+### Buildpacks
+
+The following buildpacks are currently used in production:
+
+```
+1. https://github.com/mojodna/heroku-buildpack-jemalloc.git
+2. heroku/metrics
+3. https://github.com/heroku/heroku-buildpack-activestorage-preview
+4. heroku/ruby
+```
+
+### Release Command
+
+The `Procfile` is configured to run database migrations during the release stage of deployment.
