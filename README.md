@@ -90,3 +90,7 @@ The following buildpacks are currently used in production:
 ### Release Command
 
 The `Procfile` is configured to run database migrations during the release stage of deployment.
+
+### Daily Summary Emails
+
+`rails send_daily_loan_summaries` is set to run every evening using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler). Set this to a time _after_ any open hours to ensure that all of the day's activity has taken place.
