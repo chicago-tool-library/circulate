@@ -77,7 +77,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    click_on "Create Membership Without Payment"
+    click_on "Save without Payment"
 
     assert_content "Current membership expires on"
 

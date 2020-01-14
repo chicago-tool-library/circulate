@@ -2,9 +2,13 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   replaceContent(event) {
-    let [ body, message, xhr ] = event.detail;
-    this.element.innerHTML = body;
-
+    let [ doc, message, xhr ] = event.detail;
+    while (this.element.firstChild) {
+      this.element.removeChild(this.element.firstChild);
+    }
+    while (doc.body.firstChild) {
+      this.element.appendChild(doc.body.firstChild);
+    }
     this.installNoCacheMetaTag();
   }
 

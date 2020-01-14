@@ -20,4 +20,8 @@ module AdminHelper
 
     member.full_name.split.first
   end
+
+  def membership_payment_source_options
+    Adjustment.payment_sources.slice("cash", "square")
+  end
 end
