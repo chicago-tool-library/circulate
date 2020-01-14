@@ -1,5 +1,7 @@
 # Circulate
 
+[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
