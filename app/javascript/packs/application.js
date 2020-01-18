@@ -14,4 +14,12 @@ require("trix")
 require("@rails/actiontext")
 
 require.context('../images', true)
-require("feather-icons/dist/feather-sprite.svg")
+
+const feather = require("feather-icons/dist/feather")
+document.addEventListener("turbolinks:load", function() {
+  feather.replace({
+    width: 20,
+    height: 20,
+    class: "feather-icon",
+  });
+})
