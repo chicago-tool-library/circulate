@@ -44,11 +44,11 @@ Rails.application.routes.draw do
     end
     resources :members, except: :destroy do
       resource :check_outs, only: :create
-      resource :loan_history, only: :show
       resource :verification, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
       resources :payments, only: [:new, :create]
+      get "loan_history", to: "member_loan_summaries#index"
     end
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index

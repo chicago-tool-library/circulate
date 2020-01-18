@@ -12,8 +12,6 @@ $gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are 
 @import 'trix/dist/trix.css';
 
 .feather-icon {
-  width: 20px;
-  height: 20px;
   line-height: 20px;
   vertical-align: sub;
   stroke: #303742;
@@ -471,6 +469,9 @@ form.membership-amount {
     }
   }
 
+  .button_to {
+    display: inline;
+  }
 }
 
 .shift-schedule {
