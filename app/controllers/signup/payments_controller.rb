@@ -20,6 +20,7 @@ module Signup
       if result.success?
         redirect_to result.value
       else
+        Rails.logger.error result.error
         flash[:error] = "There was a problem connecting to our payment processor."
         redirect_to new_signup_payment_url
       end

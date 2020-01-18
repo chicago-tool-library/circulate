@@ -28,6 +28,12 @@ $gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are 
   stroke: currentColor;
 }
 
+.more-info {
+  border-bottom: .05rem dotted;
+  cursor: help;
+  text-decoration: none;
+}
+
 form details {
   margin-top: 1em;
 
@@ -157,6 +163,7 @@ $photo-width: 187px;
   width: $photo-width;
   height: 140px;
   background: #eee;
+  max-width: 100%;
 }
 
 .responsive-table {
@@ -452,6 +459,20 @@ form.membership-amount {
   }
 }
 
+.member-active-loans {
+  .due-date {
+    margin: 1rem 0 .5rem;
+  }
+
+  .item-image {
+    text-align: right;
+    img {
+      max-width: 100%;
+    }
+  }
+
+}
+
 .shift-schedule {
   h3 {
     margin-top: 1rem;
@@ -588,4 +609,19 @@ table.monthly-adjustments {
   margin-left: 8px;
   margin-right: 8px;
   width: 100%;
+}
+
+.member-panel {
+  h1 {
+    margin-bottom: 0;
+  }
+  .member-stats {
+    list-style: none outside;
+    margin: 0 0 1.2rem;
+    li {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
 }

@@ -56,10 +56,6 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     end
 
     refute_selector ".member-active-loans"
-
-    within ".member-recent-loans" do
-      assert_text @item.name
-    end
   end
 
   test "returns loaned overdue item" do
@@ -76,10 +72,6 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     refute_selector ".member-active-loans"
 
-    within ".member-recent-loans" do
-      assert_text @item.name
-    end
-
-    assert_content "Balance: $-15.00"
+    assert_content "$-15.00"
   end
 end
