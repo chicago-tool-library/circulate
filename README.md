@@ -1,6 +1,6 @@
 # Circulate
 
-[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+[![CircleCI](https://circleci.com/gh/chicago-tool-library/circulate.svg?style=svg)](https://circleci.com/gh/chicago-tool-library/circulate)
 
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
 
