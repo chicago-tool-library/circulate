@@ -14,3 +14,4 @@ require("trix")
 require("@rails/actiontext")
 
 require.context('../images', true)
+require("feather-icons/dist/feather-sprite.svg")
