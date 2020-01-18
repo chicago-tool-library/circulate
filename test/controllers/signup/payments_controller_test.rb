@@ -36,6 +36,7 @@ module Signup
     test "fails to create a checkout_url" do
       mock_result = Minitest::Mock.new
       mock_result.expect :success?, false
+      mock_result.expect :error, [{code: "SOMETHING_WENT_WRONG"}]
 
       mock_checkout = Minitest::Mock.new
       mock_checkout.expect :checkout_url, mock_result, [Hash]
