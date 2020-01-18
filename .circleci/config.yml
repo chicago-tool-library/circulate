@@ -34,13 +34,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: yarn install
+            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
+            - v1-yarn-dependencies-
+      - run: yarn install --frozen-lockfile
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-yarn-dependencies-{{ checksum "yarn.lock" }}
 
   build_assets:
     working_directory: ~/repo
@@ -58,10 +58,11 @@ jobs:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: install bundler
           command: gem install bundler:2.0.2
+      - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: bin/rails webpacker:compile
       - persist_to_workspace:
@@ -92,11 +93,12 @@ jobs:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: install bundler
           command: gem install bundler:2.0.2
+      - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
@@ -131,10 +133,11 @@ jobs:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: install bundler
           command: gem install bundler:2.0.2
+      - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: bundle exec rake db:create
