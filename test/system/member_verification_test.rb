@@ -17,7 +17,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     first("label", text: "Address verified").click
     click_on "Verify Member"
 
-    assert_content "Verified"
+    assert_content "Info verified"
 
     assert_content "needs to start a membership"
     click_on "Create Membership"
@@ -27,7 +27,10 @@ class MemberVerificationTest < ApplicationSystemTestCase
 
     click_on "Save Membership"
 
-    assert_content "Current membership expires on"
+    assert_content "Expires"
+
+    click_on "Membership History"
+    assert_content "$35.00"
   end
 
   test "verify pending member without membership using square" do
@@ -42,7 +45,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     first("label", text: "Address verified").click
     click_on "Verify Member"
 
-    assert_content "Verified"
+    assert_content "Info verified"
 
     assert_content "needs to start a membership"
     click_on "Create Membership"
@@ -51,8 +54,10 @@ class MemberVerificationTest < ApplicationSystemTestCase
     select "square", from: "Payment source"
 
     click_on "Save Membership"
+    assert_content "Expires"
 
-    assert_content "Current membership expires on"
+    click_on "Membership History"
+    assert_content "$43.00"
   end
 
   test "verify pending member with a membership" do
@@ -68,7 +73,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     first("label", text: "Address verified").click
     click_on "Verify Member"
 
-    assert_content "Verified"
+    assert_content "Info verified"
   end
 
   test "create membership without a payment" do
@@ -79,7 +84,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     click_on "Create Membership"
     click_on "Save without Payment"
 
-    assert_content "Current membership expires on"
+    assert_content "Expires"
 
     click_on "Membership History"
     assert_content "$0.00"

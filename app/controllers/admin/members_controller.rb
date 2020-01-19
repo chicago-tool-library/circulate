@@ -3,7 +3,6 @@ module Admin
     include Pagy::Backend
 
     include MemberOrdering
-    include MemberPage
 
     before_action :set_member, only: [:show, :edit, :update, :destroy]
 
@@ -16,7 +15,7 @@ module Admin
       @new_item_numbers = []
       @new_loans = {}
 
-      load_member_page_data
+      @active_loan_summaries = @member.loan_summaries.checked_out.includes(:latest_loan, item: :borrow_policy).by_due_date
 
       @check_out = CheckOut.new
     end

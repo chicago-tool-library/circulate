@@ -1,174 +1,75 @@
-<div class="columns">
-  <div class="column col-12">
-    <ul class="breadcrumb">
-      <li class="breadcrumb-item">
-        <%= link_to "All Members", admin_members_path %>
-      </li>
-        <li class="breadcrumb-item">
-        <%= link_to @member.preferred_name, admin_member_path(@member) %>
-      </li>
-    </ul>
-  </div>
-</div>
+<%= render "profile" do %>
 
-<div class="columns member-details">
-  <div class="column col-sm-6">
-    <h1>
-      <%= @member.preferred_name %>
-      <small class="label"><%= member_pronoun(@member) %></small>
-    </h1>
-    <p><%= @member.full_name %></p>
-    <%= member_status(@member) %>
-  </div>
-  <div class="column col-sm-3">
-    <p>
-      <span class="label">Email:</span>
-      <%= @member.email %>
-    </p>
-
-    <p>
-      <span class="label">Phone:</span>
-      <%= format_phone_number @member.phone_number %>
-    </p>
-
-    <p>
-      <span class="label">Balance:</span>
-      <%= @member.account_balance.format %>
-      <%= link_to "Account History", admin_member_adjustments_path(@member) %>
-    </p>
-  </div>
-  <div class="column col-sm-3 text-right">
-    <%= link_to 'Edit Member', edit_admin_member_path(@member), class: "btn" %>
-    <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
-  </div>
-</div>
-
-<% unless @member.notes.blank? %>
-  <div class="columns">
-    <div class="column col-12">
-      <div class="rich-text">
-        <%= @member.notes %>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<div class="columns">
-  <div class="column col-12">
-      <% if @member.active_membership %>
-        <div class="info-box clearfix member-membership">
-          <p class="float-left">Current membership expires on <%= @member.active_membership.ended_on.strftime("%B %-d, %Y") %>.</p>
-          <p class="float-right"><%= link_to "Membership History", admin_member_memberships_path(@member) %></p>
-        </div>
-      <% else %>
-        <div class="toast member-membership clearfix">
-          <p class="float-left"><i class="icon icon-stop"></i> Member needs to start a membership.</p>
-          <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(@member) %></p>
-        </div>
-      <% end %>
-  </div>
-</div>
-
-<% unless @member.status_verified? %>
-  <div class="columns">
-    <div class="column col-12">
-      <div class="toast clearfix member-membership">
-        <p class="float-left"><i class="icon icon-stop"></i> Member's ID and zipcode need to be verified.</p>
-        <p class="float-right"><%= link_to "Verify Info", edit_admin_member_verification_path(@member) %></p>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<% if @member.status_verified? %>
-  <% if @member.loans.any? %>
-    <div class="columns">
-      <div class="column col-12">
-        <div class="clearfix">
-          <h2 class="float-left" id="recent-loans">Recent Loans</h2>
-          <%= link_to "View All Loans", admin_member_loan_history_path(@member), class: "btn float-right" %>
-        </div>
-        <div class="container member-recent-loans">
-          <% if @recent_loan_summaries.empty? %>
-            <div class="columns">
-              <div class="col-12">
-                <p>No completed loans in the last 30 days.</p>
-              </div>
-            </div>
-          <% end%>
-          <% @recent_loan_summaries.each do |summary| %>
-            <div class="columns">
-              <div class="col-1 col-sm-4">
-                <p><%= full_item_number(summary.item) %></p>
-              </div>
-              <div class="col-3 col-sm-8">
-                <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
-              </div>
-              <div class="col-4 col-sm-12">
-                <p>
-                  <%= checked_out_date(summary.created_at) %> ->
-                  <%= checked_out_date(summary.ended_at) %>
-                </p>
-              </div>
-              <div class="col-4 col-sm-12">
-              <% if summary.adjustment %>
-                <%= summary.adjustment.amount.format %>
-              <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
+  <% unless @member.notes.blank? %>
+    <div class="rich-text">
+      <%= @member.notes %>
     </div>
   <% end %>
 
   <% if @active_loan_summaries.any? %>
 
-    <h2 id="current-loans">Currently Checked Out</h2>
-
-    <div class="container member-active-loans">
-      <% @active_loan_summaries.each do |summary| %>
+    <div id="current-loans" class="member-active-loans">
+      <% @active_loan_summaries.group_by(&:due_at).each do |due_at, summaries| %>
         <div class="columns">
-          <div class="col-1 col-sm-4">
-            <p><%= full_item_number(summary.item) %></p>
-          </div>
-          <div class="col-3 col-sm-8">
-            <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
-          </div>
-          <div class="col-6 col-sm-12">
-            <p>Due <strong><%= checked_out_date(summary.due_at) %></strong>
-              (<%= "in " if summary.due_at >= Time.current -%><%= time_ago_in_words(summary.due_at) -%><%= " ago" if summary.due_at < Time.current -%>)
+          <div class="column">
+            <p class="h5 due-date">Due <strong><%= checked_out_date(due_at) %></strong>
+              (<%= "in " if due_at >= Time.current -%><%= time_ago_in_words(due_at) -%><%= " ago" if due_at < Time.current -%>)
             </p>
-            <% if summary.renewed? %>
-              <p><em>Renewed <%= pluralize(summary.renewal_count, "time") %> (initial check out <%= checked_out_date(summary.created_at) %>)</em></p>
-            <% end %>
-            <% if summary.overdue_as_of?(Time.current) %>
-              <span class="text-error">
-                Current fine: 
-                <%= FineCalculator.for_overdue_loan(summary, Time.current).format %>
-              </span>
-            <% end %>
-          </div>
-          <div class="col-2 col-sm-12">
-            <%= button_to "Return", [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary float-left mr-2" %>
-            <%= button_to "Renew", admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn" %>
           </div>
         </div>
+        <% summaries.each do |summary| %>
+          <div class="columns mt-2 mb-2">
+            <div class="column col-sm-6 col-4">
+              <%= tag.div class: "item-image" do %>
+                <% if summary.item.image.attached? %>
+                  <%= link_to admin_item_path(summary.item) do %>
+                    <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [200, 140])), class: "p-right" %>
+                  <% end %>
+                <% else %>
+                  <div class="image-placeholder"></div>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="column col-sm-6 col-4">
+              <p><%= full_item_number(summary.item) %></p>
+              <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
+              <% if summary.renewed? %>
+                <p>
+                  <%= tag.span class:"tooltip tooltip-bottom more-info", data: {tooltip:"Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
+                </p>
+              <% end %>
+              <% if summary.overdue_as_of?(Time.current) %>
+                <span class="text-error">
+                  Current fine: 
+                  <%= FineCalculator.for_overdue_loan(summary, Time.current).format %>
+                </span>
+              <% end %>
+            </div>
+            <div class="column col-sm-12 col-4 text-right">
+              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2" do %>
+                <%= feather_icon "download" %>Return
+              <% end %>
+              <%= button_to admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn ml-2 mb-2" do %>
+                <%= feather_icon "repeat" %>Renew
+              <% end %>
+            </div>
+          </div>
+        <% end %>
         <div class="divider"></div>
       <% end %>
     </div>
   <% end %>
 
-  <% if @member.active_membership %>
+  <% if @member.active_membership && @member.address_verified %>
     <div class="columns member-checkout-items">
       <div class="column col-12">
-        <h2 id="checkout">Lookup Item</h2>
+        <h2 id="checkout" class="h4">Lend Item</h2>
 
         <%= portal do %>
           <%= render partial: "admin/check_outs/form" %>
         <% end %>
-
       </div>
     </div>
   <% end %>
+
 <% end %>

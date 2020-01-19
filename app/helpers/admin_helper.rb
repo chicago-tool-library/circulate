@@ -24,4 +24,10 @@ module AdminHelper
   def membership_payment_source_options
     Adjustment.payment_sources.slice("cash", "square")
   end
+
+  def tab_link(label, path)
+    tag.li(class: "tab-item #{"active" if current_page?(path)}") do
+      link_to label, path
+    end
+  end
 end

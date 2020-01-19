@@ -3,6 +3,12 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   replaceContent(event) {
     let [ doc, message, xhr ] = event.detail;
+    if (xhr.getResponseHeader("Content-Type").indexOf("text/html") === -1) {
+      // This isn't an HTML response, so don't attempt to do anything clever.
+      // Form submissions often return text/javascript that is evaled, for example.
+      return;
+    }
+
     while (this.element.firstChild) {
       this.element.removeChild(this.element.firstChild);
     }

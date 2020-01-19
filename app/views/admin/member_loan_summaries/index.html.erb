@@ -1,0 +1,28 @@
+<%= render "admin/members/profile" do %>
+  <table class="table table-scroll">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Item</th>
+        <th>Checked out</th>
+        <th>Due / Returned</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @loan_summaries.each do |loan| %>
+        <tr>
+          <td><%= full_item_number(loan.item) %></td>
+          <td><%= link_to loan.item.name, [:admin, loan.item] %></td>
+          <td><%= date_with_time_title loan.created_at %></td>
+          <td>
+            <% if loan.ended? %>    
+              returned <%= date_with_time_title loan.ended_at %>
+            <% else %>
+              due <%= date_with_time_title loan.due_at %></td>
+            <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

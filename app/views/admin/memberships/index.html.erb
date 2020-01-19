@@ -1,39 +1,21 @@
-<div class="columns">
-  <div class="column col-12">
-    <ul class="breadcrumb">
-      <li class="breadcrumb-item">
-        <%= link_to "All Members", admin_members_path %>
-      </li>
-        <li class="breadcrumb-item">
-          <%= link_to @member.preferred_name, admin_member_path(@member) %>
-        </li>
-        <li class="breadcrumb-item">Membership History</li>
-    </ul>
-  </div>
-</div>
+<%= render "admin/members/profile" do %>
+  <table class="table table-scroll">
+    <thead>
+      <tr>
+        <th>Started on</th>
+        <th>Ended on</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
 
-<div class="columns">
-  <div class="column col-12">
-    <h1>Membership History</h1>
-
-    <table class="table table-scroll">
-      <thead>
+    <tbody>
+      <% @memberships.each do |membership| %>
         <tr>
-          <th>Started on</th>
-          <th>Ended on</th>
-          <th>Amount</th>
+          <td><%= membership.started_on.to_s(:long_date) %></td>
+          <td><%= membership.ended_on.to_s(:long_date) %></td>
+          <td><%= membership.amount.format %></td>
         </tr>
-      </thead>
-
-      <tbody>
-        <% @memberships.each do |membership| %>
-          <tr>
-            <td><%= membership.started_on.to_s(:long_date) %></td>
-            <td><%= membership.ended_on.to_s(:long_date) %></td>
-            <td><%= membership.amount.format %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

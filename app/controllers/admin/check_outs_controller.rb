@@ -1,6 +1,5 @@
 module Admin
   class CheckOutsController < BaseController
-    include MemberPage
     include PortalRendering
 
     def create

@@ -22,7 +22,9 @@
       <%= form.hidden_field :item_id, value: @check_out.item_id %>
 
       <%= form.actions do %>
-        <%= button_tag "Lend Item", class: "btn btn-primary" %> 
+        <%= button_tag class: "btn btn-primary" do %> 
+          <%= feather_icon "upload" %>Lend Item
+        <% end %>
         <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn" %>
       <% end %>
     <% end %>

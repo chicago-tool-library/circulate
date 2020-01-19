@@ -20,6 +20,9 @@ module Signup
       if result.success?
         redirect_to result.value
       else
+        errors = result.error
+        Rails.logger.error(errors)
+        Raven.capture_message(errors.inspect)
         flash[:error] = "There was a problem connecting to our payment processor."
         redirect_to new_signup_payment_url
       end
@@ -50,8 +53,6 @@ module Signup
       end
 
       errors = result.error
-      Rails.logger.error(errors)
-      Raven.capture_message(errors.inspect)
 
       if errors.first[:code] == "NOT_FOUND"
         # Give Square a little while for the transaction data to be available
@@ -62,6 +63,8 @@ module Signup
         end
       end
 
+      Rails.logger.error(errors)
+      Raven.capture_message(errors.inspect)
       reset_session
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
       redirect_to signup_confirmation_url
