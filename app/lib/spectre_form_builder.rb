@@ -61,7 +61,16 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   def file_field(method, options = {})
     sequence_layout(method, options) do
-      super method, options
+      attachment = @object.send(method)
+      if attachment.attached?
+        super(method, options) +
+          @template.tag.span {
+            ("Currently " +
+              @template.link_to(attachment.filename, @template.url_for(attachment))).html_safe
+          }
+      else
+        super method, options
+      end
     end
   end
 
