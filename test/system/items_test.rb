@@ -43,6 +43,21 @@ class ItemsTest < ApplicationSystemTestCase
     assert_text "Item was successfully updated"
   end
 
+  test "adding a manual to an item" do
+    audited_as_admin do
+      @item = create(:item)
+    end
+
+    visit admin_item_url(@item)
+    click_on "Edit"
+
+    attach_file "Manual", Rails.root + "test/fixtures/files/file.pdf"
+    click_on "Update Item"
+
+    assert_text "Item was successfully updated"
+    assert_text "Manual: file.pdf"
+  end
+
   test "destroying an item" do
     audited_as_admin do
       @item = create(:item)

@@ -13,6 +13,7 @@ class Item < ApplicationRecord
 
   has_rich_text :description
   has_one_attached :image
+  has_one_attached :manual
 
   enum status: [:pending, :active, :maintenance, :retired]
 

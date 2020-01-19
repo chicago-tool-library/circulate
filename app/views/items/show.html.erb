@@ -54,6 +54,13 @@
         <%= item_tags(@item) %>
       </p>
 
+      <% if @item.manual.attached? %>
+        <p>
+          <strong>Manual:</strong>
+          <%= link_to @item.manual.filename, url_for(@item.manual) %>
+        </p>
+      <% end %>
+
       <%= @item.description %>
     </div>
 
