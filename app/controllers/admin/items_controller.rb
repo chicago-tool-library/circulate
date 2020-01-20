@@ -69,6 +69,8 @@ module Admin
     def update
       respond_to do |format|
         if @item.update(item_params)
+          @item.manual.purge_later if all_item_params[:delete_manual] == "1"
+
           format.html { redirect_to [:admin, @item], success: "Item was successfully updated." }
           format.json { render :show, status: :ok, location: @item }
         else
@@ -91,7 +93,6 @@ module Admin
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])
     end
@@ -100,11 +101,14 @@ module Admin
       @tags = Tag.sorted_by_name
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
+      all_item_params.except(:delete_manual)
+    end
+
+    def all_item_params
       params.require(:item).permit(
         :name, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :borrow_policy_id, :quantity, :checkout_notice, :manual, tag_ids: []
+        :borrow_policy_id, :quantity, :checkout_notice, :manual, :delete_manual, tag_ids: []
       )
     end
 

@@ -31,6 +31,7 @@
 
   <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
   <%= form.file_field :manual, hint: "This item's manual", data: {"turbolinks-permanent": true} %>
+  <%= form.check_box :delete_manual, label: "Delete current manual" %>
 
   <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
 
