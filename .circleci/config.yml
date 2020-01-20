@@ -50,7 +50,6 @@ jobs:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
-          RAILS_ENV: test
     steps:
       - checkout
       - restore_cache:
@@ -65,10 +64,12 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: bin/rails webpacker:compile
+      - run: env RAILS_ENV=test bin/rails webpacker:compile
       - persist_to_workspace:
           root: .
           paths:
             - public/packs-test
+            - public/packs
 
   test:
     working_directory: ~/repo
