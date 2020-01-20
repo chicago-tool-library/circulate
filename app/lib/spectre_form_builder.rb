@@ -1,6 +1,7 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   alias parent_text_field text_field
   alias parent_collection_select collection_select
+  alias parent_button button
 
   private def validation_inspector
     @validation_inspector = ValidationInspector.new(@object.class)
@@ -61,7 +62,16 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   def file_field(method, options = {})
     sequence_layout(method, options) do
-      super method, options
+      attachment = @object.send(method)
+      if attachment.attached?
+        super(method, options) +
+          @template.tag.span {
+            ("Currently " +
+              @template.link_to(attachment.filename, @template.url_for(attachment))).html_safe
+          }
+      else
+        super method, options
+      end
     end
   end
 
@@ -111,8 +121,8 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     super(label, options.merge(class: "btn btn-lg btn-block"))
   end
 
-  def submit(label = nil, options = {})
-    super(label, options.merge(class: "btn btn-primary btn-lg btn-block"))
+  def submit(label = nil, options = {}, &block)
+    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block"), &block)
   end
 
   def errors

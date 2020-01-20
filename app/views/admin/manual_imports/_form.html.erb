@@ -1,0 +1,11 @@
+<%= form_with(model: manual_import, method: :patch, url: admin_item_manual_import_path(item), builder: SpectreFormBuilder, data: {controller: "form"}) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :url, label: "Manual URL", hint: "URL for the manual to import" %>
+
+  <%= form.actions do %>
+    <%= form.submit do %>
+      <%= feather_icon "download-cloud" %>Import Manual
+    <% end %>
+  <% end %>
+<% end %>

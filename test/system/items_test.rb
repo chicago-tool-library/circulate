@@ -43,6 +43,33 @@ class ItemsTest < ApplicationSystemTestCase
     assert_text "Item was successfully updated"
   end
 
+  test "adding a manual to an item and then deleting it" do
+    audited_as_admin do
+      @item = create(:item)
+    end
+
+    visit admin_item_url(@item)
+    click_on "Edit"
+
+    attach_file "Manual", Rails.root + "test/fixtures/files/file.pdf"
+    click_on "Update Item"
+
+    assert_text "Item was successfully updated"
+    assert_text "Manual: file.pdf"
+
+    # Make sure it's only deleted when checkbox is toggled
+    click_on "Edit"
+    click_on "Update Item"
+    assert_text "Manual: file.pdf"
+
+    click_on "Edit"
+    # Can't use check method with spectre as its labels obscure checkboxes
+    page.find("label", text: "Delete current manual").click
+    click_on "Update Item"
+
+    refute_text "Manual: file.pdf"
+  end
+
   test "destroying an item" do
     audited_as_admin do
       @item = create(:item)
@@ -64,5 +91,23 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_url(@item)
 
     click_on "Edit Photo"
+
+    # TODO rotate photo and verify that it was saved
+  end
+
+  test "importing a manual from a URL", :remote do
+    url = "https://www.singer.com/sites/default/files/C5200%20manual.pdf"
+    audited_as_admin do
+      @item = create(:item)
+    end
+
+    visit admin_item_url(@item)
+    click_on "Import Manual"
+
+    fill_in "Manual URL", with: url
+    click_on "Import Manual"
+
+    assert_text "The manual was imported"
+    assert_text "Manual: C5200-20manual.pdf"
   end
 end
