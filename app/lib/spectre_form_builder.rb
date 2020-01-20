@@ -1,6 +1,7 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   alias parent_text_field text_field
   alias parent_collection_select collection_select
+  alias parent_button button
 
   private def validation_inspector
     @validation_inspector = ValidationInspector.new(@object.class)
@@ -120,8 +121,8 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     super(label, options.merge(class: "btn btn-lg btn-block"))
   end
 
-  def submit(label = nil, options = {})
-    super(label, options.merge(class: "btn btn-primary btn-lg btn-block"))
+  def submit(label = nil, options = {}, &block)
+    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block"), &block)
   end
 
   def errors

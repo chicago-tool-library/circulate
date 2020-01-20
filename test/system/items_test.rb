@@ -80,4 +80,20 @@ class ItemsTest < ApplicationSystemTestCase
 
     click_on "Edit Photo"
   end
+
+  test "importing a manual from a URL", :remote do
+    url = "https://www.singer.com/sites/default/files/C5200%20manual.pdf"
+    audited_as_admin do
+      @item = create(:item)
+    end
+
+    visit admin_item_url(@item)
+    click_on "Import Manual"
+
+    fill_in "Manual URL", with: url
+    click_on "Import Manual"
+
+    assert_text "The manual was imported"
+    assert_text "Manual: C5200-20manual.pdf"
+  end
 end
