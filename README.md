@@ -46,6 +46,7 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 * FactoryBot test data generator [Getting Started guide](https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md)
 * Stimulus JS framework [Docs](https://stimulusjs.org/reference)
 * Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
+* Feather iconset [Website](https://feathericons.com)
 * MJML responsive email framework [Docs](https://mjml.io/documentation/)
 
 ## Deployment
