@@ -2,13 +2,31 @@
 
 [![CircleCI](https://circleci.com/gh/chicago-tool-library/circulate.svg?style=svg)](https://circleci.com/gh/chicago-tool-library/circulate)
 
+<!-- toc -->
+
+- [About](#about)
+- [Requirements](#requirements)
+- [Integrations](#integrations)
+- [Development](#development)
+  * [Running tests](#running-tests)
+  * [Documentation](#documentation)
+- [Deployment](#deployment)
+  * [Buildpacks](#buildpacks)
+  * [Release Command](#release-command)
+  * [Daily Summary Emails](#daily-summary-emails)
+- [Alternatives](#alternatives)
+
+<!-- tocstop -->
+
+## About
+
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
 * Inventory management, including item photos and configurable borrowing rules
 * Item loaning to members, including fine calculation
 * Volunteer shift scheduling
-* Gift membership redemption
+* Gift membership generation and redemption
 
 There is content and information hard-coded in many of the views that is specific to The Chicago Tool Library, for which the software is being initially developed. Over time, the plan is for these specifics to make their way into configuration or user-editable content so that the software is easily used by other lending libraries.
 
@@ -95,3 +113,14 @@ The `Procfile` is configured to run database migrations during the release stage
 ### Daily Summary Emails
 
 `rails send_daily_loan_summaries` is set to run every evening using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler). Set this to a time _after_ any open hours to ensure that all of the day's activity has taken place.
+
+
+## Alternatives
+
+It's a bit early for non-developers to adopt Circulate. There are some existing systems worth considering for anyone looking to get something setup right now:
+
+* [MyTurn](https://myturn.com)
+* [Lend Engine](https://www.lend-engine.com)
+* [Tool Librarian](http://toollibrarian.com) for those in the Portland, OR area
+
+Folks interested in helping to build Circulate should get in touch, though! I'd love to have collaborators on the project.
