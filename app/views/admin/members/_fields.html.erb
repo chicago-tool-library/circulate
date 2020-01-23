@@ -10,10 +10,26 @@
     <% end %>
   </div>
 
-  <%= form.text_field :email, hint: "e.g. you@domain.com" %>
-  <%= form.text_field :phone_number, value: format_phone_number(form.object.phone_number), hint: "Include area code; e.g. 312 123 4567" %>
+  <div class="columns form-group">
+    <div class="column col-sm-12 col-6">
+      <%= form.text_field :email, hint: "e.g. you@domain.com" %>
+    </div>
+    <div class="column col-sm-12 col-6">
+      <%= form.text_field :phone_number, value: format_phone_number(form.object.phone_number), hint: "Include area code; e.g. 312 123 4567" %>
+    </div>
+  </div>
 
-  <%= form.text_field :postal_code, label: "ZIP code", hint: "5 digits only" %>
+  <div class="columns form-group">
+    <div class="column col-sm-12 col-6">
+      <%= form.text_field :address1, label: "Address", hint: "e.g. 1 N. Michigan Ave" %>
+    </div>
+    <div class="column col-sm-12 col-3">
+      <%= form.text_field :address2, label: "Apt or unit", hint: "e.g. 2W" %>
+    </div>
+    <div class="column col-sm-12 col-3">
+      <%= form.text_field :postal_code, label: "ZIP", hint: "5 digits only" %>
+    </div>
+  </div>
 
   <%= form.text_area :desires, label: "What kind of tools are you interested in borrowing, today or sometime the future?", hint: "We want to know if we don't have something you are interested in borrowing" %>
 

@@ -21,7 +21,22 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create member" do
     assert_difference("Member.count") do
-      post admin_members_url, params: {member: {address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun, postal_code: "60606"}}
+      post admin_members_url, params: {
+        member: {
+          address_verified: @member.address_verified,
+          other_id_kind: @member.other_id_kind,
+          custom_pronoun: @member.custom_pronoun,
+          email: @member.email,
+          full_name: @member.full_name,
+          id_kind: @member.id_kind,
+          notes: @member.notes,
+          phone_number: @member.phone_number,
+          preferred_name: @member.preferred_name,
+          pronoun: @member.pronoun,
+          postal_code: "60606",
+          address1: @member.address1,
+        },
+      }
     end
 
     assert_redirected_to admin_member_url(Member.last)

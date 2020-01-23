@@ -16,6 +16,9 @@ class Member < ApplicationRecord
   validates :full_name, presence: true
   validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
   validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
+  validates :address1, presence: true, on: :create
+  validates :city, presence: true
+  validates :region, presence: true
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
   scope :matching, ->(query) {
@@ -32,6 +35,7 @@ class Member < ApplicationRecord
   scope :by_full_name, -> { order(full_name: :desc) }
 
   before_validation :strip_phone_number
+  before_validation :set_default_address_fields
 
   def account_balance
     Money.new(adjustments.calculate("SUM", :amount_cents))
@@ -41,5 +45,10 @@ class Member < ApplicationRecord
 
   def strip_phone_number
     self.phone_number = phone_number.gsub(/\D/, "")
+  end
+
+  def set_default_address_fields
+    self.city ||= "Chicago"
+    self.region ||= "IL"
   end
 end

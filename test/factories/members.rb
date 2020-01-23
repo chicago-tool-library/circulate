@@ -8,10 +8,12 @@ FactoryBot.define do
     email
     phone_number { "3121234567" }
     postal_code { "60609" }
+    address1 { "1 N. Michigan Ave" }
 
     factory :complete_member do
       preferred_name { "Ida" }
       pronoun { 2 }
+      address1 { "apt 3" }
 
       factory :verified_member do
         id_kind { 1 }
