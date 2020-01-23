@@ -107,7 +107,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Manual URL", with: url
     click_on "Import Manual"
 
-    assert_text "The manual was imported"
+    assert_text "The manual was imported", wait: 10
     assert_text "Manual: C5200-20manual.pdf"
   end
 end
