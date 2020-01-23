@@ -22,7 +22,9 @@ class UserSignupTest < ApplicationSystemTestCase
     select "she/her", from: "Pronoun"
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"
-    fill_in "ZIP code", with: "60647"
+    fill_in "Address", with: "23 N. Street"
+    fill_in "Apt or unit", with: "390"
+    fill_in "ZIP", with: "60647"
 
     click_on "Save and Continue"
 

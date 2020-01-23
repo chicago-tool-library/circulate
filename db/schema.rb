@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_15_100437) do
-
+ActiveRecord::Schema.define(version: 2020_01_21_020026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -197,6 +196,10 @@ ActiveRecord::Schema.define(version: 2019_12_15_100437) do
     t.boolean "receive_newsletter", default: false, null: false
     t.boolean "volunteer_interest", default: false, null: false
     t.string "desires"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "region"
   end
 
   create_table "memberships", force: :cascade do |t|
