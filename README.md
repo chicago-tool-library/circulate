@@ -2,6 +2,23 @@
 
 [![CircleCI](https://circleci.com/gh/chicago-tool-library/circulate.svg?style=svg)](https://circleci.com/gh/chicago-tool-library/circulate)
 
+<!-- toc -->
+
+- [About](#about)
+- [Requirements](#requirements)
+- [Integrations](#integrations)
+- [Development](#development)
+  * [Running tests](#running-tests)
+  * [Documentation](#documentation)
+- [Deployment](#deployment)
+  * [Buildpacks](#buildpacks)
+  * [Release Command](#release-command)
+  * [Daily Summary Emails](#daily-summary-emails)
+
+<!-- tocstop -->
+
+## About
+
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
