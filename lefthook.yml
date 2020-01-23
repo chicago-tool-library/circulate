@@ -24,5 +24,7 @@ pre-commit:
       run: bundle exec standardrb --parallel --fix {staged_files} && git add {staged_files}
     circleci:
       tags: config
-      glob: ".circleci/config.yml"
       run: circleci config validate
+    readme:
+      tags: lint
+      run: ./node_modules/.bin/markdown-toc -i README.md && git add README.md
