@@ -101,7 +101,7 @@ class LoanTest < ActiveSupport::TestCase
     loan = create(:loan, item: item, created_at: 7.days.ago, due_at: tomorrow)
     renewal = loan.renew!
 
-    assert_equal tomorrow + 7.days, renewal.due_at
+    assert_equal Loan.next_open_day(tomorrow + 7.days), renewal.due_at
   end
 
   test "renews a renewal" do
@@ -132,5 +132,44 @@ class LoanTest < ActiveSupport::TestCase
     many_weeks_ago_loan = create(:loan, due_at: many_weeks_ago)
 
     assert_equal [many_weeks_ago_loan.id, week_ago_loan.id, loan.id], Loan.due_whole_weeks_ago.order(due_at: :asc).pluck(:id)
+  end
+
+  test "creates loans that end on an open day" do
+    borrow_policy = create(:borrow_policy, duration: 7)
+    item = create(:item, borrow_policy: borrow_policy)
+    member = create(:verified_member_with_membership)
+
+    now = Time.new(2020, 1, 18, 12) # saturday
+    loan = Loan.lend(item, to: member, now: now)
+
+    sunday = Time.new(2020, 1, 26).end_of_day
+
+    assert_equal sunday, loan.due_at
+  end
+
+  test "returns the same day as the next open day" do
+    sunday = Time.new(2020, 1, 26).end_of_day
+    assert_equal sunday, Loan.next_open_day(sunday)
+
+    thursday = Time.new(2020, 1, 23).end_of_day
+    assert_equal thursday, Loan.next_open_day(thursday)
+  end
+
+  test "returns the next day as the next open day" do
+    monday = Time.new(2020, 1, 20).end_of_day
+    tuesday = Time.new(2020, 1, 21).end_of_day
+    wednesday = Time.new(2020, 1, 22).end_of_day
+    thursday = Time.new(2020, 1, 23).end_of_day
+
+    assert_equal thursday, Loan.next_open_day(monday)
+    assert_equal thursday, Loan.next_open_day(tuesday)
+    assert_equal thursday, Loan.next_open_day(wednesday)
+
+    friday = Time.new(2020, 1, 24).end_of_day
+    saturday = Time.new(2020, 1, 25).end_of_day
+    sunday = Time.new(2020, 1, 26).end_of_day
+
+    assert_equal sunday, Loan.next_open_day(friday)
+    assert_equal sunday, Loan.next_open_day(saturday)
   end
 end
