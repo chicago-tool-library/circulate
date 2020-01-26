@@ -44,8 +44,21 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
-  def self.lend(item, to:)
-    due_at = Time.zone.today.end_of_day + item.borrow_policy.duration.days
+  def self.next_open_day(time)
+    open_days = [
+      0, # Sunday
+      4, # Thursday
+    ]
+
+    day = time
+    until open_days.include? day.wday
+      day += 1.day
+    end
+    day
+  end
+
+  def self.lend(item, to:, now: Time.current)
+    due_at = next_open_day(now.end_of_day + item.borrow_policy.duration.days)
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
   end
 
@@ -59,7 +72,7 @@ class Loan < ApplicationRecord
         item_id: item_id,
         initial_loan_id: initial_loan_id || id,
         renewal_count: renewal_count + 1,
-        due_at: period_start_date + item.borrow_policy.duration.days,
+        due_at: self.class.next_open_day(period_start_date + item.borrow_policy.duration.days),
         uniquely_numbered: uniquely_numbered,
         created_at: now,
       )
