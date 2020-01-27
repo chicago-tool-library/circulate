@@ -20,7 +20,7 @@
 
 ## About
 
-Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
+Circulate is an operating system for lending libraries. It is in an early stage of development. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
 * Inventory management, including item photos and configurable borrowing rules
