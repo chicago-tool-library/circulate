@@ -58,63 +58,66 @@ class LoanTest < ActiveSupport::TestCase
   test "renews itself" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
 
-    tonight = Time.current.end_of_day
-    loan = create(:loan, item: item, created_at: 7.days.ago, due_at: tonight, uniquely_numbered: true)
-    renewal = loan.renew!
+    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    renewal = loan.renew!(sunday)
 
     assert_equal item.id, renewal.item_id
     assert_equal loan.member_id, renewal.member_id
     assert_equal loan.id, renewal.initial_loan_id
-    assert_equal tonight + 7.days, renewal.due_at
+    assert_equal sunday + 7.days, renewal.due_at
     assert_equal 1, renewal.renewal_count
     assert renewal.uniquely_numbered
   end
 
-  test "renewal policy itself for a full period starting today" do
+  test "renews itself for a full period starting today" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
 
-    tonight = Time.current.end_of_day
-    loan = create(:loan, item: item, created_at: 17.days.ago, due_at: 10.days.ago.end_of_day, uniquely_numbered: true)
-    renewal = loan.renew!
+    loan = create(:loan, item: item, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
+    renewal = loan.renew!(sunday)
 
-    assert_equal tonight + 7.days, renewal.due_at
+    assert_equal sunday + 7.days, renewal.due_at
   end
 
   test "renews itself for a full period starting at due date" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
+    thursday = Time.utc(2020, 1, 30).end_of_day
 
-    tonight = Time.current.end_of_day
-    loan = create(:loan, item: item, created_at: 3.days.ago, due_at: 4.days.since.end_of_day, uniquely_numbered: true)
-    renewal = loan.renew!
+    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
+    renewal = loan.renew!(sunday)
 
-    assert_equal tonight + 11.days, renewal.due_at
+    assert_equal thursday + 7.days, renewal.due_at
   end
 
   test "renews a loan that is due tomorrow" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
+    wednesday = Time.utc(2020, 1, 29).end_of_day
+    thursday = Time.utc(2020, 1, 30).end_of_day
 
-    tomorrow = Time.current.end_of_day + 1.day
-    loan = create(:loan, item: item, created_at: 7.days.ago, due_at: tomorrow)
-    renewal = loan.renew!
+    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday)
+    renewal = loan.renew!(wednesday)
 
-    assert_equal Loan.next_open_day(tomorrow + 7.days), renewal.due_at
+    assert_equal Loan.next_open_day(thursday + 7.days), renewal.due_at
   end
 
   test "renews a renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
+    monday = Time.utc(2020, 1, 27).end_of_day
 
-    tonight = Time.current.end_of_day
-    loan = create(:loan, item: item, created_at: 7.days.ago, due_at: tonight, uniquely_numbered: true)
-    first_renewal = loan.renew!
-    second_renewal = first_renewal.renew!
+    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    renewal = loan.renew!(sunday)
+    second_renewal = renewal.renew!(monday)
 
     assert_equal loan.id, second_renewal.initial_loan_id
-    assert_equal tonight + 14.days, second_renewal.due_at
+    assert_equal sunday + 14.days, second_renewal.due_at
     assert_equal 2, second_renewal.renewal_count
   end
 
@@ -139,35 +142,35 @@ class LoanTest < ActiveSupport::TestCase
     item = create(:item, borrow_policy: borrow_policy)
     member = create(:verified_member_with_membership)
 
-    now = Time.new(2020, 1, 18, 12) # saturday
+    now = Time.utc(2020, 1, 18, 12) # saturday
     loan = Loan.lend(item, to: member, now: now)
 
-    sunday = Time.new(2020, 1, 26).end_of_day
+    sunday = Time.utc(2020, 1, 26).end_of_day
 
     assert_equal sunday, loan.due_at
   end
 
   test "returns the same day as the next open day" do
-    sunday = Time.new(2020, 1, 26).end_of_day
+    sunday = Time.utc(2020, 1, 26).end_of_day
     assert_equal sunday, Loan.next_open_day(sunday)
 
-    thursday = Time.new(2020, 1, 23).end_of_day
+    thursday = Time.utc(2020, 1, 23).end_of_day
     assert_equal thursday, Loan.next_open_day(thursday)
   end
 
   test "returns the next day as the next open day" do
-    monday = Time.new(2020, 1, 20).end_of_day
-    tuesday = Time.new(2020, 1, 21).end_of_day
-    wednesday = Time.new(2020, 1, 22).end_of_day
-    thursday = Time.new(2020, 1, 23).end_of_day
+    monday = Time.utc(2020, 1, 20).end_of_day
+    tuesday = Time.utc(2020, 1, 21).end_of_day
+    wednesday = Time.utc(2020, 1, 22).end_of_day
+    thursday = Time.utc(2020, 1, 23).end_of_day
 
     assert_equal thursday, Loan.next_open_day(monday)
     assert_equal thursday, Loan.next_open_day(tuesday)
     assert_equal thursday, Loan.next_open_day(wednesday)
 
-    friday = Time.new(2020, 1, 24).end_of_day
-    saturday = Time.new(2020, 1, 25).end_of_day
-    sunday = Time.new(2020, 1, 26).end_of_day
+    friday = Time.utc(2020, 1, 24).end_of_day
+    saturday = Time.utc(2020, 1, 25).end_of_day
+    sunday = Time.utc(2020, 1, 26).end_of_day
 
     assert_equal sunday, Loan.next_open_day(friday)
     assert_equal sunday, Loan.next_open_day(saturday)
