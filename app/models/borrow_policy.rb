@@ -9,8 +9,9 @@ class BorrowPolicy < ApplicationRecord
     only_integer: true, greater_than_or_equal_to: 1, less_than: 365
   validates_numericality_of :fine_period,
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
-  # validates :code,
-  #   length: {is: 1}
+  validates_numericality_of :renewal_limit,
+    only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52
+  # validates :code, length: {is: 1}
 
   scope :alpha_by_code, -> { order("code ASC") }
   scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
