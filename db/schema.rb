@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_020026) do
+ActiveRecord::Schema.define(version: 2020_01_26_220929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_01_21_020026) do
     t.string "code", null: false
     t.string "description"
     t.boolean "default", default: false, null: false
+    t.integer "renewal_limit", default: 0, null: false
   end
 
   create_table "documents", force: :cascade do |t|
