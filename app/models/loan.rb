@@ -62,6 +62,10 @@ class Loan < ApplicationRecord
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
   end
 
+  def renewable?
+    renewal_count < item.borrow_policy.renewal_limit
+  end
+
   def renew!(now = Time.current)
     transaction do
       return!(now)

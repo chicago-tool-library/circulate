@@ -74,4 +74,53 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     assert_content "$-15.00"
   end
+
+  test "renews item" do
+    Time.use_zone "America/Chicago" do
+      sunday = Time.new(2020, 1, 26).end_of_day
+      @item = create(:item)
+      @member = create(:verified_member_with_membership)
+      create(:loan, item: @item, member: @member, due_at: sunday, created_at: sunday - 7.days)
+
+      saturday = Time.new(2020, 1, 25, 12, 30)
+
+      travel_to saturday do
+        visit admin_member_url(@member)
+
+        within ".member-active-loans" do
+          assert_text @item.name
+          assert_text "Due Sunday, January 26"
+          click_on "Renew"
+        end
+
+        within ".member-active-loans" do
+          refute_text "Due Sunday, January 27"
+          assert_text "Due Sunday, February 2"
+          assert_text @item.name
+        end
+      end
+    end
+  end
+
+  test "can't renew item with max renewals" do
+    Time.use_zone "America/Chicago" do
+      sunday = Time.new(2020, 1, 26).end_of_day
+      borrow_policy = create(:borrow_policy, renewal_limit: 0)
+      @item = create(:item, borrow_policy: borrow_policy)
+      @member = create(:verified_member_with_membership)
+      create(:loan, item: @item, member: @member, due_at: sunday, created_at: sunday - 7.days)
+
+      saturday = Time.new(2020, 1, 25, 12, 30)
+
+      travel_to saturday do
+        visit admin_member_url(@member)
+
+        within ".member-active-loans" do
+          assert_text @item.name
+          assert_text "Due Sunday, January 26"
+          assert_selector "button:disabled", text: "Renew"
+        end
+      end
+    end
+  end
 end

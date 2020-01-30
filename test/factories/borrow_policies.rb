@@ -6,6 +6,7 @@ FactoryBot.define do
     fine_cents { 100 }
     fine_currency { "USD" }
     fine_period { 1 }
+    renewal_limit { 2 }
     description { "What this policy is used for" }
     uniquely_numbered { true }
 

@@ -30,4 +30,21 @@ module AdminHelper
       link_to label, path
     end
   end
+
+  def renewal_tooltop(renewable, renewal_limit, &block)
+    if renewable
+      tag.span(&block)
+    else
+      message = if renewal_limit == 0
+        "Item can not be renewed."
+      else
+        "Renewed the maximum number of times (#{renewal_limit})."
+      end
+      tag.span(
+        class: "tooltip tooltip-bottom",
+        data: {tooltip: message},
+        &block
+      )
+    end
+  end
 end

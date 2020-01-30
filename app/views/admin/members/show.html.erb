@@ -49,8 +49,10 @@
               <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2" do %>
                 <%= feather_icon "download" %>Return
               <% end %>
-              <%= button_to admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn ml-2 mb-2" do %>
-                <%= feather_icon "repeat" %>Renew
+              <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
+                <%= button_to admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable? do %>
+                  <%= feather_icon "repeat" %>Renew
+                <% end %>
               <% end %>
             </div>
           </div>

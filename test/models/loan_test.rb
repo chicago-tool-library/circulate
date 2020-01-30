@@ -113,12 +113,27 @@ class LoanTest < ActiveSupport::TestCase
     monday = Time.utc(2020, 1, 27).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+
+    assert loan.renewable?
     renewal = loan.renew!(sunday)
+
+    assert loan.renewable?
     second_renewal = renewal.renew!(monday)
 
     assert_equal loan.id, second_renewal.initial_loan_id
     assert_equal sunday + 14.days, second_renewal.due_at
     assert_equal 2, second_renewal.renewal_count
+  end
+
+  test "isn't renewable again" do
+    borrow_policy = create(:borrow_policy, duration: 7, renewal_limit: 1)
+    item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
+
+    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    renewal = loan.renew!(sunday)
+
+    refute renewal.renewable?
   end
 
   test "finds loans that were due whole weeks ago" do
