@@ -12,7 +12,7 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
     @loan = create(:loan)
 
     assert_difference("Loan.count") do
-      post admin_loan_renewals_url(@loan)
+      post admin_renewals_url(loan_id: @loan)
     end
 
     assert_redirected_to admin_member_url(@loan.member, anchor: "current-loans")
@@ -29,5 +29,21 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @loan.member_id, @renewal.member_id
     assert_equal @loan.ended_at, @renewal.created_at
     refute @renewal.ended_at
+  end
+
+  test "should delete renewal" do
+    @loan = create(:loan)
+    @renewal = @loan.renew!
+
+    assert_difference("Loan.count", -1) do
+      delete admin_renewal_url(@renewal)
+    end
+
+    assert_redirected_to admin_member_url(@loan.member, anchor: "current-loans")
+
+    @loan.reload
+
+    refute @loan.ended_at
+    assert_equal 0, @loan.renewals.count
   end
 end

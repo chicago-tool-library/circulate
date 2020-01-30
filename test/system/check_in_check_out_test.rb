@@ -41,6 +41,9 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     within ".member-active-loans" do
       assert_text @item.name
     end
+
+    click_on "Undo loan"
+    refute_text @item.name
   end
 
   test "can't check out item to member with overdue item" do
@@ -117,6 +120,24 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
           refute_text "Due Sunday, January 27"
           assert_text "Due Sunday, February 2"
           assert_text @item.name
+          click_on "Renew"
+        end
+
+        within ".member-active-loans" do
+          refute_text "Due Sunday, February 2"
+          assert_text "Due Sunday, February 9"
+          click_on "Undo renewal" # <<<<<<< pukes
+        end
+
+        within ".member-active-loans" do
+          refute_text "Due Sunday, January 27"
+          assert_text "Due Sunday, February 2"
+          click_on "Undo renewal"
+        end
+
+        within ".member-active-loans" do
+          refute_text "Due Sunday, February 2"
+          assert_text "Due Sunday, January 26"
         end
       end
     end

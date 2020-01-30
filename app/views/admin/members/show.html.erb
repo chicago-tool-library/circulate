@@ -49,9 +49,12 @@
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
-                <%= button_to admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable? do %>
+                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable? do %>
                   <%= feather_icon "repeat" %>Renew
                 <% end %>
+              <% end %>
+              <% if Time.current - summary.latest_loan.created_at < 24.hours %>
+                <%= undo_button summary.latest_loan %>
               <% end %>
             </div>
           </div>

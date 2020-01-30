@@ -6,5 +6,17 @@ module Admin
 
       redirect_to admin_member_url(@loan.member_id, anchor: "current-loans")
     end
+
+    def destroy
+      @loan = Loan.find(params[:id])
+
+      if @loan.renewal?
+        @loan.undo_renewal!
+        message = "The renewal was removed."
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans"), success: message
+      else
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans"), error: "Renewal could not be destroyed!"
+      end
+    end
   end
 end

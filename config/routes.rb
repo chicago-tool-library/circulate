@@ -40,9 +40,8 @@ Rails.application.routes.draw do
       resource :manual_import, only: [:edit, :update]
     end
     resources :loan_summaries, only: :index
-    resources :loans, only: [:index, :create, :update] do
-      resources :renewals, only: :create
-    end
+    resources :loans, only: [:index, :create, :update, :destroy]
+    resources :renewals, only: [:create, :destroy]
     resources :members, except: :destroy do
       resource :check_outs, only: :create
       resource :verification, only: [:edit, :update]

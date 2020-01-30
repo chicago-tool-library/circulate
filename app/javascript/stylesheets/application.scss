@@ -26,6 +26,12 @@ $gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are 
   margin-right: .4em;
 }
 
+.btn.btn-sm .feather-icon {
+  height: 16px;
+  width: 16px;
+  margin-right: .2em;
+}
+
 .feather-icon.error {
   stroke:$error-color;
 }
@@ -628,6 +634,9 @@ table.monthly-adjustments {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+    }
+    .feather-icon {
+      margin-right: 0.2rem;
     }
   }
 }
