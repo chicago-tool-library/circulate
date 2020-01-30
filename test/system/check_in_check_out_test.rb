@@ -43,6 +43,26 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     end
   end
 
+  test "can't check out item to member with overdue item" do
+    @overdue_item = create(:item)
+    @member = create(:verified_member_with_membership)
+
+    create(:loan, item: @overdue_item, member: @member, due_at: 1.week.ago)
+
+    visit admin_member_url(@member)
+
+    within ".member-active-loans" do
+      assert_text @overdue_item.name
+      assert_text "Overdue"
+    end
+
+    assert_text "Overdue items must be returned"
+
+    within ".member-checkout-items" do
+      refute_selector "input"
+    end
+  end
+
   test "returns loaned item" do
     @item = create(:item)
     @member = create(:verified_member_with_membership)

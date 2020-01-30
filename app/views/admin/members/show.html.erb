@@ -40,8 +40,7 @@
               <% end %>
               <% if summary.overdue_as_of?(Time.current) %>
                 <span class="text-error">
-                  Current fine: 
-                  <%= FineCalculator.for_overdue_loan(summary, Time.current).format %>
+                  <%= feather_icon "alert-triangle", class: "error" %> Overdue
                 </span>
               <% end %>
             </div>
@@ -66,9 +65,17 @@
     <div class="columns member-checkout-items">
       <div class="column col-12">
         <h2 id="checkout" class="h4">Lend Item</h2>
-
-        <%= portal do %>
-          <%= render partial: "admin/check_outs/form" %>
+        <% if @member.loan_summaries.overdue.count > 0 %>
+          <div class="toast">
+            <p>
+              <i class="icon icon-stop"></i>
+                Overdue items must be returned before additional items can be checked out.
+              </p>
+          </div>
+        <% else %>
+          <%= portal do %>
+            <%= render partial: "admin/check_outs/form" %>
+          <% end %>
         <% end %>
       </div>
     </div>
