@@ -16,7 +16,7 @@ module Admin
       @loan = Loan.lend(@item, to: @member)
 
       if @loan.save
-        redirect_to admin_member_path(@loan.member, anchor: "checkout"), success: "Loan was successfully created."
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans") # , success: "Loan was successfully created."
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
         redirect_to admin_member_path(@loan.member, anchor: "checkout")
@@ -35,7 +35,7 @@ module Admin
             Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: "fine")
           end
         end
-        redirect_to admin_member_path(@loan.member, anchor: "checkout"), success: "Loan was successfully updated."
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans") # , success: "Loan was successfully updated."
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
         redirect_to admin_member_path(@loan.member, anchor: "checkout")
@@ -47,7 +47,7 @@ module Admin
 
       if !@loan.renewal? && @loan.destroy
         message = "The loan was removed."
-        redirect_to admin_member_path(@loan.member, anchor: "checkout"), success: message
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans"), success: message
       else
         redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be destroyed!"
       end

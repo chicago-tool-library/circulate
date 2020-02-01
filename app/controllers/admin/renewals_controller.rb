@@ -12,8 +12,7 @@ module Admin
 
       if @loan.renewal?
         @loan.undo_renewal!
-        message = "The renewal was removed."
-        redirect_to admin_member_path(@loan.member, anchor: "current-loans"), success: message
+        redirect_to admin_member_path(@loan.member, anchor: "current-loans")
       else
         redirect_to admin_member_path(@loan.member, anchor: "current-loans"), error: "Renewal could not be destroyed!"
       end

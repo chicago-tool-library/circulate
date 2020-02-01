@@ -5,7 +5,7 @@ module LoansHelper
     else
       ["loan", admin_loan_path(loan)]
     end
-    button_to path, method: :delete, class: "btn btn-sm" do
+    button_to path, method: :delete, class: "btn btn-sm", remote: true do
       feather_icon("x") + "Undo #{name}"
     end
   end

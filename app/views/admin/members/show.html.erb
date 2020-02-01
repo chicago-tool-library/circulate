@@ -17,8 +17,8 @@
             </p>
           </div>
         </div>
-        <% summaries.each do |summary| %>
-          <div class="columns mt-2 mb-2">
+        <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
+          <div class="columns mt-2 mb-2<%= " brand-new" if summary.latest_loan.updated_at > 2.second.ago %>">
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
@@ -45,11 +45,11 @@
               <% end %>
             </div>
             <div class="column col-sm-12 col-4 text-right">
-              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2" do %>
+              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2", remote: true do %>
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
-                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable? do %>
+                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true do %>
                   <%= feather_icon "repeat" %>Renew
                 <% end %>
               <% end %>

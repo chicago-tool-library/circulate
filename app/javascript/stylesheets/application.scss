@@ -483,6 +483,24 @@ form.membership-amount {
   .button_to {
     display: inline;
   }
+
+  .columns {
+    margin-top: 0 !important;
+    padding-top: 0.4rem;
+  }
+
+  .brand-new {
+    animation: brand-new-fade-out 1.5s;
+  }
+}
+
+@keyframes brand-new-fade-out {
+  from {
+    background-color: antiquewhite;
+  }
+  to {
+    background: transparent;
+  }
 }
 
 .shift-schedule {
