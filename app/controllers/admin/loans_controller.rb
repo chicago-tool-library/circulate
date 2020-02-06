@@ -1,5 +1,7 @@
 module Admin
   class LoansController < BaseController
+    include ActionView::RecordIdentifier
+
     def index
       scope = if params[:member_id]
         Member.find(params[:member_id]).loans
@@ -16,7 +18,7 @@ module Admin
       @loan = Loan.lend(@item, to: @member)
 
       if @loan.save
-        redirect_to admin_member_path(@loan.member, anchor: "current-loans") # , success: "Loan was successfully created."
+        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
         redirect_to admin_member_path(@loan.member, anchor: "checkout")
@@ -35,7 +37,7 @@ module Admin
             Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: "fine")
           end
         end
-        redirect_to admin_member_path(@loan.member, anchor: "current-loans") # , success: "Loan was successfully updated."
+        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
         redirect_to admin_member_path(@loan.member, anchor: "checkout")
@@ -46,8 +48,7 @@ module Admin
       @loan = Loan.find(params[:id])
 
       if !@loan.renewal? && @loan.destroy
-        message = "The loan was removed."
-        redirect_to admin_member_path(@loan.member, anchor: "current-loans"), success: message
+        redirect_to admin_member_path(@loan.member)
       else
         redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be destroyed!"
       end

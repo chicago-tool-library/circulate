@@ -15,7 +15,7 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
       post admin_renewals_url(loan_id: @loan)
     end
 
-    assert_redirected_to admin_member_url(@loan.member, anchor: "current-loans")
+    assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{Loan.last.id}")
 
     @loan.reload
 
@@ -39,7 +39,7 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
       delete admin_renewal_url(@renewal)
     end
 
-    assert_redirected_to admin_member_url(@loan.member, anchor: "current-loans")
+    assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
 
     @loan.reload
 

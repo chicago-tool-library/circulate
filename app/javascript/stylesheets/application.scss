@@ -489,12 +489,12 @@ form.membership-amount {
     padding-top: 0.4rem;
   }
 
-  .brand-new {
-    animation: brand-new-fade-out 1.5s;
+  .highlight {
+    animation: highlight-fade-out 1.5s;
   }
 }
 
-@keyframes brand-new-fade-out {
+@keyframes highlight-fade-out {
   from {
     background-color: antiquewhite;
   }

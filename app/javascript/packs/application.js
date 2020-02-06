@@ -23,3 +23,16 @@ document.addEventListener("turbolinks:load", function() {
     class: "feather-icon",
   });
 })
+
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
+Turbolinks.ScrollManager.prototype.scrollToElement = function(element) {
+  let classes = element.classList;
+  if (classes.contains("highlightable")) {
+    classes.add("highlight");
+  }
+  scrollIntoView(element, {
+    behavior: 'smooth',
+    scrollMode: 'if-needed',
+  });
+}

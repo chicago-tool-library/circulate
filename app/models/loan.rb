@@ -86,11 +86,13 @@ class Loan < ApplicationRecord
   def undo_renewal!
     transaction do
       destroy!
-      if renewal_count > 1
-        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first.update!(ended_at: nil)
+      target = if renewal_count > 1
+        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first
       else
-        initial_loan.update!(ended_at: nil)
+        initial_loan
       end
+      target.update!(ended_at: nil)
+      target
     end
   end
 

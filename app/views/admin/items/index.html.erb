@@ -12,7 +12,7 @@
         <strong><%= pluralize @pagy.count, "item" %></strong> tagged with
         <span class="chip">
           <%= @tag.name %>
-          <%= link_to "", items_path, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
+          <%= link_to "", {tag: nil}, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
         </span>,
       <% else %>
         all <strong><%= pluralize @pagy.count, "item" %></strong>,

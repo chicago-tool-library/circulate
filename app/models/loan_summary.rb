@@ -16,7 +16,7 @@ class LoanSummary < ApplicationRecord
   scope :overdue, -> { overdue_as_of(Time.current) }
   scope :overdue_as_of, ->(date) { checked_out.where "due_at < ?", date }
   scope :returned, -> { where.not(ended_at: nil) }
-  scope :recently_returned, -> { where.not(ended_at: nil).where("loan_summaries.ended_at >= ?", Time.current - 30.days) }
+  scope :returned_since, ->(date) { where("loan_summaries.ended_at >= ?", date) }
 
   scope :by_end_date, -> { order(ended_at: :asc) }
   scope :by_due_date, -> { order(due_at: :asc) }
