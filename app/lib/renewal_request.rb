@@ -18,6 +18,10 @@ class RenewalRequest
     nil
   end
 
+  def self.new_encryptor
+    ActiveSupport::MessageEncryptor.new(KEY)
+  end
+
   def initialize(member_id:, expires_at: 7.days.since)
     @member_id = member_id
     @expires_at = expires_at
@@ -38,9 +42,5 @@ class RenewalRequest
 
   def generate_encrypted
     self.class.new_encryptor.encrypt_and_sign(values_to_encrypt)
-  end
-
-  private_class_method def self.new_encryptor
-    ActiveSupport::MessageEncryptor.new(KEY)
   end
 end
