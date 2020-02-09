@@ -21,6 +21,7 @@ class RenewalRequestsControllerTest < ActionDispatch::IntegrationTest
     renewal_request = RenewalRequest.new(member_id: 123, expires_at: 1.minute.ago)
     get renewal_request_path(renewal_request.encrypt)
 
-    assert_equal 404, response.status
+    assert_equal 410, response.status
+    assert_includes response.body, "link has expired"
   end
 end
