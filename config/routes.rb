@@ -74,7 +74,8 @@ Rails.application.routes.draw do
   end
 
   get "/s/:id", to: "short_links#show", as: :short_link
-
+  resources :renewal_requests, only: :show
+  
   resources :items, only: [:index, :show]
   get "search", to: "searches#show"
 
