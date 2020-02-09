@@ -73,6 +73,8 @@ Rails.application.routes.draw do
     get "/", to: redirect("/admin/items")
   end
 
+  get "/s/:id", to: "short_links#show", as: :short_link
+
   resources :items, only: [:index, :show]
   get "search", to: "searches#show"
 

@@ -4,6 +4,8 @@ require "rails/test_help"
 require "spy/integration"
 require "minitest/mock"
 
+require "helpers/return_values"
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
@@ -13,6 +15,10 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+
+  def assert_size(expected, subject)
+    assert_equal expected, subject.size, "wrong size; got #{subject.size} instead of #{expected}"
+  end
 
   class << self
     def env_tags

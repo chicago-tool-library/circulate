@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_020026) do
+ActiveRecord::Schema.define(version: 2020_02_08_203157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -222,6 +222,14 @@ ActiveRecord::Schema.define(version: 2020_01_21_020026) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "short_links", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "slug", null: false
+    t.integer "views_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "taggings", force: :cascade do |t|
