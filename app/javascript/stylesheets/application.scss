@@ -19,12 +19,23 @@ $gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are 
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  margin-right: .4em;
 }
 
 .btn .feather-icon {
   stroke: currentColor;
+  margin-right: .4em;
 }
+
+.btn.btn-sm .feather-icon {
+  height: 16px;
+  width: 16px;
+  margin-right: .2em;
+}
+
+.feather-icon.error {
+  stroke:$error-color;
+}
+
 
 .more-info {
   border-bottom: .05rem dotted;
@@ -472,6 +483,24 @@ form.membership-amount {
   .button_to {
     display: inline;
   }
+
+  .columns {
+    margin-top: 0 !important;
+    padding-top: 0.4rem;
+  }
+
+  .highlight {
+    animation: highlight-fade-out 1.5s;
+  }
+}
+
+@keyframes highlight-fade-out {
+  from {
+    background-color: antiquewhite;
+  }
+  to {
+    background: transparent;
+  }
 }
 
 .shift-schedule {
@@ -623,6 +652,9 @@ table.monthly-adjustments {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+    }
+    .feather-icon {
+      margin-right: 0.2rem;
     }
   }
 }

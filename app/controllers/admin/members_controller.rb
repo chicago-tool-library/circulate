@@ -15,6 +15,7 @@ module Admin
       @new_item_numbers = []
       @new_loans = {}
 
+      @returned_loan_summaries = @member.loan_summaries.returned_since(Time.current.beginning_of_day).includes(:latest_loan, item: :borrow_policy).by_end_date
       @active_loan_summaries = @member.loan_summaries.checked_out.includes(:latest_loan, item: :borrow_policy).by_due_date
 
       @check_out = CheckOut.new

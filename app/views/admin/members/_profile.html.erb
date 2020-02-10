@@ -9,20 +9,24 @@
       </div>
       <div class="panel-body">
         <ul class="member-stats">
-          <li><%= feather_icon "message-square" %><%= member_pronoun(@member) %></li>
-          <li><%= feather_icon "user" %><%= @member.full_name %></li>
-          <li><%= feather_icon "mail" %><%= @member.email %></li>
-          <li><%= feather_icon "smartphone" %><%= format_phone_number @member.phone_number %></li>
-          <li>
-            <%= feather_icon "credit-card" %>
-            <%= link_to @member.account_balance.format, admin_member_adjustments_path(@member) %>
-          </li>
+          <li><%= feather_icon "message-square" %> <%= member_pronoun(@member) %></li>
+          <li><%= feather_icon "user" %> <%= @member.full_name %></li>
+          <li><%= feather_icon "mail" %> <%= @member.email %></li>
+          <li><%= feather_icon "smartphone" %> <%= format_phone_number @member.phone_number %></li>
+        </ul>
+
+        <ul class="member-stats">
+          <li><%= feather_icon "tool" %> <%= pluralize(@member.loans.checked_out.count, "item") %> checked out</li>
         </ul>
 
         <ul class="member-stats">
           <% if @member.status_verified? %>
-            <li><%= feather_icon "user-check" %>Info verified</li>
+            <li><%= feather_icon "user-check" %> Info verified</li>
           <% end %>
+          <li>
+            <%= feather_icon "credit-card" %>
+            <%= link_to @member.account_balance.format, admin_member_adjustments_path(@member) %>
+          </li>
           <% if @member.active_membership %>
             <li>
               <%= feather_icon "key" %>

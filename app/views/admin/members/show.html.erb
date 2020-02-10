@@ -6,8 +6,45 @@
     </div>
   <% end %>
 
-  <% if @active_loan_summaries.any? %>
+  <% if @returned_loan_summaries.any? %>
+    <div id="returned-loans" class="member-active-loans">
+      <div class="columns">
+        <div class="column">
+          <p class="h5 due-date">Returned <strong>Today</strong></p>
+        </div>
+      </div>
+      <% @returned_loan_summaries.each do |summary| %>
+        <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
+          <div class="column col-sm-6 col-4">
+            <%= tag.div class: "item-image" do %>
+              <% if summary.item.image.attached? %>
+                <%= link_to admin_item_path(summary.item) do %>
+                  <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                <% end %>
+              <% else %>
+                <div class="image-placeholder"></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="column col-sm-6 col-4">
+            <p><%= full_item_number(summary.item) %></p>
+            <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
+            <% if summary.renewed? %>
+              <p>
+                <%= tag.span class:"tooltip tooltip-bottom more-info", data: {tooltip:"Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
+              </p>
+            <% end %>
+          </div>
+          <div class="column col-sm-12 col-4 text-right">
+            <%= undo_button summary.latest_loan %>
+          </div>
+        </div>
+      <% end %>
+      <div class="divider"></div>
+    </div>
+  <% end %>
 
+  <% if @active_loan_summaries.any? %>
     <div id="current-loans" class="member-active-loans">
       <% @active_loan_summaries.group_by(&:due_at).each do |due_at, summaries| %>
         <div class="columns">
@@ -17,13 +54,13 @@
             </p>
           </div>
         </div>
-        <% summaries.each do |summary| %>
-          <div class="columns mt-2 mb-2">
+        <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
+          <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
                   <%= link_to admin_item_path(summary.item) do %>
-                    <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [200, 140])), class: "p-right" %>
+                    <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
                   <% end %>
                 <% else %>
                   <div class="image-placeholder"></div>
@@ -40,17 +77,21 @@
               <% end %>
               <% if summary.overdue_as_of?(Time.current) %>
                 <span class="text-error">
-                  Current fine: 
-                  <%= FineCalculator.for_overdue_loan(summary, Time.current).format %>
+                  <%= feather_icon "alert-triangle", class: "error" %> Overdue
                 </span>
               <% end %>
             </div>
             <div class="column col-sm-12 col-4 text-right">
-              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2" do %>
+              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2", remote: true do %>
                 <%= feather_icon "download" %>Return
               <% end %>
-              <%= button_to admin_loan_renewals_path(summary.latest_loan), method: :post, class:"btn ml-2 mb-2" do %>
-                <%= feather_icon "repeat" %>Renew
+              <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
+                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true do %>
+                  <%= feather_icon "repeat" %>Renew
+                <% end %>
+              <% end %>
+              <% if Time.current - summary.latest_loan.created_at < 24.hours %>
+                <%= undo_button summary.latest_loan %>
               <% end %>
             </div>
           </div>
@@ -64,9 +105,17 @@
     <div class="columns member-checkout-items">
       <div class="column col-12">
         <h2 id="checkout" class="h4">Lend Item</h2>
-
-        <%= portal do %>
-          <%= render partial: "admin/check_outs/form" %>
+        <% if @member.loan_summaries.overdue.count > 0 %>
+          <div class="toast">
+            <p>
+              <i class="icon icon-stop"></i>
+                Overdue items must be returned before additional items can be checked out.
+              </p>
+          </div>
+        <% else %>
+          <%= portal do %>
+            <%= render partial: "admin/check_outs/form" %>
+          <% end %>
         <% end %>
       </div>
     </div>

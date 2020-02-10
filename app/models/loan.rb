@@ -62,6 +62,10 @@ class Loan < ApplicationRecord
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
   end
 
+  def renewable?
+    renewal_count < item.borrow_policy.renewal_limit
+  end
+
   def renew!(now = Time.current)
     transaction do
       return!(now)
@@ -76,6 +80,19 @@ class Loan < ApplicationRecord
         uniquely_numbered: uniquely_numbered,
         created_at: now,
       )
+    end
+  end
+
+  def undo_renewal!
+    transaction do
+      destroy!
+      target = if renewal_count > 1
+        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first
+      else
+        initial_loan
+      end
+      target.update!(ended_at: nil)
+      target
     end
   end
 
