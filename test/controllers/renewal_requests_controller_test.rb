@@ -3,23 +3,23 @@ require "test_helper"
 class RenewalRequestsControllerTest < ActionDispatch::IntegrationTest
   test "displays the renewal page for a member" do
     member = create(:member)
-    renewal_request = RenewalRequest.new(member_id: member.id)
+    retriever = MemberRetriever.new(member_id: member.id)
 
-    get renewal_request_path(renewal_request.encrypt)
+    get renewal_request_path(retriever.encrypt)
 
     assert_equal 200, response.status
     assert_includes response.body, member.email
   end
 
-  test "handles an invalid renewal request" do
+  test "handles an invalid retriever" do
     get renewal_request_path("garbage in")
 
     assert_equal 404, response.status
   end
 
-  test "handles an expired renewal request" do
-    renewal_request = RenewalRequest.new(member_id: 123, expires_at: 1.minute.ago)
-    get renewal_request_path(renewal_request.encrypt)
+  test "handles an expired retriever" do
+    retriever = MemberRetriever.new(member_id: 123, expires_at: 1.minute.ago)
+    get renewal_request_path(retriever.encrypt)
 
     assert_equal 410, response.status
     assert_includes response.body, "link has expired"

@@ -1,4 +1,4 @@
-class RenewalRequest
+class MemberRetriever
   KEY = ActiveSupport::KeyGenerator.new(
     ENV.fetch("SECRET_KEY_BASE")
   ).generate_key(

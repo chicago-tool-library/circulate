@@ -1,3 +1,21 @@
 <h1>Renewal Request</h1>
 
 <%= @member.email %>
+
+<%= form_with url: renewal_request_path(params[:id]), method: :patch do |f| %>
+  <h2>Please select which items you'd like to renew.</h2>
+  <% @renewable_loans.each do |summary| %>
+    <p>
+      <%= summary.item.name %>
+      <% if summary.latest_loan.renewable? %>can renew<% else %>can't renew<% end %>
+      <%= f.check_box "loan_ids[]", value: summary.latest_loan.id %>
+    </p>
+  <% end %>
+<% end %>
+
+<h2>The following items can't be renewed:</h2>
+<% @not_renewable_loans.each do |summary| %>
+  <p>
+    <%= summary.item.name %>
+  </p>
+<% end %>
