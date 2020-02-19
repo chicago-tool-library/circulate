@@ -1,4 +1,4 @@
-# Used when stubbing a methods that needs to return a sequence of different values to subsequent calls:
+# Used when stubbing a method that needs to return a sequence of different values to subsequent calls:
 # Thing.stub :name, ReturnValues.new("sharon", "bob") do
 #   Thing.name => "sharon"
 #   Thing.name => "bob"
