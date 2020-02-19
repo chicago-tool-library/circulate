@@ -3,7 +3,7 @@
 <p><%= @member.email %></p>
 
 <% if @renewable_loans.any? %>
-  <%= form_with(model: @renewal_request, url: renewal_request_path(params[:id]), method: :patch, builder: SpectreFormBuilder) do |f| %>
+  <%= form_with(model: @renewal_request, url: account_renewal_requests_path(params[:account_id]), method: :post, builder: SpectreFormBuilder) do |f| %>
     <h2>Please select which items you'd like to renew.</h2>
     <%= f.errors %>
     <%= f.collection_check_boxes :loan_ids, @renewable_loans, :latest_loan_id, lambda {|ls| ls.item.name } %>
@@ -22,4 +22,4 @@
   <% end %>
 <% end %>
 
-<%= link_to "Cancel", status_renewal_request_path(params[:id]), class: "btn btn-block" %>
+<%= link_to "Cancel", account_summary_path(params[:account_id]), class: "btn btn-block" %>

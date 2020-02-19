@@ -73,10 +73,13 @@ Rails.application.routes.draw do
   end
 
   get "/s/:id", to: "short_links#show", as: :short_link
-  resources :renewal_requests, only: [:show, :update] do
-    get :status, on: :member
-  end
 
+  resources :accounts, only: [] do
+    scope module: "account" do
+      resource :summary, only: :show
+      resources :renewal_requests, only: [:new, :create]
+    end
+  end
   
   resources :items, only: [:index, :show]
   get "search", to: "searches#show"

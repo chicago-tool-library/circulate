@@ -15,15 +15,15 @@
 
   <body>
     <div class="container grid-lg renewals">
-      <%= flash_message :success  %>
-      <%= flash_message :warning  %>
-      <%= flash_message :error  %>
-
       <div class="columns">
         <div class="column col-12 text-center">
           <%= image_pack_tag "logo.jpg", class: "logo" %> 
         </div>
       </div>
+
+      <%= flash_message :success  %>
+      <%= flash_message :warning  %>
+      <%= flash_message :error  %>
 
       <%= yield %>
     </div>
