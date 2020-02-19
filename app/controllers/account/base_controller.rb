@@ -1,13 +1,11 @@
 module Account
   class BaseController < ApplicationController
-    before_action :load_member
-
     layout "account"
 
     private
 
-    def load_member
-      @member_retriever = MemberRetriever.decrypt(params[:account_id])
+    def load_member_from_encrypted_id(encypted_id)
+      @member_retriever = MemberRetriever.decrypt(encypted_id)
       unless @member_retriever
         render_not_found
         return

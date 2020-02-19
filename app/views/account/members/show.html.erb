@@ -5,7 +5,7 @@
 <%= render "member_mailer/summaries.erb", has_overdue_items: @has_overdue_items, summaries: @summaries, now: Time.current %>
 
 <% if @member.loan_summaries.renewable.any? %>
-  <%= link_to new_account_renewal_request_path(params[:account_id]), class: "btn btn-lg btn-block" do %>
+  <%= link_to new_account_member_renewal_request_path(params[:id]), class: "btn btn-lg btn-block" do %>
     <%= feather_icon "repeat" %>Renew Items
   <% end %>
 <% end %>

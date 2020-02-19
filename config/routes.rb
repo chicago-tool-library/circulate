@@ -74,9 +74,8 @@ Rails.application.routes.draw do
 
   get "/s/:id", to: "short_links#show", as: :short_link
 
-  resources :accounts, only: [] do
-    scope module: "account" do
-      resource :summary, only: :show
+  namespace :account do
+    resources :members, only: :show do
       resources :renewal_requests, only: [:new, :create]
     end
   end
