@@ -39,3 +39,5 @@ yarn-debug.log*
 /s3
 
 /test/reports
+
+.yardoc
