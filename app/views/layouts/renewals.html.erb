@@ -14,23 +14,18 @@
   </head>
 
   <body>
-    <div class="container grid-lg signup">
+    <div class="container grid-lg renewals">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>
 
       <div class="columns">
-        <div class="column col-12">
-          <div class="signup-logo <%= "on-step" if @active_step %>">
-            <%= image_pack_tag "logo.jpg" %> 
-            <h1>New Member Signup</h1>
-          </div>
-          <%= render 'signup/steps', steps: @steps unless @hide_steps %>
+        <div class="column col-12 text-center">
+          <%= image_pack_tag "logo.jpg", class: "logo" %> 
         </div>
       </div>
 
       <%= yield %>
     </div>
-
   </body>
 </html>

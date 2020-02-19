@@ -34,6 +34,19 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {})
+    super(method, collection, value_method, text_method, options, html_options) do |builder|
+      opts = options.merge({
+        multiple: true,
+        skip_default_ids: false,
+        label: builder.text,
+        include_hidden: false,
+        id: builder.instance_variable_get(:@sanitized_attribute_name),
+      })
+      check_box(method, opts, builder.value)
+    end
+  end
+
   def tag_select(method, tags)
     @template.tag.div(data: {controller: "tag-editor"}) do
       sequence_layout(method, options) do
@@ -174,8 +187,12 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
     wrapper_options[:class].strip!
 
+    label_options = {
+      class: "form-label #{options[:label_class]}",
+    }
+    label_options[:for] = options[:id] if options[:id]
     @template.content_tag :div, wrapper_options do
-      label(method, class: "form-label #{options[:label_class]}") {
+      label(method, label_options) {
         yield +
           label_text +
           required_label(method, display_required)

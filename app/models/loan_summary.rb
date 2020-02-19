@@ -13,13 +13,17 @@ class LoanSummary < ApplicationRecord
   }
 
   scope :checked_out, -> { where(ended_at: nil) }
-  scope :overdue, -> { overdue_as_of(Time.current) }
-  scope :overdue_as_of, ->(date) { checked_out.where "due_at < ?", date }
+  scope :overdue, ->(date = Time.current) { checked_out.where "due_at < ?", date }
   scope :returned, -> { where.not(ended_at: nil) }
   scope :returned_since, ->(date) { where("loan_summaries.ended_at >= ?", date) }
 
+  scope :renewable, ->(is_renewable = true) {
+    operator = is_renewable ? :lt : :gteq
+    checked_out.joins(item: :borrow_policy).where(arel_table[:renewal_count].send(operator, BorrowPolicy.arel_table[:renewal_limit]))
+  }
+
   scope :by_end_date, -> { order(ended_at: :asc) }
-  scope :by_due_date, -> { order(due_at: :asc) }
+  scope :by_due_date, -> { order(due_at: :asc, created_at: :asc) }
   scope :chronologically, -> { order(created_at: :asc) }
 
   def ended?
@@ -28,6 +32,10 @@ class LoanSummary < ApplicationRecord
 
   def renewed?
     renewal_count > 0
+  end
+
+  def renewable?
+    renewal_count < item.borrow_policy.renewal_limit
   end
 
   def readonly?
