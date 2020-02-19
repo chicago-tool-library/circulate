@@ -14,5 +14,9 @@ FactoryBot.define do
       uniquely_numbered { false }
       code { "a" }
     end
+
+    factory :unrenewable_borrow_policy do
+      renewal_limit { 0 }
+    end
   end
 end
