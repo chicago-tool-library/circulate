@@ -1,0 +1,82 @@
+@import 'globals';
+
+@import 'spectre.css/src/mixins/_shadow';
+
+.selectize-input {
+  box-shadow: none;
+  border: 0.05rem solid #cec3bc;
+  border-radius: 0.1rem;
+  &.focus {
+    box-shadow: none;
+    @include control-shadow($primary-color);
+    border-color: $primary-color;
+  }
+}
+
+.selectize-dropdown {
+  border: 0.05rem solid #cec3bc;
+}
+
+.selectize-control.multi .selectize-input [data-value] {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-color: $secondary-color;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.selectize-control.multi .selectize-input [data-value].active {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-color: darken($secondary-color, 10%);
+  filter: none;
+}
+
+.selectize-control.multi .selectize-input > div.active,
+.selectize-control.plugin-remove_button [data-value].active .remove {
+  border-color: darken($secondary-color, 20%);
+}
+
+.selectize-control.multi .selectize-input > div,
+.selectize-control.plugin-remove_button [data-value] .remove {
+  border-color: darken($secondary-color, 10%);
+}
+
+
+.selectize-dropdown [data-selectable].option {
+  color: $gray-color-dark;
+}
+.selectize-dropdown [data-selectable].option.active {
+  background: $secondary-color-light;
+}
+.selectize-dropdown [data-selectable].option:hover {
+  cursor: pointer;
+  color: $dark-color;
+}
+
+trix-editor {
+  background: white;
+  border: 0.05rem solid #cec3bc;
+  border-radius: 0.1rem;
+  color: #51433b;
+  &:focus {
+    @include control-shadow($primary-color);
+    border-color: $primary-color;
+  }
+}
+trix-toolbar {
+  .trix-button-group {
+    border: 0.05rem solid #cec3bc;
+    border-radius: 0.1rem;
+  }
+  .trix-button {
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 0;
+  }
+  .trix-button:not(:disabled) {
+    background: white;
+  }
+  .trix-button-group {
+  }
+}

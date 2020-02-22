@@ -1,15 +1,15 @@
-// Place all the styles related to the Members controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-$primary-color: #2F7890;
-$error-color: #DF6C54;
-$gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are easier to read
+@import 'globals';
 
 @import 'spectre.css/src/spectre';
 @import 'spectre.css/src/spectre-icons';
 @import 'spectre.css/src/spectre-exp';
 @import 'trix/dist/trix.css';
+
+@import 'spectre.css/src/mixins/_shadow';
+
+body {
+  background-color: $background-color;
+}
 
 .feather-icon {
   line-height: 20px;
@@ -230,7 +230,7 @@ $photo-width: 187px;
   }
 }
 
-.destroy-button {
+.destroy-button, .destroy-area {
   padding-top: 3rem;
 }
 
@@ -624,5 +624,98 @@ table.monthly-adjustments {
       white-space: nowrap;
       overflow: hidden;
     }
+  }
+}
+
+.nav-header {
+  // background: $primary-color;
+  background: $dark-color;
+  padding: .4rem 0 .4rem;
+  header.navbar {
+    margin-bottom: 0;
+  }
+  .container {
+    padding-bottom: 0;
+  }
+  a,
+  .btn.btn-link {
+    color: white;
+  }
+  .menu .menu-item > a {
+    color: $dark-color;
+    &:hover {
+      background: $secondary-color-light;
+    }
+  }
+  input:focus {
+    border-color: $success-color;
+    @include control-shadow($success-color);
+  }
+}
+
+.header-header {
+  // background: $gray-color-light;
+  background: $primary-color;
+  color: white;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  header.navbar {
+    margin-bottom: 0;
+  }
+  .container {
+    padding-bottom: 0;
+  }
+}
+
+.app {
+  .btn {
+    border-color: lighten($gray-color-light, 5%);
+    border-radius: 5px;
+    transition: none;
+    &, &:visited {
+      color: $gray-color-dark;
+    }
+    &:hover {
+      background-color: $secondary-color-light;
+      border-color: lighten($secondary-color, 10%);
+      color: $dark-color;
+    }
+    &:active, &.active {
+      background-color: $secondary-color;
+      border-color: darken($secondary-color, 10%);
+      color: white;
+    }
+    &.btn-primary {
+      background: $gray-color-dark;
+      border-color: $dark-color;
+      color: white;
+      &:hover {
+        background: $dark-color;
+      }
+    }
+  }
+
+  .header-header .btn {
+    // background: white;
+  }
+}
+
+.style-guide {
+  .colors {
+    .column {
+      min-height: 4rem;
+    }
+    .primary { background-color: $primary-color; }
+    .secondary { background-color: $secondary-color; }
+
+    .success { background-color: $success-color; }
+    .warning { background-color: $warning-color; }
+    .error { background-color: $error-color; }
+
+    .dark { background-color: $dark-color; }
+    .gray-dark { background-color: $gray-color-dark; }
+    .gray { background-color: $gray-color; }
+    .gray-light { background-color: $gray-color-light; }
+    .light { background-color: $light-color; }
   }
 }

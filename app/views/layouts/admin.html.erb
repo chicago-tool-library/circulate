@@ -68,53 +68,67 @@
       <div class="off-canvas-content show-md"></div>
     </div>
 
-    <div class="container grid-lg admin">
-      <header class="navbar hide-md">
-        <section class="navbar-section">
-          <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_items_path %></span>
-          <%= link_to "Items", admin_items_path, class: "btn btn-link" %>
-          <%= link_to "Members", admin_members_path, class: "btn btn-link" %>
-          <%= link_to "Loans", admin_loan_summaries_path, class: "btn btn-link" %>
-          <div class="dropdown">
-            <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
-              Reports <i class="icon icon-caret"></i>
-            </a>
-            <ul class="menu">
-              <li class="menu-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
-              <li class="menu-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
-              <li class="menu-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
-              <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
-              <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
-              <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
-            </ul>
-          </div>
-          <div class="dropdown">
-            <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
-              Settings <i class="icon icon-caret"></i>
-            </a>
-            <ul class="menu">
-              <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
-              <li class="menu-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
-              <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
-              <li class="menu-item"><%= link_to "Tags", admin_tags_path %></li>
-            </ul>
-          </div>
-        </section>
-        <section class="navbar-section">
-          <%= form_with url: admin_search_path do |form| %>
-            <div class="input-group input-inline">
-              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search" %>
+    <div class="nav-header">
+      <div class="container grid-lg">
+        <header class="navbar hide-md">
+          <section class="navbar-section">
+            <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_items_path %></span>
+            <%= link_to "Items", admin_items_path, class: "btn btn-link" %>
+            <%= link_to "Members", admin_members_path, class: "btn btn-link" %>
+            <%= link_to "Loans", admin_loan_summaries_path, class: "btn btn-link" %>
+            <div class="dropdown">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+                Reports <i class="icon icon-caret"></i>
+              </a>
+              <ul class="menu">
+                <li class="menu-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
+                <li class="menu-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
+                <li class="menu-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
+                <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
+                <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
+                <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+              </ul>
             </div>
-          <% end %>
-        </section>
-        <%= render partial: "shared/time_override" if Rails.env.development? %>
-        <section class="navbar-section">
-          <% if user_signed_in? %>
-            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
-          <% end %>
-        </section>
-      </header>
+            <div class="dropdown">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+                Settings <i class="icon icon-caret"></i>
+              </a>
+              <ul class="menu">
+                <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
+                <li class="menu-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
+                <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
+                <li class="menu-item"><%= link_to "Tags", admin_tags_path %></li>
+              </ul>
+            </div>
+          </section>
+          <section class="navbar-section">
+            <%= form_with url: admin_search_path do |form| %>
+              <div class="input-group input-inline">
+                <%= form.text_field :query, class: "form-input input-sm", placeholder: "search" %>
+              </div>
+            <% end %>
+          </section>
+          <%= render partial: "shared/time_override" if Rails.env.development? %>
+          <section class="navbar-section">
+            <% if user_signed_in? %>
+              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+            <% end %>
+          </section>
+        </header>
+      </div>
+    </div>
 
+    <% if content_for? :header %>
+      <div class="app">
+        <div class="header-header">
+          <div class="container grid-lg">
+            <%= yield :header %>      
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="container grid-lg admin app">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>

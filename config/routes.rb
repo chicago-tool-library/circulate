@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     if Rails.env.development?
       post "/dev/time", to: "dev#set_time"
       delete "/dev/time", to: "dev#clear_time"
+      get "/dev/styles", to: "dev#styles"
     end
 
     get "/", to: redirect("/admin/items")

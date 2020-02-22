@@ -45,7 +45,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     options[:wrapper_options] = {data: {controller: "multi-select"}}
     html_options[:data] = {target: "multi-select.control", action: "multi-select#change"}
-    html_options[:class] = "form-select"
+    html_options[:class] = "form-sele5"
 
     sequence_layout(method, options) do
       parent_collection_select(method, collection, value_method, text_method, options, html_options) +
@@ -155,7 +155,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   def required_label(method, show_label)
     if validation_inspector.attribute_required?(method) && show_label
-      @template.tag.span("required", class: "label label-required-field").html_safe
+      @template.tag.span("required", class: "label label-warning label-required-field").html_safe
     else
       ""
     end
