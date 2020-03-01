@@ -80,3 +80,26 @@ trix-toolbar {
   .trix-button-group {
   }
 }
+
+.step .step-item a::before {
+  border-color: $background-color;
+}
+
+.form-checkbox,
+.form-radio,
+.form-switch {
+  input {
+    &:focus + .form-icon {
+      @include control-shadow();
+      border-color: $secondary-color;
+    }
+    &:checked + .form-icon {
+      background: $secondary-color;
+      border-color: $secondary-color;
+    }
+  }
+}
+
+.divider[data-content]::after, .divider-vert[data-content]::after {
+  background: $background-color;
+}

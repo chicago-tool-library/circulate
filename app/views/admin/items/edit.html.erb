@@ -7,7 +7,8 @@
 <div class="destroy-area">
   <details>
     <summary>Destroy this item?</summary>
-    <p>This cannot be undone.</p>
-    <%= button_to 'Destroy Item', [:admin, @item], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-warning" %>
+    <%= action_bar "If you destroy this item, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to 'Destroy Item', [:admin, @item], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm" %>
+    <% end %>
   </details>
 </div>

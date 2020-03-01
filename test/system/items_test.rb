@@ -76,6 +76,7 @@ class ItemsTest < ApplicationSystemTestCase
     end
 
     visit edit_admin_item_url(@item)
+    page.find("summary", text: "Destroy this item?").click
     page.accept_confirm do
       click_on "Destroy Item"
     end

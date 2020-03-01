@@ -122,8 +122,9 @@ $photo-width: 187px;
     .items-table-tags {
       grid-column: 3;
       grid-row: span 2;
+      font-size: 0.7rem;
       a {
-        display: inline-block;
+        display: block;
       }
     }
   }
@@ -152,6 +153,10 @@ $photo-width: 187px;
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;
+      a {
+        display: inline-block;
+        margin-right: .3rem;
+      }
     }
   }
 }
@@ -232,6 +237,71 @@ $photo-width: 187px;
 
 .destroy-button, .destroy-area {
   padding-top: 3rem;
+}
+
+.app .action-bar {
+  // background: $gray-color-light;
+  background: $secondary-color-light;
+  border-radius: 4px;
+  padding: .5rem .5rem .3rem .6rem;
+  margin-bottom: 1rem;
+  color: darken($secondary-color, 30%);
+  .float-left {
+    line-height: 32px;
+    font-weight: 500;
+  }
+  .feather-icon {
+    height: 24px;
+    width: 24px;
+    stroke: darken($secondary-color, 10%);
+  }
+  .btn {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+      border-color: darken($secondary-color, 10%);
+      color: white;
+    }
+  }
+  &.action-bar-warning {
+    background-color: lighten($warning-color, 20%);
+    color: darken($warning-color, 30%);
+    // color: $gray-color-dark;
+    .btn {
+      background-color: $warning-color;
+      border-color: darken($warning-color, 10%);
+      color: $gray-color-dark;
+      &:hover {
+        background-color: darken($warning-color, 10%);
+        color: $gray-color-dark;
+      }
+    }
+    .feather-icon {
+      stroke: darken($warning-color, 10%);
+    }
+  }
+  &.action-bar-error {
+    background-color: lighten($error-color, 20%);
+    color: darken($error-color, 30%);
+    .btn {
+      background-color: $error-color;
+      border-color: darken($error-color, 10%);
+      color: white;
+      &:hover {
+        background-color: darken($error-color, 10%);
+        color: white;
+      }
+    }
+    .feather-icon {
+      stroke: darken($error-color, 10%);
+    }
+  }
+}
+
+details .action-bar {
+  margin-top: 1rem;
 }
 
 form .awesomplete {
@@ -377,7 +447,7 @@ form.membership-amount {
     margin-bottom: 2rem;
   }
   .callout-box {
-    background: #f7f8f9;
+    background: white;
     padding: 1rem .5rem .5rem 1.5rem;
     margin-bottom: 1rem;
     ul {
@@ -613,7 +683,8 @@ table.monthly-adjustments {
 }
 
 .member-panel {
-  h1 {
+  background: white;
+  h6 {
     margin-bottom: 0;
   }
   .member-stats {
@@ -623,6 +694,9 @@ table.monthly-adjustments {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+    }
+    .feather-icon + a {
+      margin-left: -0.3em;
     }
   }
 }
@@ -685,12 +759,24 @@ table.monthly-adjustments {
       border-color: darken($secondary-color, 10%);
       color: white;
     }
-    &.btn-primary {
+    &.btn-default {
       background: $gray-color-dark;
       border-color: $dark-color;
       color: white;
       &:hover {
         background: $dark-color;
+      }
+    }
+    &.btn-primary {
+      background: $primary-color;
+      border-color: darken($primary-color, 10%);
+      color: white;
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+      &:active, &.active {
+        background: $dark-color;
+        border-color: $dark-color;
       }
     }
   }

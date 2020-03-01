@@ -21,6 +21,7 @@ module Signup
         reset_session
         redirect_to signup_confirmation_url
       else
+        activate_step(:payment)
         render :new
       end
     end
