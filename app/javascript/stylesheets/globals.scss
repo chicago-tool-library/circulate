@@ -12,3 +12,21 @@ $light-color: white;
 $secondary-color-light: lighten($secondary-color, 20%);
 
 $background-color: #F9F6F2;
+
+@mixin default-button{
+  border-color: lighten($gray-color-light, 5%);
+  transition: none;
+  &, &:visited {
+    color: $gray-color-dark;
+  }
+  &:hover {
+    background-color: $secondary-color-light;
+    border-color: lighten($secondary-color, 10%);
+    color: $dark-color;
+  }
+  &:active, &.active {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+  }
+}

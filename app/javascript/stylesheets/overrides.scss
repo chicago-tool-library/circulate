@@ -103,3 +103,24 @@ trix-toolbar {
 .divider[data-content]::after, .divider-vert[data-content]::after {
   background: $background-color;
 }
+
+// Fix issue where the tag input is being drawn above the name autocomplete
+.form-group .awesomplete > ul {
+  z-index: 10;
+}
+
+.off-canvas {
+  background: $dark-color;
+
+  .off-canvas-content {
+    height: 2.6rem;
+    padding-left: 3rem;
+  }
+
+  .off-canvas-toggle {
+    @include default-button();
+    .icon {
+      color: $dark-color;
+    }
+  }
+}

@@ -1,14 +1,7 @@
-<ul class="breadcrumb">
-  <li class="breadcrumb-item">
-    <%= link_to "Documents", admin_documents_path %>
-  </li>
-  <li class="breadcrumb-item">
-    <%= link_to @document.name, admin_document_path(@document) %>
-  </li>
-</ul>
-
-<%= index_header @document.name do %>
-  <%= link_to 'Edit', edit_admin_document_path(@document), class: "btn" %>
+<%= content_for :header do %>
+  <%= index_header @document.name do %>
+    <%= link_to 'Edit', edit_admin_document_path(@document), class: "btn" %>
+  <% end %>
 <% end %>
 
 <div class="summary-box">

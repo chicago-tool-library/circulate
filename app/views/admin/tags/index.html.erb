@@ -1,5 +1,7 @@
-<%= index_header "Tags" do %>
-  <%= link_to 'New Tag', new_admin_tag_path, class: "btn" %>
+<% content_for :header do %>
+  <%= index_header "Tags" do %>
+    <%= link_to 'New Tag', new_admin_tag_path, class: "btn" %>
+  <% end %>
 <% end %>
 
 <div class="responsive-table four-columns">

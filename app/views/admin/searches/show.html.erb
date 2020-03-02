@@ -1,6 +1,9 @@
+<%= content_for :header do %>
+  <%= index_header "Search" %>
+<% end %>
+
 <div class="columns">
   <div class="column col-12">
-    <h1>Search</h1>
     <p>
       Showing search results for
       <strong><%= params[:query] %></strong>.

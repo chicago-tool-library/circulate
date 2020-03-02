@@ -15,17 +15,11 @@
 
   <body>
     <div class="off-canvas" data-controller="sidebar">
-      <a class="off-canvas-toggle btn btn-primary btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
+      <a class="off-canvas-toggle btn btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
         <i class="icon icon-menu"></i>
       </a>
 
       <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
-        <header class="navbar">
-          <section class="navbar-section">
-            <span class="navbar-brand mr-2 sidebar-logo">Circulate</span>
-          </section>
-        </header>
-
         <ul class="nav">
           <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
           <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
@@ -65,12 +59,24 @@
 
       <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
 
-      <div class="off-canvas-content show-md"></div>
+      <div class="off-canvas-content show-md">
+        <span class="off-canvas-title">
+          <%= link_to "Circulate", admin_items_path %>
+        </span>
+        <div class="float-right mt-1 mr-1">
+          <%= form_with url: admin_search_path do |form| %>
+            <div class="has-icon-left">
+              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search", type: "search" %>
+              <i class="form-icon icon icon-search"></i>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
 
-    <div class="nav-header">
+    <div class="nav-header hide-md">
       <div class="container grid-lg">
-        <header class="navbar hide-md">
+        <header class="navbar">
           <section class="navbar-section">
             <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_items_path %></span>
             <%= link_to "Items", admin_items_path, class: "btn btn-link" %>
@@ -103,9 +109,10 @@
           </section>
           <section class="navbar-section">
             <%= form_with url: admin_search_path do |form| %>
-              <div class="input-group input-inline">
-                <%= form.text_field :query, class: "form-input input-sm", placeholder: "search" %>
-              </div>
+                <div class="has-icon-left">
+                  <%= form.text_field :query, class: "form-input input-sm", placeholder: "search" %>
+                  <i class="form-icon icon icon-search"></i>
+                </div>
             <% end %>
           </section>
           <%= render partial: "shared/time_override" if Rails.env.development? %>

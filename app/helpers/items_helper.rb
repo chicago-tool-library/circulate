@@ -26,7 +26,7 @@ module ItemsHelper
   def tag_nav(tags, current_tag = nil)
     return unless tags
 
-    tag.div class: "nav" do
+    tag.div class: "nav tag-nav" do
       tags.map { |a_tag|
         tag.li(class: "nav-item #{"active" if a_tag == current_tag}") {
           link_to(a_tag.name, tag: a_tag.id)

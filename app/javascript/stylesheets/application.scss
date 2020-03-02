@@ -73,9 +73,12 @@ header.navbar {
   margin-bottom: 1rem;
 }
 
-.off-canvas .off-canvas-content {
-  padding-left: 3rem;
-  height: 3rem;
+.off-canvas-content {
+  .off-canvas-title a {
+    color: white;
+    font-size: 0.9rem;
+    line-height: 1.8rem;
+  }
 }
 
 .sidebar-logo {
@@ -127,6 +130,13 @@ $photo-width: 187px;
         display: block;
       }
     }
+  }
+}
+
+.tag-nav {
+  li a {
+    display: inline-block;
+    line-height: 1.2;
   }
 }
 
@@ -240,7 +250,6 @@ $photo-width: 187px;
 }
 
 .app .action-bar {
-  // background: $gray-color-light;
   background: $secondary-color-light;
   border-radius: 4px;
   padding: .5rem .5rem .3rem .6rem;
@@ -268,7 +277,6 @@ $photo-width: 187px;
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
     color: darken($warning-color, 30%);
-    // color: $gray-color-dark;
     .btn {
       background-color: $warning-color;
       border-color: darken($warning-color, 10%);
@@ -431,7 +439,6 @@ form.membership-amount {
 
   .pay-online {
     margin-right: 1rem;
-    // text-align: center;
   }
 }
 
@@ -642,11 +649,6 @@ table.monthly-adjustments {
   color: $gray-color;
 }
 
-// Fix issue where the tag input is being drawn above the name autocomplete
-.form-group .awesomplete > ul {
-  z-index: 10;
-}
-
 @media (max-width: $size-md) {
     img {
       max-width: 60vw;
@@ -702,7 +704,6 @@ table.monthly-adjustments {
 }
 
 .nav-header {
-  // background: $primary-color;
   background: $dark-color;
   padding: .4rem 0 .4rem;
   header.navbar {
@@ -728,7 +729,6 @@ table.monthly-adjustments {
 }
 
 .header-header {
-  // background: $gray-color-light;
   background: $primary-color;
   color: white;
   padding-top: 1rem;
@@ -743,22 +743,8 @@ table.monthly-adjustments {
 
 .app {
   .btn {
-    border-color: lighten($gray-color-light, 5%);
+    @include default-button();
     border-radius: 5px;
-    transition: none;
-    &, &:visited {
-      color: $gray-color-dark;
-    }
-    &:hover {
-      background-color: $secondary-color-light;
-      border-color: lighten($secondary-color, 10%);
-      color: $dark-color;
-    }
-    &:active, &.active {
-      background-color: $secondary-color;
-      border-color: darken($secondary-color, 10%);
-      color: white;
-    }
     &.btn-default {
       background: $gray-color-dark;
       border-color: $dark-color;
@@ -779,10 +765,6 @@ table.monthly-adjustments {
         border-color: $dark-color;
       }
     }
-  }
-
-  .header-header .btn {
-    // background: white;
   }
 }
 
