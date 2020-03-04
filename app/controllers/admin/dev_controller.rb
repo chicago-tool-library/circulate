@@ -10,5 +10,8 @@ module Admin
       session.delete(:time_override)
       redirect_to params[:return_to]
     end
+
+    def styles
+    end
   end
 end

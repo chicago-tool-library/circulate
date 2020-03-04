@@ -1,8 +1,9 @@
+<%= content_for :header do %>
+  <%= index_header "Notifications" %>
+<% end %>
+
 <div class="columns">
   <div class="column col-12">
-
-    <%= index_header "Notifications" %>
-
     <% if @notifications.any? %>
 
       <table class="table table-scroll">

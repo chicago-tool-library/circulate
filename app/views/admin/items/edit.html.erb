@@ -1,7 +1,14 @@
-<h1>Editing Item</h1>
+<% content_for :header do %>
+  <%= index_header "Editing Item" %>
+<% end %>
 
 <%= render 'form', item: @item %>
 
-<div class="destroy-button">
-  <%= link_to 'Destroy Item', [:admin, @item], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-error btn-block btn-sm" %>
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this item?</summary>
+    <%= action_bar "If you destroy this item, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to 'Destroy Item', [:admin, @item], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm" %>
+    <% end %>
+  </details>
 </div>

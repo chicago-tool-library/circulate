@@ -1,3 +1,5 @@
-<h1>Editing Tag</h1>
+<%= content_for :header do %>
+  <%= index_header "Editing Tag" %>
+<% end %>
 
 <%= render 'form', tag: @tag %>

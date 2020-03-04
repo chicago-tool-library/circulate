@@ -1,11 +1,11 @@
+<% content_for :header do %>
+  <%= index_header "Items" do %>
+    <%= link_to 'New Item', new_admin_item_path, class: "btn" %>
+  <% end %>
+<% end %>
 
 <div class="columns">
   <div class="column col-12">
-
-    <%= index_header "Items" do %>
-      <%= link_to 'New Item', new_admin_item_path, class: "btn" %>
-    <% end %>
-
     <div class="items-summary">
       Viewing
       <% if @tag %>

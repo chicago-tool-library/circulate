@@ -30,4 +30,13 @@ module AdminHelper
       link_to label, path
     end
   end
+
+  def action_bar(message, icon: "", type: nil, &block)
+    icon = feather_icon(icon) unless icon.empty?
+    klass = "action-bar-#{type} " unless type.nil?
+    tag.div(class: "action-bar #{klass}clearfix") do
+      tag.div(icon + message, class: "float-left") +
+        tag.div(class: "float-right", &block)
+    end
+  end
 end

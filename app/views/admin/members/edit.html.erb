@@ -1,16 +1,9 @@
-<div class="columns">
-  <div class="column col-12">
-    <ul class="breadcrumb">
-      <li class="breadcrumb-item"><%= link_to "All Members", admin_members_path %></li>
-      <li class="breadcrumb-item"><%= link_to @member.preferred_name, admin_member_path(@member) %></li>
-      <li class="breadcrumb-item">Edit</li>
-    </ul>
-  </div>
-</div>
+<%= content_for :header do %>
+  <%= index_header "Editing Member" %>
+<% end %>
 
 <div class="columns">
   <div class="column col-12">
-    <h1>Editing Member</h1>
 
     <%= render 'form', member: @member %>
   </div>

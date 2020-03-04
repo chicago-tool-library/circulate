@@ -1,3 +1,5 @@
-<h1>New Item</h1>
+<% content_for :header do %>
+  <%= index_header "New Item" %>
+<% end %>
 
 <%= render 'form', item: @item %>

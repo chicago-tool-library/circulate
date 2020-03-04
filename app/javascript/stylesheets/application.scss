@@ -1,15 +1,15 @@
-// Place all the styles related to the Members controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-$primary-color: #2F7890;
-$error-color: #DF6C54;
-$gray-color: lighten(#303742, 40%); // make form hints a bit darker so they are easier to read
+@import 'globals';
 
 @import 'spectre.css/src/spectre';
 @import 'spectre.css/src/spectre-icons';
 @import 'spectre.css/src/spectre-exp';
 @import 'trix/dist/trix.css';
+
+@import 'spectre.css/src/mixins/_shadow';
+
+body {
+  background-color: $background-color;
+}
 
 .feather-icon {
   line-height: 20px;
@@ -73,9 +73,12 @@ header.navbar {
   margin-bottom: 1rem;
 }
 
-.off-canvas .off-canvas-content {
-  padding-left: 3rem;
-  height: 3rem;
+.off-canvas-content {
+  .off-canvas-title a {
+    color: white;
+    font-size: 0.9rem;
+    line-height: 1.8rem;
+  }
 }
 
 .sidebar-logo {
@@ -122,10 +125,18 @@ $photo-width: 187px;
     .items-table-tags {
       grid-column: 3;
       grid-row: span 2;
+      font-size: 0.7rem;
       a {
-        display: inline-block;
+        display: block;
       }
     }
+  }
+}
+
+.tag-nav {
+  li a {
+    display: inline-block;
+    line-height: 1.2;
   }
 }
 
@@ -152,6 +163,10 @@ $photo-width: 187px;
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;
+      a {
+        display: inline-block;
+        margin-right: .3rem;
+      }
     }
   }
 }
@@ -230,8 +245,71 @@ $photo-width: 187px;
   }
 }
 
-.destroy-button {
+.destroy-button, .destroy-area {
   padding-top: 3rem;
+}
+
+.app .action-bar {
+  background: $secondary-color-light;
+  border-radius: 4px;
+  padding: .5rem .5rem .3rem .6rem;
+  margin-bottom: 1rem;
+  color: darken($secondary-color, 30%);
+  .float-left {
+    line-height: 32px;
+    font-weight: 500;
+  }
+  .feather-icon {
+    height: 24px;
+    width: 24px;
+    stroke: darken($secondary-color, 10%);
+  }
+  .btn {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+      border-color: darken($secondary-color, 10%);
+      color: white;
+    }
+  }
+  &.action-bar-warning {
+    background-color: lighten($warning-color, 20%);
+    color: darken($warning-color, 30%);
+    .btn {
+      background-color: $warning-color;
+      border-color: darken($warning-color, 10%);
+      color: $gray-color-dark;
+      &:hover {
+        background-color: darken($warning-color, 10%);
+        color: $gray-color-dark;
+      }
+    }
+    .feather-icon {
+      stroke: darken($warning-color, 10%);
+    }
+  }
+  &.action-bar-error {
+    background-color: lighten($error-color, 20%);
+    color: darken($error-color, 30%);
+    .btn {
+      background-color: $error-color;
+      border-color: darken($error-color, 10%);
+      color: white;
+      &:hover {
+        background-color: darken($error-color, 10%);
+        color: white;
+      }
+    }
+    .feather-icon {
+      stroke: darken($error-color, 10%);
+    }
+  }
+}
+
+details .action-bar {
+  margin-top: 1rem;
 }
 
 form .awesomplete {
@@ -361,7 +439,6 @@ form.membership-amount {
 
   .pay-online {
     margin-right: 1rem;
-    // text-align: center;
   }
 }
 
@@ -377,7 +454,7 @@ form.membership-amount {
     margin-bottom: 2rem;
   }
   .callout-box {
-    background: #f7f8f9;
+    background: white;
     padding: 1rem .5rem .5rem 1.5rem;
     margin-bottom: 1rem;
     ul {
@@ -572,11 +649,6 @@ table.monthly-adjustments {
   color: $gray-color;
 }
 
-// Fix issue where the tag input is being drawn above the name autocomplete
-.form-group .awesomplete > ul {
-  z-index: 10;
-}
-
 @media (max-width: $size-md) {
     img {
       max-width: 60vw;
@@ -613,7 +685,8 @@ table.monthly-adjustments {
 }
 
 .member-panel {
-  h1 {
+  background: white;
+  h6 {
     margin-bottom: 0;
   }
   .member-stats {
@@ -624,5 +697,93 @@ table.monthly-adjustments {
       white-space: nowrap;
       overflow: hidden;
     }
+    .feather-icon + a {
+      margin-left: -0.3em;
+    }
+  }
+}
+
+.nav-header {
+  background: $dark-color;
+  padding: .4rem 0 .4rem;
+  header.navbar {
+    margin-bottom: 0;
+  }
+  .container {
+    padding-bottom: 0;
+  }
+  a,
+  .btn.btn-link {
+    color: white;
+  }
+  .menu .menu-item > a {
+    color: $dark-color;
+    &:hover {
+      background: $secondary-color-light;
+    }
+  }
+  input:focus {
+    border-color: $success-color;
+    @include control-shadow($success-color);
+  }
+}
+
+.header-header {
+  background: $primary-color;
+  color: white;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  header.navbar {
+    margin-bottom: 0;
+  }
+  .container {
+    padding-bottom: 0;
+  }
+}
+
+.app {
+  .btn {
+    @include default-button();
+    border-radius: 5px;
+    &.btn-default {
+      background: $gray-color-dark;
+      border-color: $dark-color;
+      color: white;
+      &:hover {
+        background: $dark-color;
+      }
+    }
+    &.btn-primary {
+      background: $primary-color;
+      border-color: darken($primary-color, 10%);
+      color: white;
+      &:hover {
+        background: darken($primary-color, 10%);
+      }
+      &:active, &.active {
+        background: $dark-color;
+        border-color: $dark-color;
+      }
+    }
+  }
+}
+
+.style-guide {
+  .colors {
+    .column {
+      min-height: 4rem;
+    }
+    .primary { background-color: $primary-color; }
+    .secondary { background-color: $secondary-color; }
+
+    .success { background-color: $success-color; }
+    .warning { background-color: $warning-color; }
+    .error { background-color: $error-color; }
+
+    .dark { background-color: $dark-color; }
+    .gray-dark { background-color: $gray-color-dark; }
+    .gray { background-color: $gray-color; }
+    .gray-light { background-color: $gray-color-light; }
+    .light { background-color: $light-color; }
   }
 }

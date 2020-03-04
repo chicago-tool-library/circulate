@@ -1,3 +1,9 @@
+<%= content_for :header do %>
+  <%= index_header @tag.name do %>
+    <%= link_to 'Edit', edit_admin_tag_path(@tag), class: "btn" %>
+  <% end %>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @tag.name %>
@@ -7,5 +13,3 @@
   <strong>Slug:</strong>
   <%= @tag.slug %>
 </p>
-
-<%= link_to 'Edit', edit_admin_tag_path(@tag) %> |
