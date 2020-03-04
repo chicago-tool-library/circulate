@@ -23,6 +23,10 @@ class BorrowPolicy < ApplicationRecord
     not_uniquely_numbered.pluck(:id)
   end
 
+  def complete_name
+    "#{name} (#{code})"
+  end
+
   after_save :make_only_default
 
   private

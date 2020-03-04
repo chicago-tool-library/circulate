@@ -1,6 +1,6 @@
 module AdminHelper
-  def index_header(title, &block)
-    render "shared/index_header", title: title, &block
+  def index_header(title, icon: nil, &block)
+    render "shared/index_header", title: title, icon: icon, &block
   end
 
   def flash_message(key)
@@ -38,5 +38,28 @@ module AdminHelper
       tag.div(icon + message, class: "float-left") +
         tag.div(class: "float-right", &block)
     end
+  end
+
+  def audit_description(audit, key, values)
+    value = audit.action == "create" ? values : values.last
+
+    case key
+    when "status"
+      value = Item.statuses.invert[value]
+    when "borrow_policy_id"
+      value = BorrowPolicy.find(value).complete_name
+    when "tag_ids"
+      key = "tags"
+      value = Tag.find(value).map(&:name).join(", ")
+    end
+
+    if audit.action == "create" && value.blank?
+      return
+    end
+
+    action = value.blank? ? " cleared " : " set to "
+    tag.em(key.titleize) +
+      action +
+      tag.strong(value)
   end
 end
