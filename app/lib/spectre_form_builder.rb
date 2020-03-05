@@ -105,7 +105,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def autocomplete_text_field(method, options = {})
     text_field(method, options.merge(
       wrapper_options: {
-        data: {controller: "autocomplete", action: "input->autocomplete#input", autocomplete_path: options.delete(:path)},
+        data: {controller: "autocomplete", action: "input->autocomplete#input", autocomplete_path: options.delete(:path)}
       },
       data: {target: "autocomplete.input"}
     ))

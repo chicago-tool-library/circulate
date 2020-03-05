@@ -41,8 +41,8 @@ class MemberMailer < ApplicationMailer
   def set_uuid_header
     headers["X-SMTPAPI"] = {
       unique_args: {
-        uuid: @uuid,
-      },
+        uuid: @uuid
+      }
     }.to_json
   end
 

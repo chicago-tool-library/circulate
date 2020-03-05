@@ -32,7 +32,7 @@ class ManualImport
     item.manual.attach(
       filename: filename,
       io: tempfile,
-      content_type: response.mime_type,
+      content_type: response.mime_type
     )
     item.save!
     tempfile.close

@@ -8,7 +8,7 @@ module Signup
       @member = Member.new(
         reminders_via_email: true,
         reminders_via_text: true,
-        receive_newsletter: true,
+        receive_newsletter: true
       )
       activate_step(:profile)
     end
