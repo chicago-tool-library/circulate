@@ -55,19 +55,19 @@ class ItemsTest < ApplicationSystemTestCase
     click_on "Update Item"
 
     assert_text "Item was successfully updated"
-    assert_text "Manual: file.pdf"
+    assert_text "View Manual"
 
     # Make sure it's only deleted when checkbox is toggled
     click_on "Edit"
     click_on "Update Item"
-    assert_text "Manual: file.pdf"
+    assert_text "View Manual"
 
     click_on "Edit"
     # Can't use check method with spectre as its labels obscure checkboxes
     page.find("label", text: "Delete current manual").click
     click_on "Update Item"
 
-    refute_text "Manual: file.pdf"
+    refute_text "View Manual"
   end
 
   test "destroying an item" do
