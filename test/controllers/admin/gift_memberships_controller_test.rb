@@ -27,8 +27,8 @@ module Admin
             amount: "44",
             purchaser_email: "someone@somewhere.com",
             purchaser_name: "Gift Giver",
-            recipient_name: "A Recipient",
-          },
+            recipient_name: "A Recipient"
+          }
         }
       end
 
@@ -57,8 +57,8 @@ module Admin
         gift_membership: {
           amount: "44",
           purchaser_email: "someone@somewhere.com",
-          purchaser_name: "Gift Giver",
-        },
+          purchaser_name: "Gift Giver"
+        }
       }
       assert_redirected_to admin_gift_memberships_url
     end

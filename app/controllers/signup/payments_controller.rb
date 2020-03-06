@@ -79,7 +79,8 @@ module Signup
     def checkout
       SquareCheckout.new(
         access_token: ENV.fetch("SQUARE_ACCESS_TOKEN"),
-        location_id: ENV.fetch("SQUARE_LOCATION_ID")
+        location_id: ENV.fetch("SQUARE_LOCATION_ID"),
+        environment: ENV.fetch("SQUARE_ENVIRONMENT")
       )
     end
 

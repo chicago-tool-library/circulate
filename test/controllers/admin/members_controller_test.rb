@@ -34,8 +34,8 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
           preferred_name: @member.preferred_name,
           pronoun: @member.pronoun,
           postal_code: "60606",
-          address1: @member.address1,
-        },
+          address1: @member.address1
+        }
       }
     end
 

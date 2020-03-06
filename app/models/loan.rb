@@ -47,7 +47,7 @@ class Loan < ApplicationRecord
   def self.next_open_day(time)
     open_days = [
       0, # Sunday
-      4, # Thursday
+      4 # Thursday
     ]
 
     day = time
@@ -74,7 +74,7 @@ class Loan < ApplicationRecord
         renewal_count: renewal_count + 1,
         due_at: self.class.next_open_day(period_start_date + item.borrow_policy.duration.days),
         uniquely_numbered: uniquely_numbered,
-        created_at: now,
+        created_at: now
       )
     end
   end

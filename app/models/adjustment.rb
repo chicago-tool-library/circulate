@@ -4,14 +4,14 @@ class Adjustment < ApplicationRecord
   enum payment_source: {
     cash: "cash",
     square: "square",
-    forgiveness: "forgiveness",
+    forgiveness: "forgiveness"
   }
 
   enum kind: {
     fine: "fine",
     membership: "membership",
     donation: "donation",
-    payment: "payment",
+    payment: "payment"
   }
 
   belongs_to :adjustable, polymorphic: true, optional: true
