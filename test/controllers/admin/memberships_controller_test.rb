@@ -20,8 +20,8 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
         post admin_member_memberships_url(@member), params: {
           admin_payment: {
             amount_dollars: 12,
-            payment_source: payment_source,
-          },
+            payment_source: payment_source
+          }
         }
       end
       assert_response :redirect

@@ -8,8 +8,8 @@ module ApplicationHelper
     attrs = {
       data: {
         controller: "portal",
-        action: "ajax:error->portal#replaceContent ajax:success->portal#replaceContent",
-      },
+        action: "ajax:error->portal#replaceContent ajax:success->portal#replaceContent"
+      }
     }
     tag.div attrs, &block
   end

@@ -9,7 +9,7 @@ module Volunteer
         singleEvents: true,
         timeZone: "America/Chicago",
         timeMin: start_time.rfc3339,
-        timeMax: end_time.rfc3339,
+        timeMax: end_time.rfc3339
       })
 
       if events_response.status == 200
@@ -43,12 +43,12 @@ module Volunteer
       attendees << {
         email: attendee.email,
         displayName: attendee.name,
-        responseStatus: "accepted",
+        responseStatus: "accepted"
       }
 
       # update event
       patch_response = client.patch(event_url, json: {
-        attendees: attendees,
+        attendees: attendees
       })
       if patch_response.status == 200
         event = gcal_event_to_event(patch_response.parse)
@@ -70,7 +70,7 @@ module Volunteer
         client_id: ENV.fetch("GCAL_CLIENT_ID"),
         client_secret: ENV.fetch("GCAL_CLIENT_SECRET"),
         grant_type: "refresh_token",
-        refresh_token: ENV.fetch("GCAL_REFRESH_TOKEN"),
+        refresh_token: ENV.fetch("GCAL_REFRESH_TOKEN")
       })
       token = token_response.parse["access_token"]
       http.auth("Bearer #{token}")
@@ -83,7 +83,7 @@ module Volunteer
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
         attendees: gcal_event.fetch("attendees", []).map { |attendee|
           Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
-        },
+        }
       )
     end
   end

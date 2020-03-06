@@ -33,14 +33,14 @@ module Signup
                   quantity: "1",
                   base_price_money: {
                     amount: payment.amount.cents,
-                    currency: "USD",
-                  },
-                }],
-              },
+                    currency: "USD"
+                  }
+                }]
+              }
             },
-            note: "Circulate signup payment",
-          },
-        },
+            note: "Circulate signup payment"
+          }
+        }
       ]
 
       mock_client = Minitest::Mock.new
@@ -92,14 +92,14 @@ module Signup
                   quantity: "1",
                   base_price_money: {
                     amount: payment.amount.cents,
-                    currency: "USD",
-                  },
-                }],
-              },
+                    currency: "USD"
+                  }
+                }]
+              }
             },
-            note: "Circulate signup payment",
-          },
-        },
+            note: "Circulate signup payment"
+          }
+        }
       ]
 
       mock_client = Minitest::Mock.new

@@ -1,6 +1,6 @@
 class GiftMembership < ApplicationRecord
   monetize :amount_cents, numericality: {
-    greater_than_or_equal_to: 0,
+    greater_than_or_equal_to: 0
   }
 
   composed_of :code, class_name: "GiftMembershipCode", mapping: %w[code value], allow_nil: true
