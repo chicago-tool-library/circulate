@@ -590,7 +590,7 @@ form.membership-amount {
 
 .admin {
   .info-box {
-    background: #f7f8f9;
+    background: white;
     padding: .5em .7em;
     margin-bottom: 1em;
     p:last-of-type {
@@ -684,12 +684,12 @@ table.monthly-adjustments {
   width: 100%;
 }
 
-.member-panel {
+.member-panel, .item-panel {
   background: white;
   h6 {
     margin-bottom: 0;
   }
-  .member-stats {
+  .member-stats, .item-stats {
     list-style: none outside;
     margin: 0 0 1.2rem;
     li {
@@ -699,6 +699,38 @@ table.monthly-adjustments {
     }
     .feather-icon + a {
       margin-left: -0.3em;
+    }
+  }
+}
+
+.item-panel {
+  .item-image {
+    &, & img {
+      border-top-left-radius: 0.1rem;
+      border-top-right-radius: 0.1rem;
+    }
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.item-description {
+  margin: 1rem .5rem;
+}
+
+.item-stats {
+  li.tags {
+    svg, .tag-stats {
+      float: left;
+    }
+  }
+  .tag-stats {
+    list-style: none outside;
+    float: left;
+    margin: 0;
+    li {
+      margin: 0;
     }
   }
 }

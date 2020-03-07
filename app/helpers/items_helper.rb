@@ -58,4 +58,9 @@ module ItemsHelper
     end
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
+
+  def loan_description(loan)
+    link = link_to preferred_or_default_name(loan.member), [:admin, loan.member]
+    "Currently on loan to ".html_safe + link + "."
+  end
 end
