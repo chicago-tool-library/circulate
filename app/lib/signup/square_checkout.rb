@@ -1,7 +1,7 @@
 module Signup
   class SquareCheckout
-    def initialize(access_token:, location_id:, now: Time.current)
-      @client = Square::Client.new(access_token: access_token)
+    def initialize(access_token:, location_id:, environment: "production", now: Time.current)
+      @client = Square::Client.new(access_token: access_token, environment: environment)
       @location_id = location_id
       @now = now
     end
@@ -22,12 +22,12 @@ module Signup
                 quantity: "1",
                 base_price_money: {
                   amount: amount.cents,
-                  currency: "USD",
-                },
-              }],
-            },
+                  currency: "USD"
+                }
+              }]
+            }
           },
-          note: "Circulate signup payment",
+          note: "Circulate signup payment"
         }
       )
       if checkout_response.success?
@@ -40,7 +40,7 @@ module Signup
     def fetch_transaction(member:, transaction_id:)
       transaction_response = @client.transactions.retrieve_transaction(
         location_id: @location_id,
-        transaction_id: transaction_id,
+        transaction_id: transaction_id
       )
 
       if transaction_response.success?

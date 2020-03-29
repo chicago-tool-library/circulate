@@ -19,6 +19,9 @@
 /storage/*
 !/storage/.keep
 
+/exports/*
+!/exports/.keep
+
 /public/assets
 .byebug_history
 .env

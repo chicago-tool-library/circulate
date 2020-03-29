@@ -1,12 +1,8 @@
-<div class="columns">
-  <div class="column col-12">
-
-    <%= index_header "Gift Memberships" do %>
-      <%= link_to 'New Gift Membership', new_admin_gift_membership_path, class: "btn" %>
-    <% end %>
-
-  </div>
-</div>
+<%= content_for :header do %>
+  <%= index_header "Gift Memberships" do %>
+    <%= link_to 'New Gift Membership', new_admin_gift_membership_path, class: "btn" %>
+  <% end %>
+<% end %>
 
 <div class="columns">
   <div class="column col-9-sm col-12-xs">

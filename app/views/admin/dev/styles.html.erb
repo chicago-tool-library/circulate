@@ -1,0 +1,36 @@
+<%= content_for :header do %>
+  <h1>Application Styles</h1>
+<% end %>
+
+<div class="style-guide">
+
+  <div class="colors">
+    <div class="columns">
+      <div class="column col-2 primary">Primary</div>
+      <div class="column col-2 secondary">Secondary</div>
+    </div>
+    <div class="columns">
+      <div class="column col-2 success">Success</div>
+      <div class="column col-2 warning">Warning</div>
+      <div class="column col-2 error">Error</div>
+    </div>
+    <div class="columns">
+      <div class="column col-2 dark">Dark</div>
+      <div class="column col-2 gray-dark">Gray dark</div>
+      <div class="column col-2 gray">Gray</div>
+      <div class="column col-2 gray-light">Gray light</div>
+      <div class="column col-2 light">Light</div>
+    </div>
+  </div>
+
+    <%= action_bar "This is informational", icon: "info" do %>
+      <%= button_tag 'Learn More', class: "btn btn-sm" %>
+    <% end %>
+    <%= action_bar "This is a warning", icon: "alert-triangle", type: :warning do %>
+      <%= button_tag 'Proceed Anyway', class: "btn btn-sm" %>
+    <% end %>
+    <%= action_bar "This is an error", icon: "x-octagon", type: :error do %>
+      <%= button_tag 'Oh no, This is Bad', class: "btn btn-sm" %>
+    <% end %>
+
+</div>

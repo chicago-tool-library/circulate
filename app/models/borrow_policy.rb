@@ -1,6 +1,6 @@
 class BorrowPolicy < ApplicationRecord
   monetize :fine_cents, numericality: {
-    greater_than_or_equal_to: 0, less_than_or_equal_to: 10,
+    greater_than_or_equal_to: 0, less_than_or_equal_to: 10
   }
 
   validates :name,
@@ -21,6 +21,10 @@ class BorrowPolicy < ApplicationRecord
 
   def self.not_uniquely_numbered_ids
     not_uniquely_numbered.pluck(:id)
+  end
+
+  def complete_name
+    "#{name} (#{code})"
   end
 
   after_save :make_only_default

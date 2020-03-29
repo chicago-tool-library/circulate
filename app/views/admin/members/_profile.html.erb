@@ -1,11 +1,16 @@
+<% content_for :header do %>
+  <%= index_header preferred_or_default_name(@member) do %>
+    <%= link_to 'Edit Member', edit_admin_member_path(@member), class: "btn" %>
+    <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
+  <% end %>
+<% end %>
+
 <div class="columns">
   <div class="column col-4 col-sm-12">
 
     <div class="panel member-panel">
       <div class="panel-header">
-        <h1 class="h3">
-          <%= preferred_or_default_name(@member) %>
-        </h1>
+      <h6>Member Details</h6>
       </div>
       <div class="panel-body">
         <ul class="member-stats">
@@ -37,10 +42,6 @@
           <% end %>
         </ul>
 
-      </div>
-      <div class="panel-footer">
-        <%= link_to 'Edit Member', edit_admin_member_path(@member), class: "btn" %>
-        <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
       </div>
     </div>
   </div>

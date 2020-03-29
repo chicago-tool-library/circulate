@@ -23,7 +23,7 @@ module Signup
         Step.new(:profile, name: "Profile"),
         Step.new(:agreement, name: agreement.name),
         Step.new(:payment, name: "Payment"),
-        Step.new(:complete, name: "Complete"),
+        Step.new(:complete, name: "Complete")
       ]
     end
 

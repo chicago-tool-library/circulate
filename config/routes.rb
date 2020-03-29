@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       resource :image, only: [:edit, :update]
       resource :loan_history, only: :show
       resource :manual_import, only: [:edit, :update]
+      resource :item_history, only: :show
     end
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]
@@ -67,10 +68,13 @@ Rails.application.routes.draw do
     if Rails.env.development?
       post "/dev/time", to: "dev#set_time"
       delete "/dev/time", to: "dev#clear_time"
+      get "/dev/styles", to: "dev#styles"
     end
 
     get "/", to: redirect("/admin/items")
   end
+
+  get "/s/:id", to: "short_links#show", as: :short_link
 
   resources :items, only: [:index, :show]
   get "search", to: "searches#show"

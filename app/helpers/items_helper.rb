@@ -10,7 +10,7 @@ module ItemsHelper
       "pending" => "just acquired; not ready to loan",
       "active" => "available to loan",
       "maintenance" => "needs repair; do not loan",
-      "retired" => "no longer part of our inventory",
+      "retired" => "no longer part of our inventory"
     }
     Item.statuses.map do |key, value|
       ["#{key.titleize} (#{explainations[key]})", key]
@@ -26,7 +26,7 @@ module ItemsHelper
   def tag_nav(tags, current_tag = nil)
     return unless tags
 
-    tag.div class: "nav" do
+    tag.div class: "nav tag-nav" do
       tags.map { |a_tag|
         tag.li(class: "nav-item #{"active" if a_tag == current_tag}") {
           link_to(a_tag.name, tag: a_tag.id)
@@ -57,5 +57,10 @@ module ItemsHelper
       ["", "Unavailable"]
     end
     tag.span label, class: "label item-checkout-status #{class_name}"
+  end
+
+  def loan_description(loan)
+    link = link_to preferred_or_default_name(loan.member), [:admin, loan.member]
+    "Currently on loan to ".html_safe + link + "."
   end
 end

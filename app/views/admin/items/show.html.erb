@@ -1,121 +1,16 @@
-<ul class="breadcrumb">
-  <li class="breadcrumb-item">
-    <%= link_to "Items", admin_items_path %>
-  </li>
-  <li class="breadcrumb-item">
-    <%= link_to @item.name, admin_item_path(@item) %>
-  </li>
-</ul>
+<%= render "profile" do %>
 
-<%= index_header @item.name do %>
-  <%= link_to 'Edit', edit_admin_item_path(@item), class: "btn" %>
-  <% if @item.image.attached? %>
-    <%= link_to 'Edit Photo', edit_admin_item_image_path(@item), class: "btn" %>
-  <% end %>
-  <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn" %>
-  <%= link_to 'Loan History', admin_item_loan_history_path(@item), class: "btn" %>
-  <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn" %>
-<% end %>
-
-<% if @item.checked_out_exclusive_loan %>
-  <div class="columns">
-    <div class="column col-12">
-      <div class="info-box clearfix member-membership">
-        <p class="float-left">
-          <i class="icon icon-people"></i>
-          Currently on loan to <%= link_to preferred_or_default_name(@item.checked_out_exclusive_loan.member), [:admin, @item.checked_out_exclusive_loan.member] %>.
-        </p>
-        <p class="float-right">Due on <%= checked_out_date(@item.checked_out_exclusive_loan.due_at) %>.</p>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<div class="columns">
-  <div class="column col-4">
-    <p>
-      <strong>Number:</strong>
-      <%= @item.number %>
-    </p>
-
-    <p>
-      <strong>Size:</strong>
-      <%= @item.size %>
-    </p>
-
-    <p>
-      <strong>Strength:</strong>
-      <%= @item.strength %>
-    </p>
-
-    <p>
-      <strong>Brand:</strong>
-      <%= @item.brand %>
-    </p>
-
-    <p>
-      <strong>Model:</strong>
-      <%= @item.model %>
-    </p>
-
-    <p>
-      <strong>Serial:</strong>
-      <%= @item.serial %>
-    </p>
-
-    <p>
-      <strong>Categories:</strong>
-      <%= item_tags(@item) %>
-    </p>
-
-    <% if @item.manual.attached? %>
-      <p>
-        <strong>Manual:</strong>
-        <%= link_to @item.manual.filename, url_for(@item.manual) %>
-      </p>
-    <% end %>
-  </div>
-
-  <div class="column col-4">
-    <% if @item.checkout_notice.present? %>
-      <div class="info-box">
-        <p>
-          <strong>Checkout Notice:</strong><br>
-          <%= @item.checkout_notice %>
-        </p>
-      </div>
-    <% end %>
-
+  <div class="item-description">
     <%= @item.description %>
   </div>
 
-  <div class="column col-4">
-    <% if @item.image.attached? %>
-      <%= link_to edit_admin_item_image_path(@item) do %>
-        <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
-      <% end %>
-    <% end %>
-  </div>
-</div>
-
-<h2>Edit history</h2>
-
-<div class="timeline item-edit-history">
-  <% @item.audits.reverse.each do |audit| %>
-    <div class="timeline-item" id="<%= dom_id(audit) %>">
-      <div class="timeline-left">
-        <a class="timeline-icon" href="#<%= dom_id(audit) %>"></a>
-      </div>
-      <div class="timeline-content">
-        <div class="tile-content">
-          <p class="tile-title"><%= audit.created_at.to_s(:short) %> by <%= audit.user.email %></p>
-        </div>
-        <% audit.audited_changes.each do |key, values| %>
-          <p class="tile-subtitle">
-            <em><%= key %></em> set to <em><%= audit.action == "create" ? values : values.last %></em></li>
-          </p>
-        <% end %>
-      </div>
+  <% if @item.checkout_notice.present? %>
+    <div class="info-box">
+      <p>
+        <strong>Checkout Notice:</strong><br>
+        <%= @item.checkout_notice %>
+      </p>
     </div>
   <% end %>
-</div>
+
+<% end %>

@@ -20,7 +20,7 @@ module Signup
         amount: Money.new(1200),
         email: @member.email,
         return_to: "http://www.example.com/signup/payments/callback",
-        member_id: @member.id,
+        member_id: @member.id
       }]
 
       SquareCheckout.stub :new, mock_checkout do
@@ -62,7 +62,7 @@ module Signup
       mock_checkout = Minitest::Mock.new
       mock_checkout.expect :fetch_transaction, mock_result, [{
         member: @member,
-        transaction_id: "abcd1234",
+        transaction_id: "abcd1234"
       }]
 
       SquareCheckout.stub :new, mock_checkout do

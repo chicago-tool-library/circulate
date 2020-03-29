@@ -1,4 +1,6 @@
-<%= index_header "Borrow Policies" %>
+<%= content_for :header do %>
+  <%= index_header "Borrow Policies" %>
+<% end %>
 
 <% if @borrow_policies.any? %>
   <div class="responsive-table seven-columns">

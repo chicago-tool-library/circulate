@@ -3,7 +3,7 @@ class Notification < ApplicationRecord
     pending: "pending",
     sent: "sent",
     bounced: "bounced",
-    error: "error",
+    error: "error"
   }
 
   belongs_to :member, required: false

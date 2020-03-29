@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
   def set_time_zone(&block)
     Time.use_zone("America/Chicago", &block)
   end
+
+  def render_not_found
+    render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+  end
 end
