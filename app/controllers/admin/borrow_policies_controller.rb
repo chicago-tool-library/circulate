@@ -1,6 +1,6 @@
 module Admin
   class BorrowPoliciesController < BaseController
-    before_action :set_borrow_policy, only: [:show, :edit, :update, :destroy]
+    before_action :set_borrow_policy, only: [:edit, :update, :destroy]
 
     def index
       @borrow_policies = BorrowPolicy.alpha_by_code
@@ -10,22 +10,10 @@ module Admin
     end
 
     def update
-      respond_to do |format|
-        if @borrow_policy.update(borrow_policy_params)
-          format.html { redirect_to admin_borrow_policies_url, notice: "Borrow policy was successfully updated." }
-          format.json { render :show, status: :ok, location: [:admin, @borrow_policy] }
-        else
-          format.html { render :edit }
-          format.json { render json: @borrow_policy.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
-    def destroy
-      @borrow_policy.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_borrow_policies_url, notice: "Borrow policy was successfully destroyed." }
-        format.json { head :no_content }
+      if @borrow_policy.update(borrow_policy_params)
+        redirect_to admin_borrow_policies_url, success: "Borrow policy was successfully updated."
+      else
+        render :edit
       end
     end
 
@@ -36,7 +24,7 @@ module Admin
     end
 
     def borrow_policy_params
-      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default)
+      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default, :renewal_limit)
     end
   end
 end

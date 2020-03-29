@@ -18,18 +18,18 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
     "fine",
     "membership",
     "donation",
-    "payment",
+    "payment"
   ]
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness",
+    "forgiveness"
   ]
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error",
+    "error"
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
     t.string "code", null: false
     t.string "description"
     t.boolean "default", default: false, null: false
+    t.integer "renewal_limit", default: 0, null: false
   end
 
   create_table "documents", force: :cascade do |t|

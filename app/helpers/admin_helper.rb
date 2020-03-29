@@ -31,6 +31,23 @@ module AdminHelper
     end
   end
 
+  def renewal_tooltop(renewable, renewal_limit, &block)
+    if renewable
+      tag.span(&block)
+    else
+      message = if renewal_limit == 0
+        "Item can not be renewed."
+      else
+        "Renewed the maximum number of times (#{renewal_limit})."
+      end
+      tag.span(
+        class: "tooltip tooltip-bottom",
+        data: {tooltip: message},
+        &block
+      )
+    end
+  end
+
   def action_bar(message, icon: "", type: nil, &block)
     icon = feather_icon(icon) unless icon.empty?
     klass = "action-bar-#{type} " unless type.nil?

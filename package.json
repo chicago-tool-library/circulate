@@ -12,6 +12,7 @@
     "jquery": "^3.4.1",
     "mjml": "^4.4.0",
     "selectize": "^0.12.6",
+    "smooth-scroll-into-view-if-needed": "^1.1.27",
     "spectre.css": "^0.5.8",
     "stimulus": "^1.1.1",
     "trix": "^1.0.0",
