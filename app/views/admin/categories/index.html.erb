@@ -1,0 +1,24 @@
+<% content_for :header do %
+  <%= index_header "Categories" do %>
+    <%= link_to 'New Category', new_admin_category_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="responsive-table five-columns">
+  <%= tag.div "Name", class: "responsive-table-header" %>
+  <%= tag.div "Items", class: "responsive-table-header" %>
+  <%= tag.div "Slug", class: "responsive-table-header" %>
+  <%= tag.div "", class: "responsive-table-header" %>
+
+  <% @categories.each do |category| %>
+    <%= tag.div category.name, class: "responsive-table-cell" %>
+    <%= tag.div category.categorizations_count, class: "responsive-table-cell" %>
+    <%= tag.div category.slug, class: "responsive-table-cell" %>
+
+    <%= tag.div class: "responsive-table-cell" do %>
+      <%= link_to 'Show', [:admin, category] %>
+      <%= link_to 'Edit', edit_admin_category_path(category) %>
+      <%= link_to 'Destroy', [:admin, category], method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+</div>

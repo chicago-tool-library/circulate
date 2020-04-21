@@ -9,14 +9,14 @@ module Admin
     def index
       item_scope = Item.includes(:checked_out_exclusive_loan)
 
-      if params[:tag]
-        @tag = Tag.where(id: params[:tag]).first
-        redirect_to(items_path, error: "Tag not found") && return unless @tag
+      if params[:category]
+        @category = Category.where(id: params[:category]).first
+        redirect_to(items_path, error: "Category not found") && return unless @category
 
-        item_scope = @tag.items
+        item_scope = @category.items
       end
 
-      item_scope = item_scope.includes(:tags, :borrow_policy).with_attached_image.order(index_order)
+      item_scope = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
 
       @pagy, @items = pagy(item_scope)
     end
@@ -34,17 +34,17 @@ module Admin
     def new
       if params[:item_id]
         item_to_duplicate = Item.find(params[:item_id])
-        @item = Item.new(item_to_duplicate.attributes.except(:id).merge(tag_ids: item_to_duplicate.tag_ids))
+        @item = Item.new(item_to_duplicate.attributes.except(:id).merge(category_ids: item_to_duplicate.category_ids))
       else
-        @item = Item.new(tag_ids: [params[:tag_id]])
+        @item = Item.new(category_ids: [params[:category_id]])
       end
 
-      set_tags
+      set_categories
     end
 
     # GET /items/1/edit
     def edit
-      set_tags
+      set_categories
     end
 
     # POST /items
@@ -57,7 +57,7 @@ module Admin
           format.html { redirect_to admin_item_number_path(@item), success: "Item was successfully created." }
           format.json { render :show, status: :created, location: @item }
         else
-          set_tags
+          set_categories
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @item.errors, status: :unprocessable_entity }
         end
@@ -74,7 +74,7 @@ module Admin
           format.html { redirect_to [:admin, @item], success: "Item was successfully updated." }
           format.json { render :show, status: :ok, location: @item }
         else
-          set_tags
+          set_categories
           format.html { render :edit }
           format.json { render json: @item.errors, status: :unprocessable_entity }
         end
@@ -97,8 +97,8 @@ module Admin
       @item = Item.find(params[:id])
     end
 
-    def set_tags
-      @tags = Tag.sorted_by_name
+    def set_categories
+      @categories = Category.sorted_by_name
     end
 
     def item_params
@@ -108,7 +108,7 @@ module Admin
     def all_item_params
       params.require(:item).permit(
         :name, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :borrow_policy_id, :quantity, :checkout_notice, :manual, :delete_manual, tag_ids: []
+        :borrow_policy_id, :quantity, :checkout_notice, :manual, :delete_manual, category_ids: []
       )
     end
 

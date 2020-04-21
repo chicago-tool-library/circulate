@@ -4,9 +4,7 @@
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
       hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
-  <%# <%= form.summarized_collection_select :tag_ids, @tags, :id, proc{|t| t.name }, {}, multiple: true %>
-
-  <%= form.tag_select :tag_ids, @tags %>
+  <%= form.tag_select :category_ids, @categories %>
 
   <% if item.new_record? %>
     <details class="form-group">

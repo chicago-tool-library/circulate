@@ -2,10 +2,10 @@ class Item < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: {prefix: true}}
 
-  has_many :taggings, dependent: :destroy
-  has_many :tags, through: :taggings,
-                  before_add: :cache_tag_ids,
-                  before_remove: :cache_tag_ids
+  has_many :categorizations, dependent: :destroy
+  has_many :categories, through: :categorizations,
+                        before_add: :cache_category_ids,
+                        before_remove: :cache_category_id
   has_many :loans, dependent: :destroy
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
@@ -26,6 +26,7 @@ class Item < ApplicationRecord
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
+  scope :within_category, ->(category) { joins(:categories).where("categories.id = ?", category.id) }
 
   scope :by_name, -> { order(name: :asc) }
 
@@ -81,19 +82,19 @@ class Item < ApplicationRecord
     end
   end
 
-  def cache_tag_ids(tag)
-    @current_tag_ids ||= Tagging.where(item_id: id).pluck(:tag_id).sort
+  def cache_category_ids(category)
+    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sortt
   end
 
   # called when item is created
   def audited_attributes
-    super.merge("tag_ids" => tag_ids.sort)
+    super.merge("category_ids" => category_ids.sort)
   end
 
   # called when item is updated
   def audited_changes
-    if @current_tag_ids && @current_tag_ids != tag_ids.sort
-      super.merge("tag_ids" => [@current_tag_ids, tag_ids.sort])
+    if @current_category_ids.present? && @current_category_ids != category_ids.sort
+      super.merge("category_ids" => [@current_category_ids, category_ids.sort])
     else
       super
     end

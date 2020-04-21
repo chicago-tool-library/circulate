@@ -1,6 +1,6 @@
-class Tag < ApplicationRecord
-  has_many :taggings, dependent: :destroy
-  has_many :items, through: :taggings
+class Category < ApplicationRecord
+  has_many :categorizations, dependent: :destroy
+  has_many :items, through: :categorizations
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
@@ -10,6 +10,8 @@ class Tag < ApplicationRecord
   scope :sorted_by_name, -> { order("name ASC") }
 
   def assign_slug
-    self.slug = name.parameterize
+    if slug.blank?
+      self.slug = name.parameterize
+    end
   end
 end

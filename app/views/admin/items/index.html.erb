@@ -8,10 +8,10 @@
   <div class="column col-12">
     <div class="items-summary">
       Viewing
-      <% if @tag %>
-        <strong><%= pluralize @pagy.count, "item" %></strong> tagged with
+      <% if @category %>
+        <strong><%= pluralize @pagy.count, "item" %></strong> assigned to
         <span class="chip">
-          <%= @tag.name %>
+          <%= @category.name %>
           <%= link_to "", {tag: nil}, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
         </span>,
       <% else %>
@@ -43,15 +43,15 @@
     <% if @items.any? %>
       <%= render partial: "admin/items/items", locals: { items: @items } %>
       <%== pagy_bootstrap_nav(@pagy) %>
-    <% elsif @tag %>
-      <%= empty_state "There are no items in this tag", subtitle:"Create one?" do %>
-        <%= link_to "Add an Item to #{@tag.name}", new_admin_item_path(tag_id: @tag.id), class: "btn btn-primary" %>
+    <% elsif @category %>
+      <%= empty_state "There are no items in this category", subtitle:"Create one?" do %>
+        <%= link_to "Add an Item to #{@category.name}", new_admin_item_path(category_id: @category.id), class: "btn btn-primary" %>
       <% end %>
     <% end %>
   </div>
 
   <div class="column col-3 hide-xs">
-    <%= tag_nav(Tag.sorted_by_name, @tag) %>
+    <%= category_nav(Category.sorted_by_name, @category) %
   </div>
 
 </div>

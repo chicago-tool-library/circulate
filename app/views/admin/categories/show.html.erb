@@ -1,0 +1,17 @@
+<%= content_for :header do %>
+  <%= index_header @category.name do %>
+    <%= link_to 'Edit', edit_admin_category_path(@category), class: "btn" %>
+  <% end %>
+<% end %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @category.name %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @category.slug %>
+</p>
+
+<%= link_to 'Edit', edit_admin_category_path(@category) %> |
