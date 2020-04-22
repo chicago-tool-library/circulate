@@ -11,7 +11,10 @@
   <%= tag.div "", class: "responsive-table-header" %>
 
   <% @categories.each do |category| %>
-    <%= tag.div category.name, class: "responsive-table-cell" %>
+    <%= tag.div class: "responsive-table-cell", style: "padding-left: #{category.path_ids.size - 1}rem;" do %>
+      <%= "&rdsh;".html_safe if category.parent_id.present? %>
+      <%= category.name %>
+    <% end %>
     <%= tag.div category.categorizations_count, class: "responsive-table-cell" %>
     <%= tag.div category.slug, class: "responsive-table-cell" %>
 

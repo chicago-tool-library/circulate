@@ -3,7 +3,7 @@ module Admin
     before_action :set_category, only: [:show, :edit, :update, :destroy]
 
     def index
-      @categories = Category.sorted_by_name
+      @categories = Category.entire_tree
     end
 
     def show

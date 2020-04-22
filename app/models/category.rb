@@ -10,6 +10,8 @@ class Category < ApplicationRecord
 
   before_validation :assign_slug
 
+  validate :prevent_circular_reference
+
   scope :sorted_by_name, -> { order("name ASC") }
   scope :top_level, -> { where(parent_id: nil) }
 
@@ -19,31 +21,31 @@ class Category < ApplicationRecord
     end
   end
 
-  def descendents
-    self_and_descendents - [self]
+  def prevent_circular_reference
+    category = self
+    while (parent = category.parent)
+      if parent.id == id
+        errors.add(:parent_id, "can't be set to a child")
+        break
+      end
+      category = parent
+    end
   end
 
-  def self_and_descendents
-    self.class.tree_for(self)
-  end
-
-  def self.tree_for(instance)
-    where("#{table_name}.id IN (#{tree_sql_for(instance)})").order("#{table_name}.id")
-  end
-
-  def self.tree_sql_for(instance)
-    <<-SQL
-      WITH RECURSIVE search_tree(id, path) AS (
-          SELECT id, ARRAY[id]
-          FROM #{table_name}
-          WHERE id = #{instance.id}
-        UNION ALL
-          SELECT #{table_name}.id, path || #{table_name}.id
-          FROM search_tree
-          JOIN #{table_name} ON #{table_name}.parent_id = search_tree.id
-          WHERE NOT #{table_name}.id = ANY(path)
+  def self.entire_tree
+    find_by_sql <<-SQL
+      WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
+        SELECT id, name, slug, categorizations_count, parent_id, ARRAY[name], ARRAY[id]
+        FROM categories
+      WHERE parent_id IS NULL
+      UNION ALL
+        SELECT categories.id, categories.name, categories.slug, categories.categorizations_count,
+               categories.parent_id, path_names || categories.name, path_ids || categories.id
+        FROM search_tree
+        JOIN categories ON categories.parent_id = search_tree.id
+        WHERE NOT categories.id = ANY(path_ids)
       )
-      SELECT id FROM search_tree ORDER BY path
+      SELECT * FROM search_tree ORDER BY path_names;
     SQL
   end
 end
