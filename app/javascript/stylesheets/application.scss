@@ -133,7 +133,7 @@ $photo-width: 187px;
       grid-column: 2;
       grid-row: span 2;
     }
-    .items-table-tags {
+    .items-table-categories {
       grid-column: 3;
       grid-row: span 2;
       font-size: 0.7rem;
@@ -170,7 +170,7 @@ $photo-width: 187px;
       grid-row: span 1;
       position: relative;
     }
-    .items-table-tags {
+    .items-table-categories {
       grid-column: 2/4;
       grid-row: span 1;
       font-size: 0.6rem;
@@ -752,12 +752,12 @@ table.monthly-adjustments {
 }
 
 .item-stats {
-  li.tags {
-    svg, .tag-stats {
+  li.categories {
+    svg, .category-stats {
       float: left;
     }
   }
-  .tag-stats {
+  .category-stats {
     list-style: none outside;
     float: left;
     margin: 0;

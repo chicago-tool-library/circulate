@@ -25,8 +25,7 @@ class Item < ApplicationRecord
   scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
-  scope :with_tag, ->(tag) { joins(:tags).merge(tag.items) }
-  scope :within_category, ->(category) { joins(:categories).where("categories.id = ?", category.id) }
+  scope :with_category, ->(category) { joins(:categories).merge(category.items) }
 
   scope :by_name, -> { order(name: :asc) }
 

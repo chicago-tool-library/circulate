@@ -11,16 +11,16 @@ task export_items_to_csv: :environment do
       "complete_number",
       "code",
       "number",
-      "tags",
+      "categories",
       *columns
     ]
-    Item.includes(:borrow_policy, :tags).in_batches(of: 100) do |items|
+    Item.includes(:borrow_policy, :categories).in_batches(of: 100) do |items|
       items.each do |item|
         csv << [
           item.complete_number,
           item.borrow_policy.code,
           item.number,
-          item.tags.map(&:name).sort.join(", "),
+          item.categories.map(&:name).sort.join(", "),
           *item.attributes.values_at(*columns)
         ]
       end

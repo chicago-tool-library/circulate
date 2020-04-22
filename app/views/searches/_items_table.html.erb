@@ -24,9 +24,9 @@
         <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
         <% end %>
 
-        <%= tag.div class: "items-table-tags" do %>
-        <% item.tags.each do |tag| %>
-            <%= link_to tag.name, items_path(tag: tag.id) %><br>
+        <%= tag.div class: "items-table-categories" do %>
+        <% item.categories.each do |category| %>
+            <%= link_to category.name, items_path(category: category.id) %><br>
         <% end %>
         <% end %>
         <div class="item-table-divider"></div>

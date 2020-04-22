@@ -6,6 +6,8 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
+    3.times { create(:category) }
+
     visit admin_categories_url
     assert_selector "h1", text: "Categories"
   end
@@ -22,6 +24,7 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "updating a Category" do
+    @category = create(:category)
     visit admin_categories_url
     click_on "Edit", match: :first
 
@@ -33,7 +36,7 @@ class CategoriesTest < ApplicationSystemTestCase
   end
 
   test "destroying a Category" do
-    @categoroy = create(:category)
+    @category = create(:category)
     visit admin_categories_url
     page.accept_confirm do
       click_on "Destroy", match: :first

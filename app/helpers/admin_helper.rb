@@ -65,9 +65,9 @@ module AdminHelper
       value = Item.statuses.invert[value]
     when "borrow_policy_id"
       value = BorrowPolicy.find(value).complete_name
-    when "tag_ids"
-      key = "tags"
-      value = Tag.find(value).map(&:name).join(", ")
+    when "category_ids"
+      key = "categories"
+      value = Category.find(value).map(&:name).join(", ")
     end
 
     if audit.action == "create" && value.blank?

@@ -9,7 +9,7 @@ module Admin
         format.html
         format.csv do
           text = CSV.generate(headers: true) { |csv|
-            csv << %w[email first_name phone_number created_at tags]
+            csv << %w[email first_name phone_number created_at categories]
 
             @members.each do |user|
               values = user.attributes.values_at("email", "preferred_name", "phone_number", "created_at")

@@ -34,7 +34,7 @@
       </div>
     <% end %>
 
-    <%= tag.div class: "items-table-tags" do %>
+    <%= tag.div class: "items-table-categories" do %>
       <% item.categories.each do |category| %>
         <%= link_to tag.name, admin_items_path(category: category.id) %>
       <% end %>
