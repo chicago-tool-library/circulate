@@ -5,7 +5,7 @@ class Item < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
-                        before_remove: :cache_category_id
+                        before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
@@ -82,7 +82,7 @@ class Item < ApplicationRecord
   end
 
   def cache_category_ids(category)
-    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sortt
+    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
   end
 
   # called when item is created
