@@ -28,8 +28,8 @@ module ItemsHelper
 
     tag.div class: "nav tag-nav" do
       categories.map { |category|
-        tag.li(class: "nav-item #{"active" if category == current_category}") {
-          link_to(category.name, category: category.id)
+        tag.li(class: "nav-item #{"active" if category.id == current_category&.id}") {
+          "&nbsp;&nbsp;".html_safe * category.path_ids.size + link_to(category.name, category: category.id)
         }
       }.join.html_safe
     end

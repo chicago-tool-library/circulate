@@ -10,7 +10,7 @@ module Admin
       item_scope = Item.includes(:checked_out_exclusive_loan)
 
       if params[:category]
-        @category = Category.where(id: params[:category]).first
+        @category = CategoryNode.where(id: params[:category]).first
         redirect_to(items_path, error: "Category not found") && return unless @category
 
         item_scope = @category.items

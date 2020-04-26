@@ -11,7 +11,7 @@
   <%= tag.div "", class: "responsive-table-header" %>
 
   <% @categories.each do |category| %>
-    <%= tag.div class: "responsive-table-cell", style: "padding-left: #{category.path_ids.size - 1}rem;" do %>
+    <%= tag.div class: "responsive-table-cell", style: "padding-left: #{category.path_ids.size - 1}rem;", id: dom_id(category) do %>
       <%= "&rdsh;".html_safe if category.parent_id.present? %>
       <%= category.name %>
     <% end %>
@@ -19,9 +19,9 @@
     <%= tag.div category.slug, class: "responsive-table-cell" %>
 
     <%= tag.div class: "responsive-table-cell" do %>
-      <%= link_to 'Show', [:admin, category] %>
+      <%= link_to 'Show', admin_category_path(category) %>
       <%= link_to 'Edit', edit_admin_category_path(category) %>
-      <%= link_to 'Destroy', [:admin, category], method: :delete, data: { confirm: 'Are you sure?' } %>
+      <%= link_to 'Destroy', admin_category_path(category), method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end %>
   <% end %>
 </div>

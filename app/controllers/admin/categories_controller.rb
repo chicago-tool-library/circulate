@@ -1,9 +1,11 @@
 module Admin
   class CategoriesController < BaseController
+    include ActionView::RecordIdentifier
+
     before_action :set_category, only: [:show, :edit, :update, :destroy]
 
     def index
-      @categories = Category.entire_tree
+      @categories = CategoryNode.all
     end
 
     def show
@@ -22,7 +24,7 @@ module Admin
       @category = Category.new(category_params)
 
       if @category.save
-        redirect_to [:admin, @category], success: "Category was successfully created."
+        redirect_to admin_categories_url(anchor: dom_id(@category)), success: "Category was successfully created."
       else
         set_all_categories
         render :new
@@ -31,7 +33,7 @@ module Admin
 
     def update
       if @category.update(category_params)
-        redirect_to [:admin, @category], success: "Category was successfully updated."
+        redirect_to admin_categories_url(anchor: dom_id(@category)), success: "Category was successfully updated."
       else
         set_all_categories
         render :edit

@@ -51,7 +51,7 @@
   </div>
 
   <div class="column col-3 hide-xs">
-    <%= category_nav(Category.sorted_by_name, @category) %
+    <%= category_nav(CategoryNode.all, @category) %>
   </div>
 
 </div>
