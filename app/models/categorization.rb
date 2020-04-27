@@ -3,7 +3,7 @@ class Categorization < ApplicationRecord
   belongs_to :category, counter_cache: true
   validates :category_id, uniqueness: {scope: :item_id}
 
-  after_save :refresh_category_nodes
+  after_commit :refresh_category_nodes
 
   # update categorization_counts
   def refresh_category_nodes

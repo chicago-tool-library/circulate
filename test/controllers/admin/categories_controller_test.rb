@@ -24,12 +24,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       post admin_categories_url, params: {category: {name: "New Category"}}
     end
 
-    assert_redirected_to admin_category_url(Category.last)
-  end
-
-  test "should show category" do
-    get admin_category_url(@category)
-    assert_response :success
+    assert_redirected_to admin_categories_url(anchor: "category_#{Category.last.id}")
   end
 
   test "should get edit" do
@@ -39,7 +34,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update category" do
     patch admin_category_url(@category), params: {category: {name: @category.name, slug: @category.slug}}
-    assert_redirected_to admin_category_url(@category)
+    assert_redirected_to admin_categories_url(anchor: "category_#{@category.id}")
   end
 
   test "should destroy category" do

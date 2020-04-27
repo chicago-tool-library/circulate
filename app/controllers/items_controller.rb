@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
     item_scope = Item.listed_publicly.includes(:checked_out_exclusive_loan)
 
     if params[:category]
-      @category = Category.where(id: params[:category]).first
+      @category = CategoryNode.where(id: params[:category]).first
       redirect_to(items_path, error: "Category not found") && return unless @category
 
       item_scope = @category.items
@@ -13,6 +13,7 @@ class ItemsController < ApplicationController
 
     item_scope = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
 
+    @categories = CategoryNode.all
     @pagy, @items = pagy(item_scope)
   end
 

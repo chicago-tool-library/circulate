@@ -19,7 +19,6 @@ class CategoriesTest < ApplicationSystemTestCase
     fill_in "Name", with: "Category Name"
     click_on "Create Category"
 
-    assert_text "Category was successfully created"
     assert_text "Category Name"
   end
 
@@ -31,7 +30,6 @@ class CategoriesTest < ApplicationSystemTestCase
     fill_in "Name", with: "Modified Name"
     click_on "Update Category"
 
-    assert_text "Category was successfully updated"
     assert_text "Modified Name"
   end
 
@@ -42,7 +40,6 @@ class CategoriesTest < ApplicationSystemTestCase
       click_on "Destroy", match: :first
     end
 
-    assert_text "Category was successfully destroyed"
     refute_text @category.name
   end
 end

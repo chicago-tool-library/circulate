@@ -69,7 +69,7 @@
 
           <%= tag.div class: "items-table-categories" do %>
             <% item.categories.each do |category| %>
-              <%= link_to category.name, {category: category.id} %><br>
+              <%= link_to category.name, {category: category.id} %>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
@@ -86,7 +86,7 @@
 
   <div class="column col-3 hide-xs">
     <strong>View items tagged with:</strong><br/>
-    <%= category_nav(Category.sorted_by_name, @category) %>
+    <%= category_nav(@categories, @category) %>
   </div>
 
 </div>

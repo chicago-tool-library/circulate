@@ -4,24 +4,29 @@
   <% end %>
 <% end %>
 
-<div class="responsive-table four-columns">
-  <%= tag.div "Name", class: "responsive-table-header" %>
-  <%= tag.div "Items", class: "responsive-table-header" %>
-  <%= tag.div "Slug", class: "responsive-table-header" %>
-  <%= tag.div "", class: "responsive-table-header" %>
+<div class="categories-table">
+  <%= tag.div "Name", class: "categories-table-header categories-table-name" %>
+  <%= tag.div "Items", class: "categories-table-header categories-table-count" %>
 
   <% @categories.each do |category| %>
-    <%= tag.div class: "responsive-table-cell", style: "padding-left: #{category.path_ids.size - 1}rem;", id: dom_id(category) do %>
-      <%= "&rdsh;".html_safe if category.parent_id.present? %>
-      <%= category.name %>
-    <% end %>
-    <%= tag.div category.categorizations_count, class: "responsive-table-cell" %>
-    <%= tag.div category.slug, class: "responsive-table-cell" %>
+    <%= tag.div class: "categories-table-row" do %>
+      <%= tag.div class: "categories-table-name nested-#{category.path_ids.size - 1} highlightable", id: dom_id(category) do %>
+        <%= "&rdsh;".html_safe if category.parent_id.present? %>
+        <%= category.name %>
+      <% end %>
 
-    <%= tag.div class: "responsive-table-cell" do %>
-      <%= link_to 'Show', admin_category_path(category) %>
-      <%= link_to 'Edit', edit_admin_category_path(category) %>
-      <%= link_to 'Destroy', admin_category_path(category), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <%= tag.div class: "categories-table-count" do %>
+        <%= category.tree_categorizations_count %>
+      <% end %>
+
+      <%= tag.div class: "categories-table-actions" do %>
+        <%= link_to edit_admin_category_path(category), class: "btn btn-sm" do %>
+          Edit
+        <% end %>
+        <%= link_to admin_category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm" do %>
+          Destroy
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 </div>

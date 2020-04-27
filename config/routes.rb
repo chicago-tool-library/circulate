@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
-    resources :categories
+    resources :categories, except: :show
     resources :gift_memberships
     resources :items do
       get :number

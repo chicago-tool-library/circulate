@@ -5,11 +5,11 @@ class Category < ApplicationRecord
   belongs_to :parent, class_name: "Category", required: false
   has_many :children, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
 
   before_validation :assign_slug
-  after_save :refresh_category_nodes
+  after_commit :refresh_category_nodes
 
   validate :prevent_circular_reference
 
@@ -17,7 +17,7 @@ class Category < ApplicationRecord
   scope :top_level, -> { where(parent_id: nil) }
 
   def assign_slug
-    if slug.blank? || name_changed?
+    if slug.blank? || (name_changed? && !slug_changed?)
       self.slug = name.parameterize
     end
   end

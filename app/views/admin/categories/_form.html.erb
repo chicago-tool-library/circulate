@@ -1,9 +1,12 @@
-<%= form_with(model: [:admin, category], local: true, builder: SpectreFormBuilder) do |form| %>
+<%= form_with(model: [:admin, category], builder: SpectreFormBuilder) do |form| %>
   <%= form.errors %>
 
   <%= form.collection_select :parent_id, CategoryNode.all, :id, ->(c){ c.path_names.map{|n| h(n)}.join(" &rBarr; ").html_safe }, include_blank: "-" %>
   <%= form.text_field :name %>
-  <%= form.text_field :slug %>
+
+  <% if category.errors[:slug].any? %>
+    <%= form.text_field :slug %>
+  <% end %>
 
   <%= form.actions do %>
     <%= form.submit %>
