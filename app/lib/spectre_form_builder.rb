@@ -1,4 +1,6 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
+  include ERB::Util
+
   alias parent_text_field text_field
   alias parent_collection_select collection_select
   alias parent_button button
@@ -35,9 +37,10 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def tag_select(method, tags)
+    namer = ->(c) { c.path_names.map { |n| h(n) }.join(" &rBarr; ").html_safe }
     @template.tag.div(data: {controller: "tag-editor"}) do
       sequence_layout(method, options) do
-        parent_collection_select method, tags, :id, proc { |t| t.name }, {}, data: {target: "tag-editor.input"}, multiple: true
+        parent_collection_select method, tags, :id, namer, {}, data: {target: "tag-editor.input"}, multiple: true
       end
     end
   end

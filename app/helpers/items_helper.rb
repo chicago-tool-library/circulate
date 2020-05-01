@@ -1,8 +1,8 @@
 module ItemsHelper
   include Pagy::Frontend
 
-  def item_tags(item)
-    item.tags.map(&:name).sort.join(", ")
+  def item_categories(item)
+    item.categories.map(&:name).sort.join(", ")
   end
 
   def item_status_options
@@ -23,13 +23,13 @@ module ItemsHelper
     end
   end
 
-  def tag_nav(tags, current_tag = nil)
-    return unless tags
+  def category_nav(categories, current_category = nil)
+    return unless categories
 
     tag.div class: "nav tag-nav" do
-      tags.map { |a_tag|
-        tag.li(class: "nav-item #{"active" if a_tag == current_tag}") {
-          link_to(a_tag.name, tag: a_tag.id)
+      categories.map { |category|
+        tag.li(class: "nav-item #{"active" if category.id == current_category&.id}") {
+          "&nbsp;&nbsp;".html_safe * category.path_ids.size + link_to(category.name, category: category.id)
         }
       }.join.html_safe
     end

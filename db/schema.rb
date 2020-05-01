@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_203157) do
+ActiveRecord::Schema.define(version: 2020_04_25_192757) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -120,6 +120,26 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
     t.string "description"
     t.boolean "default", default: false, null: false
     t.integer "renewal_limit", default: 0, null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "categorizations_count", default: 0, null: false
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
+
+  create_table "categorizations", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_categorizations_on_category_id"
+    t.index ["item_id", "category_id"], name: "index_categorizations_on_item_id_and_category_id"
+    t.index ["item_id"], name: "index_categorizations_on_item_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -233,24 +253,6 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.bigint "tag_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id", "tag_id"], name: "index_taggings_on_item_id_and_tag_id"
-    t.index ["item_id"], name: "index_taggings_on_item_id"
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-  end
-
-  create_table "tags", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "taggings_count", default: 0, null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -275,14 +277,15 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
+  add_foreign_key "categories", "categories", column: "parent_id"
+  add_foreign_key "categorizations", "categories"
+  add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "notifications", "members"
-  add_foreign_key "taggings", "items"
-  add_foreign_key "taggings", "tags"
 
   create_view "loan_summaries", sql_definition: <<-SQL
       SELECT loans.item_id,
@@ -333,5 +336,44 @@ ActiveRecord::Schema.define(version: 2020_02_08_203157) do
       sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
      FROM adjustments
     GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "category_nodes", materialized: true, sql_definition: <<-SQL
+      WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
+           SELECT categories.id,
+              categories.name,
+              categories.slug,
+              categories.categorizations_count,
+              categories.parent_id,
+              ARRAY[categories.name] AS "array",
+              ARRAY[categories.id] AS "array"
+             FROM categories
+            WHERE (categories.parent_id IS NULL)
+          UNION ALL
+           SELECT categories.id,
+              categories.name,
+              categories.slug,
+              categories.categorizations_count,
+              categories.parent_id,
+              (search_tree_1.path_names || categories.name),
+              (search_tree_1.path_ids || categories.id)
+             FROM (search_tree search_tree_1
+               JOIN categories ON ((categories.parent_id = search_tree_1.id)))
+            WHERE (NOT (categories.id = ANY (search_tree_1.path_ids)))
+          )
+   SELECT search_tree.id,
+      search_tree.name,
+      search_tree.slug,
+      search_tree.categorizations_count,
+      search_tree.parent_id,
+      search_tree.path_names,
+      search_tree.path_ids,
+      ( SELECT sum(st.categorizations_count) AS sum
+             FROM search_tree st
+            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_categorizations_count,
+      ( SELECT array_agg(st.id) AS array_agg
+             FROM search_tree st
+            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
+     FROM search_tree
+    ORDER BY search_tree.path_names;
   SQL
 end

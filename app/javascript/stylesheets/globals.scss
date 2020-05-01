@@ -13,6 +13,8 @@ $secondary-color-light: lighten($secondary-color, 20%);
 
 $background-color: #F9F6F2;
 
+$background-color-dark: darken($background-color, 5%);
+
 @mixin default-button{
   border-color: lighten($gray-color-light, 5%);
   transition: none;

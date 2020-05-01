@@ -6,8 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-YAML.load_file("db/tags.yaml").each do |name|
-  Tag.create!(name: name)
+def create_category(name, kids: nil, parent_id: nil)
+  category = Category.create!(name: name, parent_id: parent_id)
+  return if kids.nil?
+
+  case kids
+  when String
+    create_category(kids, parent_id: category.id)
+  when Array
+    kids.each do |kid|
+      create_category(kid, parent_id: category.id)
+    end
+  when Hash
+    create_category(kids.keys.first, kids: kids.values.first, parent_id: category.id)
+  else
+    raise "kids was not a String, Array, or Hash"
+  end
+end
+
+YAML.load_file("db/categories.yaml").each do |name, kids|
+  create_category(name, kids: kids)
 end
 
 User.create!(email: "admin@chicagotoollibrary.org", password: "password")

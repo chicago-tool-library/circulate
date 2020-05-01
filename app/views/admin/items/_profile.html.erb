@@ -33,10 +33,10 @@
           <%= icon_stat "package", @item.brand, title: "brand" %>
           <%= icon_stat "box", @item.model, title: "model" %>
           <%= icon_stat "hash", @item.serial, title: "serial number" %>
-          <%= icon_stat "tag", title: "tags", css_class: "tags" do %>
-            <% if @item.tags.size > 0 %>
-              <ul class="tag-stats">
-                <% @item.tags.map(&:name).sort.each do |name| %>
+          <%= icon_stat "tag", title: "categories", css_class: "categories" do %>
+            <% if @item.categories.size > 0 %>
+              <ul class="category-stats">
+                <% @item.categories.map(&:name).sort.each do |name| %>
                   <li><%= name %></li>
                 <% end %>
               </ul>

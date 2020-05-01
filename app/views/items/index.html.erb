@@ -67,9 +67,9 @@
             <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
           <% end %>
 
-          <%= tag.div class: "items-table-tags" do %>
-            <% item.tags.each do |tag| %>
-              <%= link_to tag.name, {tag: tag.id} %><br>
+          <%= tag.div class: "items-table-categories" do %>
+            <% item.categories.each do |category| %>
+              <%= link_to category.name, {category: category.id} %>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
@@ -86,7 +86,7 @@
 
   <div class="column col-3 hide-xs">
     <strong>View items tagged with:</strong><br/>
-    <%= tag_nav(Tag.sorted_by_name, @tag) %>
+    <%= category_nav(@categories, @category) %>
   </div>
 
 </div>
