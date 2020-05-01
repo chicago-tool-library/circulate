@@ -98,7 +98,7 @@ module Admin
     end
 
     def set_categories
-      @categories = Category.sorted_by_name
+      @categories = CategoryNode.all
     end
 
     def item_params
