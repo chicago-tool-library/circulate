@@ -1,49 +1,51 @@
 require "test_helper"
 
-class RenewalsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+module Admin
+  class RenewalsControllerTest < ActionDispatch::IntegrationTest
+    include Devise::Test::IntegrationHelpers
 
-  setup do
-    @user = create(:user)
-    sign_in @user
-  end
-
-  test "should renew loan" do
-    @loan = create(:loan)
-
-    assert_difference("Loan.count") do
-      post admin_renewals_url(loan_id: @loan)
+    setup do
+      @user = create(:user)
+      sign_in @user
     end
 
-    assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{Loan.last.id}")
+    test "should renew loan" do
+      @loan = create(:loan)
 
-    @loan.reload
+      assert_difference("Loan.count") do
+        post admin_renewals_url(loan_id: @loan)
+      end
 
-    assert @loan.ended_at
-    assert_equal 1, @loan.renewals.count
+      assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{Loan.last.id}")
 
-    @renewal = @loan.renewals.first
-    assert_equal 1, @renewal.renewal_count
+      @loan.reload
 
-    assert_equal @loan.item_id, @renewal.item_id
-    assert_equal @loan.member_id, @renewal.member_id
-    assert_equal @loan.ended_at, @renewal.created_at
-    refute @renewal.ended_at
-  end
+      assert @loan.ended_at
+      assert_equal 1, @loan.renewals.count
 
-  test "should delete renewal" do
-    @loan = create(:loan)
-    @renewal = @loan.renew!
+      @renewal = @loan.renewals.first
+      assert_equal 1, @renewal.renewal_count
 
-    assert_difference("Loan.count", -1) do
-      delete admin_renewal_url(@renewal)
+      assert_equal @loan.item_id, @renewal.item_id
+      assert_equal @loan.member_id, @renewal.member_id
+      assert_equal @loan.ended_at, @renewal.created_at
+      refute @renewal.ended_at
     end
 
-    assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
+    test "should delete renewal" do
+      @loan = create(:loan)
+      @renewal = @loan.renew!
 
-    @loan.reload
+      assert_difference("Loan.count", -1) do
+        delete admin_renewal_url(@renewal)
+      end
 
-    refute @loan.ended_at
-    assert_equal 0, @loan.renewals.count
+      assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
+
+      @loan.reload
+
+      refute @loan.ended_at
+      assert_equal 0, @loan.renewals.count
+    end
   end
 end
