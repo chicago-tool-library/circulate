@@ -37,6 +37,10 @@ class Member < ApplicationRecord
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
 
+  def assign_number
+    self.number = (self.class.maximum(:number) || 0) + 1
+  end
+
   def account_balance
     Money.new(adjustments.calculate("SUM", :amount_cents))
   end
