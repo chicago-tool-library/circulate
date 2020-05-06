@@ -19,9 +19,12 @@ class MemberVerificationTest < ApplicationSystemTestCase
 
     @member.reload
 
-    within ".member-stats" do
-      assert_content "Info verified"
+    within ".member-stats.member" do
       assert_content @member.number
+    end
+
+    within ".member-stats.account" do
+      assert_content "Info verified"
     end
 
     assert_content "needs to start a membership"
