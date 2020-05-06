@@ -17,7 +17,10 @@ class MemberVerificationTest < ApplicationSystemTestCase
     first("label", text: "Address verified").click
     click_on "Verify Member"
 
+    @member.reload
+
     assert_content "Info verified"
+    assert_content @member.number
 
     assert_content "needs to start a membership"
     click_on "Create Membership"

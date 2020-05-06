@@ -25,7 +25,7 @@ class Member < ApplicationRecord
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
       "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
   }
-  scope :verified, -> { where(status: "verified") }
+  scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loan_summaries).merge(LoanSummary.active_on(date)).distinct }
