@@ -1,17 +1,19 @@
-<div class="responsive-table four-columns members-table">
-  <%= tag.div "Name", class: "responsive-table-header" %>
-  <%= tag.div "Email", class: "responsive-table-header" %>
-  <%= tag.div "Phone", class: "responsive-table-header" %>
-  <%= tag.div "", class: "responsive-table-header" %>
+<div class="members-table">
+  <%= tag.div "#", class: "members-table-number members-table-header" %>
+  <%= tag.div "Name", class: "members-table-name members-table-header" %>
+  <%= tag.div "Email", class: "members-table-email members-table-header" %>
+  <%= tag.div "Phone", class: "members-table-phone members-table-header" %>
+  <%= tag.div "Status", class: "members-table-status members-table-header" %>
 
   <% @members.each do |member| %>
-    <%= tag.div class: "responsive-table-cell" do %>
+    <%= tag.div member.number || "-", class: "members-table-number" %>
+    <%= tag.div class: "members-table-name" do %>
       <%= link_to preferred_or_default_name(member), [:admin, member] %>
       <%= tag.div(member_pronoun(member), class: "label") if member.pronoun %>
     <% end %>
-    <%= tag.div member.email, class: "responsive-table-cell" %>
-    <%= tag.div format_phone_number(member.phone_number), class: "responsive-table-cell" %>
-    <%= tag.div class: "responsive-table-cell" do %>
+    <%= tag.div member.email, class: "members-table-email" %>
+    <%= tag.div format_phone_number(member.phone_number), class: "members-table-phone" %>
+    <%= tag.div class: "members-table-status" do %>
       <% if member.active_membership %>
         <span class="chip">membership</span>
       <% end %>
