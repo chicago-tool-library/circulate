@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get "/s/:id", to: "short_links#show", as: :short_link
 
   resources :items, only: [:index, :show]
+  resources :documents, only: :show
   get "search", to: "searches#show"
 
   root to: "home#index"

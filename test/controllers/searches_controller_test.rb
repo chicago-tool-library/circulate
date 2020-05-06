@@ -1,8 +1,6 @@
 require "test_helper"
 
 class ItemsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
-
   test "searches with a query" do
     create(:item, name: "Hammer")
 
