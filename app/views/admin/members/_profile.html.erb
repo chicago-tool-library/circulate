@@ -13,18 +13,19 @@
       <h6>Member Details</h6>
       </div>
       <div class="panel-body">
-        <ul class="member-stats">
+        <ul class="member-stats member">
+          <li><%= feather_icon "hash" %> <%= @member.number %></li>
           <li><%= feather_icon "message-square" %> <%= member_pronoun(@member) %></li>
           <li><%= feather_icon "user" %> <%= @member.full_name %></li>
           <li><%= feather_icon "mail" %> <%= @member.email %></li>
           <li><%= feather_icon "smartphone" %> <%= format_phone_number @member.phone_number %></li>
         </ul>
 
-        <ul class="member-stats">
+        <ul class="member-stats tools">
           <li><%= feather_icon "tool" %> <%= pluralize(@member.loans.checked_out.count, "item") %> checked out</li>
         </ul>
 
-        <ul class="member-stats">
+        <ul class="member-stats account">
           <% if @member.status_verified? %>
             <li><%= feather_icon "user-check" %> Info verified</li>
           <% end %>

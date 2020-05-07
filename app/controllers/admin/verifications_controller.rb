@@ -9,12 +9,15 @@ module Admin
     def update
       @verification = Verification.new(verification_params)
       if @verification.valid?
-        @verification.copy_to(@member)
-        @member.status_verified!
+        @member.transaction do
+          @verification.copy_to(@member)
+          @member.assign_number
+          @member.status_verified!
+        end
         flash[:success] = "#{@member.preferred_name}'s membership has been activated."
         redirect_to admin_member_url(@member)
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 

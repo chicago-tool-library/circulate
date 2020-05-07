@@ -105,6 +105,21 @@ header.navbar {
 
 
 
+.members-table {
+  display: grid;
+  grid-row-gap: .5rem;
+  grid-column-gap: .3rem;
+  grid-template-columns: .3fr 1fr 1fr 1fr 1fr;
+
+  .members-table-header {
+    font-weight: bold;
+  }
+
+  .members-table-number {
+    text-align: center;
+  }
+}
+
 $photo-width: 187px;
 
 .items-table {

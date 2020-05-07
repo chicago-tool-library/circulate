@@ -25,7 +25,7 @@ class Member < ApplicationRecord
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
       "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
   }
-  scope :verified, -> { where(status: "verified") }
+  scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
   scope :closed, -> { where(status: statuses.slice(:suspended, :deactivated).values) }
   scope :active_on, ->(date) { joins(:loan_summaries).merge(LoanSummary.active_on(date)).distinct }
@@ -36,6 +36,10 @@ class Member < ApplicationRecord
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
+
+  def assign_number
+    self.number = (self.class.maximum(:number) || 0) + 1
+  end
 
   def account_balance
     Money.new(adjustments.calculate("SUM", :amount_cents))
