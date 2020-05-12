@@ -13,10 +13,21 @@ module Admin
     end
 
     def show
-      query = params[:query]
-      @items = Item.search_by_anything(query).by_name
-      @items_by_number = Item.number_contains(query)
-      @members = Member.matching(query).open.by_full_name
+      @query = params[:query]
+      @exact = params[:exact] != "false"
+
+      @member_by_number = Member.find_by(number: @query)
+      @item_by_number = Item.find_by(number: @query)
+
+      if !@member_by_number && !@item_by_number
+        @exact = false
+      end
+
+      if !@exact && @query.size >= 2
+        # @items_by_number = Item.number_contains(query)
+        @items = Item.search_by_anything(@query).by_name
+        @members = Member.matching(@query).open.by_full_name
+      end
     end
   end
 end
