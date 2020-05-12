@@ -5,7 +5,7 @@
   <%= tag.div "Phone", class: "members-table-phone members-table-header" %>
   <%= tag.div "Status", class: "members-table-status members-table-header" %>
 
-  <% @members.each do |member| %>
+  <% members.each do |member| %>
     <%= tag.div member.number || "-", class: "members-table-number" %>
     <%= tag.div class: "members-table-name" do %>
       <%= link_to preferred_or_default_name(member), [:admin, member] %>

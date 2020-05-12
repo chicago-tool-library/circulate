@@ -4,35 +4,42 @@
 
 <div class="columns">
   <div class="column col-12">
+
     <p>
-      Showing search results for
-      <strong><%= params[:query] %></strong>.
+      <%= "Showing #{@exact ? "exact" : "fuzzy"} matches for #{@query}." %>
+      <% if @exact %>
+        <%= link_to "Show fuzzy matches", admin_search_path(query: @query, exact: false), class: "btn" %>
+      <% end %>
     </p>
 
     <div class="search-result-type">
-      <% if @items_by_number.any? %>
-        <h2>Items by number</h2>
-        <%= render partial: "admin/items/items", locals: { items: @items_by_number } %>
+      <h2>Exact matches</h2>
+      <% if @member_by_number %>
+        <%= render partial: "admin/members/members", locals: { members: [@member_by_number] } %>
+      <% else %>
+        <p>No member with number <strong><%= @query %></strong> found.</p>
+      <% end %>
+
+      <% if @item_by_number %>
+        <%= render partial: "admin/items/items", locals: { items: [@item_by_number] } %>
+      <% else %>
+        <p>No item with number <strong><%= @query %></strong> found.</p>
       <% end %>
     </div>
 
-    <div class="search-result-type">
-      <h2>Items</h2>
-      <% if @items.any? %>
+    <% unless @items.blank? %>
+      <div class="search-result-type">
+        <h2>Items</h2>
         <%= render partial: "admin/items/items", locals: { items: @items } %>
-      <% else %>
-        <p>No matching items found.</p> 
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
-    <div class="search-result-type">
-      <h2>Members</h2>
-      <% if @members.any? %>
+    <% unless @members.blank? %>
+      <div class="search-result-type">
+        <h2>Members</h2>
         <%= render partial: "admin/members/members", locals: { members: @members } %>
-      <% else %>
-        <p>No matching members found.</p> 
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
   </div>
 </div>
