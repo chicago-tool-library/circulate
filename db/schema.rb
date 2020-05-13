@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_134052) do
-
+ActiveRecord::Schema.define(version: 2020_05_12_184900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,18 +18,18 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
     "fine",
     "membership",
     "donation",
-    "payment",
+    "payment"
   ]
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness",
+    "forgiveness"
   ]
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error",
+    "error"
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -248,6 +247,17 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_reservations_on_creator_id"
+    t.index ["item_id"], name: "index_reservations_on_item_id"
+    t.index ["member_id"], name: "index_reservations_on_member_id"
+  end
+
   create_table "short_links", force: :cascade do |t|
     t.string "url", null: false
     t.string "slug", null: false
@@ -289,6 +299,9 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "notifications", "members"
+  add_foreign_key "reservations", "items"
+  add_foreign_key "reservations", "members"
+  add_foreign_key "reservations", "users", column: "creator_id"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
