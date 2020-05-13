@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     resources :loans, only: [:index, :create, :update, :destroy]
     resources :renewals, only: [:create, :destroy]
     resources :members, except: :destroy do
-      resource :check_outs, only: :create
+      resource :lookups, only: :create
       resource :verification, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index

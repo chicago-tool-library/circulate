@@ -1,5 +1,5 @@
 module Admin
-  class CheckOutsController < BaseController
+  class LookupsController < BaseController
     include PortalRendering
 
     def create
@@ -9,7 +9,7 @@ module Admin
       if @check_out.valid?
         render_to_portal "admin/loans/form"
       else
-        render_to_portal "admin/check_outs/form", status: 422
+        render_to_portal "admin/lookups/form", status: 422
       end
     end
 
