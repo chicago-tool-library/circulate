@@ -66,6 +66,7 @@
     <% if @member.status_verified? %>
       <ul class="tab">
         <%= tab_link "Current Loans", admin_member_path(@member) %>
+        <%= tab_link "Reservations", admin_member_reservations_path(@member) %>
         <li class="tab-item">
           <% if @member.loans.any? %>
             <%= tab_link "Previous Loans", admin_member_loan_history_path(@member) %>
@@ -73,8 +74,8 @@
             No Loans
           <% end %>
         </li>
-        <%= tab_link "Membership History", admin_member_memberships_path(@member) %>
-        <%= tab_link "Account History", admin_member_adjustments_path(@member) %>
+        <%= tab_link "Membership", admin_member_memberships_path(@member) %>
+        <%= tab_link "Account", admin_member_adjustments_path(@member) %>
       </ul>
     <% end %>
 

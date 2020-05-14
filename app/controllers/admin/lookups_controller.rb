@@ -7,7 +7,9 @@ module Admin
       @check_out = CheckOut.new(check_out_params.merge(member: @member))
 
       if @check_out.valid?
-        render_to_portal "admin/loans/form"
+        @item = @check_out.item
+        @loan = Loan.lend(@item, to: @member)
+        render_to_portal "admin/lookups/create"
       else
         render_to_portal "admin/lookups/form", status: 422
       end

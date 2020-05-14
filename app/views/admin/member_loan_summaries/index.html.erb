@@ -19,8 +19,9 @@
             <% if loan.ended? %>    
               returned <%= date_with_time_title loan.ended_at %>
             <% else %>
-              due <%= date_with_time_title loan.due_at %></td>
+              due <%= date_with_time_title loan.due_at %>
             <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

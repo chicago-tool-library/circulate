@@ -56,6 +56,7 @@
         </div>
         <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
           <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
+
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
@@ -94,6 +95,7 @@
                 <%= undo_button summary.latest_loan %>
               <% end %>
             </div>
+
           </div>
         <% end %>
         <div class="divider"></div>
@@ -101,24 +103,6 @@
     </div>
   <% end %>
 
-  <% if @member.active_membership && @member.address_verified %>
-    <div class="columns member-checkout-items">
-      <div class="column col-12">
-        <h2 id="checkout" class="h4">Lend Item</h2>
-        <% if @member.loan_summaries.overdue.count > 0 %>
-          <div class="toast">
-            <p>
-              <i class="icon icon-stop"></i>
-                Overdue items must be returned before additional items can be checked out.
-              </p>
-          </div>
-        <% else %>
-          <%= portal do %>
-            <%= render partial: "admin/lookups/form" %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  <%= render partial: "admin/members/lookup", locals: {member: @member}%>
 
 <% end %>

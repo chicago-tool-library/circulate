@@ -16,6 +16,8 @@ export default class extends Controller {
       this.element.appendChild(doc.body.firstChild);
     }
     this.installNoCacheMetaTag();
+
+    document.dispatchEvent(new Event("turbolinks:load"));
   }
 
   installNoCacheMetaTag() {

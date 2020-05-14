@@ -1,6 +1,7 @@
 class MemberMailer < ApplicationMailer
   helper :items
   helper :members
+  helper :date
 
   before_action :generate_uuid
   after_action :set_uuid_header

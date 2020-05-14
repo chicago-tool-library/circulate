@@ -37,7 +37,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
 
     assert_content "Expires"
 
-    click_on "Membership History"
+    click_on "Membership"
     assert_content "$35.00"
   end
 
@@ -64,7 +64,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
     click_on "Save Membership"
     assert_content "Expires"
 
-    click_on "Membership History"
+    click_on "Membership"
     assert_content "$43.00"
   end
 
@@ -94,7 +94,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
 
     assert_content "Expires"
 
-    click_on "Membership History"
+    click_on "Membership"
     assert_content "$0.00"
   end
 end
