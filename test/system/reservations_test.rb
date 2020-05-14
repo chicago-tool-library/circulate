@@ -47,7 +47,24 @@ class ReservationsTest < ApplicationSystemTestCase
     refute_text @item.name
   end
 
-  test "can't check out item to member with overdue item" do
+  test "shows if an item is reserved during checkout" do
+    @item = create(:item)
+    @reservation = create(:reservation, item: @item, creator: @user)
+    @member = create(:verified_member_with_membership)
+
+    visit admin_member_reservations_url(@member)
+
+    fill_in :admin_check_out_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-lookup-items" do
+      click_on "reserved by 1 person"
+    end
+
+    assert_text @member.preferred_name
+  end
+
+  test "can't reserve an item for member with overdue item" do
     @overdue_item = create(:item)
     @member = create(:verified_member_with_membership)
 

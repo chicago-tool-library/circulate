@@ -10,5 +10,5 @@
     <%= feather_icon "clipboard" %>Reserve
   <% end %>
 
-  4th in line
+  <%= (@item.reservations.count + 1).ordinalize %> in line
 <% end %>

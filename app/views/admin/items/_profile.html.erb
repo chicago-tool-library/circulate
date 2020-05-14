@@ -62,6 +62,7 @@
 
     <ul class="tab">
       <%= tab_link "Description", admin_item_path(@item) %>
+      <%= tab_link "Reservations", admin_item_item_reservations_path(@item) %>
       <%= tab_link 'Loan History', admin_item_loan_history_path(@item) %>
       <%= tab_link 'Edit History', admin_item_item_history_path(@item) %>
     </ul>

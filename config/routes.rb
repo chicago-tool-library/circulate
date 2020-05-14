@@ -36,9 +36,10 @@ Rails.application.routes.draw do
     resources :items do
       get :number
       resource :image, only: [:edit, :update]
+      resource :item_history, only: :show
       resource :loan_history, only: :show
       resource :manual_import, only: [:edit, :update]
-      resource :item_history, only: :show
+      resources :item_reservations, only: :index
     end
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]

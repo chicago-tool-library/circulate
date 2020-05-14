@@ -11,6 +11,16 @@
       </div>
     <% end %>
 
+    <% if @item.reservations.any? %>
+      <div class="toast">
+        <p>
+          This item has been
+          <%= link_to "reserved by #{pluralize(@item.reservations.count, "person")}",
+                admin_item_item_reservations_path(@item) %>.
+        </p>
+      </div>
+    <% end %>
+
     <p>
       <%= render partial: "admin/loans/form" %> 
     </p>
