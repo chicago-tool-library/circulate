@@ -7,7 +7,7 @@ class Item < ApplicationRecord
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
-  has_many :reservations, dependent: :destroy
+  has_many :holds, dependent: :destroy
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy

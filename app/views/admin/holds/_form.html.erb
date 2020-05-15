@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, @member, @member.reservations.new], builder: SpectreFormBuilder) do |form| %>
+<%= form_with(model: [:admin, @member, @member.holds.new], builder: SpectreFormBuilder) do |form| %>
   <% if flash.key? :checkout_error %>
     <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>
@@ -7,8 +7,8 @@
   <%= form.hidden_field :item_id, value: @item.id %>
 
   <%= button_tag class: "btn" do %> 
-    <%= feather_icon "clipboard" %>Reserve
+    <%= feather_icon "clipboard" %>Hold
   <% end %>
 
-  <%= (@item.reservations.count + 1).ordinalize %> in line
+  <%= (@item.holds.count + 1).ordinalize %> in line
 <% end %>

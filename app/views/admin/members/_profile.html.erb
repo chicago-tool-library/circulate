@@ -66,7 +66,7 @@
     <% if @member.status_verified? %>
       <ul class="tab">
         <%= tab_link "Current Loans", admin_member_path(@member) %>
-        <%= tab_link "Reservations", admin_member_reservations_path(@member) %>
+        <%= tab_link "Holds", admin_member_holds_path(@member) %>
         <li class="tab-item">
           <% if @member.loans.any? %>
             <%= tab_link "Previous Loans", admin_member_loan_history_path(@member) %>

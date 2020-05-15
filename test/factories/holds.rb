@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :reservation do
+  factory :hold do
     member
     item
   end

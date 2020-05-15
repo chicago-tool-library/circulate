@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class ReservationsTest < ApplicationSystemTestCase
+class HoldsTest < ApplicationSystemTestCase
   def setup
     sign_in_as_admin
   end
@@ -8,7 +8,7 @@ class ReservationsTest < ApplicationSystemTestCase
   test "pending member can't reserve items" do
     @member = create(:member)
 
-    visit admin_member_reservations_url(@member)
+    visit admin_member_holds_url(@member)
 
     assert_content "need to be verified"
     refute_selector ".member-lookup-items"
@@ -27,7 +27,7 @@ class ReservationsTest < ApplicationSystemTestCase
     @item = create(:item)
     @member = create(:verified_member_with_membership)
 
-    visit admin_member_reservations_url(@member)
+    visit admin_member_holds_url(@member)
 
     fill_in :admin_check_out_item_number, with: @item.number
     click_on "Lookup"
@@ -36,23 +36,23 @@ class ReservationsTest < ApplicationSystemTestCase
       assert_text @item.complete_number
       assert_text @item.name
     end
-    click_on "Reserve"
+    click_on "Hold"
 
-    within "#current-reservations" do
+    within "#current-holds" do
       assert_text @item.name
       click_on "Cancel"
     end
 
-    refute_selector "#current-reservations"
+    refute_selector "#current-holds"
     refute_text @item.name
   end
 
   test "shows if an item is reserved during checkout" do
     @item = create(:item)
-    @reservation = create(:reservation, item: @item, creator: @user)
+    @hold = create(:hold, item: @item, creator: @user)
     @member = create(:verified_member_with_membership)
 
-    visit admin_member_reservations_url(@member)
+    visit admin_member_holds_url(@member)
 
     fill_in :admin_check_out_item_number, with: @item.number
     click_on "Lookup"
@@ -70,7 +70,7 @@ class ReservationsTest < ApplicationSystemTestCase
 
     create(:loan, item: @overdue_item, member: @member, due_at: 1.week.ago)
 
-    visit admin_member_reservations_url(@member)
+    visit admin_member_holds_url(@member)
 
     assert_text "Overdue items must be returned"
 

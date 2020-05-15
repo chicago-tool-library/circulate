@@ -162,6 +162,17 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
+  create_table "holds", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_holds_on_creator_id"
+    t.index ["item_id"], name: "index_holds_on_item_id"
+    t.index ["member_id"], name: "index_holds_on_member_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -177,7 +188,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
     t.string "strength"
     t.integer "quantity"
     t.string "checkout_notice"
-    t.integer "reservations_count", default: 0, null: false
+    t.integer "holds_count", default: 0, null: false
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
@@ -248,17 +259,6 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
-  create_table "reservations", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "item_id", null: false
-    t.bigint "creator_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id"], name: "index_reservations_on_creator_id"
-    t.index ["item_id"], name: "index_reservations_on_item_id"
-    t.index ["member_id"], name: "index_reservations_on_member_id"
-  end
-
   create_table "short_links", force: :cascade do |t|
     t.string "url", null: false
     t.string "slug", null: false
@@ -295,14 +295,14 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
+  add_foreign_key "holds", "items"
+  add_foreign_key "holds", "members"
+  add_foreign_key "holds", "users", column: "creator_id"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "notifications", "members"
-  add_foreign_key "reservations", "items"
-  add_foreign_key "reservations", "members"
-  add_foreign_key "reservations", "users", column: "creator_id"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (

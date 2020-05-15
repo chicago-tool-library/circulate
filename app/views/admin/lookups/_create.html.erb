@@ -11,12 +11,12 @@
       </div>
     <% end %>
 
-    <% if @item.reservations.any? %>
+    <% if @item.holds.any? %>
       <div class="toast">
         <p>
           This item has been
-          <%= link_to "reserved by #{pluralize(@item.reservations.count, "person")}",
-                admin_item_item_reservations_path(@item) %>.
+          <%= link_to "reserved by #{pluralize(@item.holds.count, "person")}",
+                admin_item_item_holds_path(@item) %>.
         </p>
       </div>
     <% end %>
@@ -26,7 +26,7 @@
     </p>
 
     <p>
-      <%= render partial: "admin/reservations/form" %> 
+      <%= render partial: "admin/holds/form" %> 
     </p>
   </div>
 

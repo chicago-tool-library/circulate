@@ -1,7 +1,7 @@
 <% if member.active_membership && member.address_verified %>
   <div class="columns member-lookup-items">
     <div class="column col-12">
-      <h2 id="checkout" class="h4">Lend or Reserve Item</h2>
+      <h2 id="checkout" class="h4">Lend or Hold Item</h2>
       <% if member.loan_summaries.overdue.count > 0 %>
         <div class="toast">
           <p>
