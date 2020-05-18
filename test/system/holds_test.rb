@@ -47,7 +47,7 @@ class HoldsTest < ApplicationSystemTestCase
     refute_text @item.name
   end
 
-  test "shows if an item is reserved during checkout" do
+  test "shows if an item is on hold during checkout" do
     @item = create(:item)
     @hold = create(:hold, item: @item, creator: @user)
     @member = create(:verified_member_with_membership)
@@ -58,7 +58,7 @@ class HoldsTest < ApplicationSystemTestCase
     click_on "Lookup"
 
     within ".member-lookup-items" do
-      click_on "reserved by 1 person"
+      click_on "on hold by 1 person"
     end
 
     assert_text @member.preferred_name
@@ -77,5 +77,28 @@ class HoldsTest < ApplicationSystemTestCase
     within ".member-lookup-items" do
       refute_selector "input"
     end
+  end
+
+  test "lends all holds" do
+    @member = create(:verified_member_with_membership)
+    @item = create(:item)
+    @hold = create(:hold, member: @member, item: @item, creator: @user)
+
+    visit admin_member_holds_url(@member)
+
+    within "#current-holds" do
+      assert_text @item.name
+    end
+
+    click_on "Lend All Holds"
+
+    within "#current-loans" do
+      assert_text @item.name
+    end
+
+    click_on "Holds"
+
+    refute_selector "#current-holds"
+    refute_text @item.name
   end
 end

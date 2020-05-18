@@ -11,11 +11,11 @@
       </div>
     <% end %>
 
-    <% if @item.holds.any? %>
+    <% if @item.holds.active.any? %>
       <div class="toast">
         <p>
           This item has been
-          <%= link_to "reserved by #{pluralize(@item.holds.count, "person")}",
+          <%= link_to "placed on hold by #{pluralize(@item.holds.active.count, "person")}",
                 admin_item_item_holds_path(@item) %>.
         </p>
       </div>

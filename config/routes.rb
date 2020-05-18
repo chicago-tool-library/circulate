@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       resources :adjustments, only: :index
       resources :payments, only: [:new, :create]
       resources :holds, only: [:create, :index, :destroy]
+      resource :hold_loan, only: :create
       get "loan_history", to: "member_loan_summaries#index"
     end
     resources :member_requests, only: :index

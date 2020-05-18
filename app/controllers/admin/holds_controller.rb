@@ -5,7 +5,7 @@ module Admin
     before_action :load_member
 
     def index
-      @holds = @member.holds.includes(:item)
+      @holds = @member.holds.active.includes(:item)
     end
 
     def create

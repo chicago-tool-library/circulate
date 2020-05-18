@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_003135) do
+ActiveRecord::Schema.define(version: 2020_05_18_032950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -168,8 +168,11 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "ended_at"
+    t.bigint "loan_id"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
+    t.index ["loan_id"], name: "index_holds_on_loan_id"
     t.index ["member_id"], name: "index_holds_on_member_id"
   end
 
@@ -296,6 +299,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_003135) do
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
   add_foreign_key "holds", "items"
+  add_foreign_key "holds", "loans"
   add_foreign_key "holds", "members"
   add_foreign_key "holds", "users", column: "creator_id"
   add_foreign_key "loans", "items"
