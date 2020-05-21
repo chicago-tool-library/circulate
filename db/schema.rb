@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_134052) do
-
+ActiveRecord::Schema.define(version: 2020_05_18_032950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,18 +18,18 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
     "fine",
     "membership",
     "donation",
-    "payment",
+    "payment"
   ]
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness",
+    "forgiveness"
   ]
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error",
+    "error"
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -163,6 +162,20 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
+  create_table "holds", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "ended_at"
+    t.bigint "loan_id"
+    t.index ["creator_id"], name: "index_holds_on_creator_id"
+    t.index ["item_id"], name: "index_holds_on_item_id"
+    t.index ["loan_id"], name: "index_holds_on_loan_id"
+    t.index ["member_id"], name: "index_holds_on_member_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -178,6 +191,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
     t.string "strength"
     t.integer "quantity"
     t.string "checkout_notice"
+    t.integer "holds_count", default: 0, null: false
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
@@ -284,6 +298,10 @@ ActiveRecord::Schema.define(version: 2020_05_04_134052) do
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
+  add_foreign_key "holds", "items"
+  add_foreign_key "holds", "loans"
+  add_foreign_key "holds", "members"
+  add_foreign_key "holds", "users", column: "creator_id"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"

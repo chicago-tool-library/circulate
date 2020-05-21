@@ -1,4 +1,5 @@
-<%= form_with(model: @check_out, url: admin_member_check_outs_path(@member), builder: SpectreFormBuilder) do |form| %>
+<% check_out ||= Admin::CheckOut.new %>
+<%= form_with(model: check_out, url: admin_member_lookups_path(@member), builder: SpectreFormBuilder) do |form| %>
   <%= form.errors %>
 
   <div data-controller="item-number-input">
@@ -11,7 +12,7 @@
   </div>
 
   <%= form.actions do %>
-    <%= button_tag "Lookup", class: "btn btn-primary" do %> 
+    <%= button_tag class: "btn btn-primary" do %> 
       <%= feather_icon "book-open" %>Lookup
     <% end %>
   <% end %>

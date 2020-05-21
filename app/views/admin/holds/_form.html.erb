@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder) do |form| %>
+<%= form_with(model: [:admin, @member, @member.holds.new], builder: SpectreFormBuilder) do |form| %>
   <% if flash.key? :checkout_error %>
     <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>
@@ -6,9 +6,9 @@
   <%= form.hidden_field :member_id %>
   <%= form.hidden_field :item_id, value: @item.id %>
 
-  <%= button_tag class: "btn btn-primary" do %> 
-    <%= feather_icon "upload" %>Lend
+  <%= button_tag class: "btn" do %> 
+    <%= feather_icon "clipboard" %>Hold
   <% end %>
 
-  due on <%= checked_out_date(@loan.due_at) %>
+  <%= (@item.holds.count + 1).ordinalize %> in line
 <% end %>

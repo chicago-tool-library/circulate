@@ -1,5 +1,5 @@
 module Admin
-  class CheckOutsController < BaseController
+  class LookupsController < BaseController
     include PortalRendering
 
     def create
@@ -7,9 +7,11 @@ module Admin
       @check_out = CheckOut.new(check_out_params.merge(member: @member))
 
       if @check_out.valid?
-        render_to_portal "admin/loans/form"
+        @item = @check_out.item
+        @loan = Loan.lend(@item, to: @member)
+        render_to_portal "admin/lookups/create"
       else
-        render_to_portal "admin/check_outs/form", status: 422
+        render_to_portal "admin/lookups/form", status: 422
       end
     end
 

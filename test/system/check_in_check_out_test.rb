@@ -11,7 +11,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     assert_content "need to be verified"
-    refute_selector ".member-checkout-items"
+    refute_selector ".member-lookup-items"
   end
 
   test "member without membership can't checkout items" do
@@ -20,7 +20,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     assert_content "needs to start a membership"
-    refute_selector ".member-checkout-items"
+    refute_selector ".member-lookup-items"
   end
 
   test "checks out items to member" do
@@ -32,11 +32,11 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     fill_in :admin_check_out_item_number, with: @item.number
     click_on "Lookup"
 
-    within ".member-checkout-items" do
+    within ".member-lookup-items" do
       assert_text @item.complete_number
       assert_text @item.name
     end
-    click_on "Lend Item"
+    click_on "Lend"
 
     within "#current-loans" do
       assert_text @item.name
@@ -62,7 +62,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     assert_text "Overdue items must be returned"
 
-    within ".member-checkout-items" do
+    within ".member-lookup-items" do
       refute_selector "input"
     end
   end

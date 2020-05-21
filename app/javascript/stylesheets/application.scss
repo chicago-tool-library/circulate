@@ -643,6 +643,16 @@ form.membership-amount {
   }
 }
 
+.admin {
+  .member-lookup-items {
+    background: white;
+    padding: .7rem .5rem;
+    .info-box {
+      background: $secondary-color-light;
+    }
+  }
+}
+
 @keyframes highlight-fade-out {
   from {
     background-color: antiquewhite;
