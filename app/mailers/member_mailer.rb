@@ -25,10 +25,13 @@ class MemberMailer < ApplicationMailer
     @summaries = params[:summaries]
     @now = params[:now] || Time.current
     @has_overdue_items = @summaries.any? { |s| s.overdue_as_of?(@now.beginning_of_day.tomorrow) }
+    @active_today = @summaries.any? { |s| s.latest_loan.created_at.to_date == @now.to_date }
     @subject = if @has_overdue_items
       "You have overdue items!"
+    elsif @active_today
+      "Your items are due soon"
     else
-      "Today's loan summary"
+      "Loan summary"
     end
     mail(to: @member.email, subject: @subject)
   end

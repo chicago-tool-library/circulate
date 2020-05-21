@@ -22,6 +22,9 @@
         <% end %>
         <%= checked_out_date(summary.due_at) %>
       <% end %>
+      <% if (count = summary.item.holds.active.count) && count > 0 %>
+        <br><span class="people-waiting"><%= pluralize count, "member" %> are waiting to borrow this item</span>
+      <% end %>
     <% end %>
   </li>
 <% end %>

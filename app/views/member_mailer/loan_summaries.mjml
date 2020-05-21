@@ -13,7 +13,7 @@
       li {
         margin-bottom: 1em;
       }
-      .overdue {
+      .overdue, .people-waiting {
         color: #DF6C54;
       }
       p.overdue {
@@ -30,7 +30,7 @@
     </mj-section>
     <mj-section>
       <mj-column>
-        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Loan Summary</mj-text>
+        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
       </mj-column>
     </mj-section>
     <mj-section>
