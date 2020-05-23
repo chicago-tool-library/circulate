@@ -44,12 +44,13 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
-  def self.next_open_day(time)
-    open_days = [
-      0, # Sunday
-      4 # Thursday
+  def self.open_days
+    [
+      6 # Saturday
     ]
+  end
 
+  def self.next_open_day(time)
     day = time
     until open_days.include? day.wday
       day += 1.day
