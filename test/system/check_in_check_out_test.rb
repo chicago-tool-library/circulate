@@ -120,44 +120,44 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "renews item" do
     Time.use_zone "America/Chicago" do
-      sunday = Time.new(2020, 1, 26).end_of_day
+      saturday = Time.new(2020, 1, 25).end_of_day
       @item = create(:item)
       @member = create(:verified_member_with_membership)
-      create(:loan, item: @item, member: @member, due_at: sunday, created_at: sunday - 7.days)
+      create(:loan, item: @item, member: @member, due_at: saturday, created_at: saturday - 7.days)
 
-      saturday = Time.new(2020, 1, 25, 12, 30)
+      friday = Time.new(2020, 1, 24, 12, 30)
 
-      travel_to saturday do
+      travel_to friday do
         visit admin_member_url(@member)
 
         within "#current-loans" do
           assert_text @item.name
-          assert_text "Due Sunday, January 26"
+          assert_text "Due Saturday, January 25"
           click_on "Renew"
         end
 
         within "#current-loans" do
-          refute_text "Due Sunday, January 27"
-          assert_text "Due Sunday, February 2"
+          refute_text "Due Saturday, January 25"
+          assert_text "Due Saturday, February 1"
           assert_text @item.name
           click_on "Renew"
         end
 
         within "#current-loans" do
-          refute_text "Due Sunday, February 2"
-          assert_text "Due Sunday, February 9"
+          refute_text "Due Saturday, February 1"
+          assert_text "Due Saturday, February 8"
           click_on "Undo renewal"
         end
 
         within "#current-loans" do
-          refute_text "Due Sunday, January 27"
-          assert_text "Due Sunday, February 2"
+          refute_text "Due Saturday, February 8"
+          assert_text "Due Saturday, February 1"
           click_on "Undo renewal"
         end
 
         within "#current-loans" do
-          refute_text "Due Sunday, February 2"
-          assert_text "Due Sunday, January 26"
+          refute_text "Due Saturday, February 1"
+          assert_text "Due Saturday, January 25"
         end
       end
     end
