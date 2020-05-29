@@ -18,6 +18,11 @@
         background: #eee;
         padding: 5px 7px;
       }
+      .warning {
+        border: solid 3px gold;
+        background: lemonchiffon;
+        padding: 0 1em;
+      }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
@@ -38,6 +43,13 @@
           <p>You have successfully purchased a One Year Gift Membership to the Chicago Tool Library. Go you!</p>
           <p><strong>Your gift code is: <code class="gift-code"><%= @gift_membership.code.format %></code></strong></p>
           <p>The recipient of this gift membership needs to use this code to complete the membership sign-up on <a href="http://chicagotoollibrary.org/">our website</a> or in-person <a href="https://chicagotoollibrary.org/library">at the Tool Library</a>.<p>
+
+          <div class="warning">
+            <p><strong>
+              We are open <em>by appointment only</em> in response to COVID-19.<br><a href="https://chicagotoollibrary.org/covid-19">Please check our COVID-19 page for more information and our current hours.</a>
+            </strong></p>
+          </div>
+
           <p>After completing their sign-up, they will need to bring the following into the library:<p>
           <ul>
             <li><strong>Proof of their address</strong><br>This needs to include their name and current address in Chicago. Utility bills, leases, and other official mail work well.</li>
