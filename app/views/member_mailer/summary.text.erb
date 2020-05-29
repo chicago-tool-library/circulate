@@ -1,6 +1,6 @@
 Loan Summary
 
-<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/summaries", locals: {summaries: @summaries, has_overdue_items: @has_overdue_items, now: @now})) %>
+<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now})) %>
 If you have any questions, please email us at team@chicagotoollibrary.org.
 
 See you at the library!

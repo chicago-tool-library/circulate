@@ -27,6 +27,30 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     refute_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
+  test "sends emails to folks who have items due on the following day" do
+    loan = Time.use_zone("America/Chicago") {
+      create(:loan, due_at: (Time.current.end_of_day + 1.day), created_at: 6.days.ago)
+    }
+
+    Time.use_zone("America/Chicago") do
+      create(:loan, due_at: Time.current.end_of_day, created_at: 6.days.ago)
+      create(:loan, due_at: (Time.current.end_of_day - 1.day), created_at: 6.days.ago)
+      create(:loan, due_at: (Time.current.end_of_day + 2.days), created_at: 6.days.ago)
+    end
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      assert_difference "Notification.count" do
+        notifier.send_return_reminders
+      end
+    end
+
+    assert mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
+
+    assert_equal "Your items are due soon", mail.subject
+    assert_includes mail.encoded, loan.item.complete_number
+  end
+
   test "doesn't send emails with old activity" do
     Time.use_zone("America/Chicago") do
       end_of_previous_day = Time.current.beginning_of_day - 1.minute
@@ -45,21 +69,6 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  test "sends a single email to folks with both overdue and active loans" do
-    loan = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago)
-    create(:loan, member: loan.member, due_at: 7.days.since)
-
-    Time.use_zone("America/Chicago") do
-      notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
-    end
-
-    refute ActionMailer::Base.deliveries.empty?
-
-    mails = ActionMailer::Base.deliveries.select { |delivery| delivery.to == [loan.member.email] }
-    assert_equal 1, mails.size
-  end
-
   test "sends emails to folks with overdue items" do
     loan = Time.use_zone("America/Chicago") {
       create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
@@ -68,7 +77,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
       assert_difference "Notification.count" do
-        notifier.send_daily_loan_summaries
+        notifier.send_overdue_notices
       end
     end
 
@@ -104,7 +113,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      notifier.send_daily_loan_summaries
+      notifier.send_overdue_notices
     end
 
     days.times do |i|

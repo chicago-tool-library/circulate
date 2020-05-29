@@ -8,9 +8,39 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(member: Member.first).membership_reminder
   end
 
-  def loan_summaries
-    loan_summaries = LoanSummary.limit(5).includes(item: :borrow_policy).to_a
-    loan_summaries << LoanSummary.new(item: Item.first, due_at: 4.hours.ago, renewal_count: 0)
+  def only_returned_items
+    loan_summaries = LoanSummary.returned.limit(5).includes(item: :borrow_policy).to_a
+
+    MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
+  end
+
+  def overdue_items
+    loan_summaries = LoanSummary.overdue.limit(5).includes(item: :borrow_policy).to_a
+
+    MemberMailer.with(member: Member.first, summaries: loan_summaries).overdue_notice
+  end
+
+  def due_soon
+    tomorrow = Time.current.end_of_day + 1.day
+    3.times do
+      Loan.create(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    end
+
+    loan_summaries = LoanSummary.where("due_at BETWEEN ? AND ?", tomorrow.beginning_of_day.utc, tomorrow.utc).limit(5).includes(item: :borrow_policy).to_a
+
+    first_item = loan_summaries.first.item
+    Hold.create!(item: first_item, member: Member.second, creator: User.first)
+
+    MemberMailer.with(member: Member.first, summaries: loan_summaries).return_reminder
+  end
+
+  def items_on_hold
+    loan_summaries = LoanSummary.where("due_at > ?", Time.current + 1.day).limit(5).includes(item: :borrow_policy).to_a
+
+    first_item = loan_summaries.first.item
+    Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    loan_summaries.first.latest_loan = Loan.new(created_at: Time.current)
+
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
   end
 end

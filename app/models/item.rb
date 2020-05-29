@@ -27,6 +27,7 @@ class Item < ApplicationRecord
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
+  scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
 
   scope :by_name, -> { order(name: :asc) }
 

@@ -21,19 +21,30 @@ class MemberMailer < ApplicationMailer
   end
 
   def loan_summaries
-    @member = params[:member]
-    @summaries = params[:summaries]
-    @now = params[:now] || Time.current
-    @has_overdue_items = @summaries.any? { |s| s.overdue_as_of?(@now.beginning_of_day.tomorrow) }
-    @subject = if @has_overdue_items
-      "You have overdue items!"
-    else
-      "Today's loan summary"
-    end
-    mail(to: @member.email, subject: @subject)
+    @subject = "Today's loan summary"
+    summary_mail
+  end
+
+  def overdue_notice
+    @subject = "You have overdue items!"
+    @warning = "Please return all overdue items as soon as possible so other members can check them out."
+    summary_mail
+  end
+
+  def return_reminder
+    @subject = "Your items are due soon"
+    summary_mail
   end
 
   private
+
+  def summary_mail
+    @member = params[:member]
+    @summaries = params[:summaries]
+    @now = params[:now] || Time.current
+
+    mail(to: @member.email, subject: @subject, template_name: "summary")
+  end
 
   def generate_uuid
     @uuid = SecureRandom.uuid
