@@ -25,6 +25,7 @@ class Loan < ApplicationRecord
   scope :exclusive, -> { where(uniquely_numbered: true) }
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }
+  scope :due_on, ->(day) { where("due_at BETWEEN ? AND ?", day.beginning_of_day.utc, day.end_of_day.utc) }
   scope :due_whole_weeks_ago, -> {
     zone = Time.zone.tzinfo.name
     checked_out.where(
