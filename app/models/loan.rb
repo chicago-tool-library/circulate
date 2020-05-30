@@ -28,7 +28,7 @@ class Loan < ApplicationRecord
   scope :due_on, ->(day) { where("due_at BETWEEN ? AND ?", day.beginning_of_day.utc, day.end_of_day.utc) }
   scope :due_whole_weeks_ago, -> {
     zone = Time.zone.tzinfo.name
-    checked_out.where(
+    where(
       <<~SQL,
         extract(day from date_trunc('day', now() at time zone ?) -
         date_trunc('day', loans.due_at at time zone 'utc' at time zone ?))::integer % 7 = 0
