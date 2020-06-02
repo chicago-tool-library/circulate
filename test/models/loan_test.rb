@@ -210,6 +210,13 @@ class LoanTest < ActiveSupport::TestCase
     assert_equal [many_weeks_ago_loan.id, week_ago_loan.id, loan.id], Loan.due_whole_weeks_ago.order(due_at: :asc).pluck(:id)
   end
 
+  test "does not find loans that are due in the future" do
+    in_one_week = Time.current.end_of_day + 1.week
+    create(:loan, due_at: in_one_week)
+
+    assert_equal [], Loan.due_whole_weeks_ago.order(due_at: :asc).pluck(:id)
+  end
+
   test "creates loans that end on an open day" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)

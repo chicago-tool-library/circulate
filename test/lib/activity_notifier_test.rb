@@ -51,6 +51,21 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, loan.item.complete_number
   end
 
+  test "doesn't send reminder emails to folks who have returned their items" do
+    Time.use_zone("America/Chicago") do
+      create(:ended_loan, due_at: (Time.current.end_of_day + 1.day))
+    end
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      assert_no_difference "Notification.count" do
+        notifier.send_return_reminders
+      end
+    end
+
+    assert ActionMailer::Base.deliveries.empty?
+  end
+
   test "doesn't send emails with old activity" do
     Time.use_zone("America/Chicago") do
       end_of_previous_day = Time.current.beginning_of_day - 1.minute
@@ -88,6 +103,22 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_equal "You have overdue items!", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
     assert_includes mail.encoded, "return all overdue items as soon as possible"
+  end
+
+  test "doesn't send overdue notices to folks with returned overdue items" do
+    Time.use_zone("America/Chicago") do
+      create(:ended_loan, due_at: Time.current.end_of_day)
+      create(:ended_loan, due_at: Time.current.tomorrow.end_of_day)
+    end
+
+    Time.use_zone("America/Chicago") do
+      notifier = ActivityNotifier.new
+      assert_no_difference "Notification.count" do
+        notifier.send_overdue_notices
+      end
+    end
+
+    assert ActionMailer::Base.deliveries.empty?
   end
 
   test "only sends emails to folks with items that were due whole weeks ago" do
