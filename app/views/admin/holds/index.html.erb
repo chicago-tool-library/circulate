@@ -1,40 +1,37 @@
-<%= render "admin/members/profile" do %>
-  <% if @holds.any? %>
-    <div id="current-holds" class="member-holds">
-      <% @holds.each do |hold| %>
-        <div id="<%= dom_id hold %>" class="columns mt-2 mb-2 highlightable">
-          <div class="column col-sm-6 col-4">
-            <%= tag.div class: "item-image" do %>
-              <% if hold.item.image.attached? %>
-                <%= link_to admin_item_path(hold.item) do %>
-                  <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
-                <% end %>
-              <% else %>
-                <div class="image-placeholder"></div>
-              <% end %>
-            <% end %>
-          </div>
-
-          <div class="column col-sm-6 col-4">
-            <p><%= full_item_number(hold.item) %></p>
-            <p><%= link_to hold.item.name, admin_item_path(hold.item) %></p>
-          </div>
-          <div class="column col-sm-12 col-4 text-right">
-            <%= button_to [:admin, hold.member, hold], method: :delete, class:"btn mb-2", remote: true do %>
-              <%= feather_icon "x" %>Cancel
-            <% end %>
-          </div>
-
-        </div>
-        <div class="divider"></div>
-      <% end %>
-    </div>
-    <div class="info-box">
-      <%= button_to admin_member_hold_loan_path(@member), method: :post, class: "btn btn-primary" do %>
-        <%= feather_icon "upload" %>Lend All Holds
-      <% end %>
-    </div>
-  <% end %>
-
-  <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+<% content_for :header do %>
+  <%= index_header "Holds" %>
 <% end %>
+
+<div class="columns">
+  <div class="column col-12">
+
+    <% if @holds.any? %>
+
+      <table class="table table-scroll">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Member</th>
+            <th>Created on</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @holds.each do |hold| %>
+            <tr>
+              <td><%= link_to hold.item.name, [:admin, hold.item] %></td>
+              <td><%= link_to preferred_or_default_name(hold.member), [:admin, hold.member] %></td>
+              <td><%= date_with_time_title hold.created_at %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%== pagy_bootstrap_nav(@pagy) %>
+
+    <% else %>
+      <%= empty_state "No matching holds", icon: "time" %>
+    <% end %>
+
+  </div>
+</div>

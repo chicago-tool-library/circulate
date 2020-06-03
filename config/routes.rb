@@ -50,7 +50,7 @@ Rails.application.routes.draw do
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
       resources :payments, only: [:new, :create]
-      resources :holds, only: [:create, :index, :destroy]
+      resources :member_holds, only: [:create, :index, :destroy]
       resource :hold_loan, only: :create
       get "loan_history", to: "member_loan_summaries#index"
     end
@@ -59,7 +59,7 @@ Rails.application.routes.draw do
     resources :monthly_activities, only: :index
     resources :notifications, only: :index
     resources :potential_volunteers, only: :index
-    resources :holds, only: [:create]
+    resources :holds, only: [:index]
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
