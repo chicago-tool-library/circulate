@@ -8,7 +8,7 @@ class HoldsTest < ApplicationSystemTestCase
   test "pending member can't reserve items" do
     @member = create(:member)
 
-    visit admin_member_holds_url(@member)
+    visit admin_member_member_holds_url(@member)
 
     assert_content "need to be verified"
     refute_selector ".member-lookup-items"
@@ -27,7 +27,7 @@ class HoldsTest < ApplicationSystemTestCase
     @item = create(:item)
     @member = create(:verified_member_with_membership)
 
-    visit admin_member_holds_url(@member)
+    visit admin_member_member_holds_url(@member)
 
     fill_in :admin_check_out_item_number, with: @item.number
     click_on "Lookup"
@@ -52,7 +52,7 @@ class HoldsTest < ApplicationSystemTestCase
     @hold = create(:hold, item: @item, creator: @user)
     @member = create(:verified_member_with_membership)
 
-    visit admin_member_holds_url(@member)
+    visit admin_member_member_holds_url(@member)
 
     fill_in :admin_check_out_item_number, with: @item.number
     click_on "Lookup"
@@ -70,7 +70,7 @@ class HoldsTest < ApplicationSystemTestCase
 
     create(:loan, item: @overdue_item, member: @member, due_at: 1.week.ago)
 
-    visit admin_member_holds_url(@member)
+    visit admin_member_member_holds_url(@member)
 
     assert_text "Overdue items must be returned"
 
@@ -84,7 +84,7 @@ class HoldsTest < ApplicationSystemTestCase
     @item = create(:item)
     @hold = create(:hold, member: @member, item: @item, creator: @user)
 
-    visit admin_member_holds_url(@member)
+    visit admin_member_member_holds_url(@member)
 
     within "#current-holds" do
       assert_text @item.name
