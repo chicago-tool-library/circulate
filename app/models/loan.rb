@@ -26,14 +26,18 @@ class Loan < ApplicationRecord
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :by_end_date, -> { order(ended_at: :asc) }
   scope :due_on, ->(day) { where("due_at BETWEEN ? AND ?", day.beginning_of_day.utc, day.end_of_day.utc) }
-  scope :due_whole_weeks_ago, -> {
+  scope :due_whole_weeks_ago, ->(now = Time.current) {
     zone = Time.zone.tzinfo.name
-    checked_out.where(
+    tonight = now.end_of_day
+    where(
       <<~SQL,
-        extract(day from date_trunc('day', now() at time zone ?) -
-        date_trunc('day', loans.due_at at time zone 'utc' at time zone ?))::integer % 7 = 0
+        extract(day from
+          date_trunc('day', ? at time zone ?) -
+          date_trunc('day', loans.due_at at time zone 'utc' at time zone ?)
+        )::integer % 7 = 0
+        AND loans.due_at <= ?
       SQL
-      zone, zone
+      now, zone, zone, tonight
     )
   }
 

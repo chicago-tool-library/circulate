@@ -12,7 +12,7 @@ class ActivityNotifier
   end
 
   def send_overdue_notices
-    members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.due_whole_weeks_ago).pluck(:id)
+    members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.checked_out.due_whole_weeks_ago).pluck(:id)
 
     each_member(members_with_overdue_items) do |member, summaries|
       MemberMailer.with(member: member, summaries: summaries, now: @now).overdue_notice.deliver
@@ -21,7 +21,7 @@ class ActivityNotifier
 
   def send_return_reminders
     tomorrow = @now + 1.day
-    members_with_items_due_tomorrow = Member.verified.joins(:loans).merge(Loan.due_on(tomorrow)).pluck(:id)
+    members_with_items_due_tomorrow = Member.verified.joins(:loans).merge(Loan.checked_out.due_on(tomorrow)).pluck(:id)
 
     each_member(members_with_items_due_tomorrow) do |member, summaries|
       MemberMailer.with(member: member, summaries: summaries, now: @now).return_reminder.deliver

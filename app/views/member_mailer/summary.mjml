@@ -20,6 +20,11 @@
         margin-bottom: 0;
         font-size: 1.2em;
       }
+      .warning {
+        border: solid 3px gold;
+        background: lemonchiffon;
+        padding: 0 1em;
+      }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
@@ -37,6 +42,17 @@
       <mj-column>
         <mj-text>
           <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now} %>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <div class="warning">
+            <p><strong>
+              We are open <em>by appointment only</em> in response to COVID-19.<br><a href="https://chicagotoollibrary.org/covid-19">Please check our COVID-19 page for more information and our current hours.</a>
+            </strong></p>
+          </div>
         </mj-text>
       </mj-column>
     </mj-section>
