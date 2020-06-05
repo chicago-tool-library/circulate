@@ -50,9 +50,11 @@ Rails.application.routes.draw do
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
       resources :payments, only: [:new, :create]
-      resources :member_holds, only: [:create, :index, :destroy]
       resource :hold_loan, only: :create
       get "loan_history", to: "member_loan_summaries#index"
+      scope module: "members" do
+        resources :holds, only: [:create, :index, :destroy]
+      end
     end
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
