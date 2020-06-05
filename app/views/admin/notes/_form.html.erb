@@ -1,0 +1,9 @@
+<%- note = parent.notes.new %>
+<%= form_with(model: note, url: [:admin, parent, note], builder: SpectreFormBuilder, data: {controller: "form"}) do |form| %>
+  <%= form.errors %>
+  <%= form.rich_text_area :body %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>
