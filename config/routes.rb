@@ -48,12 +48,13 @@ Rails.application.routes.draw do
       resource :verification, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
-      resources :payments, only: [:new, :create]
       resource :hold_loan, only: :create
       get "loan_history", to: "member_loan_summaries#index"
+
       scope module: "members" do
         resources :holds, only: [:create, :index, :destroy]
         resources :lookups, only: :create
+        resources :payments, only: [:new, :create]
       end
     end
     resources :member_requests, only: :index
