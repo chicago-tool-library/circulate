@@ -45,7 +45,6 @@ Rails.application.routes.draw do
     resources :loans, only: [:index, :create, :update, :destroy]
     resources :renewals, only: [:create, :destroy]
     resources :members, except: :destroy do
-      resource :verification, only: [:edit, :update]
       resources :memberships, only: [:index, :new, :create]
       resources :adjustments, only: :index
       resource :hold_loan, only: :create
@@ -55,6 +54,7 @@ Rails.application.routes.draw do
         resources :holds, only: [:create, :index, :destroy]
         resources :lookups, only: :create
         resources :payments, only: [:new, :create]
+        resource :verification, only: [:edit, :update]
       end
     end
     resources :member_requests, only: :index
