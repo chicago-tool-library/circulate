@@ -78,7 +78,7 @@
         <%= tab_link "Holds", admin_member_holds_path(@member) %>
         <li class="tab-item">
           <% if @member.loans.any? %>
-            <%= tab_link "Previous Loans", admin_member_loan_history_path(@member) %>
+            <%= tab_link "Previous Loans", admin_member_loan_summaries_path(@member) %>
           <% else %>
             No Loans
           <% end %>
