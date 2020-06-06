@@ -42,6 +42,19 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include ActionMailer::TestHelper
   include ActiveJob::TestHelper
 
+  teardown do
+    errors = page.driver.browser.manage.logs.get(:browser)
+    fail = false
+    if errors.present?
+      errors.each do |error|
+        warn "JS console (#{error.level.downcase}): #{error.message}"
+        fail = true if error.level == "SEVERE"
+      end
+    end
+
+    refute fail, "there were JavaScript errors"
+  end
+
   private
 
   def sign_in_as_admin
