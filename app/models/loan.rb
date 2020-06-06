@@ -4,7 +4,7 @@ class Loan < ApplicationRecord
   has_one :adjustment, as: :adjustable
   has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
   belongs_to :initial_loan, class_name: "Loan", optional: true
-
+  has_one :hold, dependent: :nullify
   validates :due_at, presence: true
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
   validates :initial_loan_id, uniqueness: {scope: :renewal_count}, if: ->(l) { l.initial_loan_id.present? }
