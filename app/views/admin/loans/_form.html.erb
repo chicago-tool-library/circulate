@@ -6,9 +6,18 @@
   <%= form.hidden_field :member_id %>
   <%= form.hidden_field :item_id, value: @item.id %>
 
-  <%= button_tag class: "btn btn-primary" do %> 
-    <%= feather_icon "upload" %>Lend
+  <% if @item.checked_out_exclusive_loan %>
+    <%= button_tag class: "btn btn-primary", disabled: true do %> 
+      <%= feather_icon "upload" %>Lend
+    <% end %>
+    <% borrower = @item.checked_out_exclusive_loan.member %>
+    currently on loan to <%= link_to preferred_or_default_name(borrower), admin_member_path(borrower) %>
+    and due on <%= checked_out_date(@item.checked_out_exclusive_loan.due_at) %>
+  <% else %>
+    <%= button_tag class: "btn btn-primary" do %> 
+      <%= feather_icon "upload" %>Lend
+    <% end %>
+    will be due on <%= checked_out_date(@loan.due_at) %>
   <% end %>
 
-  due on <%= checked_out_date(@loan.due_at) %>
 <% end %>
