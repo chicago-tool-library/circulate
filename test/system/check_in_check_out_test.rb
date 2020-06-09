@@ -29,7 +29,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     visit admin_member_url(@member)
 
-    fill_in :admin_check_out_item_number, with: @item.number
+    fill_in :admin_lookup_item_number, with: @item.number
     click_on "Lookup"
 
     within ".member-lookup-items" do
@@ -45,6 +45,25 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
     refute_selector "#current-loans"
     refute_text @item.name
+  end
+
+  test "can't check out item on loan" do
+    @loan = create(:loan)
+    @item = @loan.item
+    @member = create(:verified_member_with_membership)
+
+    visit admin_member_url(@member)
+
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-lookup-items" do
+      assert_text @item.complete_number
+      assert_text @item.name
+    end
+
+    assert_button "Lend", disabled: true
+    assert_text "currently on loan"
   end
 
   test "can't check out item to member with overdue item" do

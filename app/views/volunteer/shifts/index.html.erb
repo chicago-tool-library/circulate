@@ -48,7 +48,7 @@
     </div>
     <p class="text-center mt-2">
       <% unless signed_in_via_google? %>
-        <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+        <%= link_to "Sign in with Google", "/auth/google_oauth2", method: :post %>
       <% end %>
     </p>
   </div>
