@@ -1,15 +1,5 @@
-<div class="tile note" id="<%= dom_id(note)%>">
-  <div class="tile-icon">
-    <%= feather_icon "message-square" %>
-  </div>
-  <div class="tile-content">
-    <p class="tile-title"><%= date_with_time_title note.created_at %> by <%= note.creator.email %></p>
-
-    <%= note.body %>
-  </div>
-  <div class="tile-action">
-    <%= button_to [:edit, :admin, parent, note], method: :get, remote: true, class: "btn btn-sm" do%>Edit<% end %>
-  </div>
-</div>
-
-<div class="divider"></div>
+<%= tag.blockquote class: "note", id: dom_id(note) do %>
+  <%= note.body %>
+  <cite>- <%= note.creator.email %> <%= time_ago_with_time_title note.created_at %></cite>
+  <%= button_to [:edit, :admin, parent, note], method: :get, remote: true, class: "btn btn-sm edit-note" do%>Edit<% end %>
+<% end %>

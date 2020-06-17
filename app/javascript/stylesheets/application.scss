@@ -862,12 +862,22 @@ table.monthly-adjustments {
   .trix-button-group--file-tools {
     display: none;
   }
+  .toast-error {
+    width: auto;
+    margin: -0.5rem -1rem 0;
+  }
 }
 
-.tile.note {
-  background: white;
-  padding: 1rem;
-  margin-bottom: .3rem;
+.note {
+  position: relative;
+  .edit-note {
+    position: absolute;
+    right: 0;
+    top: .4rem;
+  }
+  .trix-content {
+    margin-bottom: 1rem;
+  }
 }
 
 .nav-header {

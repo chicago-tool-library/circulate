@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :note do
-    author { nil }
+    association :creator, factory: :user
   end
 end

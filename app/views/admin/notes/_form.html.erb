@@ -6,7 +6,7 @@
     <%= form.rich_text_area :body, label: (note.new_record? ? "Add a note" : "Edit note") %>
 
     <%= form.actions do %>
-      <%= form.submit class: "btn" %>
+      <%= form.submit class: "btn btn-primary" %>
       <% if note.new_record? %>
         or 
         <%= link_to "Cancel", nil, data: { action: "click->toggle#toggle"} %>

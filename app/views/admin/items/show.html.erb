@@ -12,14 +12,16 @@
     </div>
   <% end %>
 
-  <% @item.notes.each do |note| %>
+  <% @item.notes.by_creation_date.each do |note| %>
     <%= portal do %>
       <%= render partial: "admin/notes/show", locals: {note: note, parent: @item } %>
     <% end %>
   <% end %>
 
   <div data-controller="toggle">
-    <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">Add a note</button>
+    <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">
+      <%= feather_icon "message-square" %>Add a Note
+    </button>
 
     <div data-target="toggle.toggled">
       <%= portal do %>
