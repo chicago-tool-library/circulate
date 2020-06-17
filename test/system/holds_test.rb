@@ -23,13 +23,38 @@ class HoldsTest < ApplicationSystemTestCase
     refute_selector ".member-lookup-items"
   end
 
-  test "reserves item for member" do
+  test "places item on hold" do
     @item = create(:item)
     @member = create(:verified_member_with_membership)
 
     visit admin_member_holds_url(@member)
 
-    fill_in :admin_check_out_item_number, with: @item.number
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-lookup-items" do
+      assert_text @item.complete_number
+      assert_text @item.name
+    end
+    click_on "Hold"
+
+    within "#current-holds" do
+      assert_text @item.name
+      click_on "Cancel"
+    end
+
+    refute_selector "#current-holds"
+    refute_text @item.name
+  end
+
+  test "places a checked out item on hold" do
+    @loan = create(:loan)
+    @item = @loan.item
+    @member = create(:verified_member_with_membership)
+
+    visit admin_member_holds_url(@member)
+
+    fill_in :admin_lookup_item_number, with: @item.number
     click_on "Lookup"
 
     within ".member-lookup-items" do
@@ -54,7 +79,7 @@ class HoldsTest < ApplicationSystemTestCase
 
     visit admin_member_holds_url(@member)
 
-    fill_in :admin_check_out_item_number, with: @item.number
+    fill_in :admin_lookup_item_number, with: @item.number
     click_on "Lookup"
 
     within ".member-lookup-items" do

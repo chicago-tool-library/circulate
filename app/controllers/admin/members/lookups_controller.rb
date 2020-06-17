@@ -5,19 +5,19 @@ module Admin
 
       def create
         @member = Member.find(params[:member_id])
-        @check_out = CheckOut.new(check_out_params.merge(member: @member))
+        @lookup = Lookup.new(lookup_params)
 
-        if @check_out.valid?
-          @item = @check_out.item
-          @loan = Loan.lend(@item, to: @member)
+        if @lookup.valid?
+          @loan = Loan.lend(@lookup.item, to: @member)
+          @item = @lookup.item
           render_to_portal "admin/members/lookups/create"
         else
-          render_to_portal "admin/members/lookups/form", status: 422
+          render_to_portal "admin/members/lookups/form", status: 422, locals: {lookup: @lookup}
         end
       end
 
-      def check_out_params
-        params.require(:admin_check_out).permit(:item_number)
+      def lookup_params
+        params.require(:admin_lookup).permit(:item_number)
       end
     end
   end
