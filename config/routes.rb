@@ -44,16 +44,21 @@ Rails.application.routes.draw do
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]
     resources :renewals, only: [:create, :destroy]
+
     resources :members, except: :destroy do
-      resource :lookups, only: :create
-      resource :verification, only: [:edit, :update]
-      resources :memberships, only: [:index, :new, :create]
-      resources :adjustments, only: :index
-      resources :payments, only: [:new, :create]
-      resources :member_holds, only: [:create, :index, :destroy]
-      resource :hold_loan, only: :create
-      get "loan_history", to: "member_loan_summaries#index"
+      scope module: "members" do
+        resources :adjustments, only: :index
+        resources :holds, only: [:create, :index, :destroy]
+        resource :hold_loan, only: :create
+        resources :lookups, only: :create
+        resources :memberships, only: [:index, :new, :create]
+        resources :payments, only: [:new, :create]
+        resource :verification, only: [:edit, :update]
+
+        resources :loan_summaries, only: :index
+      end
     end
+
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
