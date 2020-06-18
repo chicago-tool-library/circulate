@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       resource :loan_history, only: :show
       resource :manual_import, only: [:edit, :update]
       resources :item_holds, only: :index
+
+      resources :notes
     end
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]

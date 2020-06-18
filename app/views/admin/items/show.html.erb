@@ -1,5 +1,4 @@
 <%= render "profile" do %>
-
   <div class="item-description">
     <%= @item.description %>
   </div>
@@ -13,4 +12,5 @@
     </div>
   <% end %>
 
+  <%= render partial: "admin/notes/list", locals: {parent: @item} %>
 <% end %>

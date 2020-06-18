@@ -11,6 +11,7 @@ class Item < ApplicationRecord
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
+  has_many :notes, as: :notable
 
   has_rich_text :description
   has_one_attached :image

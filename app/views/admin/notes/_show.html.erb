@@ -1,0 +1,5 @@
+<%= tag.blockquote class: "note", id: dom_id(note) do %>
+  <%= note.body %>
+  <cite>- <%= note.creator.email %> <%= time_ago_with_time_title note.created_at %></cite>
+  <%= button_to [:edit, :admin, parent, note], method: :get, remote: true, class: "btn btn-sm edit-note" do%>Edit<% end %>
+<% end %>
