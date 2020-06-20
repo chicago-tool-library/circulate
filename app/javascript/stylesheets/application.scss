@@ -858,6 +858,37 @@ table.monthly-adjustments {
   }
 }
 
+.note-form {
+  padding: 0.5rem 1rem 1.2rem;
+  background: $background-color-dark;
+  margin-bottom: 1rem;
+  label {
+    font-weight: 500;
+  }
+  .form-buttons {
+    margin-top: 1rem;
+  }
+  .trix-button-group--file-tools {
+    display: none;
+  }
+  .toast-error {
+    width: auto;
+    margin: -0.5rem -1rem 0;
+  }
+}
+
+.note {
+  position: relative;
+  .edit-note {
+    position: absolute;
+    right: 0;
+    top: .4rem;
+  }
+  .trix-content {
+    margin-bottom: 1rem;
+  }
+}
+
 .nav-header {
   background: $dark-color;
   padding: .4rem 0 .4rem;

@@ -4,6 +4,9 @@
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
       hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
+  <%= form.text_field :other_names,
+      hint: "Search terms that should return this item; typically slang or other names for the item" %>
+
   <%= form.tag_select :category_ids, @categories %>
 
   <% if item.new_record? %>

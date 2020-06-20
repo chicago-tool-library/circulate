@@ -10,5 +10,5 @@
     <%= feather_icon "clipboard" %>Hold
   <% end %>
 
-  <%= (@item.holds.count + 1).ordinalize %> in line
+  <%= (@item.holds.active.count + 1).ordinalize %> in line
 <% end %>

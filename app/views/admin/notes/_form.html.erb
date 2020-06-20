@@ -1,0 +1,19 @@
+<div class="note-form">
+  <%- note ||= parent.notes.new %>
+  <%= form_with(model: note, url: [:admin, parent, note], builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+
+    <%= form.rich_text_area :body, label: (note.new_record? ? "Add a note" : "Edit note") %>
+
+    <%= form.actions do %>
+      <%= form.submit class: "btn btn-primary" %>
+      <% if note.new_record? %>
+        or 
+        <%= link_to "Cancel", nil, data: { action: "click->toggle#toggle"} %>
+      <% else %>
+        or
+        <%= link_to "Cancel", [:admin, parent, note], remote: true %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
