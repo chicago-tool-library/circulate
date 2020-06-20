@@ -1,6 +1,14 @@
 class Item < ApplicationRecord
   include PgSearch::Model
-  pg_search_scope :search_by_anything, against: [:name, :brand, :size, :strength], using: {tsearch: {prefix: true}}
+  pg_search_scope :search_by_anything,
+    against: {
+      name: "A",
+      other_names: "B",
+      brand: "C",
+      size: "D",
+      strength: "D"
+    },
+    using: {tsearch: {prefix: true, dictionary: "english"}}
 
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations,
