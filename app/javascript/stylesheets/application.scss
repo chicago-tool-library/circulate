@@ -208,6 +208,15 @@ $photo-width: 187px;
   max-width: 100%;
 }
 
+.tool-card  {
+  position: relative;
+  .item-number-chip {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
 .categories-table {
   display: grid;
 

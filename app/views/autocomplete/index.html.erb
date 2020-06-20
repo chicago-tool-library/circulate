@@ -1,0 +1,26 @@
+<div class="columns">
+  <% @items.each do |item| %>
+    <div class="column col-3">
+      <div class="card tool-card">
+        <div class="card-image">
+          <% if item.image.attached? %>
+            <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [60, 60])), class: "p-centered" %>
+          <% else %>
+            <div class="image-placeholder"></div>
+          <% end %>
+          <span class="chip item-number-chip"><%= item.complete_number %></span>
+          <%= item_status_label(item) %>
+          <%= item_holds_label(item) %>
+        </div>
+        <div class="card-header">
+          <div class="card-title">
+            <%= item.name %>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary">Request</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

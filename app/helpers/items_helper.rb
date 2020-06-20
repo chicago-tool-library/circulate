@@ -49,7 +49,7 @@ module ItemsHelper
   def item_status_label(item)
     class_name, label = if item.active?
       if item.checked_out_exclusive_loan
-        ["label-primary", "Checked Out"]
+        ["label-warning", "Checked Out"]
       else
         ["label-success", "Available"]
       end
@@ -57,6 +57,15 @@ module ItemsHelper
       ["", "Unavailable"]
     end
     tag.span label, class: "label item-checkout-status #{class_name}"
+  end
+
+  def item_holds_label(item)
+    if item.active?
+      count = item.holds.active.count
+      if count > 0
+        tag.span pluralize(count, "hold"), class: "label item-hold-status"
+      end
+    end
   end
 
   def loan_description(loan)

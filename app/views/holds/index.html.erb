@@ -1,0 +1,12 @@
+<%= tag.div data: { controller: "find-tool" } do %>
+  <div class="has-icon-right">
+    <%= tag.input \
+      name: "query",
+      data: {action: "keyup->find-tool#loadResults", target: "find-tool.input"},
+      class: "form-input"
+    %>
+    <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+  </div>
+
+  <%= tag.div data: { target: "find-tool.results" } %>
+<% end %>

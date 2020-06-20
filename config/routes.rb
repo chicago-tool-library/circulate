@@ -88,6 +88,8 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :documents, only: :show
   get "search", to: "searches#show"
+  get "autocomplete", to: "autocomplete#index"
+  resources :holds, only: :index
 
   root to: "home#index"
 end
