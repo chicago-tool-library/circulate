@@ -11,6 +11,6 @@ module ApplicationHelper
         action: "ajax:error->portal#replaceContent ajax:success->portal#replaceContent"
       }
     }
-    tag.div attrs, &block
+    tag.div(**attrs, &block)
   end
 end
