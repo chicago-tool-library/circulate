@@ -58,7 +58,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   private
 
   def sign_in_as_admin
-    @user = FactoryBot.create(:user)
+    @user = FactoryBot.create(:user, role: "admin")
     login_as(@user, scope: :user)
   end
 

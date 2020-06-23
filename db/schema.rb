@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_06_002240) do
+ActiveRecord::Schema.define(version: 2020_06_21_211015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,10 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     "sent",
     "bounced",
     "error"
+  ]
+  create_enum :user_role, [
+    "staff",
+    "admin"
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -192,6 +196,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.integer "quantity"
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
+    t.string "other_names"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
@@ -297,6 +302,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "role", default: "staff", null: false, enum_name: "user_role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
