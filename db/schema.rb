@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_06_002240) do
+ActiveRecord::Schema.define(version: 2020_06_18_031047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 2020_06_06_002240) do
     t.integer "quantity"
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
+    t.string "other_names"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
