@@ -69,4 +69,18 @@ module Admin
       assert_redirected_to admin_users_url
     end
   end
+
+  class StaffUsersControllerTest < ActionDispatch::IntegrationTest
+    include Devise::Test::IntegrationHelpers
+
+    setup do
+      @user = create(:user)
+      sign_in @user
+    end
+
+    test "should get index" do
+      get admin_users_url
+      assert_redirected_to admin_items_url
+    end
+  end
 end
