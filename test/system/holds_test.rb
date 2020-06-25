@@ -5,22 +5,48 @@ class HoldsTest < ApplicationSystemTestCase
     sign_in_as_admin
   end
 
-  test "pending member can't reserve items" do
+  test "pending member can reserve items" do
     @member = create(:member)
+    @item = create(:item)
 
     visit admin_member_holds_url(@member)
 
     assert_content "need to be verified"
-    refute_selector ".member-lookup-items"
+
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-lookup-items" do
+      assert_text @item.complete_number
+      assert_text @item.name
+    end
+    click_on "Hold"
+
+    within "#current-holds" do
+      assert_text @item.name
+    end
   end
 
-  test "member without membership can't reserve items" do
+  test "member without membership can reserve items" do
     @member = create(:verified_member)
+    @item = create(:item)
 
     visit admin_member_url(@member)
 
     assert_content "needs to start a membership"
-    refute_selector ".member-lookup-items"
+
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    within ".member-lookup-items" do
+      assert_text @item.complete_number
+      assert_text @item.name
+    end
+    click_on "Hold"
+
+    within "#current-holds" do
+      assert_text @item.name
+    end
   end
 
   test "places item on hold" do
