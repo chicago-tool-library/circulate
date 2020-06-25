@@ -47,6 +47,10 @@ class Member < ApplicationRecord
     Money.new(adjustments.calculate("SUM", :amount_cents))
   end
 
+  def borrow?
+    active_membership && address_verified
+  end
+
   private
 
   def strip_phone_number

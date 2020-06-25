@@ -7,20 +7,30 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "pending member can't checkout items" do
     @member = create(:member)
+    @item = create(:item)
 
     visit admin_member_url(@member)
 
     assert_content "need to be verified"
-    refute_selector ".member-lookup-items"
+
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    assert_button "Lend", disabled: true
   end
 
   test "member without membership can't checkout items" do
     @member = create(:verified_member)
+    @item = create(:item)
 
     visit admin_member_url(@member)
 
     assert_content "needs to start a membership"
-    refute_selector ".member-lookup-items"
+
+    fill_in :admin_lookup_item_number, with: @item.number
+    click_on "Lookup"
+
+    assert_button "Lend", disabled: true
   end
 
   test "checks out items to member" do
