@@ -173,10 +173,15 @@ GEM
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
     jwt (2.2.1)
-    lefthook (0.7.2)
-    listen (3.2.1)
-      rb-fsevent (~> 0.10, >= 0.10.3)
-      rb-inotify (~> 0.9, >= 0.9.10)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    lefthook (0.7.1)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     little-plugger (1.1.4)
     logging (2.2.2)
       little-plugger (~> 1.1)
@@ -303,6 +308,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
+    ruby_dep (1.5.0)
     rubyzip (2.3.0)
     scenic (1.5.2)
       activerecord (>= 4.0.0)
@@ -405,6 +411,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder (~> 2.5)
   lefthook
+  letter_opener
   listen
   mini_magick
   minitest-ci

@@ -25,6 +25,11 @@
         background: lemonchiffon;
         padding: 0 1em;
       }
+      .info {
+        border: solid 3px #66C4E3;
+        background: aliceblue;
+        padding: 0 1em;
+      }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
@@ -42,6 +47,21 @@
       <mj-column>
         <mj-text>
           <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now} %>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <div class="info">
+            <p><strong>
+              Need to return tools?
+              <a href="https://calendly.com/chicagotoollibrary">Book a time to drop them off right here!</a>
+            </strong></p>
+            <p>
+              If you need to borrow tools as well, please <a href="mailto:team@chicagotoollibrary.org?subject=Tools%20for%20pick%20up">email us</a> and let us know what you would like to pick up.
+            </p>
+          </div>
         </mj-text>
       </mj-column>
     </mj-section>
