@@ -22,7 +22,7 @@
     <div class="shift-schedule">
       <table class="table">
         <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
-          <% daily_events.each_with_index do |event, i| %>
+          <% daily_events.sort_by{|e| [e.start, e.finish]}.each_with_index do |event, i| %>
             <tr>
               <% if i == 0 %>
                 <td rowspan="<%= daily_events.size %>%">
@@ -32,8 +32,12 @@
                   </strong>
                 </td>
               <% end %>
+              <td>
+                <%= modal title: event.summary, body: event.description do %>
+                  <%= tag.a event.summary, class: "c-help", data: {action: "click->modal#show"} %>
+                <% end %>
+              </td>
               <td><%= event.times %></td>
-              <td><%= pluralize(event.accepted_attendees_count, "person") %> signed up</td>
               <td>
                 <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
                   <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
