@@ -23,8 +23,21 @@ module Volunteer
       else
         # store requested event id for later reference
         session[:event_id] = params[:event_id]
-        redirect_to "/auth/google_oauth2"
+        render html: post_redirect("/auth/google_oauth2")
       end
+    end
+
+    private
+
+    def post_redirect(path)
+      <<~HTML.html_safe
+        <form id="redirect" action="#{helpers.send(:h, path)}" method="post">
+        <input name="authenticity_token" value="#{form_authenticity_token}" type="hidden">
+        </form>
+        <script>
+          document.getElementById("redirect").submit();
+        </script>
+      HTML
     end
   end
 end
