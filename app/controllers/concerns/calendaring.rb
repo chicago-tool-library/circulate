@@ -1,6 +1,5 @@
 module Calendaring
   extend ActiveSupport::Concern
-  # private
 
   def load_upcoming_events
     Date.beginning_of_week = :sunday

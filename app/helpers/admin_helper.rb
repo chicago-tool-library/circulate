@@ -79,4 +79,8 @@ module AdminHelper
       action +
       tag.strong(value)
   end
+
+  def modal(title:, body:, &block)
+    render "shared/modal", title: title, body: body, &block
+  end
 end

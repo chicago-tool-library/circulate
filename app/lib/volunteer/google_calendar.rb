@@ -1,10 +1,13 @@
 module Volunteer
   class GoogleCalendar
     TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
-    EVENTS_ENDPOINT = "https://www.googleapis.com/calendar/v3/calendars/#{ENV.fetch("GCAL_CALENDAR_ID")}/events"
+
+    def initialize(calendar_id: ENV.fetch("GCAL_CALENDAR_ID"))
+      @calendar_id = calendar_id
+    end
 
     def upcoming_events(start_time, end_time)
-      events_response = client.get(EVENTS_ENDPOINT, params: {
+      events_response = client.get(events_endpoint, params: {
         orderBy: "startTime",
         singleEvents: true,
         timeZone: "America/Chicago",
@@ -21,7 +24,7 @@ module Volunteer
     end
 
     def fetch_event(event_id)
-      event_url = EVENTS_ENDPOINT + "/#{event_id}"
+      event_url = events_endpoint + "/#{event_id}"
       event_response = client.get(event_url)
       unless event_response.status == 200
         return Result.failure(event_response.body.to_s)
@@ -31,7 +34,7 @@ module Volunteer
 
     def add_attendee_to_event(attendee, event_id)
       # get event by id
-      event_url = EVENTS_ENDPOINT + "/#{event_id}"
+      event_url = events_endpoint + "/#{event_id}"
       event_response = client.get(event_url)
       unless event_response.status == 200
         return Result.failure(event_response.body.to_s)
@@ -60,6 +63,10 @@ module Volunteer
 
     private
 
+    def events_endpoint
+      "https://www.googleapis.com/calendar/v3/calendars/#{@calendar_id}/events"
+    end
+
     def client
       @client ||= new_client
     end
@@ -79,6 +86,8 @@ module Volunteer
     def gcal_event_to_event(gcal_event)
       Event.new(
         id: gcal_event["id"],
+        summary: gcal_event["summary"],
+        description: gcal_event["description"],
         start: Time.iso8601(gcal_event["start"]["dateTime"]),
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
         attendees: gcal_event.fetch("attendees", []).map { |attendee|
