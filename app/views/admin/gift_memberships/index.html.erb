@@ -9,30 +9,46 @@
 
     <% if @gift_memberships.any? %>
 
-      <div class="responsive-table five-columns">
-        <%= tag.div "Code", class: "responsive-table-header" %>
-        <%= tag.div "Purchaser", class: "responsive-table-header" %>
-        <%= tag.div "Amount", class: "responsive-table-header" %>
-        <%= tag.div "Recipient", class: "responsive-table-header" %>
-        <%= tag.div "Claimed by", class: "responsive-table-header" %>
-
-        <% @gift_memberships.each do |gift_membership| %>
-          <%= tag.div class: "responsive-table-cell" do %>
-            <%= link_to gift_membership.code.format, edit_admin_gift_membership_path(gift_membership) %>
+      <table class="table table-scroll">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Purchased</th>
+            <th>Purchaser</th>
+            <th>Amount</th>
+            <th>Recipient</th>
+            <th>Claimed By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @gift_memberships.each do |gift_membership| %>
+            <tr>
+              <td>
+                <%= link_to gift_membership.code.format, edit_admin_gift_membership_path(gift_membership) %>
+              </td>
+              <td>
+                <%= date_with_time_title gift_membership.created_at %><br>
+              </td>
+              <td>
+                <%= tag.strong gift_membership.purchaser_email %><br>
+                <%= gift_membership.purchaser_name %>
+              </td>
+              <td>
+                <%= gift_membership.amount.format %>
+              </td>
+              <td>
+                <%= gift_membership.recipient_name %><br>
+              </td>
+              <td>
+                <% if gift_membership.membership %>
+                  <%= link_to preferred_or_default_name(gift_membership.membership.member), 
+                    [:admin, gift_membership.membership.member] %>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-          <%= tag.div class: "responsive-table-cell" do %>
-            <%= tag.strong gift_membership.purchaser_email %>
-            <%= gift_membership.purchaser_name %>
-          <% end %>
-          <%= tag.div gift_membership.amount.format, class: "responsive-table-cell" %>
-          <%= tag.div gift_membership.recipient_name, class: "responsive-table-cell" %>
-          <%= tag.div class: "responsive-table-cell" do %>
-            <% if gift_membership.membership %>
-              <%= link_to preferred_or_default_name(gift_membership.membership.member), [:admin, gift_membership.membership.member] %>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
+        </tbody>
+      </table>
 
       <%== pagy_bootstrap_nav(@pagy) %>
     <% else %>
