@@ -1,0 +1,11 @@
+<% content_for :header do %>
+  <%= index_header "Upcoming Appointments" %>
+<% end %>
+
+<% if @events.success? %>
+  <% @events.value.each do |event| %>
+    <%= debug event %>
+  <% end %> 
+<% else %>
+  <%= @events.error %>
+<% end %>
