@@ -8,6 +8,8 @@
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
+  * [Directly on your machine](#directly-on-your-machine)
+  * [With Docker](#with-docker)
   * [Running tests](#running-tests)
   * [Documentation](#documentation)
 - [Deployment](#deployment)
@@ -50,7 +52,28 @@ The following third party services are used:
 
 ## Development
 
-It is most convenient to run `rails server` in one terminal and `bundle exec bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development.
+Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+
+### Directly on your machine
+
+If you're new to Ruby or Rails applications, an easy way to get setup is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
+
+Once you've got a development environment setup, you'll need to run the following:
+
+```console
+$ yarn install
+$ bundle install
+$ bundle exec rails db:setup
+```
+
+It is most convenient to run `bin/rails server` in one terminal and `bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
+
+### With Docker
+
+If you're comfortable with Docker, Circulate can also be developer within that environment. `docker-compose up` should spin up a development server on `http://localhost:3000` and start all other services, including Postgres and `webpack-dev-server.
+
+
+
 
 ### Running tests
 
