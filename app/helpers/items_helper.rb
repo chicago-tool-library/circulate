@@ -50,6 +50,8 @@ module ItemsHelper
     class_name, label = if item.active?
       if item.checked_out_exclusive_loan
         ["label-warning", "Checked Out"]
+      elsif item.holds.active.count > 0
+        ["label-warning", "On Hold"]
       else
         ["label-success", "Available"]
       end

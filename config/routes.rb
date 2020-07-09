@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resources :notifications, only: :index
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
+    resources :users
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

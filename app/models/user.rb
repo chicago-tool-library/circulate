@@ -4,4 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, # :registerable,
     :recoverable, :rememberable, :validatable,
     :lockable, :timeoutable, :trackable
+
+  enum role: {
+    staff: "staff",
+    admin: "admin"
+  }
+
+  scope :by_creation_date, -> { order(created_at: :asc) }
 end

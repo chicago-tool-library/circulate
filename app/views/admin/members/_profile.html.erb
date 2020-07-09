@@ -72,21 +72,13 @@
       </div>
     <% end %>
 
-    <% if @member.status_verified? %>
-      <ul class="tab">
-        <%= tab_link "Current Loans", admin_member_path(@member) %>
-        <%= tab_link "Holds", admin_member_holds_path(@member) %>
-        <li class="tab-item">
-          <% if @member.loans.any? %>
-            <%= tab_link "Previous Loans", admin_member_loan_summaries_path(@member) %>
-          <% else %>
-            No Loans
-          <% end %>
-        </li>
-        <%= tab_link "Membership", admin_member_memberships_path(@member) %>
-        <%= tab_link "Account", admin_member_adjustments_path(@member) %>
-      </ul>
-    <% end %>
+    <ul class="tab">
+      <%= tab_link "Current Loans", admin_member_path(@member) %>
+      <%= tab_link "Holds", admin_member_holds_path(@member) %>
+      <%= tab_link "Previous Loans", admin_member_loan_summaries_path(@member) %>
+      <%= tab_link "Membership", admin_member_memberships_path(@member) %>
+      <%= tab_link "Account", admin_member_adjustments_path(@member) %>
+    </ul>
 
     <%= yield %>
 

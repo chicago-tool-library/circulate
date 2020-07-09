@@ -23,7 +23,10 @@
       </div>
 
       <div class="panel-header">
-        <h6><strong><%= @item.complete_number %></strong></h6>
+        <h6>
+          <strong><%= @item.complete_number %></strong>
+          <%= item_status_label(@item) %>
+        </h6>
       </div>
 
       <div class="panel-body">
