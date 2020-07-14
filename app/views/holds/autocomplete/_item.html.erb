@@ -1,0 +1,40 @@
+<% requested_item_ids ||= [] %>
+
+<div class="column col-3" data-controller="request-item" data-request-item-id="<%= item.id %>">
+  <div class="card tool-card">
+    <div class="card-image">
+      <% if item.image.attached? %>
+        <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [60, 60])), class: "p-centered" %>
+      <% else %>
+        <div class="image-placeholder"></div>
+      <% end %>
+      <span class="chip item-number-chip"><%= item.complete_number %></span>
+      <%= item_status_label(item) %>
+      <%= item_holds_label(item) %>
+    </div>
+    <div class="card-header">
+      <div class="card-title">
+        <%= item.name %>
+      </div>
+    </div>
+    <div class="card-footer">
+      <% if requested_item_ids.include?(item.id) %>
+        <%= button_tag class:"btn btn-warning", data: {action: "request-item#undo"} do %>
+          <span class="button-content">
+            <%= feather_icon "x" %>
+            Cancel Request
+          </span>
+          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+        <% end %>
+      <% else %>
+        <%= button_tag class:"btn", data: {action: "request-item#request"} do %>
+          <span class="button-content">
+            <%= feather_icon "clipboard" %>
+            Request
+          </span>
+          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

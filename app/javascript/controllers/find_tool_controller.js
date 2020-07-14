@@ -38,7 +38,7 @@ export default class extends Controller {
     const query = this.inputTarget.value;
     this.lastQuery = query;
 
-    let url = new URL("/autocomplete", document.location);
+    let url = new URL("/holds/autocomplete", document.location);
     url.searchParams.set("query", query);
 
     this.toggleLoader(true);
@@ -49,6 +49,7 @@ export default class extends Controller {
         this.resultsTarget.innerHTML = html;
       }
       this.toggleLoader(false);
+      document.dispatchEvent(new Event("turbolinks:load"));
     }).catch((e) => {
       this.toggleLoader(false);
       console.error(e);

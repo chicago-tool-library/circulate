@@ -210,10 +210,24 @@ $photo-width: 187px;
 
 .tool-card  {
   position: relative;
+  margin-bottom: 1rem;
+
+  .card-title {
+    height: 2.2rem;
+  }
   .item-number-chip {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background: white;
+  }
+  .item-checkout-status {
     position: absolute;
     right: 1rem;
     top: 1rem;
+  }
+  .image-placeholder {
+    width: 100%;
   }
 }
 

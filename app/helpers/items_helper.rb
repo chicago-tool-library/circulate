@@ -63,7 +63,7 @@ module ItemsHelper
 
   def item_holds_label(item)
     if item.active?
-      count = item.holds.active.count
+      count = item.active_holds.size
       if count > 0
         tag.span pluralize(count, "hold"), class: "label item-hold-status"
       end

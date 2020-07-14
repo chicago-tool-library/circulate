@@ -21,6 +21,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :holds do
+    resources :items, only: [:create, :destroy]
+    resources :hold_requests, only: [:new, :create]
+    resource :request, only: :destroy
+    get "/", to: "home#index"
+    get "autocomplete", to: "autocomplete#index"
+  end
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]
@@ -91,8 +99,6 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :documents, only: :show
   get "search", to: "searches#show"
-  get "autocomplete", to: "autocomplete#index"
-  resources :holds, only: :index
 
   root to: "home#index"
 end

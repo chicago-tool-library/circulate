@@ -1,0 +1,19 @@
+<p>You are requesting the following <%= "item".pluralize(@requested_items.size) %> be held for you:</p>
+
+<ul>
+  <% @requested_items.each do |item| %>
+    <li><%= item.complete_number %>: <%= item.name %></li>
+  <% end %>
+</ul>
+
+<%= form_with(model: @hold_request, url: holds_hold_requests_url, builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_area :notes %>
+  <%= form.text_field :email %>
+  <%= form.text_field :postal_code, label: "Zipcode" %>
+
+  <%= form.actions do %>
+    <%= form.submit "Request Items"%>
+  <% end %>
+<% end %>

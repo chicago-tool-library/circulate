@@ -1,0 +1,38 @@
+<div class="columns">
+  <div class="column col-12">
+
+    <div class="instructions">
+      <p class="main">To request items be held for you, search for them below.</p>
+      <p class="sub">When you have selected the items you are looking for, click 
+        <%= link_to "Next", new_holds_hold_request_path, class:"btn btn-primary" %>
+        to go on to the next step.</p>
+      <%= render partial: "holds/cart" %>
+      <div class="divider"></div>
+    </div>
+    
+  </div>
+</div>
+
+<%= tag.div data: { controller: "find-tool" } do %>
+  <div class="columns">
+    <div class="column">
+      <div class="form-group">
+        <label class="form-label" for="query">Search for an item to place on hold</label>
+        <div class="has-icon-right">
+          <%= tag.input \
+            name: "query",
+            data: {action: "keyup->find-tool#loadResults", target: "find-tool.input"},
+            class: "form-input"
+          %>
+          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column col-12">
+      <%= tag.div data: { target: "find-tool.results" } %>
+    </div>
+  </div>
+<% end %>

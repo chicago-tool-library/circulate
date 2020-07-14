@@ -1,0 +1,2 @@
+class HoldRequestItem < ApplicationRecord
+end

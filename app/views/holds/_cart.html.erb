@@ -1,0 +1,11 @@
+<div id="cart">
+  <p>You have requested <%= pluralize @requested_item_ids.size, "item" %>:<p>
+  <% if @requested_item_ids.size > 0 %>
+    <ul>
+      <% @requested_items.each do |item| %>
+        <li><%= item.complete_number %>: <%= item.name %> <%= link_to "Remove", holds_item_url(item.id), method: :delete, class: "btn btn-error" %></li>
+      <% end %>
+    </ul>
+    <p><%= link_to "Delete all requests", holds_request_url, method: :delete, class: "btn btn-error" %></p>
+  <% end %>
+</div>

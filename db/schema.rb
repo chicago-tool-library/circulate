@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_211015) do
+ActiveRecord::Schema.define(version: 2020_07_14_041707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
     "cash",
     "square",
     "forgiveness"
+  ]
+  create_enum :hold_request_status, [
+    "new",
+    "completed",
+    "denied"
   ]
   create_enum :notification_status, [
     "pending",
@@ -164,6 +169,26 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "recipient_name"
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
+  end
+
+  create_table "hold_request_items", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "item_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_hold_request_items_on_item_id"
+    t.index ["member_id"], name: "index_hold_request_items_on_member_id"
+  end
+
+  create_table "hold_requests", force: :cascade do |t|
+    t.string "member_number"
+    t.string "email"
+    t.bigint "member_id"
+    t.string "notes"
+    t.enum "status", default: "new", null: false, enum_name: "hold_request_status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_hold_requests_on_member_id"
   end
 
   create_table "holds", force: :cascade do |t|
@@ -315,6 +340,8 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
+  add_foreign_key "hold_request_items", "items"
+  add_foreign_key "hold_request_items", "members"
   add_foreign_key "holds", "items"
   add_foreign_key "holds", "loans"
   add_foreign_key "holds", "members"
