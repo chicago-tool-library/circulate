@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_14_041707) do
+ActiveRecord::Schema.define(version: 2020_07_22_175156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,6 +159,19 @@ ActiveRecord::Schema.define(version: 2020_07_14_041707) do
     t.string "code"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "calendar_id", null: false
+    t.string "calendar_event_id", null: false
+    t.datetime "start", null: false
+    t.datetime "finish", null: false
+    t.string "summary"
+    t.string "description"
+    t.json "attendees", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
+  end
+
   create_table "gift_memberships", force: :cascade do |t|
     t.string "purchaser_email", null: false
     t.string "purchaser_name", null: false
@@ -172,12 +185,12 @@ ActiveRecord::Schema.define(version: 2020_07_14_041707) do
   end
 
   create_table "hold_request_items", force: :cascade do |t|
-    t.bigint "member_id"
+    t.bigint "hold_request_id"
     t.bigint "item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["hold_request_id"], name: "index_hold_request_items_on_hold_request_id"
     t.index ["item_id"], name: "index_hold_request_items_on_item_id"
-    t.index ["member_id"], name: "index_hold_request_items_on_member_id"
   end
 
   create_table "hold_requests", force: :cascade do |t|
@@ -188,6 +201,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_041707) do
     t.enum "status", default: "new", null: false, enum_name: "hold_request_status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "event_id"
     t.index ["member_id"], name: "index_hold_requests_on_member_id"
   end
 
@@ -340,8 +354,8 @@ ActiveRecord::Schema.define(version: 2020_07_14_041707) do
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
+  add_foreign_key "hold_request_items", "hold_requests"
   add_foreign_key "hold_request_items", "items"
-  add_foreign_key "hold_request_items", "members"
   add_foreign_key "holds", "items"
   add_foreign_key "holds", "loans"
   add_foreign_key "holds", "members"
