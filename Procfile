@@ -1,2 +1,2 @@
 web: jemalloc.sh bundle exec puma -C config/puma.rb
-release: rails db:migrate
+release: bin/heroku_release

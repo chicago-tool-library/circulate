@@ -1,4 +1,4 @@
 desc "Bootstrap a new Heroku application"
-task :bootstrap => "db:schema:load" do
+task :bootstrap => :environment do
   puts "all set!"
 end
