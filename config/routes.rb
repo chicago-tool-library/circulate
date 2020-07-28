@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resource :request, only: :destroy
     get "/", to: "home#index"
     get "autocomplete", to: "autocomplete#index"
+    resources :confirmations, only: :show
   end
 
   namespace :volunteer do
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
     resources :categories, except: :show
+    resources :hold_requests, only: :index
     resources :gift_memberships
     resources :items do
       get :number

@@ -1,38 +1,43 @@
-<div class="columns">
-  <div class="column col-12">
+<%= tag.div data: { controller: "find-tool" }, class:"find-tools" do %>
 
-    <div class="instructions">
-      <p class="main">To request items be held for you, search for them below.</p>
-      <p class="sub">When you have selected the items you are looking for, click 
-        <%= link_to "Next", new_holds_hold_request_path, class:"btn btn-primary" %>
-        to go on to the next step.</p>
-      <%= render partial: "holds/cart" %>
-      <div class="divider"></div>
-    </div>
-    
-  </div>
-</div>
-
-<%= tag.div data: { controller: "find-tool" } do %>
   <div class="columns">
-    <div class="column">
-      <div class="form-group">
-        <label class="form-label" for="query">Search for an item to place on hold</label>
-        <div class="has-icon-right">
-          <%= tag.input \
-            name: "query",
-            data: {action: "keyup->find-tool#loadResults", target: "find-tool.input"},
-            class: "form-input"
-          %>
-          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+    <div class="column col-8 col-sm-12 col-mx-auto">
+
+      <div class="instructions">
+        <p class="main">To request items be held for you, search for them below.</p>
+        <p class="sub">Then click <em>Continue</em> to proceed to confirm your account and select when to pickup those items.</p>
+        <%= render partial: "holds/cart" %>
+        <div class="divider"></div>
+      </div>
+
+      <div class="columns">
+        <div class="column col-6">
+          <div class="form-group">
+            <label class="form-label" for="query">Search by item name or type:</label>
+            <div class="has-icon-right">
+              <%= tag.input \
+                name: "query",
+                data: {action: "keyup->find-tool#loadResults", target: "find-tool.input"},
+                class: "form-input"
+              %>
+              <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+            </div>
+          </div>
+        </div>
+        <div class="divider-vert" data-content="OR"></div>
+        <div class="column col-5">
+          <div class="continue-button">
+            <%= link_to new_holds_hold_request_path, class:"btn btn-primary" do %>
+              Continue <%= feather_icon "arrow-right"%>
+            <% end %>
+            to select time
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <div class="columns">
-    <div class="column col-12">
-      <%= tag.div data: { target: "find-tool.results" } %>
-    </div>
-  </div>
+  <%= tag.div class:"find-tool-results", data: { target: "find-tool.results" } %>
+
 <% end %>

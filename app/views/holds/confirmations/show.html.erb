@@ -1,0 +1,18 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Hold Request Complete</p>
+      <div class="divider"></div>
+    </div>
+    <p>You have requested the following items be held for pickup on <%= hold_date(@hold_request.event) %>.</p>
+    <%= render partial: "holds/items", locals: { items: @hold_request.items } %>
+    <p>We'll email you to confirm your request. If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>See you at the library!</p>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto mt-2">
+    <%= link_to "Back to Hold Request page", holds_url, class: "btn btn-block" %>
+  </div>
+</div>

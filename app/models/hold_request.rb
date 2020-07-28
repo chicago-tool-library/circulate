@@ -2,6 +2,7 @@ class HoldRequest < ApplicationRecord
   has_many :hold_request_items, dependent: :destroy
   has_many :items, through: :hold_request_items
   belongs_to :member
+  belongs_to :event
 
   attr_accessor :postal_code
 

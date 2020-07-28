@@ -1,7 +1,7 @@
 <% requested_item_ids ||= [] %>
 
-<div class="column col-3" data-controller="request-item" data-request-item-id="<%= item.id %>">
-  <div class="card tool-card">
+<div class="column col-3 col-sm-6 col-md-4" data-controller="request-item" data-request-item-id="<%= item.id %>">
+  <div class="card tool-card <%= item_status_class(item) if requested_item_ids.include?(item.id) %>">
     <div class="card-image">
       <% if item.image.attached? %>
         <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [60, 60])), class: "p-centered" %>
@@ -19,15 +19,15 @@
     </div>
     <div class="card-footer">
       <% if requested_item_ids.include?(item.id) %>
-        <%= button_tag class:"btn btn-warning", data: {action: "request-item#undo"} do %>
+        <%= button_tag class: "btn btn-sm", disabled: true do %>
           <span class="button-content">
-            <%= feather_icon "x" %>
-            Cancel Request
+            <%= feather_icon "check" %>
+            Requested
           </span>
-          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
         <% end %>
+        <%= link_to "Remove", holds_item_path(item), method: :delete, data: {action: "request-item#undo"}, class: "remove-link" %>
       <% else %>
-        <%= button_tag class:"btn", data: {action: "request-item#request"} do %>
+        <%= button_tag class:"btn btn-sm", data: {action: "request-item#request"} do %>
           <span class="button-content">
             <%= feather_icon "clipboard" %>
             Request

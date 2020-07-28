@@ -4,7 +4,7 @@
       <ul class="step">
         <% steps.each do |step| %>
           <li class="step-item <%= "active" if step.active %>">
-            <a href="#"><%= step.name %></a>
+            <%= link_to step.name, step.path || " " %>
           </li>
         <% end %>
       </ul>

@@ -1,19 +1,51 @@
-<p>You are requesting the following <%= "item".pluralize(@requested_items.size) %> be held for you:</p>
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">You are requesting <%= "this".pluralize(@requested_items.size) %> <%= "item".pluralize(@requested_items.size) %> be held for you:</p>
+      <%= render_hold_items(@requested_items) %>
+      <p>
+        <%= link_to "Add or remove items", holds_path %>
+      </p>
+      <div class="divider"></div>
+      <p class="sub">To complete your request, please provide the following information:
+    </div>
+  </div>
+</div>
 
-<ul>
-  <% @requested_items.each do |item| %>
-    <li><%= item.complete_number %>: <%= item.name %></li>
-  <% end %>
-</ul>
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <%= form_with(model: @hold_request, url: holds_hold_requests_url, builder: SpectreFormBuilder) do |form| %>
+      <%= form.errors %>
+      <% if @hold_request.errors[:email].any? %>
+        <p>
+          <%= feather_icon "info" %>
+          If you haven't signed up with Chicago Tool Library yet, you will need to
+          <%= link_to "sign up online", signup_path, target: "_blank" %> before requesting items.
+        </p>
+      <% end %>
 
-<%= form_with(model: @hold_request, url: holds_hold_requests_url, builder: SpectreFormBuilder) do |form| %>
-  <%= form.errors %>
+      <div class="columns form-group">
+        <div class="column col-12 col-md-12 col-8">
+          <%= form.text_field :email, label: "Member email", hint: "The email associated with your membership" %>
+        </div>
+        <div class="column col-md-12 col-4">
+          <%= form.text_field :postal_code, label: "Zipcode", hint: "To verify your account" %>
+        </div>
+      </div>
+      <div class="columns form-group">
+        <div class="column col-12">
+          <% if @hold_slots.success? %>
+            <%= form.select :event_id, options_for_select(hold_slot_options(@hold_slots.value)), label: "Pick up time", hint: "Please do your best to arrive during this time window", prompt: "Please select a slot..." %>
+          <% end %>
+        </div>
+        <div class="column col-12">
+          <%= form.text_area :notes, label: "Questions about tools or your project", hint: "Unable to find something? Not sure what tool to use?" %>
+        </div>
+      </div>
 
-  <%= form.text_area :notes %>
-  <%= form.text_field :email %>
-  <%= form.text_field :postal_code, label: "Zipcode" %>
-
-  <%= form.actions do %>
-    <%= form.submit "Request Items"%>
-  <% end %>
-<% end %>
+      <%= form.actions do %>
+        <%= form.submit "Submit Request"%>
+      <% end %>
+    <% end %>
+  </div>
+</div>

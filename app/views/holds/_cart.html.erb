@@ -1,11 +1,13 @@
 <div id="cart">
-  <p>You have requested <%= pluralize @requested_item_ids.size, "item" %>:<p>
-  <% if @requested_item_ids.size > 0 %>
-    <ul>
-      <% @requested_items.each do |item| %>
-        <li><%= item.complete_number %>: <%= item.name %> <%= link_to "Remove", holds_item_url(item.id), method: :delete, class: "btn btn-error" %></li>
+  <% if @requested_items.any? %>
+    <p>You have requested <%= pluralize @requested_item_ids.size, "item" %>:<p>
+
+    <%= render_hold_items(@requested_items) do |item, display| %>
+      <% tag.div data: {controller: "request-item", request_item_id: item.id } do %>
+        <%= link_to "Remove", holds_item_url(item.id), data: { action: "request-item#undo"}, class: "remove-link" %>
       <% end %>
-    </ul>
-    <p><%= link_to "Delete all requests", holds_request_url, method: :delete, class: "btn btn-error" %></p>
+    <% end %>
+    
+    <p><%= link_to "Remove all items", holds_request_url, method: :delete, data: { confirm: "Are you sure you want to remove all selected items? Click OK to remove all items or Cancel to keep them."} %></p>
   <% end %>
 </div>

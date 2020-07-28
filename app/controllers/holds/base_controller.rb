@@ -8,20 +8,10 @@ module Holds
 
     private
 
-    # def load_member
-    #   if session[:member_id] && session[:timeout] && session[:timeout] > Time.current - 15.minutes
-    #     @member = Member.find(session[:member_id])
-    #   else
-    #     reset_session
-    #     flash[:error] = "Your session expired."
-    #     redirect_to signup_url
-    #   end
-    # end
-
     def load_steps
       @steps = [
-        Step.new(:items, name: "Find Items"),
-        Step.new(:submit, name: "Submit"),
+        Step.new(:items, name: "Find Items", path: holds_path),
+        Step.new(:submit, name: "Submit Request", path: new_holds_hold_request_path),
         Step.new(:complete, name: "Complete")
       ]
     end

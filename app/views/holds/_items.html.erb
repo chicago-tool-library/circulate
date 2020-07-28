@@ -1,0 +1,16 @@
+<% if items.size > 0 %>
+  <ul class="hold-items clearfix">
+    <% items.each do |item| %>
+      <li class="hold-item <%= item_status_class(item) %>">
+        <% if item.image.attached? %>
+          <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [80, 60])) %>
+        <% end %>
+        <span class="item-name">
+          <%= item.complete_number %>: <%= item.name %><br>
+          <%= item_status_label item %>
+          <%= yield item if block_given? %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

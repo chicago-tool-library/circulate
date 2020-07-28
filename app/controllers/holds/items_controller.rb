@@ -17,6 +17,7 @@ module Holds
       @item = Item.find(item_id)
 
       @requested_item_ids.delete(@item.id)
+      load_requested_items
 
       render :items
     end

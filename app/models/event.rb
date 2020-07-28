@@ -1,4 +1,13 @@
 class Event < ApplicationRecord
+  def date
+    start.to_date
+  end
+
+  def times
+    hour_meridian = "%l%P"
+    start.strftime(hour_meridian) + " - " + finish.strftime(hour_meridian).strip
+  end
+
   def self.update_events(gcal_events)
     gcal_events.each do |gcal_event|
       transaction(requires_new: true) do

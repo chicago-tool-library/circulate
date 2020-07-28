@@ -61,6 +61,20 @@ module ItemsHelper
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
 
+  def item_status_class(item)
+    if item.active?
+      if item.checked_out_exclusive_loan
+        "status-checked-out"
+      elsif item.holds.active.count > 0
+        "status-on-hold"
+      else
+        "status-available"
+      end
+    else
+      "status-unavailable"
+    end
+  end
+
   def item_holds_label(item)
     if item.active?
       count = item.active_holds.size

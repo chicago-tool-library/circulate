@@ -3,13 +3,19 @@ module Holds
     def new
       activate_step(:submit)
       @hold_request = HoldRequest.new
+      @hold_slots = fetch_hold_slots
     end
 
     def create
       @hold_request = HoldRequest.new(hold_request_params)
+      @hold_request.hold_request_items = @requested_items.map { |item|
+        HoldRequestItem.new(item_id: item.id)
+      }
       if @hold_request.save
-        redirect_to holds_path
+        session.delete(:requested_item_ids)
+        redirect_to holds_confirmation_path(@hold_request.to_sgid)
       else
+        @hold_slots = fetch_hold_slots
         activate_step(:submit)
         render :new, status: 422
       end
@@ -18,7 +24,15 @@ module Holds
     private
 
     def hold_request_params
-      params.require(:hold_request).permit(:notes, :email, :postal_code)
+      params.require(:hold_request).permit(:notes, :email, :postal_code, :event_id)
+    end
+
+    def fetch_hold_slots
+      slots = GoogleCalendar.new(calendar_id: ENV.fetch("HOLD_SLOTS_GOOGLE_CALENDAR_ID")).upcoming_events(
+        Time.current, 3.weeks.since
+      )
+      Event.update_events(slots.value)
+      slots
     end
   end
 end

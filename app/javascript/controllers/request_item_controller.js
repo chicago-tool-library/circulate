@@ -13,11 +13,15 @@ export default class extends Controller {
   }
 
   undo(event) {
-    this.submit("DELETE")
+    event.preventDefault();
+    event.stopPropagation();
+    this.submit("DELETE");
   }
 
   request(event) {
-    this.submit("POST")
+    event.preventDefault();
+    event.stopPropagation();
+    this.submit("POST");
   }
 
   // Send data to server
@@ -47,8 +51,10 @@ export default class extends Controller {
       document.getElementById("cart").replaceWith(newCart);
 
       const newCard = div.querySelector(".tool-card");
-      this.element.querySelector(".tool-card").replaceWith(newCard);
-
+      const existingCard = this.element.querySelector(".tool-card");
+      if (existingCard) {
+        existingCard.replaceWith(newCard);
+      }
       document.dispatchEvent(new Event("turbolinks:load"));
     }).catch((e) => {
       // this.toggleLoader(false);
