@@ -1,0 +1,32 @@
+{
+  "name": "Circulate",
+  "description": "An operating system for tool lending libraries",
+  "repository": "https://github.com/chicagotoollibrary/circulate",
+  "scripts": {
+    "postdeploy": "bundle exec rake bootstrap"
+  },
+  "env": { },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "addons": [
+    "bucketeer:hobbyist",
+    "heroku-postgresql:hobby-basic"
+  ],
+  "buildpacks": [
+    { "url": "https://github.com/mojodna/heroku-buildpack-jemalloc.git" },
+    { "url": "heroku/metrics" },
+    { "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview" },
+    { "url": "heroku/ruby" }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rake test"
+      }
+    }
+  }
+}
