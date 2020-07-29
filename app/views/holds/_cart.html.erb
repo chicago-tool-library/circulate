@@ -1,6 +1,6 @@
 <div id="cart">
   <% if @requested_items.any? %>
-    <p>You have requested <%= pluralize @requested_item_ids.size, "item" %>:<p>
+    <p>You have selected <%= pluralize @requested_item_ids.size, "item" %>:<p>
 
     <%= render_hold_items(@requested_items) do |item, display| %>
       <% tag.div data: {controller: "request-item", request_item_id: item.id } do %>

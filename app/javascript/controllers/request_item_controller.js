@@ -51,7 +51,8 @@ export default class extends Controller {
       document.getElementById("cart").replaceWith(newCart);
 
       const newCard = div.querySelector(".tool-card");
-      const existingCard = this.element.querySelector(".tool-card");
+      const existingCard = document.querySelector(`div[data-request-item-id='${itemID}'] .tool-card`);
+
       if (existingCard) {
         existingCard.replaceWith(newCard);
       }
