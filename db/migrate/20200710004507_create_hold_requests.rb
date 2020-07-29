@@ -14,11 +14,5 @@ class CreateHoldRequests < ActiveRecord::Migration[6.0]
       t.enum :status, enum_name: :hold_request_status, null: false, default: "new"
       t.timestamps
     end
-
-    create_table :hold_request_items do |t|
-      t.references :member
-      t.references :item
-      t.timestamps
-    end
   end
 end
