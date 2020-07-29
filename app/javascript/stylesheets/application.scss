@@ -235,6 +235,10 @@ $photo-width: 187px;
   &.status-on-hold, &.status-checked-out {
     border-color: $warning-color;
   }
+  &.status-available, &.status-on-hold, &.status-checked-out {
+    border-width: 3px;
+    margin: -2px;
+  }
 
   .remove-link {
     margin-left: 0.5em;

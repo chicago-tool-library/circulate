@@ -3,7 +3,7 @@
     <% items.each do |item| %>
       <li class="hold-item <%= item_status_class(item) %>">
         <% if item.image.attached? %>
-          <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [80, 60])) %>
+          <%= image_tag item_image_url(item, resize_to_limit: [80, 60]) %>
         <% end %>
         <span class="item-name">
           <%= item.complete_number %>: <%= item.name %><br>

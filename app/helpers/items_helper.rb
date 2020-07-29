@@ -42,6 +42,26 @@ module ItemsHelper
     image.variant(options)
   end
 
+  def item_image_url(item, options = {})
+    if ENV["IMAGEKIT_URL"]
+      transforms = if options[:resize_to_limit]
+        width, height = options[:resize_to_limit]
+        "tr=w-#{width},h-#{height},fo-auto"
+      else
+        ""
+      end
+
+      if item.image.metadata.key? "rotation"
+        transforms << ",rt-#{item.image.metadata["rotation"]}"
+      end
+
+      ENV["IMAGEKIT_URL"] + item.image.blob.key + "?" + transforms
+    else
+      # fallback when there isn't an image proxy in place
+      rotated_variant(image, options)
+    end
+  end
+
   def full_item_number(item)
     item.complete_number
   end
