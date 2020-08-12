@@ -67,8 +67,8 @@ task update_staging_database: [:pull_production_database, :environment] do
   puts `heroku pg:push circulate_development DATABASE_URL --app ctl-staging`
 end
 
-desc "Update data database with latest scrubbed data"
-task update_data_database: [:pull_production_database, :environment] do
+desc "Update analysis database with latest scrubbed data"
+task update_analysis_database: [:pull_production_database, :environment] do
   raise "no way buddy" if Rails.env.production?
 
   scrub_data
