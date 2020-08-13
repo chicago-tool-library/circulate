@@ -1,7 +1,7 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
     <div class="instructions">
-      <p class="main">You are requesting <%= "this".pluralize(@requested_items.size) %> <%= "item".pluralize(@requested_items.size) %> be held for you:</p>
+      <p class="main">You are requesting <%= "this".pluralize(@requested_items.size) %> <%= "item".pluralize(@requested_items.size) %>:</p>
       <%= render_hold_items(@requested_items) %>
       <p>
         <%= link_to "Add or remove items", holds_path %>
