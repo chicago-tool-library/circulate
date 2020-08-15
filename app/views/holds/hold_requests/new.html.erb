@@ -34,9 +34,7 @@
       </div>
       <div class="columns form-group">
         <div class="column col-12">
-          <% if @hold_slots.success? %>
-            <%= form.select :event_id, options_for_select(hold_slot_options(@hold_slots.value)), label: "Pick up time", hint: "Please do your best to arrive during this time window", prompt: "Please select a slot..." %>
-          <% end %>
+          <%= form.select :event_id, options_for_select(hold_slot_options(@hold_slots)), label: "Pick up time", hint: "Please do your best to arrive during this time window", prompt: "Please select a slot..." %>
         </div>
         <div class="column col-12">
           <%= form.text_area :notes, label: "Questions about tools or your project", hint: "Unable to find something? Not sure what tool to use?" %>

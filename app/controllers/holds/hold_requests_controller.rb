@@ -28,11 +28,15 @@ module Holds
     end
 
     def fetch_hold_slots
-      slots = GoogleCalendar.new(calendar_id: ENV.fetch("HOLD_SLOTS_GOOGLE_CALENDAR_ID")).upcoming_events(
-        Time.current, 3.weeks.since
-      )
-      Event.update_events(slots.value)
-      slots
+      if ENV.fetch("FETCH_HOLD_SLOTS", false)
+        slots = GoogleCalendar.new(calendar_id: ENV.fetch("HOLD_SLOTS_GOOGLE_CALENDAR_ID")).upcoming_events(
+          Time.current, 3.weeks.since
+        )
+        Event.update_events(slots.value)
+        slots.value
+      else
+        Event.upcoming
+      end
     end
   end
 end

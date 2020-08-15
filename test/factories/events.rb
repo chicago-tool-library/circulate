@@ -1,11 +1,13 @@
 FactoryBot.define do
+  sequence :calendar_event_id do |n|
+    "CALEVENTID#{n}"
+  end
   factory :event do
-    calendar_id { "MyString" }
-    google_event_id { "MyString" }
+    calendar_id { "calid1234" }
+    calendar_event_id
     start { "2020-07-22 12:51:56" }
     finish { "2020-07-22 12:51:56" }
-    summary { "MyString" }
-    description { "MyString" }
-    attendees { "" }
+    summary { "An event" }
+    description { "More information about the event" }
   end
 end

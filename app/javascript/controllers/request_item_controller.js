@@ -37,11 +37,12 @@ export default class extends Controller {
 
     // this.toggleLoader(true);
     
-    const token = document.querySelector("meta[name=csrf-token]").content;
+    const crsfMeta = document.querySelector("meta[name=csrf-token]");
+    const headers = crsfMeta ? { "X-CSRF-Token": crsfMeta.content } : {};
 
     fetch(url, {
       method: method,
-      headers: { "X-CSRF-Token": token }
+      headers: headers
     }).then(response => response.text()).then((html) => {
       const div = document.createElement("div");
 

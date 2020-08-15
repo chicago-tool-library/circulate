@@ -1,7 +1,7 @@
 <% requested_item_ids ||= [] %>
 
 <div class="column col-3 col-sm-6 col-md-4" data-controller="request-item" data-request-item-id="<%= item.id %>">
-  <div class="card tool-card <%= item_status_class(item) if requested_item_ids.include?(item.id) %>">
+  <div class="card tool-card <%= item_status_class(item) if requested_item_ids.include?(item.id) %>" id="<%= dom_id(item) %>">
     <div class="card-image">
       <% if item.image.attached? %>
         <%= image_tag item_image_url(item, resize_to_limit: [226, 164]), class: "p-centered" %>

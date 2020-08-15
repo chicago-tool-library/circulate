@@ -1,4 +1,5 @@
 class Event < ApplicationRecord
+  scope :upcoming, -> { where("start > ?", Time.current) }
   def date
     start.to_date
   end
