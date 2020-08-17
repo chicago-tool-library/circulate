@@ -14,7 +14,9 @@
     </div>
     <div class="card-header">
       <div class="card-title">
-        <%= item.name %>
+        <%= modal title: item.name, body: render(partial: "items/details", locals: {item: item}) do %>
+          <%= tag.a item.name, class: "c-help", data: {action: "click->modal#show"} %>
+        <% end %>
       </div>
     </div>
     <div class="card-footer">

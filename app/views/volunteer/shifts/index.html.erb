@@ -33,7 +33,7 @@
                 </td>
               <% end %>
               <td>
-                <%= modal title: event.summary, body: event.description do %>
+                <%= modal title: event.summary, body: sanitize(event.description, tags: %w(a br), attributes: %w(href)) do %>
                   <%= tag.a event.summary, class: "c-help", data: {action: "click->modal#show"} %>
                 <% end %>
               </td>
