@@ -124,3 +124,17 @@ trix-toolbar {
     }
   }
 }
+
+// Improve contrast on labels
+.label {
+  &, &.label-success, &.label-warning, &.label-error, &.label-primary, &.label-secondary {
+    color: inherit;
+  }
+  background-color: lighten($gray-color-light, 1%);
+
+  &.label-primary { background-color: lighten($primary-color, 30%); }
+  &.label-secondary { background-color: lighten($secondary-color, 20%); }
+  &.label-success { background-color: lighten($success-color, 20%); }
+  &.label-warning { background-color: lighten($warning-color, 20%); }
+  &.label-error { background-color: lighten($error-color, 20%); }
+}
