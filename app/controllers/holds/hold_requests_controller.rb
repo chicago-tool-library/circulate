@@ -12,6 +12,7 @@ module Holds
         HoldRequestItem.new(item_id: item.id)
       }
       if @hold_request.save
+        MemberMailer.with(hold_request: @hold_request).hold_confirmation.deliver_later
         session.delete(:requested_item_ids)
         redirect_to holds_confirmation_path(@hold_request.to_sgid)
       else
