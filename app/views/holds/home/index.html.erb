@@ -27,12 +27,7 @@
         </div>
         <div class="divider-vert" data-content="OR"></div>
         <div class="column col-5">
-          <div class="continue-button">
-            <%= link_to new_holds_hold_request_path, class:"btn btn-primary" do %>
-              Continue <%= feather_icon "arrow-right"%>
-            <% end %>
-            to select time
-          </div>
+          <%= render partial: "holds/continue", locals: {requested_items: @requested_items} %>
         </div>
       </div>
 

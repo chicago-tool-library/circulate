@@ -5,7 +5,7 @@ module Holds
     include ActionView::RecordIdentifier
 
     def setup
-      # ActionMailer::Base.deliveries.clear
+      ActionMailer::Base.deliveries.clear
       @drill1 = create(:item, name: "Drill 1")
       @drill2 = create(:item, name: "Drill 2")
 
@@ -23,7 +23,7 @@ module Holds
         visit holds_url
 
         assert_text "Search for items below"
-        # assert_button "Continue", disabled: true
+        find "a[disabled]", text: "Continue"
 
         fill_in "query", with: "drill"
 
@@ -45,11 +45,20 @@ module Holds
         fill_in "Questions about tools or your project", with: "I am looking to make some holes"
 
         assert_difference "HoldRequest.count" do
-          click_button "Submit Request"
+          perform_enqueued_jobs do
+            click_button "Submit Request"
 
-          assert_text "Hold Request Complete"
-          assert_text @drill1.complete_number
-          assert_text "Saturday, August 15, between 10am & 11am"
+            assert_text "Hold Request Complete"
+            assert_text @drill1.complete_number
+            assert_text "Saturday, August 15, between 10am & 11am"
+          end
+        end
+
+        assert_emails 1
+        assert_delivered_email(to: @member.email) do |html, text|
+          assert_includes html, "Your recent holds"
+          assert_includes html, "Saturday, August 15, between 10am & 11am"
+          assert_includes html, @drill1.complete_number
         end
 
         visit holds_url

@@ -51,6 +51,9 @@ export default class extends Controller {
       const newCart = div.querySelector("#cart");
       document.getElementById("cart").replaceWith(newCart);
 
+      const newContinue = div.querySelector("#continue-button");
+      document.getElementById("continue-button").replaceWith(newContinue);
+
       const newCard = div.querySelector(".tool-card");
       const existingCard = document.querySelector(`div[data-request-item-id='${itemID}'] .tool-card`);
 
