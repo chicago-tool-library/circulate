@@ -1,9 +1,13 @@
 module Holds
   class HoldRequestsController < BaseController
     def new
-      activate_step(:submit)
-      @hold_request = HoldRequest.new
-      @hold_slots = fetch_hold_slots
+      if @requested_item_ids.empty?
+        redirect_to holds_url, warning: "You must select items before continuing"
+      else
+        activate_step(:submit)
+        @hold_request = HoldRequest.new
+        @hold_slots = fetch_hold_slots
+      end
     end
 
     def create
