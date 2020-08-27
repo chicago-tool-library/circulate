@@ -4,18 +4,19 @@
 
 <!-- toc -->
 
-- [About](#about)
-- [Requirements](#requirements)
-- [Integrations](#integrations)
-- [Development](#development)
-  * [Directly on your machine](#directly-on-your-machine)
-  * [Running tests](#running-tests)
-  * [Documentation](#documentation)
-- [Deployment](#deployment)
-  * [Buildpacks](#buildpacks)
-  * [Release Command](#release-command)
-  * [Daily Summary Emails](#daily-summary-emails)
-- [Alternatives](#alternatives)
+- [Circulate](#circulate)
+  - [About](#about)
+  - [Requirements](#requirements)
+  - [Integrations](#integrations)
+  - [Development](#development)
+    - [Directly on your machine](#directly-on-your-machine)
+    - [Running tests](#running-tests)
+    - [Documentation](#documentation)
+  - [Deployment](#deployment)
+    - [Buildpacks](#buildpacks)
+    - [Release Command](#release-command)
+    - [Daily Summary Emails](#daily-summary-emails)
+  - [Alternatives](#alternatives)
 
 <!-- tocstop -->
 
@@ -66,6 +67,11 @@ $ bundle exec rails db:setup
 ```
 
 It is most convenient to run `bin/rails server` in one terminal and `bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
+
+After you have the application running, here are some places to explore:
+
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password.
+2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Running tests
 
