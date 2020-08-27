@@ -133,8 +133,19 @@ trix-toolbar {
   background-color: lighten($gray-color-light, 1%);
 
   &.label-primary { background-color: lighten($primary-color, 30%); }
-  &.label-secondary { background-color: lighten($secondary-color, 20%); }
+  &.label-secondary { background-color: $secondary-color-light; }
   &.label-success { background-color: lighten($success-color, 20%); }
   &.label-warning { background-color: lighten($warning-color, 20%); }
   &.label-error { background-color: lighten($error-color, 20%); }
+}
+
+.toast {
+  color: inherit;
+  background-color: lighten($gray-color-light, 1%);
+
+  &.toast-primary { background-color: lighten($primary-color, 30%); }
+  &.toast-secondary { background-color: $secondary-color-light; }
+  &.toast-success { background-color: lighten($success-color, 20%); }
+  &.toast-warning { background-color: lighten($warning-color, 20%); }
+  &.toast-error { background-color: lighten($error-color, 20%); }
 }

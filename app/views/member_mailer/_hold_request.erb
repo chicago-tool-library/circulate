@@ -1,4 +1,9 @@
-<p>You have requested the following items be held for pickup on <strong><%= hold_date(hold_request.event) %></strong>.</p>
+<% if hold_request.event_id? %>
+  <p>You have requested the following items be held for pickup on <strong><%= hold_date(hold_request.event) %></strong>.</p>
+<% else %>
+  <p>You have requested the following items. <strong>We'll email you when they are ready and you can then schedule a time to pick them up.</strong></p>
+<% end %>
+
 <ul>
 <% hold_request.items.each do |item| %>
   <li>

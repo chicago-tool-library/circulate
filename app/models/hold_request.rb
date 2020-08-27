@@ -2,16 +2,16 @@ class HoldRequest < ApplicationRecord
   has_many :hold_request_items, dependent: :destroy
   has_many :items, through: :hold_request_items
   belongs_to :member
-  belongs_to :event
+  belongs_to :event, required: false
 
   attr_accessor :postal_code
 
   validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
-  validates :event_id, presence: {message: "must select a time slot"}
 
   before_validation :set_member
   after_validation :add_member_errors
+  after_validation :add_event_id_errors
 
   private
 
@@ -26,6 +26,12 @@ class HoldRequest < ApplicationRecord
     if errors.keys == [:member]
       errors.add(:email, "no account for this email and zipcode")
       errors.add(:postal_code, "")
+    end
+  end
+
+  def add_event_id_errors
+    if event_id.blank? && hold_request_items.all? { |hrq| hrq.item.holdable? }
+      errors.add(:event_id, "must select a pickup slot")
     end
   end
 end

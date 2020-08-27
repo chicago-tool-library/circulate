@@ -4,7 +4,11 @@
       <p class="main">Hold Request Complete</p>
       <div class="divider"></div>
     </div>
-    <p>You have requested the following items be held for pickup on <%= hold_date(@hold_request.event) %>.</p>
+    <% if @hold_request.event_id? %>
+      <p>You have requested the following items be held for pickup on <strong><%= hold_date(@hold_request.event) %></strong>.</p>
+    <% else %>
+      <p>You have requested the following items. <strong>We'll email you when they are ready and you can then schedule a time to pick them up.</strong></p>
+    <% end %>
     <%= render partial: "holds/items", locals: { items: @hold_request.items } %>
     <p>We'll email you to confirm your request. If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
     <p>See you at the library!</p>

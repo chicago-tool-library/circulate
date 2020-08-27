@@ -67,63 +67,68 @@ module Holds
       end
     end
 
-    #   test "signup and pay through square", :remote do
-    #     complete_first_three_steps
+    test "search for checked out items and place on hold" do
+      travel_to Date.parse("2020-08-13") do
+        @member = create(:verified_member_with_membership)
+        create(:loan, item: @drill1, member: @member)
 
-    #     fill_in "Your membership fee:", with: "42"
-    #     click_on "Pay Online Now"
+        visit holds_url
 
-    #     # On Square site
+        assert_text "Search for items below"
+        find "a[disabled]", text: "Continue"
 
-    #     assert_selector "h1", text: "Checkout", wait: 10 # cart needs a little while to fully load
-    #     assert_selector ".order-details-section", text: "1 × Annual Membership"
+        fill_in "query", with: "drill"
 
-    #     fill_in "card_fullname", with: "N. K. Jemisin"
+        within "#" + dom_id(@drill1) do
+          assert_content "Checked Out"
 
-    #     page.within_frame("sq-card-number") { page.first("input").fill_in with: "4111111111111111" }
-    #     page.within_frame("sq-expiration-date") { page.find("input").fill_in with: "1221" }
-    #     page.within_frame("sq-cvv") { page.find("input").fill_in with: "123" }
-    #     page.within_frame("sq-postal-code") { page.first("input").fill_in with: "60647" }
+          click_on "Request"
 
-    #     perform_enqueued_jobs do
-    #       click_on "Place Order"
+          assert_button "Requested", disabled: true
+        end
 
-    #       # Back in the app
-    #       assert_selector "li.step-item.active", text: "Complete", wait: 10
-    #     end
+        within "#" + dom_id(@drill2) do
+          click_on "Request"
 
-    #     assert_content "Your payment of $42.00"
-    #     assert_content "See you at the library!"
+          assert_button "Requested", disabled: true
+        end
 
-    #     assert_emails 1
-    #     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
-    #       assert_includes html, "Thank you for signing up"
-    #       assert_includes html, "Your payment of $42.00"
-    #     end
-    #   end
+        click_on "Continue"
 
-    #   test "signup and redeem a gift membership" do
-    #     complete_first_three_steps
-    #     gift_membership = create(:gift_membership)
+        assert_text "You are requesting these items"
+        assert_text @drill1.complete_number
+        assert_text @drill2.complete_number
 
-    #     click_on "Redeem Gift Membership"
+        assert_text "checked out or on hold for other members"
 
-    #     fill_in "signup_redemption_code", with: gift_membership.code.value
+        fill_in "Member email", with: @member.email
+        fill_in "Zipcode", with: @member.postal_code
 
-    #     perform_enqueued_jobs do
-    #       click_on "Redeem"
+        assert_select "Pick up time", disabled: true
+        fill_in "Questions about tools or your project", with: "I am looking to make some holes"
 
-    #       assert_content "See you at the library!", wait: 10
-    #     end
-    #     refute_content "Your payment"
+        assert_difference "HoldRequest.count" do
+          perform_enqueued_jobs do
+            click_button "Submit Request"
 
-    #     assert_emails 1
-    #     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
-    #       assert_includes html, "Thank you for signing up"
-    #       refute_includes html, "Your payment"
-    #     end
+            assert_text "Hold Request Complete"
+            assert_text @drill1.complete_number
+            assert_text "email you when they are ready"
+          end
+        end
 
-    #     assert_equal 0, Member.last.adjustments.count
-    #   end
+        assert_emails 1
+        assert_delivered_email(to: @member.email) do |html, text|
+          assert_includes html, "Your recent holds"
+          assert_includes html, "email you when they are ready"
+          assert_includes html, @drill1.complete_number
+          assert_includes html, @drill2.complete_number
+        end
+
+        visit holds_url
+
+        refute_text "You have selected" # ensure the cart was emptied
+      end
+    end
   end
 end

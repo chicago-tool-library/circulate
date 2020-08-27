@@ -83,6 +83,10 @@ class Item < ApplicationRecord
     "#{borrow_policy.code}-#{number}"
   end
 
+  def holdable?
+    available? && active_holds.size == 0
+  end
+
   private
 
   def strip_whitespace
