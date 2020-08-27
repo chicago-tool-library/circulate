@@ -9,7 +9,6 @@
 - [Integrations](#integrations)
 - [Development](#development)
   * [Directly on your machine](#directly-on-your-machine)
-  * [With Docker](#with-docker)
   * [Running tests](#running-tests)
   * [Documentation](#documentation)
 - [Deployment](#deployment)
@@ -68,13 +67,6 @@ $ bundle exec rails db:setup
 
 It is most convenient to run `bin/rails server` in one terminal and `bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
 
-### With Docker
-
-If you're comfortable with Docker, Circulate can also be developer within that environment. `docker-compose up` should spin up a development server on `http://localhost:3000` and start all other services, including Postgres and `webpack-dev-server.
-
-
-
-
 ### Running tests
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
@@ -98,7 +90,7 @@ The following addons are expected to be enabled:
 
 ```
 $ heroku addons
-Add-on                                           Plan       Price     State  
+Add-on                                           Plan       Price     State
 ───────────────────────────────────────────────  ─────────  ────────  ───────
 bucketeer (bucketeer-defined-xxxxx)              hobbyist   $5/month  created
  └─ as BUCKETEER
