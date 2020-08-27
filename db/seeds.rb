@@ -30,3 +30,23 @@ end
 
 User.create!(email: "admin@chicagotoollibrary.org", password: "password")
 BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
+
+Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
+Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
+Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
+
+verified_member = Member.create!(
+  email: "verifiedmember@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
+  phone_number: "3124567890", pronoun: 1, id_kind: 0, address_verified: true, desires: "saws, hammers",
+  address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
+  reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+)
+
+verified_member.memberships.create!(started_on: Time.current)
+
+Member.create!(
+  email: "newmember@example.com", full_name: "Firstname Lastname", preferred_name: "New",
+  phone_number: "3124567890", pronoun: 1, id_kind: 0, address_verified: false, desires: "saws, hammers",
+  address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
+  reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+)
