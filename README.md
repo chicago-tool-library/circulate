@@ -4,19 +4,18 @@
 
 <!-- toc -->
 
-- [Circulate](#circulate)
-  - [About](#about)
-  - [Requirements](#requirements)
-  - [Integrations](#integrations)
-  - [Development](#development)
-    - [Directly on your machine](#directly-on-your-machine)
-    - [Running tests](#running-tests)
-    - [Documentation](#documentation)
-  - [Deployment](#deployment)
-    - [Buildpacks](#buildpacks)
-    - [Release Command](#release-command)
-    - [Daily Summary Emails](#daily-summary-emails)
-  - [Alternatives](#alternatives)
+- [About](#about)
+- [Requirements](#requirements)
+- [Integrations](#integrations)
+- [Development](#development)
+  * [Directly on your machine](#directly-on-your-machine)
+  * [Running tests](#running-tests)
+  * [Documentation](#documentation)
+- [Deployment](#deployment)
+  * [Buildpacks](#buildpacks)
+  * [Release Command](#release-command)
+  * [Daily Summary Emails](#daily-summary-emails)
+- [Alternatives](#alternatives)
 
 <!-- tocstop -->
 
