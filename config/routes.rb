@@ -1,24 +1,22 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  if ENV["CIRCULATE_SIGNUP"]
-    namespace :signup do
-      resources :members, only: [:new, :create]
-      scope :documents do
-        get :agreement, to: "documents#agreement"
-        get :rules, to: "documents#rules"
+  namespace :signup do
+    resources :members, only: [:new, :create]
+    scope :documents do
+      get :agreement, to: "documents#agreement"
+      get :rules, to: "documents#rules"
 
-        resource :acceptance, only: [:create, :destroy]
-      end
-      resources :payments, only: [:new, :create] do
-        get :callback, on: :collection
-        post :skip, on: :collection
-      end
-      resources :redemptions, only: [:new, :create]
-
-      get "confirmation", to: "confirmations#show"
-      get "/", to: "home#index"
+      resource :acceptance, only: [:create, :destroy]
     end
+    resources :payments, only: [:new, :create] do
+      get :callback, on: :collection
+      post :skip, on: :collection
+    end
+    resources :redemptions, only: [:new, :create]
+
+    get "confirmation", to: "confirmations#show"
+    get "/", to: "home#index"
   end
 
   namespace :volunteer do
