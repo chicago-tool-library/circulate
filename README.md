@@ -31,6 +31,12 @@ Circulate is an operating system for lending libraries. It is in the early stage
 
 There is content and information hard-coded in many of the views that is specific to The Chicago Tool Library, for which the software is being initially developed. Over time, the plan is for these specifics to make their way into configuration or user-editable content so that the software is easily used by other lending libraries.
 
+### Project Considerations
+* The Chicago Tool Library serves a diverse group of people in Chicago, with varying levels of technological sophistication, abilities, and understandings of English. The app should strive to be accessible to as many people as possible, including easy-to-understand UX; accessibility to different levels of vision (blind, low vision, color-blind); and straightforward, simple English.
+* circulate may be used by other tool libraries or other lending organizations in the future, so should be built with an eye towards multi-tenancy. (Multi-lingual support may also be a goal someday!)
+* Many desired features may be able to be adapted from [babywearing](https://github.com/rubyforgood/babywearing), Ruby For Good's lending app for babywearing accessories.
+
+
 ## Requirements
 
 Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
