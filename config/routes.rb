@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       get "/dev/styles", to: "dev#styles"
     end
 
-    get "/", to: redirect("/admin/items")
+    get "/", to: "dashboard#index", as: "dashboard"
   end
 
   get "/s/:id", to: "short_links#show", as: :short_link
