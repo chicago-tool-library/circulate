@@ -10,6 +10,10 @@ class User < ApplicationRecord
     admin: "admin"
   }
 
+  def roles
+    [role.to_sym]
+  end
+
   belongs_to :member, optional: true
 
   scope :by_creation_date, -> { order(created_at: :asc) }

@@ -42,10 +42,19 @@ class Member < ApplicationRecord
 
   def roles
     roles = [:member]
+    if user
+      roles.concat user.roles
+    end
+
+    roles
   end
 
   def member?
     roles.include? :member
+  end
+
+  def staff?
+    roles.include? :staff
   end
 
   def assign_number
