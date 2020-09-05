@@ -11,7 +11,14 @@ class User < ApplicationRecord
   }
 
   def roles
-    [role.to_sym]
+    case role
+    when 'staff'
+      [:staff]
+    when 'admin'
+      [:staff, :admin]
+    else
+      []
+    end
   end
 
   belongs_to :member, optional: true

@@ -22,4 +22,12 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal [:member, :staff], member.roles
     assert member.staff?
   end
+
+  test "an 'admin' member has the role 'admin', 'staff', and 'member'" do
+    user = User.new(role: 'admin')
+    member = Member.new(user: user)
+
+    assert_equal [:member, :staff, :admin], member.roles
+    assert member.admin?
+  end
 end
