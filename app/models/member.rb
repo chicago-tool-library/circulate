@@ -23,6 +23,7 @@ class Member < ApplicationRecord
   validates :city, presence: true
   validates :region, presence: true
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
+  validate :postal_code_must_be_in_chicago
 
   scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
@@ -82,5 +83,13 @@ class Member < ApplicationRecord
   def set_default_address_fields
     self.city ||= "Chicago"
     self.region ||= "IL"
+  end
+
+  def postal_code_must_be_in_chicago
+    return true if postal_code.nil?
+
+    unless ["60707", "60827"].include?(postal_code) || postal_code.starts_with?("606")
+      errors.add :postal_code, "must be in Chicago"
+    end
   end
 end
