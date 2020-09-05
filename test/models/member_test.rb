@@ -7,4 +7,11 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_equal "1234567890", member.phone_number
   end
+
+  test "member without a user has a role 'member'" do
+    member = Member.new
+
+    assert_equal [:member], member.roles
+    assert member.member?
+  end
 end

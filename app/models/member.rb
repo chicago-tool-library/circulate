@@ -39,6 +39,14 @@ class Member < ApplicationRecord
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
 
+  def roles
+    roles = [:member]
+  end
+
+  def member?
+    roles.include? :member
+  end
+
   def assign_number
     self.number = (self.class.maximum(:number) || 0) + 1
   end
