@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_21_211015) do
+ActiveRecord::Schema.define(version: 2020_09_05_185238) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -303,7 +304,9 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.enum "role", default: "staff", null: false, enum_name: "user_role"
+    t.bigint "member_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["member_id"], name: "index_users_on_member_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -325,6 +328,7 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "users", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (

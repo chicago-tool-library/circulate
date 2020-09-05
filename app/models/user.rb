@@ -10,5 +10,7 @@ class User < ApplicationRecord
     admin: "admin"
   }
 
+  belongs_to :member, optional: true
+
   scope :by_creation_date, -> { order(created_at: :asc) }
 end
