@@ -26,6 +26,7 @@ gem "jbuilder", "~> 2.5"
 # gem 'bcrypt', '~> 3.1.7'
 
 gem "devise"
+gem "pundit"
 gem "audited", github: "bonekost/audited"
 gem "turbolinks_render"
 gem "money-rails"

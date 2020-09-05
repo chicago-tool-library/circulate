@@ -15,6 +15,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore editor configs
+/.idea
+
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep

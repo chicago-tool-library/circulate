@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   add_flash_types :success, :error, :warning
 
   around_action :set_time_zone
