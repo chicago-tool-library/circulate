@@ -10,5 +10,18 @@ class User < ApplicationRecord
     admin: "admin"
   }
 
+  def roles
+    case role
+    when 'staff'
+      [:staff]
+    when 'admin'
+      [:staff, :admin]
+    else
+      []
+    end
+  end
+
+  belongs_to :member, optional: true
+
   scope :by_creation_date, -> { order(created_at: :asc) }
 end

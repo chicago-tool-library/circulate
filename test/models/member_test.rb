@@ -33,4 +33,27 @@ class MemberTest < ActiveSupport::TestCase
     assert member.errors.messages.include?(:postal_code)
     assert member.errors.messages[:postal_code].include?("must be in Chicago")
   end
+  
+  test "member without a user has a role 'member'" do
+    member = Member.new
+
+    assert_equal [:member], member.roles
+    assert member.member?
+  end
+
+  test "a 'staff' member has the role 'staff' and 'member'" do
+    user = User.new(role: 'staff')
+    member = Member.new(user: user)
+
+    assert_equal [:member, :staff], member.roles
+    assert member.staff?
+  end
+
+  test "an 'admin' member has the role 'admin', 'staff', and 'member'" do
+    user = User.new(role: 'admin')
+    member = Member.new(user: user)
+
+    assert_equal [:member, :staff, :admin], member.roles
+    assert member.admin?
+  end
 end
