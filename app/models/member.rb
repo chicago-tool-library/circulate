@@ -24,8 +24,8 @@ class Member < ApplicationRecord
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
 
   scope :matching, ->(query) {
-    where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
-      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
+    where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
+      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", "#{query.scan(/\d/).join}")
   }
   scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
