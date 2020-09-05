@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
+  get '/member/loans', to: 'members#loans', as: 'member_loans'
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]

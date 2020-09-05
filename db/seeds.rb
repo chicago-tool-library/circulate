@@ -44,9 +44,22 @@ verified_member = Member.create!(
 
 verified_member.memberships.create!(started_on: Time.current)
 
-Member.create!(
+member = Member.create!(
   email: "newmember@example.com", full_name: "Firstname Lastname", preferred_name: "New",
   phone_number: "3124567890", pronoun: 1, id_kind: 0, address_verified: false, desires: "saws, hammers",
   address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+)
+
+item = Item.create!(
+  name: "Hammer",
+  status: Item.statuses[:active],
+  borrow_policy: BorrowPolicy.first
+)
+
+Loan.create!(
+  item: item,
+  member: member,
+  due_at: 2.days.from_now,
+  uniquely_numbered: true
 )

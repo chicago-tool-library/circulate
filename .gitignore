@@ -39,3 +39,6 @@ yarn-debug.log*
 /s3
 
 /test/reports
+
+.DS_Store
+.ruby-version

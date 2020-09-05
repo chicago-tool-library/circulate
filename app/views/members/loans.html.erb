@@ -1,0 +1,31 @@
+<% content_for :header do %>
+  <%= index_header "Loans" %>
+<% end %>
+
+<table class="table table-scroll">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Member</th>
+      <th>Checked out</th>
+      <th>Due at</th>
+      <th>Ended at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @loans.each do |loan| %>
+      <tr>
+        <td><%= loan.item.name %></td>
+        <td><%= loan.member.full_name %></td>
+        <td><%= loan.created_at %></td>
+        <td><%= loan.due_at %></td>
+        <td><%= loan.ended_at %></td>
+        <td><%= link_to 'Show', [:admin, loan] %></td>
+        <td><%= link_to 'Edit', edit_admin_loan_path(loan) %></td>
+        <td><%= link_to 'Destroy', [:admin, loan], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
