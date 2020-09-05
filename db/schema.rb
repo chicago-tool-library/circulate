@@ -18,22 +18,22 @@ ActiveRecord::Schema.define(version: 2020_06_21_211015) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ]
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ]
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ]
   create_enum :user_role, [
     "staff",
-    "admin"
+    "admin",
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
