@@ -9,6 +9,7 @@ class Member < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
+  has_one :user # what to do if member record deleted?
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
@@ -41,10 +42,23 @@ class Member < ApplicationRecord
 
   def roles
     roles = [:member]
+    if user
+      roles.concat user.roles
+    end
+
+    roles
   end
 
   def member?
     roles.include? :member
+  end
+
+  def staff?
+    roles.include? :staff
+  end
+
+  def admin?
+    roles.include? :admin
   end
 
   def assign_number
