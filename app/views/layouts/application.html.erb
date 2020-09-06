@@ -26,12 +26,8 @@
           </span>
           <span class="navbar-brand mr-2"><%= link_to "View Inventory", items_path %></span>|
           <span class="navbar-brand mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
-          <%= form_with url: search_path, method: :get, local: true do |form| %>
-            <div class="input-group input-inline">
-              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
-            </div>
-          <% end %>
         </section>
+        <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0"><%= link_to "Member Login", signup_path %></span>
       </header>
 
       <%= flash_message :success  %>
