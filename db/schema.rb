@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_05_185238) do
+ActiveRecord::Schema.define(version: 2020_09_06_142955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_09_05_185238) do
   create_enum :user_role, [
     "staff",
     "admin",
+    "member",
   ]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -303,7 +304,7 @@ ActiveRecord::Schema.define(version: 2020_09_05_185238) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.enum "role", default: "staff", null: false, enum_name: "user_role"
+    t.enum "role", default: "member", null: false, enum_name: "user_role"
     t.bigint "member_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["member_id"], name: "index_users_on_member_id"

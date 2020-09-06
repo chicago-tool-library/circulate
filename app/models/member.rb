@@ -42,12 +42,7 @@ class Member < ApplicationRecord
   before_validation :set_default_address_fields
 
   def roles
-    roles = [:member]
-    if user
-      roles.concat user.roles
-    end
-
-    roles
+    user ? user.roles : [:member]
   end
 
   def member?
