@@ -11,4 +11,6 @@ class MemberCheckedOutItemsTest < ApplicationSystemTestCase
       assert_text @loan.item.name
     end
   end
+
+
 end

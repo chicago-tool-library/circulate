@@ -13,6 +13,12 @@ module LoansHelper
   end
 
   def humanize_due_date(loan)
-    loan.due_at.strftime("%a %m/%d")
+    if loan.due_at.to_date == Date.today
+      "today"
+    elsif loan.due_at.to_date == Date.tomorrow
+      "tomorrow"
+    else
+      loan.due_at.strftime("%a %m/%d")
+    end
   end
 end
