@@ -62,11 +62,11 @@ Once you've completed the setup below, you can login to the app using `admin@chi
 
 ### Setting up Circulate on your machine
 
-If you're new to Ruby or Rails applications, a reccomended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this porject, you **only** need to run the first, initial scipt command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles: 
-**Note** You do want to pay attention to this install as it runs in your terminal- it may ask for your password once or twice throughout the process- keep an eye on it and be prepared to type your computer's password (in the terminal! NEVER share your password in a GitHub doc). Also note that the install takes some time to run completely- it is not a 5-minute process. 
+If you're new to Ruby or Rails applications, a recommended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this project, you **only** need to run the first, initial script command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles:
+**Note** You do want to pay attention to this install as it runs in your terminal- it may ask for your password once or twice throughout the process- keep an eye on it and be prepared to type your computer's password (in the terminal! NEVER share your password in a GitHub doc). Also note that the install takes some time to run completely- it is not a 5-minute process.
 
 
-Time to get the Circulate repo! In your terminal, first make sure you're where you want to put the repo by typing `pwd`. If you want the Circulate repo to be in a different spot, type `cd` and **change** to the **directory** you want to put the Circulate repo in. 
+Time to get the Circulate repo! In your terminal, first make sure you're where you want to put the repo by typing `pwd`. If you want the Circulate repo to be in a different spot, type `cd` and **change** to the **directory** you want to put the Circulate repo in.
 
 Next, put the full text below and press enter:
 
@@ -76,7 +76,7 @@ That will clone the Circulate repo to your machine, so you have a nice copy to w
 
 In your terminal, type `cd circulate` to change the directory you are in to your freshly-cloned, locally-hosted directory, Circulate.
 
-In your terminal, type `ls` to take a look at what you'll be working with in this repo! 
+In your terminal, type `ls` to take a look at what you'll be working with in this repo!
 
 It should look like this:
 
@@ -101,13 +101,25 @@ $ yarn install
 $ bundle install
 $ bundle exec rails db:setup
 ```
+All right, almost there! In the terminal, type and run:
 
-It is most convenient to run `bin/rails server` in one terminal and `bin/webpack-dev-server` in another. The second command kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
+`rails test`
+
+Look for the word "Finished". That output should look similar to this:
+
+```
+Finished in 4.167485s, 41.0319 runs/s, 134.8535 assertions/s.
+```
+
+For working on this app, it is great to have several terminal windows open. Run `bin/rails server` in one terminal,  `bin/webpack-dev-server` in another, and have a third terminal open for commands. The command in the second terminal kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
+
+Open an internet browser, and type `localhost:3000`. You should see the Circulate app in your browser!
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password.
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
+
 
 ### Running tests
 
