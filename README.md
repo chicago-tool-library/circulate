@@ -33,6 +33,7 @@ There is content and information hard-coded in many of the views that is specifi
 
 ### Project Considerations
 * The Chicago Tool Library serves a diverse group of people in Chicago, with varying levels of technological sophistication, abilities, and understandings of English. The app should strive to be accessible to as many people as possible, including easy-to-understand UX; accessibility to different levels of vision (blind, low vision, color-blind); and straightforward, simple English.
+* Look-and feel for Chicago Tool Library overall is generally fun, warm, bright, accessible, approachable, humble. A neighborhood old-timey hardware store. The Chicago Tool Library version of the app doesn't need to have as specific of a look-and-feel, but it shouldn't clash with this aesthetic. See the [SquareSpace Chicago Tool Library site](https://chicagotoollibrary.org/) for more of a sense of this.
 * circulate may be used by other tool libraries or other lending organizations in the future, so should be built with an eye towards multi-tenancy. (Multi-lingual support may also be a goal someday!)
 * Many desired features may be able to be adapted from [babywearing](https://github.com/rubyforgood/babywearing), Ruby For Good's lending app for babywearing accessories.
 

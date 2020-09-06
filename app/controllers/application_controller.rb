@@ -1,7 +1,15 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
+  helper_method :current_member
+
   add_flash_types :success, :error, :warning
 
   around_action :set_time_zone
+
+  def current_member
+    current_user.member
+  end
 
   private
 

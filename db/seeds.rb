@@ -28,7 +28,14 @@ YAML.load_file("db/categories.yaml").each do |name, kids|
   create_category(name, kids: kids)
 end
 
-User.create!(email: "admin@chicagotoollibrary.org", password: "password")
+admin_member = Member.create!(
+  email: "admin@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
+  phone_number: "3124567890", pronoun: 1, id_kind: 0, address_verified: false, desires: "saws, hammers",
+  address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
+  reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+)
+User.create!(email: admin_member.email, password: "password", member: admin_member)
+
 BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
 
 Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
@@ -41,15 +48,16 @@ verified_member = Member.create!(
   address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
 )
-
+User.create!(email: verified_member.email, password: "password", member: verified_member)
 verified_member.memberships.create!(started_on: Time.current)
 
-member = Member.create!(
+unverified_member = Member.create!(
   email: "newmember@example.com", full_name: "Firstname Lastname", preferred_name: "New",
   phone_number: "3124567890", pronoun: 1, id_kind: 0, address_verified: false, desires: "saws, hammers",
   address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
 )
+User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
 item = Item.create!(
   name: "Hammer",
@@ -59,7 +67,7 @@ item = Item.create!(
 
 Loan.create!(
   item: item,
-  member: member,
+  member: verified_member,
   due_at: 2.days.from_now,
   uniquely_numbered: true
 )
