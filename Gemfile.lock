@@ -67,7 +67,7 @@ GEM
       activesupport (= 6.0.3.2)
     activerecord-postgres_enum (1.4.0)
       activerecord (>= 5, < 6.1)
-      pg 
+      pg
     activestorage (6.0.3.2)
       actionpack (= 6.0.3.2)
       activejob (= 6.0.3.2)
