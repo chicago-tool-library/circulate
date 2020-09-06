@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
+  get "member/history", to: "members#history", as: 'member_loan_history'
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]
