@@ -27,6 +27,11 @@ class User < ApplicationRecord
     end
   end
 
+  def self.serialize_from_session(key, salt)
+    record = eager_load(:member).find_by(id: key)
+    record if record && record.authenticatable_salt == salt
+  end
+
   belongs_to :member, optional: true
 
   scope :by_creation_date, -> { order(created_at: :asc) }
