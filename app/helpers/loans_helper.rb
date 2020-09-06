@@ -11,4 +11,8 @@ module LoansHelper
       feather_icon("x") + "Undo #{name}"
     end
   end
+
+  def humanize_due_date(loan)
+    loan.due_at.strftime("%a %m/%d")
+  end
 end
