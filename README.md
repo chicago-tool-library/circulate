@@ -60,11 +60,41 @@ The following third party services are used:
 
 Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
 
-### Directly on your machine
+### Setting up Circulate on your machine
 
-If you're new to Ruby or Rails applications, an easy way to get setup is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149).
+If you're new to Ruby or Rails applications, a reccomended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this porject, you **only** need to run the first, initial scipt command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles: 
+**Note** You do want to pay attention to this install as it runs in your terminal- it may ask for your password once or twice throughout the process- keep an eye on it and be prepared to type your computer's password (in the terminal! NEVER share your password in a GitHub doc). Also note that the install takes some time to run completely- it is not a 5-minute process. 
 
-Once you've got a development environment setup, you'll need to run the following:
+
+Time to get the Circulate repo! In your terminal, first make sure you're where you want to put the repo by typing `pwd`. If you want the Circulate repo to be in a different spot, type `cd` and **change** to the **directory** you want to put the Circulate repo in. 
+
+Next, put the full text below and press enter:
+
+`git clone https://github.com/rubyforgood/circulate.git`
+
+That will clone the Circulate repo to your machine, so you have a nice copy to work with locally! (Looking ahead, as you work you'll be pushing UP any changes you make from there to the Circulate repo on GitHub as a pull request.)
+
+In your terminal, type `cd circulate` to change the directory you are in to your freshly-cloned, locally-hosted directory, Circulate.
+
+In your terminal, type `ls` to take a look at what you'll be working with in this repo! 
+
+It should look like this:
+
+```
+CODE_OF_CONDUCT.md	bin			package.json
+Gemfile			config			postcss.config.js
+Gemfile.lock		config.ru		public
+LICENSE.md		db			script
+Procfile		exports			storage
+README.md		gems			test
+Rakefile		lefthook.yml		tmp
+app			lib			vendor
+babel.config.js		log			yarn.lock
+```
+
+Close your Terminal window and open a new one so your changes take effect.
+
+Okay, at this point you've got a Ruby on Rails development environment set up and cloned the Circulate repo! Now you'll need to run the following commands one at a time in your terminal:
 
 ```console
 $ yarn install
