@@ -5,17 +5,23 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :lockable, :timeoutable, :trackable
 
+  # while the canonical list of roles is the "user_role" enum in the
+  # database, this enum exists to help display the list of roles
+  # elsewhere in the app
   enum role: {
+    member: "member",
     staff: "staff",
-    admin: "admin"
+    admin: "admin",
   }
 
   def roles
     case role
+    when 'member'
+      [:member]
     when 'staff'
-      [:staff]
+      [:member, :staff]
     when 'admin'
-      [:staff, :admin]
+      [:member, :staff, :admin]
     else
       []
     end
