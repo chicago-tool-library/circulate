@@ -9,6 +9,7 @@ class Member < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
+  has_one :user # what to do if member record deleted?
 
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
@@ -22,6 +23,7 @@ class Member < ApplicationRecord
   validates :city, presence: true
   validates :region, presence: true
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
+  validate :postal_code_must_be_in_chicago
 
   scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
@@ -38,6 +40,22 @@ class Member < ApplicationRecord
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
+
+  def roles
+    user ? user.roles : [:member]
+  end
+
+  def member?
+    roles.include? :member
+  end
+
+  def staff?
+    roles.include? :staff
+  end
+
+  def admin?
+    roles.include? :admin
+  end
 
   def assign_number
     self.number = (self.class.maximum(:number) || 0) + 1
@@ -60,5 +78,13 @@ class Member < ApplicationRecord
   def set_default_address_fields
     self.city ||= "Chicago"
     self.region ||= "IL"
+  end
+
+  def postal_code_must_be_in_chicago
+    return true if postal_code.nil?
+
+    unless ["60707", "60827"].include?(postal_code) || postal_code.starts_with?("606")
+      errors.add :postal_code, "must be in Chicago"
+    end
   end
 end
