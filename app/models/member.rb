@@ -26,8 +26,8 @@ class Member < ApplicationRecord
   validate :postal_code_must_be_in_chicago
 
   scope :matching, ->(query) {
-    where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ?",
-      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}")
+    where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
+      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", "#{query.scan(/\d/).join}")
   }
   scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
@@ -42,12 +42,7 @@ class Member < ApplicationRecord
   before_validation :set_default_address_fields
 
   def roles
-    roles = [:member]
-    if user
-      roles.concat user.roles
-    end
-
-    roles
+    user ? user.roles : [:member]
   end
 
   def member?
