@@ -67,7 +67,12 @@ module AdminHelper
       value = BorrowPolicy.find(value).complete_name
     when "category_ids"
       key = "categories"
-      value = Category.find(value).map(&:name).join(", ")
+      category_names = Category.where(id: value).map(&:name)
+      deleted_category_count = value.count - category_names.count
+      if deleted_category_count > 0
+        category_names << ['deleted category'] * deleted_category_count
+      end
+      value = category_names.join(", ")
     end
 
     if audit.action == "create" && value.blank?
