@@ -5,6 +5,7 @@
 <!-- toc -->
 
 - [About](#about)
+  * [Project Considerations](#project-considerations)
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
