@@ -108,4 +108,12 @@ class Loan < ApplicationRecord
     update!(ended_at: now)
     self
   end
+
+  def status
+    if due_at < Time.now
+      "overdue"
+    else
+      "checked-out"
+    end
+  end
 end

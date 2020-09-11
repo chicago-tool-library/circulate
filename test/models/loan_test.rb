@@ -263,4 +263,16 @@ class LoanTest < ActiveSupport::TestCase
       assert_equal sunday, Loan.next_open_day(saturday)
     end
   end
+
+  test "status is checked-out when due_at is in the future" do
+    loan = build(:loan, due_at: 7.days.from_now)
+
+    assert_equal "checked-out", loan.status
+  end
+
+  test "status is overdue when due_at has past" do
+    loan = build(:loan, due_at: 2.days.ago)
+
+    assert_equal "overdue", loan.status
+  end
 end
