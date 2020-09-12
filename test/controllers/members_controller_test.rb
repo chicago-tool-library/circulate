@@ -4,7 +4,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
   setup do
     loan = create(:loan)
     @member = loan.member
-    loan = create(:loan, member: @member) 
+    loan = create(:loan, member: @member)
     loan = create(:loan)
   end
 

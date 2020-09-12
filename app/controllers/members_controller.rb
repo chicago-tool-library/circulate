@@ -5,6 +5,10 @@ class MembersController < ApplicationController
     # if it's decided this page shouldn't show currently checked-out items:
     # .where.not(loans: { ended_at: nil })
   end
+    
+  def loans
+    @loans = current_member.loans.includes(:item).order(:due_at)
+  end
 
   private
 
@@ -12,4 +16,5 @@ class MembersController < ApplicationController
   def current_user
     Member.first
   end
+
 end

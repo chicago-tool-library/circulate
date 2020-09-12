@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   get "member/history", to: "members#history", as: 'member_loan_history'
+  get '/member/loans', to: 'members#loans', as: 'member_loans'
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]

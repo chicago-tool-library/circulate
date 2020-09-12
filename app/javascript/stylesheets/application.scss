@@ -301,7 +301,7 @@ $photo-width: 187px;
   .responsive-table {
     display: block;
     & .responsive-table-header { display: none; }
-    & .responsive-table-cell { 
+    & .responsive-table-cell {
       width: 100% !important;
       &:empty {
         display: none;
@@ -314,7 +314,7 @@ $photo-width: 187px;
     .responsive-table.four-columns  > &:nth-of-type(4n+1),
     .responsive-table.five-columns  > &:nth-of-type(5n+1),
     .responsive-table.six-columns   > &:nth-of-type(6n+1),
-    .responsive-table.seven-columns > &:nth-of-type(7n+1) { 
+    .responsive-table.seven-columns > &:nth-of-type(7n+1) {
       font-weight: bold;
     }
     .responsive-table.two-columns   > &:nth-of-type(2n),
@@ -322,7 +322,7 @@ $photo-width: 187px;
     .responsive-table.four-columns  > &:nth-of-type(4n),
     .responsive-table.five-columns  > &:nth-of-type(5n),
     .responsive-table.six-columns   > &:nth-of-type(6n),
-    .responsive-table.seven-columns > &:nth-of-type(7n) { 
+    .responsive-table.seven-columns > &:nth-of-type(7n) {
       margin-bottom: 2rem;
     }
   }
@@ -967,4 +967,8 @@ table.monthly-adjustments {
 
 .c-help {
   cursor: help;
+}
+
+.warning {
+  color: $error-color;
 }
