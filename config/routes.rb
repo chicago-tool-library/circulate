@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
+  get '/member/loans', to: 'members#loans', as: 'member_loans'
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]
@@ -85,6 +87,8 @@ Rails.application.routes.draw do
   end
 
   get "/s/:id", to: "short_links#show", as: :short_link
+
+  resource :member_profile, only: [:show]
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show

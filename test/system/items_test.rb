@@ -96,6 +96,36 @@ class ItemsTest < ApplicationSystemTestCase
     # TODO rotate photo and verify that it was saved
   end
 
+  test "accessing an item's history after deleting a category" do
+    audited_as_admin do
+      @item = create(:complete_item)
+    end
+
+    # Create some categories and add them to the item
+    @category1 = create(:category)
+    @category2 = create(:category)
+    @category3 = create(:category)
+    @item.categories << [@category1, @category2, @category3]
+
+    visit edit_admin_item_url(@item)
+    # Remove second category from item
+    page.all('a.remove')[1].click
+    click_on "Update Item"
+
+
+    visit admin_categories_url
+    # Destroy first category record
+    page.accept_confirm do
+      click_on "Destroy", match: :first
+    end
+    refute_text @category1.name
+
+    visit admin_item_item_history_path(@item)
+    # Check than an edit event exists where item is only associated
+    # with one existing category and one deleted category
+    assert_text /Categories set to category\d, deleted category/
+  end
+
   test "importing a manual from a URL", :remote do
     url = "https://www.singer.com/sites/default/files/C5200%20manual.pdf"
     audited_as_admin do

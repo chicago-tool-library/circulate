@@ -29,8 +29,8 @@ module MembersHelper
     member.custom_pronoun? ? member.custom_pronoun : member.pronoun
   end
 
-  def format_phone_number(number)
-    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip
+  def format_phone_number(number, delimiter = " ")
+    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: delimiter)&.strip
   end
 
   def member_status(member)
