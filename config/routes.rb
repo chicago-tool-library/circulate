@@ -90,7 +90,7 @@ Rails.application.routes.draw do
 
   resource :member_profile, only: [:show]
   namespace :member_profiles do
-    resource :password, only: [:edit]
+    resource :password, only: [:edit, :update]
   end
 
   resources :items, only: [:index, :show]
