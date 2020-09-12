@@ -16,7 +16,7 @@
 
       <dt>Phone Number</dt>
       <dd><%= format_phone_number(@member.phone_number,"-") %></dd>
-      
+
       <dt>Address</dt>
       <dd>
         <%= @member.address1 %><br>
@@ -29,7 +29,7 @@
 
     <button class="btn">Edit Account Settings</button>
     <br> <br>
-    <button class="btn">Edit Password</button>
+    <%= button_to "Edit Password", edit_member_profiles_password_url, method: :get, class: 'btn' %>
   </div>
   <div class="column">
 
@@ -50,4 +50,3 @@
     </dl>
   </div>
 </div>
-
