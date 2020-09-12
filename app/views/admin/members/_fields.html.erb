@@ -21,6 +21,15 @@
 
   <div class="columns form-group">
     <div class="column col-sm-12 col-6">
+      <%= form.password_field :password, hint: "Use at least 6 characters", required: true %>
+    </div>
+    <div class="column col-sm-12 col-6">
+      <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true %>
+    </div>
+  </div>
+
+  <div class="columns form-group">
+    <div class="column col-sm-12 col-6">
       <%= form.text_field :address1, label: "Address", hint: "e.g. 1 N. Michigan Ave" %>
     </div>
     <div class="column col-sm-12 col-3">
