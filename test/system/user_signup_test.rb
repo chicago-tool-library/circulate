@@ -25,6 +25,8 @@ class UserSignupTest < ApplicationSystemTestCase
     fill_in "Address", with: "23 N. Street"
     fill_in "Apt or unit", with: "390"
     fill_in "ZIP", with: "60647"
+    fill_in "Password", with: "password"
+    fill_in "Password confirmation", with: "password"
 
     click_on "Save and Continue"
 
