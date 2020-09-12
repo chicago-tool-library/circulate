@@ -103,7 +103,7 @@ class Item < ApplicationRecord
 
   # called when item is updated
   def audited_changes
-    if @current_category_ids.present? && @current_category_ids != category_ids.sort
+    if (@current_category_ids.present? || category_ids.present?) && @current_category_ids != category_ids.sort
       super.merge("category_ids" => [@current_category_ids, category_ids.sort])
     else
       super

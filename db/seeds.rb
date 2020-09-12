@@ -58,3 +58,16 @@ unverified_member = Member.create!(
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
 )
 User.create!(email: unverified_member.email, password: "password", member: unverified_member)
+
+item = Item.create!(
+  name: "Hammer",
+  status: Item.statuses[:active],
+  borrow_policy: BorrowPolicy.first
+)
+
+Loan.create!(
+  item: item,
+  member: verified_member,
+  due_at: 2.days.from_now,
+  uniquely_numbered: true
+)

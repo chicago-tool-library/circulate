@@ -47,4 +47,14 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal "a bc", item.serial
     assert_equal "heavy", item.strength
   end
+
+  test "adding a single category is saved in the audit history" do
+    @item = create(:complete_item)
+    @category = create(:category)
+
+    @item.categories << @category
+    @item.save!
+
+    assert_equal @category.id, @item.audits.last.audited_changes["category_ids"].flatten.first
+  end
 end
