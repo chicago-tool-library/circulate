@@ -73,6 +73,10 @@ class Loan < ApplicationRecord
     renewal_count < item.borrow_policy.renewal_limit
   end
 
+  def within_borrow_policy_duration?
+    self.due_at - Time.current <= item.borrow_policy.duration.days
+  end
+
   def renew!(now = Time.current)
     transaction do
       return!(now)

@@ -7,7 +7,15 @@ class MembersController < ApplicationController
   end
     
   def loans
-    @loans = current_member.loans.includes(:item).order(:due_at)
+    @loans = current_member.loans.checked_out.includes(:item).order(:due_at)
+  end
+
+  def renew
+    @loan = Loan.find(params[:id])
+    authorize @loan, :renew?
+
+    @loan.renew!
+    redirect_to member_loans_path
   end
 
 end

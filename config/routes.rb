@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   get "member/history", to: "members#history", as: 'member_loan_history'
   get '/member/loans', to: 'members#loans', as: 'member_loans'
+  post '/member/loans/:id/renew', to: 'members#renew', as: 'member_loans_renew'
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
