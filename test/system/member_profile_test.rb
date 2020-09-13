@@ -20,8 +20,12 @@ class MemberProfileTest < ApplicationSystemTestCase
     click_button "Edit Member Profile"
 
     fill_in "Full name", with: "Updated Name"
+    uncheck 'she/her'
+    check 'he/him'
     click_on "Update Member"
     assert_content "Updated Name"
+    assert_content "he/him"
+    assert_no_content "she/her"
   end
 
   test "member sees validation errors on update failure" do

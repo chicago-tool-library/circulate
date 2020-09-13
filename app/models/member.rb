@@ -74,6 +74,10 @@ class Member < ApplicationRecord
     PRONOUNS
   end
 
+  def display_pronouns
+    pronouns.join(", ")
+  end
+
   private
 
   def strip_phone_number

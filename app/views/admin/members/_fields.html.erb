@@ -4,7 +4,7 @@
 <%= form.text_field :preferred_name, hint: "What you like to be called; e.g. Tavi" %>
 
 <!--  <div data-controller="conditional-field" data-conditional-field-trigger="custom_pronoun">-->
-<%= render partial: 'member_profiles/pronoun_fields' %>
+<%= render partial: 'member_profiles/pronoun_fields' , locals: { member: form.object }%>
 
 <div class="columns form-group">
   <div class="column col-sm-12 col-6">
