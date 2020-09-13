@@ -15,7 +15,7 @@
       <div class="panel-body">
         <ul class="member-stats member">
           <li><%= feather_icon "hash" %> <%= @member.number %></li>
-          <li><%= feather_icon "message-square" %> <%= member_pronoun(@member) %></li>
+          <li><%= feather_icon "message-square" %> <%= @member.display_pronouns %></li>
           <li><%= feather_icon "user" %> <%= @member.full_name %></li>
           <li><%= feather_icon "mail" %> <%= @member.email %></li>
           <li><%= feather_icon "smartphone" %> <%= format_phone_number @member.phone_number %></li>

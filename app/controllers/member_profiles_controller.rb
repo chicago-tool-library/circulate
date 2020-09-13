@@ -23,8 +23,6 @@ class MemberProfilesController < ApplicationController
   def member_params
     params.require(:member).permit(:full_name,
                                    :preferred_name,
-                                   :pronoun,
-                                   :custom_pronoun,
                                    :email,
                                    :phone_number,
                                    :address1,
@@ -34,6 +32,8 @@ class MemberProfilesController < ApplicationController
                                    :reminders_via_email,
                                    :reminders_via_text,
                                    :receive_newsletter,
-                                   :volunteer_interest)
+                                   :volunteer_interest,
+                                   :pronouns => []
+                                   )
   end
 end
