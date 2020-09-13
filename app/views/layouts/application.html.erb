@@ -27,8 +27,7 @@
           <span class="navbar-brand mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>|
           <span class="navbar-brand mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
         </section>
-        <%= render partial: 'layouts/user', object: @admin_users, as: :user %>
-        <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0"><%= link_to "Member Login", user_session_path %></span>
+        <%= render partial: 'layouts/user', object: @member, as: :member %>
       </header>
 
       <%= flash_message :success  %>

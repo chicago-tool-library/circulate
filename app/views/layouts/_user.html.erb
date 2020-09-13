@@ -1,7 +1,21 @@
-<div class="test">
-  <%= link_to user do %>
-    <span><%= puts "test****" %></span>
-    <span><%= user.test if user %></span>
-    <span><%= puts "test!!!" %></span>
-  <% end %>
-</div>
+<% if user_signed_in? %>
+  <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0">
+    <div class="dropdown">
+      <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0">
+      <div class="dropdown">
+        <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+          <%= current_member.full_name %> <i class="icon icon-caret"></i>
+        </a>
+        <ul class="menu">
+          <li class="menu-item"><%= link_to "My Loans", member_loans_path %></li>
+          <li class="menu-item"><%= link_to "View Loan History", member_loan_history_path %></li>
+          <li class="menu-item"><%= link_to "Account Settings", member_profile_path %></li>
+          <li class="menu-item"><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+        </ul>
+      </div>
+      </span>
+    </div>
+  </span>
+<% else %>
+  <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0"> <%= link_to "Member Login", user_session_path %> </span>
+<% end %>
