@@ -1,0 +1,9 @@
+<label>Pronouns</label>
+<br>
+<% Member.pronoun_list.each do |pronoun| %>
+  <%= label_tag do %>
+    <%= check_box_tag 'member[pronouns][]', pronoun %> <%= pronoun %>
+  <% end %>
+  <br>
+<% end %>
+<%= text_field_tag "member[pronouns][]", nil, class: "form-input", placeholder: "Enter your own (optional)" %>

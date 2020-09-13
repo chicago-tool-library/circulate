@@ -9,7 +9,7 @@
       <dd><%= @member.preferred_name %></dd>
 
       <dt>Pronouns</dt>
-      <dd><%= member_pronoun(@member) %></dd>
+      <dd><%= @member.pronouns.join(",") %></dd>
 
       <dt>Email</dt>
       <dd><%= @member.email %></dd>
