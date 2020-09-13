@@ -7,9 +7,9 @@ class MemberProfiles::PasswordsController < ApplicationController
     @user = current_user
     if @user.update(user_params)
       bypass_sign_in(@user)
-      redirect_to root_path
+      redirect_to member_profile_url, success: "Your password has been updated."
     else
-      render "edit"
+      redirect_to edit_member_profiles_password_url, warning: "#{@user.errors.full_messages.join(". ")}"
     end
   end
 
