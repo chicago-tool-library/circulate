@@ -38,7 +38,7 @@ class LoanPolicy
     if user.admin?
       loan.renewable?
     else
-      user == loan.member.user && loan.renewable? && loan.within_borrow_policy_duration?
+      user.member == loan.member && loan.member_renewable?
     end
   end
 end

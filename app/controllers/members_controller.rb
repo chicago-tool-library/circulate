@@ -7,7 +7,7 @@ class MembersController < ApplicationController
   end
     
   def loans
-    @loans = current_member.loans.checked_out.includes(:item).order(:due_at)
+    @loans = current_member.loans.checked_out.includes(item: :borrow_policy).order(:due_at)
   end
 
   def renew
