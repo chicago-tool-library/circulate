@@ -12,8 +12,8 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
-  test "should return success" do
-    get member_loans_url
+  test "return success response" do
+    get member_loan_history_url
     assert_response :success
   end
 
@@ -21,4 +21,10 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     get member_loans_url
     assert_equal @controller.instance_variable_get(:@loans), [@loan1]
   end
+
+  test "only shows members loan history" do
+    get member_loan_history_url
+    assert_equal @controller.instance_variable_get(:@loans), [@loan1]
+  end
+
 end
