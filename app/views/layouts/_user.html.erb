@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
-  <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0">
+  <span class="navbar-brand mr-2 my-2 my-lg-0">
     <div class="dropdown">
-      <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0">
+      <span class="mr-2 my-2 my-lg-0">
       <div class="dropdown">
         <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
           <%= current_member.full_name %> <i class="icon icon-caret"></i>
@@ -17,5 +17,5 @@
     </div>
   </span>
 <% else %>
-  <span class="navbar-section navbar-brand mr-2 my-2 my-lg-0"> <%= link_to "Member Login", user_session_path %> </span>
+  <span class="navbar-brand mr-2 my-2 my-lg-0"> <%= link_to "Member Login", user_session_path %> </span>
 <% end %>
