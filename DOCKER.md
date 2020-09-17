@@ -100,7 +100,7 @@ found in the local `tmp/screenshots` directory which maps to the
 
 You can view the tests in real time by using a VNC client and temporarily
 switching to the `chrome_in_container` driver by setting the `HEADLESS`
-environment variable to `true`. This environment variable is set in the
+environment variable to `false`. This environment variable is set in the
 `config/docker.env` file. After changing any values in this file, you must
 restart the container:
 

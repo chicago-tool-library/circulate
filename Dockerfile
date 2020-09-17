@@ -13,16 +13,14 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   yarn && rm -rf /var/cache/apk/*
 
 ARG RAILS_ROOT=/usr/src/app/
-
-COPY Gemfile* $RAILS_ROOT
-COPY package*.json $RAILS_ROOT
-COPY yarn.lock $RAILS_ROOT
-
 WORKDIR $RAILS_ROOT
 
-COPY gems/ $RAILS_ROOT/gems
-RUN bundle config --global frozen 1 && bundle install
+COPY package*.json yarn.lock $RAILS_ROOT
 RUN yarn install --check-files
+
+COPY gems/ $RAILS_ROOT/gems
+COPY Gemfile* $RAILS_ROOT
+RUN bundle config --global frozen 1 && bundle install
 
 COPY . .
 
