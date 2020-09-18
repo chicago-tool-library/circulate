@@ -26,5 +26,4 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     get member_loan_history_url
     assert_equal @controller.instance_variable_get(:@loans), [@loan1]
   end
-
 end

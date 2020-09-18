@@ -28,7 +28,7 @@ class Member < ApplicationRecord
 
   scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
-      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", "#{query.scan(/\d/).join}")
+      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", query.scan(/\d/).join.to_s)
   }
   scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
