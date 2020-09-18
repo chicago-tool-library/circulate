@@ -5,10 +5,11 @@
 <!-- toc -->
 
 - [About](#about)
+  * [Project Considerations](#project-considerations)
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
-  * [Directly on your machine](#directly-on-your-machine)
+  * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
   * [Running tests](#running-tests)
   * [Documentation](#documentation)
 - [Deployment](#deployment)
@@ -59,6 +60,8 @@ The following third party services are used:
 ## Development
 
 Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+
+See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
 ### Setting up Circulate on your machine
 

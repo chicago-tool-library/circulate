@@ -12,7 +12,7 @@ FactoryBot.define do
 
     factory :complete_member do
       preferred_name { "Ida" }
-      pronoun { 2 }
+      pronouns { ["she/her"] }
       address1 { "apt 3" }
 
       factory :verified_member do

@@ -1,9 +1,9 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
 
-  alias parent_text_field text_field
-  alias parent_collection_select collection_select
-  alias parent_button button
+  alias_method :parent_text_field, :text_field
+  alias_method :parent_collection_select, :collection_select
+  alias_method :parent_button, :button
 
   private def validation_inspector
     @validation_inspector = ValidationInspector.new(@object.class)
@@ -105,6 +105,13 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def password_field(method, options = {})
+    options[:class] = "form-input"
+    sequence_layout(method, options) do
+      super method, options
+    end
+  end
+
   def autocomplete_text_field(method, options = {})
     text_field(method, options.merge(
       wrapper_options: {
@@ -140,7 +147,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def sequence_layout(method, options = {})
     label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
-    display_required = options.fetch(:required) { true }
+    display_required = options.delete(:required)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
@@ -157,7 +164,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def required_label(method, show_label)
-    if validation_inspector.attribute_required?(method) && show_label
+    if validation_inspector.attribute_required?(method) && show_label.nil?
+      @template.tag.span("required", class: "label label-warning label-required-field").html_safe
+    elsif show_label
       @template.tag.span("required", class: "label label-warning label-required-field").html_safe
     else
       ""
@@ -168,7 +177,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def wrapped_layout(method, options = {})
     label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
-    display_required = options.fetch(:required) { true }
+    display_required = options.fetch(:required, true)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""

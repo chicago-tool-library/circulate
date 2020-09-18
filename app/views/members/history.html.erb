@@ -1,0 +1,43 @@
+<% content_for :header do %>
+  <%= index_header "Loan History" %>
+<% end %>
+
+<h1>Loan History</h1>
+
+<table class="table table-scroll">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Item</th>
+      <th>Inventory No.</th>
+      <th>Checked out</th>
+      <th>Checked in</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @loans.each do |loan| %>
+      <tr>
+        <td>
+          <%= tag.div class: "items-table-image" do %>
+            <% if loan.item.image.attached? %>
+              <%= link_to item_path(loan.item) do %>
+              <%= image_tag url_for(rotated_variant(loan.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+            <% end %>
+            <% else %>
+              <div class="image-placeholder"></div>
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <%=link_to loan.item.name %><br/>
+          <%= item_status_label(loan.item) %>
+        </td>
+        <td><%= loan.item.complete_number.upcase%></td>
+        <td><%= loan.created_at.strftime("%m/%d/%Y") %></td>
+        <td><%= loan.ended_at ? loan.ended_at.strftime("%m/%d/%Y") : "-"%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

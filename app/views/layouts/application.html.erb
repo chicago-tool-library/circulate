@@ -19,14 +19,21 @@
 
       <header class="navbar">
         <section class="navbar-section">
-          <span class="navbar-brand mr-2"><%= link_to "Chicago Tool Library", root_url %></span>
-          <%= link_to "Item Inventory", items_path, class: "btn btn-link" %>
-          <%= form_with url: search_path, method: :get, local: true do |form| %>
+          <span class="navbar-brand mr-2">
+            <a href="https://chicagotoollibrary.org/">
+            <%= image_pack_tag "logo_small.png" %>
+            </a>
+          </span>
+          <span class="navbar-brand mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>
+          <%= form_with url: search_path, method: :get, class: "mr-2", local: true do |form| %>
             <div class="input-group input-inline">
               <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
             </div>
           <% end %>
+          |
+          <span class="navbar-brand mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
         </section>
+        <%= render partial: 'layouts/user', object: @member, as: :member %>
       </header>
 
       <%= flash_message :success  %>
