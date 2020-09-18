@@ -1,0 +1,13 @@
+Your recent holds
+
+<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/hold_request", locals: {hold_request: @hold_request, now: @now})) %>
+If you have any questions, please email us at team@chicagotoollibrary.org.
+
+See you at the library!
+
+---
+
+The Chicago Tool Library
+1048 W 37th Street Suite 102
+Chicago, IL 60609
+chicagotoollibrary.org

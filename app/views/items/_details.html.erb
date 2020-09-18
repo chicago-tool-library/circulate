@@ -1,0 +1,37 @@
+<div class="stats">
+  <p><strong>Number:</strong> <%= item.complete_number %></p>
+
+  <% unless item.size.blank? %>
+    <p><strong>Size:</strong> <%= item.size %></p>
+  <% end %>
+
+  <% unless item.strength.blank? %>
+    <p><strong>Strength:</strong> <%= item.strength %></p>
+  <% end %>
+
+  <% unless item.brand.blank? %>
+    <p><strong>Brand:</strong> <%= item.brand %></p>
+  <% end %>
+
+  <% unless item.model.blank? %>
+    <p><strong>Model:</strong> <%= item.model %></p>
+  <% end %>
+
+  <% unless item.serial.blank? %>
+    <p><strong>Serial:</strong> <%= item.serial %></p>
+  <% end %>
+
+  <p>
+    <strong>Categories:</strong>
+    <%= item_categories(item) %>
+  </p>
+</div>
+
+<% if item.manual.attached? %>
+  <p>
+    <strong>Manual:</strong>
+    <%= link_to item.manual.filename, url_for(item.manual) %>
+  </p>
+<% end %>
+
+<%= item.description %>
