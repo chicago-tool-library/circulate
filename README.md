@@ -5,10 +5,11 @@
 <!-- toc -->
 
 - [About](#about)
+  * [Project Considerations](#project-considerations)
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
-  * [Directly on your machine](#directly-on-your-machine)
+  * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
   * [Running tests](#running-tests)
   * [Documentation](#documentation)
 - [Deployment](#deployment)

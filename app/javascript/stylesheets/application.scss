@@ -11,6 +11,10 @@ body {
   background-color: $background-color;
 }
 
+.public .navbar {
+  align-items: center;
+}
+
 .feather-icon {
   line-height: 20px;
   vertical-align: sub;
