@@ -2,6 +2,7 @@ class MemberMailer < ApplicationMailer
   helper :items
   helper :members
   helper :date
+  helper :holds
 
   before_action :generate_uuid
   after_action :set_uuid_header
@@ -11,6 +12,13 @@ class MemberMailer < ApplicationMailer
     @member = params[:member]
     @amount = Money.new(params[:amount]) if params.key?(:amount)
     @subject = "Welcome to The Chicago Tool Library"
+    mail(to: @member.email, subject: @subject)
+  end
+
+  def hold_confirmation
+    @subject = "Your recent holds"
+    @hold_request = params[:hold_request]
+    @member = @hold_request.member
     mail(to: @member.email, subject: @subject)
   end
 
