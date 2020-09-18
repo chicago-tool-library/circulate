@@ -109,9 +109,8 @@ class ItemsTest < ApplicationSystemTestCase
 
     visit edit_admin_item_url(@item)
     # Remove second category from item
-    page.all('a.remove')[1].click
+    page.all("a.remove")[1].click
     click_on "Update Item"
-
 
     visit admin_categories_url
     # Destroy first category record
@@ -123,7 +122,7 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_item_history_path(@item)
     # Check than an edit event exists where item is only associated
     # with one existing category and one deleted category
-    assert_text /Categories set to category\d, deleted category/
+    assert_text(/Categories set to category\d, deleted category/)
   end
 
   test "importing a manual from a URL", :remote do

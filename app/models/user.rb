@@ -11,16 +11,16 @@ class User < ApplicationRecord
   enum role: {
     member: "member",
     staff: "staff",
-    admin: "admin",
+    admin: "admin"
   }
 
   def roles
     case role
-    when 'member'
+    when "member"
       [:member]
-    when 'staff'
+    when "staff"
       [:member, :staff]
-    when 'admin'
+    when "admin"
       [:member, :staff, :admin]
     else
       []

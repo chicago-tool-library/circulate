@@ -42,7 +42,7 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_equal [member], Member.matching("(312) 123-4567")
   end
-  
+
   test "allows 606 postal codes" do
     member = FactoryBot.build(:member)
 
@@ -85,7 +85,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "a 'staff' member has the role 'staff' and 'member'" do
-    user = User.new(role: 'staff')
+    user = User.new(role: "staff")
     member = Member.new(user: user)
 
     assert_equal [:member, :staff], member.roles
@@ -93,7 +93,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "an 'admin' member has the role 'admin', 'staff', and 'member'" do
-    user = User.new(role: 'admin')
+    user = User.new(role: "admin")
     member = Member.new(user: user)
 
     assert_equal [:member, :staff, :admin], member.roles

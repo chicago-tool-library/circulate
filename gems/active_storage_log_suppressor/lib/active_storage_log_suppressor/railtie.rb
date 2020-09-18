@@ -3,7 +3,7 @@
 module ActiveStorageLogSuppressor
   class Railtie < ::Rails::Railtie
     initializer "active_support_log_suppressor.install" do |app|
-      if Rails.env.development? && !ENV.fetch("SHOW_ACTIVE_STORAGE_LOGS") { false }
+      if Rails.env.development? && !ENV.fetch("SHOW_ACTIVE_STORAGE_LOGS", false)
         install!
       end
     end

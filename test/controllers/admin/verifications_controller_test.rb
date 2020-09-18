@@ -35,5 +35,4 @@ class VerificationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "verified", @member.status
     assert @member.number
   end
-
 end

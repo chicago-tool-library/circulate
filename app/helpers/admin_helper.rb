@@ -70,7 +70,7 @@ module AdminHelper
       category_names = Category.where(id: value).map(&:name)
       deleted_category_count = value.count - category_names.count
       if deleted_category_count > 0
-        category_names << ['deleted category'] * deleted_category_count
+        category_names << ["deleted category"] * deleted_category_count
       end
       value = category_names.join(", ")
     end
