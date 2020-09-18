@@ -100,6 +100,9 @@ Rails.application.routes.draw do
   get "/s/:id", to: "short_links#show", as: :short_link
 
   resource :member_profile, only: [:show, :edit, :update]
+  namespace :member_profiles do
+    resource :password, only: [:edit, :update]
+  end
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
