@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     resources :items, only: [:create, :destroy]
     resources :hold_requests, only: [:new, :create]
     resource :request, only: :destroy
-    get "confirmation", to: "confirmations#show"
     get "/", to: "home#index"
     get "autocomplete", to: "autocomplete#index"
     resources :confirmations, only: :show

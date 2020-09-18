@@ -16,6 +16,7 @@ class Item < ApplicationRecord
                         before_remove: :cache_category_ids
   has_many :loans, dependent: :destroy
   has_many :holds, dependent: :destroy
+  has_many :active_holds, -> { active }, dependent: :destroy, class_name: "Hold"
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
@@ -80,6 +81,10 @@ class Item < ApplicationRecord
 
   def complete_number
     "#{borrow_policy.code}-#{number}"
+  end
+
+  def holdable?
+    available? && active_holds.size == 0
   end
 
   private

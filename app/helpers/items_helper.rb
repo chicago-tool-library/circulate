@@ -42,6 +42,26 @@ module ItemsHelper
     image.variant(options)
   end
 
+  def item_image_url(item, options = {})
+    if ENV["IMAGEKIT_URL"]
+      transforms = if options[:resize_to_limit]
+        width, height = options[:resize_to_limit]
+        "tr=w-#{width},h-#{height},fo-auto"
+      else
+        ""
+      end
+
+      if item.image.metadata.key? "rotation"
+        transforms << ",rt-#{item.image.metadata["rotation"]}"
+      end
+
+      ENV["IMAGEKIT_URL"] + item.image.blob.key + "?" + transforms
+    else
+      # fallback when there isn't an image proxy in place
+      rotated_variant(image, options)
+    end
+  end
+
   def full_item_number(item)
     item.complete_number
   end
@@ -49,7 +69,7 @@ module ItemsHelper
   def item_status_label(item)
     class_name, label = if item.active?
       if item.checked_out_exclusive_loan
-        ["label-primary", "Checked Out"]
+        ["label-warning", "Checked Out"]
       elsif item.holds.active.count > 0
         ["label-warning", "On Hold"]
       else
@@ -59,6 +79,29 @@ module ItemsHelper
       ["", "Unavailable"]
     end
     tag.span label, class: "label item-checkout-status #{class_name}"
+  end
+
+  def item_status_class(item)
+    if item.active?
+      if item.checked_out_exclusive_loan
+        "status-checked-out"
+      elsif item.holds.active.count > 0
+        "status-on-hold"
+      else
+        "status-available"
+      end
+    else
+      "status-unavailable"
+    end
+  end
+
+  def item_holds_label(item)
+    if item.active?
+      count = item.active_holds.size
+      if count > 0
+        tag.span pluralize(count, "hold"), class: "label item-hold-status"
+      end
+    end
   end
 
   def loan_description(loan)
