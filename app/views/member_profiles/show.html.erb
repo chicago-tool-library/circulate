@@ -9,14 +9,15 @@
       <dd><%= @member.preferred_name %></dd>
 
       <dt>Pronouns</dt>
-      <dd><%= member_pronoun(@member) %></dd>
+      <dd><%= @member.display_pronouns %></dd>
 
       <dt>Email</dt>
       <dd><%= @member.email %></dd>
 
       <dt>Phone Number</dt>
+
       <dd><%= format_phone_number(@member.phone_number,"-") %></dd>
-      
+
       <dt>Address</dt>
       <dd>
         <%= @member.address1 %><br>
@@ -27,7 +28,7 @@
       </dd>
     </dl>
 
-    <button class="btn">Edit Account Settings</button>
+    <button class="btn"><%= link_to "Edit Member Profile", edit_member_profile_path %></button>
     <br> <br>
     <button class="btn">Edit Password</button>
   </div>
@@ -50,4 +51,3 @@
     </dl>
   </div>
 </div>
-

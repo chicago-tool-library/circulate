@@ -19,7 +19,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
-    select "she/her", from: "Pronoun"
+    check "she/her"
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"
     fill_in "Address", with: "23 N. Street"

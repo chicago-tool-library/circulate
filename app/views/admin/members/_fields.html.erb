@@ -1,23 +1,19 @@
-  <%= form.errors %>
+<%= form.errors %>
 
-  <%= form.text_field :full_name, hint: "Your full name, first and last; e.g. Octavia E. Butler" %>
-  <%= form.text_field :preferred_name, hint: "What you like to be called; e.g. Tavi" %>
+<%= form.text_field :full_name, hint: "Your full name, first and last; e.g. Octavia E. Butler" %>
+<%= form.text_field :preferred_name, hint: "What you like to be called; e.g. Tavi" %>
 
-  <div data-controller="conditional-field" data-conditional-field-trigger="custom_pronoun">
-    <%= form.select :pronoun, options_for_select(member_pronoun_options, form.object.pronoun), {prompt: true, hint: "How do you like to be addressed?"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
-    <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
-      <%= form.text_field :custom_pronoun, placeholder: "Please specify" %>
-    <% end %>
+<!--  <div data-controller="conditional-field" data-conditional-field-trigger="custom_pronoun">-->
+<%= render partial: 'member_profiles/pronoun_fields' , locals: { member: form.object }%>
+
+<div class="columns form-group">
+  <div class="column col-sm-12 col-6">
+    <%= form.text_field :email, hint: "e.g. you@domain.com" %>
   </div>
-
-  <div class="columns form-group">
-    <div class="column col-sm-12 col-6">
-      <%= form.text_field :email, hint: "e.g. you@domain.com" %>
-    </div>
-    <div class="column col-sm-12 col-6">
-      <%= form.text_field :phone_number, value: format_phone_number(form.object.phone_number), hint: "Include area code; e.g. 312 123 4567" %>
-    </div>
+  <div class="column col-sm-12 col-6">
+    <%= form.text_field :phone_number, value: format_phone_number(form.object.phone_number), hint: "Include area code; e.g. 312 123 4567" %>
   </div>
+</div>
 
   <div class="columns form-group">
     <div class="column col-sm-12 col-6">
@@ -39,21 +35,22 @@
       <%= form.text_field :postal_code, label: "ZIP", hint: "5 digits only" %>
     </div>
   </div>
+</div>
 
-  <%= form.text_area :desires, label: "What kind of tools are you interested in borrowing, today or sometime the future?", hint: "We want to know if we don't have something you are interested in borrowing" %>
+<%= form.text_area :desires, label: "What kind of tools are you interested in borrowing, today or sometime the future?", hint: "We want to know if we don't have something you are interested in borrowing" %>
 
-  <fieldset>
-    <legend>Loan Reminders</legend>
-    <%= form.check_box :reminders_via_email, label: "Send me loan reminders via email" %>
-    <%= form.check_box :reminders_via_text, label: "Send me loan reminders via text (coming soon)" %>
-  </fieldset>
+<fieldset>
+  <legend>Loan Reminders</legend>
+  <%= form.check_box :reminders_via_email, label: "Send me loan reminders via email" %>
+  <%= form.check_box :reminders_via_text, label: "Send me loan reminders via text (coming soon)" %>
+</fieldset>
 
-  <fieldset>
-    <legend>Subscribe to our Newsletter</legend>
-    <%= form.check_box :receive_newsletter, label: "Send me occasional news about the library" %>
-  </fieldset>
+<fieldset>
+  <legend>Subscribe to our Newsletter</legend>
+  <%= form.check_box :receive_newsletter, label: "Send me occasional news about the library" %>
+</fieldset>
 
-  <fieldset>
-    <legend>Want to help us out?</legend>
-    <%= form.check_box :volunteer_interest, label: "I am interested in volunteering with the library" %>
-  </fieldset>
+<fieldset>
+  <legend>Want to help us out?</legend>
+  <%= form.check_box :volunteer_interest, label: "I am interested in volunteering with the library" %>
+</fieldset>
