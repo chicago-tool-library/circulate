@@ -20,8 +20,8 @@ class MemberProfileTest < ApplicationSystemTestCase
     click_button "Edit Member Profile"
 
     fill_in "Full name", with: "Updated Name"
-    uncheck 'she/her'
-    check 'he/him'
+    uncheck "she/her"
+    check "he/him"
     click_on "Update Member"
     assert_content "Updated Name"
     assert_content "he/him"

@@ -19,12 +19,14 @@ class UserSignupTest < ApplicationSystemTestCase
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
-    check 'she/her'
+    check "she/her"
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"
     fill_in "Address", with: "23 N. Street"
     fill_in "Apt or unit", with: "390"
     fill_in "ZIP", with: "60647"
+    fill_in "Password", with: "password", match: :prefer_exact
+    fill_in "Password confirmation", with: "password", match: :prefer_exact
 
     click_on "Save and Continue"
 
