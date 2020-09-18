@@ -93,6 +93,9 @@ header.navbar {
 
 .toast {
   margin-bottom: 1rem;
+  a {
+    color: $primary-color;
+  }
 }
 
 .tool-card  {
