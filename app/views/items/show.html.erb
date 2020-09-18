@@ -19,49 +19,7 @@
     </div>
 
     <div class="column col-6">
-      <p>
-        <strong>Number:</strong>
-        <%= @item.number %>
-      </p>
-
-      <p>
-        <strong>Size:</strong>
-        <%= @item.size %>
-      </p>
-
-      <p>
-        <strong>Strength:</strong>
-        <%= @item.strength %>
-      </p>
-
-      <p>
-        <strong>Brand:</strong>
-        <%= @item.brand %>
-      </p>
-
-      <p>
-        <strong>Model:</strong>
-        <%= @item.model %>
-      </p>
-
-      <p>
-        <strong>Serial:</strong>
-        <%= @item.serial %>
-      </p>
-
-      <p>
-        <strong>Categories:</strong>
-        <%= item_categories(@item) %>
-      </p>
-
-      <% if @item.manual.attached? %>
-        <p>
-          <strong>Manual:</strong>
-          <%= link_to @item.manual.filename, url_for(@item.manual) %>
-        </p>
-      <% end %>
-
-      <%= @item.description %>
+      <%= render partial: "details", locals: {item: @item} %>
     </div>
 
   </div>
