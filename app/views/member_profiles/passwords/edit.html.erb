@@ -1,13 +1,7 @@
-<%= form_for(@user, :url => { :action => "update" } ) do |f| %>
-  <div class="field">
-    <%= f.label :password, "Password" %><br />
-    <%= f.password_field :password, :autocomplete => "off"  %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="action_container">
+<%= form_with(model: @user, :url => { :action => "update" }, builder: SpectreFormBuilder ) do |f| %>
+  <%= f.password_field :password, :autocomplete => "off"  %>
+  <%= f.password_field :password_confirmation %>
+  <%= f.actions do %>
     <%= f.submit %>
-  </div>
+  <% end %>
 <% end %>
