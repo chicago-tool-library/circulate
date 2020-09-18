@@ -61,6 +61,8 @@ The following third party services are used:
 
 Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
 
+See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
+
 ### Setting up Circulate on your machine
 
 If you're new to Ruby or Rails applications, a recommended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this project, you **only** need to run the first, initial script command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles:
