@@ -1,0 +1,42 @@
+<% requested_item_ids ||= [] %>
+
+<div class="column col-3 col-sm-6 col-md-4" data-controller="request-item" data-request-item-id="<%= item.id %>">
+  <div class="card tool-card <%= item_status_class(item) if requested_item_ids.include?(item.id) %>" id="<%= dom_id(item) %>">
+    <div class="card-image">
+      <% if item.image.attached? %>
+        <%= image_tag item_image_url(item, resize_to_limit: [226, 164]), class: "p-centered" %>
+      <% else %>
+        <div class="image-placeholder"></div>
+      <% end %>
+      <span class="chip item-number-chip"><%= item.complete_number %></span>
+      <%= item_status_label(item) %>
+      <%= item_holds_label(item) %>
+    </div>
+    <div class="card-header">
+      <div class="card-title">
+        <%= modal title: item.name, body: render(partial: "items/details", locals: {item: item}) do %>
+          <%= tag.a item.name, class: "c-help", data: {action: "click->modal#show"} %>
+        <% end %>
+      </div>
+    </div>
+    <div class="card-footer">
+      <% if requested_item_ids.include?(item.id) %>
+        <%= button_tag class: "btn btn-sm", disabled: true do %>
+          <span class="button-content">
+            <%= feather_icon "check" %>
+            Requested
+          </span>
+        <% end %>
+        <%= link_to "Remove", holds_item_path(item), method: :delete, data: {action: "request-item#undo"}, class: "remove-link" %>
+      <% else %>
+        <%= button_tag class:"btn btn-sm", data: {action: "request-item#request"} do %>
+          <span class="button-content">
+            <%= feather_icon "clipboard" %>
+            Request
+          </span>
+          <i class="form-icon loading d-none" data-target="find-tool.loader"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

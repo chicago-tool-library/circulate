@@ -1,0 +1,6 @@
+<div class="continue-button" id="continue-button">
+  <%= link_to new_holds_hold_request_path, class:"btn btn-primary", disabled: @requested_items.empty?  do %>
+    Continue <%= feather_icon "arrow-right"%>
+  <% end %>
+  to select time
+</div>

@@ -1,10 +1,9 @@
 require "csv"
 
 namespace :export do
-
   desc "Export verified members to CSV"
   task verified_members_to_csv: :environment do
-    columns = %w[ id preferred_name email ]
+    columns = %w[id preferred_name email]
     now = Time.current.rfc3339
     path = Rails.root + "exports" + "verified_members-#{now}.csv"
     puts "writing member info to #{path}"

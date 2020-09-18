@@ -11,6 +11,7 @@
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
   * [Running tests](#running-tests)
+  * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
 - [Deployment](#deployment)
   * [Buildpacks](#buildpacks)
@@ -127,6 +128,10 @@ After you have the application running, here are some places to explore:
 ### Running tests
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+
+### Setup pre-commit checks
+
+Circulate uses [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
 
 ### Documentation
 

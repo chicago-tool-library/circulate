@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class LoansHelperTest < ActionView::TestCase
   test "humanize_due_date returns due date formatted as '%a %m/%d' when due date is after tomorrow" do

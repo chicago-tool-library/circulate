@@ -19,8 +19,17 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
-  get "member/history", to: "members#history", as: 'member_loan_history'
-  get '/member/loans', to: 'members#loans', as: 'member_loans'
+  namespace :holds do
+    resources :items, only: [:create, :destroy]
+    resources :hold_requests, only: [:new, :create]
+    resource :request, only: :destroy
+    get "/", to: "home#index"
+    get "autocomplete", to: "autocomplete#index"
+    resources :confirmations, only: :show
+  end
+
+  get "member/history", to: "members#history", as: "member_loan_history"
+  get "/member/loans", to: "members#loans", as: "member_loans"
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
@@ -33,6 +42,7 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
     resources :categories, except: :show
+    resources :hold_requests, only: :index
     resources :gift_memberships
     resources :items do
       get :number

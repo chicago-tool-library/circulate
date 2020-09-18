@@ -1,9 +1,9 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
 
-  alias parent_text_field text_field
-  alias parent_collection_select collection_select
-  alias parent_button button
+  alias_method :parent_text_field, :text_field
+  alias_method :parent_collection_select, :collection_select
+  alias_method :parent_button, :button
 
   private def validation_inspector
     @validation_inspector = ValidationInspector.new(@object.class)
@@ -177,7 +177,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def wrapped_layout(method, options = {})
     label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
-    display_required = options.fetch(:required) { true }
+    display_required = options.fetch(:required, true)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""

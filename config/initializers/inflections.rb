@@ -13,4 +13,7 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "UI"
   inflect.acronym "HTML"
+  inflect.irregular "has", "have"
+  inflect.irregular "is", "are"
+  inflect.irregular "this", "these"
 end

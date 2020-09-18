@@ -2,7 +2,7 @@ module Volunteer
   class Event
     attr_reader :id, :summary, :description, :start, :finish, :attendees
 
-    def initialize(id:, summary:, description: nil, start:, finish:, attendees:)
+    def initialize(id:, summary:, start:, finish:, attendees:, description: nil)
       @id = id
       @summary = summary
       @description = description
