@@ -89,6 +89,45 @@ header.navbar {
   margin-bottom: 1rem;
 }
 
+.tool-card  {
+  position: relative;
+  margin-bottom: 1rem;
+
+  .card-title {
+    height: 2.2rem;
+  }
+  .item-number-chip {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background: white;
+  }
+  .item-checkout-status {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+  .image-placeholder {
+    width: 100%;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  &.status-on-hold, &.status-checked-out {
+    border-color: $warning-color;
+  }
+  &.status-available, &.status-on-hold, &.status-checked-out {
+    border-width: 3px;
+    margin: -2px;
+  }
+
+  .remove-link {
+    margin-left: 0.5em;
+    font-size: 0.9em;
+  }
+}
+
+
 .off-canvas-content {
   .off-canvas-title a {
     color: white;
@@ -976,4 +1015,57 @@ table.monthly-adjustments {
 
 .warning {
   color: $error-color;
+}
+
+ul.hold-items {
+  margin: 0
+}
+
+.hold-item {
+  list-style: none;
+  background: $light-color;
+  padding: .5rem;
+  float: left;
+  margin: 0 .5rem .5rem 0;
+  border-radius: 3px;
+  border: solid 2px;
+  position: relative;;
+  .item-name {
+    display: inline-block;
+  }
+  img {
+    vertical-align: top;
+    margin-right: .5em;
+  }
+  &.status-checked-out, &.status-on-hold {
+    border-color: $warning-color;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  .remove-link {
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    font-size: 0.9em;
+  }
+}
+
+.find-tools {
+  .find-tool-results {
+    margin-top: 1rem;
+  }
+  .continue-button {
+    position: relative;
+    top: 0.9rem;
+  }
+}
+
+
+
+.tool-card .modal {
+  .stats {
+    margin-bottom: 1.2rem;
+    p { margin-bottom: .2rem; }
+  }
 }
