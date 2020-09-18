@@ -133,7 +133,7 @@ trix-toolbar {
   }
   background-color: lighten($gray-color-light, 1%);
 
-  &.label-primary { background-color: lighten($primary-color, 30%); }
+  &.label-primary { background-color: lighten($primary-color, 40%); }
   &.label-secondary { background-color: $secondary-color-light; }
   &.label-success { background-color: lighten($success-color, 20%); }
   &.label-warning { background-color: lighten($warning-color, 20%); }

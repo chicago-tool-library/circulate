@@ -82,7 +82,13 @@ form details {
 
 header.navbar {
   margin-bottom: 1rem;
-  margin-top: 1rem;
+}
+
+.public {
+  header.navbar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
 }
 
 .toast {
@@ -294,18 +300,6 @@ $photo-width: 187px;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .responsive-table {
   display: flex;
   flex-wrap: wrap;
@@ -381,7 +375,6 @@ $photo-width: 187px;
   border-radius: 4px;
   padding: .5rem .5rem .3rem .6rem;
   margin-bottom: 1rem;
-  color: darken($secondary-color, 30%);
   .float-left {
     line-height: 32px;
     font-weight: 500;
@@ -392,25 +385,23 @@ $photo-width: 187px;
     stroke: darken($secondary-color, 10%);
   }
   .btn {
-    background-color: $secondary-color;
-    border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 20%);
+    border-color: darken($secondary-color, 20%);
     color: white;
     &:hover, &:visited {
-      background-color: darken($secondary-color, 10%);
-      border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 30%);
+      border-color: darken($secondary-color, 30%);
       color: white;
     }
   }
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
-    color: darken($warning-color, 30%);
+    // color: darken($warning-color, 30%);
     .btn {
-      background-color: $warning-color;
-      border-color: darken($warning-color, 10%);
-      color: $gray-color-dark;
+      background-color: darken($warning-color, 20%);
+      border-color: darken($warning-color, 20%);
       &:hover {
-        background-color: darken($warning-color, 10%);
-        color: $gray-color-dark;
+        background-color: darken($warning-color, 30%);
       }
     }
     .feather-icon {
