@@ -36,3 +36,25 @@
 </table>
 
 <h3>Holds</h3>
+
+<table class="table table-scroll" id="loans-table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Inventory No.</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @holds.each do |hold| %>
+      <tr>
+        <td><%= hold.item.name %></td>
+        <td><%= hold.item.number %></td>
+        <td><%= hold.item.status&.titleize %></td>
+        <td><%= link_to "Remove Hold", admin_member_holds_path(hold.id), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
