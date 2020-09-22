@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/ErwinM/acts_as_tenant.git
+  revision: 1ba28d1354848fd422603efa343b145bae5c5fdf
+  branch: master
+  specs:
+    acts_as_tenant (0.4.4)
+      rails (>= 4.0)
+      request_store (>= 1.0.5)
+
+GIT
   remote: https://github.com/bonekost/audited.git
   revision: ae2ada47a0a8b815a940a6d79147d8261e034889
   specs:
@@ -79,9 +88,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    acts_as_tenant (0.4.4)
-      rails (>= 4.0)
-      request_store (>= 1.0.5)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
@@ -407,7 +413,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_log_suppressor!
   activerecord-postgres_enum
-  acts_as_tenant
+  acts_as_tenant!
   audited!
   aws-sdk-s3
   barnes
