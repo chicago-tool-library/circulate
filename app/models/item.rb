@@ -42,7 +42,7 @@ class Item < ApplicationRecord
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
-  validates :number, numericality: {only_integer: true}, uniqueness: true
+  validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
   validates :status, inclusion: {in: Item.statuses.keys}
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
@@ -52,15 +52,13 @@ class Item < ApplicationRecord
   acts_as_tenant :library
 
   def self.next_number(limit = nil)
-    ActsAsTenant.without_tenant do
-      item_scope = order("number DESC NULLS LAST")
-      if limit
-        item_scope = item_scope.where("number <= ?", limit)
-      end
-      last_item = item_scope.limit(1).first
-      return 1 unless last_item
-      last_item.number.to_i + 1
+    item_scope = order("number DESC NULLS LAST")
+    if limit
+      item_scope = item_scope.where("number <= ?", limit)
     end
+    last_item = item_scope.limit(1).first
+    return 1 unless last_item
+    last_item.number.to_i + 1
   end
 
   def assign_number
