@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   around_action :set_time_zone
 
-
   def current_member
     current_user.member
   end
