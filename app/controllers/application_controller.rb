@@ -17,7 +17,16 @@ class ApplicationController < ActionController::Base
   private
 
   def set_tenant
-    set_current_tenant Library.find_by!(hostname: request.host.downcase)
+    if current_library
+      set_current_tenant current_library
+    else
+      Rails.logger.debug "No Library found for the provided hostname"
+      render_not_found
+    end
+  end
+
+  def current_library
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
 
   def set_time_zone(&block)

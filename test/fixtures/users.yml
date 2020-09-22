@@ -5,4 +5,5 @@
 # below each fixture, per the syntax in the comments below
 #
 admin:
+  library: chicago_tool_library
   email: admin@example.com

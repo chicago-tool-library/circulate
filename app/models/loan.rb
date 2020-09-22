@@ -42,6 +42,8 @@ class Loan < ApplicationRecord
     )
   }
 
+  acts_as_tenant :library
+
   def ended?
     ended_at.present?
   end

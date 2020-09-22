@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :user do
+    library { Library.first || create(:library) }
+
     email
     password { "password" }
 
