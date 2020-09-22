@@ -14,4 +14,17 @@ module HoldsHelper
     block ||= proc {}
     render layout: "holds/items", locals: {items: items}, &block
   end
+
+  def render_place_in_queue(hold)
+    last_hold = hold.previous_active_holds.last
+    count = hold.previous_active_holds.count
+
+    if count == 0
+      pickup_deadline = hold.created_at + 7.days
+      formatted_date = pickup_deadline.strftime("%a %-d/%y")
+      "Ready for pickup. Schedule by #{formatted_date}."
+    elsif last_hold
+      "##{count} on wait list."
+    end
+  end
 end

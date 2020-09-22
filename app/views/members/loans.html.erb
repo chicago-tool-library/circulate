@@ -52,7 +52,7 @@
       <tr>
         <td><%= hold.item.name %></td>
         <td><%= hold.item.number %></td>
-        <td><%= hold.item.status&.titleize %></td>
+        <td><%= render_place_in_queue(hold) %></td>
         <td><%= link_to "Remove", delete_member_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
       </tr>
     <% end %>
