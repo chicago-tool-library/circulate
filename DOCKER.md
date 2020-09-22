@@ -11,14 +11,13 @@ Dockerfile, or if gems or npm packages have been added or updated.
    you don't have permission to commit directly to this repo.
 4. Change into the application directory: `cd circulate`
 5. Run `docker-compose build` to build images for all services.
-6. Run `docker-compose up -d database` to start the database service.
-7. Run `docker-compose run --rm web rails db:reset` to create the dev and test
+6. Run `docker-compose run --rm web rails db:reset` to create the dev and test
    databases, load the schema, and run the seeds file.
-8. Run `docker-compose up -d` to start all the remaining services.
-9. Run `docker-compose ps` to view status of the containers. All should have
+7. Run `docker-compose up -d` to start all the remaining services.
+8. Run `docker-compose ps` to view status of the containers. All should have
    state "Up". Check the [logs](#viewing-logs) if there are any containers that
    did not start.
-10. The web application will be available at http://localhost:3000
+9. The web application will be available at http://localhost:3000
 
 ## For ongoing development:
 1. Run `docker-compose up -d` to start all services.
@@ -40,7 +39,7 @@ Dockerfile, or if gems or npm packages have been added or updated.
 ### Running commands
 In order to run rake tasks, rails generators, bundle commands, etc., they need to be run inside the container:
 ```
-$ docker-compose exec web rails db:migrate
+$ docker-compose run web rails db:migrate
 ```
 
 If you do not have the web container running, you can run a command in a one-off container:
@@ -73,15 +72,15 @@ $ docker-compose exec database psql -h database -Upostgres circulate_development
 
 #### Rails console
 ```
-$ docker-compose exec web rails c
+$ docker-compose run web rails c
 ```
 
 ## Testing Suite
 Run the testing suite from within the container:
 
 ```
-$ docker-compose exec web rails test
-$ docker-compose exec web rails test:system
+$ docker-compose run web rails test
+$ docker-compose run web rails test:system
 ```
 
 System tests will generate a screenshot upon failure. The screenshots can be

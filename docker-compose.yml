@@ -13,6 +13,8 @@ services:
       - config/docker.env
     stdin_open: true
     tty: true
+    depends_on:
+      - database
 
   assets:
     build: .
