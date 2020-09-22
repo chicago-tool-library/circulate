@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_182546) do
+ActiveRecord::Schema.define(version: 2020_09_22_002045) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2020_09_06_182546) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
-    "member"
+    "member",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -244,6 +245,12 @@ ActiveRecord::Schema.define(version: 2020_09_06_182546) do
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
   end
 
+  create_table "libraries", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "loans", force: :cascade do |t|
     t.bigint "item_id"
     t.bigint "member_id"
@@ -297,6 +304,7 @@ ActiveRecord::Schema.define(version: 2020_09_06_182546) do
     t.datetime "ended_on", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
