@@ -16,15 +16,21 @@ module HoldsHelper
   end
 
   def render_place_in_queue(hold)
-    last_hold = hold.previous_active_holds.last
+    prev_hold = hold.previous_active_holds.last
     count = hold.previous_active_holds.count
 
-    if count == 0
-      pickup_deadline = hold.created_at + 7.days
-      formatted_date = pickup_deadline.strftime("%a %-d/%y")
-      "Ready for pickup. Schedule by #{formatted_date}."
-    elsif last_hold
-      "##{count} on wait list."
+    if prev_hold.present? && count == 0
+      "Ready for pickup. Schedule by #{format_date(prev_hold.loan.ended_at + 7.days)}"
+    elsif count == 0
+      "Ready for pickup. Schedule by #{format_date(hold.created_at + 7.days)}"
+    else
+      "##{count} on wait list"
     end
   end
+
+  private
+
+    def format_date(date)
+      date.strftime("%a %-d/%y")
+    end
 end
