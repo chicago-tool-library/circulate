@@ -1,6 +1,14 @@
 require "test_helper"
 
 class MembershipTest < ActiveSupport::TestCase
+  setup do
+    ActsAsTenant.current_tenant = create(:library)
+  end
+
+  teardown do
+    ActsAsTenant.current_tenant = nil
+  end
+
   test "creates a membership for a member" do
     member = create(:member)
     now = Time.current.to_date

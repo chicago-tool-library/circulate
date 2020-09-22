@@ -5,9 +5,16 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
+      ActsAsTenant.test_tenant = create(:library)
       @admin = create(:user)
       sign_in @admin
-      @member = create(:verified_member)
+      ActsAsTenant.with_tenant(ActsAsTenant.test_tenant) do
+        @member = create(:verified_member)
+      end
+    end
+
+    teardown do
+      ActsAsTenant.test_tenant = nil
     end
 
     test "renders new form" do
