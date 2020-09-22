@@ -5,6 +5,7 @@ require "spy/integration"
 require "minitest/mock"
 
 require "helpers/return_values"
+require "helpers/ensure_request_tenant"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -35,4 +36,9 @@ class ActiveSupport::TestCase
       end
     end
   end
+end
+
+class ActionDispatch::IntegrationTest
+  # @note Just to make tests pass for now...
+  include EnsureRequestTenant
 end

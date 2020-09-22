@@ -67,9 +67,7 @@ module Signup
 
       SquareCheckout.stub :new, mock_checkout do
         assert_difference "Membership.count" => 1, "Adjustment.count" => 2 do
-          ActsAsTenant.with_tenant(create(:library)) do
-            get callback_signup_payments_url, params: {transactionId: "abcd1234"}
-          end
+          get callback_signup_payments_url, params: {transactionId: "abcd1234"}
         end
       end
 
