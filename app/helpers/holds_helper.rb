@@ -30,7 +30,7 @@ module HoldsHelper
 
   private
 
-    def format_date(date)
-      date.strftime("%a %-d/%y")
-    end
+  def format_date(date)
+    date.strftime("%a, %-m/%-d/%Y")
+  end
 end
