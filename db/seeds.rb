@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-library = Library.create!(name: "Chicago Tool Library")
+library = Library.create!(name: "Chicago Tool Library", hostname: "tenant.local.chicagotoollibrary.org")
 
 def create_category(name, kids: nil, parent_id: nil)
   category = Category.create!(name: name, parent_id: parent_id)
