@@ -61,6 +61,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.hosts << "shiny.local"
+  config.hosts << ".local.chicagotoollibrary.org"
 
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
   config.action_mailer.asset_host = "http://localhost:3000"
