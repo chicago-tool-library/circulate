@@ -87,6 +87,8 @@ class Item < ApplicationRecord
     available? && active_holds.size == 0
   end
 
+  delegate :allow_multiple_holds_per_member?, to: :borrow_policy
+
   private
 
   def strip_whitespace

@@ -17,9 +17,7 @@ class ItemsController < ApplicationController
     @pagy, @items = pagy(item_scope)
   end
 
-  def show
-    @item = Item.listed_publicly.find(params[:id])
-  end
+  def show; end
 
   private
 
@@ -30,5 +28,29 @@ class ItemsController < ApplicationController
       "added" => "items.created_at DESC"
     }
     options.fetch(params[:sort]) { options["name"] }
+  end
+
+  def on_hold_by_current_member?
+    current_item_hold_count.positive?
+  end
+
+  helper_method def current_item_hold_count
+    @current_item_hold_count ||= current_member&.holds&.active&.where(item: item).count
+  end
+
+  helper_method def item
+    @item ||= Item.listed_publicly.find(params[:id])
+  end
+
+  helper_method def place_hold_partial
+    if current_user? && item.allow_multiple_holds_per_member?
+      "items/place_hold_on/item_that_allows_multiple_holds"
+    elsif current_user? && on_hold_by_current_member?
+      "items/place_hold_on/item_already_with_a_hold"
+    elsif current_user?
+      "items/place_hold_on/item"
+    else
+      "items/place_hold_on/not_logged_in"
+    end
   end
 end
