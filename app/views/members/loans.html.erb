@@ -40,8 +40,9 @@
 <table class="table table-scroll">
   <thead>
     <tr>
+      <th></th>
       <th>Item</th>
-      <th>Inventory No.</th>
+      <th>Inventory Number</th>
       <th>Status</th>
       <th></th>
     </tr>
@@ -50,7 +51,14 @@
   <tbody>
     <% @holds.each do |hold| %>
       <tr>
-        <td><%= hold.item.name %></td>
+        <td>
+          <%= link_to item_path(hold.item) do %>
+            <% if hold.item.image.attached? %>
+              <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= link_to hold.item.name, item_path(hold.item) %></td>
         <td><%= hold.item.number %></td>
         <td><%= render_place_in_queue(hold) %></td>
         <td><%= link_to "Remove", delete_member_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
