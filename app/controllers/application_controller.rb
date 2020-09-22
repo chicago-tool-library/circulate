@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   around_action :set_time_zone
 
+  set_current_tenant_by_subdomain(:library, :subdomain)
+
   def current_member
     current_user.member
   end

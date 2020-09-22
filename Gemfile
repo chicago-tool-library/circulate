@@ -25,7 +25,7 @@ gem "jbuilder", "~> 2.5"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem "apartment"
+gem 'acts_as_tenant'
 gem "devise"
 gem "pundit"
 gem "audited", github: "bonekost/audited"
