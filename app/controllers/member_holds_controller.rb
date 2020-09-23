@@ -1,13 +1,13 @@
 class MemberHoldsController < ApplicationController
   def create
-    if new_hold.save
-      redirect_to item_path(item), success: "Hold placed."
-    else
-      redirect_to item_path(item), error: "Something went wrong!"
-    end
+    new_hold_save
+    redirect_to item_path(item), flash: create_redirect_flash
   end
 
   private
+
+  delegate :save, to: :new_hold, prefix: true, private: true
+  delegate :persisted?, to: :new_hold, prefix: true, private: true
 
   def item
     @item ||= Item.find(params[:item_id])
@@ -15,5 +15,13 @@ class MemberHoldsController < ApplicationController
 
   def new_hold
     @new_hold ||= Hold.new(item: item, member: current_member, creator: current_user)
+  end
+
+  def create_redirect_flash
+    if new_hold_persisted?
+      {success: "Hold placed."}
+    else
+      {error: "Something went wrong!"}
+    end
   end
 end
