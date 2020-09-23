@@ -6,3 +6,6 @@
 #
 admin:
   email: admin@example.com
+
+super_admin:
+  email: super_admin@example.com
