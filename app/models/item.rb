@@ -42,12 +42,14 @@ class Item < ApplicationRecord
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
-  validates :number, numericality: {only_integer: true}, uniqueness: true
+  validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
   validates :status, inclusion: {in: Item.statuses.keys}
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
+
+  acts_as_tenant :library
 
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
