@@ -88,6 +88,7 @@ class Item < ApplicationRecord
   end
 
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy
+  delegate :allow_one_holds_per_member?, to: :borrow_policy
 
   private
 
