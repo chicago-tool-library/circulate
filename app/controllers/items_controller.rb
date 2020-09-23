@@ -17,7 +17,8 @@ class ItemsController < ApplicationController
     @pagy, @items = pagy(item_scope)
   end
 
-  def show; end
+  def show
+  end
 
   private
 
