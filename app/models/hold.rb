@@ -28,7 +28,8 @@ class Hold < ApplicationRecord
 
   def can_create_hold_for_memember_on_item
     return if item.blank? || member.blank?
-    return if item.allow_one_holds_per_member? &&
+    return if item.allow_multiple_holds_per_member? ||
+              item.allow_one_holds_per_member? &&
               member.holds.active.where(item: item).count.zero?
 
     errors.add(:base, :hold_already_exists_for_member_on_item)
