@@ -8,5 +8,11 @@ class MembersController < ApplicationController
 
   def loans
     @loans = current_member.loans.includes(:item).order(:due_at)
+    @holds = current_member.holds.includes(:item)
+  end
+
+  def delete_hold
+    current_member.holds.find(params[:id]).destroy!
+    redirect_to member_loans_path
   end
 end
