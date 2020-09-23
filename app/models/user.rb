@@ -12,7 +12,7 @@ class User < ApplicationRecord
     member: "member",
     staff: "staff",
     admin: "admin",
-    super_admin: "super_admin"
+    super_admin: "super_admin",
   }
 
   def roles
