@@ -76,3 +76,8 @@
     <% end %>
   </tbody>
 </table>
+<div class="button">
+  <% if @holds.present? %>
+    <%= link_to 'Schedule a Pick Up', new_appointment_path %>
+  <% end %>
+</div>
