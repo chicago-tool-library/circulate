@@ -21,6 +21,8 @@ class ItemsController < ApplicationController
 
   private
 
+  delegate :holds, to: :current_member, prefix: true, allow_nil: true, private: true
+
   def index_order
     options = {
       "name" => "items.name ASC",
@@ -35,7 +37,7 @@ class ItemsController < ApplicationController
   end
 
   helper_method def current_item_hold_count
-    @current_item_hold_count ||= current_member&.holds&.active&.where(item: item).count
+    @current_item_hold_count ||= current_member_holds.active_hold_count_for_item(item).to_i
   end
 
   helper_method def item
