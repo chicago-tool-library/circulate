@@ -43,11 +43,11 @@ class ItemsController < ApplicationController
   end
 
   helper_method def place_hold_partial
-    if current_user? && item.allow_multiple_holds_per_member?
+    if user_signed_in? && item.allow_multiple_holds_per_member?
       "items/place_hold_on/item_that_allows_multiple_holds"
-    elsif current_user? && on_hold_by_current_member?
+    elsif user_signed_in? && on_hold_by_current_member?
       "items/place_hold_on/item_already_with_a_hold"
-    elsif current_user?
+    elsif user_signed_in?
       "items/place_hold_on/item"
     else
       "items/place_hold_on/not_logged_in"

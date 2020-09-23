@@ -11,10 +11,6 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
-  helper_method def current_user?
-    current_user.present?
-  end
-
   private
 
   def set_time_zone(&block)
