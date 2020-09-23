@@ -104,6 +104,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
   end
 
+  resources :libraries
   resources :items, only: [:index, :show]
   resources :documents, only: :show
   get "search", to: "searches#show"

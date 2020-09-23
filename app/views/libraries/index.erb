@@ -1,0 +1,8 @@
+<h1>Libraries Index</h1>
+
+<%= button_to "Add a new Library", new_library_path, method: :get %>
+<ul>
+  <% @libraries.each do |library| %>
+    <li><%= link_to library.name, library_path(library) %></li>
+  <% end %>
+</ul>

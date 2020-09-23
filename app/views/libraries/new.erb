@@ -1,0 +1,10 @@
+<h1>New Library Form</h1>
+
+<%= form_for @library do |lib| %>
+  <%= lib.label :name %>
+  <%= lib.text_field :name %>
+  <%= lib.label :hostname %>
+  <%= lib.text_field :hostname %>
+
+  <%= lib.submit %>
+<% end %>
