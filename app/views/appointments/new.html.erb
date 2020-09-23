@@ -1,0 +1,43 @@
+<% content_for :header do %>
+  <%= index_header "Appointments" %>
+<% end %>
+
+<h1>Schedule an Appointment</h1>
+
+<h3>Select Items to Pick-Up</h3>
+
+
+<%= form_for :appointment,  url: appointments_path do |f| %>
+  <table class="table table-scroll" id="items-to-pickup-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Image</th>
+        <th>Item</th>
+        <th>Inventory Number</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @holds.each do |hold| %>
+        <tr>
+          <td><%= check_box_tag(:hold_id, hold.id) %></td>
+          <td>
+            <%= link_to item_path(hold.item) do %>
+              <% if hold.item.image.attached? %>
+                <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+              <% end %>
+            <% end %>
+          </td>
+          <td><%= link_to hold.item.name, item_path(hold.item) %></td>
+          <td><%= hold.item.number %></td>
+          <td><%= render_place_in_queue(hold) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= f.submit %>
+
+<% end %>

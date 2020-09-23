@@ -105,6 +105,8 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index", as: "dashboard"
   end
 
+  resources :appointments, only: [:new, :create]
+
   get "/s/:id", to: "short_links#show", as: :short_link
 
   resource :member_profile, only: [:show, :edit, :update]
