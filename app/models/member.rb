@@ -6,6 +6,7 @@ class Member < ApplicationRecord
   has_many :loan_summaries
 
   has_many :holds, dependent: :destroy
+  has_many :libraries
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
@@ -56,6 +57,10 @@ class Member < ApplicationRecord
 
   def admin?
     roles.include? :admin
+  end
+
+  def super_admin?
+    roles.include? :super_admin
   end
 
   def assign_number

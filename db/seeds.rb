@@ -38,6 +38,14 @@ admin_member = Member.create!(
 )
 User.create!(email: admin_member.email, password: "password", member: admin_member)
 
+super_admin_member = Member.create!(
+  email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
+  phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
+  address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
+  reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+)
+User.create!(email: super_admin_member.email, password: "password", role: "super_admin", member: super_admin_member)
+
 BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
 
 Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")

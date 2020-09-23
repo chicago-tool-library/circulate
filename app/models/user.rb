@@ -11,7 +11,8 @@ class User < ApplicationRecord
   enum role: {
     member: "member",
     staff: "staff",
-    admin: "admin"
+    admin: "admin",
+    super_admin: "super_admin"
   }
 
   def roles
@@ -22,6 +23,8 @@ class User < ApplicationRecord
       [:member, :staff]
     when "admin"
       [:member, :staff, :admin]
+    when "super_admin"
+      [:member, :staff, :admin, :super_admin]
     else
       []
     end
