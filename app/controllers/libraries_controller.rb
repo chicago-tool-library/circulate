@@ -37,7 +37,6 @@ class LibrariesController < ApplicationController
   private
 
   def require_super_admin
-    # debugger
     unless current_user.super_admin?
       redirect_to items_path, warning: "You do not have access to that page."
     end
