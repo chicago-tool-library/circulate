@@ -1,6 +1,6 @@
 <h1>New Library Form</h1>
 
-<%= form_for @library do |lib| %>
+<%= form_for :library, url: super_admin_libraries_path do |lib| %>
   <%= lib.label :name %>
   <%= lib.text_field :name %>
   <%= lib.label :hostname %>

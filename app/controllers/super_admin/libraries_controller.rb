@@ -12,7 +12,7 @@ module SuperAdmin
 
     def create
       @library = Library.create(params.require(:library).permit(:name, :hostname))
-      redirect_to libraries_path
+      redirect_to super_admin_libraries_path
     end
 
     def show
@@ -26,13 +26,13 @@ module SuperAdmin
     def update
       @library = Library.find(params[:id])
       @library.update(params.require(:library).permit(:name, :hostname))
-      redirect_to library_path(@library)
+      redirect_to super_admin_library_path(@library)
     end
 
     def destroy
       @library = Library.find(params[:id])
       @library.destroy
-      redirect_to libraries_path
+      redirect_to super_admin_libraries_path
     end
 
     private
