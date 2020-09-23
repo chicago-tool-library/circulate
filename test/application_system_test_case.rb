@@ -55,6 +55,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: driver, screen_size: [1400, 1400]
 
   setup do
+    ActsAsTenant.test_tenant = create(:library, hostname: "web")
+
     if ENV["DOCKER"]
       Capybara.javascript_driver = ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
       Capybara.current_driver = Capybara.javascript_driver
@@ -74,6 +76,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
+    ActsAsTenant.test_tenant&.destroy
+    ActsAsTenant.test_tenant = nil
+
     errors = page.driver.browser.manage.logs.get(:browser)
     fail = false
     if errors.present?
