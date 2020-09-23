@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circulate</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbolinks-cache-control" content="no-cache">
+    <% end %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <%= tag.body class: @body_class do %>
+    <div class="custom-navbar">
+      <div class="logo-cell">
+        <a href="https://chicagotoollibrary.org/">
+          <%= image_pack_tag "logo_small.png" %>
+        </a>
+      </div>
+      <div class="inventory-cell">
+        <%= link_to "View Inventory", items_path %>
+      </div>
+      <%= form_with url: search_path, method: :get, local: true do |form| %>
+        <div class="input-group input-inline">
+          <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+        </div>
+      <% end %>
+      <%= link_to "Become a Member", signup_path %>
+    </div>
+
+    <div class="container grid-lg public">
+
+      <%= flash_message :success  %>
+      <%= flash_message :warning  %>
+      <%= flash_message :error  %>
+
+      <%= yield %>
+    </div>
+
+  <% end %>
+</html>
