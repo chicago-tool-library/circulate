@@ -8,8 +8,23 @@ class MemberHoldsTest < ApplicationSystemTestCase
     login_as @user
   end
 
-  test "member can view Place a hold button" do
+  test "member can Place a hold" do
     visit item_url(@item)
-    assert_link "Place a hold"
+    click_button "Place a hold"
+
+    assert_selector "button[disabled]", text: "Place a hold"
+    assert_text "You placed a hold on this item."
+  end
+
+  test "member can Place a hold multiple times when the borrow policy allows it" do
+    @item.borrow_policy.update(code: "A")
+
+    visit item_url(@item)
+
+    click_button "Place a hold"
+    assert_text "You currently have 1 hold placed."
+
+    click_button "Place a hold"
+    assert_text "You currently have 2 holds placed."
   end
 end
