@@ -1,0 +1,61 @@
+<% content_for :header do %>
+  <%= index_header "Scheduled Appointments" %>
+<% end %>
+
+<div class="columns">
+  <div class="col-12" style="justify-content: center;">
+    <ul class="pagination">
+      <li class="page-item page-prev">
+        <%= link_to admin_appointments_path(day: pervious_day) do %>
+          <div class="page-item-subtitle">
+            <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
+          </div>
+          
+        <% end %>
+      </li>
+      <li><b><%= l current_day, format: :with_weekday %></b></li>
+      <li class="page-item page-next">
+        <%= link_to admin_appointments_path(day: next_day) do %>
+          <div class="page-item-subtitle">
+            <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
+          </div>
+        <% end %>
+      </li>
+    </ul>
+
+    <% if @appointments.exists? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Name</th>
+            <th>Pronouns</th>
+            <th>Appointment purpose</th>
+            <th>Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @appointments.each do |appointment| %>
+            <tr>
+              <td><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
+              <td><%= appointment.member.full_name %></td>
+              <td><%= appointment.member.pronouns.first %></td>
+              <td>
+                <% appointment.holds.each do |hold| %>
+                  <%= pickup_or_dropoff(hold.loan) %> 
+                    <%= hold.item.name %> <br/>
+                <% end %>
+              </td>
+              <td><%= appointment.comment %></td>
+              <td></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+        <%= empty_state "No matching appointsments for this day!" %>
+    <% end %>
+  </div>
+</div>
