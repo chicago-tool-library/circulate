@@ -1,7 +1,7 @@
 class OpenDays
   TIME_SLOTS = [
     OpenStruct.new(day: "Thursday", from: 18, to: 20),
-    OpenStruct.new(day: "Saturday", from: 10, to: 16),
+    OpenStruct.new(day: "Saturday", from: 10, to: 16)
   ].freeze
 
   def self.next_slots(weeks: 2, time_slots: TIME_SLOTS)
@@ -21,20 +21,12 @@ class OpenDays
   end
 
   def self.next_slots_for_select(weeks: 2)
-    next_slots(weeks: weeks).inject({}) do |dates, date|
-      puts date
-      dates[date.strftime("%a %b %e")] ||= []
-      dates[date.strftime("%a %b %e")] << [
+    next_slots(weeks: weeks).each_with_object({}) do |date, memo|
+      memo[date.strftime("%a %b %e")] ||= []
+      memo[date.strftime("%a %b %e")] << [
         "#{date.strftime("%l %P")} to #{(date + 1.hour).strftime("%l %P")}",
-        date..date + 1.hour,
+        date..date + 1.hour
       ]
     end
-    # {
-    #   'Thursday' => [
-    #     ['from to', 'Mon, 21 Sep 2020..Thu, 24 Sep 2020 23:59:59 UTC +00:00'],
-    #     ['from to', 'Mon, 21 Sep 2020..Thu, 24 Sep 2020 23:59:59 UTC +00:00'],
-    #     ['from to', 'Mon, 21 Sep 2020..Thu, 24 Sep 2020 23:59:59 UTC +00:00'],
-    #   ]
-    # }
   end
 end
