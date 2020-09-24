@@ -20,40 +20,40 @@ $background-color-dark: darken($background-color, 5%);
 
 
 @mixin default-button{
-  // border-color: lighten($gray-color-light, 5%);
-  // transition: none;
-  // &, &:visited {
-  //   color: $gray-color-dark;
-  // }
-  // &:hover {
-  //   background-color: $secondary-color-light;
-  //   border-color: lighten($secondary-color, 10%);
-  //   color: $dark-color;
-  // }
-  // &:active, &.active {
-  //   background-color: $secondary-color;
-  //   border-color: darken($secondary-color, 10%);
-  //   color: white;
-  // }
+  border-color: lighten($gray-color-light, 5%);
+  transition: none;
+  &, &:visited {
+    color: $gray-color-dark;
+  }
+  &:hover {
+    background-color: $secondary-color-light;
+    border-color: lighten($secondary-color, 10%);
+    color: $dark-color;
+  }
+  &:active, &.active {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+  }
 }
 
-// @mixin title{
-//   border-color: lighten($gray-color-light, 5%);
-//   transition: none;
-//   &, &:visited {
-//     color: $gray-color-dark;
-//   }
-//   &:hover {
-//     background-color: $secondary-color-light;
-//     border-color: lighten($secondary-color, 10%);
-//     color: $dark-color;
-//   }
-//   &:active, &.active {
-//     background-color: $secondary-color;
-//     border-color: darken($secondary-color, 10%);
-//     color: white;
-//   }
-// }
+@mixin title{
+  border-color: lighten($gray-color-light, 5%);
+  transition: none;
+  &, &:visited {
+    color: $gray-color-dark;
+  }
+  &:hover {
+    background-color: $secondary-color-light;
+    border-color: lighten($secondary-color, 10%);
+    color: $dark-color;
+  }
+  &:active, &.active {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+  }
+}
 
 
 
@@ -121,7 +121,7 @@ body {
 }
 
 // TYPOGRAPHY
-.title {
+.new_title {
   a {
     @include standard_font;
     font-size: $title-size;

@@ -23,7 +23,7 @@ $link-color: #36b3a8;
 }
 
 
-@mixin title {
+@mixin new_title {
     a {
         @include standard_font;
         font-size: 36px;
