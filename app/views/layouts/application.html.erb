@@ -21,7 +21,7 @@
         <section class="navbar-section">
           <span class="navbar-brand mr-2">
             <a href="https://chicagotoollibrary.org/">
-            <%= image_pack_tag "logo_small.png" %>
+              <%= image_tag url_for(current_library.image) if current_library.image.attached? %>
             </a>
           </span>
           <span class="navbar-brand mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>

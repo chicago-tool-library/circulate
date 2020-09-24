@@ -107,7 +107,9 @@ Rails.application.routes.draw do
   end
 
   namespace :super_admin do
-    resources :libraries
+    resources :libraries do
+      resource :image, only: [:edit, :update]
+    end
   end
 
   resources :items, only: [:index, :show]

@@ -12,7 +12,7 @@ module SuperAdmin
     end
 
     def create
-      @library = Library.create(params.require(:library).permit(:name, :hostname))
+      @library = Library.create(library_params)
       redirect_to super_admin_libraries_path
     end
 
@@ -26,7 +26,7 @@ module SuperAdmin
 
     def update
       @library = Library.find(params[:id])
-      @library.update(params.require(:library).permit(:name, :hostname))
+      @library.update(library_params)
       redirect_to super_admin_library_path(@library)
     end
 
@@ -42,6 +42,10 @@ module SuperAdmin
       unless current_user.super_admin?
         redirect_to items_path, warning: "You do not have access to that page."
       end
+    end
+
+    def library_params
+      params.require(:library).permit(:name, :hostname, :image)
     end
   end
 end

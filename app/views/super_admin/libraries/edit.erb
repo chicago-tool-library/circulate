@@ -7,6 +7,7 @@
 
   <%= form.text_field :name %>
   <%= form.text_field :hostname %>
+  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
 
   <%= form.submit %>
 <% end %>
