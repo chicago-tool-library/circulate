@@ -7,7 +7,7 @@ $link-color: #36b3a8;
 
 
 @mixin standard_font {
-    font-family: Proxima Nova;
+    font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $text-color;
 }
 
@@ -52,7 +52,7 @@ $link-color: #36b3a8;
     height: 50px;
     padding-right: 20px;
     padding-left: 20px;
-    font-family: Proxima Nova;
+    font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
 
