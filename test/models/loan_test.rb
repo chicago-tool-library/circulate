@@ -275,4 +275,36 @@ class LoanTest < ActiveSupport::TestCase
 
     assert_equal "overdue", loan.status
   end
+
+  test "is member_renewable if borrow_policy allows member renewal is within original loan duration and has not exceeded limit" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+
+    assert loan.member_renewable?
+  end
+
+  test "is not member_renewable if renewal count exceeds limit" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item, renewal_count: borrow_policy.renewal_limit)
+
+    refute loan.member_renewable?
+  end
+
+  test "is not member renewable if borrow_policy does not allow member renewals" do
+    borrow_policy = build(:borrow_policy, member_renewable: false)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+
+    refute loan.member_renewable?
+  end
+
+  test "is not member_renewable if not within original loan duration" do
+    borrow_policy = create(:member_renewable_borrow_policy)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item, due_at: (borrow_policy.duration + 1).days.from_now)
+
+    refute loan.member_renewable?
+  end
 end
