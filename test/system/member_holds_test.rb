@@ -17,7 +17,7 @@ class MemberHoldsTest < ApplicationSystemTestCase
   end
 
   test "member can Place a hold multiple times when the borrow policy allows it" do
-    @item.borrow_policy.update(code: "A")
+    @item.borrow_policy.update(uniquely_numbered: false)
 
     visit item_url(@item)
 
