@@ -3,3 +3,7 @@
 chicago_tool_library:
   name: "Chicago Tool Library"
   hostname: "www.example.com"
+
+system_test_library:
+  name: "System Test Library"
+  hostname: "web"
