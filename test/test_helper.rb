@@ -38,7 +38,7 @@ class ActiveSupport::TestCase
   end
 
   setup do
-    ActsAsTenant.current_tenant = Library.first
+    ActsAsTenant.current_tenant = libraries(:chicago_tool_library)
   end
 
   teardown do
