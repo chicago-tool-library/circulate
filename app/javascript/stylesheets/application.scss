@@ -7,6 +7,7 @@
 
 @import 'spectre.css/src/mixins/_shadow';
 
+
 body {
   background-color: $background-color;
 }
@@ -52,7 +53,7 @@ form details {
 
   summary {
     margin-bottom: 0.3rem;
-    color: $link-color;
+    // color: $link-color;
     outline: none;
 
     &:focus {
@@ -397,6 +398,7 @@ $photo-width: 187px;
       color: white;
     }
   }
+  
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
     // color: darken($warning-color, 30%);

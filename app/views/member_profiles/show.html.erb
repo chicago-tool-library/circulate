@@ -1,24 +1,28 @@
-<h2>Account Settings</h2>
+<div class="d-flex">
+  <h2 class="title">Account Settings</h2>
+  <div class="d-flex justify-content-end">
+  </div>
+</div>
 <div class="columns">
   <div class="column">
     <dl>
-      <dt>Full Name</dt>
-      <dd><%= @member.full_name %></dd>
+      <dt class="caption">Full Name</dt>
+      <dd class="title_bold"><%= @member.full_name %></dd>
 
-      <dt>Preferred Name</dt>
-      <dd><%= @member.preferred_name %></dd>
+      <dt class="caption">Preferred Name</dt>
+      <dd class="title_bold"><%= @member.preferred_name %></dd>
 
-      <dt>Pronouns</dt>
-      <dd><%= @member.display_pronouns %></dd>
+      <dt class="caption">Pronouns</dt>
+      <dd class="title_bold"><%= @member.display_pronouns %></dd>
 
-      <dt>Email</dt>
-      <dd><%= @member.email %></dd>
+      <dt class="caption">Email</dt>
+      <dd class="title_bold"><%= @member.email %></dd>
 
-      <dt>Phone Number</dt>
-      <dd><%= format_phone_number(@member.phone_number,"-") %></dd>
+      <dt class="caption">Phone Number</dt>
+      <dd class="title_bold"><%= format_phone_number(@member.phone_number,"-") %></dd>
 
-      <dt>Address</dt>
-      <dd>
+      <dt class="caption">Address</dt>
+      <dd class="title_bold">
         <%= @member.address1 %><br>
         <%= @member.address2 %><br>
         <%= @member.city %>,
@@ -26,26 +30,29 @@
         <%= @member.postal_code %>
       </dd>
     </dl>
-
-    <%= link_to "Edit Member Profile", edit_member_profile_path, class: "btn" %>
+    <button class="primary-btn">
+      <%= link_to "Edit Member Profile", edit_member_profile_path, class: "primary-btn-text" %>
+    </button>
     <br> <br>
-    <%= link_to "Edit Password", edit_member_profiles_password_url, class: "btn" %>
+    <button class="secondary-btn">
+      <%= link_to "Edit Password", edit_member_profiles_password_url, class: "secondary-btn-text" %>
+    </button>
   </div>
   <div class="column">
 
     <dl>
-      <dt>Membership Status</dt>
+      <dt class="caption">Membership Status</dt>
 
       <% if @member.active_membership %>
-        <dd>Member</dd>
+        <dd class="title_bold">Member</dd>
 
         <dt>Membership #</dt>
-        <dd><%= @member.number %></dd>
+        <dd class="title_bold"><%= @member.number %></dd>
 
         <dt>Membership Expiration Date</dt>
-        <dd><%= date_with_time_title(@member.active_membership.ended_on) %></dd>
+        <dd class="title_bold"><%= date_with_time_title(@member.active_membership.ended_on) %></dd>
       <% else %>
-        <dd><%= @member.status %></dd>
+        <dd class="label"><%= @member.status %></dd>
       <% end %>
     </dl>
   </div>
