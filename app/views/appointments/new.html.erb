@@ -38,6 +38,8 @@
     </tbody>
   </table>
 
+  <%= select("post", "person_id", grouped_options_for_select(OpenDays.next_slots(weeks: 2)), { include_blank: '-- Select a Date --' }) %>
+
   <%= f.submit %>
 
 <% end %>

@@ -119,6 +119,7 @@ GEM
       xpath (~> 3.2)
     certifi (2018.01.18)
     childprocess (3.0.0)
+    chronic (0.10.2)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
     devise (4.7.2)
@@ -364,6 +365,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    timecop (0.9.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -408,6 +410,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.1)
   byebug
   capybara (>= 2.15)
+  chronic
   devise
   dotenv-rails
   factory_bot_rails
@@ -440,6 +443,7 @@ DEPENDENCIES
   square.rb
   standard
   sucker_punch
+  timecop
   turbolinks (~> 5)
   turbolinks_render
   web-console (>= 3.3.0)
