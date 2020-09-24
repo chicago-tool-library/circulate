@@ -28,14 +28,6 @@ YAML.load_file("db/categories.yaml").each do |name, kids|
   create_category(name, kids: kids)
 end
 
-super_admin_member = Member.create!(
-  email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
-  phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-  address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
-  reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-)
-User.create!(email: super_admin_member.email, password: "password", role: "super_admin", member: super_admin_member)
-
 BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
 
 Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
@@ -45,6 +37,14 @@ Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_co
 ActsAsTenant.with_tenant(
   Library.create!(name: "Chicago Tool Library", hostname: "chicago.local.chicagotoollibrary.org")
 ) do
+  super_admin_member = Member.create!(
+    email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
+    phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
+    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
+    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
+  )
+  User.create!(email: super_admin_member.email, password: "password", role: "super_admin", member: super_admin_member)
+
   admin_member = Member.create!(
     email: "admin@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
     phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
