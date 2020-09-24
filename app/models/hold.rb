@@ -14,6 +14,10 @@ class Hold < ApplicationRecord
     )
   end
 
+  def active
+    ended_at.blank?
+  end
+
   def previous_active_holds
     Hold.active.where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
   end

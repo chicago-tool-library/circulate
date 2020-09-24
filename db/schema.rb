@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_23_152956) do
+ActiveRecord::Schema.define(version: 2020_09_24_184016) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2020_09_23_152956) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
-    "member"
+    "member",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -106,6 +107,15 @@ ActiveRecord::Schema.define(version: 2020_09_23_152956) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["appointment_id"], name: "index_appointment_holds_on_appointment_id"
     t.index ["hold_id"], name: "index_appointment_holds_on_hold_id"
+  end
+
+  create_table "appointment_loans", force: :cascade do |t|
+    t.bigint "appointment_id"
+    t.bigint "loan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["appointment_id"], name: "index_appointment_loans_on_appointment_id"
+    t.index ["loan_id"], name: "index_appointment_loans_on_loan_id"
   end
 
   create_table "appointments", force: :cascade do |t|
