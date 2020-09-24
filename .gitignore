@@ -45,3 +45,4 @@ yarn-debug.log*
 
 .DS_Store
 .ruby-version
+.tool-versions
