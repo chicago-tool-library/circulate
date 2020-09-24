@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   set_current_tenant_through_filter
   before_action :set_tenant
 
-  helper_method :current_member
+  helper_method :current_member, :current_library
 
   add_flash_types :success, :error, :warning
 
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   def current_member
     current_user.member
+  end
+
+  def current_library
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
 
   private
@@ -23,10 +27,6 @@ class ApplicationController < ActionController::Base
       Rails.logger.debug "No Library found for the provided hostname"
       render_not_found
     end
-  end
-
-  def current_library
-    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
 
   def set_time_zone(&block)
