@@ -31,7 +31,7 @@
             <% end %>
           </td>
           <td><%= link_to hold.item.name, item_path(hold.item) %></td>
-          <td><%= hold.item.number %></td>
+          <td><%= hold.item.complete_number %></td>
           <td><%= render_place_in_queue(hold) %></td>
         </tr>
       <% end %>
