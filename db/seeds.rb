@@ -35,7 +35,7 @@ Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers 
 Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
 
 ActsAsTenant.with_tenant(
-  Library.create!(name: "Chicago Tool Library", hostname: "chicago.local.chicagotoollibrary.org")
+  Library.create!(name: "Chicago Tool Library", hostname: "chicago.local.chicagotoollibrary.org", member_postal_code_pattern: "60707|60827|^606")
 ) do
   super_admin_member = Member.create!(
     email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
@@ -85,12 +85,12 @@ ActsAsTenant.with_tenant(
 end
 
 ActsAsTenant.with_tenant(
-  Library.create!(name: "North Portland Tool Library", hostname: "portland.local.chicagotoollibrary.org")
+  Library.create!(name: "North Portland Tool Library", hostname: "portland.local.chicagotoollibrary.org", member_postal_code_pattern: "97086|^972")
 ) do
   admin_member = Member.create!(
     email: "admin_portland@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
     phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "60666",
+    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97266",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
   User.create!(email: admin_member.email, password: "password", member: admin_member)
@@ -98,7 +98,7 @@ ActsAsTenant.with_tenant(
   verified_member = Member.create!(
     email: "verifiedmember_portland@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
     phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: true, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "60666",
+    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97086",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
   User.create!(email: verified_member.email, password: "password", member: verified_member)
@@ -107,7 +107,7 @@ ActsAsTenant.with_tenant(
   unverified_member = Member.create!(
     email: "newmember_portland@example.com", full_name: "Firstname Lastname", preferred_name: "New",
     phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "60666",
+    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97212",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
   User.create!(email: unverified_member.email, password: "password", member: unverified_member)
