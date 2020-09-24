@@ -1,5 +1,6 @@
 class Appointment < ApplicationRecord
   has_many :appointment_holds
+  has_many :appointment_loans
   has_many :holds, through: :appointment_holds
   has_many :loans, through: :appointment_loans
   belongs_to :member

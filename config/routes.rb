@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     resources :gift_memberships
     resources :appointments, only: [:index, :show] do
       resources :checkouts, only: [:create], controller: :appointment_checkouts
+      resources :checkins, only: [:create], controller: :appointment_checkins
     end
     resources :items do
       get :number

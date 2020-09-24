@@ -14,7 +14,7 @@ class Hold < ApplicationRecord
     )
   end
 
-  def active
+  def active?
     ended_at.blank?
   end
 

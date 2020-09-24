@@ -33,8 +33,16 @@ module Admin
       current_appointment.holds
     end
 
+    helper_method def appointment_return_items
+      current_appointment.loans
+    end
+
     helper_method def checkout_items_quantity_for_appointment
       appointment_pickup_items.length
+    end
+
+    helper_method def checkin_items_quantity_for_appointment
+      appointment_return_items.length
     end
   end
 end
