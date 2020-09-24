@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 complete:
+  library: chicago_tool_library
   name: Hammer
   number: 1
   description: MyString
@@ -12,6 +13,7 @@ complete:
   status: active
 
 checked_out:
+  library: chicago_tool_library
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
   size: 3/8"
@@ -24,6 +26,7 @@ checked_out:
   status: active
 
 available:
+  library: chicago_tool_library
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
   size: 12-Volt
@@ -35,6 +38,7 @@ available:
   status: active
 
 pending:
+  library: chicago_tool_library
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
   size: 12-Volt
@@ -46,6 +50,7 @@ pending:
   status: pending
 
 maintenance:
+  library: chicago_tool_library
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
   size: 12-Volt
@@ -57,6 +62,7 @@ maintenance:
   status: maintenance
 
 retired:
+  library: chicago_tool_library
   name: Drill/Driver Kit
   description: This drill is small, light, and powerful.
   size: 12-Volt

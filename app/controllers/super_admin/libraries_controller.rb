@@ -1,5 +1,6 @@
 module SuperAdmin
   class LibrariesController < ApplicationController
+    skip_before_action :set_tenant
     before_action :require_super_admin
 
     def index

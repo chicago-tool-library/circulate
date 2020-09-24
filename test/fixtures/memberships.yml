@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  library: chicago_tool_library
   member: complete
   started_on: 2019-07-15 09:36:04
   ended_on: 2020-07-15 09:36:04

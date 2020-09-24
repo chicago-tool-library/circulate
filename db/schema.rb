@@ -243,7 +243,11 @@ ActiveRecord::Schema.define(version: 2020_09_22_204207) do
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
     t.string "other_names"
+    t.integer "library_id"
+    t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
+    t.index ["library_id"], name: "index_items_on_library_id"
+    t.index ["number", "library_id"], name: "index_items_on_number_and_library_id", unique: true
   end
 
   create_table "libraries", force: :cascade do |t|
@@ -264,11 +268,19 @@ ActiveRecord::Schema.define(version: 2020_09_22_204207) do
     t.boolean "uniquely_numbered", null: false
     t.integer "renewal_count", default: 0, null: false
     t.bigint "initial_loan_id"
+    t.integer "library_id"
+    t.index ["ended_at", "library_id"], name: "index_loans_on_ended_at_and_library_id"
     t.index ["ended_at"], name: "index_loans_on_ended_at"
+    t.index ["initial_loan_id", "library_id"], name: "index_loans_on_initial_loan_id_and_library_id"
+    t.index ["initial_loan_id", "renewal_count", "library_id"], name: "index_loans_on_initial_loan_id_and_renewal_count_and_library_id", unique: true
     t.index ["initial_loan_id", "renewal_count"], name: "index_loans_on_initial_loan_id_and_renewal_count", unique: true
     t.index ["initial_loan_id"], name: "index_loans_on_initial_loan_id"
+    t.index ["item_id", "library_id"], name: "index_active_numbered_loans_on_item_id_and_library_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
+    t.index ["item_id", "library_id"], name: "index_loans_on_item_id_and_library_id"
     t.index ["item_id"], name: "index_active_numbered_loans_on_item_id", unique: true, where: "((ended_at IS NULL) AND (uniquely_numbered = true))"
     t.index ["item_id"], name: "index_loans_on_item_id"
+    t.index ["library_id"], name: "index_loans_on_library_id"
+    t.index ["member_id", "library_id"], name: "index_loans_on_member_id_and_library_id"
     t.index ["member_id"], name: "index_loans_on_member_id"
   end
 
@@ -298,6 +310,9 @@ ActiveRecord::Schema.define(version: 2020_09_22_204207) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_members_on_library_id"
+    t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true
   end
 
@@ -360,9 +375,15 @@ ActiveRecord::Schema.define(version: 2020_09_22_204207) do
     t.datetime "updated_at", precision: 6, null: false
     t.enum "role", default: "member", null: false, enum_name: "user_role"
     t.bigint "member_id"
+    t.integer "library_id"
+    t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["library_id"], name: "index_users_on_library_id"
+    t.index ["member_id", "library_id"], name: "index_users_on_member_id_and_library_id"
     t.index ["member_id"], name: "index_users_on_member_id"
+    t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
