@@ -1,11 +1,24 @@
 <%= content_for :header do %>
   <%= index_header @item.name do %>
-    <%= link_to 'Edit', edit_admin_item_path(@item), class: "btn" %>
-    <% if @item.image.attached? %>
-      <%= link_to 'Edit Photo', edit_admin_item_image_path(@item), class: "btn" %>
-    <% end %>
-    <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn" %>
-    <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn" %>
+    <div class="hide-md">
+      <%= link_to 'Edit', edit_admin_item_path(@item), class: "btn" %>
+      <% if @item.image.attached? %>
+        <%= link_to 'Edit Photo', edit_admin_item_image_path(@item), class: "btn" %>
+      <% end %>
+      <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn" %>
+      <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn" %>
+    </div>
+    <div class="show-md icon-btn-group">
+      <%= link_to edit_admin_item_path(@item) do %>
+        <%= feather_icon "edit-2" %>
+      <% end %>
+      <%= link_to edit_admin_item_manual_import_path(@item) do %>
+        <%= feather_icon "download" %>
+      <% end %>
+      <%= link_to new_admin_item_path(item_id:@item) do %>
+        <%= feather_icon "copy" %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>
 
@@ -31,12 +44,12 @@
 
       <div class="panel-body">
         <ul class="item-stats">
-          <%= icon_stat "maximize", @item.size, title: "size" %>
-          <%= icon_stat "zap", @item.strength, title: "strength" %>
-          <%= icon_stat "package", @item.brand, title: "brand" %>
-          <%= icon_stat "box", @item.model, title: "model" %>
-          <%= icon_stat "hash", @item.serial, title: "serial number" %>
-          <%= icon_stat "tag", title: "categories", css_class: "categories" do %>
+          <%= icon_stat "maximize", @item.size, title: "size", placeholder: "No size" %>
+          <%= icon_stat "zap", @item.strength, title: "strength", placeholder: "No strength" %>
+          <%= icon_stat "package", @item.brand, title: "brand", placeholder: "No brand" %>
+          <%= icon_stat "box", @item.model, title: "model", placeholder: "No model" %>
+          <%= icon_stat "hash", @item.serial, title: "serial number", placeholder: "No serial number" %>
+          <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No category" do %>
             <% if @item.categories.size > 0 %>
               <ul class="category-stats">
                 <% @item.categories.map(&:name).sort.each do |name| %>
@@ -44,11 +57,11 @@
                 <% end %>
               </ul>
             <% else %>
-              -
+              <span class="placeholder-text">No categories</span>
             <% end %>
           <% end %>
-          <% file = @item.manual.attached? ? link_to("View Manual", url_for(@item.manual)) : "-"%>
-          <%= icon_stat "file", file, title: "manual" %>
+          <% file = @item.manual.attached? ? link_to("View Manual", url_for(@item.manual)) : nil %>
+          <%= icon_stat "file", file, title: "manual", placeholder: "No files" %>
         </ul>
 
       </div>
