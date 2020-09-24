@@ -17,7 +17,7 @@ class MemberProfileTest < ApplicationSystemTestCase
 
   test "member can edit profile" do
     visit member_profile_url
-    within("#primary-btn") do
+    within(".primary-btn") do
       click_on "Edit Member Profile"
     end
 
@@ -32,7 +32,7 @@ class MemberProfileTest < ApplicationSystemTestCase
 
   test "member sees validation errors on update failure" do
     visit member_profile_url
-    within("#primary-btn") do
+    within(".primary-btn") do
       click_on "Edit Member Profile"
     end
 

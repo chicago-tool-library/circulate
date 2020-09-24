@@ -54,7 +54,7 @@ form details {
 
   summary {
     margin-bottom: 0.3rem;
-    // color: $link-color;
+    color: $link-color;
     outline: none;
 
     &:focus {
@@ -402,7 +402,7 @@ $photo-width: 187px;
   
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
-    // color: darken($warning-color, 30%);
+    color: darken($warning-color, 30%);
     .btn {
       background-color: darken($warning-color, 20%);
       border-color: darken($warning-color, 20%);
