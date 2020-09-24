@@ -1,0 +1,13 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="signup-steps">
+      <ul class="step">
+        <% steps.each do |step| %>
+          <li class="step-item <%= "active" if step.active %>">
+            <%= link_to step.name, step.path || " " %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

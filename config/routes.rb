@@ -19,8 +19,18 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
-  get "member/history", to: "members#history", as: 'member_loan_history'
-  get '/member/loans', to: 'members#loans', as: 'member_loans'
+  namespace :holds do
+    resources :items, only: [:create, :destroy]
+    resources :hold_requests, only: [:new, :create]
+    resource :request, only: :destroy
+    get "/", to: "home#index"
+    get "autocomplete", to: "autocomplete#index"
+    resources :confirmations, only: :show
+  end
+
+  get "member/history", to: "members#history", as: "member_loan_history"
+  get "/member/loans", to: "members#loans", as: "member_loans"
+  delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
   post '/member/loans/:id/renew', to: 'members#renew', as: 'member_loans_renew'
 
   namespace :volunteer do
@@ -34,6 +44,7 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
     resources :categories, except: :show
+    resources :hold_requests, only: :index
     resources :gift_memberships
     resources :items do
       get :number
@@ -91,6 +102,9 @@ Rails.application.routes.draw do
   get "/s/:id", to: "short_links#show", as: :short_link
 
   resource :member_profile, only: [:show, :edit, :update]
+  namespace :member_profiles do
+    resource :password, only: [:edit, :update]
+  end
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show

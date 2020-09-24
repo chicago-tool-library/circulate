@@ -9,7 +9,7 @@
       <dd><%= @member.preferred_name %></dd>
 
       <dt>Pronouns</dt>
-      <dd><%= @member.pronouns.join(",") %></dd>
+      <dd><%= @member.display_pronouns %></dd>
 
       <dt>Email</dt>
       <dd><%= @member.email %></dd>
@@ -27,9 +27,9 @@
       </dd>
     </dl>
 
-    <button class="btn"><%= link_to "Edit Member Profile", edit_member_profile_path %></button>
+    <%= link_to "Edit Member Profile", edit_member_profile_path, class: "btn" %>
     <br> <br>
-    <button class="btn">Edit Password</button>
+    <%= link_to "Edit Password", edit_member_profiles_password_url, class: "btn" %>
   </div>
   <div class="column">
 

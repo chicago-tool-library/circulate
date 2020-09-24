@@ -1,0 +1,3 @@
+<%= render partial: "holds/cart" %>
+<%= render partial: "holds/autocomplete/item", locals: {item: @item, requested_item_ids:@requested_item_ids} %>
+<%= render partial: "holds/continue", locals: {requested_items:@requested_items} %>

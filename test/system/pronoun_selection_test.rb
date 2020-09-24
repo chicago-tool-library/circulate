@@ -14,9 +14,9 @@ class PronounSelectionTest < ApplicationSystemTestCase
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
-    check 'she/her'
-    check 'he/him'
-    check 'they/them'
+    check "she/her"
+    check "he/him"
+    check "they/them"
     fill_in "member[pronouns][]", with: "custom"
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"

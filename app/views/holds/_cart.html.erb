@@ -1,0 +1,13 @@
+<div id="cart">
+  <% if @requested_items.any? %>
+    <p>You have selected <%= pluralize @requested_item_ids.size, "item" %>:<p>
+
+    <%= render_hold_items(@requested_items) do |item, display| %>
+      <% tag.div data: {controller: "request-item", request_item_id: item.id } do %>
+        <%= link_to "Remove", holds_item_url(item.id), data: { action: "request-item#undo"}, class: "remove-link" %>
+      <% end %>
+    <% end %>
+    
+    <p><%= link_to "Remove all items", holds_request_url, method: :delete, data: { confirm: "Are you sure you want to remove all selected items? Click OK to remove all items or Cancel to keep them."} %></p>
+  <% end %>
+</div>

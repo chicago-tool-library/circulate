@@ -3,6 +3,7 @@ class Member < ApplicationRecord
   has_many :adjustments
 
   has_many :loans, dependent: :destroy
+  has_many :appointments, dependent: :destroy
   has_many :loan_summaries
 
   has_many :holds, dependent: :destroy
@@ -28,7 +29,7 @@ class Member < ApplicationRecord
 
   scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
-      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", "#{query.scan(/\d/).join}")
+      "#{query}%", "%#{query}%", "%#{query}%", "%#{query}", query.scan(/\d/).join.to_s)
   }
   scope :verified, -> { where(status: statuses[:verified]) }
   scope :open, -> { where(status: statuses.slice(:pending, :verified).values) }
@@ -72,6 +73,10 @@ class Member < ApplicationRecord
 
   def self.pronoun_list
     PRONOUNS
+  end
+
+  def display_pronouns
+    pronouns.join(", ")
   end
 
   private

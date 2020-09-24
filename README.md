@@ -1,15 +1,17 @@
 # Circulate
 
-[![CircleCI](https://circleci.com/gh/chicago-tool-library/circulate/tree/development.svg?style=svg)](https://circleci.com/gh/chicago-tool-library/circulate/tree/development)
+[![CircleCI](https://circleci.com/gh/rubyforgood/circulate.svg?style=svg)](https://circleci.com/gh/rubyforgood/circulate)
 
 <!-- toc -->
 
 - [About](#about)
+  * [Project Considerations](#project-considerations)
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
-  * [Directly on your machine](#directly-on-your-machine)
+  * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
   * [Running tests](#running-tests)
+  * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
 - [Deployment](#deployment)
   * [Buildpacks](#buildpacks)
@@ -59,6 +61,8 @@ The following third party services are used:
 ## Development
 
 Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+
+See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
 ### Setting up Circulate on your machine
 
@@ -124,6 +128,10 @@ After you have the application running, here are some places to explore:
 ### Running tests
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+
+### Setup pre-commit checks
+
+Circulate uses [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
 
 ### Documentation
 

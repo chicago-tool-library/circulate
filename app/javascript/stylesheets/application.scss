@@ -6,9 +6,14 @@
 @import 'trix/dist/trix.css';
 
 @import 'spectre.css/src/mixins/_shadow';
+@import './partials/index';
 
 body {
   background-color: $background-color;
+}
+
+.public .navbar {
+  align-items: center;
 }
 
 .feather-icon {
@@ -78,12 +83,60 @@ form details {
 
 header.navbar {
   margin-bottom: 1rem;
-  margin-top: 1rem;
+}
+
+.public {
+  header.navbar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
 }
 
 .toast {
   margin-bottom: 1rem;
+  a {
+    color: $primary-color;
+  }
 }
+
+.tool-card  {
+  position: relative;
+  margin-bottom: 1rem;
+
+  .card-title {
+    height: 2.2rem;
+  }
+  .item-number-chip {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background: white;
+  }
+  .item-checkout-status {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+  .image-placeholder {
+    width: 100%;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  &.status-on-hold, &.status-checked-out {
+    border-color: $warning-color;
+  }
+  &.status-available, &.status-on-hold, &.status-checked-out {
+    border-width: 3px;
+    margin: -2px;
+  }
+
+  .remove-link {
+    margin-left: 0.5em;
+    font-size: 0.9em;
+  }
+}
+
 
 .off-canvas-content {
   .off-canvas-title a {
@@ -251,18 +304,6 @@ $photo-width: 187px;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .responsive-table {
   display: flex;
   flex-wrap: wrap;
@@ -338,7 +379,6 @@ $photo-width: 187px;
   border-radius: 4px;
   padding: .5rem .5rem .3rem .6rem;
   margin-bottom: 1rem;
-  color: darken($secondary-color, 30%);
   .float-left {
     line-height: 32px;
     font-weight: 500;
@@ -349,25 +389,23 @@ $photo-width: 187px;
     stroke: darken($secondary-color, 10%);
   }
   .btn {
-    background-color: $secondary-color;
-    border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 20%);
+    border-color: darken($secondary-color, 20%);
     color: white;
     &:hover, &:visited {
-      background-color: darken($secondary-color, 10%);
-      border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 30%);
+      border-color: darken($secondary-color, 30%);
       color: white;
     }
   }
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
-    color: darken($warning-color, 30%);
+    // color: darken($warning-color, 30%);
     .btn {
-      background-color: $warning-color;
-      border-color: darken($warning-color, 10%);
-      color: $gray-color-dark;
+      background-color: darken($warning-color, 20%);
+      border-color: darken($warning-color, 20%);
       &:hover {
-        background-color: darken($warning-color, 10%);
-        color: $gray-color-dark;
+        background-color: darken($warning-color, 30%);
       }
     }
     .feather-icon {
@@ -972,4 +1010,57 @@ table.monthly-adjustments {
 
 .warning {
   color: $error-color;
+}
+
+ul.hold-items {
+  margin: 0
+}
+
+.hold-item {
+  list-style: none;
+  background: $light-color;
+  padding: .5rem;
+  float: left;
+  margin: 0 .5rem .5rem 0;
+  border-radius: 3px;
+  border: solid 2px;
+  position: relative;;
+  .item-name {
+    display: inline-block;
+  }
+  img {
+    vertical-align: top;
+    margin-right: .5em;
+  }
+  &.status-checked-out, &.status-on-hold {
+    border-color: $warning-color;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  .remove-link {
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    font-size: 0.9em;
+  }
+}
+
+.find-tools {
+  .find-tool-results {
+    margin-top: 1rem;
+  }
+  .continue-button {
+    position: relative;
+    top: 0.9rem;
+  }
+}
+
+
+
+.tool-card .modal {
+  .stats {
+    margin-bottom: 1.2rem;
+    p { margin-bottom: .2rem; }
+  }
 }

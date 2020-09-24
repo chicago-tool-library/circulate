@@ -54,7 +54,6 @@ def scrub_data
   end
 
   Notification.delete_all
-
 end
 
 desc "Update staging database with latest scrubbed data"

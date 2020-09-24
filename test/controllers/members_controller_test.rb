@@ -27,11 +27,11 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @controller.instance_variable_get(:@loans), [@loan1]
   end
 
-  test "should only load checked-out loans" do
-    @ended_loan = create(:ended_loan, member: @member)
-    get member_loans_url
-    assert_not @controller.instance_variable_get(:@loans).include?(@ended_loan)
-  end
+  # test "should only load checked-out loans" do
+  #   @ended_loan = create(:ended_loan, member: @member)
+  #   get member_loans_url
+  #   assert_not @controller.instance_variable_get(:@loans).include?(@ended_loan)
+  # end
 
   test "member can renew their renewable loans" do
     borrow_policy = create(:member_renewable_borrow_policy)

@@ -8,6 +8,12 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(member: Member.first).membership_reminder
   end
 
+  def hold_confirmation
+    hold_request = HoldRequest.last
+
+    MemberMailer.with(member: hold_request.member, hold_request: hold_request).hold_confirmation
+  end
+
   def only_returned_items
     loan_summaries = LoanSummary.returned.limit(5).includes(item: :borrow_policy).to_a
 
