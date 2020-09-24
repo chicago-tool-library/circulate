@@ -9,7 +9,7 @@ class MemberProfiles::PasswordsController < ApplicationController
       bypass_sign_in(@user)
       redirect_to member_profile_url, success: "Your password has been updated."
     else
-      redirect_to edit_member_profiles_password_url, warning: "#{@user.errors.full_messages.join(". ")}"
+      redirect_to edit_member_profiles_password_url, warning: @user.errors.full_messages.join(". ").to_s
     end
   end
 
