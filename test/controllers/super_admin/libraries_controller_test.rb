@@ -52,4 +52,28 @@ module SuperAdmin
       assert_redirected_to super_admin_libraries_url
     end
   end
+
+  class SuperAdminLibrariesControllerTest < ActionDispatch::IntegrationTest
+    include Devise::Test::IntegrationHelpers
+
+    def assert_access_denied(&block)
+      block.call
+
+      assert_redirected_to items_url
+      assert_equal "You do not have access to that page.", flash[:warning]
+    end
+
+    test "should require super admin role" do
+      sign_in users(:admin)
+      library = create(:library)
+
+      assert_access_denied { get super_admin_libraries_url }
+      assert_access_denied { get new_super_admin_library_url }
+      assert_access_denied { post super_admin_libraries_url, params: {library: {name: "Library", hostname: "library.example.com"}} }
+      assert_access_denied { get super_admin_library_url(library) }
+      assert_access_denied { get edit_super_admin_library_url(library) }
+      assert_access_denied { patch super_admin_library_url(library), params: {library: {name: "Library", hostname: "library.example.com"}} }
+      assert_access_denied { delete super_admin_library_url(library) }
+    end
+  end
 end
