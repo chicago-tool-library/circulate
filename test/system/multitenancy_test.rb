@@ -9,7 +9,7 @@ class MultitenancyTest < ApplicationSystemTestCase
 
     fill_in :user_email, with: user.email
     fill_in :user_password, with: user.password
-    click_on "Log in"
+    click_on "Login"
 
     within ".navbar" do
       assert_text member.full_name
@@ -28,12 +28,12 @@ class MultitenancyTest < ApplicationSystemTestCase
 
     fill_in :user_email, with: @user.email
     fill_in :user_password, with: @user.password
-    click_on "Log in"
+    click_on "Login"
 
     within ".navbar" do
       refute_text @member.full_name
     end
-    assert_button "Log in"
+    assert_button "Login"
   end
 
   test "view items in library" do
