@@ -1,3 +1,12 @@
-<h1>Edit Library Form</h1>
+<%= content_for :header do %>
+  <%= index_header "Editing Library" %>
+<% end %>
 
-<%= render 'form', library: @library %>
+<%= form_with(model: @library, method: :patch, url: super_admin_library_url(@library), builder: SpectreFormBuilder, data: {controller: "form"}) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name %>
+  <%= form.text_field :hostname %>
+
+  <%= form.submit %>
+<% end %>

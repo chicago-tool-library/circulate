@@ -1,10 +1,23 @@
-<h1>New Library Form</h1>
+<% content_for :header do %>
+  <%= index_header "New Library" %>
+<% end %>
+
+<%= form_with(model: @library, method: :post, url: super_admin_libraries_url, builder: SpectreFormBuilder, data: {controller: "form"}) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name %>
+  <%= form.text_field :hostname %>
+
+  <%= form.submit %>
+<% end %>
+
+<%# <h1>New Library Form</h1>
 
 <%= form_for :library, url: super_admin_libraries_path do |lib| %>
-  <%= lib.label :name %>
-  <%= lib.text_field :name %>
-  <%= lib.label :hostname %>
-  <%= lib.text_field :hostname %>
+  <%#= lib.label :name %>
+  <%#= lib.text_field :name %>
+  <%#= lib.label :hostname %>
+  <%#= lib.text_field :hostname %>
 
-  <%= lib.submit %>
-<% end %>
+  <%#= lib.submit %>
+<%# end %>
