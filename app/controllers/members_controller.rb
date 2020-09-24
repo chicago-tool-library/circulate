@@ -11,6 +11,14 @@ class MembersController < ApplicationController
     @holds = current_member.holds.includes(:item)
   end
 
+  def renew
+    @loan = Loan.find(params[:id])
+    authorize @loan, :renew?
+
+    @loan.renew!
+    redirect_to member_loans_path
+  end
+
   def delete_hold
     current_member.holds.find(params[:id]).destroy!
     redirect_to member_loans_path
