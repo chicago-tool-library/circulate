@@ -97,10 +97,10 @@ class Member < ApplicationRecord
   end
 
   def postal_code_must_be_in_chicago
-    return true if postal_code.nil?
+    return unless library && postal_code.present?
 
-    unless ["60707", "60827"].include?(postal_code) || postal_code.starts_with?("606")
-      errors.add :postal_code, "must be in Chicago"
+    unless library.allows_postal_code?(postal_code)
+      errors.add :postal_code, "must be admissible in #{library.name}"
     end
   end
 end
