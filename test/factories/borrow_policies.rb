@@ -9,6 +9,12 @@ FactoryBot.define do
     renewal_limit { 2 }
     description { "What this policy is used for" }
     uniquely_numbered { true }
+    member_renewable { false }
+
+    factory :member_renewable_borrow_policy do
+      code { "A" }
+      member_renewable { true }
+    end
 
     factory :unnumbered_borrow_policy do
       uniquely_numbered { false }

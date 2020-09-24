@@ -101,6 +101,25 @@ ActiveRecord::Schema.define(version: 2020_09_24_072906) do
     t.index ["member_id"], name: "index_agreement_acceptances_on_member_id"
   end
 
+  create_table "appointment_holds", force: :cascade do |t|
+    t.bigint "appointment_id"
+    t.bigint "hold_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["appointment_id"], name: "index_appointment_holds_on_appointment_id"
+    t.index ["hold_id"], name: "index_appointment_holds_on_hold_id"
+  end
+
+  create_table "appointments", force: :cascade do |t|
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.text "comment", default: "", null: false
+    t.bigint "member_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["member_id"], name: "index_appointments_on_member_id"
+  end
+
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -136,6 +155,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_072906) do
     t.string "description"
     t.boolean "default", default: false, null: false
     t.integer "renewal_limit", default: 0, null: false
+    t.boolean "member_renewable", default: false, null: false
   end
 
   create_table "categories", force: :cascade do |t|

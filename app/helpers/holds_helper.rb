@@ -14,4 +14,23 @@ module HoldsHelper
     block ||= proc {}
     render layout: "holds/items", locals: {items: items}, &block
   end
+
+  def render_place_in_queue(hold)
+    prev_hold = hold.previous_active_holds.last
+    count = hold.previous_active_holds.count
+
+    if prev_hold.present? && count == 0
+      "Ready for pickup. Schedule by #{format_date(prev_hold.loan.ended_at + 7.days)}"
+    elsif count == 0
+      "Ready for pickup. Schedule by #{format_date(hold.created_at + 7.days)}"
+    else
+      "##{count} on wait list"
+    end
+  end
+
+  private
+
+  def format_date(date)
+    date.strftime("%a, %-m/%-d/%Y")
+  end
 end

@@ -3,6 +3,7 @@ class Member < ApplicationRecord
   has_many :adjustments
 
   has_many :loans, dependent: :destroy
+  has_many :appointments, dependent: :destroy
   has_many :loan_summaries
 
   has_many :holds, dependent: :destroy
