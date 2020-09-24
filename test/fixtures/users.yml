@@ -7,3 +7,9 @@
 admin:
   library: chicago_tool_library
   email: admin@example.com
+
+super_admin:
+  library: chicago_tool_library
+  email: super_admin@example.com
+  role: super_admin
+  member: super_admin

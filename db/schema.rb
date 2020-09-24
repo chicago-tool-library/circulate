@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_072906) do
     "staff",
     "admin",
     "member",
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|

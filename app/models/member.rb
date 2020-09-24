@@ -60,6 +60,10 @@ class Member < ApplicationRecord
     roles.include? :admin
   end
 
+  def super_admin?
+    roles.include? :super_admin
+  end
+
   def assign_number
     self.number = (self.class.maximum(:number) || 0) + 1
   end

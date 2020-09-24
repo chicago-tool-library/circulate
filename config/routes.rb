@@ -104,6 +104,10 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
   end
 
+  namespace :super_admin do
+    resources :libraries
+  end
+
   resources :items, only: [:index, :show]
   resources :documents, only: :show
   get "search", to: "searches#show"
