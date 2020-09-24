@@ -7,7 +7,7 @@
 <h3>Select Items to Pick-Up</h3>
 
 
-<%= form_for :appointment,  url: appointments_path do |f| %>
+<%= form_for :appointment, url: appointments_path do |form| %>
   <table class="table table-scroll" id="items-to-pickup-table">
     <thead>
       <tr>
@@ -22,7 +22,7 @@
     <tbody>
       <% @holds.each do |hold| %>
         <tr>
-          <td><%= check_box_tag(:hold_id, hold.id) %></td>
+          <td><%= check_box_tag("appointment[hold_ids][]", hold.id) if hold.ready_for_pickup? %></td>
           <td>
             <%= link_to item_path(hold.item) do %>
               <% if hold.item.image.attached? %>
@@ -38,8 +38,16 @@
     </tbody>
   </table>
 
-  <%= select("appointment", "time_range_string", grouped_options_for_select(OpenDays.next_slots_for_select(weeks: 2)), { include_blank: '-- Select a Date --' }) %>
+  <div>
+    <%= select("appointment", "time_range_string", grouped_options_for_select(OpenDays.next_slots_for_select(weeks: 2)), { include_blank: '-- Select a Date --' }) %>
+  </div>
 
-  <%= f.submit %>
+  <div>
+    <%= form.text_field :comment %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
 
 <% end %>
