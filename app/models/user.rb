@@ -5,6 +5,8 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :lockable, :timeoutable, :trackable
 
+  acts_as_tenant :library
+
   # while the canonical list of roles is the "user_role" enum in the
   # database, this enum exists to help display the list of roles
   # elsewhere in the app

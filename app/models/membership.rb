@@ -2,7 +2,7 @@ class Membership < ApplicationRecord
   belongs_to :member
   has_one :adjustment, as: "adjustable"
   scope :active, -> { where("started_on <= ? AND ended_on >= ?", Time.current, Time.current) }
-  acts_as_tenant(:library)
+  acts_as_tenant :library
   validates_uniqueness_to_tenant :member_id
 
   def amount

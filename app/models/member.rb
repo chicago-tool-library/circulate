@@ -42,6 +42,8 @@ class Member < ApplicationRecord
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
 
+  acts_as_tenant :library
+
   def roles
     user ? user.roles : [:member]
   end

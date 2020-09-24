@@ -1,7 +1,7 @@
 module EnsureRequestTenant
   def self.included(base)
     base.setup do
-      ActsAsTenant.test_tenant = create(:library)
+      ActsAsTenant.test_tenant = Library.first
       host! ActsAsTenant.test_tenant.hostname
     end
 

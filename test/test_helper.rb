@@ -36,6 +36,14 @@ class ActiveSupport::TestCase
       end
     end
   end
+
+  setup do
+    ActsAsTenant.current_tenant = libraries(:chicago_tool_library)
+  end
+
+  teardown do
+    ActsAsTenant.current_tenant = nil
+  end
 end
 
 class ActionDispatch::IntegrationTest

@@ -124,6 +124,14 @@ After you have the application running, here are some places to explore:
 1. Sign in to [the admin interface](http://tenant.local.chicagotoollibrary.org:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://tenant.local.chicagotoollibrary.org:3000/signup).
 
+### Multi-tenancy
+
+The default tenant for this application is the Chicago Tool Library, but the application permits multiple tenants, identified by the URL used to access the application. In the local development environment, the following tenants are available:
+
+* chicago.local.chicagotoollibrary.org
+* portland.local.chicagotoollibrary.org
+
+Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
 
 ### Running tests
 
