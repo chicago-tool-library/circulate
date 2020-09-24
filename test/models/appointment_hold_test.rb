@@ -8,7 +8,7 @@ class AppointmentHoldTest < ActiveSupport::TestCase
     hold = FactoryBot.create(:hold, creator: member.user)
     hold_two = FactoryBot.create(:hold, creator: member.user)
     appointment_hold = FactoryBot.create(:appointment_hold, appointment: appointment, hold: hold)
-    appointment_hold_two = FactoryBot.create(:appointment_hold, appointment: appointment, hold: hold_two)
+    FactoryBot.create(:appointment_hold, appointment: appointment, hold: hold_two)
     assert_equal "Ida B. Wells", appointment_hold.hold.member.full_name
     assert_equal 2, appointment.holds.length
   end
