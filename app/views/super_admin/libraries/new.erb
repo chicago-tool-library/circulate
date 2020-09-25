@@ -1,5 +1,7 @@
 <% content_for :header do %>
-  <%= index_header "New Library" %>
+  <%= index_header "New Library" do %>
+    <%= link_to 'Libraries', super_admin_libraries_path, class: "btn" %>
+  <% end %>
 <% end %>
 
 <%= render "form", library: @library %>

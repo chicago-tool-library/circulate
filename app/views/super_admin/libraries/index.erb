@@ -1,8 +1,31 @@
-<h1>Libraries Index</h1>
-
-<%= button_to "Add a new Library", new_super_admin_library_path, method: :get %>
-<ul>
-  <% @libraries.each do |library| %>
-    <li><%= link_to library.name, super_admin_library_path(library) %></li>
+<% content_for :header do %>
+  <%= index_header "Libraries" do %>
+    <%= link_to 'New Library', new_super_admin_library_path, class: "btn" %>
   <% end %>
-</ul>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>Domain</th>
+      <th>Member postal code pattern</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @libraries.each do |library| %>
+      <tr id="library-<%= library.id %>">
+        <td><%= logo(library: library, small: true) %></td>
+        <td><%= link_to library.name, [:super_admin, library] %></td>
+        <td><%= link_to library.hostname, URI::HTTP.build(host: library.hostname).to_s %></td>
+        <td><%= library.member_postal_code_pattern %></td>
+        <td><%= link_to 'Edit', edit_super_admin_library_path(library), class: "btn" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

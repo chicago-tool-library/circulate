@@ -1,15 +1,13 @@
-<h1><%= @library.name %>'s Page</h1>
+<% content_for :header do %>
+  <%= index_header @library.name do %>
+    <%= link_to 'Edit Library', edit_super_admin_library_path(@library), class: "btn" %>
+    <%= link_to 'Libraries', super_admin_libraries_path, class: "btn" %>
+  <% end %>
+<% end %>
 
 <div>
-  <%= link_to edit_super_admin_library_path(@library) do %>
-    <% if @library.image.attached? %>
-      <%= image_tag url_for(@library.image.variant(resize_to_limit: [100, 89])), class: "p-centered" %>
-    <% else %>
-      <%= logo(small: true) %> (Default logo)
-    <% end %>
-  <% end %>
+  <%= logo(library: @library, small: true) %> (Default logo)
 </div>
 
-<%= button_to "Edit Library", edit_super_admin_library_path, method: :get %>
-<%= button_to "Destroy Library", super_admin_library_path, method: :delete %>
-<%= button_to "List of Libraries", super_admin_libraries_path, method: :get %>
+<p>Domain: <%= link_to @library.hostname, URI::HTTP.build(host: @library.hostname).to_s %></p>
+<p>Member postal code pattern: <%= @library.member_postal_code_pattern %></p>

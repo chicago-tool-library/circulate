@@ -14,9 +14,9 @@ module ApplicationHelper
     tag.div(**attrs, &block)
   end
 
-  def logo(small: false, classes: "")
-    if current_library.image.attached?
-      image_tag url_for(current_library.image.variant(resize_to_limit: [100, 89])), class: classes
+  def logo(library: current_library, small: false, classes: "")
+    if library.image.attached?
+      image_tag url_for(library.image.variant(resize_to_limit: [100, 89])), class: classes
     else
       image_pack_tag "logo#{small ? '_small' : nil}.png", class: classes
     end
