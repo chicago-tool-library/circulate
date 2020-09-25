@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_141025) do
+ActiveRecord::Schema.define(version: 2020_09_25_072325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.boolean "default", default: false, null: false
     t.integer "renewal_limit", default: 0, null: false
     t.boolean "member_renewable", default: false, null: false
+    t.integer "library_id"
+    t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -165,6 +167,9 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
+    t.integer "library_id"
+    t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
+    t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -184,6 +189,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
+    t.integer "library_id"
+    t.index ["library_id", "code"], name: "index_documents_on_library_id_and_code"
   end
 
   create_table "events", force: :cascade do |t|
@@ -196,7 +203,9 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.json "attendees", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
+    t.index ["library_id"], name: "index_events_on_library_id"
   end
 
   create_table "gift_memberships", force: :cascade do |t|
@@ -208,6 +217,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "recipient_name"
+    t.integer "library_id"
+    t.index ["library_id", "code"], name: "index_gift_memberships_on_library_id_and_code", unique: true
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
@@ -229,6 +240,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "event_id"
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_hold_requests_on_library_id"
     t.index ["member_id"], name: "index_hold_requests_on_member_id"
   end
 
@@ -240,8 +253,10 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
+    t.integer "library_id"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
+    t.index ["library_id"], name: "index_holds_on_library_id"
     t.index ["loan_id"], name: "index_holds_on_loan_id"
     t.index ["member_id"], name: "index_holds_on_member_id"
   end
@@ -366,6 +381,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.string "subject", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
@@ -376,6 +393,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_141025) do
     t.integer "views_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
 
   create_table "users", force: :cascade do |t|
