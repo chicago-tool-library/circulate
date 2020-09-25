@@ -9,6 +9,8 @@ class Appointment < ApplicationRecord
 
   validate :ends_at_later_than_starts_at
 
+  scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
+
   private
 
   def ends_at_later_than_starts_at

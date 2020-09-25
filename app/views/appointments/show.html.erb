@@ -1,5 +1,0 @@
-<h1>Appointment</h1>
-
-<h3><%= "#{@starts_at.strftime("%A %B %-d, %Y")}, #{@starts_at.strftime("%I:%M%P")} - #{@ends_at.strftime("%I:%M%P")}" %>
-
-<%= button_to "Edit this Appointment", edit_appointment_path(@appointment.id), class: "btn btn-sm", method: :get %>

@@ -1,4 +1,8 @@
 class AppointmentsController < ApplicationController
+  def index
+    @appointments = current_user.member.appointments.upcoming.includes(:member, :holds, :loans)
+  end
+
   def new
     @holds = Hold.active.where(member: current_user.member)
     @loans = current_user.member.loans.includes(:item).checked_out
@@ -19,7 +23,7 @@ class AppointmentsController < ApplicationController
     end
 
     if @appointment.save
-      redirect_to appointment_path(@appointment), notice: "Appointment was successfully created."
+      redirect_to appointments_path, notice: "Appointment was successfully created."
     else
       render :new, alert: @appointment.errors.full_messages
     end
@@ -27,12 +31,6 @@ class AppointmentsController < ApplicationController
 
   def edit
     @appointment = Appointment.find(params[:id])
-  end
-
-  def show
-    @appointment = Appointment.includes(:member, :holds).find(params[:id])
-    @starts_at = @appointment.starts_at
-    @ends_at = @appointment.ends_at
   end
 
   private
