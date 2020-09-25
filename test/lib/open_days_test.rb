@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ActivityNotifierTest < ActiveSupport::TestCase
+class OpenDaysTest < ActiveSupport::TestCase
   TIME_SLOTS = [
     OpenStruct.new(day: "Thursday", from: 18, to: 20),
     OpenStruct.new(day: "Saturday", from: 11, to: 13)
