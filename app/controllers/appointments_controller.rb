@@ -19,10 +19,20 @@ class AppointmentsController < ApplicationController
     end
 
     if @appointment.save
-      redirect_to new_appointment_path, notice: "Appointment was successfully created."
+      redirect_to appointment_path(@appointment), notice: "Appointment was successfully created."
     else
       render :new, alert: @appointment.errors.full_messages
     end
+  end
+
+  def edit
+    @appointment = Appointment.find(params[:id])
+  end
+
+  def show
+    @appointment = Appointment.includes(:member, :holds).find(params[:id])
+    @starts_at = @appointment.starts_at
+    @ends_at = @appointment.ends_at
   end
 
   private

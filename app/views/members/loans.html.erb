@@ -78,6 +78,6 @@
 </table>
 <div class="button">
   <% if @holds.present? %>
-    <%= link_to 'Schedule a Pick Up', new_appointment_path %>
+    <%= button_to 'Schedule a Pick Up', new_appointment_path, class: "btn btn-sm", method: :get %>
   <% end %>
 </div>

@@ -1,0 +1,1 @@
+<%= render partial: "form", locals: { holds: @appointment.holds, time_range_string: (@appointment.starts_at..@appointment.ends_at).to_s } %>
