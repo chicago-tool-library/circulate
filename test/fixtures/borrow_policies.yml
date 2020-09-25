@@ -1,6 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 default:
+  library: chicago_tool_library
+  name: Default
+  duration: 7
+  fine_cents: 1.00
+  fine_period: 7
+  code: D
+
+system_test_default:
+  library: system_test_library
   name: Default
   duration: 7
   fine_cents: 1.00

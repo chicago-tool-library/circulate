@@ -1,6 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 agreement:
+  library: chicago_tool_library
+  code: agreement
+  name: Agreement
+  summary: Agreement
+
+system_test_agreement:
+  library: system_test_library
   code: agreement
   name: Agreement
   summary: Agreement

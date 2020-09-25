@@ -7,6 +7,8 @@ class Hold < ApplicationRecord
   scope :active, -> { where("ended_at IS NULL") }
   scope :ended, -> { where("ended_at IS NOT NULL") }
 
+  acts_as_tenant :library
+
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
   end

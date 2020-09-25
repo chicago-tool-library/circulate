@@ -24,19 +24,13 @@ def create_category(name, kids: nil, parent_id: nil)
   end
 end
 
-YAML.load_file("db/categories.yaml").each do |name, kids|
-  create_category(name, kids: kids)
-end
-
-BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
-
-Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
-Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
-Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
-
 ActsAsTenant.with_tenant(
   Library.create!(name: "Chicago Tool Library", hostname: "chicago.local.chicagotoollibrary.org", member_postal_code_pattern: "60707|60827|^606")
 ) do
+  Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
+  Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
+  Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
+
   super_admin_member = Member.create!(
     email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
     phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
@@ -70,6 +64,12 @@ ActsAsTenant.with_tenant(
   )
   User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
+  YAML.load_file("db/categories.yaml").each do |name, kids|
+    create_category(name, kids: kids)
+  end
+
+  BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
+
   item = Item.create!(
     name: "Hammer",
     status: Item.statuses[:active],
@@ -87,6 +87,10 @@ end
 ActsAsTenant.with_tenant(
   Library.create!(name: "North Portland Tool Library", hostname: "portland.local.chicagotoollibrary.org", member_postal_code_pattern: "97086|^972")
 ) do
+  Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
+  Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
+  Document.create!(name: "North Portland Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for NPTL")
+
   admin_member = Member.create!(
     email: "admin_portland@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
     phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
@@ -111,6 +115,8 @@ ActsAsTenant.with_tenant(
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
   User.create!(email: unverified_member.email, password: "password", member: unverified_member)
+
+  BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(50), fine_period: 1, duration: 3)
 
   item = Item.create!(
     name: "Drill",

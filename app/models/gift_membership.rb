@@ -8,9 +8,11 @@ class GiftMembership < ApplicationRecord
   belongs_to :membership, required: false
   validates :purchaser_email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
   validates :purchaser_name, presence: true
-  validates :code, uniqueness: true, presence: true
+  validates :code, presence: true, uniqueness: {scope: :library_id}
 
   before_validation :set_code, if: ->(gm) { gm.code.blank? }
+
+  acts_as_tenant :library
 
   def self.unique_code?(code)
     where(code: code.value).count == 0

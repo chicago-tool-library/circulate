@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_184016) do
+ActiveRecord::Schema.define(version: 2020_09_25_123209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.boolean "default", default: false, null: false
     t.integer "renewal_limit", default: 0, null: false
     t.boolean "member_renewable", default: false, null: false
+    t.integer "library_id"
+    t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -174,6 +176,9 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
+    t.integer "library_id"
+    t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
+    t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -193,6 +198,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
+    t.integer "library_id"
+    t.index ["library_id", "code"], name: "index_documents_on_library_id_and_code"
   end
 
   create_table "events", force: :cascade do |t|
@@ -205,7 +212,9 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.json "attendees", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
+    t.index ["library_id"], name: "index_events_on_library_id"
   end
 
   create_table "gift_memberships", force: :cascade do |t|
@@ -217,6 +226,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "recipient_name"
+    t.integer "library_id"
+    t.index ["library_id", "code"], name: "index_gift_memberships_on_library_id_and_code", unique: true
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
@@ -238,6 +249,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "event_id"
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_hold_requests_on_library_id"
     t.index ["member_id"], name: "index_hold_requests_on_member_id"
   end
 
@@ -249,8 +262,10 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
+    t.integer "library_id"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
+    t.index ["library_id"], name: "index_holds_on_library_id"
     t.index ["loan_id"], name: "index_holds_on_loan_id"
     t.index ["member_id"], name: "index_holds_on_member_id"
   end
@@ -375,6 +390,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.string "subject", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
@@ -385,6 +402,8 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     t.integer "views_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
 
   create_table "users", force: :cascade do |t|
@@ -452,21 +471,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
      FROM adjustments
     GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
   SQL
-  create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT loans.item_id,
-      loans.member_id,
-      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
-      max(loans.id) AS latest_loan_id,
-      min(loans.created_at) AS created_at,
-      max(loans.due_at) AS due_at,
-          CASE
-              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
-              ELSE NULL::timestamp without time zone
-          END AS ended_at,
-      max(loans.renewal_count) AS renewal_count
-     FROM loans
-    GROUP BY loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
-  SQL
   create_view "monthly_activities", sql_definition: <<-SQL
       WITH dates AS (
            SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
@@ -489,8 +493,9 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
     ORDER BY months.month;
   SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
-      WITH RECURSIVE search_tree(id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
+      WITH RECURSIVE search_tree(id, library_id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
+              categories.library_id,
               categories.name,
               categories.slug,
               categories.categorizations_count,
@@ -501,6 +506,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
             WHERE (categories.parent_id IS NULL)
           UNION ALL
            SELECT categories.id,
+              categories.library_id,
               categories.name,
               categories.slug,
               categories.categorizations_count,
@@ -512,6 +518,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
             WHERE (NOT (categories.id = ANY (search_tree_1.path_ids)))
           )
    SELECT search_tree.id,
+      search_tree.library_id,
       search_tree.name,
       search_tree.slug,
       search_tree.categorizations_count,
@@ -526,5 +533,21 @@ ActiveRecord::Schema.define(version: 2020_09_24_184016) do
             WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
      FROM search_tree
     ORDER BY search_tree.path_names;
+  SQL
+  create_view "loan_summaries", sql_definition: <<-SQL
+      SELECT loans.library_id,
+      loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      max(loans.id) AS latest_loan_id,
+      min(loans.created_at) AS created_at,
+      max(loans.due_at) AS due_at,
+          CASE
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              ELSE NULL::timestamp without time zone
+          END AS ended_at,
+      max(loans.renewal_count) AS renewal_count
+     FROM loans
+    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
 end
