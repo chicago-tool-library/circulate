@@ -3,7 +3,21 @@
 chicago_tool_library:
   name: "Chicago Tool Library"
   hostname: "www.example.com"
+  city: Chicago
+  email: team@chicagotoollibrary.org
+  address: |-
+    The Chicago Tool Library
+    1048 W 37th Street Suite 102
+    Chicago, IL 60609
+    chicagotoollibrary.org
 
 system_test_library:
   name: "System Test Library"
   hostname: "web"
+  city: Somewhere
+  email: team@testlibrary.example.com
+  address: |-
+    Some tool Library
+    123 Some Street
+    City, ST 12345
+    sometoollibrary.example.com

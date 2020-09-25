@@ -23,7 +23,7 @@ module SuperAdmin
 
     test "should create library" do
       assert_difference("Library.count") do
-        post super_admin_libraries_url, params: {library: {name: "Just Books, No Cookies Library", hostname: "books.example.com"}}
+        post super_admin_libraries_url, params: {library: attributes_for(:library)}
       end
 
       assert_redirected_to super_admin_libraries_url

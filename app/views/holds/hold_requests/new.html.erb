@@ -24,11 +24,11 @@
   <div class="column col-8 col-sm-12 col-mx-auto">
     <%= form_with(model: @hold_request, url: holds_hold_requests_url, builder: SpectreFormBuilder) do |form| %>
       <%= form.errors %>
-      
+
       <% if @hold_request.errors[:email].any? %>
         <p>
           <%= feather_icon "info" %>
-          If you haven't signed up with Chicago Tool Library yet, you will need to
+          If you haven't signed up with <%= current_library.name %> yet, you will need to
           <%= link_to "sign up online", signup_path, target: "_blank" %> before requesting items.
         </p>
       <% end %>
@@ -44,7 +44,7 @@
       <div class="columns form-group">
         <div class="column col-12">
           <% if @requested_items.any? { |i| !i.holdable? } %>
-            <%= form.select :event_id, options_for_select([]), 
+            <%= form.select :event_id, options_for_select([]),
               {label: "Pick up time",
               required: false,
               hint: "Once all items are available, we will email you to select a pick-up time.",
@@ -52,7 +52,7 @@
               disabled: true
             %>
           <% else %>
-            <%= form.select :event_id, options_for_select(hold_slot_options(@hold_slots)), 
+            <%= form.select :event_id, options_for_select(hold_slot_options(@hold_slots)),
               label: "Pick up time", hint: "Please do your best to arrive during this time window",
               prompt: "Please select a slot..."
             %>

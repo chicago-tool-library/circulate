@@ -92,7 +92,7 @@ class Member < ApplicationRecord
   end
 
   def set_default_address_fields
-    self.city ||= "Chicago"
+    self.city ||= library.city
     self.region ||= "IL"
   end
 

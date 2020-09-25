@@ -5,10 +5,10 @@
       <div class="divider"></div>
     </div>
     <div class="verification-instructions">
-      <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
-      <%= render partial: "instructions" %>
+      <p>Thank you for signing up as a member of The <%= current_library.name %>. We are excited to have you!</p>
+      <%= render partial: "instructions", locals: {library: current_library} %>
     </div>
-    <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>If you have any questions, please email us at <a href="mailto:<%= current_library.email %>"><%= current_library.email %></a>.</p>
     <p>See you at the library!</p>
   </div>
 </div>

@@ -1,6 +1,8 @@
 class Library < ApplicationRecord
   validates :name, presence: true
   validates :hostname, presence: true, uniqueness: true
+  validates :city, presence: true
+  validates :email, presence: true
   validate :member_postal_code_regexp
 
   has_one_attached :image

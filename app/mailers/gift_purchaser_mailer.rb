@@ -5,7 +5,8 @@ class GiftPurchaserMailer < ApplicationMailer
 
   def confirmation
     @gift_membership = params[:gift_membership]
-    @subject = "How to Redeem Your Membership to the Chicago Tool Library!"
+    @library = @gift_membership.library
+    @subject = "How to Redeem Your Membership to the #{@library.name}!"
 
     generator = Certificate::Generator.new(code: @gift_membership.code.format)
     certificate_path = generator.generate
@@ -29,6 +30,6 @@ class GiftPurchaserMailer < ApplicationMailer
   end
 
   def store_notification
-    Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject, library: @gift_membership.library)
+    Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject, library: @library)
   end
 end

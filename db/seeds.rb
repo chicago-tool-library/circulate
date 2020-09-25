@@ -24,9 +24,22 @@ def create_category(name, kids: nil, parent_id: nil)
   end
 end
 
-ActsAsTenant.with_tenant(
-  Library.create!(name: "Chicago Tool Library", hostname: "chicago.local.chicagotoollibrary.org", member_postal_code_pattern: "60707|60827|^606")
-) do
+address = <<~ADDRESS.strip
+  The Chicago Tool Library
+  1048 W 37th Street Suite 102
+  Chicago, IL 60609
+  chicagotoollibrary.org
+ADDRESS
+chicago_tool_library = Library.create!(
+  name: "Chicago Tool Library",
+  hostname: "chicago.local.chicagotoollibrary.org",
+  city: "Chicago",
+  email: "team@chicagotoollibrary.org",
+  address: address,
+  member_postal_code_pattern: "60707|60827|^606"
+)
+
+ActsAsTenant.with_tenant(chicago_tool_library) do
   Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
   Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
   Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
@@ -84,9 +97,22 @@ ActsAsTenant.with_tenant(
   )
 end
 
-ActsAsTenant.with_tenant(
-  Library.create!(name: "North Portland Tool Library", hostname: "portland.local.chicagotoollibrary.org", member_postal_code_pattern: "97086|^972")
-) do
+address = <<~ADDRESS.strip
+  The North Portland Tool Library
+  2209 N Schofield St
+  Portland, OR 97217
+  northportlandtoollibrary.org
+ADDRESS
+portland_tool_library = Library.create!(
+  name: "North Portland Tool Library",
+  hostname: "portland.local.chicagotoollibrary.org",
+  city: "Portland",
+  email: "info@northportlandtoollibrary.org",
+  address: address,
+  member_postal_code_pattern: "97086|^972"
+)
+
+ActsAsTenant.with_tenant(portland_tool_library) do
   Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
   Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
   Document.create!(name: "North Portland Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for NPTL")

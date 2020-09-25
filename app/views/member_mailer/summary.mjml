@@ -59,7 +59,7 @@
               <a href="https://calendly.com/chicagotoollibrary">Book a time to drop them off right here!</a>
             </strong></p>
             <p>
-              If you need to borrow tools as well, please <a href="mailto:team@chicagotoollibrary.org?subject=Tools%20for%20pick%20up">email us</a> and let us know what you would like to pick up.
+              If you need to borrow tools as well, please <a href="mailto:<%= @library.email %>?subject=Tools%20for%20pick%20up">email us</a> and let us know what you would like to pick up.
             </p>
           </div>
         </mj-text>
@@ -79,7 +79,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+          <p>If you have any questions, please email us at <a href="mailto:<%= @library.email %>"><%= @library.email %></a>.</p>
           <p>See you at the library!</p>
         </mj-text>
       </mj-column>

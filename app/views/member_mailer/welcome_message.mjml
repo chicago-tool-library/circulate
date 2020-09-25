@@ -29,15 +29,15 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
-          <%= render partial: "signup/confirmations/instructions" %>
+          <p>Thank you for signing up as a member of The <%= @library.name %>. We are excited to have you!</p>
+          <%= render partial: "signup/confirmations/instructions", locals: {library: @library} %>
         </mj-text>
       </mj-column>
     </mj-section>
     <mj-section>
       <mj-column>
         <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+          <p>If you have any questions, please email us at <a href="mailto:<%= @library.email %>"><%= @library.email %></a>.</p>
           <p>See you at the library!</p>
         </mj-text>
       </mj-column>

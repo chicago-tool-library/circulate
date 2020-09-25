@@ -40,7 +40,7 @@
       <mj-column>
         <mj-text>
           <p>Hello <%= @gift_membership.purchaser_name %>,</p>
-          <p>You have successfully purchased a One Year Gift Membership to the Chicago Tool Library. Go you!</p>
+          <p>You have successfully purchased a One Year Gift Membership to The <%= @library.name %>. Go you!</p>
           <p><strong>Your gift code is: <code class="gift-code"><%= @gift_membership.code.format %></code></strong></p>
           <p>The recipient of this gift membership needs to use this code to complete the membership sign-up on <a href="http://chicagotoollibrary.org/">our website</a> or in-person <a href="https://chicagotoollibrary.org/library">at the Tool Library</a>.<p>
 
@@ -52,11 +52,11 @@
 
           <p>After completing their sign-up, they will need to bring the following into the library:<p>
           <ul>
-            <li><strong>Proof of their address</strong><br>This needs to include their name and current address in Chicago. Utility bills, leases, and other official mail work well.</li>
+            <li><strong>Proof of their address</strong><br>This needs to include their name and current address in <%= @library.city %>. Utility bills, leases, and other official mail work well.</li>
             <li><strong>A photo ID</strong><br>This needs to show their name and a photo and can be from the state, their job, school, etc.</li>
           </ul >
           <p>Once we review the above, they'll be ready to borrow for one year beginning on the date they come in.</p>
-          <p>Don't hesitate to email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a> with any questions!</p>
+          <p>Don't hesitate to email us at <a href="mailto:<%= @library.email %>"><%= @library.email %></a> with any questions!</p>
         </mj-text>
       </mj-column>
     </mj-section>

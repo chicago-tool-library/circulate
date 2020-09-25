@@ -23,9 +23,18 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
       (raise "Error updating #{LIBRARY[:name]} record")
   end
 
+  ADDRESS = <<~ADDRESS.strip
+    The Chicago Tool Library
+    1048 W 37th Street Suite 102
+    Chicago, IL 60609
+    chicagotoollibrary.org
+  ADDRESS
   LIBRARY = {
     name: "Chicago Tool Library",
     hostname: "chicagotoollibrary.herokuapp.com",
+    city: "Chicago",
+    email: "team@chicagotoollibrary.org",
+    address: ADDRESS,
     member_postal_code_pattern: '60707|60827|^606',
   }.freeze
   TABLES = %w[

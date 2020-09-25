@@ -298,6 +298,9 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.string "name", null: false
     t.string "hostname", null: false
     t.string "member_postal_code_pattern", limit: 100
+    t.string "city", null: false
+    t.string "email", null: false
+    t.text "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true

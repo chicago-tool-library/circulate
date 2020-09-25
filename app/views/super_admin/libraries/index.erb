@@ -10,7 +10,7 @@
       <th></th>
       <th></th>
       <th>Domain</th>
-      <th>Member postal code pattern</th>
+      <th>City</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -21,7 +21,7 @@
         <td><%= logo(library: library, small: true) %></td>
         <td><%= link_to library.name, [:super_admin, library] %></td>
         <td><%= link_to library.hostname, URI::HTTP.build(host: library.hostname).to_s %></td>
-        <td><%= library.member_postal_code_pattern %></td>
+        <td><%= library.city %></td>
         <td><%= link_to 'Edit', edit_super_admin_library_path(library), class: "btn" %></td>
       </tr>
     <% end %>

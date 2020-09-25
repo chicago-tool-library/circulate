@@ -11,3 +11,6 @@
 
 <p>Domain: <%= link_to @library.hostname, URI::HTTP.build(host: @library.hostname).to_s %></p>
 <p>Member postal code pattern: <%= @library.member_postal_code_pattern %></p>
+<p>City: <%= @library.city %></p>
+<p>Email: <%= @library.email %></p>
+<p>Address: <%= @library.address %></p>

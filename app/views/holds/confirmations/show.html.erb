@@ -10,7 +10,7 @@
       <p>You have requested the following items. <strong>We'll email you when they are ready and you can then schedule a time to pick them up.</strong></p>
     <% end %>
     <%= render partial: "holds/items", locals: { items: @hold_request.items } %>
-    <p>We'll email you to confirm your request. If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>We'll email you to confirm your request. If you have any questions, please email us at <a href="mailto:<%= current_library.email %>"><%= current_library.email %></a>.</p>
     <p>See you at the library!</p>
   </div>
 </div>
