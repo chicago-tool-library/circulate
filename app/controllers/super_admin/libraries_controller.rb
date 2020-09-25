@@ -3,6 +3,8 @@ module SuperAdmin
     skip_before_action :set_tenant
     before_action :require_super_admin
 
+    layout "admin"
+
     def index
       @libraries = Library.all
     end
