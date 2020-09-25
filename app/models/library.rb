@@ -1,4 +1,7 @@
 class Library < ApplicationRecord
+  validates :name, presence: true
+  validates :hostname, presence: true, uniqueness: true
+
   has_one_attached :image
 
   def allows_postal_code?(postal_code)
