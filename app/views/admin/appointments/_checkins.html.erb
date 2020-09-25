@@ -15,6 +15,9 @@
             <div class="image-placeholder"></div>
           <% end %>
         <% end %>
+        <% if return_item.checked_out? %>
+          <%= link_to 'remove item', admin_appointment_loan_path(current_appointment, return_item), method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
+        <% end %>
       </div>
       <div class="column col-sm-6 col-4">
         <p><%= return_item.item.name %></p>
