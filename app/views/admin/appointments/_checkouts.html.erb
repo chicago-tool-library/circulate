@@ -33,5 +33,15 @@
       </div>
     </div>
   <% end %>
+  <%= form_with(url: admin_appointment_holds_path(current_appointment), method: "post") do %>
+    <div class="columns col-oneline">
+        <div class="column col-3 text-right">
+          <%= text_field_tag :item_id, nil, class: "form-input", placeholder: "Item ID" %>
+        </div>
+        <div class="column col-5 text-left" style="line-height: 30px;">
+          <%= submit_tag 'add pickup item', class: "btn btn-primary" %>
+        </div>
+    </div>
+  <% end %>
 </div>
 <div class="divider"></div>
