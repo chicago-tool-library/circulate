@@ -58,7 +58,7 @@ module SuperAdmin
     end
 
     def library_params
-      params.require(:library).permit(:name, :hostname, :image)
+      params.require(:library).permit(:name, :hostname, :member_postal_code_pattern, :image)
     end
   end
 end
