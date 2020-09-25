@@ -5,8 +5,8 @@ class ShortLink < ApplicationRecord
   MAX_ITERATIONS = 10
   VALID_CHARS = ["a".."z", "A".."Z", "0".."9"].inject([]) { |a, r| a.concat(r.to_a) }
 
-  validates :slug, presence: true, uniqueness: { scope: :library_id }
-  validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL"}, uniqueness: { scope: :library_id }
+  validates :slug, presence: true, uniqueness: {scope: :library_id}
+  validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL"}, uniqueness: {scope: :library_id}
 
   before_validation :generate_slug
 

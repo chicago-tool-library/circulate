@@ -5,8 +5,8 @@ class Category < ApplicationRecord
   belongs_to :parent, class_name: "Category", required: false
   has_many :children, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { scope: :library_id }
-  validates :slug, presence: true, uniqueness: { scope: :library_id }
+  validates :name, presence: true, uniqueness: {scope: :library_id}
+  validates :slug, presence: true, uniqueness: {scope: :library_id}
 
   before_validation :assign_slug
   after_commit :refresh_category_nodes

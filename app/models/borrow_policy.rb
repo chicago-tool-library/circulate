@@ -4,7 +4,7 @@ class BorrowPolicy < ApplicationRecord
   }
 
   validates :name,
-    presence: true, uniqueness: { scope: :library_id, case_sensitive: false }
+    presence: true, uniqueness: {scope: :library_id, case_sensitive: false}
   validates_numericality_of :duration,
     only_integer: true, greater_than_or_equal_to: 1, less_than: 365
   validates_numericality_of :fine_period,
