@@ -48,7 +48,9 @@ module Admin
     end
 
     def user_params
-      params.require(:user).permit(:email, :role)
+      parameters = params.require(:user).permit(:email, :role)
+      parameters.delete("role") unless current_user.has_role?(params.dig("user", "role"))
+      parameters
     end
   end
 end

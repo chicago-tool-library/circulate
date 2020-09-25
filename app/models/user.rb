@@ -32,6 +32,10 @@ class User < ApplicationRecord
     end
   end
 
+  def has_role?(other)
+    roles.include?(other.to_sym)
+  end
+
   def self.serialize_from_session(key, salt)
     record = eager_load(:member).find_by(id: key)
     record if record && record.authenticatable_salt == salt

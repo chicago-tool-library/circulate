@@ -25,7 +25,7 @@ class Member < ApplicationRecord
   validates :city, presence: true
   validates :region, presence: true
   validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
-  validate :postal_code_must_be_in_chicago
+  validate :postal_code_must_be_in_library_service_area
 
   scope :matching, ->(query) {
     where("email ILIKE ? OR full_name ILIKE ? OR preferred_name ILIKE ? OR phone_number LIKE ? OR phone_number = ?",
@@ -96,7 +96,7 @@ class Member < ApplicationRecord
     self.region ||= "IL"
   end
 
-  def postal_code_must_be_in_chicago
+  def postal_code_must_be_in_library_service_area
     return unless library && postal_code.present?
 
     unless library.allows_postal_code?(postal_code)

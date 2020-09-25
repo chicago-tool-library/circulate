@@ -22,7 +22,7 @@ module Admin
     end
 
     def require_admin
-      unless current_user.admin?
+      unless current_user.has_role?(:admin)
         redirect_to admin_items_url, warning: "You do not have access to that page."
       end
     end

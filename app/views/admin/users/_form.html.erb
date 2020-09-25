@@ -2,7 +2,7 @@
   <%= form.errors %>
 
   <%= form.text_field :email %>
-  <%= form.select :role, User.roles %>
+  <%= form.select :role, current_user.roles %>
 
   <%= form.actions do %>
     <%= form.submit %>

@@ -59,6 +59,33 @@ module Admin
       assert_equal "admin", user.role
     end
 
+    test "should not allow escalating to super_admin" do
+      user = create(:user)
+
+      patch admin_user_url(user), params: {user: {email: "modified@example.com", role: "super_admin"}}
+      assert_redirected_to admin_users_url
+
+      user.reload
+
+      assert_equal "modified@example.com", user.email
+      assert_equal "member", user.role
+    end
+
+    test "should allow super admins to grant super_admin" do
+      @user = create(:super_admin_user)
+      sign_in @user
+
+      user = create(:user)
+
+      patch admin_user_url(user), params: {user: {email: "modified@example.com", role: "super_admin"}}
+      assert_redirected_to admin_users_url
+
+      user.reload
+
+      assert_equal "modified@example.com", user.email
+      assert_equal "super_admin", user.role
+    end
+
     test "should destroy user" do
       user = create(:user)
 
