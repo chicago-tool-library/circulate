@@ -67,6 +67,6 @@ class MemberMailer < ApplicationMailer
   end
 
   def store_notification
-    Notification.create!(member: @member, uuid: @uuid, action: action_name, address: @member.email, subject: @subject)
+    Notification.create!(member: @member, uuid: @uuid, action: action_name, address: @member.email, subject: @subject, library: @member.library)
   end
 end

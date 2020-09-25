@@ -4,6 +4,9 @@ class Library < ApplicationRecord
   validate :member_postal_code_regexp
 
   has_one_attached :image
+  has_many :documents
+
+  after_create :create_docs
 
   def allows_postal_code?(postal_code)
     return true if postal_code.blank?
@@ -12,6 +15,11 @@ class Library < ApplicationRecord
   end
 
   private
+
+  def create_docs
+    documents.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
+    documents.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
+  end
 
   def member_postal_code_regexp
     return if member_postal_code_pattern.blank?

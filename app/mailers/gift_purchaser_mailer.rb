@@ -29,6 +29,6 @@ class GiftPurchaserMailer < ApplicationMailer
   end
 
   def store_notification
-    Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject)
+    Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject, library: @gift_membership.library)
   end
 end
