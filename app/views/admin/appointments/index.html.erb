@@ -49,7 +49,7 @@
                 <% end %>
               </td>
               <td><%= appointment.comment %></td>
-              <td></td>
+              <td><%= link_to "view/edit", admin_appointment_path(appointment)%></td>
             </tr>
           <% end %>
         </tbody>
