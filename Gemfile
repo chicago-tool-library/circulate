@@ -51,6 +51,8 @@ gem "barnes"
 gem "sucker_punch"
 gem "dotenv-rails"
 
+gem "chronic"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
 
