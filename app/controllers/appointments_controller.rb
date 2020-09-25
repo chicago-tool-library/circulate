@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   def new
     @holds = Hold.active.where(member: current_user.member)
+    @loans = current_user.member.loans.includes(:item)
   end
 
   def create
@@ -8,8 +9,8 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
     @appointment.comment = appointment_params[:comment]
     @appointment.member = member
-
     @appointment.holds << Hold.where(id: appointment_params[:hold_ids], member: member)
+    @appointment.loans << Loan.where(id: appointment_params[:loan_ids], member: member)
 
     if appointment_params[:time_range_string].present?
       appointment_times = appointment_params[:time_range_string].split("..")
@@ -27,6 +28,6 @@ class AppointmentsController < ApplicationController
   private
 
   def appointment_params
-    params.require(:appointment).permit(:comment, :time_range_string, hold_ids: [])
+    params.require(:appointment).permit(:comment, :time_range_string, hold_ids: [], loan_ids: [])
   end
 end
