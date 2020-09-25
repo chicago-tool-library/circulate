@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/ErwinM/acts_as_tenant.git
   revision: 1ba28d1354848fd422603efa343b145bae5c5fdf
+  ref: 1ba28d1354848fd422603efa343b145bae5c5fdf
   branch: master
   specs:
     acts_as_tenant (0.4.4)
