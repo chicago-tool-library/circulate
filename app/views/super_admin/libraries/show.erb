@@ -5,7 +5,7 @@
     <% if @library.image.attached? %>
       <%= image_tag url_for(@library.image.variant(resize_to_limit: [100, 89])), class: "p-centered" %>
     <% else %>
-      <%= image_pack_tag "logo_small.png" %> (Default logo)
+      <%= logo(small: true) %> (Default logo)
     <% end %>
   <% end %>
 </div>
