@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   def new
     @holds = Hold.active.where(member: current_user.member)
-    @loans = current_user.member.loans.includes(:item)
+    @loans = current_user.member.loans.includes(:item).checked_out
   end
 
   def create
