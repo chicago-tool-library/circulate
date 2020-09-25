@@ -12,4 +12,6 @@ class Notification < ApplicationRecord
   validates :action, presence: true
   validates :uuid, presence: true
   validates :status, inclusion: {in: Notification.statuses.keys}
+
+  acts_as_tenant :library
 end

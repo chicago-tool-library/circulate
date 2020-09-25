@@ -2,6 +2,7 @@ FactoryBot.define do
   sequence :number, 1000
 
   factory :item do
+    library { Library.first || create(:library) }
     number
     name { "Item ##{number}" }
     status { Item.statuses[:active] }

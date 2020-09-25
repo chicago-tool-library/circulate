@@ -7,6 +7,8 @@ class Hold < ApplicationRecord
   scope :active, -> { where("ended_at IS NULL") }
   scope :ended, -> { where("ended_at IS NOT NULL") }
 
+  acts_as_tenant :library
+
   def lend(loan, now: Time.current)
     update!(
       loan: loan,

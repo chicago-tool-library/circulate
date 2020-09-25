@@ -13,6 +13,8 @@ class HoldRequest < ApplicationRecord
   after_validation :add_member_errors
   after_validation :add_event_id_errors
 
+  acts_as_tenant :library
+
   private
 
   def set_member

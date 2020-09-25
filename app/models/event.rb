@@ -1,5 +1,8 @@
 class Event < ApplicationRecord
   scope :upcoming, -> { where("start > ?", Time.current) }
+
+  acts_as_tenant :library
+
   def date
     start.to_date
   end
