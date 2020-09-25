@@ -1,4 +1,15 @@
 <h1><%= @library.name %>'s Page</h1>
 
+<div>
+  <%= link_to edit_super_admin_library_path(@library) do %>
+    <% if @library.image.attached? %>
+      <%= image_tag url_for(@library.image.variant(resize_to_limit: [100, 89])), class: "p-centered" %>
+    <% else %>
+      <%= image_pack_tag "logo_small.png" %> (Default logo)
+    <% end %>
+  <% end %>
+</div>
+
 <%= button_to "Edit Library", edit_super_admin_library_path, method: :get %>
 <%= button_to "Destroy Library", super_admin_library_path, method: :delete %>
+<%= button_to "List of Libraries", super_admin_libraries_path, method: :get %>

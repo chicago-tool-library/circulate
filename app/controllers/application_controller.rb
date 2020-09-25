@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   set_current_tenant_through_filter
   before_action :set_tenant
 
-  helper_method :current_member
+  helper_method :current_member, :current_library
 
   add_flash_types :success, :error, :warning
 
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   def current_member
     current_user.member
+  end
+
+  def current_library
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
 
   private
@@ -25,12 +29,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_library
-    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
-  end
-
   def set_time_zone(&block)
     Time.use_zone("America/Chicago", &block)
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) ||
+      if resource.super_admin?
+        super_admin_libraries_path
+      else
+        super
+      end
   end
 
   def render_not_found
