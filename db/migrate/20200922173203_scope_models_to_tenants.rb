@@ -1,4 +1,4 @@
-class ScopeUsersToTenants < ActiveRecord::Migration[6.0]
+class ScopeModelsToTenants < ActiveRecord::Migration[6.0]
   def change
     add_column :users, :library_id, :integer
     add_index  :users, :library_id
