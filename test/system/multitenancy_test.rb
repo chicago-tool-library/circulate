@@ -51,4 +51,16 @@ class MultitenancyTest < ApplicationSystemTestCase
       refute_text item_in_different_library.name
     end
   end
+
+  test "super admin login" do
+    super_admin = create(:super_admin_user, member: create(:member))
+
+    visit user_session_url
+
+    fill_in :user_email, with: super_admin.email
+    fill_in :user_password, with: super_admin.password
+    click_on "Login"
+
+    assert_text "Libraries Index"
+  end
 end

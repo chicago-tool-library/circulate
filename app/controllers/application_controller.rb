@@ -33,6 +33,15 @@ class ApplicationController < ActionController::Base
     Time.use_zone("America/Chicago", &block)
   end
 
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) ||
+      if resource.super_admin?
+        super_admin_libraries_path
+      else
+        super
+      end
+  end
+
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
   end
