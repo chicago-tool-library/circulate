@@ -59,8 +59,12 @@ $new-link-color: #36b3a8;
 @mixin primary-button{
     @include button;
     background-color: $button-color;
-    color: white;
     text-transform: uppercase;
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
 }
 
 @mixin secondary-button {
@@ -68,7 +72,11 @@ $new-link-color: #36b3a8;
     background-color: white;
     border: 2px solid $button-color;
     text-transform: uppercase;
+
+    a {
     color: $button-color;
+    text-decoration: none;
+    }
 
     &:hover {
         background-color: #F7FCFC;  

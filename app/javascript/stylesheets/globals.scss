@@ -83,24 +83,24 @@ body {
   }
 }
 
-.primary-btn-text{
-  color: white;
-  text-decoration: none !important;
-  &:hover {
-    color: white;
-  }
-  &:visited {
-    color: white;
-  }
-}
+// .primary-btn-text{
+//   color: white;
+//   text-decoration: none !important;
+//   &:hover {
+//     color: white;
+//   }
+//   &:visited {
+//     color: white;
+//   }
+// }
 
-.secondary-btn-text{
-  color: $button-color;
-  text-decoration: none !important;
-  &:hover {
-    color: $button-color;
-  }
-}
+// .secondary-btn-text{
+//   color: $button-color;
+//   text-decoration: none !important;
+//   &:hover {
+//     color: $button-color;
+//   }
+// }
 
 .secondary-btn {
   @include secondary-button;
