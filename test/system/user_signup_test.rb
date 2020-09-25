@@ -88,6 +88,16 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
     end
+
+    visit user_session_url
+
+    fill_in :user_email, with: "nkjemisin@test.com"
+    fill_in :user_password, with: "password"
+    click_on "Login"
+
+    within ".navbar" do
+      assert_text "N. K. Jemisin"
+    end
   end
 
   test "signup and redeem a gift membership" do
