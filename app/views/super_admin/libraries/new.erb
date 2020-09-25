@@ -2,12 +2,4 @@
   <%= index_header "New Library" %>
 <% end %>
 
-<%= form_with(model: @library, method: :post, url: super_admin_libraries_url, builder: SpectreFormBuilder, data: {controller: "form"}) do |form| %>
-  <%= form.errors %>
-
-  <%= form.text_field :name %>
-  <%= form.text_field :hostname %>
-  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
-
-  <%= form.submit %>
-<% end %>
+<%= render "form", library: @library %>
