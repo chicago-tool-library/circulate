@@ -51,9 +51,9 @@
             <ul class="nav">
               <li class="nav-item"><%= link_to "View Inventory", items_path %></li>
               <li class="nav-item"><%= link_to "Become a Member", signup_path %></li>
-              <% if current_user.admin?%>
+              <% if current_user.admin? %>
                 <li class="nav-item"><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
-              <% end%>
+              <% end %>
             </ul>
 
             <%# Member Links -- Displayed if User is Signed in %>
@@ -89,7 +89,7 @@
           </span>
           <span class="navbar-brand  mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>
           <span class="navbar-brand  mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
-          <% if current_user.admin?%>
+          <% if current_user.admin? %>
             <span class="navbar-brand  mr-2 ml-2"><%= link_to "Admin Dashboard", admin_dashboard_path %></span>
           <% end %>
           |
