@@ -45,7 +45,7 @@ ActsAsTenant.with_tenant(
     address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
-  User.create!(email: admin_member.email, password: "password", member: admin_member)
+  User.create!(email: admin_member.email, password: "password", role: "admin", member: admin_member)
 
   verified_member = Member.create!(
     email: "verifiedmember@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
@@ -97,7 +97,7 @@ ActsAsTenant.with_tenant(
     address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97266",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
   )
-  User.create!(email: admin_member.email, password: "password", member: admin_member)
+  User.create!(email: admin_member.email, password: "password", role: "admin", member: admin_member)
 
   verified_member = Member.create!(
     email: "verifiedmember_portland@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
