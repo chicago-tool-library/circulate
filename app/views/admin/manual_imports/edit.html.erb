@@ -1,3 +1,6 @@
-<h1>Import manual</h1>
+
+<% content_for :header do %>
+  <%= index_header "Import Manual" %>
+<% end %>
 
 <%= render 'form', item: @item, manual_import: @manual_import %>

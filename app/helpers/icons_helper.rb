@@ -4,11 +4,14 @@ module IconsHelper
     tag.i(**opts)
   end
 
-  def icon_stat(icon_name, content = nil, css_class: nil, title: nil, &block)
+  def icon_stat(icon_name, content = nil, css_class: nil, title: nil, placeholder: nil, &block)
     content = capture(&block) if block_given?
-    content = "-" if content.blank?
-    tag.li(title: title, class: css_class) do
-      tag.i(data: {feather: icon_name}) + content
+    tag.li(title: title, class: css_class, placeholder: placeholder) do
+      if content.blank?
+        tag.i(data: {feather: icon_name}) + tag.span(placeholder, class: "placeholder-text")
+      else
+        tag.i(data: {feather: icon_name}) + content
+      end
     end
   end
 end
