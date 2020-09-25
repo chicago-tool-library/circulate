@@ -109,7 +109,7 @@ body {
 
 .btn-link {
   font-weight: bold;
-  color: $link-color !important;
+  color: $new-link-color !important;
   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: transparent;
   border: none;
@@ -157,7 +157,7 @@ body {
   @include title_uppercase_weight;
   font-size: 12px;
   letter-spacing: $title-letter-spacing;
-  opacity: 60%;
+  opacity: .5;
 }
 
 .caption_lg {
@@ -165,7 +165,7 @@ body {
   @include title_uppercase_weight;
   font-size: 20px;
   letter-spacing: $button-letter-spacing;
-  opacity: 60%;
+  opacity: .5;
 }
 
 .caption_xs {
@@ -202,4 +202,11 @@ body {
   &:hover {
     color: #000 !important;
   }
+}
+
+.card-container {
+  background-color: white;
+  border-radius: 7px;
+  border: #E4E8F0 solid 1px;
+  padding: 20px;
 }
