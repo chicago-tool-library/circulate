@@ -41,7 +41,7 @@ class MultitenancyTest < ApplicationSystemTestCase
     item_in_library = create(:item, name: "Stud Finder")
 
     different_library = create(:library, hostname: "different.example.com")
-    item_in_different_library = ActsAsTenant.with_tenant(different_library) { create(:item, name: "Drill") }
+    item_in_different_library = ActsAsTenant.with_tenant(different_library) { create(:item, name: "Diaper") }
 
     login_as user
     visit items_url
