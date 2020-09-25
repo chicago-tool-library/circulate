@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
   post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
 
+  resources :member_holds, only: [:create]
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]
@@ -46,6 +48,10 @@ Rails.application.routes.draw do
     resources :categories, except: :show
     resources :hold_requests, only: :index
     resources :gift_memberships
+    resources :appointments, only: [:index, :show] do
+      resources :checkouts, only: [:create], controller: :appointment_checkouts
+      resources :checkins, only: [:create], controller: :appointment_checkins
+    end
     resources :items do
       get :number
       resource :image, only: [:edit, :update]

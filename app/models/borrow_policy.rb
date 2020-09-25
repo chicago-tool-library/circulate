@@ -27,6 +27,14 @@ class BorrowPolicy < ApplicationRecord
     "#{name} (#{code})"
   end
 
+  def allow_multiple_holds_per_member?
+    !allow_one_holds_per_member?
+  end
+
+  def allow_one_holds_per_member?
+    uniquely_numbered
+  end
+
   after_save :make_only_default
 
   private

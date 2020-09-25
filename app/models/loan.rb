@@ -126,4 +126,8 @@ class Loan < ApplicationRecord
       "checked-out"
     end
   end
+
+  def checked_out?
+    ended_at.blank?
+  end
 end
