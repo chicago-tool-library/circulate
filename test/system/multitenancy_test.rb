@@ -61,6 +61,6 @@ class MultitenancyTest < ApplicationSystemTestCase
     fill_in :user_password, with: super_admin.password
     click_on "Login"
 
-    assert_text "Libraries Index"
+    assert_text "Libraries"
   end
 end
