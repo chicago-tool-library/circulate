@@ -25,4 +25,8 @@ class Hold < ApplicationRecord
   def previous_active_holds
     Hold.active.where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
   end
+
+  def ready_for_pickup?
+    previous_active_holds.empty?
+  end
 end

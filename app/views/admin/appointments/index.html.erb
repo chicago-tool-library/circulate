@@ -44,12 +44,16 @@
               <td><%= appointment.member.pronouns.first %></td>
               <td>
                 <% appointment.holds.each do |hold| %>
-                  <%= pickup_or_dropoff(hold.loan) %> 
+                    pick-up
                     <%= hold.item.name %> <br/>
+                <% end %>
+                <% appointment.loans.each do |loan| %>
+                    drop-off
+                    <%= loan.item.name %> <br/>
                 <% end %>
               </td>
               <td><%= appointment.comment %></td>
-              <td></td>
+              <td><%= link_to "view/edit", admin_appointment_path(appointment)%></td>
             </tr>
           <% end %>
         </tbody>

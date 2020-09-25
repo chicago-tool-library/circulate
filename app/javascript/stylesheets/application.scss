@@ -838,6 +838,7 @@ table.monthly-adjustments {
 
 .member-panel, .item-panel {
   background: white;
+  margin-bottom: 16px;
   h6 {
     margin-bottom: 0;
   }
@@ -874,7 +875,7 @@ table.monthly-adjustments {
   margin: 1rem .5rem;
 }
 
-.item-stats {
+.item-stats, .member-stats {
   li.categories {
     svg, .category-stats {
       float: left;
@@ -887,6 +888,10 @@ table.monthly-adjustments {
     li {
       margin: 0;
     }
+  }
+  .placeholder-text {
+    color: #C0C0C0;
+    font-style: italic;
   }
 }
 
