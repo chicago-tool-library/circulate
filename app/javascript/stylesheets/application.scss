@@ -8,6 +8,7 @@
 @import 'spectre.css/src/mixins/_shadow';
 @import './partials/index';
 
+
 body {
   background-color: $background-color;
 }
@@ -398,9 +399,10 @@ $photo-width: 187px;
       color: white;
     }
   }
+  
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
-    // color: darken($warning-color, 30%);
+    color: darken($warning-color, 30%);
     .btn {
       background-color: darken($warning-color, 20%);
       border-color: darken($warning-color, 20%);
