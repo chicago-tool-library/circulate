@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
   post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
 
+  resources :member_holds, only: [:create]
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]

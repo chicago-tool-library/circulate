@@ -15,8 +15,68 @@
 
   <%= tag.body class: @body_class do %>
 
-    <div class="container grid-lg public">
+  <div class="member-nav">
+    <%# Mobile Nav Div %>
+    <div class="off-canvas" data-controller="sidebar">
 
+      <%# Hamburger Menu Toggle, Positioned Absolutely from Hidden off-canvas div %>
+      <a class="off-canvas-toggle btn btn-action show-sm" href="#sidebar-id" data-action="sidebar#open">
+        <i class="icon icon-menu"></i>
+      </a>
+
+      <%# Mobile Nav Logo %>
+      <%# Surrounding div used to create navbar with primary-color %>
+      <div class="show-sm mobile-nav">
+        <a href="https://chicagotoollibrary.org/">
+          <%= image_pack_tag "logo_small.png" %>
+        </a>
+      </div>
+
+      <%# Sidebar Div %>
+      <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
+        <div class="sidebar-list">
+          <a href="https://chicagotoollibrary.org/">
+            <%= image_pack_tag "logo_small.png" %>
+          </a>
+          <ul class="nav">
+              <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
+                <li class="nav-item">
+                  <div class="input-group input-inline">
+                    <i class="icon icon-search"></i>
+                    <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+                  </div>
+                </li>
+              <% end %>
+            <span class="nav-category">Site Links</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "View Inventory", items_path %></li>
+              <li class="nav-item"><%= link_to "Become a Member", signup_path %></li>
+            </ul>
+            
+            <%# Member Links -- Displayed if User is Signed in %>
+            <% if user_signed_in? %>
+              <span class="nav-category">Member Links</span>
+              <ul class="nav">
+                <li class="nav-item"><%= link_to "My Loans", member_loans_path %></li>
+                <li class="nav-item"><%= link_to "View Loan History", member_loan_history_path %></li>
+                <li class="nav-item"><%= link_to "Account Settings", member_profile_path %></li>
+              </ul>
+                <li class="nav-item logout-link"><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+            <% else %>
+              <span class="nav-category"><i class="icon icon-people mr-1"></i><%= link_to "Member Login", user_session_path %></span>
+            <% end %>
+          </li>
+          </ul>
+        </div>
+      </div>
+
+      <%# Link to Close Sidebar %>
+      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
+    </div>
+
+    <%# Full Size Nav, Hidden under 600pxs %>
+    <div class="hide-sm">
+    <div class="container grid-lg public">
       <header class="navbar">
         <section class="navbar-section">
           <span class="navbar-brand mr-2">
@@ -24,17 +84,23 @@
             <%= image_pack_tag "logo_small.png" %>
             </a>
           </span>
-          <span class="navbar-brand mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>
+          <span class="navbar-brand new-menu-style mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>
           <%= form_with url: search_path, method: :get, class: "mr-2", local: true do |form| %>
             <div class="input-group input-inline">
               <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
             </div>
           <% end %>
           |
-          <span class="navbar-brand mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
+          <span class="navbar-brand new-menu-style mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
         </section>
         <%= render partial: 'layouts/user', object: @member, as: :member %>
       </header>
+    </div>
+    </div>
+  </div>
+
+    <div class="container grid-lg public">
+
 
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
