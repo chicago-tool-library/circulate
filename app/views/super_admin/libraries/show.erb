@@ -1,9 +1,11 @@
 <h1><%= @library.name %>'s Page</h1>
 
 <div>
-  <% if @library.image.attached? %>
-    <%= link_to edit_super_admin_library_path(@library) do %>
-      <%= image_tag url_for(rotated_variant(@library.image, resize_to_limit: [600, 600])), class: "p-centered" %>
+  <%= link_to edit_super_admin_library_path(@library) do %>
+    <% if @library.image.attached? %>
+      <%= image_tag url_for(@library.image.variant(resize_to_limit: [100, 89])), class: "p-centered" %>
+    <% else %>
+      <%= image_pack_tag "logo_small.png" %> (Default logo)
     <% end %>
   <% end %>
 </div>
