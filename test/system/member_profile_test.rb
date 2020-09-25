@@ -36,7 +36,6 @@ class MemberProfileTest < ApplicationSystemTestCase
       click_on "Edit Member Profile"
     end
 
-
     fill_in "Full name", with: ""
     click_on "Update Member"
     assert_content "Please correct the errors below!"

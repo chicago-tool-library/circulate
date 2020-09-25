@@ -1,8 +1,7 @@
 require "test_helper"
 
 class MemberHoldsControllerTest < ActionDispatch::IntegrationTest
-
-include Devise::Test::IntegrationHelpers
+  include Devise::Test::IntegrationHelpers
 
   setup do
     @item = create(:item)
@@ -13,7 +12,7 @@ include Devise::Test::IntegrationHelpers
 
   test "should create hold for A tool" do
     assert_difference("Hold.count") do
-      post member_holds_url, params: { member_hold: { item: @item, member: @member, creator: @user }}
+      post member_holds_url, params: {member_hold: {item: @item, member: @member, creator: @user }}
     end
 
     assert_redirected_to item_url(@item.id)

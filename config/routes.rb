@@ -48,7 +48,10 @@ Rails.application.routes.draw do
     resources :categories, except: :show
     resources :hold_requests, only: :index
     resources :gift_memberships
-    resources :appointments, only: [:index]
+    resources :appointments, only: [:index, :show] do
+      resources :checkouts, only: [:create], controller: :appointment_checkouts
+      resources :checkins, only: [:create], controller: :appointment_checkins
+    end
     resources :items do
       get :number
       resource :image, only: [:edit, :update]
