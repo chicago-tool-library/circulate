@@ -116,6 +116,10 @@ ActsAsTenant.with_tenant(
   )
   User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
+  YAML.load_file("db/categories.yaml").each do |name, kids|
+    create_category(name, kids: kids)
+  end
+
   BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(50), fine_period: 1, duration: 3)
 
   item = Item.create!(
