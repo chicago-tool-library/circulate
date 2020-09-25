@@ -1066,3 +1066,18 @@ ul.hold-items {
     p { margin-bottom: .2rem; }
   }
 }
+
+.account-settings-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.account-settings-btn {
+  margin-bottom: 18px;
+}
+
+.btn-margin {
+  margin-left: 20px;
+}
