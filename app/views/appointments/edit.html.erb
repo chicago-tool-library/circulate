@@ -1,7 +1,0 @@
-<% content_for :header do %>
-  <%= index_header "Editting Appointment" %>
-<% end %>
-
-<h1 class="new_title">Schedule an Appointment</h1>
-
-<%= render partial: "form", locals: { holds: @appointment.holds, time_range_string: (@appointment.starts_at..@appointment.ends_at).to_s } %>

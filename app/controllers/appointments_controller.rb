@@ -29,10 +29,6 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  def edit
-    @appointment = Appointment.find(params[:id])
-  end
-
   private
 
   def appointment_params

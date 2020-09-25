@@ -91,10 +91,6 @@
             <%= appointment.comment %>
           </section>
         <% end %>
-
-        <section>
-          <%= button_to "Edit this Appointment", edit_appointment_path(appointment.id), class: "btn btn-primary btn-sm", method: :get %>
-        </section>
       </div>
     </section>
   <% end %>
