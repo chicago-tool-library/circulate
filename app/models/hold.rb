@@ -9,11 +9,19 @@ class Hold < ApplicationRecord
 
   acts_as_tenant :library
 
+  def self.active_hold_count_for_item(item)
+    active.where(item: item).count
+  end
+
   def lend(loan, now: Time.current)
     update!(
       loan: loan,
       ended_at: now
     )
+  end
+
+  def active?
+    ended_at.blank?
   end
 
   def previous_active_holds

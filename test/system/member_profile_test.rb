@@ -17,7 +17,9 @@ class MemberProfileTest < ApplicationSystemTestCase
 
   test "member can edit profile" do
     visit member_profile_url
-    click_on "Edit Member Profile"
+    within(".primary-btn") do
+      click_on "Edit Member Profile"
+    end
 
     fill_in "Full name", with: "Updated Name"
     uncheck "she/her"
@@ -30,7 +32,9 @@ class MemberProfileTest < ApplicationSystemTestCase
 
   test "member sees validation errors on update failure" do
     visit member_profile_url
-    click_on "Edit Member Profile"
+    within(".primary-btn") do
+      click_on "Edit Member Profile"
+    end
 
     fill_in "Full name", with: ""
     click_on "Update Member"

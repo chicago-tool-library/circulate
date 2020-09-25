@@ -9,4 +9,16 @@ class BorrowPolicyTest < ActiveSupport::TestCase
     assert new_policy.reload.default
     refute old_policy.reload.default
   end
+
+  test "allow_multiple_holds_per_member? is true when uniquely_numbered is false" do
+    policy = BorrowPolicy.new(uniquely_numbered: false)
+
+    assert policy.allow_multiple_holds_per_member?
+  end
+
+  test "allow_one_holds_per_member? is true when uniquely_numbered is true" do
+    policy = BorrowPolicy.new(code: true)
+
+    assert policy.allow_one_holds_per_member?
+  end
 end

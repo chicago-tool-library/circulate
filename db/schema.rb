@@ -110,6 +110,15 @@ ActiveRecord::Schema.define(version: 2020_09_25_123209) do
     t.index ["hold_id"], name: "index_appointment_holds_on_hold_id"
   end
 
+  create_table "appointment_loans", force: :cascade do |t|
+    t.bigint "appointment_id"
+    t.bigint "loan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["appointment_id"], name: "index_appointment_loans_on_appointment_id"
+    t.index ["loan_id"], name: "index_appointment_loans_on_loan_id"
+  end
+
   create_table "appointments", force: :cascade do |t|
     t.datetime "starts_at", null: false
     t.datetime "ends_at", null: false
