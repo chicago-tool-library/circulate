@@ -27,7 +27,22 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
     name: "Chicago Tool Library",
     hostname: "chicagotoollibrary.herokuapp.com",
   }.freeze
-  TABLES = %w[users members memberships items loans].freeze
+  TABLES = %w[
+    users
+    members
+    memberships
+    items
+    loans
+    documents
+    borrow_policies
+    hold_requests
+    gift_memberships
+    notifications
+    holds
+    categories
+    events
+    short_links
+  ].freeze
 
   private_constant :LIBRARY, :TABLES
 end
