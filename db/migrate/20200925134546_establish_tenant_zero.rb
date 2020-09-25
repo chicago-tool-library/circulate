@@ -26,6 +26,7 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
   LIBRARY = {
     name: "Chicago Tool Library",
     hostname: "chicagotoollibrary.herokuapp.com",
+    member_postal_code_pattern: '60707|60827|^606',
   }.freeze
   TABLES = %w[
     users
