@@ -8,7 +8,7 @@ module Admin
 
     def destroy
       current_appointment.destroy
-      redirect_to admin_appointments_path
+      redirect_to admin_appointments_path, flash: { success: "Appointment cancelled." }
     end
 
     private

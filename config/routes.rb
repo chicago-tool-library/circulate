@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     resources :categories, except: :show
     resources :hold_requests, only: :index
     resources :gift_memberships
-    resources :appointments, only: [:index, :show] do
+    resources :appointments, only: [:index, :show, :destroy] do
       resources :holds, only: [:destroy], controller: :appointment_holds
       resources :loans, only: [:destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
