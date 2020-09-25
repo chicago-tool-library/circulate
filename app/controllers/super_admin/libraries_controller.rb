@@ -12,8 +12,15 @@ module SuperAdmin
     end
 
     def create
-      @library = Library.create(library_params)
-      redirect_to super_admin_libraries_path
+      @library = Library.new(library_params)
+
+      if @library.save
+        redirect_to super_admin_libraries_path, success: "Library successfully created."
+      else
+        respond_to do |format|
+          format.html { render :new }
+        end
+      end
     end
 
     def show
@@ -26,14 +33,20 @@ module SuperAdmin
 
     def update
       @library = Library.find(params[:id])
-      @library.update(library_params)
-      redirect_to super_admin_library_path(@library)
+
+      if @library.update(library_params)
+        redirect_to super_admin_library_path(@library), success: "Library successfully updated."
+      else
+        respond_to do |format|
+          format.html { render :edit }
+        end
+      end
     end
 
     def destroy
       @library = Library.find(params[:id])
       @library.destroy
-      redirect_to super_admin_libraries_path
+      redirect_to super_admin_libraries_path, success: "Library successfully deleted."
     end
 
     private
