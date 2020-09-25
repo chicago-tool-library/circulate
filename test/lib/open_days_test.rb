@@ -26,7 +26,7 @@ class OpenDaysTest < ActiveSupport::TestCase
   # This handles an edge case:
   # We're asking for time slots for Thursday and Saturday,
   # if today is Friday, it's going to parse first the date for the
-  # next Wednesday (which is only next week) and then the date for
+  # next Thursday (which is only next week) and then the date for
   # the next Saturday which is earlier than the next Wednesday.
   #
   test "returns dates in ascending order" do
