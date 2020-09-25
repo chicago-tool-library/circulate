@@ -7,11 +7,17 @@ class LibraryTest < ActiveSupport::TestCase
     assert library.invalid?
     assert_equal ["can't be blank"], library.errors[:name]
     assert_equal ["can't be blank"], library.errors[:hostname]
+    assert library.errors[:member_postal_code_pattern].blank?
 
     library = Library.new(name: "Another CTL", hostname: libraries(:chicago_tool_library).hostname)
 
     assert library.invalid?
     assert_equal ["has already been taken"], library.errors[:hostname]
+
+    library = Library.new(member_postal_code_pattern: "[)")
+
+    assert library.invalid?
+    assert_equal ["is invalid"], library.errors[:member_postal_code_pattern]
   end
 
   test "checks postal codes against pattern" do
