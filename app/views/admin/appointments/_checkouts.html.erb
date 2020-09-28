@@ -33,15 +33,21 @@
       </div>
     </div>
   <% end %>
-  <%= form_with(url: admin_appointment_holds_path(current_appointment), method: "post") do %>
-    <div class="columns col-oneline">
-        <div class="column col-3 text-right">
-          <%= text_field_tag :item_id, nil, class: "form-input", placeholder: "Item ID" %>
-        </div>
-        <div class="column col-5 text-left" style="line-height: 30px;">
-          <%= submit_tag 'add pickup item', class: "btn btn-primary" %>
-        </div>
-    </div>
-  <% end %>
+
+  <div class="columns">
+    <p>Find and add another item to the appointment for check-out.</p>
+    <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_holds_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+      <%= form.text_field :item_id, list: "items", autocomplete: :off %>
+      <datalist id="items">
+        <%= items_avalable_to_add_to_pickup.find_each do |item| %>
+          <%= tag(:option, value: item.complete_number_and_name) %>
+        <% end %>
+      </datalist>
+
+      <%= form.actions do %>
+        <%= form.submit %>
+      <% end %>
+    <% end %>
+  </div>
 </div>
 <div class="divider"></div>

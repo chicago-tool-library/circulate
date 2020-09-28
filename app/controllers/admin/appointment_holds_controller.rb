@@ -1,8 +1,8 @@
 module Admin
   class AppointmentHoldsController < ApplicationController
     def create
-      redirect_to admin_appointment_path(appointment), flash: { error: "Please enter item ID!" } and return if params[:item_id].blank?
       add_new_appointment_hold
+      redirect_to admin_appointment_path(appointment), flash: create_flash_message
     end
 
     def destroy
@@ -17,13 +17,39 @@ module Admin
     end
 
     def add_new_appointment_hold
-      hold = appointment.member.holds.new(item_id: params[:item_id], member: current_member, creator: current_member.user)
-      if hold.save
-        appointment.appointment_holds.create!(hold: hold)
-        redirect_to admin_appointment_path(appointment), flash: { success: "Item added to appointment." }
+      return if item_to_add.blank? ||
+        item_to_add.allow_one_holds_per_member? &&
+          appointment.appointment_holds.joins(:hold).exists?(holds: { item: item_to_add })
+
+      new_appointment_hold.save
+    end
+
+    def create_flash_message
+      if new_appointment_hold&.persisted?
+        {success: "Item added to appointment check-outs."}
       else
-        redirect_to admin_appointment_path(appointment), flash: { error: "Item not found!" }
+        {error: "Unable to added to appointment check-outs."}
       end
+    end
+
+    def new_appointment_hold
+      return if item_to_add.blank?
+
+      @new_appointment_hold ||= appointment.appointment_holds.new(
+        hold: hold_for_item_to_add
+      )
+    end
+
+    def hold_for_item_to_add
+      @item_to_add_hold ||= if item_to_add.allow_multiple_holds_per_member?
+        appointment.member.holds.new(item: item_to_add, creator: current_user)
+      elsif item_to_add.available?
+        appointment.member.holds.active.find_or_initialize_by(item: item_to_add, creator: current_user)
+      end
+    end
+
+    def item_to_add
+      Item.find_by_complete_number(params.require(:appointment_hold)[:item_id].to_s)
     end
 
     def appointment

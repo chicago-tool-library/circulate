@@ -59,6 +59,11 @@ class Item < ApplicationRecord
     last_item.number.to_i + 1
   end
 
+  def self.find_by_complete_number(complete_number)
+    code, number = complete_number.split("-")
+    joins(:borrow_policy).find_by(borrow_policies: { code: code }, number: number.to_i)
+  end
+
   def assign_number
     if number.blank?
       return unless borrow_policy
@@ -80,7 +85,11 @@ class Item < ApplicationRecord
   end
 
   def complete_number
-    "#{borrow_policy.code}-#{number}"
+    [borrow_policy.code, "-", number].join
+  end
+
+  def complete_number_and_name
+    [complete_number, " — ", name].join
   end
 
   def holdable?
