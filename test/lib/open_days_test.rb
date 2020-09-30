@@ -6,6 +6,11 @@ class OpenDaysTest < ActiveSupport::TestCase
     OpenStruct.new(day: "Saturday", from: 11, to: 13)
   ].freeze
 
+  def setup
+    Time.zone = "America/Chicago"
+    Chronic.time_class = Time.zone
+  end
+
   test "returns possible time slots" do
     travel_to DateTime.new(2020, 9, 21)
     slots = OpenDays.next_slots(weeks: 2, time_slots: TIME_SLOTS)
@@ -51,20 +56,20 @@ class OpenDaysTest < ActiveSupport::TestCase
     travel_to DateTime.new(2020, 9, 24, 14, 0, 0)
     assert_equal OpenDays.next_slots_for_select(weeks: 2, time_slots: TIME_SLOTS), {
       "Sat Sep 26" => [
-        ["11 am to 12 pm", Time.parse("Sat, 26 Sep 2020 11:00:00 UTC +00:00")..Time.parse("Sat, 26 Sep 2020 12:00:00 UTC +00:00")],
-        ["12 pm to 1 pm", Time.parse("Sat, 26 Sep 2020 12:00:00 UTC +00:00")..Time.parse("Sat, 26 Sep 2020 13:00:00 UTC +00:00")]
+        ["11 am to 12 pm", Time.parse("Sat, 26 Sep 2020 11:00:00 -0500")..Time.parse("Sat, 26 Sep 2020 12:00:00 -0500")],
+        ["12 pm to 1 pm", Time.parse("Sat, 26 Sep 2020 12:00:00 -0500")..Time.parse("Sat, 26 Sep 2020 13:00:00 -0500")]
       ],
       "Thu Oct 1" => [
-        ["6 pm to 7 pm", Time.parse("Thu, 01 Oct 2020 18:00:00 UTC +00:00")..Time.parse("Thu, 01 Oct 2020 19:00:00 UTC +00:00")],
-        ["7 pm to 8 pm", Time.parse("Thu, 01 Oct 2020 19:00:00 UTC +00:00")..Time.parse("Thu, 01 Oct 2020 20:00:00 UTC +00:00")]
+        ["6 pm to 7 pm", Time.parse("Thu, 01 Oct 2020 18:00:00 -0500")..Time.parse("Thu, 01 Oct 2020 19:00:00 -0500")],
+        ["7 pm to 8 pm", Time.parse("Thu, 01 Oct 2020 19:00:00 -0500")..Time.parse("Thu, 01 Oct 2020 20:00:00 -0500")]
       ],
       "Sat Oct 3" => [
-        ["11 am to 12 pm", Time.parse("Sat, 03 Oct 2020 11:00:00 UTC +00:00")..Time.parse("Sat, 03 Oct 2020 12:00:00 UTC +00:00")],
-        ["12 pm to 1 pm", Time.parse("Sat, 03 Oct 2020 12:00:00 UTC +00:00")..Time.parse("Sat, 03 Oct 2020 13:00:00 UTC +00:00")]
+        ["11 am to 12 pm", Time.parse("Sat, 03 Oct 2020 11:00:00 -0500")..Time.parse("Sat, 03 Oct 2020 12:00:00 -0500")],
+        ["12 pm to 1 pm", Time.parse("Sat, 03 Oct 2020 12:00:00 -0500")..Time.parse("Sat, 03 Oct 2020 13:00:00 -0500")]
       ],
       "Thu Oct 8" => [
-        ["6 pm to 7 pm", Time.parse("Thu, 08 Oct 2020 18:00:00 UTC +00:00")..Time.parse("Thu, 08 Oct 2020 19:00:00 UTC +00:00")],
-        ["7 pm to 8 pm", Time.parse("Thu, 08 Oct 2020 19:00:00 UTC +00:00")..Time.parse("Thu, 08 Oct 2020 20:00:00 UTC +00:00")]
+        ["6 pm to 7 pm", Time.parse("Thu, 08 Oct 2020 18:00:00 -0500")..Time.parse("Thu, 08 Oct 2020 19:00:00 -0500")],
+        ["7 pm to 8 pm", Time.parse("Thu, 08 Oct 2020 19:00:00 -0500")..Time.parse("Thu, 08 Oct 2020 20:00:00 -0500")]
       ]
     }
     travel_back

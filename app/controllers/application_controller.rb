@@ -14,7 +14,10 @@ class ApplicationController < ActionController::Base
   private
 
   def set_time_zone(&block)
-    Time.use_zone("America/Chicago", &block)
+    Time.use_zone "America/Chicago" do
+      Chronic.time_class = Time.zone
+      block.call
+    end
   end
 
   def render_not_found
