@@ -15,7 +15,7 @@ module Admin
     def checked_out_item_count
       new_loans&.count&.to_i
     end
-    
+
     def holds
       @holds ||= appointment.holds.active.where(id: params[:hold_ids])
     end
