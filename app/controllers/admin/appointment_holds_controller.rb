@@ -28,7 +28,7 @@ module Admin
       if new_appointment_hold&.persisted?
         {success: "Item added to appointment check-outs."}
       else
-        {error: "Unable to added to appointment check-outs."}
+        {error: "Unable to add item to appointment check-outs."}
       end
     end
 
