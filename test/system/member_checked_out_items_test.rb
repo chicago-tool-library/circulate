@@ -16,5 +16,8 @@ class MemberCheckedOutItemsTest < ApplicationSystemTestCase
     within "#loans-table" do
       assert_text @loan.item.name
     end
+
+    click_on @loan.item.name
+    assert_equal "/items/#{@loan.item.id}", current_path
   end
 end
