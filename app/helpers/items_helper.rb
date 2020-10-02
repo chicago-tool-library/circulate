@@ -17,6 +17,16 @@ module ItemsHelper
     end
   end
 
+  def item_power_source_options
+    Item.power_sources.map do |key, value|
+      [value.titleize, key]
+    end
+  end
+
+  def item_powered_by_label(item)
+    Item.power_sources[item.power_source]&.titleize
+  end
+
   def borrow_policy_options
     BorrowPolicy.alpha_by_code.map do |borrow_policy|
       ["(#{borrow_policy.code}) #{borrow_policy.name}: #{borrow_policy.description}", borrow_policy.id]
