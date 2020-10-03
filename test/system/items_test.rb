@@ -16,6 +16,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
     fill_in "Strength", with: @item.strength
+    select "Gas", from: "Power source"
     fill_in "Brand", with: @item.brand
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
@@ -35,6 +36,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Name", with: @item.name
     fill_in "Brand", with: @item.brand
     fill_in_rich_text_area "item_description", with: @item.description
+    select "Solar", from: "Power source"
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
     fill_in "Size", with: @item.size

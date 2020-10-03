@@ -9,6 +9,10 @@
     <p><strong>Strength:</strong> <%= item.strength %></p>
   <% end %>
 
+  <% unless item.power_source.blank? %>
+    <p><strong>Powered by:</strong> <%= item_powered_by_label(item) %></p>
+  <% end %>
+
   <% unless item.brand.blank? %>
     <p><strong>Brand:</strong> <%= item.brand %></p>
   <% end %>

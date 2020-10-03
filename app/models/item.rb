@@ -28,6 +28,14 @@ class Item < ApplicationRecord
 
   enum status: [:pending, :active, :maintenance, :retired]
 
+  enum power_source: {
+    solar: "solar",
+    gas: "gas",
+    air: "air",
+    electric_corded: "electric (corded)",
+    electric_battery: "electric (battery)"
+  }
+
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
@@ -44,6 +52,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :number, numericality: {only_integer: true}, uniqueness: true
   validates :status, inclusion: {in: Item.statuses.keys}
+  validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
