@@ -8,7 +8,7 @@ module Admin
       3.times do
         create(:member)
       end
-      @user = create(:user)
+      @user = users(:admin)
       sign_in @user
     end
 

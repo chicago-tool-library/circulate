@@ -5,7 +5,7 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
-      @user = create(:user)
+      @user = users(:admin)
       sign_in @user
     end
 

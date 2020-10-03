@@ -5,7 +5,7 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
-      @user = create(:admin_user)
+      @user = users(:admin)
       sign_in @user
     end
 
@@ -80,7 +80,7 @@ module Admin
 
     test "should get index" do
       get admin_users_url
-      assert_redirected_to admin_items_url
+      assert_redirected_to root_url
     end
   end
 end
