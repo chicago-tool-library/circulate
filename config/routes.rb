@@ -19,14 +19,14 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
-  namespace :holds do
-    resources :items, only: [:create, :destroy]
-    resources :hold_requests, only: [:new, :create]
-    resource :request, only: :destroy
-    get "/", to: "home#index"
-    get "autocomplete", to: "autocomplete#index"
-    resources :confirmations, only: :show
-  end
+  # namespace :holds do
+  #   resources :items, only: [:create, :destroy]
+  #   resources :hold_requests, only: [:new, :create]
+  #   resource :request, only: :destroy
+  #   get "/", to: "home#index"
+  #   get "autocomplete", to: "autocomplete#index"
+  #   resources :confirmations, only: :show
+  # end
 
   get "member/history", to: "members#history", as: "member_loan_history"
   get "/member/loans", to: "members#loans", as: "member_loans"
