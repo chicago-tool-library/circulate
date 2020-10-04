@@ -6,3 +6,4 @@
 #
 admin:
   email: admin@example.com
+  role: admin
