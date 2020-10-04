@@ -6,7 +6,7 @@ module Admin
 
     setup do
       @borrow_policy = borrow_policies(:default)
-      @user = users(:admin)
+      @user = create(:admin_user)
       sign_in @user
     end
 

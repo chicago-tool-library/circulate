@@ -6,7 +6,7 @@ module Admin
 
     setup do
       @category = create(:category)
-      @user = users(:admin)
+      @user = create(:admin_user)
       sign_in @user
     end
 
