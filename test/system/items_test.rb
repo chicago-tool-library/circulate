@@ -16,6 +16,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
     fill_in "Strength", with: @item.strength
+    select "Gas", from: "Power source"
     fill_in "Brand", with: @item.brand
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
@@ -35,6 +36,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Name", with: @item.name
     fill_in "Brand", with: @item.brand
     fill_in_rich_text_area "item_description", with: @item.description
+    select "Solar", from: "Power source"
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
     fill_in "Size", with: @item.size
@@ -139,5 +141,25 @@ class ItemsTest < ApplicationSystemTestCase
 
     assert_text "The manual was imported", wait: 10
     assert_text "Manual: C5200-20manual.pdf"
+  end
+
+  test "double clicking create item doesn't create multiple items" do
+    @item = build(:item, name: "Repeated item name")
+
+    visit admin_items_url
+    click_on "New Item"
+
+    fill_in "Name", with: @item.name
+    find("summary", text: "Description").click
+    fill_in_rich_text_area "item_description", with: @item.description
+    fill_in "Size", with: @item.size
+    fill_in "Strength", with: @item.strength
+    fill_in "Brand", with: @item.brand
+    fill_in "Model", with: @item.model
+    fill_in "Serial", with: @item.serial
+    find("button", text: "Create Item").double_click
+
+    assert_text "Item was successfully created"
+    assert_equal 1, Item.all.map(&:name).count(@item.name)
   end
 end

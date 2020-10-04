@@ -3,7 +3,7 @@ require "test_helper"
 class MembershipTest < ActiveSupport::TestCase
   test "creates a membership for a member" do
     member = create(:member)
-    now = Time.current.to_date
+    now = Time.current.beginning_of_day
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 0) {
@@ -18,7 +18,7 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "creates a membership for a member with a cash payment" do
     member = create(:member)
-    now = Time.current.to_date
+    now = Time.current.beginning_of_day
     amount = Money.new(12.34)
 
     membership = assert_difference("Membership.count", 1) {
@@ -43,7 +43,7 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "creates a membership for a member with a square payment" do
     member = create(:member)
-    now = Time.current.to_date
+    now = Time.current.beginning_of_day
     amount = Money.new(12.34)
 
     membership = assert_difference("Membership.count", 1) {

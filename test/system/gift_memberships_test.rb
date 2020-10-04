@@ -73,4 +73,22 @@ class GiftMembershipsTest < ApplicationSystemTestCase
 
     assert_text "Gift membership was successfully destroyed"
   end
+
+  test "double clicking create gift membership does not create multiple gift memberships" do
+    visit admin_gift_memberships_url
+    click_on "New Gift Membership"
+
+    fill_in "Amount", with: "100"
+    fill_in "Purchaser email", with: "repeat_test@place.biz"
+    fill_in "Purchaser name", with: "repeat buyer"
+    fill_in "Recipient name", with: "repeat recipient"
+
+    perform_enqueued_jobs do
+      find("button", text: "Create Gift membership").double_click
+
+      assert_text "Gift membership was successfully created", wait: 10
+    end
+
+    assert_equal 1, GiftMembership.all.map(&:purchaser_email).count("repeat_test@place.biz")
+  end
 end
