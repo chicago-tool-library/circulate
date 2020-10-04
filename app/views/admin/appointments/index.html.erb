@@ -13,7 +13,7 @@
 
         <% end %>
       </li>
-      <li><b><%= l current_day, format: :with_weekday %></b></li>
+      <li><b><%= l @current_day, format: :with_weekday %></b></li>
       <li class="page-item page-next">
         <%= link_to admin_appointments_path(day: next_day) do %>
           <div class="page-item-subtitle">
