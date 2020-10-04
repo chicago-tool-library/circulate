@@ -23,6 +23,16 @@ module Admin
       @current_day + 1.day
     end
 
+    helper_method def current_day_label
+      if @current_day == Date.today
+        "Today"
+      elsif @current_day == Date.tomorrow
+        "Tomorrow"
+      else
+        l @current_day, format: :with_weekday
+      end
+    end
+
     helper_method def current_appointment
       Appointment.find(params[:id])
     end
