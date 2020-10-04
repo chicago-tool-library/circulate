@@ -8,9 +8,9 @@ FactoryBot.define do
     code { name.underscore }
 
     factory :agreement_document do 
-	  code { 'agreement' }
-	  name { 'Agreement' }
-	  summary { 'Agreement' }
-	end
+	    code { 'agreement' }
+	    name { 'Agreement' }
+	    summary { 'Agreement' }
+	  end
   end
 end
