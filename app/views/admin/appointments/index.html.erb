@@ -6,11 +6,11 @@
   <div class="col-12" style="justify-content: center;">
     <ul class="pagination">
       <li class="page-item page-prev">
-        <%= link_to admin_appointments_path(day: pervious_day) do %>
+        <%= link_to admin_appointments_path(day: previous_day) do %>
           <div class="page-item-subtitle">
             <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
           </div>
-          
+
         <% end %>
       </li>
       <li><b><%= l current_day, format: :with_weekday %></b></li>

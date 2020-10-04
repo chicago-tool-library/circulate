@@ -9,7 +9,7 @@ module Admin
 
     def destroy
       current_appointment.destroy
-      redirect_to admin_appointments_path, flash: { success: "Appointment cancelled." }
+      redirect_to admin_appointments_path, flash: {success: "Appointment cancelled."}
     end
 
     private
@@ -18,7 +18,7 @@ module Admin
       @current_day = Date.parse(params[:day] ||= Date.today.to_s)
     end
 
-    helper_method def pervious_day
+    helper_method def previous_day
       current_day - 1.day
     end
 
