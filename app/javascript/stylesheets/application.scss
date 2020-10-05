@@ -165,6 +165,7 @@ header.navbar {
   grid-row-gap: .5rem;
   grid-column-gap: .3rem;
   grid-template-columns: .3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.3fr 1fr 1fr 1fr 1fr 0.5fr 0.5fr;
 
   .members-table-header {
     font-weight: bold;
