@@ -34,7 +34,7 @@ admin_member = Member.create!(
   address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
 )
-User.create!(email: admin_member.email, password: "password", member: admin_member)
+User.create!(email: admin_member.email, password: "password", member: admin_member, role: "admin")
 
 BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
 
