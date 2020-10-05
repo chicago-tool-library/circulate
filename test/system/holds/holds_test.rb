@@ -48,7 +48,7 @@ module Holds
           perform_enqueued_jobs do
             click_button "Submit Request"
 
-            assert_text "Hold Request Complete"
+            assert_text "Hold Request Complete", wait: 10
             assert_text @drill1.complete_number
             assert_text "Saturday, August 15, between 10am & 11am"
           end
@@ -111,7 +111,7 @@ module Holds
           perform_enqueued_jobs do
             click_button "Submit Request"
 
-            assert_text "Hold Request Complete"
+            assert_text "Hold Request Complete", wait: 10
             assert_text @drill1.complete_number
             assert_text "email you when they are ready"
           end
