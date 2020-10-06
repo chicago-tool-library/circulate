@@ -26,7 +26,6 @@
           <tr>
             <th>Item</th>
             <th>Number</th>
-            <th>Category</th>
             <th>Member</th>
             <th>Renewed</th>
             <th>Checked out</th>
@@ -42,7 +41,6 @@
             <tr>
               <td><%= link_to loan.item.name, [:admin, loan.item] %></td>
               <td><%= link_to full_item_number(loan.item), [:admin, loan.item] %></td>
-              <td><%= link_to item_categories(loan.item), [:admin, loan.item] %></td>
               <td><%= link_to preferred_or_default_name(loan.member), [:admin, loan.member] %></td>
               <td class="text-center"><%= loan.renewal_count %></td>
               <td><%= date_with_time_title loan.created_at %></td>
