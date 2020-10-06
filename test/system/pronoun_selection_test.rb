@@ -3,6 +3,7 @@ require "application_system_test_case"
 class PronounSelectionTest < ApplicationSystemTestCase
   def setup
     Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
+    create(:agreement_document)
   end
 
   test "select_multiple_pronouns" do

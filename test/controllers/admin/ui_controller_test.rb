@@ -5,13 +5,14 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
+      @borrow_policy = create(:default_borrow_policy)
       @user = create(:admin_user)
       sign_in @user
     end
 
     test "autocompletes item names" do
       ["impact hammer", "Impact hammer", "Impact wrench", "hammer drill"].each do |name|
-        Item.create!(name: name, borrow_policy: borrow_policies(:default))
+        Item.create!(name: name, borrow_policy: @borrow_policy)
       end
 
       get admin_ui_names_url(q: "im")
@@ -22,7 +23,7 @@ module Admin
 
     test "autocompletes item brands" do
       ["Dewalt", "Delta", "ACDelco", "Dremel"].each do |brand|
-        Item.create!(name: "Tool name", brand: brand, borrow_policy: borrow_policies(:default))
+        Item.create!(name: "Tool name", brand: brand, borrow_policy: @borrow_policy)
       end
 
       get admin_ui_brands_url(q: "de")

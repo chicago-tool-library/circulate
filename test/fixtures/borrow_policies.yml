@@ -1,8 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-default:
-  name: Default
-  duration: 7
-  fine_cents: 1.00
-  fine_period: 7
-  code: D

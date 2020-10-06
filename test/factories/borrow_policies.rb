@@ -20,5 +20,13 @@ FactoryBot.define do
       uniquely_numbered { false }
       code { "a" }
     end
+
+    factory :default_borrow_policy do 
+      name { 'Default' }
+      duration { 7 }
+      fine_cents { 1.00 }
+      fine_period { 7 }
+      code { 'D' }
+    end
   end
 end
