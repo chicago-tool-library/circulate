@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :items_without_image, only: :index
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
