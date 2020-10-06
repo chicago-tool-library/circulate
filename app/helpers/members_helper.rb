@@ -40,4 +40,8 @@ module MembersHelper
     end
     tag.span(member.status.titlecase, class: classes)
   end
+
+  def format_stats_counter(number)
+    number > 0 ? number : "-"
+  end
 end
