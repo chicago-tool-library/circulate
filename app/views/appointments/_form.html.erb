@@ -1,6 +1,6 @@
 <%= form_for :appointment, url: appointments_path do |form| %>
   <% if loans.any? %>
-    <h3 class="title_bold">Select Items to Return</h3>
+    <h2 class="title_bold">Select Items to Return</h2>
 
     <table class="table table-scroll mb-2" id="items-to-pickup-table">
       <thead>
@@ -35,7 +35,7 @@
     </table>
   <% end %>
 
-  <h3 class="title_bold">Select Items to Pick-Up</h3>
+  <h2 class="title_bold">Select Items to Pick-Up</h2>
 
   <table class="table table-scroll" id="items-to-pickup-table">
     <thead>
