@@ -31,5 +31,23 @@
       </div>
     </div>
   <% end %>
+
+  <div class="columns">
+    <p>Find and add another item to the appointment for check-in.</p>
+    <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+      <%= form.text_field :item_id, list: "items2", autocomplete: :off %>
+      <datalist id="items2">
+        <%= items_avalable_to_add_to_dropoff.find_each do |loan| %>
+          <% if !appointment_return_items.include?(loan) %>
+            <%= tag(:option, value: loan.item.complete_number_and_name) %>
+          <% end %>
+        <% end %>
+      </datalist>
+
+      <%= form.actions do %>
+        <%= form.submit %>
+      <% end %>
+    <% end %>
+  </div>
 </div>
 <div class="divider"></div>
