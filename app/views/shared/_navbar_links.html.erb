@@ -1,0 +1,7 @@
+<%= navbar_link_to "View Inventory", items_path, version %>
+<% unless current_user %>
+  <%= navbar_link_to "Become a Member", signup_path, version %>
+<% end %>
+<% if user_signed_in? && current_user.admin? %>
+  <%= navbar_link_to "Admin Dashboard", admin_dashboard_path, version %>
+<% end %>
