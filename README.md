@@ -128,6 +128,8 @@ After you have the application running, here are some places to explore:
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
 
+Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
+
 ### Setup pre-commit checks
 
 Circulate uses [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
