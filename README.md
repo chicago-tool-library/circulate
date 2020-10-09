@@ -44,7 +44,7 @@ There is content and information hard-coded in many of the views that is specifi
 
 Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
 
-* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests.
+* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests. This will be downloaded automatically for you when running system tests.
 * Imagemagick needs to be installed for gift memberships and item thumbnails to be generated.
 
 ## Integrations
