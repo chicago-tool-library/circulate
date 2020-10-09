@@ -49,11 +49,7 @@
               <% end %>
             <span class="nav-category">Site Links</span>
             <ul class="nav">
-              <li class="nav-item"><%= link_to "View Inventory", items_path %></li>
-              <li class="nav-item"><%= link_to "Become a Member", signup_path %></li>
-              <% if user_signed_in? && current_user.admin? %>
-                <li class="nav-item"><%= link_to "Admin Dashboard", admin_dashboard_path %></li>
-              <% end %>
+              <%=render partial: 'shared/navbar_links' %>
             </ul>
 
             <%# Member Links -- Displayed if User is Signed in %>
@@ -95,13 +91,7 @@
             </div>
           <% end %>
           |
-          <span class="navbar-brand  mr-2 ml-2"><%= link_to "View Inventory", items_path %></span>
-          <% unless current_user %>
-          <span class="navbar-brand  mr-2 ml-2"><%= link_to "Become a Member", signup_path %></span>
-          <% end %>
-          <% if user_signed_in? && current_user.admin? %>
-            <span class="navbar-brand  mr-2 ml-2"><%= link_to "Admin Dashboard", admin_dashboard_path %></span>
-          <% end %>
+          <%=render partial: 'shared/navbar_links', locals: {version: 'mobile'} %>
         </section>
         <%= render partial: 'layouts/user', object: @member, as: :member %>
       </header>
