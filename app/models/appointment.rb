@@ -14,8 +14,6 @@ class Appointment < ApplicationRecord
 
 
   def item_present
-    puts "inside item_present"
-    puts holds.inspect
     if holds.empty? and loans.empty?
       errors.add(:base,"Please select an item to pick-up or return for your appointment")
     end
