@@ -47,8 +47,8 @@
   <% if @active_loan_summaries.any? %>
     <div id="current-loans" class="member-active-loans">
       <div class="column col-sm-12 col-12 text-right">
-        <%= button_to admin_bulk_renewal_path(@member), method: :put, class:"btn ml-2 mb-2", data: { confirm: "Are you sure you want renew #{ @active_loan_summaries.collect {|ls| ls.latest_loan.renewable? }.count } loans?" }, remote: true do %>
-          <%= feather_icon "repeat" %>Renew All (<%= @active_loan_summaries.collect {|ls| ls.latest_loan.renewable? }.count %>)
+        <%= button_to admin_bulk_renewal_path(@member), method: :put, class:"btn ml-2 mb-2", data: { confirm: "Are you sure you want renew all renewable loans for #{@member.full_name}?" }, remote: true do %>
+          <%= feather_icon "repeat" %>Renew All
         <% end %>
       </div>
       <% @active_loan_summaries.group_by(&:due_at).each do |due_at, summaries| %>
