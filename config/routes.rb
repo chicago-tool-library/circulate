@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]
     resources :renewals, only: [:create, :destroy]
+    resources :bulk_renewals, only: [:update]
 
     resources :members, except: :destroy do
       scope module: "members" do
@@ -82,6 +83,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :items_without_image, only: :index
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
