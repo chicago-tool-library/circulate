@@ -1,4 +1,5 @@
 require "test_helper"
+require 'webdrivers/chromedriver'
 
 # Backported from Rails 6.1
 Capybara.add_selector :rich_text_area do

@@ -3,6 +3,7 @@ require "application_system_test_case"
 class ItemsTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
+    create(:default_borrow_policy)
   end
 
   test "creating an item" do

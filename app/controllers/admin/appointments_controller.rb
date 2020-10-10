@@ -1,7 +1,8 @@
 module Admin
   class AppointmentsController < BaseController
     def index
-      @appointments = Appointment.where(starts_at: current_day.beginning_of_day..current_day.end_of_day)
+      @current_day = Date.parse(params[:day] ||= Date.today.to_s)
+      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day)
     end
 
     def show
@@ -9,21 +10,27 @@ module Admin
 
     def destroy
       current_appointment.destroy
-      redirect_to admin_appointments_path, flash: { success: "Appointment cancelled." }
+      redirect_to admin_appointments_path, flash: {success: "Appointment cancelled."}
     end
 
     private
 
-    helper_method def current_day
-      @current_day = Date.parse(params[:day] ||= Date.today.to_s)
-    end
-
-    helper_method def pervious_day
-      current_day - 1.day
+    helper_method def previous_day
+      @current_day - 1.day
     end
 
     helper_method def next_day
-      current_day + 1.day
+      @current_day + 1.day
+    end
+
+    helper_method def current_day_label
+      if @current_day == Date.today
+        "Today"
+      elsif @current_day == Date.tomorrow
+        "Tomorrow"
+      else
+        l @current_day, format: :with_weekday
+      end
     end
 
     helper_method def current_appointment

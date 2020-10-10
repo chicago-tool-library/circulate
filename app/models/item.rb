@@ -46,6 +46,7 @@ class Item < ApplicationRecord
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
+  scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
 
   scope :by_name, -> { order(name: :asc) }
 
