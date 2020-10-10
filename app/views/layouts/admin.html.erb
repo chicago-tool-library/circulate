@@ -55,6 +55,9 @@
             </ul>
           </li>
         </ul>
+        <div class="dropdown">
+            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
+        </div>
 
         <ul class="nav">
           <% if user_signed_in? %>
@@ -113,6 +116,7 @@
                 <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+                 <li class="menu-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
               </ul>
             </div>
             <div class="dropdown">
@@ -139,6 +143,9 @@
             <% end %>
           </section>
           <%= render partial: "shared/time_override" if Rails.env.development? %>
+          <div class="dropdown">
+            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
+          </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
               <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
@@ -152,7 +159,7 @@
       <div class="app">
         <div class="header-header">
           <div class="container grid-lg">
-            <%= yield :header %>      
+            <%= yield :header %>
           </div>
         </div>
       </div>

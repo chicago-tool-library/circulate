@@ -18,7 +18,7 @@
 
   </div>
   <% end %>
-  
+
 <% end %>
 
 <div class="columns">
@@ -45,6 +45,7 @@
         <ul class="item-stats">
           <%= icon_stat "maximize", @item.size, title: "size", placeholder: "No size" %>
           <%= icon_stat "zap", @item.strength, title: "strength", placeholder: "No strength" %>
+          <%= icon_stat "battery-charging", item_powered_by_label(@item), title: "powered by", placeholder: "Not powered" %>
           <%= icon_stat "package", @item.brand, title: "brand", placeholder: "No brand" %>
           <%= icon_stat "box", @item.model, title: "model", placeholder: "No model" %>
           <%= icon_stat "hash", @item.serial, title: "serial number", placeholder: "No serial number" %>
@@ -86,4 +87,3 @@
 
   </div>
 </div>
-

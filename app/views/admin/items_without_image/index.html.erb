@@ -1,0 +1,26 @@
+<%= content_for :header do %>
+  <%= index_header "Items without Image" %>
+<% end %>
+
+<% if @items.any? %>
+  <div class="responsive-table two-columns">
+    <%= tag.div "Item", class: "responsive-table-header" %>
+    <%= tag.div "", class: "responsive-table-header" %>
+
+    <% @items.each do |item| %>
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to item.name, [:admin, item] %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to edit_admin_item_path(item), class: "btn btn-sm" do %>
+          Add photo
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+
+<% else %>
+  <%= empty_state "All items have photo. Great job! " %>
+<% end %>
