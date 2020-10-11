@@ -34,7 +34,7 @@
 
   <div class="columns">
     <p>Find and add another item to the appointment for check-in.</p>
-    <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+    <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
       <%= form.text_field :item_id, list: "items2", autocomplete: :off %>
       <datalist id="items2">
         <%= items_avalable_to_add_to_dropoff.find_each do |loan| %>
