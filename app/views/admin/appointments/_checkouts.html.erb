@@ -16,9 +16,6 @@
             <div class="image-placeholder"></div>
           <% end %>
         <% end %>
-        <% if pickup_item.active? %>
-          <%= link_to 'remove item', admin_appointment_hold_path(current_appointment, pickup_item), method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
-        <% end %>
         <div class="divider"></div>
       </div>
       <div class="column col-sm-6 col-4">
@@ -27,6 +24,10 @@
       </div>
       <div class="column col-sm-12 col-4 text-right">
         <%= button_to "Check-out", admin_appointment_checkouts_path(current_appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-out..." }, disabled: !pickup_item.active? %>
+        <% if pickup_item.active? %>
+          <%= button_to 'Remove Item', admin_appointment_hold_path(current_appointment, pickup_item, cancel_hold: false), class: "btn btn-primary", method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
+          <%= button_to 'Cancel Hold', admin_appointment_hold_path(current_appointment, pickup_item, cancel_hold: true), class: "btn btn-primary", method: :delete, data: { disable_with: "Canceling...", confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?" } %>
+        <% end %>
         <% if !pickup_item.active? %>
           <em>Item checked-out</em>
         <% end %>
