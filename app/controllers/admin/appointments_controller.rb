@@ -42,7 +42,6 @@ module Admin
     end
 
     helper_method def items_avalable_to_add_to_dropoff
-      # current_appointment.member.loans.checked_out.select {|loan| !appointment_return_items.include?(loan)}.map(&:item)
       current_appointment.member.loans.checked_out
     end
 

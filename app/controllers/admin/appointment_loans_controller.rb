@@ -2,7 +2,6 @@ module Admin
   class AppointmentLoansController < ApplicationController
     def create
       add_new_appointment_loan
-      # byebug
       redirect_to admin_appointment_path(appointment), flash: create_flash_message
     end
 
@@ -19,7 +18,6 @@ module Admin
 
     def add_new_appointment_loan
       return if item_to_add.blank? ||
-        # item_to_add.allow_one_holds_per_member? &&
           appointment.appointment_loans.joins(:loan).exists?(loans: { item: item_to_add })
 
       new_appointment_loan.save
