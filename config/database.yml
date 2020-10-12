@@ -31,6 +31,7 @@ development:
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
   username: <%= ENV.fetch("POSTGRES_USER") { } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { } %>
 
   # The password associated with the postgres role (username).
   #password:
@@ -39,7 +40,6 @@ development:
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
   host: <%= ENV.fetch("DATABASE_HOST") { } %>
-
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
   #port: 5432
@@ -60,6 +60,7 @@ test:
   <<: *default
   database: circulate_test
   username: <%= ENV.fetch("POSTGRES_USER") { } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { } %>
   host: <%= ENV.fetch("DATABASE_HOST") { } %>
 
 # As with config/credentials.yml, you never want to store sensitive information,

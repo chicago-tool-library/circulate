@@ -57,4 +57,13 @@ class ItemTest < ActiveSupport::TestCase
 
     assert_equal @category.id, @item.audits.last.audited_changes["category_ids"].flatten.first
   end
+
+  test 'it has two items without images' do
+    image = File.open(Rails.root.join('test', 'fixtures', 'files', 'tool-image.jpg')) 
+    items = create_list(:item, 3)
+    item = items.first
+    item.image.attach(io: image, filename: 'tool-image.jpg')
+
+    assert_equal 2, Item.without_attached_image.count
+  end
 end

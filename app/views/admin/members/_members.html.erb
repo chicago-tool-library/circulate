@@ -4,6 +4,8 @@
   <%= tag.div "Email", class: "members-table-email members-table-header" %>
   <%= tag.div "Phone", class: "members-table-phone members-table-header" %>
   <%= tag.div "Status", class: "members-table-status members-table-header" %>
+  <%= tag.div "Loans", class: "members-table-number members-table-header" %>
+  <%= tag.div "Holds", class: "members-table-number members-table-header" %>
 
   <% members.each do |member| %>
     <%= tag.div member.number || "-", class: "members-table-number" %>
@@ -21,5 +23,7 @@
         <span class="chip">verified</span>
       <% end %>
     <% end %>
+    <%= tag.div format_stats_counter(member.checked_out_loans.size), class: "members-table-number"%>
+    <%= tag.div format_stats_counter(member.active_holds.size), class: "members-table-number"%>
   <% end %>
 </div>

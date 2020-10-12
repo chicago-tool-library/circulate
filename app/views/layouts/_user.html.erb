@@ -7,9 +7,9 @@
           <%= current_member.full_name %> <i class="icon icon-caret"></i>
         </a>
         <ul class="menu">
+          <li class="menu-item"><%= link_to "My Loans & Holds", member_loans_path %></li>
+          <li class="menu-item"><%= link_to "Schedule an Appointment", new_appointment_path %></li>
           <li class="menu-item"><%= link_to "My Appointments", appointments_path %></li>
-          <li class="menu-item"><%= link_to "My Loans / My Holds", member_loans_path %></li>
-          <li class="menu-item"><%= link_to "Schedule a Pick Up", new_appointment_path %></li>
           <li class="menu-item"><%= link_to "View Loan History", member_loan_history_path %></li>
           <li class="menu-item"><%= link_to "Account Settings", member_profile_path %></li>
           <li class="menu-item"><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
