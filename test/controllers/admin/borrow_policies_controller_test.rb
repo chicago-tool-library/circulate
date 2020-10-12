@@ -5,7 +5,7 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
-      @borrow_policy = borrow_policies(:default)
+      @borrow_policy = create(:default_borrow_policy)
       @user = create(:admin_user)
       sign_in @user
     end

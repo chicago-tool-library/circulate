@@ -3,10 +3,12 @@ class Member < ApplicationRecord
   has_many :adjustments
 
   has_many :loans, dependent: :destroy
+  has_many :checked_out_loans, -> { checked_out }, class_name: "Loan"
   has_many :appointments, dependent: :destroy
   has_many :loan_summaries
 
   has_many :holds, dependent: :destroy
+  has_many :active_holds, -> { active }, class_name: "Hold"
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
