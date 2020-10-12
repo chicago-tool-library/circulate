@@ -11,6 +11,14 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
+  def after_sign_in_path_for(resource)
+    if resource.admin? || resource.staff?
+      admin_dashboard_path
+    else
+      member_loans_path
+    end
+  end
+
   private
 
   def set_time_zone(&block)
