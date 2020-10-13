@@ -249,9 +249,26 @@ $photo-width: 187px;
 }
 
 .tag-nav {
-  li a {
-    display: inline-block;
-    line-height: 1.2;
+  li {
+    margin: 0;
+    display: flex;
+
+    a {
+      display: inline-block;
+      line-height: 1.5;
+    }
+  }
+
+  .active a {
+    color: red;
+  }
+
+  .parent a {
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
