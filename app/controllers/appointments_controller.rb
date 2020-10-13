@@ -4,6 +4,7 @@ class AppointmentsController < ApplicationController
   end
 
   def new
+    @appointment = Appointment.new
     @holds = Hold.active.where(member: current_user.member)
     @loans = current_user.member.loans.includes(:item).checked_out
   end
@@ -17,6 +18,7 @@ class AppointmentsController < ApplicationController
     @appointment.loans << Loan.where(id: appointment_params[:loan_ids], member: member)
 
     if appointment_params[:time_range_string].present?
+      @appointment.time_range_string = appointment_params[:time_range_string]
       appointment_times = appointment_params[:time_range_string].split("..")
       @appointment.starts_at = DateTime.parse appointment_times[0]
       @appointment.ends_at = DateTime.parse appointment_times[1]
@@ -25,6 +27,8 @@ class AppointmentsController < ApplicationController
     if @appointment.save
       redirect_to appointments_path, notice: "Appointment was successfully created."
     else
+      @holds = Hold.active.where(member: current_user.member)
+      @loans = current_user.member.loans.includes(:item).checked_out
       render :new, alert: @appointment.errors.full_messages
     end
   end
