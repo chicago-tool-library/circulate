@@ -124,4 +124,9 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  if ENV["MAILER_PREVIEWS"].present?
+    config.action_mailer.preview_path = Rails.root.join("test/mailers/previews")
+    config.action_mailer.show_previews = true
+  end
 end
