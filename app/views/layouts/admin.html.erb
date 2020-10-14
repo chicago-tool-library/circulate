@@ -30,6 +30,9 @@
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
+          <li  class="nav-item">
+            <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+          </li>
           <li class="nav-item">
             <span class="nav-category">Reports</span>
             <ul class="nav">
@@ -39,6 +42,7 @@
               <li class="nav-item"><%= link_to "Notifications", admin_notifications_path %></li>
               <li class="nav-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
               <li class="nav-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+              <li class="nav-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
             </ul>
           </li>
 
@@ -116,7 +120,7 @@
                 <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
-                 <li class="menu-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
+                <li class="menu-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
               </ul>
             </div>
             <div class="dropdown">
