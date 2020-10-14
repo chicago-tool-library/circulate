@@ -32,6 +32,10 @@ module Admin
       def new_hold_params
         params.require(:hold).permit(:item_id)
       end
+
+      helper_method def place_in_line_for_hold(hold)
+        Item.find(hold.item.id).holds.index(hold) + 1
+     end
     end
   end
 end
