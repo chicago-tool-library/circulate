@@ -10,12 +10,11 @@ module Admin
         @user = create(:user, member: @member_1)
         @hold_1 = create(:hold, member: @member_1, creator: @user)
         @hold_2 = create(:hold, member: @member_2, creator: @admin_user, item: @hold_1.item)
-        # sign_in @user
       end
 
       test "should get the place in line for a hold" do
-        assert_equal 1, @controller.helpers.place_in_line_for_hold(@hold_1)
-        assert_equal 2, @controller.helpers.place_in_line_for_hold(@hold_2)
+        assert_equal 1, @controller.helpers.place_in_line_for(@hold_1)
+        assert_equal 2, @controller.helpers.place_in_line_for(@hold_2)
       end
     end
   end
