@@ -30,13 +30,7 @@ module Circulate
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    unless ENV["HTTP_BASIC_USERS"].blank?
-      config.middleware.use ::Rack::Auth::Basic do |username, password|
-        ENV["HTTP_BASIC_USERS"].split(";").any? do |pair|
-          pair.split(":") == [username, password]
-        end
-      end
-    end
+    
   end
 end
 
