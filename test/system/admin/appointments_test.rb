@@ -21,4 +21,10 @@ class AppointmentsTest < ApplicationSystemTestCase
     assert page.html.include? "<a href=\"/items/#{@hold.item.id}"
     assert page.html.include? "<a href=\"/member_profile.#{@appointment.member.id}"
   end
+
+  test "displays correct text when there are no appointments" do
+    day = @appointment.starts_at.next_day.strftime("%F")
+    visit "admin/appointments?day=#{day}"
+    assert_text "No matching appointments for this day!"
+  end
 end
