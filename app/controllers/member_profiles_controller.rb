@@ -1,4 +1,7 @@
 class MemberProfilesController < ApplicationController
+
+  before_action :authenticate_user!
+  
   def show
     @member = current_member
   end

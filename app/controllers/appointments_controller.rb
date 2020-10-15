@@ -1,4 +1,7 @@
 class AppointmentsController < ApplicationController
+
+  before_action :authenticate_user!
+
   def index
     @appointments = current_user.member.appointments.upcoming.includes(:member, :holds, :loans)
   end
