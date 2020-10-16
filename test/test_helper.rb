@@ -2,7 +2,6 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "spy/integration"
-require "minitest/autorun"
 require "minitest/mock"
 
 require "helpers/return_values"
