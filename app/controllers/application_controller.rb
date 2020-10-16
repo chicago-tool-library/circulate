@@ -11,13 +11,6 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
-  def after_sign_in_path_for(user)
-    if user.admin? || user.staff?
-      admin_dashboard_path
-    else
-      member_loans_path
-    end
-  end
 
   private
 
@@ -30,5 +23,23 @@ class ApplicationController < ActionController::Base
 
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+  end
+
+  protected
+  def after_sign_in_path_for(user)
+    referer = stored_location_for(user)
+    if user.admin? || user.staff? 
+      if stored_location_for(user).eql? root_path
+        admin_dashboard_path
+      else
+        referer || admin_dashboard_path
+      end
+    else
+      if stored_location_for(user).eql? root_path
+        member_loans_path
+      else
+        referer || member_loans_path
+      end
+    end
   end
 end
