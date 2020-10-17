@@ -8,7 +8,7 @@ class MemberProfiles::PasswordsController < ApplicationController
 
   def update
     @user = current_user
-    if @user.update(user_params)
+    if @user.update_with_password(user_params)
       bypass_sign_in(@user)
       redirect_to member_profile_url, success: "Your password has been updated."
     else
@@ -19,6 +19,6 @@ class MemberProfiles::PasswordsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:password, :password_confirmation)
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
   end
 end
