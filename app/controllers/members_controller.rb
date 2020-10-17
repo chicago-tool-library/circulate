@@ -1,4 +1,7 @@
 class MembersController < ApplicationController
+
+  before_action :authenticate_user!
+  
   def history
     @loans = current_member.loans.order(ended_at: :desc)
     # This could be appended to only show items that have been checked in
