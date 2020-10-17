@@ -10,7 +10,7 @@ module Account
         {error: "Something went wrong!"}
       end
 
-      redirect_to item_path(item), flash: flash_message
+      redirect_to item_path(@item), flash: flash_message
     end
   end
 end
