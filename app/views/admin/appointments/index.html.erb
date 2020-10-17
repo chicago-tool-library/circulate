@@ -3,9 +3,9 @@
 <% end %>
 
 <div class="columns">
-  <div class="col-12" style="justify-content: center;">
+  <div class="col-12 admin-appointments">
     <ul class="pagination">
-      <li class="page-item page-prev">
+      <li class="page-item page-prev appointments-date-nav">
         <%= link_to admin_appointments_path(day: previous_day) do %>
           <div class="page-item-subtitle">
             <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
@@ -13,8 +13,8 @@
 
         <% end %>
       </li>
-      <li><b><%= current_day_label %></b></li>
-      <li class="page-item page-next">
+      <li class="pt-2 appointments-date"><b><%= current_day_label %></b></li>
+      <li class="page-item page-next appointments-date-nav">
         <%= link_to admin_appointments_path(day: next_day) do %>
           <div class="page-item-subtitle">
             <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
@@ -59,7 +59,7 @@
         </tbody>
       </table>
     <% else %>
-        <%= empty_state "No matching appointsments for this day!" %>
+        <%= empty_state "No appointments scheduled for this day." %>
     <% end %>
   </div>
 </div>
