@@ -44,7 +44,7 @@
     </tbody>
   </table>
   <div class="button">
-    <%= button_to 'Schedule a Return', new_appointment_path, class: "btn btn-sm", method: :get %>
+    <%= button_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-sm", method: :get %>
   </div>
 <% else %>
   <%= empty_state "You have no items on loan" %>
@@ -86,7 +86,7 @@
     </tbody>
   </table>
   <div class="button">
-    <%= button_to 'Schedule a Pick Up', new_appointment_path, class: "btn btn-sm", method: :get %>
+    <%= button_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn btn-sm", method: :get %>
   </div>
 <% else %>
   <%= empty_state "You have no items on hold" %>
