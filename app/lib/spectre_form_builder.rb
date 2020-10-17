@@ -132,7 +132,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label = nil, options = {}, &block)
-    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block"), &block)
+    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: { disable: true }), &block)
   end
 
   def errors

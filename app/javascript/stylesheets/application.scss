@@ -49,6 +49,10 @@ body {
   text-decoration: none;
 }
 
+ul.error {
+  color: red;
+}
+
 form details {
   margin-top: 1em;
 
@@ -164,7 +168,7 @@ header.navbar {
   display: grid;
   grid-row-gap: .5rem;
   grid-column-gap: .3rem;
-  grid-template-columns: .3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: .3fr 1fr 1fr 1fr 1fr .5fr .5fr;
 
   .members-table-header {
     font-weight: bold;
@@ -249,9 +253,26 @@ $photo-width: 187px;
 }
 
 .tag-nav {
-  li a {
-    display: inline-block;
-    line-height: 1.2;
+  li {
+    margin: 0;
+    display: flex;
+
+    a {
+      display: inline-block;
+      line-height: 1.5;
+    }
+  }
+
+  .active a {
+    color: red;
+  }
+
+  .parent a {
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
@@ -399,7 +420,7 @@ $photo-width: 187px;
       color: white;
     }
   }
-  
+
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
     color: darken($warning-color, 30%);

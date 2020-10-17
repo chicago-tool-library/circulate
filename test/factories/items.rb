@@ -13,6 +13,7 @@ FactoryBot.define do
       size { "1/4" }
       strength { "12v" }
       serial { "abcdefg" }
+      power_source { Item.power_sources[:electric_battery] }
     end
 
     factory :uncounted_item do

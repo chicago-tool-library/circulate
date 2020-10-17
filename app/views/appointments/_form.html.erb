@@ -1,6 +1,13 @@
+<% if @appointment.errors.any?  %>
+  <ul class="error">
+    <% @appointment.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
 <%= form_for :appointment, url: appointments_path do |form| %>
   <% if loans.any? %>
-    <h3 class="title_bold">Select Items to Return</h3>
+    <h2 class="title_bold">Select Items to Return</h2>
 
     <table class="table table-scroll mb-2" id="items-to-pickup-table">
       <thead>
@@ -17,7 +24,7 @@
       <tbody>
         <% loans.each do |loan| %>
           <tr>
-            <td><%= check_box_tag("appointment[loan_ids][]", loan.id) %></td>
+            <td><%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan))) %></td>
             <td>
               <%= link_to item_path(loan.item) do %>
                 <% if loan.item.image.attached? %>
@@ -35,7 +42,7 @@
     </table>
   <% end %>
 
-  <h3 class="title_bold">Select Items to Pick-Up</h3>
+  <h2 class="title_bold">Select Items to Pick-Up</h2>
 
   <table class="table table-scroll" id="items-to-pickup-table">
     <thead>
@@ -51,7 +58,7 @@
     <tbody>
       <% holds.each do |hold| %>
         <tr>
-          <td><%= check_box_tag("appointment[hold_ids][]", hold.id) if hold.ready_for_pickup? %></td>
+          <td><%= check_box_tag("appointment[hold_ids][]", hold.id, (@appointment.holds.include?(hold))) if hold.ready_for_pickup? %></td>
           <td>
             <%= link_to item_path(hold.item) do %>
               <% if hold.item.image.attached? %>
@@ -69,7 +76,7 @@
 
   <div class="form-group">
     <label class="form-label">Select a time to pick-up/return your items</label>
-    <%= select("appointment", "time_range_string", grouped_options_for_select(OpenDays.next_slots_for_select(weeks: 2)), { include_blank: '-- Select a Date --' }, class: "form-select") %>
+    <%= select("appointment", "time_range_string", grouped_options_for_select(OpenDays.next_slots_for_select(weeks: 2), @appointment.time_range_string), { include_blank: '-- Select a Date --'}, class: "form-select") %>
   </div>
 
   <div class="form-group mb-2">

@@ -1,4 +1,7 @@
 class MemberHoldsController < ApplicationController
+
+  before_action :authenticate_user!
+  
   def create
     new_hold_save
     redirect_to item_path(item), flash: create_redirect_flash

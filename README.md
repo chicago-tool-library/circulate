@@ -44,7 +44,7 @@ There is content and information hard-coded in many of the views that is specifi
 
 Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
 
-* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests.
+* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests. This will be downloaded automatically for you when running system tests.
 * Imagemagick needs to be installed for gift memberships and item thumbnails to be generated.
 
 ## Integrations
@@ -101,10 +101,9 @@ Close your Terminal window and open a new one so your changes take effect.
 Okay, at this point you've got a Ruby on Rails development environment set up and cloned the Circulate repo! Now you'll need to run the following commands one at a time in your terminal:
 
 ```console
-$ yarn install
-$ bundle install
-$ bundle exec rails db:setup
+$ bin/setup
 ```
+
 All right, almost there! In the terminal, type and run:
 
 `rails test`
@@ -128,6 +127,8 @@ After you have the application running, here are some places to explore:
 ### Running tests
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+
+Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
 
 ### Setup pre-commit checks
 

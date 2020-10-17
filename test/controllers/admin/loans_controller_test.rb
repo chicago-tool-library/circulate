@@ -6,7 +6,7 @@ module Admin
 
     setup do
       @item = create(:item)
-      @user = create(:user)
+      @user = create(:admin_user)
       sign_in @user
     end
 

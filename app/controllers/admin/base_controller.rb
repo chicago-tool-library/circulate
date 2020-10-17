@@ -5,6 +5,7 @@ module Admin
     include ActiveSupport::Testing::TimeHelpers
 
     before_action :authenticate_user!
+    before_action :require_admin
     around_action :override_time_in_development, if: -> { Rails.env.development? }
 
     layout "admin"
@@ -23,7 +24,7 @@ module Admin
 
     def require_admin
       unless current_user.admin?
-        redirect_to admin_items_url, warning: "You do not have access to that page."
+        redirect_to root_url, warning: "You do not have access to that page."
       end
     end
   end

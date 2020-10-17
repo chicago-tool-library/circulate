@@ -28,6 +28,14 @@ class Item < ApplicationRecord
 
   enum status: [:pending, :active, :maintenance, :retired]
 
+  enum power_source: {
+    solar: "solar",
+    gas: "gas",
+    air: "air",
+    electric_corded: "electric (corded)",
+    electric_battery: "electric (battery)"
+  }
+
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
@@ -38,12 +46,14 @@ class Item < ApplicationRecord
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
+  scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
 
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
   validates :number, numericality: {only_integer: true}, uniqueness: true
   validates :status, inclusion: {in: Item.statuses.keys}
+  validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
