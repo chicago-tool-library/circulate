@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     if user.admin? || user.staff?
       admin_dashboard_path
     else
-      member_loans_path
+      account_home_path
     end
   end
 

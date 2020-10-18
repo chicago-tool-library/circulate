@@ -5,7 +5,7 @@
     <% end %>
   </ul>
 <% end %>
-<%= form_for :appointment, url: appointments_path do |form| %>
+<%= form_for :appointment, url: account_appointments_path do |form| %>
   <% if loans.any? %>
     <h2 class="title_bold">Select Items to Return</h2>
 
