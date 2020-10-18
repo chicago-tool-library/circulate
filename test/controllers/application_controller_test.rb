@@ -20,16 +20,19 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect to previous page for admin after login if there is a referer" do
-    # @request.env['HTTP_REFERER'] = 'http://www.example.com/items'
-    sign_in(@admin_user)
-    post user_session_path, headers: { "referer": "http://www.example.com/items" }
-    assert_redirected_to items_path
+    get new_user_session_path, headers: {referer: "http://www.example.com/original-page"}
+    post user_session_path, params: {user: {email: @admin_user.email, password: "password"}}
+    assert_redirected_to "http://www.example.com/original-page"
   end
 
   test "should redirect to previous page for member after login if there is a referer" do
-    @request.env['HTTP_REFERER'] = 'http://www.example.com/items'
+    # @request.env['HTTP_REFERER'] = 'http://www.example.com/items'
     sign_in(@user)
     post user_session_path
     assert_redirected_to items_path
+  end
+
+  test "ignores a poorly formed referer" do
+    get new_user_session_path, headers: {referer: "not a valid referer"}
   end
 end
