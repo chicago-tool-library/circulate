@@ -18,4 +18,18 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     post user_session_url
     assert_redirected_to admin_dashboard_path
   end
+
+  test "should redirect to previous page for admin after login if there is a referer" do
+    # @request.env['HTTP_REFERER'] = 'http://www.example.com/items'
+    sign_in(@admin_user)
+    post user_session_path, headers: { "referer": "http://www.example.com/items" }
+    assert_redirected_to items_path
+  end
+
+  test "should redirect to previous page for member after login if there is a referer" do
+    @request.env['HTTP_REFERER'] = 'http://www.example.com/items'
+    sign_in(@user)
+    post user_session_path
+    assert_redirected_to items_path
+  end
 end
