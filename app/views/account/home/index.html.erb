@@ -36,7 +36,7 @@
             <% if loan.item.borrow_policy.member_renewable? && !loan.within_borrow_policy_duration? && loan.renewal? %>
               <%= button_to "Renewed", "#", method: :post, class: "btn btn-sm", disabled: true %>
             <% elsif loan.member_renewable? %>
-              <%= button_to 'Renew Loan', member_loans_renew_path(loan), method: :post, class: "btn btn-sm" %>
+              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn btn-sm" %>
             <% end %>
           </td>
         </tr>

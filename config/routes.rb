@@ -25,10 +25,9 @@ Rails.application.routes.draw do
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
+    resources :renewals, only: :create
     get "/", to: "home#index", as: "home"
   end
-
-  post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
