@@ -23,7 +23,7 @@ class MemberProfiles::PasswordsControllerTest < ActionDispatch::IntegrationTest
 
   test "member updates password" do
     put member_profiles_password_url, params: { user: @user_password_edit }
-    assert_redirected_to member_profile_url
+    assert_redirected_to account_member_url
   end
 
   test "member enters mismatched password" do

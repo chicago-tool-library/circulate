@@ -40,7 +40,7 @@
           <% @appointments.each do |appointment| %>
             <tr>
               <td><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
-              <td><%= link_to appointment.member.full_name, member_profile_path(appointment.member) %></td>
+              <td><%= link_to appointment.member.full_name, account_member_path(appointment.member) %></td>
               <td><%= appointment.member.pronouns.first %></td>
               <td>
                 <% appointment.holds.each do |hold| %>
