@@ -9,16 +9,11 @@ class MembersController < ApplicationController
     # .where.not(loans: { ended_at: nil })
   end
 
-  def loans
-    @loans = current_member.loans.includes(:item).order(:due_at)
-    @holds = current_member.holds.includes(:item)
-  end
-
   def renew
     @loan = Loan.find(params[:id])
     authorize @loan, :renew?
 
     @loan.renew!
-    redirect_to member_loans_path
+    redirect_to account_home_path
   end
 end
