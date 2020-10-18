@@ -12,5 +12,10 @@ module Account
 
       redirect_to item_path(@item), flash: flash_message
     end
+
+    def destroy
+      current_member.holds.find(params[:id]).destroy!
+      redirect_to member_loans_path
+    end
   end
 end

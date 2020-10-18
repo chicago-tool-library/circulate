@@ -21,9 +21,4 @@ class MembersController < ApplicationController
     @loan.renew!
     redirect_to member_loans_path
   end
-
-  def delete_hold
-    current_member.holds.find(params[:id]).destroy!
-    redirect_to member_loans_path
-  end
 end

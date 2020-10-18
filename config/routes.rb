@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   namespace :account do
-    resources :holds, only: [:create]
+    resources :holds, only: [:create, :destroy]
     resources :appointments, only: [:index, :new, :create]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
@@ -28,7 +28,6 @@ Rails.application.routes.draw do
 
   get "member/history", to: "members#history", as: "member_loan_history"
   get "/member/loans", to: "members#loans", as: "member_loans"
-  delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
   post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
 
   namespace :volunteer do
