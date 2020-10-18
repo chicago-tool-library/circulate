@@ -24,10 +24,10 @@ Rails.application.routes.draw do
     resources :appointments, only: [:index, :new, :create]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
+    resources :loans, only: [:index]
     get "/", to: "home#index", as: "home"
   end
 
-  get "member/history", to: "members#history", as: "member_loan_history"
   post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
 
   namespace :volunteer do
