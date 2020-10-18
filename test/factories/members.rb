@@ -16,6 +16,7 @@ FactoryBot.define do
       address1 { "apt 3" }
 
       factory :verified_member do
+        sequence :number
         id_kind { 1 }
         address_verified { true }
         status { "verified" }
