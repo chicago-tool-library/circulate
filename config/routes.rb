@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :holds, only: [:create]
     resources :appointments, only: [:index, :new, :create]
     resource :member, only: [:show, :edit, :update]
+    resource :password, only: [:edit, :update]
   end
 
   get "member/history", to: "members#history", as: "member_loan_history"
@@ -103,12 +104,7 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index", as: "dashboard"
   end
 
-
   get "/s/:id", to: "short_links#show", as: :short_link
-
-  namespace :member_profiles do
-    resource :password, only: [:edit, :update]
-  end
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
