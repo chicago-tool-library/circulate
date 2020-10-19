@@ -2,7 +2,10 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: 
+      context: .
+      args:
+        USER_ID: ${UID}
     ports:
       - '3000:3000'
       - '4000:4000'
