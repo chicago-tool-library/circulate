@@ -2,8 +2,6 @@ FROM ruby:2.7.1-alpine AS builder
 
 LABEL maintainer="jeanine@littleforestconsulting.com"
 
-USER root
-
 RUN apk update && apk upgrade && apk add --update --no-cache \
   build-base \
   curl-dev \
@@ -46,7 +44,6 @@ RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \
  update-ms-fonts 2>/dev/null && \
  fc-cache -f && \
  apk del .ms-fonts
-
 
 WORKDIR $RAILS_ROOT
 
