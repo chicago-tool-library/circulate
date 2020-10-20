@@ -8,7 +8,7 @@ class MemberProfileTest < ApplicationSystemTestCase
   end
 
   test "member can view profile" do
-    visit member_profile_url
+    visit account_member_url
 
     assert_content @member.full_name
     assert_content @member.number
@@ -16,7 +16,7 @@ class MemberProfileTest < ApplicationSystemTestCase
   end
 
   test "member can edit profile" do
-    visit member_profile_url
+    visit account_member_url
     within(".primary-btn") do
       click_on "Edit Member Profile"
     end
@@ -31,7 +31,7 @@ class MemberProfileTest < ApplicationSystemTestCase
   end
 
   test "member sees validation errors on update failure" do
-    visit member_profile_url
+    visit account_member_url
     within(".primary-btn") do
       click_on "Edit Member Profile"
     end

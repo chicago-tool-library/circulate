@@ -37,7 +37,7 @@
   <div class="columns">
     <p>Find and add another item to the appointment for check-out.</p>
     <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_holds_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
-      <%= form.text_field :item_id, list: "items", autocomplete: :off %>
+      <%= form.text_field :item_id, list: "items", autocomplete: :off, label: false %>
       <datalist id="items">
         <%= items_avalable_to_add_to_pickup.find_each do |item| %>
           <%= tag(:option, value: item.complete_number_and_name) %>
@@ -45,7 +45,7 @@
       </datalist>
 
       <%= form.actions do %>
-        <%= form.submit %>
+        <%= form.submit "Add Item" %>
       <% end %>
     <% end %>
   </div>

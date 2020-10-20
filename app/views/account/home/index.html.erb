@@ -36,7 +36,7 @@
             <% if loan.item.borrow_policy.member_renewable? && !loan.within_borrow_policy_duration? && loan.renewal? %>
               <%= button_to "Renewed", "#", method: :post, class: "btn btn-sm", disabled: true %>
             <% elsif loan.member_renewable? %>
-              <%= button_to 'Renew Loan', member_loans_renew_path(loan), method: :post, class: "btn btn-sm" %>
+              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn btn-sm" %>
             <% end %>
           </td>
         </tr>
@@ -44,7 +44,7 @@
     </tbody>
   </table>
   <div class="button">
-    <%= button_to 'Schedule a Return', new_appointment_path, class: "btn btn-sm", method: :get %>
+    <%= button_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-sm", method: :get %>
   </div>
 <% else %>
   <%= empty_state "You have no items on loan" %>
@@ -79,14 +79,14 @@
             <td><%= link_to hold.item.name, item_path(hold.item) %></td>
             <td><%= hold.item.complete_number %></td>
             <td><%= render_place_in_queue(hold) %></td>
-            <td><%= link_to "Remove", delete_member_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
+            <td><%= link_to "Remove", account_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
           </tr>
         <% end %>
       
     </tbody>
   </table>
   <div class="button">
-    <%= button_to 'Schedule a Pick Up', new_appointment_path, class: "btn btn-sm", method: :get %>
+    <%= button_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn btn-sm", method: :get %>
   </div>
 <% else %>
   <%= empty_state "You have no items on hold" %>

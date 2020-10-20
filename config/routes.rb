@@ -19,12 +19,15 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
-  get "member/history", to: "members#history", as: "member_loan_history"
-  get "/member/loans", to: "members#loans", as: "member_loans"
-  delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
-  post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
-
-  resources :member_holds, only: [:create]
+  namespace :account do
+    resources :holds, only: [:create, :destroy]
+    resources :appointments, only: [:index, :new, :create]
+    resource :member, only: [:show, :edit, :update]
+    resource :password, only: [:edit, :update]
+    resources :loans, only: [:index]
+    resources :renewals, only: :create
+    get "/", to: "home#index", as: "home"
+  end
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
@@ -101,14 +104,7 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index", as: "dashboard"
   end
 
-  resources :appointments, only: [:index, :new, :create]
-
   get "/s/:id", to: "short_links#show", as: :short_link
-
-  resource :member_profile, only: [:show, :edit, :update]
-  namespace :member_profiles do
-    resource :password, only: [:edit, :update]
-  end
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
