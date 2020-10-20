@@ -107,5 +107,18 @@
   <% end %>
 
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+  <%= form_with url: admin_search_item_name_path, method: :get, class: "mr-2", local: true do |form| %>
+      <div data-controller="item-name-input">
+        <%= form.text_field :query, label: "Enter an item's name to loan it to this member",
+        pattern: "[a-zA-Z0-9]{3,}",
+        placeholder: "Enter minimum 3 characters",
+        autocomplete: "off",
+        data: {action: "keydown->item-name-input#keydown"},
+        hint: "Just the name; no need for letters, dashes, etc." %>
+      </div>
+      <%= button_tag class: "btn btn-primary" do %>
+        <%= feather_icon "book-open" %>Lookup
+      <% end %>
 
+  <% end %>
 <% end %>

@@ -29,5 +29,12 @@ module Admin
         @members = Member.matching(@query).open.by_full_name
       end
     end
+
+    def name_search
+      @query = params[:query]
+      @items_by_name = Item.name_contains(@query).by_name
+
+      redirect_to admin_search_path(query: @query)
+    end
   end
 end

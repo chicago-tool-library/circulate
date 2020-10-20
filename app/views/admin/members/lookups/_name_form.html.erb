@@ -2,23 +2,14 @@
 <%= form_with(model: lookup, url: admin_member_lookups_path(@member), builder: SpectreFormBuilder) do |form| %>
   <%= form.errors %>
 
-  <div data-controller="item-number-input">
-    <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member",
-    pattern: "[0-9]{1,4}",
-    placeholder: "1-4 digit item number",
-    autocomplete: "off",
-    data: {action: "keydown->item-number-input#keydown"},
-    hint: "Just the number; no need for letters, dashes, etc." %>
-  </div>
-
-  <%# <div data-controller="item-name-input">
+  <div data-controller="item-name-input">
     <%= form.text_field :item_name, label: "Enter an item's name to loan it to this member",
     pattern: "[a-zA-Z0-9]{3,}",
     placeholder: "Enter minimum 3 characters",
     autocomplete: "off",
     data: {action: "keydown->item-name-input#keydown"},
     hint: "Just the name; no need for letters, dashes, etc." %>
-  <%# </div> %>
+  </div>
 
   <%= form.actions do %>
     <%= button_tag class: "btn btn-primary" do %>

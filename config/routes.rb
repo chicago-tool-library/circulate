@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
+    get "search_item_name", to: "searches#name_search"
 
     get "/ui/names", to: "ui#names"
     get "/ui/brands", to: "ui#brands"

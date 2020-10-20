@@ -22,6 +22,12 @@ module Admin
       @active_loan_summaries = @member.loan_summaries.checked_out.includes(:latest_loan, item: :borrow_policy).by_due_date
 
       @check_out = CheckOut.new
+
+      @item_name = params[:item_name]
+      if @item_name
+        @items_by_name = Item.name_contains(@item_name).by_name
+        redirect_to admin_member_path(item_name: @item_name)
+      end
     end
 
     def new
