@@ -76,7 +76,7 @@ class Member < ApplicationRecord
   end
 
   def display_pronouns
-    pronouns.join(", ")
+    pronouns.reject(&:empty?).join(", ")
   end
 
   private
