@@ -1,4 +1,4 @@
-<%= button_to "Place a hold", member_holds_path(item_id: item.id), class: "btn btn", remote: true, data: { disable_with: "Saving..." } %>
+<%= button_to "Place a hold", account_holds_path(item_id: item.id), class: "btn btn", remote: true, data: { disable_with: "Saving..." } %>
   <br />
 <em>You can place multiple holds on this item.</em>
 <% if current_item_hold_count.positive? %>

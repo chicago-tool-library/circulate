@@ -19,21 +19,15 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
   end
 
-  namespace :holds do
-    resources :items, only: [:create, :destroy]
-    resources :hold_requests, only: [:new, :create]
-    resource :request, only: :destroy
-    get "/", to: "home#index"
-    get "autocomplete", to: "autocomplete#index"
-    resources :confirmations, only: :show
+  namespace :account do
+    resources :holds, only: [:create, :destroy]
+    resources :appointments, only: [:index, :new, :create]
+    resource :member, only: [:show, :edit, :update]
+    resource :password, only: [:edit, :update]
+    resources :loans, only: [:index]
+    resources :renewals, only: :create
+    get "/", to: "home#index", as: "home"
   end
-
-  get "member/history", to: "members#history", as: "member_loan_history"
-  get "/member/loans", to: "members#loans", as: "member_loans"
-  delete "/member/holds/:id", to: "members#delete_hold", as: "delete_member_hold"
-  post "/member/loans/:id/renew", to: "members#renew", as: "member_loans_renew"
-
-  resources :member_holds, only: [:create]
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
@@ -46,7 +40,6 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :shifts, only: :index
     resources :categories, except: :show
-    resources :hold_requests, only: :index
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
@@ -109,14 +102,7 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index", as: "dashboard"
   end
 
-  resources :appointments, only: [:index, :new, :create]
-
   get "/s/:id", to: "short_links#show", as: :short_link
-
-  resource :member_profile, only: [:show, :edit, :update]
-  namespace :member_profiles do
-    resource :password, only: [:edit, :update]
-  end
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
