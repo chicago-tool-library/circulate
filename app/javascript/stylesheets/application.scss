@@ -501,8 +501,8 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background: $error-color;
-  color: $light-color;
+  background-color: lighten($error-color, 20%);
+  color: inherit;
 }
 
 .conditional-field-child.nested {
