@@ -85,6 +85,7 @@ group :test do
   gem 'webdrivers', '~> 4.0', require: false
   gem "minitest-ci"
   gem "rails-controller-testing"
+  gem "timecop"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
