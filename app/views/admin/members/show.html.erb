@@ -1,11 +1,4 @@
 <%= render "profile" do %>
-
-  <% unless @member.notes.blank? %>
-    <div class="rich-text">
-      <%= @member.notes %>
-    </div>
-  <% end %>
-
   <% if @returned_loan_summaries.any? %>
     <div id="returned-loans" class="member-active-loans">
       <div class="columns">
@@ -107,5 +100,11 @@
   <% end %>
 
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+  <br />
+  <div data-target="toggle.toggle">
+    <%= portal do %>
+      <%= render partial: "admin/notes/form", locals: { parent: @member } %>
+    <% end %>
+  </div>
 
 <% end %>

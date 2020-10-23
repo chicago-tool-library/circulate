@@ -73,6 +73,7 @@ Rails.application.routes.draw do
         resource :verification, only: [:edit, :update]
 
         resources :loan_summaries, only: :index
+        resources :notes
       end
     end
 
