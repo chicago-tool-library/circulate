@@ -24,7 +24,7 @@
       <tbody>
         <% loans.each do |loan| %>
           <tr>
-            <td><%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan))) %></td>
+            <td><%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan))) if loan.upcoming_appointment.nil? %></td>
             <td>
               <%= link_to item_path(loan.item) do %>
                 <% if loan.item.image.attached? %>
@@ -58,7 +58,7 @@
     <tbody>
       <% holds.each do |hold| %>
         <tr>
-          <td><%= check_box_tag("appointment[hold_ids][]", hold.id, (@appointment.holds.include?(hold))) if hold.ready_for_pickup? %></td>
+          <td><%= check_box_tag("appointment[hold_ids][]", hold.id, (@appointment.holds.include?(hold))) if hold.ready_for_pickup? && hold.upcoming_appointment.nil? %></td>
           <td>
             <%= link_to item_path(hold.item) do %>
               <% if hold.item.image.attached? %>
