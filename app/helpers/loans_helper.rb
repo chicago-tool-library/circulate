@@ -21,4 +21,15 @@ module LoansHelper
       loan.due_at.strftime("%a %m/%d")
     end
   end
+
+  def render_loan_status(loan)
+    appointment = loan.upcoming_appointment 
+    appointment_time = 
+      if appointment
+        ", Scheduled for return at #{appointment.starts_at.strftime('%m/%d/%Y %H:%M -')} #{appointment.ends_at.strftime('%H:%M')}"
+      else 
+        ""
+      end
+    loan.status.capitalize + appointment_time
+  end
 end
