@@ -1,6 +1,14 @@
 <div class="appointments-page">
   <h1 class="new_title">Upcoming Appointments</h1>
 
+  <% if @appointments.blank? %>
+    <section class="appointment">
+      <h3 class="title_bold">
+        You have no scheduled appointments.
+      </h3>
+    </section>
+  <% end %>
+
   <% @appointments.each_with_index do |appointment, index| %>
     <section class="appointment">
       <div class="appointment-date">
