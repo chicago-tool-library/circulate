@@ -45,6 +45,8 @@ class Member < ApplicationRecord
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
 
+  after_save :update_user_email
+
   def roles
     user ? user.roles : [:member]
   end
@@ -92,6 +94,10 @@ class Member < ApplicationRecord
   end
 
   private
+
+  def update_user_email
+    user.update_column(:email, email) # Skip validations
+  end
 
   def strip_phone_number
     self.phone_number = phone_number.gsub(/\D/, "")

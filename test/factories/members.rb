@@ -9,6 +9,7 @@ FactoryBot.define do
     phone_number { "3121234567" }
     postal_code { "60609" }
     address1 { "1 N. Michigan Ave" }
+    user
 
     factory :complete_member do
       preferred_name { "Ida" }
