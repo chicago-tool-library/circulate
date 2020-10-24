@@ -100,11 +100,23 @@
   <% end %>
 
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
-  <br />
-  <div data-target="toggle.toggle">
-    <%= portal do %>
-      <%= render partial: "admin/notes/form", locals: { parent: @member } %>
-    <% end %>
+
+  <div class="columns member-notes">
+    <div class="column col-12">
+      <h2 id="checkout" class="h4">Member Notes</h2>
+      <div data-controller="toggle">
+      <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">
+        <%= feather_icon "message-square" %>Add a Note
+      </button>
+
+      <div data-target="toggle.toggled">
+        <%= portal do %>
+          <%= render partial: "admin/notes/form", locals: { parent: @member } %>
+        <% end %>
+      </div>
+    </div>
   </div>
+</div>
+
 
 <% end %>
