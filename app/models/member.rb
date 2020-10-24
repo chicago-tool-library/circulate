@@ -12,7 +12,7 @@ class Member < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
-  has_one :user # what to do if member record deleted?
+  has_one :user, dependent: :destroy
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
