@@ -49,7 +49,7 @@
                     <td><%= link_to loan.item.name, item_path(loan.item) %></td>
                     <td><%= loan.item.complete_number %></td>
                     <td class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></td>
-                    <td><%= loan.status %></td>
+                    <td><%= render_loan_status(loan) %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -84,7 +84,7 @@
                   </td>
                   <td><%= link_to hold.item.name, item_path(hold.item) %></td>
                   <td><%= hold.item.complete_number %></td>
-                  <td><%= render_place_in_queue(hold) %></td>
+                  <td><%= render_hold_status(hold) %></td>
                 </tr>
               <% end %>
             </tbody>
