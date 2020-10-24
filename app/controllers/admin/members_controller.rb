@@ -26,7 +26,6 @@ module Admin
       @item_name = params[:item_name]
       if @item_name
         @items_by_name = Item.name_contains(@item_name).by_name
-        redirect_to admin_member_path(item_name: @item_name)
       end
     end
 

@@ -11,15 +11,6 @@
     hint: "Just the number; no need for letters, dashes, etc." %>
   </div>
 
-  <%# <div data-controller="item-name-input">
-    <%= form.text_field :item_name, label: "Enter an item's name to loan it to this member",
-    pattern: "[a-zA-Z0-9]{3,}",
-    placeholder: "Enter minimum 3 characters",
-    autocomplete: "off",
-    data: {action: "keydown->item-name-input#keydown"},
-    hint: "Just the name; no need for letters, dashes, etc." %>
-  <%# </div> %>
-
   <%= form.actions do %>
     <%= button_tag class: "btn btn-primary" do %>
       <%= feather_icon "book-open" %>Lookup
