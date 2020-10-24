@@ -17,9 +17,8 @@ class MemberVerificationTest < ApplicationSystemTestCase
     first("label", text: "Address verified").click
     click_on "Verify Member"
 
-    @member.reload
-
     within ".member-stats.member" do
+      @member.reload
       assert_content @member.number
     end
 

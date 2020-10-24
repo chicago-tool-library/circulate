@@ -6,7 +6,7 @@
       <div class="divider"></div>
     </div>
     <%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
-      <%= render 'admin/members/fields', form: form %>
+      <%= render partial: 'admin/members/fields', locals: { form: form, show_password_inputs: true } %>
 
       <%= form.actions do %>
         <%= form.submit "Save and Continue" %>

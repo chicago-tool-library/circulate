@@ -10,7 +10,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should redirect to member loans after login if there is no referer" do
     sign_in(@user)
     post user_session_url
-    assert_redirected_to member_loans_path
+    assert_redirected_to account_home_path
   end
 
   test "should redirect to admin dashboard after login if there is no referer" do

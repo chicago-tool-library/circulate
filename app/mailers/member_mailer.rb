@@ -15,13 +15,6 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject)
   end
 
-  def hold_confirmation
-    @subject = "Your recent holds"
-    @hold_request = params[:hold_request]
-    @member = @hold_request.member
-    mail(to: @member.email, subject: @subject)
-  end
-
   def membership_reminder
     @member = params[:member]
     @subject = "Don't forget to to activate your membership!"

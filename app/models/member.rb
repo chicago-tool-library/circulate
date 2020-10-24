@@ -78,7 +78,17 @@ class Member < ApplicationRecord
   end
 
   def display_pronouns
-    pronouns.join(", ")
+    pronouns.reject(&:empty?).join(", ")
+  end
+
+  def upcoming_appointment_of(schedulable)
+    if schedulable.is_a? Hold
+      appointments.upcoming.joins(:holds).where(holds: { id: schedulable.id }).first
+    elsif schedulable.is_a? Loan
+      appointments.upcoming.joins(:loans).where(loans: { id: schedulable.id }).first
+    else
+      nil
+    end
   end
 
   private
