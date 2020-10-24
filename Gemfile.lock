@@ -365,7 +365,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    timecop (0.9.2)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -447,7 +446,6 @@ DEPENDENCIES
   square.rb
   standard
   sucker_punch
-  timecop
   turbolinks (~> 5)
   turbolinks_render
   web-console (>= 3.3.0)
