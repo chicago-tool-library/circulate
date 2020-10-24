@@ -20,7 +20,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
-    check "she/her"
+    find("label", text: "she/her").click # Styled checkboxes can't be toggled using #check
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"
     fill_in "Address", with: "23 N. Street"
@@ -54,6 +54,28 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment of"
     end
+  end
+
+  test "signs in after signup" do
+    complete_first_three_steps
+
+    perform_enqueued_jobs do
+      click_on "Complete in Person"
+
+      assert_selector "li.step-item.active", text: "Complete", wait: 5
+    end
+
+    visit root_url
+
+    click_on "Member Login"
+
+    fill_in "Email", with: "nkjemisin@test.com"
+    fill_in "Password", with: "password"
+
+    click_on "Login"
+
+    refute_selector "a", text: "Member Login"
+    assert_selector "a.dropdown-toggle", text: "N. K. Jemisin"
   end
 
   test "signup and pay through square", :remote do
