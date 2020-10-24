@@ -128,4 +128,8 @@ class Loan < ApplicationRecord
   def checked_out?
     ended_at.blank?
   end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
+  end
 end
