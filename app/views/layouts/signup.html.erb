@@ -22,8 +22,8 @@
       <div class="columns">
         <div class="column col-12">
           <div class="signup-logo <%= "on-step" if @active_step %>">
-            <%= image_pack_tag "logo_small.png" %> 
-            <h1 class="new_title">New Member Signup</h1>
+            <%= image_pack_tag "logo.png" %> 
+            <h1 class="title">New Member Signup</h1>
           </div>
           <%= render 'signup/steps', steps: @steps unless @hide_steps %>
         </div>
