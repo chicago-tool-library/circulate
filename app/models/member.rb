@@ -96,7 +96,7 @@ class Member < ApplicationRecord
   private
 
   def update_user_email
-    user.update_column(:email, email) if user # Skip validations
+    user.update_column(:email, email) if user && !user.new_record? # Skip validations
   end
 
   def strip_phone_number

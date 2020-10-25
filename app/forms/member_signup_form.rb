@@ -16,7 +16,7 @@ class MemberSignupForm
 
   def initialize(params)
     @member = Member.new(params.slice(*MEMBER_ATTRIBUTES))
-    @user = User.new(params.slice(*USER_ATTRIBUTES + [:email]))
+    @user = User.new(params.slice(*USER_ATTRIBUTES))
   end
 
   def errors
@@ -31,7 +31,7 @@ class MemberSignupForm
 
   def save
     ActiveRecord::Base.transaction do
-      @user.save
+      @user.email = @member.email
       @member.user = @user
       @member.save
 
