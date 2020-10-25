@@ -74,6 +74,7 @@ Rails.application.routes.draw do
 
         resources :loan_summaries, only: :index
       end
+      resources :notes
     end
 
     resources :items_without_image, only: :index
