@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {sessions: 'users/sessions'}
 
   namespace :signup do
     resources :members, only: [:new, :create]
@@ -74,6 +74,7 @@ Rails.application.routes.draw do
 
         resources :loan_summaries, only: :index
       end
+      resources :notes
     end
 
     resources :items_without_image, only: :index

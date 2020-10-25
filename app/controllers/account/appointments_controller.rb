@@ -6,8 +6,8 @@ module Account
 
     def new
       @appointment = Appointment.new
-      @holds = Hold.active.where(member: current_user.member)
-      @loans = current_user.member.loans.includes(:item).checked_out
+      @holds = Hold.active.includes(member: { appointments: :holds }).where(member: current_user.member)
+      @loans = current_user.member.loans.includes(:item, member: { appointments: :loans }).checked_out
     end
 
     def create

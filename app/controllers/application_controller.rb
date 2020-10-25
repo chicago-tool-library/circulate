@@ -11,14 +11,6 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
-  def after_sign_in_path_for(user)
-    if user.admin? || user.staff?
-      admin_dashboard_path
-    else
-      account_home_path
-    end
-  end
-
   private
 
   def set_time_zone(&block)
@@ -30,5 +22,16 @@ class ApplicationController < ActionController::Base
 
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+  end
+
+  protected
+  def after_sign_in_path_for(user)
+    referer = stored_location_for(user)
+    default_path = (user.admin? || user.staff?) ? admin_dashboard_path : account_home_path
+    if referer.eql? root_path
+      default_path
+    else
+      referer || default_path 
+    end
   end
 end

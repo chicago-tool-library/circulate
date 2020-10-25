@@ -32,4 +32,8 @@ class Hold < ApplicationRecord
   def ready_for_pickup?
     previous_active_holds.empty?
   end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
+  end
 end
