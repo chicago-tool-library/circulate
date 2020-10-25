@@ -79,7 +79,7 @@
             <td><%= link_to hold.item.name, item_path(hold.item) %></td>
             <td><%= hold.item.complete_number %></td>
             <td><%= render_place_in_queue(hold) %></td>
-            <td><%= link_to "Remove", account_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' } %>
+            <td><%= render_remove_link(hold) %>
           </tr>
         <% end %>
       

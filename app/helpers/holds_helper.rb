@@ -28,6 +28,12 @@ module HoldsHelper
     end
   end
 
+  def render_remove_link(hold)
+    if not hold.appointments.present?
+      link_to("Remove", account_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' })
+    end
+  end
+
   private
 
   def format_date(date)
