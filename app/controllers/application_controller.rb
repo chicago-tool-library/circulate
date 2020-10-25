@@ -11,17 +11,6 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
-<<<<<<< HEAD
-=======
-  def after_sign_in_path_for(user)
-    if user.admin? || user.staff?
-      admin_dashboard_path
-    else
-      account_home_path
-    end
-  end
->>>>>>> 7f650596ca76c183ea19fadf61d4441e4c900c4e
-
   private
 
   def set_time_zone(&block)
@@ -38,18 +27,11 @@ class ApplicationController < ActionController::Base
   protected
   def after_sign_in_path_for(user)
     referer = stored_location_for(user)
-    if user.admin? || user.staff? 
-      if stored_location_for(user).eql? root_path
-        admin_dashboard_path
-      else
-        referer || admin_dashboard_path
-      end
+    default_path = (user.admin? || user.staff?) ? admin_dashboard_path : account_home_path
+    if referer.eql? root_path
+      default_path
     else
-      if stored_location_for(user).eql? root_path
-        member_loans_path
-      else
-        referer || member_loans_path
-      end
+      referer || default_path 
     end
   end
 end

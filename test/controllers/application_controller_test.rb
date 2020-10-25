@@ -34,7 +34,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should not redirect to previous page for member after login if referer is not of the same domain" do
     get new_user_session_path, headers: {referer: "http://www.foreigndomain.com/circulate"}
     post user_session_path, params: {user: {email: @user.email, password: "password"}}
-    assert_redirected_to member_loans_path
+    assert_redirected_to account_home_path
   end
 
   test "ignores a poorly formed referer" do
