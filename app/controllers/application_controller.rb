@@ -11,6 +11,16 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
+<<<<<<< HEAD
+=======
+  def after_sign_in_path_for(user)
+    if user.admin? || user.staff?
+      admin_dashboard_path
+    else
+      account_home_path
+    end
+  end
+>>>>>>> 7f650596ca76c183ea19fadf61d4441e4c900c4e
 
   private
 
