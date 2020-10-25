@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   namespace :account do
     resources :holds, only: [:create, :destroy]
-    resources :appointments, only: [:index, :new, :create]
+    resources :appointments, only: [:index, :new, :create, :destroy]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
