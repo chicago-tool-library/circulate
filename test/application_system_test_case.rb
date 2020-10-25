@@ -38,7 +38,7 @@ Capybara.register_driver :headless_chrome_in_container do |app|
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: {args: %w[headless disable-gpu]}
+      chromeOptions: {args: %w[headless disable-gpu window-size=1400x1800]}
     )
 end
 
@@ -46,7 +46,9 @@ Capybara.register_driver :chrome_in_container do |app|
   Capybara::Selenium::Driver.new app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    desired_capabilities: :chrome
+    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: {args: %w[window-size=1400x1800]}
+    )
 end
 
 FactoryBot::SyntaxRunner.class_eval do
@@ -55,7 +57,7 @@ end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
-  driven_by :selenium, using: driver, screen_size: [1400, 1400]
+  driven_by :selenium, using: driver, screen_size: [1400, 1800]
 
   setup do
     if ENV["DOCKER"]
