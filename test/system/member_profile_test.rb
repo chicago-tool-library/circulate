@@ -22,8 +22,8 @@ class MemberProfileTest < ApplicationSystemTestCase
     end
 
     fill_in "Full name", with: "Updated Name"
-    uncheck "she/her"
-    check "he/him"
+    find("label", text: "she/her").click # uncheck
+    find("label", text: "he/him").click # check
     click_on "Update Member"
     assert_content "Updated Name"
     assert_content "he/him"
