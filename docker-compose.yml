@@ -5,7 +5,7 @@ services:
     build: 
       context: .
       args:
-        USER_ID: ${UID}
+        USER_ID: ${UID-499}
     ports:
       - '3000:3000'
       - '4000:4000'
