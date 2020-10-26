@@ -41,8 +41,10 @@ class Admin::NotesController < ApplicationController
   end
 
   def load_parent
-    @parent = if params[:item_id]
-      Item.find(params[:item_id])
+    if params[:item_id]
+      @parent = Item.find(params[:item_id])
+    elsif params[:member_id]
+      @parent = Member.find(params[:member_id])
     end
     raise ActiveRecord::RecordNotFound unless @parent
   end

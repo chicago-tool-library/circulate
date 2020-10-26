@@ -119,4 +119,11 @@ class MemberTest < ActiveSupport::TestCase
     appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, loans: [loan])
     assert_equal appointment, member.upcoming_appointment_of(loan)
   end
+
+  test "a member can have an optional bio" do
+    member = FactoryBot.build(:member, :with_bio)
+    member.save
+
+    assert_equal Member.last.bio, member.bio
+  end
 end

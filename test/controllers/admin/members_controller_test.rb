@@ -30,7 +30,7 @@ module Admin
             email: @member.email,
             full_name: @member.full_name,
             id_kind: @member.id_kind,
-            notes: @member.notes,
+            bio: @member.bio,
             phone_number: @member.phone_number,
             preferred_name: @member.preferred_name,
             pronoun: @member.pronoun,
