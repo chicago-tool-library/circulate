@@ -136,4 +136,11 @@ class MemberTest < ActiveSupport::TestCase
     create(:user, email: "test@notunique.obv")
     create(:user, email: "test@notunique.obv")
   end
+
+  test "a member can have an optional bio" do
+    member = FactoryBot.build(:member, :with_bio)
+    member.save
+
+    assert_equal Member.last.bio, member.bio
+  end
 end

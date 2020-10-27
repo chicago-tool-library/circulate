@@ -29,6 +29,10 @@ module HoldsHelper
     end
   end
 
+  def place_in_line_for(hold)
+    Item.find(hold.item.id).holds.active.index(hold) + 1
+  end
+
   private
 
   def format_date(date)

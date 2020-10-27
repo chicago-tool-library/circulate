@@ -13,6 +13,7 @@ class Member < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
   has_one :user, dependent: :destroy
+  has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
