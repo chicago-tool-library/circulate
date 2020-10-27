@@ -29,6 +29,12 @@ module HoldsHelper
     end
   end
 
+  def render_remove_link(hold)
+    unless hold.appointments.present?
+      link_to("Remove", account_hold_path(hold), method: :delete, data: { confirm: 'Are you sure you want to remove this hold?' })
+    end
+  end
+
   def place_in_line_for(hold)
     Item.find(hold.item.id).holds.active.index(hold) + 1
   end
