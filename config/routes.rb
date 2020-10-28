@@ -65,7 +65,9 @@ Rails.application.routes.draw do
     resources :members, except: :destroy do
       scope module: "members" do
         resources :adjustments, only: :index
-        resources :holds, only: [:create, :index, :destroy]
+        resources :holds, only: [:create, :index, :destroy] do
+          post :lend, on: :member
+        end
         resource :hold_loan, only: :create
         resources :lookups, only: :create
         resources :memberships, only: [:index, :new, :create]

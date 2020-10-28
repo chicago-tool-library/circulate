@@ -20,6 +20,14 @@ module Admin
         end
       end
 
+      def lend
+        @hold = @member.holds.find(params[:id])
+        Loan.lend(@hold.item, to: @member).tap do |loan|
+          @hold.lend(loan)
+        end
+        redirect_to admin_member_holds_path(@hold.member)
+      end
+
       def destroy
         @hold = @member.holds.find(params[:id])
 
@@ -32,10 +40,6 @@ module Admin
       def new_hold_params
         params.require(:hold).permit(:item_id)
       end
-
-      helper_method def place_in_line_for(hold)
-        Item.find(hold.item.id).holds.index(hold) + 1
-     end
     end
   end
 end
