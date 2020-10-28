@@ -35,7 +35,7 @@ module Account
     end
 
     def destroy
-      Appointment.find(params[:id]).destroy
+       current_user.member.appointments.find(params[:id]).destroy
       redirect_to account_appointments_path, flash: {success: "Appointment cancelled."}
     end
 

@@ -22,7 +22,7 @@ module Account
       
         delete account_appointment_path(@appointment)
         assert_nil assigns(:appointment)
-        assert Hold.find_by(member_id: @member.id) != nil, "Member holds should not be deleted when an appointment is cancelled"
+        assert_equal 1, @member.holds.count, "Member holds should not be deleted when an appointment is cancelled"
         assert_redirected_to account_appointments_path
     end
   end
