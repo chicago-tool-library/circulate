@@ -26,7 +26,7 @@ module LoansHelper
     appointment = loan.upcoming_appointment 
     appointment_time = 
       if appointment
-        ". Scheduled for return at #{format_date(appointment.starts_at)} " +
+        ". Scheduled for return at #{format_date(appointment.starts_at)}, " +
         format_time_range(appointment.starts_at, appointment.ends_at)
       else 
         ""
@@ -41,6 +41,6 @@ module LoansHelper
   end
 
   def format_time_range(starts_at, ends_at)
-    "#{starts_at.strftime('%l%P')} - #{ends_at.strftime('%l%P')}"
+    "#{starts_at.strftime('%l%P')}–#{ends_at.strftime('%l%P')}"
   end
 end
