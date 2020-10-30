@@ -10,6 +10,7 @@
   <%= form.text_field :fine_period, hint: "Days that pass before assigning the fine; 1 is every day after something is late, 7 is every week, etc." %>
   <%= form.check_box :uniquely_numbered, hint: "Is each item with this policy given a unique identification number?"%>
   <%= form.check_box :default, hint: "Use as the default policy for new items"%>
+  <%= form.check_box :member_renewable %>
 
   <%= form.actions do %>
     <%= form.submit %>
