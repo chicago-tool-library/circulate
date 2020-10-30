@@ -74,7 +74,7 @@ class Loan < ApplicationRecord
   end
 
   def member_renewable?
-    renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable?
+    renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable? && ended_at.nil?
   end
 
   def within_borrow_policy_duration?
