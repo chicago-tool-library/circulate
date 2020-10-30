@@ -26,13 +26,14 @@ module Admin
     end
 
     test "should update borrow_policy" do
-      patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: 10, fine: 8.23, fine_period: 26, name: "New name", code: "Q"}}
+      patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: 10, fine: 8.23, fine_period: 26, name: "New name", code: "Q", member_renewable: true}}
       @borrow_policy.reload
       assert_equal 10, @borrow_policy.duration
       assert_equal 823, @borrow_policy.fine_cents
       assert_equal 26, @borrow_policy.fine_period
       assert_equal "New name", @borrow_policy.name
       assert_equal "Q", @borrow_policy.code
+      assert_equal true, @borrow_policy.member_renewable
     end
   end
 end
