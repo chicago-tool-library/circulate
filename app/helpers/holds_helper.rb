@@ -20,9 +20,9 @@ module HoldsHelper
     appointment = hold.upcoming_appointment
 
     if appointment
-      "Scheduled for pick-up at #{format_date(appointment.starts_at)} " +
+      "Scheduled for pick-up at #{format_date(appointment.starts_at)}, " +
       format_time_range(appointment.starts_at, appointment.ends_at)
-    elsif previous_holds_count == 0
+    elsif hold.ready_for_pickup?
       "Ready for pickup. Schedule by #{format_date(hold.created_at + 7.days)}"
     else
       "##{previous_holds_count} on wait list"
@@ -46,6 +46,6 @@ module HoldsHelper
   end
 
   def format_time_range(starts_at, ends_at)
-    "#{starts_at.strftime('%l%P')} - #{ends_at.strftime('%l%P')}"
+    "#{starts_at.strftime('%l%P')}–#{ends_at.strftime('%l%P')}"
   end
 end

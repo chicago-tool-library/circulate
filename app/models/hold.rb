@@ -30,7 +30,7 @@ class Hold < ApplicationRecord
   end
 
   def ready_for_pickup?
-    previous_active_holds.empty?
+    previous_active_holds.empty? && item.available?
   end
 
   def upcoming_appointment
