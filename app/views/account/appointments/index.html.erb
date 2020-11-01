@@ -18,7 +18,7 @@
       <div class="appointment-date">
         <h2 class="title_bold"><%= index + 1 %>.</h2>
         <h2 class="title_bold">
-          <%= appointment.starts_at.strftime("%A") %>, <%= appointment.starts_at.strftime("%b %-d, %Y") %>
+          <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %>
           <br />
           <small class="gray-dark"><%= "#{appointment.starts_at.strftime("%I:%M%P")} - #{appointment.ends_at.strftime("%I:%M%P")}" %></small>
         </h2>

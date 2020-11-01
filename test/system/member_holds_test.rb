@@ -4,8 +4,7 @@ class MemberHoldsTest < ApplicationSystemTestCase
   def setup
     @item = create(:item)
     @member = create(:verified_member_with_membership)
-    @user = create(:user, member: @member)
-    login_as @user
+    login_as @member.user
   end
 
   test "member can Place a hold" do
