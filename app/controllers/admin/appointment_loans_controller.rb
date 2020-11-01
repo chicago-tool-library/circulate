@@ -44,7 +44,7 @@ module Admin
     end
 
     def item_to_add
-      Item.find_by_complete_number(params.require(:appointment_loan)[:item_id].to_s)
+      Item.find(params.require(:appointment_loan)[:item_id])
     end
 
     def appointment
