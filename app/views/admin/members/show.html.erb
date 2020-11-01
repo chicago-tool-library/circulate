@@ -1,8 +1,8 @@
 <%= render "profile" do %>
 
-  <% unless @member.notes.blank? %>
+  <% unless @member.bio.blank? %>
     <div class="rich-text">
-      <%= @member.notes %>
+      <%= @member.bio %>
     </div>
   <% end %>
 
