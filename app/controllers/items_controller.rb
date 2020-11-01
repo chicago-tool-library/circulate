@@ -18,11 +18,15 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @item = Item.listed_publicly.find(params[:id])
+
+    if user_signed_in?
+      @current_hold = current_member.holds.active.where(item_id: @item.id).first
+      @current_hold_count = current_member.holds.active_hold_count_for_item(@item).to_i
+    end
   end
 
   private
-
-  delegate :holds, to: :current_member, prefix: true, allow_nil: true, private: true
 
   def index_order
     options = {
@@ -31,29 +35,5 @@ class ItemsController < ApplicationController
       "added" => "items.created_at DESC"
     }
     options.fetch(params[:sort]) { options["name"] }
-  end
-
-  def on_hold_by_current_member?
-    current_item_hold_count.positive?
-  end
-
-  helper_method def current_item_hold_count
-    @current_item_hold_count ||= current_member_holds.active_hold_count_for_item(item).to_i
-  end
-
-  helper_method def item
-    @item ||= Item.listed_publicly.find(params[:id])
-  end
-
-  helper_method def place_hold_partial
-    if user_signed_in? && item.allow_multiple_holds_per_member?
-      "items/place_hold_on/item_that_allows_multiple_holds"
-    elsif user_signed_in? && on_hold_by_current_member?
-      "items/place_hold_on/item_already_with_a_hold"
-    elsif user_signed_in?
-      "items/place_hold_on/item"
-    else
-      "items/place_hold_on/not_logged_in"
-    end
   end
 end
