@@ -108,11 +108,9 @@
       <%= yield %>
     </div>
 
-  <% end %>
 
-  <footer class="page-footer">
-    <div class="text-center">
-      <p>For questions and issues, please email <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
-    </div>
-  </footer>
+  <% end %>
+            <%= render partial: 'layouts/footer', object: @member, as: :member %>
+
+
 </html>
