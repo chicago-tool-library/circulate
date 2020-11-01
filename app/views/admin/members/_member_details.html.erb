@@ -47,5 +47,23 @@
       <% end %>
     </ul>
 
+    <ul class="member-stats notes">
+      <li><%= feather_icon "clipboard" %>Notes</li>
+      <% member.notes.each do |note| %>
+        <% if note.body.to_plain_text.length > 30 %>
+          <%= modal title: "Note from #{note.creator.member.full_name} #{time_ago_in_words(note.created_at)} ago", body: render(partial: "admin/notes/show", locals: { note: note, parent: @member }) do %>
+            <li>
+              <%= truncate(note.body.to_plain_text, length: 25) %><%= tag.a "more", data: {action: "click->modal#show"} %>
+            </li>
+          <% end %>
+        <% else %>
+          <%= modal title: "Note from #{note.creator.member.full_name} #{time_ago_in_words(note.created_at)} ago", body: render(partial: "admin/notes/show", locals: { note: note, parent: @member }) do %>
+            <li>
+              <%= note.body.to_plain_text %><%= tag.a " more", data: {action: "click->modal#show"} %>
+            </li>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
   </div>
 </div>

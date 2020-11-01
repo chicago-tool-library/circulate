@@ -13,6 +13,7 @@ class Member < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
   has_one :user # what to do if member record deleted?
+  has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
   enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
@@ -78,7 +79,17 @@ class Member < ApplicationRecord
   end
 
   def display_pronouns
-    pronouns.join(", ")
+    pronouns.reject(&:empty?).join(", ")
+  end
+
+  def upcoming_appointment_of(schedulable)
+    if schedulable.is_a? Hold
+      appointments.upcoming.joins(:holds).where(holds: { id: schedulable.id }).first
+    elsif schedulable.is_a? Loan
+      appointments.upcoming.joins(:loans).where(loans: { id: schedulable.id }).first
+    else
+      nil
+    end
   end
 
   private

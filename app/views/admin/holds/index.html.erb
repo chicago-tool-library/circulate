@@ -11,6 +11,7 @@
         <thead>
           <tr>
             <th>Item</th>
+            <th>Number</th>
             <th>Member</th>
             <th>Created on</th>
           </tr>
@@ -20,6 +21,7 @@
           <% @holds.each do |hold| %>
             <tr>
               <td><%= link_to hold.item.name, [:admin, hold.item] %></td>
+              <td><%= link_to full_item_number(hold.item), [:admin, hold.item] %></td>
               <td><%= link_to preferred_or_default_name(hold.member), [:admin, hold.member] %></td>
               <td><%= date_with_time_title hold.created_at %></td>
             </tr>

@@ -1,0 +1,8 @@
+<%= form_with(model: member, url: account_member_path, builder: SpectreFormBuilder) do |form| %>
+
+  <%= render partial: 'admin/members/fields', locals: { form: form, show_password_inputs: false } %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

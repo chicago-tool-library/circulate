@@ -307,4 +307,13 @@ class LoanTest < ActiveSupport::TestCase
 
     refute loan.member_renewable?
   end
+
+  test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
+    member_double = Minitest::Mock.new
+    loan = create(:loan)
+    loan.stub :member, member_double do
+      member_double.expect(:upcoming_appointment_of, nil, [loan])
+      loan.upcoming_appointment
+    end
+  end
 end

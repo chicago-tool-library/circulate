@@ -5,5 +5,5 @@
   <%= navbar_link_to "Become a Member", signup_path, version %>
 <% end %>
 <% if user_signed_in? && current_user.admin? %>
-  <%= navbar_link_to "Admin Dashboard", admin_dashboard_path, version %>
+  <%= navbar_link_to "Librarian View", admin_dashboard_path, version %>
 <% end %>

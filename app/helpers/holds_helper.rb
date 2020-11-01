@@ -15,22 +15,31 @@ module HoldsHelper
     render layout: "holds/items", locals: {items: items}, &block
   end
 
-  def render_place_in_queue(hold)
-    prev_hold = hold.previous_active_holds.last
-    count = hold.previous_active_holds.count
+  def render_hold_status(hold)
+    previous_holds_count = hold.previous_active_holds.count
+    appointment = hold.upcoming_appointment
 
-    if prev_hold.present? && count == 0
-      "Ready for pickup. Schedule by #{format_date(prev_hold.loan.ended_at + 7.days)}"
-    elsif count == 0
+    if appointment
+      "Scheduled for pick-up at #{format_date(appointment.starts_at)} " +
+      format_time_range(appointment.starts_at, appointment.ends_at)
+    elsif previous_holds_count == 0
       "Ready for pickup. Schedule by #{format_date(hold.created_at + 7.days)}"
     else
-      "##{count} on wait list"
+      "##{previous_holds_count} on wait list"
     end
+  end
+
+  def place_in_line_for(hold)
+    Item.find(hold.item.id).holds.active.index(hold) + 1
   end
 
   private
 
   def format_date(date)
-    date.strftime("%a, %-m/%-d/%Y")
+    date.strftime("%a, %-m/%-d")
+  end
+
+  def format_time_range(starts_at, ends_at)
+    "#{starts_at.strftime('%l%P')} - #{ends_at.strftime('%l%P')}"
   end
 end

@@ -1,8 +1,0 @@
-<%= form_with(model: member, url: member_profile_path, builder: SpectreFormBuilder) do |form| %>
-
-  <%= render 'admin/members/fields', form: form %>
-
-  <%= form.actions do %>
-    <%= form.submit %>
-  <% end %>
-<% end %>
