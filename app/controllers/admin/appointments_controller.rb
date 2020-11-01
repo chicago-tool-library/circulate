@@ -37,12 +37,12 @@ module Admin
       Appointment.find(params[:id])
     end
 
-    helper_method def items_avalable_to_add_to_pickup
+    helper_method def items_available_to_add_to_pickup
       Item.available.eager_load(:borrow_policy)
     end
 
-    helper_method def items_avalable_to_add_to_dropoff
-      current_appointment.member.loans.checked_out
+    helper_method def items_available_to_add_to_dropoff
+      (current_appointment.member.loans.checked_out - appointment_return_items).map(&:item)
     end
 
     helper_method def appointment_pickup_items

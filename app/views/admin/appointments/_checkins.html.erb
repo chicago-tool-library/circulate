@@ -32,22 +32,17 @@
     </div>
   <% end %>
 
-  <div class="columns">
-    <p>Find and add another item to the appointment for check-in.</p>
-    <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
-      <%= form.text_field :item_id, list: "items2", autocomplete: :off %>
-      <datalist id="items2">
-        <%= items_avalable_to_add_to_dropoff.find_each do |loan| %>
-          <% if !appointment_return_items.include?(loan) %>
-            <%= tag(:option, value: loan.item.complete_number_and_name) %>
-          <% end %>
-        <% end %>
-      </datalist>
+  <% unless items_available_to_add_to_dropoff.empty? %>
+    <div class="columns">
+      <p>Find and add another item to the appointment for check-in.</p>
+      <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+        <%= form.collection_select :item_id, items_available_to_add_to_dropoff, :id, :complete_number_and_name %>
 
-      <%= form.actions do %>
-        <%= form.submit %>
+        <%= form.submit do %>
+          <%= feather_icon "plus" %>Add item to appointment for return
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
 <div class="divider"></div>
