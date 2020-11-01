@@ -1,6 +1,6 @@
 <div class="panel-body">
   <div class="columns col-oneline">
-    <div class="column col-8"><h6>Items to be checked-in (<%= checkin_items_quantity_for_appointment %>)</h6></div>
+    <div class="column col-8"><h4>Items to be checked-in (<%= checkin_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
       <%= button_to "Check-in All", admin_appointment_checkins_path(current_appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
     </div>
@@ -29,6 +29,19 @@
           <em>Item checked-in</em>
         <% end %>
       </div>
+    </div>
+  <% end %>
+
+  <% unless items_available_to_add_to_dropoff.empty? %>
+    <div class="columns">
+      <p>Find and add another item to the appointment for check-in.</p>
+      <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+        <%= form.collection_select :item_id, items_available_to_add_to_dropoff, :id, :complete_number_and_name %>
+
+        <%= form.submit do %>
+          <%= feather_icon "plus" %>Add item to appointment for return
+        <% end %>
+      <% end %>
     </div>
   <% end %>
 </div>

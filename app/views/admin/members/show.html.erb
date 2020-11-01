@@ -1,4 +1,11 @@
 <%= render "profile" do %>
+
+  <% unless @member.bio.blank? %>
+    <div class="rich-text">
+      <%= @member.bio %>
+    </div>
+  <% end %>
+
   <% if @returned_loan_summaries.any? %>
     <div id="returned-loans" class="member-active-loans">
       <div class="columns">
