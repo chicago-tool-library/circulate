@@ -8,6 +8,7 @@
 @import 'spectre.css/src/mixins/_shadow';
 @import './partials/index';
 
+@import 'admin';
 
 body {
   background-color: $background-color;
@@ -47,6 +48,10 @@ body {
   border-bottom: .05rem dotted;
   cursor: help;
   text-decoration: none;
+}
+
+ul.error {
+  color: red;
 }
 
 form details {
@@ -249,9 +254,26 @@ $photo-width: 187px;
 }
 
 .tag-nav {
-  li a {
-    display: inline-block;
-    line-height: 1.2;
+  li {
+    margin: 0;
+    display: flex;
+
+    a {
+      display: inline-block;
+      line-height: 1.5;
+    }
+  }
+
+  .active a {
+    color: red;
+  }
+
+  .parent a {
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
@@ -685,7 +707,7 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items {
+  .member-lookup-items, .member-notes {
     background: white;
     padding: .7rem .5rem;
     .info-box {
@@ -1085,4 +1107,26 @@ ul.hold-items {
 
 .btn-margin {
   margin-left: 20px;
+}
+
+
+
+
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container.public {
+  flex: 1 0 auto;
+}
+
+footer.page-footer {
+  font-size: 0.8rem;
+  padding: 1rem 0 0;
+  flex-shrink: 0;
+  background: $background-color-dark;
 }

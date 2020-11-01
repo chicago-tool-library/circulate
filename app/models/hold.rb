@@ -1,4 +1,7 @@
 class Hold < ApplicationRecord
+  has_many :appointment_holds
+  has_many :appointments, through: :appointment_holds
+
   belongs_to :member
   belongs_to :item, counter_cache: true
   belongs_to :creator, class_name: "User"
@@ -27,6 +30,10 @@ class Hold < ApplicationRecord
   end
 
   def ready_for_pickup?
-    previous_active_holds.empty?
+    previous_active_holds.empty? && item.available?
+  end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
   end
 end

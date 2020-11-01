@@ -99,4 +99,31 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal [:member, :staff, :admin], member.roles
     assert member.admin?
   end
+
+  test "can find its upcoming appointment of a hold" do
+    member = create(:member)
+    hold = create(:hold, member: member)
+
+    assert_nil member.upcoming_appointment_of(hold), 'it should return nil if there is no appointment found'
+
+    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
+    assert_equal appointment, member.upcoming_appointment_of(hold)
+  end
+
+  test "can find its upcoming appointment of a loan" do
+    member = create(:member)
+    loan = create(:loan, member: member)
+
+    assert_nil member.upcoming_appointment_of(loan), 'it should return nil if there is no appointment found'
+
+    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, loans: [loan])
+    assert_equal appointment, member.upcoming_appointment_of(loan)
+  end
+
+  test "a member can have an optional bio" do
+    member = FactoryBot.build(:member, :with_bio)
+    member.save
+
+    assert_equal Member.last.bio, member.bio
+  end
 end

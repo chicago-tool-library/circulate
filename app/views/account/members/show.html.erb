@@ -1,0 +1,60 @@
+<div class="account-settings-heading">
+  <h2 class="new_title">Account Settings</h2>
+  <div class="d-flex justify-content-end">
+    <button class="secondary-btn account-settings-btn">
+      <%= link_to "Edit Password", edit_account_password_url %>
+    </button>
+    <br> <br>
+    <button class="primary-btn btn-margin">
+      <%= link_to "Edit Member Profile", edit_account_member_path %>
+    </button>
+  </div>
+</div>
+<div class="columns card-container">
+  <div class="column">
+    <dl>
+      <dt class="caption">Full Name</dt>
+      <dd class="title_bold"><%= @member.full_name %></dd>
+
+      <dt class="caption">Preferred Name</dt>
+      <dd class="title_bold"><%= @member.preferred_name %></dd>
+
+      <dt class="caption">Pronouns</dt>
+      <dd class="title_bold"><%= @member.display_pronouns %></dd>
+
+      <dt class="caption">Email</dt>
+      <dd class="title_bold"><%= @member.email %></dd>
+
+      <dt class="caption">Phone Number</dt>
+      <dd class="title_bold"><%= format_phone_number(@member.phone_number,"-") %></dd>
+
+      <dt class="caption">Address</dt>
+      <dd class="title_bold">
+        <%= @member.address1 %><br>
+        <%= @member.address2 %><br>
+        <%= @member.city %>,
+        <%= @member.region %>&nbsp;
+        <%= @member.postal_code %>
+      </dd>
+    </dl>
+
+  </div>
+  <div class="column">
+
+    <dl>
+      <dt class="caption">Membership Status</dt>
+
+      <% if @member.active_membership %>
+        <dd class="title_bold">Member</dd>
+
+        <dt>Membership #</dt>
+        <dd class="title_bold"><%= @member.number %></dd>
+
+        <dt>Membership Expiration Date</dt>
+        <dd class="title_bold"><%= date_with_time_title(@member.active_membership.ended_on) %></dd>
+      <% else %>
+        <dd class="label"><%= @member.status %></dd>
+      <% end %>
+    </dl>
+  </div>
+</div>
