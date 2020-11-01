@@ -9,6 +9,7 @@ FactoryBot.define do
     phone_number { "3121234567" }
     postal_code { "60609" }
     address1 { "1 N. Michigan Ave" }
+    user
 
     trait :with_bio do
       bio { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }

@@ -1,9 +1,16 @@
-<label>Pronouns</label>
-<br>
-<% Member.pronoun_list.each do |pronoun| %>
-  <%= label_tag do %>
-    <%= check_box_tag 'member[pronouns][]', pronoun, member.pronouns.include?(pronoun), id: "member_pronouns_#{pronoun.sub('/', '_')}"%> <%= pronoun %>
-  <% end %>
+<% klass = object.class.to_s.underscore %>
+<div class="form-group">
+  <label class="form-label form-inline">Pronouns</label>
   <br>
-<% end %>
-<%= text_field_tag "member[pronouns][]", nil, value: member.pronouns.reject { |p| Member.pronoun_list.include?(p) } , class: "form-input", id: "member_pronouns_custom", placeholder: "Enter your own (optional)" %>
+  <% Member.pronoun_list.each_with_index do |pronoun| %>
+    <% id = "member_pronouns_#{pronoun.sub('/', '_')}" %>
+    <%= label_tag id, class: "form-checkbox form-inline" do %>
+      <%= check_box_tag "#{klass}[pronouns][]", pronoun, object.pronouns.include?(pronoun),
+        id: id %><i class="form-icon"></i> <%= pronoun %>
+    <% end %>
+  <% end %>
+  <div class="form-inline">
+    <%= text_field_tag "#{klass}[pronouns][]", nil, value: object.pronouns.reject { |p| Member.pronoun_list.include?(p) } , 
+      class: "form-input", id: "member_pronouns_custom", placeholder: "Enter your own (optional)" %>
+  </div>
+</div>

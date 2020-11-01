@@ -8,7 +8,7 @@ class LoansHelperTest < ActionView::TestCase
   end
 
   test "humanize_due_date returns tomorrow when due date is tomorrow" do
-    @loan = build(:loan, due_at: Date.today + 1.day)
+    @loan = build(:loan, due_at: Time.zone.today + 1.day)
     assert_equal "tomorrow", humanize_due_date(@loan)
   end
 

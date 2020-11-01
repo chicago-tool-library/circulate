@@ -120,6 +120,23 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal appointment, member.upcoming_appointment_of(loan)
   end
 
+  test "updates user email when member email is updated" do
+    member = create(:member, email: "original@example.com")
+
+    assert_equal "original@example.com", member.email
+    assert_equal "original@example.com", member.user.email
+
+    assert member.update(email: "revised@different.biz")
+
+    member.user.reload
+    assert_equal "revised@different.biz", member.user.email
+  end
+
+  test "allows multiple users with the same email address" do
+    create(:user, email: "test@notunique.obv")
+    create(:user, email: "test@notunique.obv")
+  end
+
   test "a member can have an optional bio" do
     member = FactoryBot.build(:member, :with_bio)
     member.save

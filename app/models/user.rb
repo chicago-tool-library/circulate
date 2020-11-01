@@ -1,9 +1,12 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, # :registerable,
-    :recoverable, :rememberable, :validatable,
+  devise :database_authenticatable, :recoverable, :rememberable,
     :lockable, :timeoutable, :trackable
+
+  validates_presence_of :email, if: :email_required?
+  validates_format_of :email, with: Devise.email_regexp, allow_blank: true, if: :email_changed?
+  validates_presence_of :password, if: :password_required?
+  validates_confirmation_of :password, if: :password_required?
+  validates_length_of :password, within: Devise.password_length, allow_blank: true
 
   # while the canonical list of roles is the "user_role" enum in the
   # database, this enum exists to help display the list of roles
@@ -13,6 +16,10 @@ class User < ApplicationRecord
     staff: "staff",
     admin: "admin"
   }
+
+  belongs_to :member, optional: true
+
+  scope :by_creation_date, -> { order(created_at: :asc) }
 
   def roles
     case role
@@ -32,7 +39,13 @@ class User < ApplicationRecord
     record if record && record.authenticatable_salt == salt
   end
 
-  belongs_to :member, optional: true
+  private
 
-  scope :by_creation_date, -> { order(created_at: :asc) }
+  def password_required?
+    !persisted? || !password.nil? || !password_confirmation.nil?
+  end
+
+  def email_required?
+    true
+  end
 end

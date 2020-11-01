@@ -12,7 +12,7 @@ class Member < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
-  has_one :user # what to do if member record deleted?
+  has_one :user, dependent: :destroy
   has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
@@ -45,6 +45,8 @@ class Member < ApplicationRecord
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
+
+  after_save :update_user_email
 
   def roles
     user ? user.roles : [:member]
@@ -93,6 +95,10 @@ class Member < ApplicationRecord
   end
 
   private
+
+  def update_user_email
+    user.update_column(:email, email) if user && !user.new_record? # Skip validations
+  end
 
   def strip_phone_number
     self.phone_number = phone_number.gsub(/\D/, "")
