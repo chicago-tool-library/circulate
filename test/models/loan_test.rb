@@ -308,6 +308,14 @@ class LoanTest < ActiveSupport::TestCase
     refute loan.member_renewable?
   end
 
+  test "is not member_renewable if loan has end date" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item, ended_at: Time.current)
+
+    refute loan.member_renewable?
+  end
+
   test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
     member_double = Minitest::Mock.new
     loan = create(:loan)
