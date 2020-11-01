@@ -2,7 +2,7 @@ require "securerandom"
 
 namespace :members do
   desc "find or create members for existing users"
-  task :match_users_to_members => :environment do
+  task match_users_to_members: :environment do
     User.all.each do |user|
       match = Member.where(email: user.email).first
       if match
@@ -17,7 +17,7 @@ namespace :members do
   end
 
   desc "create users for members without them"
-  task :create_missing_users => :environment do
+  task create_missing_users: :environment do
     Member.open.each do |member|
       if member.user
         puts "#{member.email} has a user"
@@ -28,7 +28,7 @@ namespace :members do
       begin
         new_user = User.create!(email: member.email, password: password)
         member.user = new_user
-        member.save(validate: false) 
+        member.save(validate: false)
       rescue ActiveRecord::RecordInvalid => e
         puts "failed to create a user for #{member.email}: #{e}"
       end

@@ -1,11 +1,10 @@
 require "test_helper"
 
-class HoldsHelperTest <  ActionView::TestCase
-
+class HoldsHelperTest < ActionView::TestCase
   setup do
-    @member_1 = create(:member, full_name: 'Member 1')
-    @member_2 = create(:member, full_name: 'Member 2')
-    @member_3 = create(:member, full_name: 'Member 3')
+    @member_1 = create(:member, full_name: "Member 1")
+    @member_2 = create(:member, full_name: "Member 2")
+    @member_3 = create(:member, full_name: "Member 3")
     @admin_user = create(:admin_user, member: @member_2)
     @user = create(:user, member: @member_1)
     @hold_1 = create(:hold, member: @member_1, creator: @user)

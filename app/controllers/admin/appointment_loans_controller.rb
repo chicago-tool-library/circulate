@@ -7,7 +7,7 @@ module Admin
 
     def destroy
       remove_appointment_loan
-      redirect_to admin_appointment_path(appointment), flash: { success: "Item removed from appointment." }
+      redirect_to admin_appointment_path(appointment), flash: {success: "Item removed from appointment."}
     end
 
     private
@@ -18,7 +18,7 @@ module Admin
 
     def add_new_appointment_loan
       return if item_to_add.blank? ||
-          appointment.appointment_loans.joins(:loan).exists?(loans: { item: item_to_add })
+        appointment.appointment_loans.joins(:loan).exists?(loans: {item: item_to_add})
 
       new_appointment_loan.save
     end

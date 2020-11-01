@@ -28,13 +28,13 @@ class AppointmentsTest < ApplicationSystemTestCase
     create(:loan, item: @borrowed_item1, member: @member)
     create(:loan, item: @borrowed_item2, member: @member)
 
-    visit account_home_url    
+    visit account_home_url
 
     click_on "Schedule a Pick Up"
 
     assert_text "Schedule an Appointment"
 
-    check_row_with_name(@held_item1.complete_number) 
+    check_row_with_name(@held_item1.complete_number)
     check_row_with_name(@borrowed_item1.complete_number)
 
     first_optgroup = find("#appointment_time_range_string optgroup", match: :first)

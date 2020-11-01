@@ -132,7 +132,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label = nil, options = {}, &block)
-    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: { disable: true }), &block)
+    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true }), &block)
   end
 
   def errors
@@ -145,7 +145,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   # Use this method for inputs where the label has to preceed the input as a sibling
   def sequence_layout(method, options = {})
-    label_text = label_or_default(options[:label], method) 
+    label_text = label_or_default(options[:label], method)
     has_error = @object.errors.include?(method)
     display_required = options.delete(:required)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
@@ -156,10 +156,10 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
     wrapper_options[:class].strip!
 
-    content_label = (options[:label] == false) ? '' : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
+    content_label = options[:label] == false ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
 
     @template.content_tag :div, wrapper_options do
-        content_label.html_safe +
+      content_label.html_safe +
         yield +
         hint_content
     end

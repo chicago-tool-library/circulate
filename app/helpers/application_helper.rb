@@ -14,13 +14,13 @@ module ApplicationHelper
     tag.div(**attrs, &block)
   end
 
-  def navbar_link_to(text, link, version = '')
-    if version == 'mobile'
-      tag.span(class: 'navbar-brand  mr-2 ml-2') do 
+  def navbar_link_to(text, link, version = "")
+    if version == "mobile"
+      tag.span(class: "navbar-brand  mr-2 ml-2") do
         link_to(text, link)
       end
     else
-      tag.li(class: 'nav-item') do 
+      tag.li(class: "nav-item") do
         link_to(text, link)
       end
     end

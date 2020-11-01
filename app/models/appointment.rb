@@ -12,16 +12,15 @@ class Appointment < ApplicationRecord
 
   private
 
-
   def item_present
-    if holds.empty? and loans.empty?
-      errors.add(:base,"Please select an item to pick-up or return for your appointment")
+    if holds.empty? && loans.empty?
+      errors.add(:base, "Please select an item to pick-up or return for your appointment")
     end
   end
 
   def date_present
-    if starts_at.nil? or ends_at.nil?
-      errors.add(:base,"Please select a date and time for this appointment.")
+    if starts_at.nil? || ends_at.nil?
+      errors.add(:base, "Please select a date and time for this appointment.")
     end
   end
 

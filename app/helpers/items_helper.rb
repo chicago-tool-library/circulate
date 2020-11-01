@@ -38,8 +38,8 @@ module ItemsHelper
 
     tag.ul class: "nav tag-nav" do
       categories.map { |category|
-      is_parent = category.parent_id.nil?
-        tag.li(class: "nav-item #{"active" if category.id == current_category&.id} #{"parent" if is_parent }") {
+        is_parent = category.parent_id.nil?
+        tag.li(class: "nav-item #{"active" if category.id == current_category&.id} #{"parent" if is_parent}") {
           is_parent ? link_to(category.name, category: category.id) : "&nbsp;&nbsp;".html_safe * category.path_ids.size + "-".html_safe + link_to(category.name, category: category.id)
         }
       }.join.html_safe

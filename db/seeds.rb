@@ -61,9 +61,9 @@ unverified_member = Member.create!(
 )
 User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
-Item.create!( name: "Flathead Screwdriver", status: Item.statuses[:active], borrow_policy: a_policy )
-Item.create!( name: "Hammer", status: Item.statuses[:active], borrow_policy: b_policy )
-Item.create!( name: "Cordless Drill", status: Item.statuses[:active], borrow_policy: c_policy )
+Item.create!(name: "Flathead Screwdriver", status: Item.statuses[:active], borrow_policy: a_policy)
+Item.create!(name: "Hammer", status: Item.statuses[:active], borrow_policy: b_policy)
+Item.create!(name: "Cordless Drill", status: Item.statuses[:active], borrow_policy: c_policy)
 
 Item.all.each do |item|
   Loan.create!(

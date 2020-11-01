@@ -16,7 +16,7 @@ module Admin
       # NOTE(chaserx): ensure that at least on of the items on loan is not renewable.
       @loans[2].item.borrow_policy.update(renewal_limit: 0)
 
-      assert_difference('Loan.count', 4) do
+      assert_difference("Loan.count", 4) do
         put admin_bulk_renewal_url(@member)
       end
 
