@@ -1,6 +1,6 @@
 <div class="panel-body">
   <div class="columns col-oneline">
-    <div class="column col-8"><h6>Items to be checked-out (<%= checkout_items_quantity_for_appointment %>)</h6></div>
+    <div class="column col-8"><h4>Items to be checked-out (<%= checkout_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
       <%= button_to "Check-out All", admin_appointment_checkouts_path(current_appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? %>
     </div>
@@ -16,9 +16,6 @@
             <div class="image-placeholder"></div>
           <% end %>
         <% end %>
-        <% if pickup_item.active? %>
-          <%= link_to 'remove item', admin_appointment_hold_path(current_appointment, pickup_item), method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
-        <% end %>
         <div class="divider"></div>
       </div>
       <div class="column col-sm-6 col-4">
@@ -26,7 +23,11 @@
         <p><%= full_item_number(pickup_item.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right">
-        <%= button_to "Check-out", admin_appointment_checkouts_path(current_appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-out..." }, disabled: !pickup_item.active? %>
+        <%= button_to "Check-out", admin_appointment_checkouts_path(current_appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary btn-sm", data: { disable_with: "Checking-out..." }, disabled: !pickup_item.active? %>
+        <% if pickup_item.active? %>
+          <%= button_to 'Cancel Hold', admin_appointment_hold_path(current_appointment, pickup_item, cancel_hold: true), class: "btn btn-sm mt-2 float-right", method: :delete, data: { disable_with: "Canceling...", confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?" } %>
+          <%= button_to 'Remove Item', admin_appointment_hold_path(current_appointment, pickup_item, cancel_hold: false), class: "btn btn-sm mt-2 float-right", method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
+        <% end %>
         <% if !pickup_item.active? %>
           <em>Item checked-out</em>
         <% end %>
@@ -34,8 +35,10 @@
     </div>
   <% end %>
 
+  <div class="divider"></div>
+
   <div class="columns">
-    <p>Find and add another item to the appointment for check-out.</p>
+    <h5>Add an item to the appointment for check-out</h5>
     <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_holds_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
       <%= form.text_field :item_id, list: "items", autocomplete: :off, label: false %>
       <datalist id="items">
@@ -43,9 +46,8 @@
           <%= tag(:option, value: item.complete_number_and_name) %>
         <% end %>
       </datalist>
-
-      <%= form.actions do %>
-        <%= form.submit "Add Item" %>
+      <%= form.submit do %>
+        <%= feather_icon "plus" %>Add item to appointment
       <% end %>
     <% end %>
   </div>
