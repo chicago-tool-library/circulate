@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
-      resources :loans, only: [:destroy], controller: :appointment_loans
+      resources :loans, only: [:create, :destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
       resources :checkins, only: [:create], controller: :appointment_checkins
     end
