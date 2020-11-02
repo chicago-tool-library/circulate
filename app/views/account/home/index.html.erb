@@ -34,18 +34,18 @@
           <td><%= render_loan_status(loan) %></td>
           <td>
             <% if loan.item.borrow_policy.member_renewable? && !loan.within_borrow_policy_duration? && loan.renewal? %>
-              <%= button_to "Renewed", "#", method: :post, class: "btn btn-sm", disabled: true %>
+              <%= button_to "Renewed", "#", method: :post, class: "btn", disabled: true %>
             <% elsif loan.member_renewable? %>
-              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn btn-sm" %>
+              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
             <% end %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <div class="button">
-    <%= button_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-sm", method: :get %>
-  </div>
+  <p>
+    <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn" %>
+  </p>
 <% else %>
   <%= empty_state "You have no items on loan" %>
 <% end %>
@@ -85,11 +85,11 @@
 
     </tbody>
   </table>
-  <div class="button">
-    <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
-      <%= button_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn btn-sm", method: :get %>
-    <% end %>
-  </div>
+  <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
+    <p>
+      <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
+    </p>
+  <% end %>
 <% else %>
   <%= empty_state "You have no items on hold" %>
 <% end %>
