@@ -50,7 +50,7 @@ module Admin
     end
 
     helper_method def checkout_items_quantity_for_appointment
-      appointment_pickup_items.length
+      appointment_pickup_items.active.length
     end
 
     helper_method def checkin_items_quantity_for_appointment
