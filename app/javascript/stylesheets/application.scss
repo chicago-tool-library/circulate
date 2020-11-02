@@ -1085,8 +1085,6 @@ ul.hold-items {
   }
 }
 
-
-
 .tool-card .modal {
   .stats {
     margin-bottom: 1.2rem;
@@ -1109,11 +1107,10 @@ ul.hold-items {
   margin-left: 20px;
 }
 
-
-
-
 html, body {
   height: 100%;
+  min-height: 100%;
+
 }
 body {
   display: flex;
@@ -1123,10 +1120,11 @@ body {
 .container.public {
   flex: 1 0 auto;
 }
-
 footer.page-footer {
   font-size: 0.8rem;
   padding: 1rem 0 0;
   flex-shrink: 0;
   background: $background-color-dark;
-}
+  text-align: center;
+  position: relative;
+  }
