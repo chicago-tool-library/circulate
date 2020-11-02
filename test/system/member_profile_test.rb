@@ -12,14 +12,11 @@ class MemberProfileTest < ApplicationSystemTestCase
 
     assert_content @member.full_name
     assert_content @member.number
-    assert_link "Edit Member Profile"
   end
 
   test "member can edit profile" do
     visit account_member_url
-    within(".primary-btn") do
-      click_on "Edit Member Profile"
-    end
+    click_on "Edit Member Profile"
 
     fill_in "Full name", with: "Updated Name"
     find("label", text: "she/her").click # uncheck
@@ -32,9 +29,7 @@ class MemberProfileTest < ApplicationSystemTestCase
 
   test "member sees validation errors on update failure" do
     visit account_member_url
-    within(".primary-btn") do
-      click_on "Edit Member Profile"
-    end
+    click_on "Edit Member Profile"
 
     fill_in "Full name", with: ""
     click_on "Update Member"
