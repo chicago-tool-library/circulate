@@ -1,6 +1,5 @@
 .users-sign-in {
   max-width: 500px;
-  margin-top: 150px;
   .new_user {
     margin-top: 20px;
   }
@@ -14,5 +13,10 @@
   }
   .btn {
     width: 50%;
+  }
+
+  .callout-box {
+    margin-top: 2rem;
+    padding-top: .5rem;
   }
 }
