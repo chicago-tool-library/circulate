@@ -13,6 +13,18 @@
       li {
         margin-bottom: 1em;
       }
+      .warning {
+        border: solid 3px gold;
+        background: lemonchiffon;
+        padding: 0 1em;
+        margin-top: 1em;
+      }
+      .info {
+        border: solid 3px #66C4E3;
+        background: aliceblue;
+        padding: 0 1em;
+        font-weight: bold;
+      }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
