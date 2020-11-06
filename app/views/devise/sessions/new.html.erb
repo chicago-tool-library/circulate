@@ -1,5 +1,7 @@
 <div class="users-sign-in container">
-    <h2 class="text-center">Login</h2>
+    <h2 class="text-center">Member Login</h2>
+
+    <p class="text-center">Login to view your loans, holds, and appointments.</p>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field text mb-2">
@@ -24,7 +26,10 @@
       </div>
     <% end %>
 
-    <div class="text-center">
-      <%= render "devise/shared/links" %>
-    </div>
+    <div class="callout-box">
+      <ul>
+        <li>If you don't have a membership with us yet, <%= link_to "sign up online", signup_path %>.</li>
+        <li>If you need to choose or don't remember your password, <%= link_to "reset your password", new_user_password_path %>.</li>
+      </ul>
+  </div>
 </div>

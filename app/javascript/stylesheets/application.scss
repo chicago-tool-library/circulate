@@ -595,17 +595,18 @@ form.membership-amount {
   margin-bottom: 1rem;
 }
 
+.callout-box {
+  background: white;
+  padding: 1rem .5rem .5rem 1.5rem;
+  margin-bottom: 1rem;
+  ul {
+    list-style: outside;
+  }
+}
+
 .signup {
   .rich-text {
     margin-bottom: 2rem;
-  }
-  .callout-box {
-    background: white;
-    padding: 1rem .5rem .5rem 1.5rem;
-    margin-bottom: 1rem;
-    ul {
-      list-style: outside;
-    }
   }
   .verification-instructions {
   }
