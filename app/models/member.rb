@@ -45,6 +45,7 @@ class Member < ApplicationRecord
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
+  before_validation :downcase_email
 
   after_save :update_user_email
 
@@ -86,9 +87,9 @@ class Member < ApplicationRecord
 
   def upcoming_appointment_of(schedulable)
     if schedulable.is_a? Hold
-      appointments.upcoming.joins(:holds).where(holds: {id: schedulable.id }).first
+      appointments.upcoming.joins(:holds).where(holds: {id: schedulable.id}).first
     elsif schedulable.is_a? Loan
-      appointments.upcoming.joins(:loans).where(loans: { id: schedulable.id }).first
+      appointments.upcoming.joins(:loans).where(loans: {id: schedulable.id }).first
     end
   end
 
@@ -105,6 +106,10 @@ class Member < ApplicationRecord
   def set_default_address_fields
     self.city ||= "Chicago"
     self.region ||= "IL"
+  end
+
+  def downcase_email
+    self.email = email.try(:downcase)
   end
 
   def postal_code_must_be_in_chicago

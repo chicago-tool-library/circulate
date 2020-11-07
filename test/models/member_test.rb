@@ -137,6 +137,12 @@ class MemberTest < ActiveSupport::TestCase
     create(:user, email: "test@notunique.obv")
   end
 
+  test "downcases member email in the database" do
+    user = create(:user, email: "emailWithCapitalLetters@example.com")
+
+    assert_equal "emailwithcapitalletters@example.com", user.email
+  end
+
   test "a member can have an optional bio" do
     member = FactoryBot.build(:member, :with_bio)
     member.save
