@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     resources :renewals, only: [:create, :destroy]
     resources :bulk_renewals, only: [:update]
 
-    resources :members, except: :destroy do
+    resources :members do
       scope module: "members" do
         resources :adjustments, only: :index
         resources :holds, only: [:create, :index, :destroy] do

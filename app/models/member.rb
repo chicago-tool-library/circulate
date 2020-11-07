@@ -1,6 +1,7 @@
 class Member < ApplicationRecord
   has_many :acceptances, class_name: "AgreementAcceptance", dependent: :destroy
-  has_many :adjustments
+  has_many :adjustments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_many :loans, dependent: :destroy
   has_many :checked_out_loans, -> { checked_out }, class_name: "Loan"
@@ -20,7 +21,7 @@ class Member < ApplicationRecord
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
   enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
-  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
+  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}, uniqueness: true
   validates :full_name, presence: true
   validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
   validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
@@ -45,6 +46,7 @@ class Member < ApplicationRecord
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
+  before_validation :downcase_email
 
   after_save :update_user_email
 
@@ -86,9 +88,9 @@ class Member < ApplicationRecord
 
   def upcoming_appointment_of(schedulable)
     if schedulable.is_a? Hold
-      appointments.upcoming.joins(:holds).where(holds: {id: schedulable.id }).first
+      appointments.upcoming.joins(:holds).where(holds: {id: schedulable.id}).first
     elsif schedulable.is_a? Loan
-      appointments.upcoming.joins(:loans).where(loans: { id: schedulable.id }).first
+      appointments.upcoming.joins(:loans).where(loans: {id: schedulable.id}).first
     end
   end
 
@@ -105,6 +107,10 @@ class Member < ApplicationRecord
   def set_default_address_fields
     self.city ||= "Chicago"
     self.region ||= "IL"
+  end
+
+  def downcase_email
+    self.email = email.try(:downcase)
   end
 
   def postal_code_must_be_in_chicago

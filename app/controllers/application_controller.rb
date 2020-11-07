@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :error, :warning
 
+  before_action :set_raven_context
   around_action :set_time_zone
 
   def current_member
@@ -20,11 +21,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_raven_context
+    if user_signed_in?
+      Raven.user_context(id: current_user.id, member_id: current_member.try(:id))
+    end
+  end
+
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
   end
-
-  protected
 
   def after_sign_in_path_for(user)
     referer = stored_location_for(user)

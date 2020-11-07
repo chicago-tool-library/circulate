@@ -21,21 +21,22 @@ module Admin
     end
 
     test "should create member" do
+      member_attrs = build(:member)
       assert_difference("Member.count") do
         post admin_members_url, params: {
           member: {
-            address_verified: @member.address_verified,
-            other_id_kind: @member.other_id_kind,
-            custom_pronoun: @member.custom_pronoun,
-            email: @member.email,
-            full_name: @member.full_name,
-            id_kind: @member.id_kind,
-            bio: @member.bio,
-            phone_number: @member.phone_number,
-            preferred_name: @member.preferred_name,
-            pronoun: @member.pronoun,
+            address_verified: member_attrs.address_verified,
+            other_id_kind: member_attrs.other_id_kind,
+            custom_pronoun: member_attrs.custom_pronoun,
+            email: member_attrs.email,
+            full_name: member_attrs.full_name,
+            id_kind: member_attrs.id_kind,
+            bio: member_attrs.bio,
+            phone_number: member_attrs.phone_number,
+            preferred_name: member_attrs.preferred_name,
+            pronoun: member_attrs.pronoun,
             postal_code: "60606",
-            address1: @member.address1
+            address1: member_attrs.address1
           }
         }
       end
