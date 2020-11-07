@@ -1,6 +1,7 @@
 class Member < ApplicationRecord
   has_many :acceptances, class_name: "AgreementAcceptance", dependent: :destroy
-  has_many :adjustments
+  has_many :adjustments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_many :loans, dependent: :destroy
   has_many :checked_out_loans, -> { checked_out }, class_name: "Loan"
