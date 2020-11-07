@@ -9,6 +9,7 @@ class Appointment < ApplicationRecord
   attr_accessor :time_range_string
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
+  scope :chronologically, -> { order("starts_at ASC") }
 
   private
 

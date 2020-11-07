@@ -2,7 +2,7 @@ module Admin
   class AppointmentsController < BaseController
     def index
       @current_day = Date.parse(params[:day] ||= Date.today.to_s)
-      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day)
+      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day).chronologically
     end
 
     def show
