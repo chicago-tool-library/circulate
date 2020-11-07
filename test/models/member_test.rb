@@ -132,15 +132,18 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "revised@different.biz", member.user.email
   end
 
-  test "allows multiple users with the same email address" do
-    create(:user, email: "test@notunique.obv")
-    create(:user, email: "test@notunique.obv")
+  test "doesn't allow multiple users with the same email address" do
+    create(:member, email: "test@notunique.obv")
+    dupe = build(:member, email: "test@notunique.obv")
+
+    refute dupe.valid?
+    assert dupe.errors.messages.include?(:email)
   end
 
   test "downcases member email in the database" do
-    user = create(:user, email: "emailWithCapitalLetters@example.com")
+    member = create(:member, email: "emailWithCapitalLetters@example.com")
 
-    assert_equal "emailwithcapitalletters@example.com", user.email
+    assert_equal "emailwithcapitalletters@example.com", member.email
   end
 
   test "a member can have an optional bio" do
