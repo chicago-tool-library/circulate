@@ -36,5 +36,12 @@ module Admin
 
       redirect_to admin_search_path(query: @query)
     end
+
+    def name_or_number_search
+      @query = params[:query]
+      @items_by_name_or_number = Item.name_or_number_contains(@query).by_name
+
+      redirect_to admin_search_path(query: @query)
+    end
   end
 end

@@ -23,9 +23,9 @@ module Admin
 
       @check_out = CheckOut.new
 
-      @item_name = params[:item_name]
-      if @item_name
-        @items_by_name = Item.name_contains(@item_name).by_name
+      @query = params[:item_name_or_number]
+      if @query
+        @items_by_name_or_number = Item.name_or_number_contains(@query).by_name
       end
     end
 

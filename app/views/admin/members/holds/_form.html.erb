@@ -4,11 +4,11 @@
   <% end %>
 
   <%= form.hidden_field :member_id %>
-  <%= form.hidden_field :item_id, value: @item.id %>
+  <%= form.hidden_field :item_id, value: item.id %>
 
-  <%= button_tag class: "btn" do %> 
+  <%= button_tag class: "btn" do %>
     <%= feather_icon "clipboard" %>Hold
   <% end %>
 
-  <%= (@item.holds.active.count + 1).ordinalize %> in line
+  <%= (item.holds.active.count + 1).ordinalize %> in line
 <% end %>

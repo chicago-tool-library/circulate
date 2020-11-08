@@ -2,13 +2,13 @@
 <%= form_with(model: lookup, url: admin_member_lookups_path(@member), builder: SpectreFormBuilder) do |form| %>
   <%= form.errors %>
 
-  <div data-controller="item-number-input">
-    <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member",
-    pattern: "[0-9]{1,4}",
-    placeholder: "1-4 digit item number",
+  <div data-controller="item-name-or-number-input">
+    <%= form.text_field :item_name_or_number, label: "Enter an item's name or number to loan it to this member",
+    pattern: "[a-zA-Z0-9]{3,}",
+    placeholder: "enter minimum 3 characters",
     autocomplete: "off",
-    data: {action: "keydown->item-number-input#keydown"},
-    hint: "Just the number; no need for letters, dashes, etc." %>
+    data: {action: "keydown->item-name-or-number-input#keydown"},
+    hint: "Enter numbers or letters" %>
   </div>
 
   <%= form.actions do %>

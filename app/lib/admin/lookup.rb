@@ -3,25 +3,17 @@ module Admin
     include ActiveModel::Model
 
     attr_reader :item
-    attr_reader :item_number
-    # attr_reader :item_name
+    attr_reader :item_name_or_number
+    # attr_reader :items_by_name_or_number
 
     validates_each :item do |record, attr, value|
       unless value
-        record.errors.add(:item_number, "no item with that number")
-        # record.errors.add(:item_name, "no item with that name")
+        record.errors.add(:item_name_or_number, "no item with that name or number")
       end
     end
 
-    def item_number=(item_number)
-      @item_number = item_number
-      @item = Item.find_by(number: item_number)
+    def item_name_or_number=(item_name_or_number)
+      Item.name_or_number_contains(item_name_or_number).by_name
     end
-
-    # def item_name=(item_name)
-    #   @item_name = item_name
-    #   # @item = Item.find_by(name: item_name)
-    #   @item = Item.name_contains(@query).by_name
-    # end
   end
 end

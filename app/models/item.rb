@@ -39,6 +39,7 @@ class Item < ApplicationRecord
   audited
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
+  scope :name_or_number_contains, ->(query) { where("number::text ILIKE ? OR name ILIKE ?", "%#{query}%") }
   scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
@@ -71,7 +72,7 @@ class Item < ApplicationRecord
 
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
-    joins(:borrow_policy).find_by(borrow_policies: { code: code }, number: number.to_i)
+    joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
   def assign_number
