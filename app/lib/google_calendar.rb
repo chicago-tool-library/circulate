@@ -1,7 +1,7 @@
 class GoogleCalendar
   TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
 
-  def initialize(calendar_id: ENV.fetch("GCAL_CALENDAR_ID"))
+  def initialize(calendar_id:)
     @calendar_id = calendar_id
   end
 

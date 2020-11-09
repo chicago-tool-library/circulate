@@ -76,7 +76,7 @@
 
   <div class="form-group">
     <label class="form-label" for="time_range_string">Select a time to pick-up/return your items</label>
-    <%= select("appointment", "time_range_string", grouped_options_for_select(OpenDays.next_slots_for_select(weeks: 2), @appointment.time_range_string), { include_blank: '-- Select a Date --'}, class: "form-select") %>
+    <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: '-- Select a Date --'}, class: "form-select") %>
   </div>
 
   <div class="form-group mb-2">

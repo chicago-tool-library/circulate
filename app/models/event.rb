@@ -1,5 +1,10 @@
 class Event < ApplicationRecord
   scope :upcoming, -> { where("start > ?", Time.current) }
+
+  scope :appointment_slots, -> {
+    upcoming.where(calendar_id: ENV.fetch("APPOINTMENT_SLOT_CALENDAR_ID")).order("start ASC")
+  }
+
   def date
     start.to_date
   end
