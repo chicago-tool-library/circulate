@@ -15,8 +15,8 @@ class Event < ApplicationRecord
   end
 
   def self.update_events(gcal_events)
-    gcal_events.each do |gcal_event|
-      transaction(requires_new: true) do
+    transaction(requires_new: true) do
+      gcal_events.each do |gcal_event|
         if gcal_event.cancelled?
           Event.find_by(
             calendar_event_id: gcal_event.id,
@@ -36,5 +36,9 @@ class Event < ApplicationRecord
         end
       end
     end
+  end
+
+  def self.appointment_slot_calendar_id
+    ENV.fetch("APPOINTMENT_SLOT_CALENDAR_ID")
   end
 end
