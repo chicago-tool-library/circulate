@@ -49,7 +49,7 @@ module Account
     end
 
     def load_appointment_slots
-      events = Event.appointment_slots
+      events = Event.appointment_slots.upcoming
       @appointment_slots = events.group_by { |event| event.start.to_date }.map { |date, events|
         times = events.map { |event| [event.times, event.start..event.finish] }
         [date.strftime("%A, %B %-d, %Y"), times]
