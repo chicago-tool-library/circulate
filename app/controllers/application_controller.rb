@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
+  include ActiveSupport::Testing::TimeHelpers
 
   helper_method :current_member
 
@@ -7,12 +8,23 @@ class ApplicationController < ActionController::Base
 
   before_action :set_raven_context
   around_action :set_time_zone
+  around_action :override_time_in_development, if: -> { Rails.env.development? }
+
+  private
+
+  def override_time_in_development(&block)
+    if session[:time_override]
+      travel_to session[:time_override] do
+        yield
+      end
+    else
+      yield
+    end
+  end
 
   def current_member
     current_user.member
   end
-
-  private
 
   def set_time_zone(&block)
     Time.use_zone "America/Chicago" do
