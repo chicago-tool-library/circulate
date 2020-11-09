@@ -119,7 +119,7 @@ jobs:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
-          PARALLEL_WORKERS: 4
+          PARALLEL_WORKERS: 1
           HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
