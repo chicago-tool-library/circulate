@@ -1,5 +1,3 @@
-require "active_support/testing/time_helpers"
-
 module Admin
   class BaseController < ApplicationController
     before_action :authenticate_user!
