@@ -21,6 +21,7 @@ class Item < ApplicationRecord
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
   has_many :notes, as: :notable
+  has_many :attachments, class_name: "ItemAttachment"
 
   has_rich_text :description
   has_one_attached :image
@@ -71,7 +72,7 @@ class Item < ApplicationRecord
 
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
-    joins(:borrow_policy).find_by(borrow_policies: { code: code }, number: number.to_i)
+    joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
   def assign_number

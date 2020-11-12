@@ -48,6 +48,10 @@ Rails.application.routes.draw do
       resources :checkins, only: [:create], controller: :appointment_checkins
     end
     resources :items do
+      scope module: "items" do
+        resources :attachments
+      end
+
       get :number
       resource :image, only: [:edit, :update]
       resource :item_history, only: :show

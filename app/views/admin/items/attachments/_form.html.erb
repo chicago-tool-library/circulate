@@ -1,0 +1,20 @@
+<div class="attachment-form">
+  <%= form_with(model: attachment, url: admin_item_attachments_path(item), builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+
+    <%= form.file_field :file %>
+
+    <div data-controller="conditional-field" data-conditional-field-trigger="other">
+      <%= form.select :kind, options_for_select(item_attachment_kind_options, attachment.kind), {}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
+      <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
+        <%= form.text_field :other_kind %>
+      <% end %>
+    </div>
+
+    <%= form.text_field :notes %>
+
+    <%= form.actions do %>
+      <%= form.submit "Create", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+</div>

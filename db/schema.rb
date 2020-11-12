@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_07_024718) do
+ActiveRecord::Schema.define(version: 2020_11_12_012007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,12 @@ ActiveRecord::Schema.define(version: 2020_11_07_024718) do
     "new",
     "completed",
     "denied"
+  ], force: :cascade
+
+  create_enum :item_attachment_kind, [
+    "manual",
+    "parts_list",
+    "other"
   ], force: :cascade
 
   create_enum :notification_status, [
@@ -240,6 +246,18 @@ ActiveRecord::Schema.define(version: 2020_11_07_024718) do
     t.index ["member_id"], name: "index_holds_on_member_id"
   end
 
+  create_table "item_attachments", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.enum "kind", enum_name: "item_attachment_kind"
+    t.string "other_kind"
+    t.string "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
+    t.index ["item_id"], name: "index_item_attachments_on_item_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -383,6 +401,8 @@ ActiveRecord::Schema.define(version: 2020_11_07_024718) do
   add_foreign_key "holds", "loans"
   add_foreign_key "holds", "members"
   add_foreign_key "holds", "users", column: "creator_id"
+  add_foreign_key "item_attachments", "items"
+  add_foreign_key "item_attachments", "users", column: "creator_id"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
