@@ -22,6 +22,10 @@ class LoanSummary < ApplicationRecord
   scope :by_due_date, -> { order(due_at: :asc) }
   scope :chronologically, -> { order(created_at: :asc) }
 
+  def item
+    super || NullItem.new
+  end
+
   def ended?
     ended_at.present?
   end
