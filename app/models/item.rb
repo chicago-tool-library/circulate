@@ -14,13 +14,13 @@ class Item < ApplicationRecord
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
-  has_many :loans, dependent: :destroy
+  has_many :loans, dependent: :nullify
   has_many :holds, dependent: :destroy
   has_many :active_holds, -> { active }, dependent: :destroy, class_name: "Hold"
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
-  has_many :notes, as: :notable
+  has_many :notes, as: :notable, dependent: :destroy
 
   has_rich_text :description
   has_one_attached :image
@@ -71,7 +71,7 @@ class Item < ApplicationRecord
 
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
-    joins(:borrow_policy).find_by(borrow_policies: { code: code }, number: number.to_i)
+    joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
   def assign_number
