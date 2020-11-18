@@ -26,12 +26,18 @@ class Admin::NotesController < ApplicationController
 
   def edit
     @note = @parent.notes.find(params[:id])
-    render_to_portal "form", locals: {parent: @parent, note: @note}
+    layout = @parent.is_a?(Member) ? 'admin' : false
+    render "_form", locals: {parent: @parent, note: @note}, layout: layout
   end
 
   def show
     @note = @parent.notes.find(params[:id])
     render_to_portal "show", locals: {parent: @parent, note: @note}
+  end
+
+  def destroy
+    @parent.notes.find(params[:id]).destroy!
+    redirect_to [:admin, @parent], flash: { success: "Note has been deleted." }
   end
 
   private
