@@ -26,7 +26,7 @@ module AdminHelper
   end
 
   def item_attachment_kind_options
-    ItemAttachment.kinds
+    ItemAttachment.kinds.map { |k, v| [k.titleize, v] }
   end
 
   def tab_link(label, path)

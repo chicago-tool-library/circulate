@@ -29,6 +29,16 @@ module Admin
         end
       end
 
+      def destroy
+        @attachment = @item.attachments.find(params[:id])
+
+        if @attachment.delete
+          redirect_to admin_item_attachments_path(@item)
+        else
+          redirect_to admin_item_attachments_path(@item), status: 422, error: "Could delete that attachment"
+        end
+      end
+
       def edit
         @attachment = @item.attachments.find(params[:id])
       end

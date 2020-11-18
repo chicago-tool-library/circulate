@@ -1,16 +1,22 @@
-<table class="table">
-    <tr>
-        <th>File</th>
-        <th>Kind</th>
-        <th>Notes</th>
-        <th></th>
-    </tr>
-    <% @attachments.each do |attachment| %>
-        <tr>
-            <td><%= link_to attachment.file.filename, rails_blob_url(attachment.file) %></td>
-            <td><%= attachment.kind == "other" ? attachment.other_kind : attachment.kind.titleize %></td>
-            <td><%= attachment.notes %></td>
-            <td><%= link_to "Edit", edit_admin_item_attachment_path(@item, attachment), class: "btn" %></td>
-        </tr>
-    <% end %>
-</table>
+<%= render "admin/items/profile" do %>
+  <table class="table">
+      <tr>
+          <th>File</th>
+          <th>Kind</th>
+          <th>Notes</th>
+          <th></th>
+      </tr>
+      <% @attachments.each do |attachment| %>
+          <tr>
+              <td><%= link_to attachment.file.filename, rails_blob_url(attachment.file) %></td>
+              <td><%= attachment.kind == "other" ? attachment.other_kind : attachment.kind.titleize %></td>
+              <td><%= attachment.notes %></td>
+              <td>
+                  <%= link_to "Edit", edit_admin_item_attachment_path(@item, attachment), class: "btn" %>
+                  <%= button_to "Delete", admin_item_attachment_path(@item, attachment), 
+                      method: :delete, data: {confirm: "Delete this attachment?"}, class: "btn" %>
+              </td>
+          </tr>
+      <% end %>
+  </table>
+<% end %>

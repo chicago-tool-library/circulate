@@ -11,4 +11,11 @@ class ItemAttachment < ApplicationRecord
   }
 
   validates :kind, inclusion: {in: ItemAttachment.kinds.keys}
+  validate :file_is_attached
+
+  private
+
+  def file_is_attached
+    errors.add(:file, "is required") unless file.attached?
+  end
 end

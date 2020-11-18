@@ -1,5 +1,5 @@
 <div class="attachment-form">
-  <%= form_with(model: attachment, url: admin_item_attachments_path(item), builder: SpectreFormBuilder) do |form| %>
+  <%= form_with(model: attachment, url: attachment.new_record? ? admin_item_attachments_path(item) : admin_item_attachment_path(item, attachment), builder: SpectreFormBuilder) do |form| %>
     <%= form.errors %>
 
     <%= form.file_field :file %>
@@ -7,7 +7,7 @@
     <div data-controller="conditional-field" data-conditional-field-trigger="other">
       <%= form.select :kind, options_for_select(item_attachment_kind_options, attachment.kind), {}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
       <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
-        <%= form.text_field :other_kind %>
+        <%= form.text_field :other_kind, placeholder: "Please specify" %>
       <% end %>
     </div>
 
