@@ -69,7 +69,7 @@ module Admin
     def update
       respond_to do |format|
         if @item.update(item_params)
-          @item.manual.purge_later if all_item_params[:delete_manual] == "1"
+          @item.image.purge_later if all_item_params[:delete_image] == "1"
 
           format.html { redirect_to [:admin, @item], success: "Item was successfully updated." }
           format.json { render :show, status: :ok, location: @item }
@@ -108,7 +108,7 @@ module Admin
     def all_item_params
       params.require(:item).permit(
         :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :manual, :delete_manual, category_ids: []
+        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, category_ids: []
       )
     end
 

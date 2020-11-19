@@ -61,8 +61,11 @@
               <span class="placeholder-text">No categories</span>
             <% end %>
           <% end %>
-          <% file = @item.manual.attached? ? link_to("View Manual", url_for(@item.manual)) : nil %>
-          <%= icon_stat "file", file, title: "manual", placeholder: "No files" %>
+          <%= icon_stat "file", title: "attachments", placeholder: "No attachments" do %>
+            <% if (count = @item.attachments.count) > 0 %>
+              <%= link_to(pluralize(count, "attachment"), admin_item_attachments_path(@item)) %>
+            <% end %>
+          <% end %>
         </ul>
 
       </div>
