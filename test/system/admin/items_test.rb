@@ -46,7 +46,7 @@ class ItemsTest < ApplicationSystemTestCase
     assert_text "Item was successfully updated"
   end
 
-  test "adding a manual to an item and then deleting it" do
+  test "adding an image to an item and then deleting it" do
     audited_as_admin do
       @item = create(:item)
     end
@@ -54,23 +54,23 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_url(@item)
     click_on "Edit"
 
-    attach_file "Manual", Rails.root + "test/fixtures/files/file.pdf"
+    attach_file "Image", Rails.root + "test/fixtures/files/tool-image.jpg"
     click_on "Update Item"
 
     assert_text "Item was successfully updated"
-    assert_text "View Manual"
+    assert_selector ".item-image img"
 
     # Make sure it's only deleted when checkbox is toggled
     click_on "Edit"
     click_on "Update Item"
-    assert_text "View Manual"
+    assert_selector ".item-image img"
 
     click_on "Edit"
     # Can't use check method with spectre as its labels obscure checkboxes
-    page.find("label", text: "Delete current manual").click
+    page.find("label", text: "Delete current image").click
     click_on "Update Item"
 
-    refute_text "View Manual"
+    refute_selector ".item-image img"
   end
 
   test "destroying an item" do

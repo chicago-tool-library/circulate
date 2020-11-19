@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       resource :image, only: [:edit, :update]
       resource :item_history, only: :show
       resource :loan_history, only: :show
-      resource :manual_import, only: [:edit, :update]
+      # resource :manual_import, only: [:edit, :update]
       resources :item_holds, only: :index
 
       resources :notes

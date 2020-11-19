@@ -14,7 +14,7 @@
     <%= form.text_field :notes %>
 
     <%= form.actions do %>
-      <%= form.submit "Create", class: "btn btn-primary" %>
+      <%= form.submit attachment.new_record? ? "Create" : "Save", class: "btn btn-primary" %>
     <% end %>
   <% end %>
 </div>

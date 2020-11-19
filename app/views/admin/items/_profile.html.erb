@@ -5,8 +5,8 @@
       <% if @item.image.attached? %>
         <%= link_to 'Edit Photo', edit_admin_item_image_path(@item), class: "btn btn-sm" %>
       <% end %>
-      <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
-      <%= link_to 'Add Attachment', new_admin_item_attachment_path(item_id:@item), class: "btn btn-sm" %>
+      <%# <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
+      <%= link_to 'Add File', new_admin_item_attachment_path(item_id:@item), class: "btn btn-sm" %>
       <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn btn-sm" %>
     </div>
     <div class="show-md item-btn-group">
@@ -14,8 +14,8 @@
     <% if @item.image.attached? %>
       <%= link_to 'Edit Photo', edit_admin_item_image_path(@item), class: "btn btn-sm" %>
     <% end %>
-    <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
-    <%= link_to 'Add Attachment', new_admin_item_attachment_path(item_id:@item), class: "btn btn-sm" %>
+    <%# <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
+    <%= link_to 'Add File', new_admin_item_attachment_path(item_id:@item), class: "btn btn-sm" %>
     <%= link_to 'Duplicate', new_admin_item_path(item_id:@item), class: "btn btn-sm" %>
   </div>
   <% end %>
@@ -61,9 +61,9 @@
               <span class="placeholder-text">No categories</span>
             <% end %>
           <% end %>
-          <%= icon_stat "file", title: "attachments", placeholder: "No attachments" do %>
+          <%= icon_stat "file", title: "files", placeholder: "No files" do %>
             <% if (count = @item.attachments.count) > 0 %>
-              <%= link_to(pluralize(count, "attachment"), admin_item_attachments_path(@item)) %>
+              <%= link_to(pluralize(count, "files"), admin_item_attachments_path(@item)) %>
             <% end %>
           <% end %>
         </ul>
@@ -82,7 +82,7 @@
 
     <ul class="tab">
       <%= tab_link "Description", admin_item_path(@item) %>
-      <%= tab_link "Attachments", admin_item_attachments_path(@item) %>
+      <%= tab_link "Files", admin_item_attachments_path(@item) %>
       <%= tab_link "Holds", admin_item_item_holds_path(@item) %>
       <%= tab_link 'Loan History', admin_item_loan_history_path(@item) %>
       <%= tab_link 'Edit History', admin_item_item_history_path(@item) %>
