@@ -21,10 +21,10 @@ class Item < ApplicationRecord
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
+  has_many :attachments, class_name: "ItemAttachment"
 
   has_rich_text :description
   has_one_attached :image
-  has_one_attached :manual
 
   enum status: [:pending, :active, :maintenance, :retired]
 
