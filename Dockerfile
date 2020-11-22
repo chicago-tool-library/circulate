@@ -29,6 +29,7 @@ COPY . .
 FROM ruby:2.7.2-alpine
 
 ARG RAILS_ROOT=/usr/src/app/
+ARG USER_ID
 
 RUN apk update && apk upgrade && apk add --update --no-cache \
   bash \
@@ -45,10 +46,13 @@ RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \
  fc-cache -f && \
  apk del .ms-fonts
 
+RUN adduser --disabled-password --gecos '' --uid $USER_ID user
+USER user
+
 WORKDIR $RAILS_ROOT
 
-COPY --from=builder $RAILS_ROOT $RAILS_ROOT
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+COPY --from=builder --chown=user:user $RAILS_ROOT $RAILS_ROOT
+COPY --from=builder --chown=user:user /usr/local/bundle/ /usr/local/bundle/
 
 EXPOSE 3000
 
