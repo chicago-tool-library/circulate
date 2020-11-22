@@ -66,4 +66,26 @@ class ItemTest < ActiveSupport::TestCase
 
     assert_equal 2, Item.without_attached_image.count
   end
+
+  test "can delete an item with a renewed loan" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+    loan.renew!
+
+    assert item.destroy
+  end
+
+  test "can delete an item with an active loan" do
+    item = create(:item)
+    create(:loan, item: item)
+
+    assert item.destroy
+  end
+
+  test "can delete an item with a hold" do
+    item = create(:item)
+    create(:hold, item: item)
+
+    assert item.destroy
+  end
 end

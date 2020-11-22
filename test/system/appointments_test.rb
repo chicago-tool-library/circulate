@@ -43,7 +43,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     selected_date = first_optgroup.value
     first_optgroup.find("option", match: :first).select_option
 
-    fill_in "Tell us about the project you are working on", with: "Just a small project"
+    fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Just a small project"
     click_on "Create Appointment"
 
     assert_text "Upcoming Appointments"

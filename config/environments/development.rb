@@ -60,7 +60,18 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "shiny.local"
+  if ENV.fetch("DOCKER", "") == "true"
+    Socket.ip_address_list.each do |addrinfo|
+      next unless addrinfo.ipv4?
+      next if addrinfo.ip_address == "127.0.0.1"
+
+      ip = IPAddr.new(addrinfo.ip_address).mask(24)
+
+      Logger.new($stdout).info "Adding #{ip.inspect} to config.web_console.permissions"
+
+      config.web_console.permissions = ip
+    end
+  end
 
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
   config.action_mailer.asset_host = "http://localhost:3000"

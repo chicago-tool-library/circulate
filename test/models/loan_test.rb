@@ -194,6 +194,28 @@ class LoanTest < ActiveSupport::TestCase
     refute Loan.exists?(second_renewal.id)
   end
 
+  test "returns a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.return!
+  end
+
+  test "renews a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.renew!
+  end
+
   test "finds loans that were due whole weeks ago" do
     tonight = Time.current.end_of_day
     loan = create(:loan, due_at: tonight)
