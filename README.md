@@ -1,6 +1,6 @@
 # Circulate
 
-[![CircleCI](https://circleci.com/gh/rubyforgood/circulate.svg?style=svg)](https://circleci.com/gh/rubyforgood/circulate)
+[![CircleCI](https://circleci.com/gh/rubyforgood/circulate/tree/main.svg?style=svg)](https://circleci.com/gh/rubyforgood/circulate)
 
 <!-- toc -->
 

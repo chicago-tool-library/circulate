@@ -502,8 +502,8 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background: $error-color;
-  color: $light-color;
+  background-color: lighten($error-color, 20%);
+  color: inherit;
 }
 
 .conditional-field-child.nested {
@@ -534,7 +534,7 @@ legend {
   &.on-step {
     img {
       display: inline;
-      max-width: 10%;
+      max-width: 8%;
       vertical-align: middle;
     }
     h1 {
@@ -595,17 +595,18 @@ form.membership-amount {
   margin-bottom: 1rem;
 }
 
+.callout-box {
+  background: white;
+  padding: 1rem .5rem .5rem 1.5rem;
+  margin-bottom: 1rem;
+  ul {
+    list-style: outside;
+  }
+}
+
 .signup {
   .rich-text {
     margin-bottom: 2rem;
-  }
-  .callout-box {
-    background: white;
-    padding: 1rem .5rem .5rem 1.5rem;
-    margin-bottom: 1rem;
-    ul {
-      list-style: outside;
-    }
   }
   .verification-instructions {
   }
@@ -1085,8 +1086,6 @@ ul.hold-items {
   }
 }
 
-
-
 .tool-card .modal {
   .stats {
     margin-bottom: 1.2rem;
@@ -1109,11 +1108,10 @@ ul.hold-items {
   margin-left: 20px;
 }
 
-
-
-
 html, body {
   height: 100%;
+  min-height: 100%;
+
 }
 body {
   display: flex;
@@ -1123,10 +1121,11 @@ body {
 .container.public {
   flex: 1 0 auto;
 }
-
 footer.page-footer {
   font-size: 0.8rem;
   padding: 1rem 0 0;
   flex-shrink: 0;
   background: $background-color-dark;
-}
+  text-align: center;
+  position: relative;
+  }

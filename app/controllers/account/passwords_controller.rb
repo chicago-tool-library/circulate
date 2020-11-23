@@ -1,6 +1,5 @@
 module Account
   class PasswordsController < BaseController
-    
     def edit
       @user = current_user
     end

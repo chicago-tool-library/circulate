@@ -1,6 +1,5 @@
 @import 'mixins';
 
-
 $primary-color: #2F7890;
 $secondary-color: darken(#CDABBE, 10%);
 $error-color: #DF6C54;
@@ -17,7 +16,6 @@ $secondary-color-light: lighten($secondary-color, 20%);
 $background-color: #F9F6F2;
 
 $background-color-dark: darken($background-color, 5%);
-
 
 @mixin default-button{
   border-color: lighten($gray-color-light, 5%);
@@ -64,10 +62,9 @@ $background-color-dark: darken($background-color, 5%);
 $button-color: #36b3a8;
 $pri-btn-color-hover: darken($button-color, 7%);
 
-body {
-  font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
+// body {
+//   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+// }
 
 // BUTTONS
 .primary-btn {
@@ -102,27 +99,27 @@ body {
 }
 
 // TYPOGRAPHY
-.new_title {
-  a {
-    @include standard_font;
-    font-size: $title-size;
-    letter-spacing: $title-letter-spacing;
-    color: $text-color;
-    text-decoration: none;
+// .title {
+//   a {
+//     @include standard_font;
+//     font-size: $title-size;
+//     letter-spacing: $title-letter-spacing;
+//     color: $text-color;
+//     text-decoration: none;
 
-    &.active {
-      color: $text-color;
-    }
+//     &.active {
+//       color: $text-color;
+//     }
     
-      &:visited {
-        color: $text-color;
-      }
-  }
-  @include standard_font;
-  @include title_uppercase_weight;
-  font-size: $title-size;
-  letter-spacing: $title-letter-spacing;
-}
+//       &:visited {
+//         color: $text-color;
+//       }
+//   }
+//   @include standard_font;
+//   @include title_uppercase_weight;
+//   font-size: $title-size;
+//   letter-spacing: $title-letter-spacing;
+// }
 
 .title_bold {
   @include title_bold;

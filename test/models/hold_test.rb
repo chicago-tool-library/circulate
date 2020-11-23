@@ -10,4 +10,3 @@ class HoldTest < ActiveSupport::TestCase
     end
   end
 end
-

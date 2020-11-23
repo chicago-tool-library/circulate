@@ -9,7 +9,7 @@ module Account
       @member = create(:member, user: @user)
       @loan1 = create(:loan, member: @member)
       @loan2 = create(:loan)
-  
+
       sign_in @user
     end
 

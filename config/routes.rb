@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {sessions: 'users/sessions'}
+  devise_for :users, controllers: {sessions: "users/sessions"}
 
   namespace :signup do
     resources :members, only: [:new, :create]
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   namespace :account do
     resources :holds, only: [:create, :destroy]
-    resources :appointments, only: [:index, :new, :create]
+    resources :appointments, only: [:index, :new, :create, :destroy]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
@@ -43,16 +43,20 @@ Rails.application.routes.draw do
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
-      resources :loans, only: [:destroy], controller: :appointment_loans
+      resources :loans, only: [:create, :destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
       resources :checkins, only: [:create], controller: :appointment_checkins
     end
     resources :items do
+      scope module: "items" do
+        resources :attachments
+      end
+
       get :number
       resource :image, only: [:edit, :update]
       resource :item_history, only: :show
       resource :loan_history, only: :show
-      resource :manual_import, only: [:edit, :update]
+      # resource :manual_import, only: [:edit, :update]
       resources :item_holds, only: :index
 
       resources :notes
@@ -62,7 +66,7 @@ Rails.application.routes.draw do
     resources :renewals, only: [:create, :destroy]
     resources :bulk_renewals, only: [:update]
 
-    resources :members, except: :destroy do
+    resources :members do
       scope module: "members" do
         resources :adjustments, only: :index
         resources :holds, only: [:create, :index, :destroy] do

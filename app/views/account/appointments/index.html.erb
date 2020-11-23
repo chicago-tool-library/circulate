@@ -1,5 +1,5 @@
 <div class="appointments-page">
-  <h1 class="new_title">Upcoming Appointments</h1>
+  <h1 class="title">Upcoming Appointments</h1>
 
   <% if @appointments.blank? %>
     <section class="appointment">
@@ -11,10 +11,14 @@
 
   <% @appointments.each_with_index do |appointment, index| %>
     <section class="appointment">
+      <div class="float-right d-flex">        
+        <%= button_to "Cancel", account_appointment_path(appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+        
+      </div>
       <div class="appointment-date">
         <h2 class="title_bold"><%= index + 1 %>.</h2>
         <h2 class="title_bold">
-          <%= appointment.starts_at.strftime("%A") %>, <%= appointment.starts_at.strftime("%b %-d, %Y") %>
+          <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %>
           <br />
           <small class="gray-dark"><%= "#{appointment.starts_at.strftime("%I:%M%P")} - #{appointment.ends_at.strftime("%I:%M%P")}" %></small>
         </h2>

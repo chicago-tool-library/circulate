@@ -55,19 +55,19 @@ class OpenDaysTest < ActiveSupport::TestCase
   test "next_slots_for_select: returns formatted time slots" do
     travel_to DateTime.new(2020, 9, 24, 14, 0, 0)
     assert_equal OpenDays.next_slots_for_select(weeks: 2, time_slots: TIME_SLOTS), {
-      "Sat Sep 26" => [
+      "Saturday, September 26, 2020" => [
         ["11 am to 12 pm", Time.parse("Sat, 26 Sep 2020 11:00:00 -0500")..Time.parse("Sat, 26 Sep 2020 12:00:00 -0500")],
         ["12 pm to 1 pm", Time.parse("Sat, 26 Sep 2020 12:00:00 -0500")..Time.parse("Sat, 26 Sep 2020 13:00:00 -0500")]
       ],
-      "Thu Oct 1" => [
+      "Thursday, October 1, 2020" => [
         ["6 pm to 7 pm", Time.parse("Thu, 01 Oct 2020 18:00:00 -0500")..Time.parse("Thu, 01 Oct 2020 19:00:00 -0500")],
         ["7 pm to 8 pm", Time.parse("Thu, 01 Oct 2020 19:00:00 -0500")..Time.parse("Thu, 01 Oct 2020 20:00:00 -0500")]
       ],
-      "Sat Oct 3" => [
+      "Saturday, October 3, 2020" => [
         ["11 am to 12 pm", Time.parse("Sat, 03 Oct 2020 11:00:00 -0500")..Time.parse("Sat, 03 Oct 2020 12:00:00 -0500")],
         ["12 pm to 1 pm", Time.parse("Sat, 03 Oct 2020 12:00:00 -0500")..Time.parse("Sat, 03 Oct 2020 13:00:00 -0500")]
       ],
-      "Thu Oct 8" => [
+      "Thursday, October 8, 2020" => [
         ["6 pm to 7 pm", Time.parse("Thu, 08 Oct 2020 18:00:00 -0500")..Time.parse("Thu, 08 Oct 2020 19:00:00 -0500")],
         ["7 pm to 8 pm", Time.parse("Thu, 08 Oct 2020 19:00:00 -0500")..Time.parse("Thu, 08 Oct 2020 20:00:00 -0500")]
       ]

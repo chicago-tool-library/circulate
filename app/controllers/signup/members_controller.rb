@@ -5,7 +5,7 @@ module Signup
         redirect_to signup_agreement_url
         return
       end
-      @member = Member.new(
+      @member_signup_form = MemberSignupForm.new(
         reminders_via_email: true,
         reminders_via_text: true,
         receive_newsletter: true
@@ -14,10 +14,10 @@ module Signup
     end
 
     def create
-      @member = Member.new(member_params)
+      @member_signup_form = MemberSignupForm.new(member_signup_form_params)
 
-      if @member.save
-        session[:member_id] = @member.id
+      if @member_signup_form.save
+        session[:member_id] = @member_signup_form.member_id
         session[:timeout] = Time.current + 15.minutes
 
         redirect_to signup_agreement_url
@@ -29,11 +29,11 @@ module Signup
 
     private
 
-    def member_params
-      params.require(:member).permit(
+    def member_signup_form_params
+      params.require(:member_signup_form).permit(
         :full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :postal_code,
         :address1, :address2, :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter,
-        :volunteer_interest, pronouns: []
+        :volunteer_interest, :password, :password_confirmation, pronouns: []
       )
     end
   end

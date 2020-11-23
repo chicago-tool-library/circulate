@@ -4,22 +4,36 @@
       <%= link_to "Items", items_path %>
     </li>
     <li class="breadcrumb-item">
-      <%= link_to item.name, item_path(item) %>
+      <%= link_to @item.name, item_path(@item) %>
     </li>
   </ul>
 
-  <h1><%= item.name %></h1>
+  <h1><%= @item.name %></h1>
 
   <div class="columns">
-
     <div class="column col-6 item-image">
-      <% if item.image.attached? %>
-        <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [600, 600])), class: "p-centered" %>
+      <% if @item.image.attached? %>
+        <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [600, 600])), class: "p-centered" %>
       <% end %>
     </div>
 
     <div class="column col-6">
-      <%= render partial: "details", locals: {item: item} %>
-      <%= render partial: place_hold_partial %>
+      <%= render partial: "details", locals: {item: @item} %>
+
+      <% if user_signed_in? %>
+
+        <% if @item.allow_multiple_holds_per_member? %>
+          <%= render partial: "items/place_hold_on/item_that_allows_multiple_holds", locals: {item: @item, current_hold_count: @current_hold_count} %>
+        <% elsif @current_hold %>
+          <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
+        <% else %>
+          <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
+        <% end %>
+
+      <% else %>
+        <%= render partial: "items/place_hold_on/not_logged_in" %>
+      <% end %>
+
     </div>
+  </div>
 </div>

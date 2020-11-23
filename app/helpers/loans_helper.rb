@@ -13,9 +13,9 @@ module LoansHelper
   end
 
   def humanize_due_date(loan)
-    if loan.due_at.to_date == Date.today
+    if loan.due_at.to_date == Time.zone.today
       "today"
-    elsif loan.due_at.to_date == Date.tomorrow
+    elsif loan.due_at.to_date == Time.zone.tomorrow
       "tomorrow"
     else
       loan.due_at.strftime("%a %m/%d")
@@ -23,12 +23,12 @@ module LoansHelper
   end
 
   def render_loan_status(loan)
-    appointment = loan.upcoming_appointment 
-    appointment_time = 
+    appointment = loan.upcoming_appointment
+    appointment_time =
       if appointment
-        ". Scheduled for return at #{format_date(appointment.starts_at)} " +
-        format_time_range(appointment.starts_at, appointment.ends_at)
-      else 
+        ". Scheduled for return at #{format_date(appointment.starts_at)}, " +
+          format_time_range(appointment.starts_at, appointment.ends_at)
+      else
         ""
       end
     loan.status.capitalize + appointment_time
@@ -41,6 +41,6 @@ module LoansHelper
   end
 
   def format_time_range(starts_at, ends_at)
-    "#{starts_at.strftime('%l%P')} - #{ends_at.strftime('%l%P')}"
+    "#{starts_at.strftime("%l%P")}–#{ends_at.strftime("%l%P")}"
   end
 end

@@ -15,7 +15,7 @@
 
   <%= tag.body class: @body_class do %>
 
-    <div class="container grid-lg public">
+    <div class="container grid-lg public app">
 
     <div class="member-nav">
       <%# Mobile Nav Div %>
@@ -108,11 +108,9 @@
       <%= yield %>
     </div>
 
-  <% end %>
 
-  <footer class="page-footer">
-    <div class="text-center">
-      <p>For questions and issues, please email <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
-    </div>
-  </footer>
+  <% end %>
+            <%= render partial: 'layouts/footer', object: @member, as: :member %>
+
+
 </html>

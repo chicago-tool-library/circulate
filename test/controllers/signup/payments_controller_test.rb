@@ -6,7 +6,9 @@ module Signup
 
     setup do
       create(:agreement_document)
-      post signup_members_url, params: {member: attributes_for(:member)}
+      post signup_members_url, params: {
+        member_signup_form: attributes_for(:member, password: "password", password_confirmation: "password")
+      }
       assert_redirected_to signup_agreement_url
       @member = Member.find(session[:member_id])
     end

@@ -1,8 +1,8 @@
 module Admin
   class AppointmentsController < BaseController
     def index
-      @current_day = Date.parse(params[:day] ||= Date.today.to_s)
-      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day)
+      @current_day = Date.parse(params[:day] ||= Time.current.to_date.to_s)
+      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day).chronologically
     end
 
     def show
@@ -37,8 +37,12 @@ module Admin
       Appointment.find(params[:id])
     end
 
-    helper_method def items_avalable_to_add_to_pickup
+    helper_method def items_available_to_add_to_pickup
       Item.available.eager_load(:borrow_policy)
+    end
+
+    helper_method def items_available_to_add_to_dropoff
+      (current_appointment.member.loans.checked_out - appointment_return_items).map(&:item)
     end
 
     helper_method def appointment_pickup_items
@@ -50,7 +54,7 @@ module Admin
     end
 
     helper_method def checkout_items_quantity_for_appointment
-      appointment_pickup_items.length
+      appointment_pickup_items.active.length
     end
 
     helper_method def checkin_items_quantity_for_appointment

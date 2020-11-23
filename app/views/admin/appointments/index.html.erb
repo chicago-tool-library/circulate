@@ -27,11 +27,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Time</th>
-            <th>Name</th>
-            <th>Pronouns</th>
-            <th>Appointment purpose</th>
-            <th>Notes</th>
+            <th class="time">Time</th>
+            <th class="member">Member</th>
+            <th class="items">Items</th>
+            <th class="notes">Notes</th>
             <th></th>
           </tr>
         </thead>
@@ -39,10 +38,12 @@
         <tbody>
           <% @appointments.each do |appointment| %>
             <tr>
-              <td><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
-              <td><%= link_to appointment.member.full_name, admin_member_path(appointment.member) %></td>
-              <td><%= appointment.member.pronouns.first %></td>
-              <td>
+              <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
+              <td class="member">
+                <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
+                <%= appointment.member.display_pronouns %>
+              </td>
+              <td class="items">
                 <% appointment.holds.each do |hold| %>
                     pick-up
                     <%= link_to hold.item.name, admin_item_path(hold.item) %> <br/>
@@ -52,7 +53,7 @@
                     <%= link_to loan.item.name, admin_item_path(loan.item) %> <br/>
                 <% end %>
               </td>
-              <td><%= appointment.comment %></td>
+              <td class="notes"><%= appointment.comment %></td>
               <td><%= link_to "view/edit", admin_appointment_path(appointment)%></td>
             </tr>
           <% end %>

@@ -22,8 +22,9 @@ class OpenDays
 
   def self.next_slots_for_select(weeks: 2, time_slots: TIME_SLOTS)
     next_slots(weeks: weeks, time_slots: time_slots).each_with_object({}) do |date, memo|
-      memo[date.strftime("%a %b %-e")] ||= []
-      memo[date.strftime("%a %b %-e")] << [
+      key = date.strftime("%A, %B %-d, %Y")
+      memo[key] ||= []
+      memo[key] << [
         "#{date.strftime("%-l %P")} to #{(date + 1.hour).strftime("%-l %P")}",
         date..date + 1.hour
       ]

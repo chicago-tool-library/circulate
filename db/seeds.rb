@@ -36,8 +36,9 @@ admin_member = Member.create!(
 )
 User.create!(email: admin_member.email, password: "password", member: admin_member, role: "admin")
 
-BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
-BorrowPolicy.create!(code: "C", name: "One Renewal", fine: Money.new(100), fine_period: 1, duration: 7, renewal_limit: 1)
+a_policy = BorrowPolicy.create!(code: "A", name: "Uncounted", fine_period: 1, duration: 7, renewal_limit: 52, uniquely_numbered: false, member_renewable: true)
+b_policy = BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
+c_policy = BorrowPolicy.create!(code: "C", name: "One Renewal", fine: Money.new(100), fine_period: 1, duration: 7, renewal_limit: 1)
 
 Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
 Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
@@ -60,8 +61,9 @@ unverified_member = Member.create!(
 )
 User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
-Item.create!( name: "Hammer", status: Item.statuses[:active], borrow_policy: BorrowPolicy.first )
-Item.create!( name: "Cordless Drill", status: Item.statuses[:active], borrow_policy: BorrowPolicy.last )
+Item.create!(name: "Flathead Screwdriver", status: Item.statuses[:active], borrow_policy: a_policy)
+Item.create!(name: "Hammer", status: Item.statuses[:active], borrow_policy: b_policy)
+Item.create!(name: "Cordless Drill", status: Item.statuses[:active], borrow_policy: c_policy)
 
 Item.all.each do |item|
   Loan.create!(

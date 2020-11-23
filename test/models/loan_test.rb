@@ -194,6 +194,28 @@ class LoanTest < ActiveSupport::TestCase
     refute Loan.exists?(second_renewal.id)
   end
 
+  test "returns a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.return!
+  end
+
+  test "renews a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.renew!
+  end
+
   test "finds loans that were due whole weeks ago" do
     tonight = Time.current.end_of_day
     loan = create(:loan, due_at: tonight)
@@ -304,6 +326,14 @@ class LoanTest < ActiveSupport::TestCase
     borrow_policy = create(:member_renewable_borrow_policy)
     item = create(:item, borrow_policy: borrow_policy)
     loan = create(:loan, item: item, due_at: (borrow_policy.duration + 1).days.from_now)
+
+    refute loan.member_renewable?
+  end
+
+  test "is not member_renewable if loan has end date" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item, ended_at: Time.current)
 
     refute loan.member_renewable?
   end

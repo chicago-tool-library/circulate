@@ -371,7 +371,7 @@ GEM
     turbolinks_render (0.9.20)
       rails (>= 5.2.0)
       turbolinks-source (~> 5.1)
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
@@ -453,7 +453,7 @@ DEPENDENCIES
   webpacker (>= 4.0.0.rc.3)
 
 RUBY VERSION
-   ruby 2.7.1p83
+   ruby 2.7.2p137
 
 BUNDLED WITH
    2.1.4

@@ -1,7 +1,7 @@
 class GoogleCalendar
   TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
 
-  def initialize(calendar_id: ENV.fetch("GCAL_CALENDAR_ID"))
+  def initialize(calendar_id:)
     @calendar_id = calendar_id
   end
 
@@ -11,7 +11,8 @@ class GoogleCalendar
       singleEvents: true,
       timeZone: "America/Chicago",
       timeMin: start_time.rfc3339,
-      timeMax: end_time.rfc3339
+      timeMax: end_time.rfc3339,
+      showDeleted: true
     })
 
     if events_response.status == 200
@@ -90,6 +91,7 @@ class GoogleCalendar
       description: gcal_event["description"],
       start: Time.iso8601(gcal_event["start"]["dateTime"]),
       finish: Time.iso8601(gcal_event["end"]["dateTime"]),
+      status: gcal_event["status"],
       attendees: gcal_event.fetch("attendees", []).map { |attendee|
         Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
       }

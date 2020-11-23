@@ -18,7 +18,7 @@ module Admin
       @user = create(:admin_user)
       sign_in @user
     end
-    
+
     test "index page includes links to item and member" do
       day = @appointment.starts_at.strftime("%F")
       get admin_appointments_path(day: day)

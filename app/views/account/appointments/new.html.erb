@@ -2,6 +2,8 @@
   <%= index_header "Schedule an Appointment" %>
 <% end %>
 
-<h1 class="new_title">Schedule an Appointment</h1>
+<div class="new-appointment">
+  <h1 class="title">Schedule an Appointment</h1>
 
-<%= render partial: "form", locals: { holds: @holds, loans: @loans } %>
+  <%= render partial: "form", locals: { holds: @holds, loans: @loans } %>
+</div>

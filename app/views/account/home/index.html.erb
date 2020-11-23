@@ -2,7 +2,7 @@
   <%= index_header "Loans" %>
 <% end %>
 
-<h1 class="new_title">My Loans & Holds</h1>
+<h1 class="title">My Loans & Holds</h1>
 
 <% if @loans.any? %>
   <h2 class="title_bold">Checked-out Items</h2>
@@ -34,18 +34,18 @@
           <td><%= render_loan_status(loan) %></td>
           <td>
             <% if loan.item.borrow_policy.member_renewable? && !loan.within_borrow_policy_duration? && loan.renewal? %>
-              <%= button_to "Renewed", "#", method: :post, class: "btn btn-sm", disabled: true %>
+              <%= button_to "Renewed", "#", method: :post, class: "btn", disabled: true %>
             <% elsif loan.member_renewable? %>
-              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn btn-sm" %>
+              <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
             <% end %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <div class="button">
-    <%= button_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-sm", method: :get %>
-  </div>
+  <p>
+    <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn" %>
+  </p>
 <% else %>
   <%= empty_state "You have no items on loan" %>
 <% end %>
@@ -66,7 +66,7 @@
     </thead>
 
     <tbody>
-      
+
         <% @holds.each do |hold| %>
           <tr>
             <td>
@@ -82,12 +82,14 @@
             <td><%= render_remove_link(hold) %>
           </tr>
         <% end %>
-      
+
     </tbody>
   </table>
-  <div class="button">
-    <%= button_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn btn-sm", method: :get %>
-  </div>
+  <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
+    <p>
+      <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
+    </p>
+  <% end %>
 <% else %>
   <%= empty_state "You have no items on hold" %>
 <% end %>
