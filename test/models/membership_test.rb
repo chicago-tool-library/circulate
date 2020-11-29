@@ -69,4 +69,11 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "sq_abcd", payment_adjustment.square_transaction_id
     assert_nil payment_adjustment.adjustable
   end
+
+  test "is pending" do
+    membership = create(:pending_membership)
+
+    assert membership.pending?
+    assert_equal membership, Membership.pending.first
+  end
 end

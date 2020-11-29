@@ -1,10 +1,16 @@
 class Membership < ApplicationRecord
   belongs_to :member
   has_one :adjustment, as: "adjustable"
+
   scope :active, -> { where("started_on <= ? AND ended_on >= ?", Time.current, Time.current) }
+  scope :pending, -> { where(started_on: nil, ended_on: nil) }
 
   def amount
     adjustment ? adjustment.amount * -1 : Money.new(0)
+  end
+
+  def pending?
+    started_on.nil? && ended_on.nil?
   end
 
   def self.create_for_member(member, amount: 0, source: nil, now: Time.current.to_date, square_transaction_id: nil)
