@@ -1,3 +1,5 @@
+require "csv"
+
 module Admin
   module Reports
     class MembershipsController < BaseController
@@ -15,7 +17,7 @@ module Admin
           .select("email", "members.id", "status", "full_name", "preferred_name", "loans_count",
             "count(memberships.id) as memberships_count",
             "max(memberships.ended_on) as expires_on",
-            "array_agg(adjustments.amount_cents) as amounts")
+            "array_agg(adjustments.amount_cents ORDER BY adjustments.created_at ASC) as amounts")
           .from(members_and_loan_counts, :members)
           .group("members.id", "members.email", "members.status", "members.full_name", "members.preferred_name", "loans_count")
           .order("expires_on ASC")
