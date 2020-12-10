@@ -48,7 +48,7 @@
                 <% end %>
               </td>
               <td><%= event.times %></td>
-              <td class="text-center"><%= total_attendees %></td>
+              <td class="text-center"><%= event.accepted_attendees_count %></td>
               <td>
                 <% if total_attendees >= 3 %>
                   <em>Shift full</em>
