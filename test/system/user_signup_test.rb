@@ -111,6 +111,8 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
     end
+
+    assert Membership.last.pending?
   end
 
   test "signup and redeem a gift membership" do
@@ -135,5 +137,6 @@ class UserSignupTest < ApplicationSystemTestCase
     end
 
     assert_equal 0, Member.last.adjustments.count
+    assert Membership.last.pending?
   end
 end

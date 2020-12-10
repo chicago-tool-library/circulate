@@ -89,7 +89,8 @@ class MemberVerificationTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    click_on "Save without Payment"
+    first("label", text: "Create without payment").click
+    click_on "Save Membership"
 
     assert_content "Expires"
 

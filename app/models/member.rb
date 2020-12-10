@@ -13,6 +13,8 @@ class Member < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
+  has_one :pending_membership, -> { merge(Membership.pending) }, class_name: "Membership"
+
   has_one :user, dependent: :destroy
   has_many :notes, as: :notable
 

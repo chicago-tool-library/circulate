@@ -74,7 +74,7 @@ Rails.application.routes.draw do
         end
         resource :hold_loan, only: :create
         resources :lookups, only: :create
-        resources :memberships, only: [:index, :new, :create]
+        resources :memberships, only: [:index, :new, :create, :update]
         resources :payments, only: [:new, :create]
         resource :verification, only: [:edit, :update]
 
