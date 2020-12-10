@@ -4,7 +4,7 @@
     <div class="instructions mt-2">
       <p class="main">Click <em>Sign up</em> on a shift you'd like to cover.</p>
       <p class="sub">
-        We try to have at least 2 people at each shift, but more is OK!
+        We try to have at least 2 people at each shift (but no more than three due to COVID precautions).
       </p>
     </div>
     <% if signed_in_via_google? %>
@@ -22,6 +22,7 @@
     <div class="shift-schedule">
       <table class="table">
         <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
+          <%= total_attendees = daily_events.inject(0) { |de, sum| de.accepted_attendees_count + sum %>
           <% daily_events.sort_by{|e| [e.start, e.finish]}.each_with_index do |event, i| %>
             <tr>
               <% if i == 0 %>
@@ -41,6 +42,8 @@
               <td>
                 <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
                   <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
+                <% elsif total_attendees >= 3 %>
+                  <%= link_to("Full", "", class: "btn btn-success", disabled: true) %>
                 <% else %>
                   <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if event.accepted_attendees_count < 2}") %>
                 <% end %>
