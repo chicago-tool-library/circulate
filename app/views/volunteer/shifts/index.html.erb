@@ -1,10 +1,10 @@
 <div class="columns">
-  <div class="column col-8 col-mx-auto col-md-10 col-sm-12">
+  <div class="column col-10 col-mx-auto col-md-10 col-sm-12">
     <h1>Volunteer Shifts</h1>
     <div class="instructions mt-2">
       <p class="main">Click <em>Sign up</em> on a shift you'd like to cover.</p>
       <p class="sub">
-        We try to have at least 2 people at each shift (but no more than three due to COVID precautions).
+        We try to have at least 2 people at each shift (but no more than three due to COVID).
       </p>
     </div>
     <% if signed_in_via_google? %>
@@ -18,11 +18,20 @@
 </div>
 
 <div class="columns">
-  <div class="column col-8 col-mx-auto col-md-10 col-sm-12">
+  <div class="column col-10 col-mx-auto col-md-10 col-sm-12">
     <div class="shift-schedule">
       <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Role</th>
+            <th>Time</th>
+            <th>Signed up</th>
+            <th></th>
+          </tr>
+        </thead>
         <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
-          <%= total_attendees = daily_events.inject(0) { |de, sum| de.accepted_attendees_count + sum %>
+          <% total_attendees = daily_events.inject(0) { |sum, de| de.accepted_attendees_count + sum } %>
           <% daily_events.sort_by{|e| [e.start, e.finish]}.each_with_index do |event, i| %>
             <tr>
               <% if i == 0 %>
@@ -39,11 +48,12 @@
                 <% end %>
               </td>
               <td><%= event.times %></td>
+              <td class="text-center"><%= total_attendees %></td>
               <td>
-                <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
+                <% if total_attendees >= 3 %>
+                  <em>Shift full</em>
+                <% elsif signed_in_via_google? && event.attended_by?(@attendee.email) %>
                   <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
-                <% elsif total_attendees >= 3 %>
-                  <%= link_to("Full", "", class: "btn btn-success", disabled: true) %>
                 <% else %>
                   <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if event.accepted_attendees_count < 2}") %>
                 <% end %>
