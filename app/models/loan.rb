@@ -57,6 +57,7 @@ class Loan < ApplicationRecord
 
   def self.open_days
     [
+      3, # Wednesday
       4, # Thursday
       6 # Saturday
     ]
