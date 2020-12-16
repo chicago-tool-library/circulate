@@ -36,6 +36,7 @@ module Admin
           if amount > 0
             Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: "fine")
           end
+          # let next person know they can come pick up the item
         end
         redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
       else

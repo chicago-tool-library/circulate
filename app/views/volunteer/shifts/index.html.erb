@@ -9,14 +9,13 @@
     </div>
     <% if signed_in_via_google? %>
       <p>
-          Signed in as <strong><%= @attendee.email %></strong> &ndash;
-          <%= link_to "Sign out", volunteer_session_path, method: :delete %>
+        Signed in as <strong><%= @attendee.email %></strong> &ndash;
+        <%= link_to "Sign out", volunteer_session_path, method: :delete %>
       </p>
       <p>If you can no longer attend a shift you signed up for, please decline the invitation in your calendar.</p>
     <% end %>
   </div>
 </div>
-
 <div class="columns">
   <div class="column col-10 col-mx-auto col-md-10 col-sm-12">
     <div class="shift-schedule">
@@ -48,7 +47,7 @@
                 <% end %>
               </td>
               <td><%= event.times %></td>
-              <td class="text-center"><%= event.accepted_attendees_count %></td>
+              <td class="text-center"><%= total_attendees %></td>
               <td>
                 <% if total_attendees >= 3 %>
                   <em>Shift full</em>

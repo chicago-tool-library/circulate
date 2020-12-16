@@ -43,4 +43,11 @@ class MemberMailerPreview < ActionMailer::Preview
 
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
   end
+
+  def hold_available
+    first_item = Item.active.first
+    hold = Hold.create!(item: first_item, member: Member.second, creator: User.first)
+
+    MemberMailer.with(member: Member.first, hold: hold).hold_available
+  end
 end
