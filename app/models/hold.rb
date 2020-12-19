@@ -1,4 +1,6 @@
 class Hold < ApplicationRecord
+  HOLD_LENGTH = 14.days
+
   has_many :appointment_holds
   has_many :appointments, through: :appointment_holds
 
@@ -7,8 +9,10 @@ class Hold < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :loan, required: false
 
-  scope :active, -> { where("ended_at IS NULL") }
+  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND created_at > ?", now - HOLD_LENGTH) }
+  scope :inactive, ->(now = Time.current) { ended.or(expired) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
+  scope :expired, ->(now = Time.current) { where("created_at < ?", now - HOLD_LENGTH) }
 
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
@@ -22,7 +26,15 @@ class Hold < ApplicationRecord
   end
 
   def active?
-    ended_at.blank?
+    ended_at.blank? && !expired?
+  end
+
+  def ended?
+    ended_at.present?
+  end
+
+  def expired?(now = Time.current)
+    (created_at + HOLD_LENGTH) > now
   end
 
   def previous_active_holds
