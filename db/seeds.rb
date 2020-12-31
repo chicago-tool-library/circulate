@@ -51,7 +51,7 @@ verified_member = Member.create!(
   reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
 )
 User.create!(email: verified_member.email, password: "password", member: verified_member)
-verified_member.memberships.create!(started_on: Time.current)
+verified_member.memberships.create!(started_at: Time.current)
 
 unverified_member = Member.create!(
   email: "newmember@example.com", full_name: "Firstname Lastname", preferred_name: "New",
