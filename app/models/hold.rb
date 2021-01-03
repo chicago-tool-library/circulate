@@ -9,10 +9,11 @@ class Hold < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :loan, required: false
 
-  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND created_at > ?", now - HOLD_LENGTH) }
-  scope :inactive, ->(now = Time.current) { ended.or(expired) }
+  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR started_at > ?)", now - HOLD_LENGTH) }
+  scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
-  scope :expired, ->(now = Time.current) { where("created_at < ?", now - HOLD_LENGTH) }
+  scope :expired, ->(now = Time.current) { where("started_at < ?", now - HOLD_LENGTH) }
+  scope :started, -> { where("started_at IS NOT NULL") }
 
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
@@ -25,16 +26,33 @@ class Hold < ApplicationRecord
     )
   end
 
-  def active?
-    ended_at.blank? && !expired?
+  # active and inactive are mutually exclusive
+  # ended, expired, and started check for specific states
+  # and should not be used as proxies for inactive.
+
+  # A new hold
+  def active?(now = Time.current)
+    !inactive?(now)
   end
 
+  # A hold that was picked up or timed out
+  def inactive?(now = Time.current)
+    ended? || expired?(now)
+  end
+
+  # A hold that was picked up
   def ended?
     ended_at.present?
   end
 
+  # A hold that timed out
   def expired?(now = Time.current)
-    (created_at + HOLD_LENGTH) > now
+    started_at && (started_at + HOLD_LENGTH) < now
+  end
+
+  # A hold whose clock has started ticking
+  def started?
+    started_at.present?
   end
 
   def previous_active_holds
