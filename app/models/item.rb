@@ -14,11 +14,18 @@ class Item < ApplicationRecord
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
+
   has_many :loans, dependent: :nullify
+  has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
+  has_many :loan_summaries
+
   has_many :holds, dependent: :destroy
   has_many :active_holds, -> { active }, dependent: :destroy, class_name: "Hold"
-  has_many :loan_summaries
-  has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
+
+  def next_hold
+    active_holds.order(created_at: :asc).first
+  end
+
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
   has_many :attachments, class_name: "ItemAttachment"

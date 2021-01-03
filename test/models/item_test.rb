@@ -88,4 +88,20 @@ class ItemTest < ActiveSupport::TestCase
 
     assert item.destroy
   end
+
+  test "has a next_hold" do
+    item = create(:item)
+    hold = create(:hold, item: item, created_at: 2.days.ago)
+    create(:hold, item: item, created_at: 1.day.ago)
+
+    assert_equal hold, item.next_hold
+  end
+
+  test "next_hold ignores inactive holds" do
+    item = create(:item)
+    create(:ended_hold, item: item)
+    create(:expired_hold, item: item)
+
+    refute item.next_hold
+  end
 end

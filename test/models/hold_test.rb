@@ -73,4 +73,12 @@ class HoldTest < ActiveSupport::TestCase
     assert Hold.expired.find_by(id: hold)
     assert Hold.started.find_by(id: hold)
   end
+
+  test "#start!" do
+    hold = create(:hold)
+    refute hold.started_at
+
+    hold.start!
+    assert hold.started_at
+  end
 end

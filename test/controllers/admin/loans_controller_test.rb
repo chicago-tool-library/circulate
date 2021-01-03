@@ -26,7 +26,9 @@ module Admin
 
     test "should return item by updating loan" do
       @loan = create(:loan, item: @item)
-      patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+      assert_enqueued_emails 0 do
+        patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+      end
       assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
 
       @loan.reload
@@ -36,7 +38,9 @@ module Admin
 
     test "should return item by updating loan for an overdue item" do
       @loan = create(:loan, item: @item, due_at: 8.days.ago)
-      patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+      assert_enqueued_emails 0 do
+        patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+      end
       assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
 
       @loan.reload
@@ -51,6 +55,20 @@ module Admin
 
       ended_loan.reload
       assert ended_loan.ended_at.nil?
+    end
+
+    test "starts the next loan for an item" do
+      hold = create(:hold, item: @item)
+
+      @loan = create(:loan, item: @item)
+
+      assert_enqueued_email_with MemberMailer, :hold_available,
+        args: {member: hold.member, hold: hold} do
+        patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+      end
+
+      hold.reload
+      assert hold.started_at.present?
     end
   end
 end

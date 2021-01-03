@@ -45,6 +45,12 @@ class Hold < ApplicationRecord
     ended_at.present?
   end
 
+  def start!(now = Time.current)
+    update!(
+      started_at: now
+    )
+  end
+
   # A hold that timed out
   def expired?(now = Time.current)
     started_at && (started_at + HOLD_LENGTH) < now
