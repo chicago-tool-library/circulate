@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 module Admin
-  class BorrowPoliciesControllerTest < ActionDispatch::IntegrationTest
+  class AppointmentsControllerTest < ActionDispatch::IntegrationTest
     include Devise::Test::IntegrationHelpers
 
     setup do
