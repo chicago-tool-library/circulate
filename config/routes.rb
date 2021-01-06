@@ -85,10 +85,10 @@ Rails.application.routes.draw do
 
     namespace :reports do
       resources :memberships, only: :index
+      resources :items_in_maintenance, only: :index
     end
 
     resources :items_without_image, only: :index
-    resources :items_in_maintenance, only: :index
     resources :member_requests, only: :index
     resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
