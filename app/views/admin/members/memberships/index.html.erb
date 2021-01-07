@@ -14,8 +14,8 @@
           <% if membership.pending? %>
             <td colspan="2" class="text-center"><em>pending</em></td>
           <% else %>
-            <td><%= membership.started_on&.to_s(:long_date) %></td>
-            <td><%= membership.ended_on&.to_s(:long_date) %></td>
+            <td><%= membership.started_at&.to_s(:long_date) %></td>
+            <td><%= membership.ended_at&.to_s(:long_date) %></td>
           <% end %>
           <td><%= membership.amount.format %></td>
         </tr>

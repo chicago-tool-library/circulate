@@ -1,12 +1,12 @@
 FactoryBot.define do
   factory :membership do
     member
-    started_on { Time.current - 1.month }
-    after(:build) { |m| m.ended_on = m.started_on + 364.days if m.started_on }
+    started_at { Time.current - 1.month }
+    after(:build) { |m| m.ended_at = m.started_at + 364.days if m.started_at }
 
     factory :pending_membership do
-      started_on { nil }
-      ended_on { nil }
+      started_at { nil }
+      ended_at { nil }
     end
   end
 end
