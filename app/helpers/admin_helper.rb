@@ -29,9 +29,10 @@ module AdminHelper
     ItemAttachment.kinds.map { |k, v| [k.titleize, v] }
   end
 
-  def tab_link(label, path)
+  def tab_link(label, path, badge: nil)
+    opts = badge.present? && badge != 0 ? {class: "badge", data: {badge: badge}} : {}
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
-      link_to label, path
+      link_to label, path, **opts
     end
   end
 

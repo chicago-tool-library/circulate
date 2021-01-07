@@ -51,9 +51,13 @@ class Hold < ApplicationRecord
     )
   end
 
+  def expires_at
+    started_at + HOLD_LENGTH if started_at.present?
+  end
+
   # A hold that timed out
   def expired?(now = Time.current)
-    started_at && (started_at + HOLD_LENGTH) < now
+    started_at && expires_at < now
   end
 
   # A hold whose clock has started ticking

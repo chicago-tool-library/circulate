@@ -106,6 +106,10 @@
     </div>
   <% end %>
 
+  <% unless @returned_loan_summaries.any? || @active_loan_summaries.any? %>
+    <p class="mt-2">No current loans or recently returned items.</p>
+  <% end %>
+
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
 
   <div class="columns member-notes">
