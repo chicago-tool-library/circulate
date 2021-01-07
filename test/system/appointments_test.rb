@@ -24,8 +24,8 @@ class AppointmentsTest < ApplicationSystemTestCase
   test "schedules an appointment" do
     create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 3.hours.since, finish: 4.hours.since)
 
-    create(:hold, item: @held_item1, member: @member)
-    create(:hold, item: @held_item2, member: @member)
+    create(:started_hold, item: @held_item1, member: @member)
+    create(:started_hold, item: @held_item2, member: @member)
 
     create(:loan, item: @borrowed_item1, member: @member)
     create(:loan, item: @borrowed_item2, member: @member)
