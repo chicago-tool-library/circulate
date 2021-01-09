@@ -1,0 +1,498 @@
+---
+- id: 70
+  name: Household & Office
+  slug: household-office
+  created_at: 2020-05-03 18:50:01 UTC
+  updated_at: 2020-05-03 18:50:01 UTC
+- id: 60
+  name: Personal Protective Equipment
+  slug: personal-protective-equipment
+  created_at: 2020-02-09 19:45:15 UTC
+  updated_at: 2020-02-09 19:45:15 UTC
+- id: 35
+  name: Soldering
+  slug: soldering
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2019-06-03 19:42:49 UTC
+- id: 15
+  name: Wrecking & Dismantling
+  slug: wrecking-dismantling
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-04-06 03:06:08 UTC
+- id: 3
+  name: Cutting
+  slug: cutting
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-04-06 01:36:16 UTC
+- id: 9
+  name: Measure & Layout Tools
+  slug: measure-layout-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:11:26 UTC
+- id: 75
+  name: Automotive, Bikes, & Transportation
+  slug: automotive-bikes-transportation
+  created_at: 2020-05-03 18:55:57 UTC
+  updated_at: 2020-05-03 18:55:57 UTC
+- id: 64
+  name: Metalwork
+  slug: metalwork
+  created_at: 2020-04-05 23:31:54 UTC
+  updated_at: 2020-04-05 23:31:54 UTC
+- id: 18
+  name: Drills & Drivers
+  slug: drills-drivers
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2019-06-03 19:42:48 UTC
+- id: 77
+  name: Clamping & Securing Tools
+  slug: clamping-securing-tools
+  created_at: 2020-05-03 19:11:45 UTC
+  updated_at: 2020-05-03 19:11:45 UTC
+- id: 61
+  name: Tile
+  slug: tile
+  created_at: 2020-02-16 18:15:22 UTC
+  updated_at: 2020-02-16 18:15:22 UTC
+- id: 1
+  name: Hand Tools
+  slug: hand-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2019-06-03 19:42:48 UTC
+- id: 81
+  name: Hardware & Consumables
+  slug: hardware-consumables
+  created_at: 2020-05-27 19:30:36 UTC
+  updated_at: 2020-05-27 19:31:24 UTC
+- id: 73
+  name: Arts & Crafts
+  slug: arts-crafts
+  created_at: 2020-05-03 18:51:52 UTC
+  updated_at: 2020-05-03 18:51:52 UTC
+- id: 31
+  name: Electrical
+  slug: electrical
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2019-06-03 19:42:49 UTC
+- id: 49
+  name: Woodworking
+  slug: woodworking
+  created_at: 2019-07-07 15:07:08 UTC
+  updated_at: 2019-07-07 15:07:08 UTC
+- id: 121
+  name: Assistive Devices
+  slug: assistive-devices
+  created_at: 2020-08-26 23:57:33 UTC
+  updated_at: 2020-08-26 23:57:33 UTC
+- id: 37
+  name: Garden & Outdoor
+  slug: garden-outdoor
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2019-06-03 19:42:49 UTC
+- id: 17
+  name: Power Tools
+  slug: power-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2019-06-03 19:42:48 UTC
+- id: 33
+  name: Surge Suppressers
+  slug: surge-suppressers
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 19:04:38 UTC
+  parent_id: 31
+- id: 63
+  name: Specialty Drivers
+  slug: specialty-drivers
+  created_at: 2020-02-16 20:36:43 UTC
+  updated_at: 2020-05-03 19:03:07 UTC
+  parent_id: 1
+- id: 69
+  name: Jewelry
+  slug: jewelry
+  created_at: 2020-04-06 02:42:13 UTC
+  updated_at: 2020-05-03 18:53:37 UTC
+  parent_id: 73
+- id: 6
+  name: Hex Keys
+  slug: hex-keys
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:00:04 UTC
+  parent_id: 1
+- id: 62
+  name: Glass
+  slug: glass
+  created_at: 2020-02-16 18:16:33 UTC
+  updated_at: 2020-05-03 18:53:45 UTC
+  parent_id: 73
+- id: 36
+  name: Volt meters
+  slug: volt-meters
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 19:04:23 UTC
+  parent_id: 31
+- id: 72
+  name: Office
+  slug: office
+  created_at: 2020-05-03 18:50:41 UTC
+  updated_at: 2020-05-03 18:50:41 UTC
+  parent_id: 70
+- id: 41
+  name: Wheelbarrows
+  slug: wheelbarrows
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:54:38 UTC
+  parent_id: 37
+- id: 68
+  name: Paper & Bookmaking
+  slug: paper-bookmaking
+  created_at: 2020-04-06 02:16:48 UTC
+  updated_at: 2020-05-03 18:54:51 UTC
+  parent_id: 73
+- id: 5
+  name: Hammers & Mallets
+  slug: hammers-mallets
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:01:55 UTC
+  parent_id: 1
+- id: 50
+  name: Multitip screwdrivers
+  slug: multitip-screwdrivers
+  created_at: 2019-07-07 15:27:09 UTC
+  updated_at: 2020-05-03 18:59:44 UTC
+  parent_id: 1
+- id: 4
+  name: Fastening Tools
+  slug: fastening-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:01:47 UTC
+  parent_id: 1
+- id: 43
+  name: Automotive
+  slug: automotive
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:56:04 UTC
+  parent_id: 75
+- id: 29
+  name: Audio & Video
+  slug: audio-video
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:52:19 UTC
+  parent_id: 73
+- id: 82
+  name: Automotive Tools
+  slug: automotive-tools
+  created_at: 2020-06-13 18:22:20 UTC
+  updated_at: 2020-06-13 18:22:20 UTC
+  parent_id: 75
+- id: 116
+  name: Fasteners
+  slug: fasteners
+  created_at: 2020-07-30 19:39:37 UTC
+  updated_at: 2020-07-30 19:39:37 UTC
+  parent_id: 81
+- id: 80
+  name: Outdoor Saws
+  slug: outdoor-saws
+  created_at: 2020-05-03 19:25:13 UTC
+  updated_at: 2020-05-03 19:25:13 UTC
+  parent_id: 37
+- id: 42
+  name: Ladders
+  slug: ladders
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:59:57 UTC
+  parent_id: 37
+- id: 27
+  name: Fabric & Textiles
+  slug: fabric-textiles
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:52:53 UTC
+  parent_id: 70
+- id: 65
+  name: Kits & Sets
+  slug: kits-sets
+  created_at: 2020-04-06 02:01:38 UTC
+  updated_at: 2020-05-03 19:05:19 UTC
+  parent_id: 1
+- id: 58
+  name: Moving
+  slug: moving
+  created_at: 2020-01-12 16:45:12 UTC
+  updated_at: 2020-05-03 19:03:21 UTC
+  parent_id: 75
+- id: 38
+  name: Shovels
+  slug: shovels
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:47:22 UTC
+  parent_id: 37
+- id: 71
+  name: Kitchen
+  slug: kitchen
+  created_at: 2020-05-03 18:50:17 UTC
+  updated_at: 2020-05-03 18:50:17 UTC
+  parent_id: 70
+- id: 32
+  name: Extension Cords
+  slug: extension-cords
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 19:04:16 UTC
+  parent_id: 31
+- id: 16
+  name: Wrenches
+  slug: wrenches
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:01:22 UTC
+  parent_id: 1
+- id: 19
+  name: Saws
+  slug: saws
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:20:37 UTC
+  parent_id: 17
+- id: 39
+  name: Rakes
+  slug: rakes
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 19:04:56 UTC
+  parent_id: 37
+- id: 34
+  name: Work Lights
+  slug: work-lights
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 19:04:49 UTC
+  parent_id: 31
+- id: 23
+  name: Nail Guns
+  slug: nail-guns
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:00:27 UTC
+  parent_id: 17
+- id: 59
+  name: Clamps
+  slug: clamps
+  created_at: 2020-02-09 19:15:26 UTC
+  updated_at: 2020-05-03 19:11:51 UTC
+  parent_id: 77
+- id: 13
+  name: Stud Finders
+  slug: stud-finders
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:04:31 UTC
+  parent_id: 31
+- id: 48
+  name: Ropes and ties
+  slug: ropes-and-ties
+  created_at: 2019-07-07 14:28:48 UTC
+  updated_at: 2020-05-03 19:12:01 UTC
+  parent_id: 77
+- id: 55
+  name: Air tools
+  slug: air-tools
+  created_at: 2019-07-11 23:52:34 UTC
+  updated_at: 2020-05-03 19:02:25 UTC
+  parent_id: 17
+- id: 11
+  name: Ratchets & Sockets
+  slug: ratchets-sockets
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:00:41 UTC
+  parent_id: 1
+- id: 51
+  name: Cleaning
+  slug: cleaning
+  created_at: 2019-07-07 15:34:01 UTC
+  updated_at: 2020-05-03 19:09:16 UTC
+  parent_id: 70
+- id: 57
+  name: Plumbing
+  slug: plumbing
+  created_at: 2020-01-12 16:42:21 UTC
+  updated_at: 2020-05-03 19:02:33 UTC
+  parent_id: 1
+- id: 14
+  name: Taps & Dies
+  slug: taps-dies
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:09:31 UTC
+  parent_id: 1
+- id: 12
+  name: Screwdrivers & Nut Drivers
+  slug: screwdrivers-nut-drivers
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 18:59:31 UTC
+  parent_id: 1
+- id: 67
+  name: HVAC/Ductwork
+  slug: hvac-ductwork
+  created_at: 2020-04-06 02:09:50 UTC
+  updated_at: 2020-05-03 19:06:31 UTC
+  parent_id: 70
+- id: 78
+  name: Hand Saws
+  slug: hand-saws
+  created_at: 2020-05-03 19:21:14 UTC
+  updated_at: 2020-05-03 19:21:14 UTC
+  parent_id: 1
+- id: 76
+  name: Bicycles
+  slug: bicycles
+  created_at: 2020-05-03 18:56:21 UTC
+  updated_at: 2020-05-03 18:56:21 UTC
+  parent_id: 75
+- id: 21
+  name: Sanders
+  slug: sanders
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:03:46 UTC
+  parent_id: 17
+- id: 7
+  name: Knives & Blades
+  slug: knives-blades
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:13:45 UTC
+  parent_id: 3
+- id: 10
+  name: Pliers
+  slug: pliers
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:00:13 UTC
+  parent_id: 1
+- id: 54
+  name: Painting
+  slug: painting
+  created_at: 2019-07-07 16:56:43 UTC
+  updated_at: 2020-05-03 19:02:42 UTC
+  parent_id: 1
+- id: 123
+  name: 3D Printing
+  slug: 3d-printing
+  created_at: 2020-11-07 17:41:26 UTC
+  updated_at: 2020-11-07 17:41:26 UTC
+  parent_id: 73
+- id: 20
+  name: Routers
+  slug: routers
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:00:35 UTC
+  parent_id: 17
+- id: 56
+  name: Camping
+  slug: camping
+  created_at: 2019-09-29 16:28:39 UTC
+  updated_at: 2020-05-03 18:56:46 UTC
+  parent_id: 37
+- id: 52
+  name: Masonry
+  slug: masonry
+  created_at: 2019-07-07 15:52:27 UTC
+  updated_at: 2020-05-03 19:01:39 UTC
+  parent_id: 1
+- id: 2
+  name: Chisels, Files & Punches
+  slug: chisels-files-punches
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:02:10 UTC
+  parent_id: 1
+- id: 24
+  name: Rotary Tools
+  slug: rotary-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:03:55 UTC
+  parent_id: 17
+- id: 22
+  name: Grinders
+  slug: grinders
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 18:59:21 UTC
+  parent_id: 17
+- id: 124
+  name: Engraving
+  slug: engraving
+  created_at: 2020-12-05 19:06:28 UTC
+  updated_at: 2020-12-05 19:06:28 UTC
+  parent_id: 3
+- id: 122
+  name: Generators
+  slug: generators
+  created_at: 2020-09-03 00:55:23 UTC
+  updated_at: 2020-09-03 00:55:23 UTC
+  parent_id: 31
+- id: 44
+  name: Jacks
+  slug: jacks
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:56:59 UTC
+  parent_id: 43
+- id: 28
+  name: Sewing Machines
+  slug: sewing-machines
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:53:07 UTC
+  parent_id: 27
+- id: 53
+  name: Office equipment
+  slug: office-equipment
+  created_at: 2019-07-07 16:28:55 UTC
+  updated_at: 2020-05-03 18:51:12 UTC
+  parent_id: 72
+- id: 8
+  name: Funnels
+  slug: funnels
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 19:09:06 UTC
+  parent_id: 43
+- id: 26
+  name: Bicycle Tools
+  slug: bicycle-tools
+  created_at: 2019-06-03 19:42:48 UTC
+  updated_at: 2020-05-03 18:56:33 UTC
+  parent_id: 76
+- id: 45
+  name: Food Preparation
+  slug: food-preparation
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:51:00 UTC
+  parent_id: 71
+- id: 30
+  name: Microphones
+  slug: microphones
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:54:15 UTC
+  parent_id: 29
+- id: 46
+  name: Slow & Pressure cookers
+  slug: slow-pressure-cookers
+  created_at: 2019-06-03 19:42:49 UTC
+  updated_at: 2020-05-03 18:51:28 UTC
+  parent_id: 71
+- id: 119
+  name: Bolts & Nuts
+  slug: bolts-nuts
+  created_at: 2020-07-30 19:40:26 UTC
+  updated_at: 2020-07-30 19:40:36 UTC
+  parent_id: 116
+- id: 79
+  name: Power Saw Accessories
+  slug: power-saw-accessories
+  created_at: 2020-05-03 19:23:38 UTC
+  updated_at: 2020-05-03 19:23:38 UTC
+  parent_id: 19
+- id: 118
+  name: Screws
+  slug: screws
+  created_at: 2020-07-30 19:40:07 UTC
+  updated_at: 2020-07-30 19:40:07 UTC
+  parent_id: 116
+- id: 120
+  name: Miscellaneous
+  slug: miscellaneous
+  created_at: 2020-07-30 19:51:59 UTC
+  updated_at: 2020-07-30 19:51:59 UTC
+  parent_id: 116
+- id: 117
+  name: Nails
+  slug: nails
+  created_at: 2020-07-30 19:39:56 UTC
+  updated_at: 2020-07-30 19:39:56 UTC
+  parent_id: 116

@@ -1,0 +1,2227 @@
+---
+- id: 198
+  name: Plastic taping knife
+  created_at: 2019-08-04 15:42:35 UTC
+  updated_at: 2019-08-04 15:42:35 UTC
+  number: 141
+  status: active
+  borrow_policy_id: 2
+  quantity: 2
+  category_ids: []
+- id: 222
+  name: Caulking gun
+  size: 10 oz
+  created_at: 2019-08-04 18:48:25 UTC
+  updated_at: 2019-11-17 20:20:10 UTC
+  number: 1170
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 893
+  name: Band saw
+  size: 9"
+  brand: Skil
+  model: '3386'
+  created_at: 2020-05-30 16:08:55 UTC
+  updated_at: 2020-12-01 20:08:47 UTC
+  number: 1775
+  status: active
+  borrow_policy_id: 3
+  checkout_notice: Has a dust collection port. Might be good to loan with a shop vac.
+  category_ids:
+  - 19
+- id: 453
+  name: Japanese-style double-edged saw
+  size: 10"
+  created_at: 2019-09-29 18:27:08 UTC
+  updated_at: 2020-12-09 05:34:48 UTC
+  number: 1370
+  status: active
+  borrow_policy_id: 1
+  other_names: Pull saw
+  category_ids:
+  - 78
+- id: 1292
+  name: Hole saw - 2 1/8"
+  size: 2 1/8" 54 mm
+  created_at: 2020-10-31 17:02:07 UTC
+  updated_at: 2020-10-31 17:42:25 UTC
+  number: 293
+  status: active
+  borrow_policy_id: 2
+  quantity: 1
+  other_names: hole saw and arbor
+  category_ids: []
+- id: 1058
+  name: Cooler
+  created_at: 2020-07-25 17:15:57 UTC
+  updated_at: 2020-07-25 17:15:57 UTC
+  number: 1854
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 308
+  name: Kwikset Lock Installation Kit
+  created_at: 2019-09-08 16:16:54 UTC
+  updated_at: 2019-09-08 16:16:54 UTC
+  number: 1238
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 845
+  name: Specialty bit set
+  size: 32 bits
+  created_at: 2020-05-06 21:20:03 UTC
+  updated_at: 2020-12-22 21:59:45 UTC
+  number: 1734
+  status: active
+  borrow_policy_id: 1
+  other_names: drill bits
+  category_ids: []
+- id: 231
+  name: Rip Saw
+  created_at: 2019-08-11 16:29:52 UTC
+  updated_at: 2020-04-06 02:14:57 UTC
+  number: 1178
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 3
+  - 78
+- id: 244
+  name: Jig saw
+  size: 5/8"
+  brand: Craftsman
+  model: '315.10721'
+  created_at: 2019-08-11 18:46:45 UTC
+  updated_at: 2020-12-21 19:08:26 UTC
+  number: 1189
+  status: retired
+  borrow_policy_id: 1
+  strength: 2.5 amps
+  category_ids:
+  - 19
+  - 49
+- id: 825
+  name: Bike pump
+  brand: Schwinn
+  created_at: 2020-03-01 17:52:00 UTC
+  updated_at: 2020-12-22 20:24:22 UTC
+  number: 1718
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 26
+  - 76
+- id: 436
+  name: Camping Cookware
+  created_at: 2019-09-29 16:24:34 UTC
+  updated_at: 2019-11-17 20:18:25 UTC
+  number: 1353
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 56
+- id: 1032
+  name: Concrete nails
+  size: 1-1/2"
+  brand: Dickson Nails
+  model: 6032-0050
+  created_at: 2020-07-18 19:16:41 UTC
+  updated_at: 2020-07-18 19:17:46 UTC
+  number: 240
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 117
+- id: 250
+  name: Spring-loaded pole
+  size: Extends to 10'
+  brand: Zip Wall
+  model: Zip Pole 10
+  created_at: 2019-08-11 19:10:27 UTC
+  updated_at: 2020-11-12 01:39:54 UTC
+  number: 1195
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1320
+  name: Hanging Work Light
+  brand: Electricord
+  created_at: 2020-11-07 19:21:14 UTC
+  updated_at: 2020-11-07 19:25:26 UTC
+  number: 2077
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 34
+- id: 817
+  name: Clamping workbench
+  size: 22" x 7.75"
+  created_at: 2020-02-23 17:50:46 UTC
+  updated_at: 2020-02-23 17:54:07 UTC
+  number: 1710
+  status: active
+  borrow_policy_id: 1
+  strength: 250 lb maximum weight capacity
+  category_ids:
+  - 59
+- id: 651
+  name: Pointing trowel
+  size: 6"
+  brand: Marshalltown
+  model: 45-5
+  created_at: 2019-11-10 18:18:57 UTC
+  updated_at: 2021-01-08 00:49:11 UTC
+  number: 185
+  status: active
+  borrow_policy_id: 2
+  quantity: 8
+  category_ids:
+  - 52
+- id: 337
+  name: Rotary cultivator
+  size: 48"
+  created_at: 2019-09-15 15:47:42 UTC
+  updated_at: 2019-09-15 15:49:10 UTC
+  number: 1261
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 37
+- id: 1068
+  name: Flat washers
+  size: 1/2"
+  brand: Hillman
+  model: '811073'
+  created_at: 2020-07-25 18:37:56 UTC
+  updated_at: 2020-07-25 18:39:03 UTC
+  number: 272
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 120
+- id: 1332
+  name: PVC Pipe cutter
+  created_at: 2020-11-12 00:55:02 UTC
+  updated_at: 2020-11-12 00:55:02 UTC
+  number: 2089
+  status: active
+  borrow_policy_id: 1
+  strength: 2 1/2”
+  category_ids:
+  - 7
+- id: 558
+  name: Ratchet tie down
+  size: 14'
+  brand: Smart Straps
+  created_at: 2019-10-13 18:37:57 UTC
+  updated_at: 2019-10-13 18:40:20 UTC
+  number: 1474
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 964
+  name: Camping stool
+  created_at: 2020-06-20 21:10:46 UTC
+  updated_at: 2020-06-20 21:10:46 UTC
+  number: 1809
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 56
+- id: 1326
+  name: Palm sander
+  size: 1/4 sheet
+  brand: Master mechanic
+  model: '134465'
+  created_at: 2020-11-12 00:24:10 UTC
+  updated_at: 2021-01-09 18:36:14 UTC
+  number: 2083
+  status: active
+  borrow_policy_id: 1
+  power_source: electric_corded
+  category_ids:
+  - 21
+- id: 1425
+  name: 7 1/4” circ saw
+  size: 7 1/4” diamond arbor blades
+  brand: Skilsaw
+  model: '77'
+  serial: B-687786
+  created_at: 2020-12-19 20:52:03 UTC
+  updated_at: 2020-12-19 20:52:03 UTC
+  number: 2178
+  status: active
+  borrow_policy_id: 1
+  other_names: Circular saw
+  power_source: electric_corded
+  category_ids:
+  - 19
+- id: 731
+  name: DuraPro Pocket Pro Multipurpose Tool & Socket Set
+  brand: DuraPro
+  created_at: 2020-01-12 17:04:42 UTC
+  updated_at: 2020-01-12 17:04:42 UTC
+  number: 1634
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 4
+- id: 541
+  name: Bar clamp
+  created_at: 2019-10-12 19:11:35 UTC
+  updated_at: 2020-02-16 18:53:45 UTC
+  number: 1458
+  status: retired
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 1
+  - 49
+- id: 277
+  name: End Nippers
+  created_at: 2019-08-31 17:21:51 UTC
+  updated_at: 2020-04-06 02:40:34 UTC
+  number: 153
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 15
+  - 4
+  - 1
+  - 49
+- id: 1095
+  name: Coated sinker nails
+  size: 3.25" 16d
+  brand: Grip-Rite
+  created_at: 2020-08-08 17:31:31 UTC
+  updated_at: 2020-08-08 17:33:52 UTC
+  number: 1876
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 117
+- id: 1385
+  name: Knitting needles
+  size: Size 5 7”
+  brand: Marcia Lynn
+  created_at: 2020-12-04 00:14:03 UTC
+  updated_at: 2020-12-04 00:16:00 UTC
+  number: 2138
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 267
+  name: Reamer/rasp tool
+  size: 6"
+  created_at: 2019-08-25 16:48:46 UTC
+  updated_at: 2020-02-16 20:50:00 UTC
+  number: 151
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 43
+- id: 576
+  name: Wire Crimper
+  size: "#16 to #24 Gauge Strand  & #20 to #24 Gauge Solid"
+  brand: The Thomas & Betts Co.
+  model: BT 110-SB
+  created_at: 2019-10-20 17:03:17 UTC
+  updated_at: 2019-10-20 17:03:17 UTC
+  number: 1491
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 31
+- id: 498
+  name: Coffee airpot
+  created_at: 2019-10-06 17:44:22 UTC
+  updated_at: 2019-10-06 17:44:22 UTC
+  number: 1415
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 793
+  name: Bar Clamp (18")
+  size: 18" clamping, 2 1/2" throat
+  brand: Jorgenson
+  created_at: 2020-02-09 20:01:30 UTC
+  updated_at: 2020-11-19 01:47:50 UTC
+  number: 1687
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 49
+- id: 1147
+  name: Underlayment tape
+  created_at: 2020-08-22 19:03:21 UTC
+  updated_at: 2020-08-22 19:09:17 UTC
+  number: 281
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 81
+- id: 62
+  name: Edger
+  created_at: 2019-07-07 15:10:46 UTC
+  updated_at: 2019-07-07 15:10:46 UTC
+  number: 1031
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 37
+- id: 1006
+  name: Reciprocating saw
+  brand: Milwaukee
+  model: '6507'
+  serial: '631358439'
+  created_at: 2020-07-18 16:56:17 UTC
+  updated_at: 2020-12-01 23:42:01 UTC
+  number: 1847
+  status: active
+  borrow_policy_id: 1
+  power_source: electric_corded
+  category_ids:
+  - 19
+- id: 1396
+  name: Inverter generator
+  size: 800 W continuous
+  brand: Sportsman
+  model: GEN1000i
+  serial: 26784FW
+  created_at: 2020-12-05 20:24:21 UTC
+  updated_at: 2020-12-05 20:28:27 UTC
+  number: 2149
+  status: active
+  borrow_policy_id: 3
+  strength: 120v
+  checkout_notice: 'Should have DC cable strapped to handle '
+  other_names: Generator
+  power_source: gas
+  category_ids:
+  - 122
+- id: 20
+  name: Lineman's pliers
+  created_at: 2019-07-05 18:30:12 UTC
+  updated_at: 2019-07-05 18:30:12 UTC
+  number: 107
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 3
+  - 31
+- id: 816
+  name: Hand truck and dolly (folding)
+  brand: Cosco
+  model: 12222PBG1E
+  created_at: 2020-02-21 00:06:46 UTC
+  updated_at: 2020-02-21 00:06:46 UTC
+  number: 1709
+  status: active
+  borrow_policy_id: 1
+  strength: 300 lbs. Working Load
+  category_ids:
+  - 58
+- id: 132
+  name: Jig saw
+  brand: Black & Decker
+  model: NaviGator
+  serial: 200228-7
+  created_at: 2019-07-21 16:21:03 UTC
+  updated_at: 2020-12-15 21:35:01 UTC
+  number: 1090
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 19
+- id: 470
+  name: Sledge hammer
+  size: 35”
+  created_at: 2019-10-01 21:34:11 UTC
+  updated_at: 2019-10-01 21:34:11 UTC
+  number: 1387
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 748
+  name: Hand cultivator
+  created_at: 2020-01-12 18:53:41 UTC
+  updated_at: 2020-10-24 19:03:54 UTC
+  number: 1650
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 37
+- id: 812
+  name: Combination Square
+  size: 12"
+  created_at: 2020-02-16 19:05:10 UTC
+  updated_at: 2020-02-16 20:32:16 UTC
+  number: 196
+  status: active
+  borrow_policy_id: 2
+  quantity: 2
+  category_ids:
+  - 9
+  - 49
+- id: 647
+  name: Ratchet socket set
+  size: 1/4" and 3/8" combination
+  brand: Spiegel
+  model: '5430'
+  created_at: 2019-11-10 17:48:43 UTC
+  updated_at: 2019-11-10 17:56:15 UTC
+  number: 1561
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 11
+- id: 858
+  name: Reel mower
+  size: 18”
+  brand: Earthwise
+  created_at: 2020-05-09 21:41:01 UTC
+  updated_at: 2020-09-05 17:45:01 UTC
+  number: 1747
+  status: active
+  borrow_policy_id: 1
+  other_names: Push mower
+  category_ids:
+  - 37
+- id: 1011
+  name: Galvanized finishing nail
+  size: 1-1/2"
+  brand: Sterling
+  model: 4 finish galv
+  created_at: 2020-07-18 17:08:13 UTC
+  updated_at: 2020-07-18 17:08:54 UTC
+  number: 222
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 117
+- id: 313
+  name: Hammer drill
+  brand: AEG
+  created_at: 2019-09-08 17:20:24 UTC
+  updated_at: 2019-09-08 17:20:24 UTC
+  number: 1243
+  status: active
+  borrow_policy_id: 1
+  strength: 115 V
+  category_ids: []
+- id: 1340
+  name: Architect Scale Rule
+  brand: dietzgen
+  created_at: 2020-11-12 01:33:27 UTC
+  updated_at: 2020-11-12 01:33:27 UTC
+  number: 298
+  status: active
+  borrow_policy_id: 2
+  quantity: 2
+  other_names: Scale Rule
+  category_ids:
+  - 9
+- id: 1180
+  name: 45 degree chamfer bit
+  size: 1/4" shank
+  created_at: 2020-08-27 00:58:13 UTC
+  updated_at: 2020-08-27 00:58:13 UTC
+  number: 1952
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 20
+- id: 1311
+  name: Sledge hammer
+  created_at: 2020-11-07 17:48:01 UTC
+  updated_at: 2020-11-07 17:48:01 UTC
+  number: 2068
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 5
+- id: 481
+  name: Miter saw
+  size: 10"
+  brand: Black & Decker
+  model: '1701'
+  created_at: 2019-10-05 17:40:14 UTC
+  updated_at: 2020-11-25 19:41:28 UTC
+  number: 1398
+  status: active
+  borrow_policy_id: 3
+  checkout_notice: Doesn't have inner lock and borrower says the trigger stuck once
+    while using for a long period of use. Can't confirm, but be aware.
+  other_names: chop saw, mitre saw
+  category_ids:
+  - 49
+  - 17
+- id: 298
+  name: Eyeleting, riveting, and punching tool
+  brand: American Tag Co.
+  model: HomePro LR
+  created_at: 2019-09-07 17:24:36 UTC
+  updated_at: 2019-09-07 17:25:19 UTC
+  number: 1229
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 2
+- id: 1117
+  name: Garden and lawn aerator
+  size: 40"
+  brand: Gardel Weasel
+  model: Weasel Core Aerator
+  created_at: 2020-08-15 18:07:50 UTC
+  updated_at: 2020-08-15 18:09:45 UTC
+  number: 1895
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 37
+- id: 33
+  name: Mat cutter
+  brand: Dexter
+  created_at: 2019-07-05 19:49:59 UTC
+  updated_at: 2019-07-05 19:49:59 UTC
+  number: 1010
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 634
+  name: Extension cord
+  brand: Woodhead
+  created_at: 2019-11-03 19:57:53 UTC
+  updated_at: 2020-08-23 12:39:25 UTC
+  number: 1548
+  status: retired
+  borrow_policy_id: 1
+  category_ids:
+  - 32
+  - 31
+- id: 615
+  name: Metal detector
+  brand: Wizard III
+  created_at: 2019-11-03 17:30:26 UTC
+  updated_at: 2019-11-03 17:32:17 UTC
+  number: 1529
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1448
+  name: Oscillating Multi-tool
+  brand: DeWalt
+  model: DCS356B
+  serial: DDJ3C76
+  created_at: 2020-12-29 18:33:19 UTC
+  updated_at: 2020-12-29 19:06:37 UTC
+  number: 2197
+  status: active
+  borrow_policy_id: 1
+  checkout_notice: Small container with bolts to attach accessories in bag. Not required
+    for using the saw blades.
+  other_names: Oscillating saw multi saw
+  power_source: electric_battery
+  category_ids:
+  - 19
+- id: 911
+  name: Fish line wire puller
+  size: 50'
+  brand: Gardner Bender
+  model: FTS-50B
+  created_at: 2020-05-31 19:09:44 UTC
+  updated_at: 2020-05-31 19:11:04 UTC
+  number: 1789
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 31
+- id: 554
+  name: Knitting Needles
+  size: 17 (12.75 mm), 14" (35.5 cm)
+  brand: Loops & Threads
+  created_at: 2019-10-13 17:46:10 UTC
+  updated_at: 2019-10-13 17:46:10 UTC
+  number: 1470
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 27
+- id: 838
+  name: Stand mixer
+  brand: Kitchenaid
+  model: KSM150PSMC
+  serial: WS0493881
+  created_at: 2020-05-01 19:23:44 UTC
+  updated_at: 2020-05-01 19:23:44 UTC
+  number: 1728
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 45
+- id: 429
+  name: Pipe threader
+  size: '0.5'
+  brand: Ridgid
+  created_at: 2019-09-28 18:55:17 UTC
+  updated_at: 2019-09-28 18:55:17 UTC
+  number: 1346
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 832
+  name: Notched trowel
+  created_at: 2020-03-15 16:06:25 UTC
+  updated_at: 2020-03-15 16:07:28 UTC
+  number: 1725
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 52
+- id: 823
+  name: Face clamp
+  size: 3"
+  brand: Kreg
+  created_at: 2020-03-01 16:32:51 UTC
+  updated_at: 2020-03-01 16:36:39 UTC
+  number: 1716
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+- id: 344
+  name: Pick mattock
+  size: 34.5"
+  brand: Ludell
+  created_at: 2019-09-15 16:03:26 UTC
+  updated_at: 2019-09-15 16:05:18 UTC
+  number: 1266
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 37
+- id: 975
+  name: Orbital sander
+  brand: DeWalt
+  model: DWE6423
+  serial: '885571'
+  created_at: 2020-06-27 17:36:04 UTC
+  updated_at: 2020-06-27 17:40:09 UTC
+  number: 1820
+  status: active
+  borrow_policy_id: 1
+  strength: 120 volt
+  category_ids:
+  - 21
+- id: 1083
+  name: Skil plunge router
+  brand: Skil
+  model: '1840'
+  serial: F012184000
+  created_at: 2020-08-01 17:24:56 UTC
+  updated_at: 2020-11-25 19:41:30 UTC
+  number: 1869
+  status: active
+  borrow_policy_id: 1
+  strength: 1 3/4 hp
+  other_names: Router
+  category_ids:
+  - 3
+  - 20
+  - 49
+- id: 88
+  name: General hammer
+  created_at: 2019-07-07 16:39:04 UTC
+  updated_at: 2019-07-07 16:39:04 UTC
+  number: 125
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 5
+- id: 520
+  name: Bar Clamp
+  created_at: 2019-10-06 20:05:48 UTC
+  updated_at: 2020-02-09 19:21:29 UTC
+  number: 1437
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 49
+- id: 1349
+  name: Circular saw
+  size: 7 1/4"
+  brand: Craftsman
+  model: '315.10940'
+  serial: A4105
+  created_at: 2020-11-21 17:27:15 UTC
+  updated_at: 2020-11-26 00:46:08 UTC
+  number: 2104
+  status: active
+  borrow_policy_id: 1
+  strength: 10 amps
+  power_source: electric_corded
+  category_ids:
+  - 19
+- id: 1136
+  name: Speed square
+  size: 7"
+  brand: Swanson
+  created_at: 2020-08-22 17:21:56 UTC
+  updated_at: 2020-08-22 17:23:55 UTC
+  number: 1913
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 9
+- id: 737
+  name: Hanging Work Light
+  brand: McGill Mfg. Co.
+  model: 5000-G
+  created_at: 2020-01-12 17:43:29 UTC
+  updated_at: 2020-01-12 17:44:26 UTC
+  number: 1640
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 34
+- id: 909
+  name: Paint trays and tray liners
+  created_at: 2020-05-31 18:50:18 UTC
+  updated_at: 2020-05-31 18:55:15 UTC
+  number: 213
+  status: active
+  borrow_policy_id: 2
+  quantity: 15
+  checkout_notice: Free item - no need to check out to member's account.
+  category_ids:
+  - 54
+- id: 604
+  name: Basin wrench
+  brand: Chicago Spec Mfg Co
+  created_at: 2019-10-27 19:14:53 UTC
+  updated_at: 2019-10-27 19:14:53 UTC
+  number: 1518
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 16
+- id: 1143
+  name: Flooring spacers
+  brand: Tezoro
+  created_at: 2020-08-22 17:59:17 UTC
+  updated_at: 2020-08-22 18:09:14 UTC
+  number: 1919
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 444
+  name: Spade bit set
+  size: 1.4" to 1.5"
+  brand: Black & Decker
+  model: 71-536
+  created_at: 2019-09-29 16:51:22 UTC
+  updated_at: 2019-09-29 16:53:27 UTC
+  number: 1361
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 18
+- id: 185
+  name: Grinding Bits
+  created_at: 2019-07-28 15:54:31 UTC
+  updated_at: 2019-07-28 15:54:31 UTC
+  number: 1134
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 92
+  name: Small sledge hammer
+  created_at: 2019-07-07 16:47:35 UTC
+  updated_at: 2019-07-07 16:47:35 UTC
+  number: 126
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 5
+- id: 1124
+  name: Leaf mulcher and shredder
+  brand: Sun Joe
+  model: SDJ616
+  serial: '016160525600'
+  created_at: 2020-08-15 18:47:18 UTC
+  updated_at: 2020-11-21 21:03:07 UTC
+  number: 1901
+  status: active
+  borrow_policy_id: 1
+  strength: 16 Amps
+  checkout_notice: Safety googles and earplugs recommended
+  other_names: Leaf eater
+  category_ids:
+  - 37
+- id: 501
+  name: Sander, Polisher
+  size: Mouse
+  brand: Black and Decker
+  model: MS700
+  created_at: 2019-10-06 17:54:30 UTC
+  updated_at: 2020-12-26 19:49:44 UTC
+  number: 1418
+  status: maintenance
+  borrow_policy_id: 3
+  strength: 120V
+  category_ids:
+  - 21
+  - 17
+- id: 1400
+  name: JawSaw
+  brand: Worx
+  model: WG307
+  serial: '20200701386331'
+  created_at: 2020-12-10 00:17:51 UTC
+  updated_at: 2020-12-31 14:23:11 UTC
+  number: 2153
+  status: active
+  borrow_policy_id: 1
+  other_names: chainsaw, chain saw, jaw saw
+  power_source: electric_corded
+  category_ids:
+  - 3
+  - 37
+- id: 765
+  name: Tape measure
+  size: 100 feet
+  brand: Craftsman
+  created_at: 2020-01-16 23:19:46 UTC
+  updated_at: 2020-01-16 23:19:46 UTC
+  number: 1665
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 9
+- id: 48
+  name: One-Foot Rulers
+  size: 12-13"
+  created_at: 2019-07-07 14:41:05 UTC
+  updated_at: 2020-11-12 01:28:00 UTC
+  number: 117
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 9
+- id: 71
+  name: Chisels
+  created_at: 2019-07-07 15:40:40 UTC
+  updated_at: 2019-07-07 15:40:40 UTC
+  number: 124
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 2
+- id: 476
+  name: Ladder
+  size: 8 foot
+  brand: Keller
+  created_at: 2019-10-01 23:41:51 UTC
+  updated_at: 2019-10-01 23:41:51 UTC
+  number: 1393
+  status: active
+  borrow_policy_id: 1
+  strength: 225 lbs
+  category_ids:
+  - 42
+- id: 1429
+  name: Reamer
+  size: 2” +
+  created_at: 2020-12-19 21:01:12 UTC
+  updated_at: 2020-12-19 21:01:12 UTC
+  number: 2182
+  status: active
+  borrow_policy_id: 1
+  strength: Metal
+  other_names: Hammer drill bit
+  category_ids: []
+- id: 10
+  name: Staple guns
+  created_at: 2019-07-05 18:00:35 UTC
+  updated_at: 2019-07-05 18:00:48 UTC
+  number: 102
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 4
+- id: 1264
+  name: Cordless Drill
+  brand: DeWalt
+  created_at: 2020-10-03 17:34:19 UTC
+  updated_at: 2020-12-31 00:43:31 UTC
+  number: 2033
+  status: maintenance
+  borrow_policy_id: 1
+  strength: 18V
+  category_ids:
+  - 18
+- id: 1426
+  name: Butt marker
+  size: 3 1/2”
+  brand: Stanley
+  model: 373 1/2
+  created_at: 2020-12-19 20:56:26 UTC
+  updated_at: 2020-12-19 20:56:27 UTC
+  number: 2179
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 121
+- id: 47
+  name: Film camera
+  brand: Canon
+  model: EOS ELAN
+  created_at: 2019-07-07 14:38:25 UTC
+  updated_at: 2020-11-19 00:08:46 UTC
+  number: 1020
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 719
+  name: Cordless Drill
+  size: 3/8" , 10mm
+  brand: Ryobi
+  model: P209
+  created_at: 2020-01-02 22:43:23 UTC
+  updated_at: 2020-01-02 22:43:23 UTC
+  number: 1622
+  status: active
+  borrow_policy_id: 1
+  strength: 18 Volt
+  category_ids:
+  - 18
+  - 31
+  - 17
+- id: 389
+  name: Drill bit sharpener
+  size: for drill bits 1/8" to 3/8"
+  brand: Black & Decker
+  model: No. 7980
+  serial: 9034-F
+  created_at: 2019-09-15 18:41:39 UTC
+  updated_at: 2019-09-15 18:42:22 UTC
+  number: 1310
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 18
+- id: 1229
+  name: Reel mower
+  size: 18”
+  brand: American
+  created_at: 2020-09-05 17:45:19 UTC
+  updated_at: 2020-09-05 17:47:39 UTC
+  number: 2000
+  status: active
+  borrow_policy_id: 1
+  other_names: Push mower
+  category_ids:
+  - 37
+- id: 363
+  name: Retaining Ring Pliers
+  created_at: 2019-09-15 16:42:35 UTC
+  updated_at: 2020-11-28 17:41:32 UTC
+  number: 1284
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 10
+- id: 1059
+  name: Toggle bolt anchors
+  size: 1/4” x 3”
+  brand: Star
+  created_at: 2020-07-25 17:23:00 UTC
+  updated_at: 2020-07-25 17:24:24 UTC
+  number: 264
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 119
+- id: 1089
+  name: Mushroom spore inoculator kit with screw tip bit and angle grinder adapter
+  size: 12.5 mm screw bit
+  brand: Field & Forest Products
+  created_at: 2020-08-01 18:04:54 UTC
+  updated_at: 2020-08-01 18:06:51 UTC
+  number: 1870
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 659
+  name: Concrete edger
+  size: 6" x 3"
+  brand: Goldblatt
+  model: Weekender
+  created_at: 2019-11-10 18:40:28 UTC
+  updated_at: 2019-11-10 18:48:10 UTC
+  number: 1573
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 52
+- id: 149
+  name: Circular saw
+  brand: Craftsman
+  model: '315.10961'
+  created_at: 2019-07-28 14:25:02 UTC
+  updated_at: 2020-10-22 23:46:53 UTC
+  number: 1107
+  status: active
+  borrow_policy_id: 1
+  strength: 7.5", 2 1/8 horsepower
+  category_ids:
+  - 3
+  - 19
+- id: 1266
+  name: Laser Level
+  brand: OliTools
+  model: RST-SP08
+  created_at: 2020-10-10 16:33:34 UTC
+  updated_at: 2020-10-10 16:44:34 UTC
+  number: 2035
+  status: active
+  borrow_policy_id: 1
+  checkout_notice: 'Don''t look at laser. Recommend using laser safety goggles. Slide
+    switch on side locks laser mechanism. Lock when transporting. 1/4" mount works
+    with camera tripod. '
+  other_names: Level
+  category_ids:
+  - 9
+- id: 1051
+  name: Sheet metal screw
+  size: 1", No. 8
+  brand: Elco
+  created_at: 2020-07-25 16:18:52 UTC
+  updated_at: 2020-07-25 16:20:44 UTC
+  number: 257
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 118
+- id: 310
+  name: Angle drill
+  created_at: 2019-09-08 16:55:47 UTC
+  updated_at: 2019-09-08 16:55:47 UTC
+  number: 1240
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 18
+- id: 1354
+  name: Halogen Work light
+  brand: Chicago Electric
+  model: '66433'
+  serial: '09201101252'
+  created_at: 2020-11-26 00:47:34 UTC
+  updated_at: 2020-11-28 17:28:59 UTC
+  number: 2109
+  status: active
+  borrow_policy_id: 1
+  strength: 120V/60hz/3.9A
+  checkout_notice: Probably will need an extension cord as well
+  other_names: work light
+  category_ids:
+  - 34
+- id: 199
+  name: Handheld vacuum
+  size: 22"
+  brand: HoLIFE
+  model: HLHM036ABUS
+  created_at: 2019-08-04 15:49:53 UTC
+  updated_at: 2019-08-04 16:03:20 UTC
+  number: 1147
+  status: active
+  borrow_policy_id: 1
+  strength: 85-90W
+  category_ids:
+  - 51
+- id: 532
+  name: Square point shovel
+  created_at: 2019-10-12 18:37:44 UTC
+  updated_at: 2019-10-12 18:37:44 UTC
+  number: 1449
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1012
+  name: Wood chipper and shredder
+  brand: Sun Joe
+  model: CJ601E
+  serial: '74960000085'
+  created_at: 2020-07-18 17:49:47 UTC
+  updated_at: 2020-11-25 19:41:30 UTC
+  number: 1849
+  status: active
+  borrow_policy_id: 3
+  strength: 14-amp
+  category_ids:
+  - 37
+- id: 758
+  name: Ratchet tie down
+  brand: Smart Straps
+  created_at: 2020-01-12 19:36:14 UTC
+  updated_at: 2020-01-12 19:37:22 UTC
+  number: 1659
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 450
+  name: Flaring tool
+  brand: Craftsman
+  model: 9-55371
+  created_at: 2019-09-29 17:49:05 UTC
+  updated_at: 2020-01-19 17:58:08 UTC
+  number: 1367
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1282
+  name: T-Square
+  created_at: 2020-10-22 23:43:14 UTC
+  updated_at: 2020-10-22 23:46:18 UTC
+  number: 2051
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1057
+  name: Acoustical eye lag
+  size: 1/4" x 3"
+  brand: Scorpion
+  created_at: 2020-07-25 17:01:09 UTC
+  updated_at: 2020-07-25 17:01:54 UTC
+  number: 263
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 120
+- id: 1421
+  name: Scraper
+  created_at: 2020-12-19 18:34:12 UTC
+  updated_at: 2020-12-19 18:36:58 UTC
+  number: 2174
+  status: active
+  borrow_policy_id: 1
+  other_names: sidewalk scraper, flooring scraper
+  category_ids:
+  - 1
+  - 37
+- id: 36
+  name: Nut drivers
+  created_at: 2019-07-05 20:06:15 UTC
+  updated_at: 2019-07-05 20:06:16 UTC
+  number: 114
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 12
+- id: 1409
+  name: Drill guide
+  brand: Milescraft
+  created_at: 2020-12-12 16:55:18 UTC
+  updated_at: 2020-12-12 16:55:18 UTC
+  number: 2162
+  status: active
+  borrow_policy_id: 1
+  other_names: Drill press
+  category_ids: []
+- id: 1333
+  name: Screening Roller Knife
+  brand: Screen Tight
+  created_at: 2020-11-12 00:58:51 UTC
+  updated_at: 2020-11-12 00:58:51 UTC
+  number: 2090
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 49
+  name: Shovel
+  brand: Ames
+  created_at: 2019-07-07 14:43:13 UTC
+  updated_at: 2019-07-07 14:43:13 UTC
+  number: 1021
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 38
+- id: 1371
+  name: Work / saw horses
+  brand: Stanley
+  created_at: 2020-12-03 01:41:10 UTC
+  updated_at: 2020-12-03 02:16:30 UTC
+  number: 2124
+  status: active
+  borrow_policy_id: 1
+  strength: Plastic
+  category_ids:
+  - 121
+- id: 1238
+  name: Vinyl tile cutter
+  size: 12"
+  brand: Roberts
+  model: '30002'
+  created_at: 2020-09-12 15:32:05 UTC
+  updated_at: 2020-09-12 15:38:26 UTC
+  number: 2009
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 3
+- id: 500
+  name: Clamp Volt Meter
+  created_at: 2019-10-06 17:49:14 UTC
+  updated_at: 2019-10-06 17:49:14 UTC
+  number: 1417
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 119
+  name: Power paint scraper
+  brand: Wagner
+  created_at: 2019-07-14 16:35:42 UTC
+  updated_at: 2020-12-22 21:45:13 UTC
+  number: 1078
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 54
+- id: 1270
+  name: Small level (magnetic)
+  size: 9”
+  brand: Empire
+  model: 581-9
+  created_at: 2020-10-10 20:18:10 UTC
+  updated_at: 2020-10-10 20:18:10 UTC
+  number: 2039
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 9
+- id: 616
+  name: Dough cutter
+  brand: Dexter-Russell
+  created_at: 2019-11-03 17:34:36 UTC
+  updated_at: 2019-11-03 17:35:42 UTC
+  number: 1530
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 45
+- id: 440
+  name: Coaxial/twin axial toggle hand tool
+  brand: Burndy
+  model: YCXMT-134, YCXMT-24
+  created_at: 2019-09-29 16:41:52 UTC
+  updated_at: 2020-11-28 17:55:09 UTC
+  number: 1357
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1313
+  name: Bolt cutter
+  size: 14"
+  created_at: 2020-11-07 18:02:50 UTC
+  updated_at: 2020-11-07 18:04:46 UTC
+  number: 2070
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 3
+- id: 746
+  name: Level
+  size: 48”
+  brand: Macklanburg-Duncan
+  model: 48”
+  created_at: 2020-01-12 18:37:53 UTC
+  updated_at: 2020-10-10 18:42:34 UTC
+  number: 1648
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 9
+- id: 1365
+  name: 40" pipe clamp
+  size: 40"
+  created_at: 2020-11-28 18:41:56 UTC
+  updated_at: 2020-11-28 18:41:56 UTC
+  number: 2118
+  status: active
+  borrow_policy_id: 1
+  other_names: Bar clamp
+  category_ids:
+  - 59
+- id: 1097
+  name: Singer Sewing Machine
+  brand: Singer
+  model: '347'
+  created_at: 2020-08-08 18:29:41 UTC
+  updated_at: 2020-12-15 20:22:31 UTC
+  number: 1878
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 28
+  - 73
+- id: 235
+  name: Steel square
+  size: 24 inches, 12 inches
+  created_at: 2019-08-11 17:25:43 UTC
+  updated_at: 2019-08-11 17:25:43 UTC
+  number: 144
+  status: active
+  borrow_policy_id: 2
+  quantity: 2
+  category_ids:
+  - 9
+- id: 968
+  name: Camping chair
+  brand: GreatLand
+  created_at: 2020-06-20 21:17:46 UTC
+  updated_at: 2020-06-20 21:17:46 UTC
+  number: 1813
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 56
+- id: 756
+  name: Ratchet tie down
+  brand: Smart Straps
+  created_at: 2020-01-12 19:35:14 UTC
+  updated_at: 2020-12-02 00:19:10 UTC
+  number: 1657
+  status: active
+  borrow_policy_id: 1
+  other_names: ratchet strap
+  category_ids: []
+- id: 1122
+  name: Electric blower and vacuum
+  brand: Toro
+  model: Ultra Blower Vac 51619
+  serial: '318216114'
+  created_at: 2020-08-15 18:24:41 UTC
+  updated_at: 2020-12-01 22:50:55 UTC
+  number: 1899
+  status: active
+  borrow_policy_id: 1
+  strength: 12 Amps
+  other_names: leaf blower
+  category_ids:
+  - 37
+- id: 1316
+  name: Small level
+  size: 9”
+  created_at: 2020-11-07 18:59:57 UTC
+  updated_at: 2020-11-07 19:01:11 UTC
+  number: 2073
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1418
+  name: Rubber mallet
+  brand: Garland
+  created_at: 2020-12-12 21:27:59 UTC
+  updated_at: 2020-12-12 21:27:59 UTC
+  number: 2171
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1133
+  name: Push broom
+  brand: Magnolia
+  created_at: 2020-08-22 16:35:42 UTC
+  updated_at: 2020-08-22 16:36:51 UTC
+  number: 1910
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 51
+- id: 315
+  name: Hex and driver socket set
+  created_at: 2019-09-08 17:26:13 UTC
+  updated_at: 2019-09-08 17:26:13 UTC
+  number: 1244
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 234
+  name: Hacksaw
+  created_at: 2019-08-11 16:49:44 UTC
+  updated_at: 2020-05-03 19:26:07 UTC
+  number: 143
+  status: active
+  borrow_policy_id: 2
+  quantity: 6
+  category_ids:
+  - 78
+  - 49
+- id: 629
+  name: Hand chisel
+  created_at: 2019-11-03 19:15:45 UTC
+  updated_at: 2019-11-03 19:17:18 UTC
+  number: 1543
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1061
+  name: Power fasteners
+  size: 2.5"
+  brand: Remington
+  created_at: 2020-07-25 17:27:53 UTC
+  updated_at: 2020-07-25 17:28:41 UTC
+  number: 265
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 120
+- id: 64
+  name: Spade drill bit set
+  size: 3/8" 1/2" 5/8" 3/4" 7/8" 1"
+  created_at: 2019-07-07 15:13:39 UTC
+  updated_at: 2019-07-07 15:13:39 UTC
+  number: 1033
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 18
+- id: 52
+  name: Snow shovel
+  brand: Suncast
+  created_at: 2019-07-07 14:56:27 UTC
+  updated_at: 2019-07-07 14:56:27 UTC
+  number: 1023
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 38
+- id: 1130
+  name: Impact socket set
+  created_at: 2020-08-19 22:58:05 UTC
+  updated_at: 2020-08-19 22:58:06 UTC
+  number: 1907
+  status: active
+  borrow_policy_id: 1
+  checkout_notice: 'Make sure there are 9 sockets and the adapter in case. '
+  category_ids:
+  - 18
+  - 11
+- id: 846
+  name: Bean bag toss tic tac toe
+  created_at: 2020-05-06 21:28:32 UTC
+  updated_at: 2020-05-06 21:28:32 UTC
+  number: 1735
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 423
+  name: Airbrush Kit
+  brand: Mark 1
+  model: Professional Airbush Kit
+  created_at: 2019-09-22 19:32:10 UTC
+  updated_at: 2020-02-23 18:24:04 UTC
+  number: 1341
+  status: maintenance
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1401
+  name: JawSaw
+  brand: Worx
+  model: WG307
+  serial: '20200701386479'
+  created_at: 2020-12-10 00:25:26 UTC
+  updated_at: 2020-12-31 14:23:21 UTC
+  number: 2154
+  status: active
+  borrow_policy_id: 1
+  other_names: chainsaw, chain saw, jaw saw
+  power_source: electric_corded
+  category_ids:
+  - 3
+  - 37
+- id: 475
+  name: Instant roof rack
+  size: Fits most 2-4 door sedans
+  brand: Car-go
+  created_at: 2019-10-01 23:14:57 UTC
+  updated_at: 2020-12-01 22:18:34 UTC
+  number: 1392
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 43
+- id: 1408
+  name: Instant Pot
+  size: 3 quart
+  model: Duo Mini
+  created_at: 2020-12-12 16:49:45 UTC
+  updated_at: 2020-12-12 16:50:49 UTC
+  number: 2161
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 46
+- id: 966
+  name: Camping chair
+  brand: Hunters specialties
+  model: '01399'
+  created_at: 2020-06-20 21:15:34 UTC
+  updated_at: 2020-06-20 21:15:34 UTC
+  number: 1811
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 56
+- id: 1235
+  name: Electric rototiller
+  size: 11"
+  brand: Greenworks
+  model: TL08B00
+  serial: GWZ1182857
+  created_at: 2020-09-12 15:05:59 UTC
+  updated_at: 2020-12-01 21:08:43 UTC
+  number: 2006
+  status: active
+  borrow_policy_id: 1
+  strength: 8.5A
+  other_names: Electric cultivator, tiller
+  category_ids:
+  - 37
+- id: 289
+  name: Pop rivet gun
+  brand: Gesipa
+  model: NTX
+  created_at: 2019-09-07 16:16:58 UTC
+  updated_at: 2019-09-07 16:18:40 UTC
+  number: 1222
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 2
+- id: 9
+  name: Box Cutter
+  created_at: 2019-07-05 17:48:40 UTC
+  updated_at: 2019-07-05 17:51:06 UTC
+  number: 101
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 3
+- id: 717
+  name: 3/8" 12-point Sockets
+  size: 7/16" - 7/8"
+  created_at: 2019-12-15 20:37:00 UTC
+  updated_at: 2019-12-15 20:40:42 UTC
+  number: 1620
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 43
+  - 18
+  - 11
+- id: 620
+  name: Extension ladder
+  size: 24'
+  created_at: 2019-11-03 17:43:20 UTC
+  updated_at: 2020-11-28 18:29:08 UTC
+  number: 1534
+  status: active
+  borrow_policy_id: 3
+  category_ids: []
+- id: 148
+  name: Ladder
+  size: 4 foot
+  brand: Werner
+  model: '364'
+  created_at: 2019-07-26 17:05:36 UTC
+  updated_at: 2020-11-25 23:52:51 UTC
+  number: 1106
+  status: active
+  borrow_policy_id: 1
+  strength: 250 lbs
+  category_ids:
+  - 42
+- id: 821
+  name: Utility Snip
+  created_at: 2020-02-23 20:09:39 UTC
+  updated_at: 2020-10-29 23:35:44 UTC
+  number: 1714
+  status: active
+  borrow_policy_id: 1
+  other_names: tin snip, snips, tin snips, utility snips
+  category_ids:
+  - 3
+  - 57
+  - 1
+- id: 669
+  name: Flooring trowel
+  created_at: 2019-11-10 19:50:10 UTC
+  updated_at: 2019-11-10 20:03:20 UTC
+  number: 1583
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 52
+- id: 380
+  name: Hand saw
+  size: 20"
+  created_at: 2019-09-15 18:11:00 UTC
+  updated_at: 2020-05-30 14:33:07 UTC
+  number: 1301
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 78
+  - 49
+- id: 898
+  name: Shovel
+  created_at: 2020-05-30 18:45:56 UTC
+  updated_at: 2020-05-30 18:45:56 UTC
+  number: 1780
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 38
+- id: 381
+  name: Hand saw
+  size: 25.5"
+  created_at: 2019-09-15 18:14:37 UTC
+  updated_at: 2020-05-30 14:32:21 UTC
+  number: 1302
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 78
+  - 49
+- id: 1248
+  name: Compound Miter Saw
+  size: 10"
+  brand: Craftsman
+  model: '315.212040'
+  serial: N40966676
+  created_at: 2020-09-19 17:54:06 UTC
+  updated_at: 2020-09-19 17:58:28 UTC
+  number: 2018
+  status: active
+  borrow_policy_id: 1
+  strength: 120V 14A
+  other_names: Miter Saw
+  category_ids:
+  - 19
+  - 49
+- id: 1092
+  name: Mitre box
+  created_at: 2020-08-06 00:48:45 UTC
+  updated_at: 2020-08-06 00:48:45 UTC
+  number: 1873
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 78
+- id: 1346
+  name: Moonie
+  size: Varies seasonally
+  brand: Canis
+  model: German shepherd and basset hound
+  created_at: 2020-11-21 16:44:22 UTC
+  updated_at: 2020-11-21 16:46:06 UTC
+  number: 2102
+  status: pending
+  borrow_policy_id: 3
+  strength: Mighty
+  checkout_notice: Needs to be led to water
+  other_names: Chompy
+  power_source: solar
+  category_ids:
+  - 37
+- id: 721
+  name: Cordless Drill
+  size: 3/8" , 10mm
+  brand: Ryobi
+  model: P209
+  created_at: 2020-01-02 22:51:46 UTC
+  updated_at: 2020-08-23 12:39:00 UTC
+  number: 1624
+  status: retired
+  borrow_policy_id: 1
+  strength: 18 Volt
+  category_ids:
+  - 18
+  - 17
+- id: 1360
+  name: Circular saw
+  size: 5 1/2"
+  brand: Ryobi
+  model: P501
+  serial: '13677'
+  created_at: 2020-11-26 01:39:29 UTC
+  updated_at: 2020-12-01 23:24:59 UTC
+  number: 2114
+  status: active
+  borrow_policy_id: 1
+  strength: 18v
+  power_source: electric_battery
+  category_ids:
+  - 19
+- id: 1076
+  name: Bar Clamp (36")
+  size: 36" clamping capacity, 3.5" throat depth
+  brand: Bessey
+  model: GSCC2.536
+  created_at: 2020-08-01 16:23:35 UTC
+  updated_at: 2020-08-01 16:34:21 UTC
+  number: 1862
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 49
+- id: 180
+  name: 4-Way Stem key
+  size: 1/4”, 9/32”, 5/16”, 11/32”
+  brand: B&K
+  model: 151-015
+  created_at: 2019-07-28 15:36:16 UTC
+  updated_at: 2020-01-12 16:40:45 UTC
+  number: 1130
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 357
+  name: Gum Rubber Float
+  size: 9" x 4"
+  created_at: 2019-09-15 16:34:35 UTC
+  updated_at: 2020-10-31 15:31:01 UTC
+  number: 1278
+  status: active
+  borrow_policy_id: 1
+  other_names: tile float
+  category_ids: []
+- id: 565
+  name: Electric hedge trimmer
+  size: 24"
+  brand: Ryobi
+  model: RY40601
+  serial: EU17195D130039
+  created_at: 2019-10-20 15:58:56 UTC
+  updated_at: 2020-12-01 23:29:31 UTC
+  number: 1480
+  status: active
+  borrow_policy_id: 1
+  checkout_notice: Make sure to send with charger
+  power_source: electric_battery
+  category_ids:
+  - 37
+  - 17
+- id: 1017
+  name: Cement-coated sinker nails
+  size: 1-3/8"
+  brand: Sterling
+  created_at: 2020-07-18 18:21:26 UTC
+  updated_at: 2020-07-18 18:22:19 UTC
+  number: 227
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 117
+- id: 309
+  name: Hollow punch set
+  brand: Mit
+  created_at: 2019-09-08 16:52:03 UTC
+  updated_at: 2019-09-08 16:52:03 UTC
+  number: 1239
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 555
+  name: Tool belt
+  brand: Americas Choice
+  model: A245X
+  created_at: 2019-10-13 17:48:24 UTC
+  updated_at: 2019-10-13 17:49:20 UTC
+  number: 1471
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1314
+  name: Door lock installation kit
+  brand: Black & Decker
+  model: 79-362
+  created_at: 2020-11-07 18:05:17 UTC
+  updated_at: 2020-11-07 18:07:57 UTC
+  number: 2071
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 976
+  name: Square point shovel
+  size: 40"
+  created_at: 2020-06-27 17:44:43 UTC
+  updated_at: 2020-06-27 17:46:15 UTC
+  number: 1821
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 38
+- id: 870
+  name: Cordless drill
+  size: 3/8"
+  brand: Ryobi
+  model: HJP003
+  created_at: 2020-05-21 20:25:09 UTC
+  updated_at: 2020-12-01 23:49:01 UTC
+  number: 1759
+  status: active
+  borrow_policy_id: 1
+  strength: 12v
+  power_source: electric_battery
+  category_ids:
+  - 18
+  - 17
+- id: 1300
+  name: OBDII scanner
+  brand: ANCEL
+  model: Ad410
+  created_at: 2020-11-07 16:11:06 UTC
+  updated_at: 2020-12-01 22:37:02 UTC
+  number: 2057
+  status: active
+  borrow_policy_id: 1
+  other_names: Obd scanner code scanner diagnostic reader
+  power_source: electric_battery
+  category_ids:
+  - 82
+- id: 396
+  name: Battery charger
+  brand: Dewalt
+  created_at: 2019-09-21 16:50:53 UTC
+  updated_at: 2019-09-21 16:50:53 UTC
+  number: 1316
+  status: active
+  borrow_policy_id: 1
+  strength: 7.2-18 volts
+  category_ids:
+  - 31
+- id: 317
+  name: Auger bits
+  created_at: 2019-09-08 17:34:18 UTC
+  updated_at: 2019-09-08 17:34:18 UTC
+  number: 161
+  status: active
+  borrow_policy_id: 2
+  category_ids: []
+- id: 150
+  name: Hatchet
+  brand: Yardworks
+  created_at: 2019-07-28 14:26:47 UTC
+  updated_at: 2020-04-06 02:15:16 UTC
+  number: 1108
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 3
+  - 49
+  - 37
+- id: 214
+  name: Rubber mallet
+  created_at: 2019-08-04 16:56:08 UTC
+  updated_at: 2020-05-30 17:16:17 UTC
+  number: 1162
+  status: active
+  borrow_policy_id: 1
+  quantity: 3
+  category_ids:
+  - 5
+- id: 1071
+  name: Bar clamp (12")
+  size: 12" clamping capacity, 2.5" throat depth
+  brand: Bessey
+  model: GSCC4PK-C
+  created_at: 2020-08-01 16:10:24 UTC
+  updated_at: 2020-08-01 17:12:30 UTC
+  number: 1857
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 49
+- id: 1351
+  name: Bar clamp (12")
+  size: 12" clamping capacity, 2.5" throat depth
+  created_at: 2020-11-21 18:38:33 UTC
+  updated_at: 2020-11-21 18:42:02 UTC
+  number: 2106
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 49
+- id: 1285
+  name: Hole saw - 1 1/8"
+  size: 1 1/8" 29 mm
+  created_at: 2020-10-31 16:17:31 UTC
+  updated_at: 2020-10-31 17:30:11 UTC
+  number: 287
+  status: active
+  borrow_policy_id: 2
+  quantity: 4
+  other_names: hole saw and arbor
+  category_ids: []
+- id: 920
+  name: Bread machine
+  brand: Panasonic
+  model: SD-YD150
+  created_at: 2020-06-11 14:30:40 UTC
+  updated_at: 2020-06-11 14:30:41 UTC
+  number: 1797
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 71
+- id: 982
+  name: Ice cream maker
+  size: 1.5 quart
+  brand: Cuisinart
+  model: ICE-21
+  created_at: 2020-07-11 17:37:10 UTC
+  updated_at: 2020-07-11 17:39:20 UTC
+  number: 1827
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 45
+- id: 419
+  name: Straight hole maker jig
+  brand: Stanley
+  model: 04-413
+  created_at: 2019-09-22 19:07:18 UTC
+  updated_at: 2019-09-22 19:09:17 UTC
+  number: 1337
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1121
+  name: Grinder Sanding Adaptors
+  brand: Ferro
+  created_at: 2020-08-15 18:20:52 UTC
+  updated_at: 2020-10-02 00:43:45 UTC
+  number: 279
+  status: retired
+  borrow_policy_id: 2
+  quantity: 2
+  category_ids:
+  - 21
+- id: 439
+  name: Pop rivet gun
+  created_at: 2019-09-29 16:39:10 UTC
+  updated_at: 2019-09-29 16:40:08 UTC
+  number: 1356
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 2
+- id: 485
+  name: Electric pole saw
+  size: 8"
+  brand: Wen
+  model: '4021'
+  serial: GLT1608YT00935
+  created_at: 2019-10-05 19:20:10 UTC
+  updated_at: 2020-12-22 20:50:07 UTC
+  number: 1402
+  status: active
+  borrow_policy_id: 1
+  checkout_notice: Check blade oil
+  power_source: electric_corded
+  category_ids:
+  - 37
+  - 17
+- id: 521
+  name: Bar Clamp
+  created_at: 2019-10-06 20:06:02 UTC
+  updated_at: 2020-02-09 19:19:38 UTC
+  number: 1438
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 59
+  - 1
+  - 49
+- id: 137
+  name: Ratchet wrench
+  size: 3/8"
+  brand: Central Pneumatic Professional
+  serial: '47214'
+  created_at: 2019-07-21 16:48:01 UTC
+  updated_at: 2019-07-21 16:48:01 UTC
+  number: 1095
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 16
+- id: 502
+  name: Battery charger
+  created_at: 2019-10-06 17:56:00 UTC
+  updated_at: 2020-12-01 21:56:14 UTC
+  number: 1419
+  status: active
+  borrow_policy_id: 1
+  strength: 6 & 12 volt ; 6 amps
+  category_ids:
+  - 43
+- id: 1432
+  name: Camera filter
+  brand: Quantaray
+  model: 24-166-2204
+  created_at: 2020-12-19 21:32:26 UTC
+  updated_at: 2020-12-19 21:32:26 UTC
+  number: 2185
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 29
+- id: 29
+  name: Electric hedge trimmer
+  size: 16"
+  brand: Sears
+  model: '315.796620'
+  serial: B6144
+  created_at: 2019-07-05 19:30:56 UTC
+  updated_at: 2020-12-01 23:29:10 UTC
+  number: 1007
+  status: active
+  borrow_policy_id: 1
+  power_source: electric_corded
+  category_ids:
+  - 37
+  - 17
+- id: 326
+  name: Lead acid battery charger
+  brand: Century
+  created_at: 2019-09-08 18:39:07 UTC
+  updated_at: 2020-12-01 21:53:54 UTC
+  number: 1252
+  status: active
+  borrow_policy_id: 1
+  strength: 6 & 12 volt ; 2-6 amps
+  category_ids:
+  - 43
+- id: 575
+  name: Palm sander
+  size: 1/4 sheet
+  brand: Tool Shop
+  model: S1B-AJ-110x100
+  serial: 2002/05/00665
+  created_at: 2019-10-20 17:01:57 UTC
+  updated_at: 2019-10-20 17:02:56 UTC
+  number: 1490
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 21
+- id: 687
+  name: Adjustable wrench
+  size: 18 inch
+  created_at: 2019-11-23 20:09:32 UTC
+  updated_at: 2019-11-23 20:09:33 UTC
+  number: 1598
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 392
+  name: Level
+  size: 24"
+  brand: Stanley
+  created_at: 2019-09-15 19:23:54 UTC
+  updated_at: 2020-09-24 00:23:31 UTC
+  number: 1313
+  status: active
+  borrow_policy_id: 1
+  category_ids: []
+- id: 1228
+  name: Cooler
+  size: 30 quarts
+  brand: Igloo
+  model: Contour
+  created_at: 2020-09-05 17:38:12 UTC
+  updated_at: 2020-09-05 17:40:44 UTC
+  number: 1999
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 37
+- id: 1037
+  name: Aluminum alloy nails
+  size: 1-1/4" x .101
+  brand: Drive-Rite
+  created_at: 2020-07-18 19:38:18 UTC
+  updated_at: 2020-07-18 19:39:42 UTC
+  number: 245
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 117
+- id: 103
+  name: 'Crock pot '
+  size: 6 quarts
+  brand: Hamilton Beach
+  created_at: 2019-07-07 17:34:30 UTC
+  updated_at: 2019-07-07 17:34:30 UTC
+  number: 1062
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 46
+- id: 1226
+  name: Step Ladder
+  size: 2'4.5"
+  brand: Cosco
+  created_at: 2020-09-05 17:23:26 UTC
+  updated_at: 2020-09-05 17:25:12 UTC
+  number: 1997
+  status: active
+  borrow_policy_id: 1
+  other_names: 3 step
+  category_ids:
+  - 42
+  - 71
+- id: 912
+  name: Work light
+  brand: Smart Electrician
+  created_at: 2020-05-31 19:15:52 UTC
+  updated_at: 2020-05-31 19:17:17 UTC
+  number: 1790
+  status: active
+  borrow_policy_id: 1
+  strength: 120V 42W
+  category_ids:
+  - 34
+- id: 740
+  name: Adjustable wire stripper
+  brand: K Miller Tool Co.
+  model: '100'
+  created_at: 2020-01-12 17:57:57 UTC
+  updated_at: 2020-01-12 17:57:57 UTC
+  number: 1642
+  status: active
+  borrow_policy_id: 1
+  category_ids:
+  - 31
+- id: 1067
+  name: Hex nuts
+  size: 1/2-13
+  brand: Hillman
+  model: '810512'
+  created_at: 2020-07-25 18:35:20 UTC
+  updated_at: 2020-07-25 18:36:19 UTC
+  number: 271
+  status: active
+  borrow_policy_id: 2
+  category_ids:
+  - 119
