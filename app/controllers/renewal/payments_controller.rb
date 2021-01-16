@@ -1,4 +1,4 @@
-module Signup
+module Renewal
   class PaymentsController < BaseController
     before_action :load_member
     before_action :set_raven_context
@@ -16,7 +16,7 @@ module Signup
         return
       end
 
-      result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id)
+      result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_renewal_payments_url, member_id: @member.id)
       if result.success?
         redirect_to result.value
       else
@@ -24,15 +24,14 @@ module Signup
         Rails.logger.error(errors)
         Raven.capture_message(errors.inspect)
         flash[:error] = "There was a problem connecting to our payment processor."
-        redirect_to new_signup_payment_url
+        redirect_to new_renewal_payment_url
       end
     end
 
     def skip
       # completing in person
       MemberMailer.with(member: @member).welcome_message.deliver_later
-      reset_session
-      redirect_to signup_confirmation_url
+      redirect_to renewal_confirmation_url
     end
 
     def callback
@@ -45,10 +44,9 @@ module Signup
         Membership.create_for_member(@member, amount: amount, square_transaction_id: transaction_id, source: "square")
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
 
-        reset_session
         session[:amount] = amount.cents
 
-        redirect_to signup_confirmation_url
+        redirect_to renewal_confirmation_url
         return
       end
 
@@ -67,7 +65,7 @@ module Signup
       Raven.capture_message(errors.inspect)
       reset_session
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
-      redirect_to signup_confirmation_url
+      redirect_to renewal_confirmation_url
     end
 
     private

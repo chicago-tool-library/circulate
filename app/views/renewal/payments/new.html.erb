@@ -22,7 +22,7 @@
 <div class="columns">
   <div class="column col-sm-12 col-4 col-ml-auto pay-online">
 
-    <%= form_with(model: @form, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
+    <%= form_with(model: @form, url: renewal_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
       <fieldset>
         <legend>Pay Online</legend>
         <p>
@@ -42,7 +42,7 @@
   </div>
 
   <div class="column col-sm-12 col-4 col-mr-auto complete-in-person">
-    <%= form_with(url: skip_signup_payments_url, builder: SpectreFormBuilder) do |form| %>
+    <%= form_with(url: skip_renewal_payments_url, builder: SpectreFormBuilder) do |form| %>
       <fieldset>
         <legend>Complete Signup at the Library</legend>
         <p>
@@ -60,7 +60,7 @@
   <div class="column col-12 col-ml-auto text-center gift-membership">
     <p>
       Have a <strong>gift membership</strong> code? Right this way:
-      <%= link_to "Redeem Gift Membership", new_signup_redemption_path, class: "btn"%>
+      <%= link_to "Redeem Gift Membership", new_renewal_redemption_path, class: "btn"%>
     </p>
   </div>
 </div>

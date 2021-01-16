@@ -1,0 +1,20 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Signup Complete</p>
+      <div class="divider"></div>
+    </div>
+    <div class="verification-instructions">
+      <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
+      <%= render partial: "instructions" %>
+    </div>
+    <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>See you at the library!</p>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto mt-2">
+    <%= link_to "Back to Signup Page", signup_url, class: "btn btn-block" %>
+  </div>
+</div>

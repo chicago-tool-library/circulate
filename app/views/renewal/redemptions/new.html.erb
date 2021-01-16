@@ -1,0 +1,29 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Redeem a Gift Membership</p>
+      <p class="sub"></p>
+      <div class="divider"></div>
+    </div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-sm-12 col-8 col-mx-auto">
+    <%= form_with(model: @form, url: renewal_redemptions_path, builder: SpectreFormBuilder) do |form| %>
+      <fieldset>
+        <legend>Enter Your Gift Code</legend>
+        <p>
+          You should have received an eight character code via email, a written note, or perhaps via carrier pigeon.
+        </p>
+        <p>
+          It will be in this format: <code>A1B2-C3D4</code>
+        </p>
+        <%= form.text_field :code, label: "Please enter your gift code:", class: "input-lg" %>
+      </fieldset>
+      <%= form.actions do %>
+        <%= form.submit "Redeem" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

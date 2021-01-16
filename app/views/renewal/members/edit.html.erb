@@ -1,0 +1,16 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+     <div class="instructions">
+      <p class="main">The following information is needed to create your account.</p>
+      <p class="sub">When you have filled out the fields below, click <em>Save and Continue</em> to go on to the next step.</p>
+      <div class="divider"></div>
+    </div>
+    <%= form_with(model: @member, url: renewal_member_url, builder: SpectreFormBuilder) do |form| %>
+      <%= render 'admin/members/fields', form: form %>
+
+      <%= form.actions do %>
+        <%= form.submit "Save and Continue" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
