@@ -1,6 +1,7 @@
 module Admin
   class LoansController < BaseController
     include ActionView::RecordIdentifier
+    include Lending
 
     def index
       scope = if params[:member_id]
@@ -27,21 +28,14 @@ module Admin
 
     def update
       @loan = Loan.find(params[:id])
-      ended_at = update_loan_params[:ended] == "1" ? Time.current : nil
 
-      if @loan.update(ended_at: ended_at)
-        if @loan.ended_at
-          policy = @loan.item.borrow_policy
-          amount = FineCalculator.new.amount(fine: policy.fine, period: policy.fine_period, due_at: @loan.due_at, returned_at: @loan.ended_at)
-          if amount > 0
-            Adjustment.create!(member_id: @loan.member_id, adjustable: @loan, amount: amount * -1, kind: "fine")
-          end
+      success = if update_loan_params[:ended] == "1"
+        return_loan(@loan)
+      else
+        restore_loan(@loan)
+      end
 
-          if (hold = @loan.item.next_hold)
-            hold.start!
-            MemberMailer.with(member: hold.member, hold: hold).hold_available.deliver_later
-          end
-        end
+      if success
         redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join

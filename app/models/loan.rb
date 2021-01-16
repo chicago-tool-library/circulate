@@ -88,42 +88,6 @@ class Loan < ApplicationRecord
     due_at - Time.current <= item.borrow_policy.duration.days
   end
 
-  def renew!(now = Time.current)
-    transaction do
-      return!(now)
-
-      period_start_date = [due_at, now.end_of_day].max
-      Loan.create!(
-        member_id: member_id,
-        item_id: item_id,
-        initial_loan_id: initial_loan_id || id,
-        renewal_count: renewal_count + 1,
-        due_at: self.class.next_open_day(period_start_date + item.borrow_policy.duration.days),
-        uniquely_numbered: uniquely_numbered,
-        created_at: now
-      )
-    end
-  end
-
-  def undo_renewal!
-    transaction do
-      destroy!
-      target = if renewal_count > 1
-        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first
-      else
-        initial_loan
-      end
-      target.update!(ended_at: nil)
-      target
-    end
-  end
-
-  def return!(now = Time.current)
-    # raise an error if already returned
-    update!(ended_at: now)
-    self
-  end
-
   def status
     if due_at < Time.now
       "overdue"

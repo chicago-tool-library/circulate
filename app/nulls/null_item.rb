@@ -32,4 +32,8 @@ class NullItem
   def marked_for_destruction?
     false
   end
+
+  def next_hold
+    nil
+  end
 end
