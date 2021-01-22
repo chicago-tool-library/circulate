@@ -11,6 +11,9 @@
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if Rails.env.production? %>
+      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
+    <% end %>
   </head>
 
   <body class="admin">
@@ -44,6 +47,7 @@
               <li class="nav-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
               <li class="nav-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
               <li class="nav-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
+              <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
             </ul>
           </li>
 
@@ -123,6 +127,7 @@
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
                 <li class="menu-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
+                <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
               </ul>
             </div>
             <div class="dropdown">

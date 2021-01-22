@@ -10,6 +10,7 @@
 - [Integrations](#integrations)
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
@@ -123,6 +124,11 @@ After you have the application running, here are some places to explore:
 1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
+### Resetting the application
+
+During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
+
+This can be useful if you need to run through a certain scenario multiple times manually.
 
 ### Running tests
 

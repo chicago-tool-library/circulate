@@ -1,0 +1,24 @@
+<%= content_for :header do %>
+  <%= index_header "Items in maintenance" %>
+<% end %>
+
+<% if @items.any? %>
+  <div class="responsive-table two-columns">
+    <%= tag.div "Item", class: "responsive-table-header" %>
+    <%= tag.div "", class: "responsive-table-header" %>
+
+    <% @items.each do |item| %>
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to item.name, [:admin, item] %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= item.complete_number%>
+      <% end %>
+    <% end %>
+  </div>
+
+
+<% else %>
+  <%= empty_state "There are no items currently being repaired!" %>
+<% end %>

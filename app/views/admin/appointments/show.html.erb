@@ -2,6 +2,27 @@
   <%= index_header "#{preferred_or_default_name(current_appointment.member)}'s Appointment" %>
 <% end %>
 
+<% if !current_appointment.member.active_membership %>
+  <% if current_appointment.member.pending_membership %>
+    <div class="toast member-membership clearfix">
+      <p class="float-left"><i class="icon icon-stop"></i> Member has a pending membership.</p>
+      <p class="float-right"><%= link_to "Start Membership", admin_member_membership_path(current_appointment.member, current_appointment.member.pending_membership), method: :patch %></p>
+    </div>
+  <% else %>
+    <div class="toast member-membership clearfix">
+      <p class="float-left"><i class="icon icon-stop"></i> Member needs to start a membership.</p>
+      <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(current_appointment.member) %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<% unless current_appointment.member.status_verified? %>
+  <div class="toast clearfix member-membership">
+    <p class="float-left"><i class="icon icon-stop"></i> Member's ID and zipcode need to be verified.</p>
+    <p class="float-right"><%= link_to "Verify Info", edit_admin_member_verification_path(current_appointment.member) %></p>
+  </div>
+<% end %>
+
 <div class="columns">
   <div class="column col-4 col-sm-12">
     <%= render "admin/members/member_details", member: current_appointment.member %>
@@ -20,6 +41,6 @@
         </div>
       </div>
   </div>
-  <%= render "checkouts" %>
+  <%= render "checkouts", member: current_appointment.member %>
   <%= render "checkins" %>
 </div>
