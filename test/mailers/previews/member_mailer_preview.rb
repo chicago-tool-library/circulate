@@ -43,4 +43,8 @@ class MemberMailerPreview < ActionMailer::Preview
 
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
   end
+
+  def membership_renewal_reminder
+    MemberMailer.with(member: Member.first).membership_renewal_reminder
+  end
 end
