@@ -1,0 +1,6 @@
+<% if current_member.last_membership && (current_member.last_membership.ended? || current_member.last_membership.ends_within?(29.days.since)) %>
+  <div class="toast toast-warning">
+    <p><strong>Your membership <%= current_member.last_membership.status_text %>.</strong> To continue to borrow tools, please renew.</p>
+    <%= link_to "Renew Membership", renewal_path, class: "btn btn-lg btn-default" %>
+  </div>
+<% end %>
