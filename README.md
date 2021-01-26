@@ -14,6 +14,7 @@
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
+  * [Who to log in as](#who-to-log-in-as)
 - [Deployment](#deployment)
   * [Buildpacks](#buildpacks)
   * [Release Command](#release-command)
@@ -150,6 +151,10 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 * Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
 * Feather iconset [Website](https://feathericons.com)
 * MJML responsive email framework [Docs](https://mjml.io/documentation/)
+
+### Who to log in as
+
+During development, you will probably want to log into the app as various users (e.g. an admin or a member). You can use the users defined in [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) to see which user accounts are created when `bin/setup` or `bin/reset` are run. All of their passwords are "password".
 
 ## Deployment
 

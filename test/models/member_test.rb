@@ -152,4 +152,25 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_equal Member.last.bio, member.bio
   end
+
+  test "last_membership finds the only membership" do
+    member = create(:member)
+    membership = create(:membership, member: member)
+
+    assert_equal membership, member.last_membership
+  end
+
+  test "last_membership finds the last membership" do
+    member = create(:member)
+    create(:membership, member: member, created_at: 14.months.ago, started_at: 13.months.ago, ended_at: 1.month.ago)
+    newer_membership = create(:membership, member: member, created_at: 1.month.ago, started_at: 1.month.ago, ended_at: 11.months.since)
+
+    assert_equal newer_membership, member.last_membership
+  end
+
+  test "last_membership returns nil when there are no memberships" do
+    member = create(:member)
+
+    assert_nil member.last_membership
+  end
 end

@@ -9,7 +9,7 @@ module Admin
     def index
       member_scope = params[:filter] == "closed" ? Member.closed : Member.open
       @pagy, @members = pagy(
-        member_scope.order(index_order).includes([:active_membership, :checked_out_loans, :active_holds]),
+        member_scope.order(index_order).includes(:active_membership, :last_membership, :checked_out_loans, :active_holds),
         items: 100
       )
     end

@@ -29,6 +29,24 @@ Rails.application.routes.draw do
     get "/", to: "home#index", as: "home"
   end
 
+  namespace :renewal do
+    resource :member, only: [:edit, :update]
+    scope :documents do
+      get :agreement, to: "documents#agreement"
+      get :rules, to: "documents#rules"
+
+      resource :acceptance, only: [:create, :destroy]
+    end
+    resources :payments, only: [:new, :create] do
+      get :callback, on: :collection
+      post :skip, on: :collection
+    end
+    resources :redemptions, only: [:new, :create]
+
+    get "confirmation", to: "confirmations#show"
+    get "/", to: "home#index"
+  end
+
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
     resource :session, only: [:destroy]

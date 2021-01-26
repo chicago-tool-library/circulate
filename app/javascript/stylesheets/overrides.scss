@@ -149,6 +149,10 @@ trix-toolbar {
   &.toast-success { background-color: lighten($success-color, 20%); }
   &.toast-warning { background-color: lighten($warning-color, 20%); }
   &.toast-error { background-color: lighten($error-color, 20%); }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .dropdown {
