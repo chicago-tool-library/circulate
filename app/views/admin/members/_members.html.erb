@@ -18,6 +18,8 @@
     <%= tag.div class: "members-table-status" do %>
       <% if member.active_membership %>
         <span class="chip">membership</span>
+      <% elsif member.last_membership %>
+        <span class="chip">ended</span>
       <% end %>
       <% if member.status_verified? %>
         <span class="chip">verified</span>
