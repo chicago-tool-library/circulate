@@ -1,6 +1,6 @@
 namespace :sync do
   desc "Syncronizes calendars with the events database"
-  task :calendars => :environment do
+  task calendars: :environment do
     sync_calendar Event.appointment_slot_calendar_id
     # TODO also sync other calendars
     # sync_calendar ENV.fetch("VOLUNTEER_SLOT_CALENDAR_ID")
