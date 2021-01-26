@@ -24,7 +24,7 @@ class Membership < ApplicationRecord
   end
 
   def ends_within?(day)
-    ended_at < day
+    ended_at && ended_at < day
   end
 
   def status_text

@@ -121,7 +121,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Redeem Gift Membership"
 
-    fill_in "signup_redemption_code", with: gift_membership.code.value
+    fill_in "gift_membership_redemption_form_code", with: gift_membership.code.value
 
     perform_enqueued_jobs do
       click_on "Redeem"

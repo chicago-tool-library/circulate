@@ -128,21 +128,21 @@ class ItemsTest < ApplicationSystemTestCase
     assert_text(/Categories set to category\d, deleted category/)
   end
 
-  test "importing a manual from a URL", :remote do
-    url = "https://www.singer.com/sites/default/files/C5200%20manual.pdf"
-    audited_as_admin do
-      @item = create(:item)
-    end
+  # test "importing a manual from a URL", :remote do
+  #   url = "https://www.singer.com/sites/default/files/C5200%20manual.pdf"
+  #   audited_as_admin do
+  #     @item = create(:item)
+  #   end
 
-    visit admin_item_url(@item)
-    click_on "Import Manual"
+  #   visit admin_item_url(@item)
+  #   click_on "Import Manual"
 
-    fill_in "Manual URL", with: url
-    click_on "Import Manual"
+  #   fill_in "Manual URL", with: url
+  #   click_on "Import Manual"
 
-    assert_text "The manual was imported", wait: 10
-    assert_text "Manual: C5200-20manual.pdf"
-  end
+  #   assert_text "The manual was imported", wait: 10
+  #   assert_text "Manual: C5200-20manual.pdf"
+  # end
 
   test "double clicking create item doesn't create multiple items" do
     @item = build(:item, name: "Repeated item name")

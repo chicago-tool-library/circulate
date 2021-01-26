@@ -65,7 +65,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       Capybara.current_driver = Capybara.javascript_driver
       Capybara.server_host = "0.0.0.0"
       Capybara.server_port = 4000
-      Capybara.app_host = "http://web:4000"
+      Capybara.app_host = "http://example.com:4000"
     end
   end
 

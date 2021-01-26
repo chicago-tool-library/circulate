@@ -5,6 +5,7 @@ module Renewal
 
     def new
       @form = MembershipPaymentForm.new
+      @amount = @member.last_membership.amount
       activate_step(:payment)
     end
 
@@ -30,7 +31,7 @@ module Renewal
 
     def skip
       # completing in person
-      MemberMailer.with(member: @member).welcome_message.deliver_later
+      MemberMailer.with(member: @member).renewal_message.deliver_later
       redirect_to renewal_confirmation_url
     end
 
@@ -41,8 +42,8 @@ module Renewal
 
       if result.success?
         amount = result.value
-        Membership.create_for_member(@member, amount: amount, square_transaction_id: transaction_id, source: "square")
-        MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
+        Membership.create_for_member(@member, amount: amount, start_membership: true, square_transaction_id: transaction_id, source: "square")
+        MemberMailer.with(member: @member, amount: amount.cents).renewal_message.deliver_later
 
         session[:amount] = amount.cents
 

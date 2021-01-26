@@ -4,6 +4,10 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(member: Member.first, amount: 2500).welcome_message
   end
 
+  def renewal_message
+    MemberMailer.with(member: Member.first, amount: 3400).renewal_message
+  end
+
   def membership_reminder
     MemberMailer.with(member: Member.first).membership_reminder
   end
