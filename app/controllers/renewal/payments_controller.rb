@@ -5,7 +5,7 @@ module Renewal
 
     def new
       @form = MembershipPaymentForm.new
-      @amount = @member.last_membership.amount
+      @amount = @member.last_membership&.amount || Money.new(0)
       activate_step(:payment)
     end
 
