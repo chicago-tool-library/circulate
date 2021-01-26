@@ -12,7 +12,7 @@
 
   <div class="column col-sm-12 col-8">
 
-    <%= render partial: "membership_status", locals: { member: @member } %>
+    <%= render partial: "admin/members/membership_status", locals: { member: @member } %>
 
     <% unless @member.status_verified? %>
       <div class="toast clearfix member-membership">
@@ -33,4 +33,3 @@
 
   </div>
 </div>
-
