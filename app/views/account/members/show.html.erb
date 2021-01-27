@@ -46,7 +46,7 @@
         <dd class="title_bold"><%= @member.number %></dd>
 
         <dt>Membership Expiration Date</dt>
-        <dd class="title_bold"><%= date_with_time_title(@member.active_membership.ended_at) %></dd>
+        <dd class="title_bold"><%= date_with_time_title(@member.last_membership.ended_at) %></dd>
       <% else %>
         <dd class="label"><%= @member.status %></dd>
       <% end %>
