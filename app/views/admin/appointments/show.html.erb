@@ -2,7 +2,7 @@
   <%= index_header "#{preferred_or_default_name(current_appointment.member)}'s Appointment" %>
 <% end %>
 
-<%= render partial: "admin/members/membership_status", locals: { member: @member } %>
+<%= render partial: "admin/members/membership_status", locals: { member: current_appointment.member } %>
 
 <div class="columns">
   <div class="column col-4 col-sm-12">
