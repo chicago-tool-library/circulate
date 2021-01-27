@@ -32,7 +32,7 @@ namespace :email do
     Membership.expiring_before(Date.new(2021, 2, 1)).each do |membership|
       member = membership.member
       amount = member.last_membership&.amount || Money.new(0)
-      puts MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.parts[0].to_s
+      MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
     end
   end
 end
