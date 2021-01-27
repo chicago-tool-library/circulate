@@ -26,4 +26,13 @@ namespace :email do
   task :send_pending_member_reminders, [:date] => :environment do |task, args|
     send_emails :remind_pending_members, args[:date]
   end
+
+  desc "Send membership renewal reminder emails"
+  task send_membership_renewal_reminders: :environment do
+    Membership.expiring_before(Date.new(2021, 2, 1)).each do |membership|
+      member = membership.member
+      amount = member.last_membership&.amount || Money.new(0)
+      MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
+    end
+  end
 end
