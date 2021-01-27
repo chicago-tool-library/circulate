@@ -50,6 +50,38 @@
       <% else %>
         <dd class="label"><%= @member.status %></dd>
       <% end %>
+
+      <dt class="caption">What kind of tools are you interested in borrowing, today or sometime the future?</dt>
+      <dd class="title_bold"><%= @member.desires %></dd>
+
+      <dt class="caption">Loan Reminders</dt>
+      <dd>
+        <%= label_tag "reminders_via_email", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "reminders_via_email", @member.reminders_via_email,  @member.reminders_via_email, disabled: true %>
+          <i class="form-icon"></i>Send me loan reminders via email
+        <% end %>
+
+        <%= label_tag "reminders_via_text", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "reminders_via_text", @member.reminders_via_text,  @member.reminders_via_text, disabled: true %>
+          <i class="form-icon"></i>Send me loan reminders via text (coming soon)
+        <% end %>
+      </dd>
+
+      <dt class="caption">Subscribe to our Newsletter</dt>
+      <dd>
+        <%= label_tag "receive_newsletter", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "receive_newsletter", @member.receive_newsletter,  @member.receive_newsletter, disabled: true %>
+          <i class="form-icon"></i>Send me occasional news about the library
+        <% end %>
+      </dd>
+
+      <dt class="caption">Want to help us out?</dt>
+      <dd>
+        <%= label_tag "volunteer_interest", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "volunteer_interest", @member.volunteer_interest,  @member.volunteer_interest, disabled: true %>
+          <i class="form-icon"></i>I am interested in volunteering with the library
+        <% end %>
+      </dd>
     </dl>
   </div>
 </div>
