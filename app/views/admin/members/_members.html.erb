@@ -11,7 +11,6 @@
     <%= tag.div member.number || "-", class: "members-table-number" %>
     <%= tag.div class: "members-table-name" do %>
       <%= link_to preferred_or_default_name(member), [:admin, member] %>
-      <%= tag.div(member_pronoun(member), class: "label") if member.pronoun %>
     <% end %>
     <%= tag.div member.email, class: "members-table-email" %>
     <%= tag.div format_phone_number(member.phone_number), class: "members-table-phone" %>
