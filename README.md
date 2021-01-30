@@ -62,7 +62,7 @@ The following third party services are used:
 
 ## Development
 
-Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+Once you've completed the setup below, you can login to the app using `admin@example.com` and `password` to see the admin interface.
 
 See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
@@ -122,7 +122,7 @@ Open an internet browser, and type `localhost:3000`. You should see the Circulat
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Resetting the application
