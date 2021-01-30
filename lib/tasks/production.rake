@@ -36,7 +36,6 @@ def scrub_data
       email: "member#{id}@example.com",
       phone_number: "7732420923",
       pronouns: ["she/her"],
-      notes: nil,
       address1: "1048 W 37th St",
       address2: "Suite 102",
       postal_code: 60609

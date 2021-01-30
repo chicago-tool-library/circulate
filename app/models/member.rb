@@ -20,7 +20,6 @@ class Member < ApplicationRecord
   has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
-  enum pronoun: [:"he/him", :"she/her", :"they/them"]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
   enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
