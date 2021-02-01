@@ -5,7 +5,7 @@ class SquareCheckout
     @now = now
   end
 
-  def checkout_url(amount:, email:, member_id:, return_to:, idempotency_key: random_idempotency_key)
+  def checkout_url(amount:, email:, date:, member_id:, return_to:, idempotency_key: random_idempotency_key)
     checkout_response = @client.checkout.create_checkout(
       location_id: @location_id,
       body: {
@@ -15,7 +15,7 @@ class SquareCheckout
         order: {
           order: {
             location_id: @location_id,
-            reference_id: member_id.to_s,
+            reference_id: "#{date.strftime("%Y%m%d")}-#{member_id}",
             line_items: [{
               name: "Annual Membership",
               quantity: "1",

@@ -26,7 +26,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
           order: {
             order: {
               location_id: "SQ_LOCATION_ID",
-              reference_id: member.id.to_s,
+              reference_id: "20210101-#{member.id}",
               line_items: [{
                 name: "Annual Membership",
                 quantity: "1",
@@ -52,6 +52,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         email: member.email,
         return_to: "http://example.com/callback",
         member_id: member.id,
+        date: Date.new(2021, 1, 1),
         idempotency_key: "test"
       )
 
@@ -85,7 +86,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
           order: {
             order: {
               location_id: "SQ_LOCATION_ID",
-              reference_id: member.id.to_s,
+              reference_id: "20210101-#{member.id}",
               line_items: [{
                 name: "Annual Membership",
                 quantity: "1",
@@ -111,6 +112,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         email: member.email,
         return_to: "http://example.com/callback",
         member_id: member.id,
+        date: Date.new(2021, 1, 1),
         idempotency_key: "test"
       )
 
