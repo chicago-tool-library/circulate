@@ -23,7 +23,8 @@ module Signup
         amount: Money.new(1200),
         email: @member.email,
         return_to: "http://www.example.com/signup/payments/callback",
-        member_id: @member.id
+        member_id: @member.id,
+        date: Date.current
       }]
 
       SquareCheckout.stub :new, mock_checkout do
