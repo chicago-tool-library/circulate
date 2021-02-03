@@ -24,7 +24,7 @@ module Signup
         email: @member.email,
         return_to: "http://www.example.com/signup/payments/callback",
         member_id: @member.id,
-        date: Date.today
+        date: Date.current
       }]
 
       SquareCheckout.stub :new, mock_checkout do

@@ -52,7 +52,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         email: member.email,
         return_to: "http://example.com/callback",
         member_id: member.id,
-        date: Date.new(2021, 1, 1),
+        date: Time.zone.local(2021, 1, 1),
         idempotency_key: "test"
       )
 
@@ -112,7 +112,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         email: member.email,
         return_to: "http://example.com/callback",
         member_id: member.id,
-        date: Date.new(2021, 1, 1),
+        date: Time.zone.local(2021, 1, 1),
         idempotency_key: "test"
       )
 
