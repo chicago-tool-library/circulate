@@ -33,10 +33,14 @@
           <td class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></td>
           <td><%= render_loan_status(loan) %></td>
           <td>
-            <% if loan.item.borrow_policy.member_renewable? && !loan.within_borrow_policy_duration? && loan.renewal? %>
+            <% if loan.renewal_request %>
+              <%= button_to "Renewal #{loan.renewal_request.rejected? ? "Rejected" : "Requested"}", "#", method: :post, class: "btn", disabled: true %>
+            <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
               <%= button_to "Renewed", "#", method: :post, class: "btn", disabled: true %>
             <% elsif loan.member_renewable? %>
               <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
+            <% elsif loan.member_renewal_requestable? %>
+              <%= button_to 'Request Loan Renewal', account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
             <% end %>
           </td>
         </tr>

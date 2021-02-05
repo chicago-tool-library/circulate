@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_221240) do
+ActiveRecord::Schema.define(version: 2021_02_04_025839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,32 +19,32 @@ ActiveRecord::Schema.define(version: 2021_01_29_221240) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -52,13 +52,19 @@ ActiveRecord::Schema.define(version: 2021_01_29_221240) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
+  ], force: :cascade
+
+  create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
-    "member"
+    "member",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -355,6 +361,14 @@ ActiveRecord::Schema.define(version: 2021_01_29_221240) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "renewal_requests", force: :cascade do |t|
+    t.enum "status", default: "requested", null: false, enum_name: "renewal_request_status"
+    t.bigint "loan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
   end
 
   create_table "short_links", force: :cascade do |t|

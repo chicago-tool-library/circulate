@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
+    resources :renewal_requests, only: [:create, :update]
     get "/", to: "home#index", as: "home"
   end
 
