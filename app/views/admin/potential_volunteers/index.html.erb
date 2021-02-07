@@ -18,7 +18,6 @@
       <tr>
         <td class="left-lined">
           <%= link_to preferred_or_default_name(member), [:admin, member] %>
-          <%= tag.div(member_pronoun(member), class: "label") if member.pronoun %>
         </td>
         <td>
           <%= tag.div member.email, class: "responsive-table-cell" %>

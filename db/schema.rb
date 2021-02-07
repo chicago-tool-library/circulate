@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_181600) do
+ActiveRecord::Schema.define(version: 2021_01_29_221240) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -302,8 +303,6 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
     t.string "preferred_name"
     t.string "email", null: false
     t.string "phone_number", null: false
-    t.integer "pronoun"
-    t.string "custom_pronoun"
     t.text "bio"
     t.integer "id_kind"
     t.string "other_id_kind"
