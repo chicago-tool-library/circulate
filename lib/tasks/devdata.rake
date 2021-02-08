@@ -37,9 +37,12 @@ namespace :devdata do
   end
 
   task load: :environment do
-    load_models Document
-    load_models BorrowPolicy
-    load_models Category
-    load_models Item
+    admin = User.where(email: "admin@example.com").first!
+    Audited.audit_class.as_user(admin) do
+      load_models Document
+      load_models BorrowPolicy
+      load_models Category
+      load_models Item
+    end
   end
 end
