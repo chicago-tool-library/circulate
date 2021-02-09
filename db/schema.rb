@@ -422,6 +422,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_025839) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "renewal_requests", "loans"
   add_foreign_key "users", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL

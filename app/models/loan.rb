@@ -86,7 +86,7 @@ class Loan < ApplicationRecord
   end
 
   def member_renewal_requestable?
-    renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && renewal_request.nil?
+    renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && !renewal_requests.any?
   end
 
   def within_borrow_policy_duration?
@@ -141,10 +141,8 @@ class Loan < ApplicationRecord
     ended_at.blank?
   end
 
-  def renewal_request
-    # Pull the most recent requested or rejected request, treating approvals the same as no requests
-    request = renewal_requests.max_by { |r| r.created_at }
-    request unless request&.approved?
+  def latest_renewal_request
+    renewal_requests.max_by { |r| r.created_at }
   end
 
   def upcoming_appointment

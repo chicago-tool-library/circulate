@@ -26,10 +26,5 @@ module Account
       post account_renewal_requests_url(loan_id: @loan1)
       assert_response :forbidden
     end
-
-    test "member cannot request renewal for another member's loan" do
-      post account_renewal_requests_url(loan_id: @loan2)
-      assert_response :forbidden
-    end
   end
 end
