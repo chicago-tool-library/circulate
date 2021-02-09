@@ -19,7 +19,7 @@ module Signup
       mock_result.expect :value, "https://squareup.com/checkout/12345"
 
       mock_checkout = Minitest::Mock.new
-      freeze_time do
+      Time.use_zone "America/Chicago" do
         mock_checkout.expect :checkout_url, mock_result, [{
           amount: Money.new(1200),
           email: @member.email,
