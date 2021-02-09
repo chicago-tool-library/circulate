@@ -1,9 +1,9 @@
 module Account
   class RenewalRequestsController < BaseController
     def create
-      @loan = Loan.find(params[:loan_id])
+      @loan = current_member.loans.find(params[:loan_id])
 
-      unless @loan.member_renewal_requestable? && (current_user.admin? || @loan.member == current_user.member)
+      unless @loan.member_renewal_requestable?
         return head(:forbidden)
       end
 
