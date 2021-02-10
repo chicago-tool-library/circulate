@@ -100,4 +100,31 @@ class EventTest < ActiveSupport::TestCase
 
     refute updated_event
   end
+
+  test "handles cancelled events that have already been deleted" do
+    Event.create(
+      calendar_event_id: "ev2",
+      calendar_id: "CAL1",
+      summary: "a quick event",
+      attendees: ["person@example.com"],
+      start: Time.new(2020, 11, 5, 18, 0),
+      finish: Time.new(2020, 11, 5, 20, 0),
+      description: "more info"
+    )
+
+    gcal_event = GoogleCalendarEvent.new(
+      id: "ev1",
+      calendar_id: "CAL1",
+      summary: "a quick event",
+      attendees: ["someone-else@example.com"],
+      start: Time.new(2020, 11, 5, 18, 0),
+      finish: Time.new(2020, 11, 5, 20, 0),
+      status: "cancelled",
+      description: "more info"
+    )
+
+    assert_difference "Event.count", 0 do
+      Event.update_events([gcal_event])
+    end
+  end
 end
