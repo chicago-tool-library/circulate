@@ -1,0 +1,68 @@
+<% content_for :header do %>
+  <%= index_header "Renewals" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <div class="items-summary">
+      Viewing
+      <div class="btn-group">
+        <%= link_to_unless params[:filter] == "all" || params[:filter].blank?, "all", {}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">all</button>
+        <% end %>
+        <%= link_to_unless_current "requested", {filter: "requested"}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">requested</button>
+        <% end %>
+        <%= link_to_unless_current "rejected", {filter: "rejected"}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">rejected</button>
+        <% end %>
+      </div>
+    </div> 
+
+    <% if @renewal_requests.any? %>
+
+      <table class="table table-scroll">
+        <thead>
+          <tr>
+            <th>
+              <span>Item</span><br>
+              <span>Holds</span>
+            </th>
+            <th>Item Number</th>
+            <th>Member</th>
+            <th>Requested On</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @renewal_requests.each do |request| %>
+            <tr>
+              <td>
+                <span><%= link_to request.loan.item.name, [:admin, request.loan.item] %></span><br>
+                <span><%= request.loan.item.holds.size %> <%= "hold".pluralize(request.loan.item.holds.size) %></span>
+              </td>
+              <td><%= full_item_number(request.loan.item) %></td>
+              <td><%= link_to preferred_or_default_name(request.loan.member), [:admin, request.loan.member] %></td>
+              <td><%= date_with_time_title request.created_at %></td>
+              <td><%= request.status %></td>
+              <td>
+                <div class="btn-group">
+                  <%= button_to "Renew", "#", method: :post, class: "btn" %>
+                  <%= button_to "Reject", "#", method: :post, class: "btn" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%== pagy_bootstrap_nav(@pagy) %>
+
+    <% else %>
+      <%= empty_state "No matching renewal requests", icon: "time" %>
+    <% end %>
+
+  </div>
+</div>

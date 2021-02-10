@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2021_02_04_025839) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,32 +18,32 @@ ActiveRecord::Schema.define(version: 2021_02_04_025839) do
     "fine",
     "membership",
     "donation",
-    "payment",
+    "payment"
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness",
+    "forgiveness"
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied",
+    "denied"
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other",
+    "other"
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error",
+    "error"
   ], force: :cascade
 
   create_enum :power_source, [
@@ -52,19 +51,19 @@ ActiveRecord::Schema.define(version: 2021_02_04_025839) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)",
+    "electric (battery)"
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected",
+    "rejected"
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
-    "member",
+    "member"
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|

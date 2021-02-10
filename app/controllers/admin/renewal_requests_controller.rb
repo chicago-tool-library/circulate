@@ -1,5 +1,14 @@
 module Admin
   class RenewalRequestsController < BaseController
+    include Pagy::Backend
+
+    def index
+      renewal_requests_scope = RenewalRequest.send(index_filter)
+        .order(created_at: :desc)
+        .includes(loan: [{item: :borrow_policy}, :member])
+      @pagy, @renewal_requests = pagy(renewal_requests_scope, items: 50)
+    end
+
     def update
       return head(:forbidden) unless current_user.admin? || current_user.staff?
 
@@ -15,6 +24,12 @@ module Admin
     end
 
     private
+
+    def index_filter
+      allowed = %w[all requested rejected]
+      return params[:filter] if allowed.include? params[:filter]
+      "all"
+    end
 
     def renewal_request_params
       params.require(:renewal_request).permit(:status)
