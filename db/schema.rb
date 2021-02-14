@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_181600) do
+ActiveRecord::Schema.define(version: 2021_02_04_025839) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -51,13 +52,19 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
+  ], force: :cascade
+
+  create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
-    "member"
+    "member",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -302,8 +309,6 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
     t.string "preferred_name"
     t.string "email", null: false
     t.string "phone_number", null: false
-    t.integer "pronoun"
-    t.string "custom_pronoun"
     t.text "bio"
     t.integer "id_kind"
     t.string "other_id_kind"
@@ -358,6 +363,14 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "renewal_requests", force: :cascade do |t|
+    t.enum "status", default: "requested", null: false, enum_name: "renewal_request_status"
+    t.bigint "loan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
+  end
+
   create_table "short_links", force: :cascade do |t|
     t.string "url", null: false
     t.string "slug", null: false
@@ -409,6 +422,7 @@ ActiveRecord::Schema.define(version: 2020_12_31_181600) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "renewal_requests", "loans"
   add_foreign_key "users", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL

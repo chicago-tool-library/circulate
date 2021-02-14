@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
+    resources :renewal_requests, only: :create if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
     get "/", to: "home#index", as: "home"
   end
 
@@ -114,6 +115,7 @@ Rails.application.routes.draw do
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
+    resources :renewal_requests, only: :update if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

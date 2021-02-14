@@ -154,7 +154,15 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 
 ### Who to log in as
 
-During development, you will probably want to log into the app as various users (e.g. an admin or a member). You can use the users defined in [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) to see which user accounts are created when `bin/setup` or `bin/reset` are run. All of their passwords are "password".
+During development, you will probably want to log into the app as various users (e.g. an admin or a member). [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) creates a set of user accounts when `bin/setup` or `bin/reset` are run. They are:
+- Admin `admin@example.com`
+- Verified member `verified_member@example.com`
+- New member `new_member@example.com`
+- Member for 18 months `member_for_18_months@example.com`
+- Expired Member `expired_member@example.com`
+- Membership expiring in one week `expires_soon@example.com`
+
+All of their passwords are "password".
 
 ## Deployment
 

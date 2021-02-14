@@ -19,7 +19,7 @@ module Renewal
 
     def member_params
       params.require(:member).permit(
-        :full_name, :preferred_name, :email, :pronoun, :custom_pronoun, :phone_number, :postal_code,
+        :full_name, :preferred_name, :email, :phone_number, :postal_code,
         :address1, :address2, :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter,
         :volunteer_interest, :password, :password_confirmation, pronouns: []
       )

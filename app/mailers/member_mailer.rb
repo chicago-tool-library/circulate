@@ -45,6 +45,11 @@ class MemberMailer < ApplicationMailer
     summary_mail
   end
 
+  def loan_renewal_request_message
+    # TODO: Implement
+    @subject = "Renewal Request"
+  end
+
   def membership_renewal_reminder
     @member = params[:member]
     @amount = params[:amount] || Money.new(0)
