@@ -1,15 +1,27 @@
 import { Controller } from "stimulus";
 
+
+function isExternal(url) {
+  const host = window.location.host;
+
+  const link = document.createElement('a');
+  link.href = url;
+  return link.host !== host;
+}
+
+
 export default class extends Controller {
   static targets = [ "target", "modal" ]
 
   newWindow(event) {
     if (event.target.tagName ==="A") {
-      event.preventDefault();
-
       const link = event.target;
       const url = link.getAttribute("href");
-      window.open(url, "_blank");
+
+      if (isExternal(url)) {
+        event.preventDefault();
+        window.open(url, "_blank");
+      }
     }
   }
 

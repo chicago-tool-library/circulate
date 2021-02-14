@@ -1,9 +1,0 @@
-<label>Pronouns</label>
-<br>
-<% Member.pronoun_list.each do |pronoun| %>
-  <%= label_tag do %>
-    <%= check_box_tag 'member[pronouns][]', pronoun, member.pronouns.include?(pronoun), id: "member_pronouns_#{pronoun.sub('/', '_')}"%> <%= pronoun %>
-  <% end %>
-  <br>
-<% end %>
-<%= text_field_tag "member[pronouns][]", nil, value: member.pronouns.reject { |p| Member.pronoun_list.include?(p) } , class: "form-input", id: "member_pronouns_custom", placeholder: "Enter your own (optional)" %>

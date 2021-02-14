@@ -25,6 +25,10 @@ module AdminHelper
     Adjustment.payment_sources.slice("cash", "square")
   end
 
+  def item_attachment_kind_options
+    ItemAttachment.kinds.map { |k, v| [k.titleize, v] }
+  end
+
   def tab_link(label, path)
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
       link_to label, path

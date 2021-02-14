@@ -1,0 +1,19 @@
+---
+- id: 3
+  name: Agreement
+  summary: Member Waiver of Indemnification
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2019-07-26 04:06:08 UTC
+  code: agreement
+- id: 5
+  name: Chicago Tool Library Code of Conduct
+  summary: Defining acceptable behavior for CTL
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2020-05-07 00:43:08 UTC
+  code: code_of_conduct
+- id: 4
+  name: Borrow Policy
+  summary: Covers the rules of borrowing. Shown on the first page of member signup.
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2020-05-07 00:44:01 UTC
+  code: borrow_policy

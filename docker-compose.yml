@@ -2,7 +2,10 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: 
+      context: .
+      args:
+        USER_ID: ${UID-499}
     ports:
       - '3000:3000'
       - '4000:4000'
@@ -13,6 +16,10 @@ services:
       - config/docker.env
     stdin_open: true
     tty: true
+    networks:
+      default:
+        aliases:
+          - example.com
 
   database:
     image: postgres:12.4
@@ -22,6 +29,8 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - '5435:5432'
+    networks:
+      - default
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
@@ -29,6 +38,11 @@ services:
       driver: none
     ports:
       - '5900:5900'
+    networks:
+      - default
 
 volumes:
   db_data:
+
+networks:
+  default:

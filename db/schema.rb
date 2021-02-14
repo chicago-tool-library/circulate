@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_25_134546) do
+ActiveRecord::Schema.define(version: 2021_02_04_025839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,11 +34,31 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     "denied",
   ], force: :cascade
 
+  create_enum :item_attachment_kind, [
+    "manual",
+    "parts_list",
+    "other",
+  ], force: :cascade
+
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
     "error",
+  ], force: :cascade
+
+  create_enum :power_source, [
+    "solar",
+    "gas",
+    "air",
+    "electric (corded)",
+    "electric (battery)",
+  ], force: :cascade
+
+  create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
@@ -231,29 +251,6 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
-  create_table "hold_request_items", force: :cascade do |t|
-    t.bigint "hold_request_id"
-    t.bigint "item_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["hold_request_id"], name: "index_hold_request_items_on_hold_request_id"
-    t.index ["item_id"], name: "index_hold_request_items_on_item_id"
-  end
-
-  create_table "hold_requests", force: :cascade do |t|
-    t.string "member_number"
-    t.string "email"
-    t.bigint "member_id"
-    t.string "notes"
-    t.enum "status", default: "new", null: false, enum_name: "hold_request_status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "event_id"
-    t.integer "library_id"
-    t.index ["library_id"], name: "index_hold_requests_on_library_id"
-    t.index ["member_id"], name: "index_hold_requests_on_member_id"
-  end
-
   create_table "holds", force: :cascade do |t|
     t.bigint "member_id", null: false
     t.bigint "item_id", null: false
@@ -268,6 +265,18 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.index ["library_id"], name: "index_holds_on_library_id"
     t.index ["loan_id"], name: "index_holds_on_loan_id"
     t.index ["member_id"], name: "index_holds_on_member_id"
+  end
+
+  create_table "item_attachments", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.enum "kind", enum_name: "item_attachment_kind"
+    t.string "other_kind"
+    t.string "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
+    t.index ["item_id"], name: "index_item_attachments_on_item_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -287,6 +296,7 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
     t.string "other_names"
+    t.enum "power_source", enum_name: "power_source"
     t.integer "library_id"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
@@ -337,9 +347,7 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.string "preferred_name"
     t.string "email", null: false
     t.string "phone_number", null: false
-    t.integer "pronoun"
-    t.string "custom_pronoun"
-    t.text "notes"
+    t.text "bio"
     t.integer "id_kind"
     t.string "other_id_kind"
     t.boolean "address_verified"
@@ -366,8 +374,8 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
 
   create_table "memberships", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.datetime "started_on", precision: 6, null: false
-    t.datetime "ended_on", precision: 6
+    t.datetime "started_at", precision: 6
+    t.datetime "ended_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "library_id"
@@ -397,6 +405,14 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "renewal_requests", force: :cascade do |t|
+    t.enum "status", default: "requested", null: false, enum_name: "renewal_request_status"
+    t.bigint "loan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
   end
 
   create_table "short_links", force: :cascade do |t|
@@ -429,7 +445,7 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
     t.bigint "member_id"
     t.integer "library_id"
     t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["member_id", "library_id"], name: "index_users_on_member_id_and_library_id"
     t.index ["member_id"], name: "index_users_on_member_id"
@@ -446,34 +462,21 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
   add_foreign_key "gift_memberships", "memberships"
-  add_foreign_key "hold_request_items", "hold_requests"
-  add_foreign_key "hold_request_items", "items"
   add_foreign_key "holds", "items"
   add_foreign_key "holds", "loans"
   add_foreign_key "holds", "members"
   add_foreign_key "holds", "users", column: "creator_id"
+  add_foreign_key "item_attachments", "items"
+  add_foreign_key "item_attachments", "users", column: "creator_id"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "renewal_requests", "loans"
   add_foreign_key "users", "members"
 
-  create_view "monthly_adjustments", sql_definition: <<-SQL
-      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
-      (date_part('month'::text, adjustments.created_at))::integer AS month,
-      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
-      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
-     FROM adjustments
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
-  SQL
   create_view "monthly_activities", sql_definition: <<-SQL
       WITH dates AS (
            SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
@@ -494,6 +497,20 @@ ActiveRecord::Schema.define(version: 2020_09_25_134546) do
        LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
     GROUP BY months.month
     ORDER BY months.month;
+  SQL
+  create_view "monthly_adjustments", sql_definition: <<-SQL
+      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
+      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
+      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
+      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
+      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
+     FROM adjustments
+    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
   SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (

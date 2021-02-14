@@ -5,8 +5,8 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
-      @document = documents(:agreement)
-      @user = users(:admin)
+      @document = create(:agreement_document)
+      @user = create(:admin_user)
       sign_in @user
     end
 

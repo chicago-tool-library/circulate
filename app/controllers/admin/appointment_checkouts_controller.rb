@@ -2,7 +2,7 @@ module Admin
   class AppointmentCheckoutsController < BaseController
     def create
       create_loans_for_holds
-      redirect_to admin_appointment_path(appointment), flash: { success: "#{pluralize(checked_out_item_count, "Item")} checked-out." }
+      redirect_to admin_appointment_path(appointment), flash: {success: "#{pluralize(checked_out_item_count, "Item")} checked-out."}
     end
 
     private
@@ -15,7 +15,7 @@ module Admin
     def checked_out_item_count
       new_loans&.count&.to_i
     end
-    
+
     def holds
       @holds ||= appointment.holds.active.where(id: params[:hold_ids])
     end

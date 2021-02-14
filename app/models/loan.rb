@@ -1,10 +1,12 @@
 class Loan < ApplicationRecord
-  belongs_to :item
+  belongs_to :item, optional: true
   belongs_to :member
   has_one :adjustment, as: :adjustable
   has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  has_many :renewal_requests, dependent: :destroy
   belongs_to :initial_loan, class_name: "Loan", optional: true
   has_one :hold, dependent: :nullify
+
   validates :due_at, presence: true
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
   validates :initial_loan_id, uniqueness: {scope: :renewal_count}, if: ->(l) { l.initial_loan_id.present? }
@@ -17,7 +19,7 @@ class Loan < ApplicationRecord
       elsif !record.item.active?
         record.errors.add(attr, "is not available to loan")
       end
-    else
+    elsif record.new_record? && !record.renewal?
       record.errors.add(attr, "does not exist")
     end
   end
@@ -43,6 +45,10 @@ class Loan < ApplicationRecord
   }
 
   acts_as_tenant :library
+  
+  def item
+    super || NullItem.new
+  end
 
   def ended?
     ended_at.present?
@@ -54,6 +60,8 @@ class Loan < ApplicationRecord
 
   def self.open_days
     [
+      3, # Wednesday
+      4, # Thursday
       6 # Saturday
     ]
   end
@@ -76,7 +84,11 @@ class Loan < ApplicationRecord
   end
 
   def member_renewable?
-    renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable?
+    renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable? && ended_at.nil?
+  end
+
+  def member_renewal_requestable?
+    renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && !renewal_requests.any?
   end
 
   def within_borrow_policy_duration?
@@ -129,5 +141,13 @@ class Loan < ApplicationRecord
 
   def checked_out?
     ended_at.blank?
+  end
+
+  def latest_renewal_request
+    renewal_requests.max_by { |r| r.created_at }
+  end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
   end
 end

@@ -1,4 +1,7 @@
 class Hold < ApplicationRecord
+  has_many :appointment_holds
+  has_many :appointments, through: :appointment_holds
+
   belongs_to :member
   belongs_to :item, counter_cache: true
   belongs_to :creator, class_name: "User"
@@ -26,5 +29,13 @@ class Hold < ApplicationRecord
 
   def previous_active_holds
     Hold.active.where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
+  end
+
+  def ready_for_pickup?
+    previous_active_holds.empty? && item.available?
+  end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
   end
 end

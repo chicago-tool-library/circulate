@@ -1,0 +1,17 @@
+.admin-appointments {
+	table {
+		td, th {
+      vertical-align: top;
+			&.time { width: 15%; }
+			&.member { width: 20%; }
+			&.items { width: 30%; }
+			&.notes { width: 30%; }
+		}
+	}
+}
+.appointments-date-nav {
+	flex-basis: auto!important;
+}
+.appointments-date {
+	flex-basis: 1!important;
+}

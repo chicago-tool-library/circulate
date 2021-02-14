@@ -1,0 +1,36 @@
+<%= content_for :header do %>
+  <%= index_header "Memberships" do %>
+    <%= link_to "Download as CSV", admin_reports_memberships_path(format: "csv"), class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+
+    <table class="table">
+      <tr>
+        <th>Name & Email</th>
+        <th>Status</th>
+        <th>Loans</th>
+        <th>Expires</th>
+        <th>Amounts</th>
+        <th>Count</th>
+      </tr>
+      <% @members.each do |member| %>
+        <tr>
+          <td>
+            <%= link_to preferred_or_default_name(member), [:admin, member] %> -
+            <%= link_to member.email, [:admin, member] %>
+          </td>
+          <td><%= member.status %></td>
+          <td><%= member.loans_count %></td>
+          <td><%= member.expires_on.to_date.to_s(:long) if member.expires_on %></td>
+          <td><%= member.amounts.map{|a| Money.new(a&.abs).format}.join(", ") %></td>
+          <td><%= member.memberships_count %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

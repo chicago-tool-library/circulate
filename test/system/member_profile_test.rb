@@ -8,22 +8,19 @@ class MemberProfileTest < ApplicationSystemTestCase
   end
 
   test "member can view profile" do
-    visit member_profile_url
+    visit account_member_url
 
     assert_content @member.full_name
     assert_content @member.number
-    assert_link "Edit Member Profile"
   end
 
   test "member can edit profile" do
-    visit member_profile_url
-    within(".primary-btn") do
-      click_on "Edit Member Profile"
-    end
+    visit account_member_url
+    click_on "Edit Member Profile"
 
     fill_in "Full name", with: "Updated Name"
-    uncheck "she/her"
-    check "he/him"
+    find("label", text: "she/her").click # uncheck
+    find("label", text: "he/him").click # check
     click_on "Update Member"
     assert_content "Updated Name"
     assert_content "he/him"
@@ -31,10 +28,8 @@ class MemberProfileTest < ApplicationSystemTestCase
   end
 
   test "member sees validation errors on update failure" do
-    visit member_profile_url
-    within(".primary-btn") do
-      click_on "Edit Member Profile"
-    end
+    visit account_member_url
+    click_on "Edit Member Profile"
 
     fill_in "Full name", with: ""
     click_on "Update Member"

@@ -6,7 +6,7 @@ module Admin
 
     setup do
       @member = create(:member)
-      @user = users(:admin)
+      @user = create(:admin_user)
       sign_in @user
     end
 
@@ -21,21 +21,20 @@ module Admin
     end
 
     test "should create member" do
+      member_attrs = build(:member)
       assert_difference("Member.count") do
         post admin_members_url, params: {
           member: {
-            address_verified: @member.address_verified,
-            other_id_kind: @member.other_id_kind,
-            custom_pronoun: @member.custom_pronoun,
-            email: @member.email,
-            full_name: @member.full_name,
-            id_kind: @member.id_kind,
-            notes: @member.notes,
-            phone_number: @member.phone_number,
-            preferred_name: @member.preferred_name,
-            pronoun: @member.pronoun,
+            address_verified: member_attrs.address_verified,
+            other_id_kind: member_attrs.other_id_kind,
+            email: member_attrs.email,
+            full_name: member_attrs.full_name,
+            id_kind: member_attrs.id_kind,
+            bio: member_attrs.bio,
+            phone_number: member_attrs.phone_number,
+            preferred_name: member_attrs.preferred_name,
             postal_code: "60606",
-            address1: @member.address1
+            address1: member_attrs.address1
           }
         }
       end
@@ -54,7 +53,7 @@ module Admin
     end
 
     test "should update member" do
-      patch admin_member_url(@member), params: {member: {address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, custom_pronoun: @member.custom_pronoun, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, pronoun: @member.pronoun, postal_code: "60606"}}
+      patch admin_member_url(@member), params: {member: {address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, postal_code: "60606"}}
       assert_redirected_to admin_member_url(@member)
     end
   end

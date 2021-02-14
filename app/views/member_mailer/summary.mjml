@@ -55,12 +55,9 @@
         <mj-text>
           <div class="info">
             <p><strong>
-              Need to return tools?
-              <a href="https://calendly.com/chicagotoollibrary">Book a time to drop them off right here!</a>
+              Need to return or pick-up tools?
+              <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>
             </strong></p>
-            <p>
-              If you need to borrow tools as well, please <a href="mailto:<%= @library.email %>?subject=Tools%20for%20pick%20up">email us</a> and let us know what you would like to pick up.
-            </p>
           </div>
         </mj-text>
       </mj-column>

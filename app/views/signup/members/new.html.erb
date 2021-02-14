@@ -1,12 +1,25 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
-     <div class="instructions text-center">
-      <p class="title_bold">The following information is needed to create your account.</p>
-      <p class="body">When you have filled out the fields below, click <em>Save and Continue</em> to go on to the next step.</p>
+     <div class="instructions">
+      <p class="main">The following information is needed to create your account.</p>
+      <p class="sub">When you have filled out the fields below, click <em>Save and Continue</em> to go on to the next step.</p>
       <div class="divider"></div>
     </div>
-    <%= form_with(model: @member, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
+    <%= form_with(model: @member_signup_form, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
       <%= render 'admin/members/fields', form: form %>
+
+      <fieldset>
+        <legend>Your Account</legend>
+        <p>Choose a password. You can use it to log into your tool library account and view your loans, request tools, and manage your membership.</p>
+        <div class="columns form-group">
+          <div class="column col-sm-12 col-6">
+            <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password %>
+          </div>
+          <div class="column col-sm-12 col-6">
+            <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation %>
+          </div>
+        </div>
+      </fieldset>
 
       <%= form.actions do %>
         <%= form.submit "Save and Continue" %>

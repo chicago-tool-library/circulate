@@ -11,5 +11,9 @@ module Volunteer
     def accepted?
       @status == "accepted"
     end
+
+    def declined?
+      @status == "declined"
+    end
   end
 end

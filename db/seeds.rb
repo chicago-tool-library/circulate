@@ -1,29 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
-def create_category(name, kids: nil, parent_id: nil)
-  category = Category.create!(name: name, parent_id: parent_id)
-  return if kids.nil?
-
-  case kids
-  when String
-    create_category(kids, parent_id: category.id)
-  when Array
-    kids.each do |kid|
-      create_category(kid, parent_id: category.id)
-    end
-  when Hash
-    create_category(kids.keys.first, kids: kids.values.first, parent_id: category.id)
-  else
-    raise "kids was not a String, Array, or Hash"
-  end
-end
-
 address = <<~ADDRESS.strip
   The Chicago Tool Library
   1048 W 37th Street Suite 102
@@ -40,124 +14,48 @@ chicago_tool_library = Library.create!(
 )
 
 ActsAsTenant.with_tenant(chicago_tool_library) do
-  Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
-  Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
-  Document.create!(name: "Chicago Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for CTL")
-
-  super_admin_member = Member.create!(
-    email: "super_admin@chicagotoollibrary.org", full_name: "Super Admin Member", preferred_name: "Super Admin",
+  member_attrs = {
     phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
     address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
     reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
-  User.create!(email: super_admin_member.email, password: "password", role: "super_admin", member: super_admin_member)
+  }
 
-  admin_member = Member.create!(
-    email: "admin@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
-    phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
-  User.create!(email: admin_member.email, password: "password", role: "admin", member: admin_member)
+  admin_member = Member.create!(member_attrs.merge(
+    email: "admin@example.com", full_name: "Admin Member", preferred_name: "Admin"
+  ))
+  User.create!(email: admin_member.email, password: "password", member: admin_member, role: "admin")
 
-  verified_member = Member.create!(
-    email: "verifiedmember@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
-    phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: true, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
+  verified_member = Member.create!(member_attrs.merge(
+    email: "verified_member@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1, address_verified: true
+  ))
   User.create!(email: verified_member.email, password: "password", member: verified_member)
-  verified_member.memberships.create!(started_on: Time.current)
+  verified_member.memberships.create!(started_at: Time.current, ended_at: 1.year.since)
 
-  unverified_member = Member.create!(
-    email: "newmember@example.com", full_name: "Firstname Lastname", preferred_name: "New",
-    phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: "60666",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
+  unverified_member = Member.create!(member_attrs.merge(
+    email: "new_member@example.com", full_name: "Firstname Lastname", preferred_name: "New"
+  ))
   User.create!(email: unverified_member.email, password: "password", member: unverified_member)
 
-  YAML.load_file("db/categories.yaml").each do |name, kids|
-    create_category(name, kids: kids)
+  member_for_18_months = Member.create!(member_attrs.merge(
+    email: "member_for_18_months@example.com", full_name: "Member for Eighteen Months", preferred_name: "18mo", status: 1, address_verified: true
+  ))
+  User.create!(email: member_for_18_months.email, password: "password", member: member_for_18_months)
+  Membership.create!(member: member_for_18_months, started_at: 18.months.ago, ended_at: 6.months.ago)
+  Membership.create!(member: member_for_18_months, started_at: 6.months.ago + 1.day, ended_at: 6.months.since - 1.day)
+
+  expired_member = Member.create!(member_attrs.merge(
+    email: "expired_member@example.com", full_name: "Expired Member", preferred_name: "Expired", status: 1, address_verified: true
+  ))
+  User.create!(email: expired_member.email, password: "password", member: expired_member)
+  Membership.create!(member: expired_member, started_at: 18.months.ago, ended_at: 6.months.ago)
+
+  expires_in_one_week_member = Member.create!(member_attrs.merge(
+    email: "expires_soon@example.com", full_name: "Expires Soon Member", preferred_name: "Soon", status: 1, address_verified: true
+  ))
+  User.create!(email: expires_in_one_week_member.email, password: "password", member: expires_in_one_week_member)
+  Membership.create!(member: expires_in_one_week_member, started_at: 351.days.ago, ended_at: 14.days.since)
+
+  3.upto(7).each do |number|
+    Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "event#{number}", start: number.days.since, finish: number.days.since + 2.hours)
   end
-
-  BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(100), fine_period: 1, duration: 7)
-
-  item = Item.create!(
-    name: "Hammer",
-    status: Item.statuses[:active],
-    borrow_policy: BorrowPolicy.first
-  )
-
-  Loan.create!(
-    item: item,
-    member: verified_member,
-    due_at: 2.days.from_now,
-    uniquely_numbered: true
-  )
-end
-
-address = <<~ADDRESS.strip
-  The North Portland Tool Library
-  2209 N Schofield St
-  Portland, OR 97217
-  northportlandtoollibrary.org
-ADDRESS
-portland_tool_library = Library.create!(
-  name: "North Portland Tool Library",
-  hostname: "portland.local.chicagotoollibrary.org",
-  city: "Portland",
-  email: "info@northportlandtoollibrary.org",
-  address: address,
-  member_postal_code_pattern: "97086|^972"
-)
-
-ActsAsTenant.with_tenant(portland_tool_library) do
-  Document.create!(name: "Agreement", code: "agreement", summary: "Member Waiver of Indemnification")
-  Document.create!(name: "Borrow Policy", code: "borrow_policy", summary: "Covers the rules of borrowing. Shown on the first page of member signup.")
-  Document.create!(name: "North Portland Tool Library Code of Conduct", code: "code_of_conduct", summary: "Defines acceptable behavior for NPTL")
-
-  admin_member = Member.create!(
-    email: "admin_portland@chicagotoollibrary.org", full_name: "Admin Member", preferred_name: "Admin",
-    phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97266",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
-  User.create!(email: admin_member.email, password: "password", role: "admin", member: admin_member)
-
-  verified_member = Member.create!(
-    email: "verifiedmember_portland@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1,
-    phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: true, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97086",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
-  User.create!(email: verified_member.email, password: "password", member: verified_member)
-  verified_member.memberships.create!(started_on: Time.current)
-
-  unverified_member = Member.create!(
-    email: "newmember_portland@example.com", full_name: "Firstname Lastname", preferred_name: "New",
-    phone_number: "5035550209", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
-    address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Portland", region: "OR", postal_code: "97212",
-    reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
-  )
-  User.create!(email: unverified_member.email, password: "password", member: unverified_member)
-
-  YAML.load_file("db/categories.yaml").each do |name, kids|
-    create_category(name, kids: kids)
-  end
-
-  BorrowPolicy.create!(code: "B", name: "Default", fine: Money.new(50), fine_period: 1, duration: 3)
-
-  item = Item.create!(
-    name: "Drill",
-    status: Item.statuses[:active],
-    borrow_policy: BorrowPolicy.first
-  )
-
-  Loan.create!(
-    item: item,
-    member: verified_member,
-    due_at: 2.days.from_now,
-    uniquely_numbered: true
-  )
 end

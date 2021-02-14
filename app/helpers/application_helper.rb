@@ -21,4 +21,16 @@ module ApplicationHelper
       image_pack_tag "logo#{small ? '_small' : nil}.png", class: classes
     end
   end
+  
+  def navbar_link_to(text, link, version = "")
+    if version == "mobile"
+      tag.span(class: "navbar-brand  mr-2 ml-2") do
+        link_to(text, link)
+      end
+    else
+      tag.li(class: "nav-item") do
+        link_to(text, link)
+      end
+    end
+  end
 end

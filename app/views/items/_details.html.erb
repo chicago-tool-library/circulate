@@ -9,6 +9,10 @@
     <p><strong>Strength:</strong> <%= item.strength %></p>
   <% end %>
 
+  <% unless item.power_source.blank? %>
+    <p><strong>Powered by:</strong> <%= item_powered_by_label(item) %></p>
+  <% end %>
+
   <% unless item.brand.blank? %>
     <p><strong>Brand:</strong> <%= item.brand %></p>
   <% end %>
@@ -27,11 +31,16 @@
   </p>
 </div>
 
-<% if item.manual.attached? %>
-  <p>
-    <strong>Manual:</strong>
-    <%= link_to item.manual.filename, url_for(item.manual) %>
-  </p>
+<% if item.attachments.any? %>
+  <h5>Files</h5>
+  <ul>
+    <% item.attachments.each do |attachment| %>
+      <li>
+        <%= link_to attachment.kind.titleize, url_for(attachment.file) %>
+        <% unless attachment.notes.blank? %>- <% end %><%= attachment.notes %>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
 
 <%= item.description %>

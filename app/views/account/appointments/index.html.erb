@@ -1,0 +1,107 @@
+<div class="appointments-page">
+  <h1 class="title">Upcoming Appointments</h1>
+
+  <% if @appointments.blank? %>
+    <section class="appointment">
+      <h3 class="title_bold">
+        You have no scheduled appointments.
+      </h3>
+    </section>
+  <% end %>
+
+  <% @appointments.each_with_index do |appointment, index| %>
+    <section class="appointment">
+      <div class="float-right d-flex">        
+        <%= button_to "Cancel", account_appointment_path(appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+        
+      </div>
+      <div class="appointment-date">
+        <h2 class="title_bold"><%= index + 1 %>.</h2>
+        <h2 class="title_bold">
+          <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %>
+          <br />
+          <small class="gray-dark"><%= "#{appointment.starts_at.strftime("%I:%M%P")} - #{appointment.ends_at.strftime("%I:%M%P")}" %></small>
+        </h2>
+      </div>
+
+      <div class="appointment-wrapper">
+        <section>
+          <h3 class="title_bold">Here's what you're returning</h3>
+
+          <% if appointment.loans.any? %>
+            <table class="table table-scroll mb-2" id="items-to-pickup-table">
+              <thead>
+                <tr>
+                  <th class="caption">Image</th>
+                  <th class="caption">Item</th>
+                  <th class="caption">Inventory Number</th>
+                  <th class="caption">Due Date</th>
+                  <th class="caption">Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% appointment.loans.each do |loan| %>
+                  <tr>
+                    <td>
+                      <%= link_to item_path(loan.item) do %>
+                        <% if loan.item.image.attached? %>
+                          <%= image_tag url_for(rotated_variant(loan.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+                        <% end %>
+                      <% end %>
+                    </td>
+                    <td><%= link_to loan.item.name, item_path(loan.item) %></td>
+                    <td><%= loan.item.complete_number %></td>
+                    <td class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></td>
+                    <td><%= render_loan_status(loan) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            No items to return
+          <% end %>
+        </section>
+
+        <section>
+          <h3 class="title_bold">Here's what you're picking up</h3>
+
+          <table class="table table-scroll" id="items-to-pickup-table">
+            <thead>
+              <tr>
+                <th class="caption">Image</th>
+                <th class="caption">Item</th>
+                <th class="caption">Inventory Number</th>
+                <th class="caption">Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% appointment.holds.each do |hold| %>
+                <tr>
+                  <td>
+                    <%= link_to item_path(hold.item) do %>
+                      <% if hold.item.image.attached? %>
+                        <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td><%= link_to hold.item.name, item_path(hold.item) %></td>
+                  <td><%= hold.item.complete_number %></td>
+                  <td><%= render_hold_status(hold) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </section>
+
+        <% if appointment.comment.present? %>
+          <section>
+            <h3 class="title_bold">What kind of project are you working on?</h3>
+            <%= appointment.comment %>
+          </section>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>

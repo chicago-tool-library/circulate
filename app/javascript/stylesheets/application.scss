@@ -8,6 +8,7 @@
 @import 'spectre.css/src/mixins/_shadow';
 @import './partials/index';
 
+@import 'admin';
 
 body {
   background-color: $background-color;
@@ -47,6 +48,10 @@ body {
   border-bottom: .05rem dotted;
   cursor: help;
   text-decoration: none;
+}
+
+ul.error {
+  color: red;
 }
 
 form details {
@@ -164,7 +169,7 @@ header.navbar {
   display: grid;
   grid-row-gap: .5rem;
   grid-column-gap: .3rem;
-  grid-template-columns: .3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: .3fr 1fr 1fr 1fr 1fr .5fr .5fr;
 
   .members-table-header {
     font-weight: bold;
@@ -249,9 +254,26 @@ $photo-width: 187px;
 }
 
 .tag-nav {
-  li a {
-    display: inline-block;
-    line-height: 1.2;
+  li {
+    margin: 0;
+    display: flex;
+
+    a {
+      display: inline-block;
+      line-height: 1.5;
+    }
+  }
+
+  .active a {
+    color: red;
+  }
+
+  .parent a {
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
@@ -399,7 +421,7 @@ $photo-width: 187px;
       color: white;
     }
   }
-  
+
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
     color: darken($warning-color, 30%);
@@ -480,8 +502,8 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background: $error-color;
-  color: $light-color;
+  background-color: lighten($error-color, 20%);
+  color: inherit;
 }
 
 .conditional-field-child.nested {
@@ -512,7 +534,7 @@ legend {
   &.on-step {
     img {
       display: inline;
-      max-width: 10%;
+      max-width: 8%;
       vertical-align: middle;
     }
     h1 {
@@ -573,17 +595,18 @@ form.membership-amount {
   margin-bottom: 1rem;
 }
 
+.callout-box {
+  background: white;
+  padding: 1rem .5rem .5rem 1.5rem;
+  margin-bottom: 1rem;
+  ul {
+    list-style: outside;
+  }
+}
+
 .signup {
   .rich-text {
     margin-bottom: 2rem;
-  }
-  .callout-box {
-    background: white;
-    padding: 1rem .5rem .5rem 1.5rem;
-    margin-bottom: 1rem;
-    ul {
-      list-style: outside;
-    }
   }
   .verification-instructions {
   }
@@ -635,13 +658,10 @@ form.membership-amount {
 }
 
 .landing-page {
-  background: #fafafa;
-  img.site-logo {
-    max-width: 200px;
-    margin: 2rem 0 3rem;
+  .landing-options {
+    font-size: 1.5rem;
+    line-height: 1.1;
   }
-  font-size: 1.5rem;
-  line-height: 1.1;
   .landing-options .column {
     margin-bottom: .5em;
   }
@@ -685,7 +705,7 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items {
+  .member-lookup-items, .member-notes {
     background: white;
     padding: .7rem .5rem;
     .info-box {
@@ -838,6 +858,7 @@ table.monthly-adjustments {
 
 .member-panel, .item-panel {
   background: white;
+  margin-bottom: 16px;
   h6 {
     margin-bottom: 0;
   }
@@ -874,7 +895,7 @@ table.monthly-adjustments {
   margin: 1rem .5rem;
 }
 
-.item-stats {
+.item-stats, .member-stats {
   li.categories {
     svg, .category-stats {
       float: left;
@@ -887,6 +908,10 @@ table.monthly-adjustments {
     li {
       margin: 0;
     }
+  }
+  .placeholder-text {
+    color: #C0C0C0;
+    font-style: italic;
   }
 }
 
@@ -1058,11 +1083,46 @@ ul.hold-items {
   }
 }
 
-
-
 .tool-card .modal {
   .stats {
     margin-bottom: 1.2rem;
     p { margin-bottom: .2rem; }
   }
 }
+
+.account-settings-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.account-settings-btn {
+  margin-bottom: 18px;
+}
+
+.btn-margin {
+  margin-left: 20px;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container.public {
+  flex: 1 0 auto;
+}
+footer.page-footer {
+  font-size: 0.8rem;
+  padding: 1rem 0 0;
+  flex-shrink: 0;
+  background: $background-color-dark;
+  text-align: center;
+  position: relative;
+  }

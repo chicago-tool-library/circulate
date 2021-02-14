@@ -33,9 +33,6 @@ class ScopeModelsToTenants < ActiveRecord::Migration[6.0]
     add_column :borrow_policies, :library_id, :integer
     add_index :borrow_policies, [:library_id, :name], unique: true
 
-    add_column :hold_requests, :library_id, :integer
-    add_index :hold_requests, :library_id
-
     add_column :gift_memberships, :library_id, :integer
     add_index :gift_memberships, [:library_id, :code], unique: true
 

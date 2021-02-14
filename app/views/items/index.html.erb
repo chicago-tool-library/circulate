@@ -1,7 +1,7 @@
 <div class="columns">
   <div class="column col-12">
 
-    <h1 class="new_title">
+    <h1 class="title">
       <%= link_to "Items", items_path %>
     </h1>
 
@@ -37,7 +37,7 @@
 </div>
 
 <div class="columns">
-  <div class="column col-9-sm col-12-xs">
+  <div class="column col-sm-12 col-9">
     <% if @items.any? %>
       <div class="items-table">
         <% @items.each do |item| %>
@@ -84,7 +84,7 @@
     <% end %>
   </div>
 
-  <div class="column col-3 hide-xs">
+  <div class="column col-sm-12 col-3">
     <strong>View items tagged with:</strong><br/>
     <%= category_nav(@categories, @category) %>
   </div>

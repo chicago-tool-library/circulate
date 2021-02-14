@@ -149,4 +149,26 @@ trix-toolbar {
   &.toast-success { background-color: lighten($success-color, 20%); }
   &.toast-warning { background-color: lighten($warning-color, 20%); }
   &.toast-error { background-color: lighten($error-color, 20%); }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.dropdown {
+  .dropdown-toggle {
+    color: white;
+    &:focus {
+      background: $secondary-color;
+      color: white;
+      outline-color: $secondary-color-light;
+      @include control-shadow($secondary-color);
+    }
+  }
+  .menu .menu-item > a {
+    color: $dark-color;
+    &:hover {
+      background: $secondary-color-light;
+    }
+  }
 }

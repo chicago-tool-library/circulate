@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.1"
+ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 6.0.0"
@@ -54,6 +54,8 @@ gem "barnes"
 gem "sucker_punch"
 gem "dotenv-rails"
 
+gem "chronic"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
 
@@ -83,6 +85,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
+  gem "webdrivers", "~> 4.0", require: false
   gem "minitest-ci"
   gem "rails-controller-testing"
 end

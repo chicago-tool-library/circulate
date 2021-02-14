@@ -3,6 +3,7 @@ require "application_system_test_case"
 class UserSignupTest < ApplicationSystemTestCase
   def setup
     Document.create!(code: "borrow_policy", body: "This is the borrow policy", name: "Borrow Policy", summary: "bp")
+    create(:agreement_document)
     ActionMailer::Base.deliveries.clear
   end
 
@@ -19,7 +20,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
-    check "she/her"
+    find("label", text: "she/her").click # Styled checkboxes can't be toggled using #check
     fill_in "Email", with: "nkjemisin@test.com"
     fill_in "Phone number", with: "312-123-4567"
     fill_in "Address", with: "23 N. Street"
@@ -55,6 +56,28 @@ class UserSignupTest < ApplicationSystemTestCase
     end
   end
 
+  test "signs in after signup" do
+    complete_first_three_steps
+
+    perform_enqueued_jobs do
+      click_on "Complete in Person"
+
+      assert_selector "li.step-item.active", text: "Complete", wait: 5
+    end
+
+    visit root_url
+
+    click_on "Member Login"
+
+    fill_in "Email", with: "nkjemisin@test.com"
+    fill_in "Password", with: "password"
+
+    click_on "Login"
+
+    refute_selector "a", text: "Member Login"
+    assert_selector "a.dropdown-toggle", text: "Nora"
+  end
+
   test "signup and pay through square", :remote do
     complete_first_three_steps
 
@@ -83,6 +106,8 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_content "Your payment of $42.00"
     assert_content "See you at the library!"
 
+    assert Membership.last.pending?
+
     assert_emails 1
     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
       assert_includes html, "Thank you for signing up"
@@ -106,7 +131,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Redeem Gift Membership"
 
-    fill_in "signup_redemption_code", with: gift_membership.code.value
+    fill_in "gift_membership_redemption_form_code", with: gift_membership.code.value
 
     perform_enqueued_jobs do
       click_on "Redeem"
@@ -122,5 +147,6 @@ class UserSignupTest < ApplicationSystemTestCase
     end
 
     assert_equal 0, Member.last.adjustments.count
+    assert Membership.last.pending?
   end
 end

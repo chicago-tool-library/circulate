@@ -45,7 +45,6 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
     loans
     documents
     borrow_policies
-    hold_requests
     gift_memberships
     notifications
     holds

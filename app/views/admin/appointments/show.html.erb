@@ -1,10 +1,13 @@
 <% content_for :header do %>
-  <%= index_header preferred_or_default_name(current_member)%>
+  <%= index_header "#{preferred_or_default_name(current_appointment.member)}'s Appointment" %>
+
 <% end %>
+
+<%= render partial: "admin/members/membership_status", locals: { member: current_appointment.member } %>
 
 <div class="columns">
   <div class="column col-4 col-sm-12">
-    <%= render "admin/members/member_details", member: current_member %>
+    <%= render "admin/members/member_details", member: current_appointment.member %>
   </div>
   <div class="column col-sm-12 col-8">
     <div class="panel member-panel">
@@ -12,13 +15,14 @@
         <div class="columns col-oneline">
         <div class="column col-3">
           <h6>Appointment Date</h6>
-          <h6>9/12, 11am</h6>
+          <h6><%= l current_appointment.starts_at, format: :date %></h6>
+          <h6><%= l current_appointment.starts_at, format: :hour %>&nbsp;&ndash;<%= l current_appointment.ends_at, format: :hour %></h6>
         </div>
         <div class="column col-3">
-          <%= button_to "Cancel", admin_appointment_path(current_appointment), class: "btn btn-primary", method: :delete, data: { confirm: "Are you sure to delete this appointment?" }%>
+          <%= button_to "Cancel", admin_appointment_path(current_appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
         </div>
       </div>
   </div>
-  <%= render "checkouts" %>
+  <%= render "checkouts", member: current_appointment.member %>
   <%= render "checkins" %>
 </div>

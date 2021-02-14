@@ -11,9 +11,12 @@
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if Rails.env.production? %>
+      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
+    <% end %>
   </head>
 
-  <body>
+  <body class="admin">
     <div class="off-canvas" data-controller="sidebar">
       <a class="off-canvas-toggle btn btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
         <i class="icon icon-menu"></i>
@@ -30,15 +33,21 @@
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
+          <li  class="nav-item">
+            <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+          </li>
           <li class="nav-item">
             <span class="nav-category">Reports</span>
             <ul class="nav">
               <li class="nav-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
               <li class="nav-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
+              <li class="nav-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
               <li class="nav-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
               <li class="nav-item"><%= link_to "Notifications", admin_notifications_path %></li>
               <li class="nav-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
               <li class="nav-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+              <li class="nav-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
+              <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
             </ul>
           </li>
 
@@ -55,6 +64,9 @@
             </ul>
           </li>
         </ul>
+        <div class="dropdown">
+            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
+        </div>
 
         <ul class="nav">
           <% if user_signed_in? %>
@@ -109,10 +121,13 @@
               <ul class="menu">
                 <li class="menu-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
                 <li class="menu-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
+                <li class="menu-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
                 <li class="menu-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
                 <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+                <li class="menu-item"><%= link_to "Items without Image", admin_items_without_image_index_path %></li>
+                <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
               </ul>
             </div>
             <div class="dropdown">
@@ -142,6 +157,9 @@
             <% end %>
           </section>
           <%= render partial: "shared/time_override" if Rails.env.development? %>
+          <div class="dropdown">
+            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
+          </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
               <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>

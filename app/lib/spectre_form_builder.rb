@@ -90,6 +90,15 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def radio_button(method, tag_value, options = {})
+    options[:label_class] = "form-radio"
+    options[:label_for] = nil
+    wrapped_layout(method, options) do
+      super +
+        @template.tag.i(class: "form-icon")
+    end
+  end
+
   def check_box(method, options = {}, *args)
     options[:label_class] = "form-checkbox"
     wrapped_layout(method, options) do
@@ -132,7 +141,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label = nil, options = {}, &block)
-    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block"), &block)
+    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true}), &block)
   end
 
   def errors
@@ -156,8 +165,10 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
     wrapper_options[:class].strip!
 
+    content_label = options[:label] == false ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
+
     @template.content_tag :div, wrapper_options do
-      label(method, (label_text + required_label(method, display_required)).html_safe, {class: "form-label #{options[:label_class]}"}) +
+      content_label.html_safe +
         yield +
         hint_content
     end
@@ -175,7 +186,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   # Use this method for inputs where the label has to wrap the input
   def wrapped_layout(method, options = {})
-    label_text = label_or_default(options[:label], method)
+    label_text = label_or_default(options.delete(:label), method)
     has_error = @object.errors.include?(method)
     display_required = options.fetch(:required, true)
     messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
@@ -187,7 +198,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class].strip!
 
     @template.content_tag :div, wrapper_options do
-      label(method, class: "form-label #{options[:label_class]}") {
+      label_options = {class: "form-label #{options.delete(:label_class)}"}
+      label_options[:for] = options.delete(:label_for) if options.key?(:label_for)
+      label(method, **label_options) {
         yield +
           label_text +
           required_label(method, display_required)

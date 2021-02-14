@@ -1,8 +1,8 @@
 <%= render "profile" do %>
 
-  <% unless @member.notes.blank? %>
+  <% unless @member.bio.blank? %>
     <div class="rich-text">
-      <%= @member.notes %>
+      <%= @member.bio %>
     </div>
   <% end %>
 
@@ -46,6 +46,11 @@
 
   <% if @active_loan_summaries.any? %>
     <div id="current-loans" class="member-active-loans">
+      <div class="column col-sm-12 col-12 text-right">
+        <%= button_to admin_bulk_renewal_path(@member), method: :put, class:"btn ml-2 mb-2", data: { confirm: "Are you sure you want renew all renewable loans for #{@member.full_name}?" }, remote: true do %>
+          <%= feather_icon "repeat" %>Renew All
+        <% end %>
+      </div>
       <% @active_loan_summaries.group_by(&:due_at).each do |due_at, summaries| %>
         <div class="columns">
           <div class="column">
@@ -56,7 +61,6 @@
         </div>
         <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
           <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
-
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
@@ -95,7 +99,6 @@
                 <%= undo_button summary.latest_loan %>
               <% end %>
             </div>
-
           </div>
         <% end %>
         <div class="divider"></div>
@@ -104,5 +107,23 @@
   <% end %>
 
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+
+  <div class="columns member-notes">
+    <div class="column col-12">
+      <h2 id="checkout" class="h4">Member Notes</h2>
+      <div data-controller="toggle">
+      <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">
+        <%= feather_icon "message-square" %>Add a Note
+      </button>
+
+      <div data-target="toggle.toggled">
+        <%= portal do %>
+          <%= render partial: "admin/notes/form", locals: { parent: @member } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <% end %>

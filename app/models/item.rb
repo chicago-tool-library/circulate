@@ -14,19 +14,27 @@ class Item < ApplicationRecord
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
-  has_many :loans, dependent: :destroy
+  has_many :loans, dependent: :nullify
   has_many :holds, dependent: :destroy
   has_many :active_holds, -> { active }, dependent: :destroy, class_name: "Hold"
   has_many :loan_summaries
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
   belongs_to :borrow_policy
-  has_many :notes, as: :notable
+  has_many :notes, as: :notable, dependent: :destroy
+  has_many :attachments, class_name: "ItemAttachment"
 
   has_rich_text :description
   has_one_attached :image
-  has_one_attached :manual
 
   enum status: [:pending, :active, :maintenance, :retired]
+
+  enum power_source: {
+    solar: "solar",
+    gas: "gas",
+    air: "air",
+    electric_corded: "electric (corded)",
+    electric_battery: "electric (battery)"
+  }
 
   audited
 
@@ -38,12 +46,15 @@ class Item < ApplicationRecord
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
+  scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
+  scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }
 
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
   validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
   validates :status, inclusion: {in: Item.statuses.keys}
+  validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
 
   before_validation :assign_number, on: :create
@@ -59,6 +70,11 @@ class Item < ApplicationRecord
     last_item = item_scope.limit(1).first
     return 1 unless last_item
     last_item.number.to_i + 1
+  end
+
+  def self.find_by_complete_number(complete_number)
+    code, number = complete_number.split("-")
+    joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
   def assign_number
@@ -82,7 +98,11 @@ class Item < ApplicationRecord
   end
 
   def complete_number
-    "#{borrow_policy.code}-#{number}"
+    [borrow_policy.code, "-", number].join
+  end
+
+  def complete_number_and_name
+    [complete_number, " — ", name].join
   end
 
   def holdable?

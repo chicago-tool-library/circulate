@@ -4,14 +4,12 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(member: Member.first, amount: 2500).welcome_message
   end
 
-  def membership_reminder
-    MemberMailer.with(member: Member.first).membership_reminder
+  def renewal_message
+    MemberMailer.with(member: Member.first, amount: 3400).renewal_message
   end
 
-  def hold_confirmation
-    hold_request = HoldRequest.last
-
-    MemberMailer.with(member: hold_request.member, hold_request: hold_request).hold_confirmation
+  def membership_reminder
+    MemberMailer.with(member: Member.first).membership_reminder
   end
 
   def only_returned_items
@@ -48,5 +46,9 @@ class MemberMailerPreview < ActionMailer::Preview
     loan_summaries.first.latest_loan = Loan.new(created_at: Time.current)
 
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
+  end
+
+  def membership_renewal_reminder
+    MemberMailer.with(member: Member.first).membership_renewal_reminder
   end
 end

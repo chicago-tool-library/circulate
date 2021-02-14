@@ -194,6 +194,28 @@ class LoanTest < ActiveSupport::TestCase
     refute Loan.exists?(second_renewal.id)
   end
 
+  test "returns a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.return!
+  end
+
+  test "renews a loan with a deleted item" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    assert item.destroy
+
+    loan.reload # clears item_id
+
+    loan.renew!
+  end
+
   test "finds loans that were due whole weeks ago" do
     tonight = Time.current.end_of_day
     loan = create(:loan, due_at: tonight)
@@ -306,5 +328,60 @@ class LoanTest < ActiveSupport::TestCase
     loan = create(:loan, item: item, due_at: (borrow_policy.duration + 1).days.from_now)
 
     refute loan.member_renewable?
+  end
+
+  test "is not member_renewable if loan has end date" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item, ended_at: Time.current)
+
+    refute loan.member_renewable?
+  end
+
+  test "is member_renewal_requestable without a renewable borrow policy" do
+    borrow_policy = build(:borrow_policy, member_renewable: false)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+
+    assert loan.member_renewal_requestable?
+  end
+
+  test "is member_renewal_requestable if there is a previous approved renewal request" do
+    borrow_policy = build(:borrow_policy, member_renewable: false)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+    build(:renewal_request, loan: loan, status: RenewalRequest.statuses[:approved])
+
+    assert loan.member_renewal_requestable?
+  end
+
+  test "is not member_renewal_requestable if there are active holds" do
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
+    create(:hold, item: item, member: loan.member, ended_at: nil)
+    item.reload
+    loan.reload
+
+    refute loan.member_renewal_requestable?
+  end
+
+  test "is not member_renewal_requestable if there are pending or rejected requests" do
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
+    create(:renewal_request, loan: loan, status: RenewalRequest.statuses[:rejected])
+    loan.reload
+
+    refute loan.member_renewal_requestable?
+  end
+
+  test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
+    member_double = Minitest::Mock.new
+    loan = create(:loan)
+    loan.stub :member, member_double do
+      member_double.expect(:upcoming_appointment_of, nil, [loan])
+      loan.upcoming_appointment
+    end
   end
 end

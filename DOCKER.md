@@ -10,7 +10,7 @@ Dockerfile, or if gems or npm packages have been added or updated.
    https://github.com/rubyforgood/circulate.git` or create a fork in GitHub if
    you don't have permission to commit directly to this repo.
 4. Change into the application directory: `cd circulate`
-5. Run `docker-compose build` to build images for all services.
+5. Run `./docker-build.sh` to build images for all services.
 6. Run `docker-compose up -d database` to start the database service.
 7. Run `docker-compose run --rm web rails db:reset` to create the dev and test
    databases, load the schema, and run the seeds file.

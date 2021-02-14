@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
   setup do
+    create(:admin_user)
     sign_in_as_admin
   end
 

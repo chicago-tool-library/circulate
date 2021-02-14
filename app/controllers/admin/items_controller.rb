@@ -4,8 +4,6 @@ module Admin
 
     before_action :set_item, only: [:show, :edit, :update, :destroy]
 
-    # GET /items
-    # GET /items.json
     def index
       item_scope = Item.includes(:checked_out_exclusive_loan)
 
@@ -21,8 +19,6 @@ module Admin
       @pagy, @items = pagy(item_scope)
     end
 
-    # GET /items/1
-    # GET /items/1.json
     def show
     end
 
@@ -30,7 +26,6 @@ module Admin
       @item = Item.find(params[:item_id])
     end
 
-    # GET /items/new
     def new
       if params[:item_id]
         item_to_duplicate = Item.find(params[:item_id])
@@ -42,53 +37,35 @@ module Admin
       set_categories
     end
 
-    # GET /items/1/edit
     def edit
       set_categories
     end
 
-    # POST /items
-    # POST /items.json
     def create
       @item = Item.new(item_params)
 
-      respond_to do |format|
-        if @item.save
-          format.html { redirect_to admin_item_number_path(@item), success: "Item was successfully created." }
-          format.json { render :show, status: :created, location: @item }
-        else
-          set_categories
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @item.errors, status: :unprocessable_entity }
-        end
+      if @item.save
+        redirect_to admin_item_number_path(@item), success: "Item was successfully created."
+      else
+        set_categories
+        render :new, status: :unprocessable_entity
       end
     end
 
-    # PATCH/PUT /items/1
-    # PATCH/PUT /items/1.json
     def update
-      respond_to do |format|
-        if @item.update(item_params)
-          @item.manual.purge_later if all_item_params[:delete_manual] == "1"
+      if @item.update(item_params)
+        @item.image.purge_later if all_item_params[:delete_image] == "1"
 
-          format.html { redirect_to [:admin, @item], success: "Item was successfully updated." }
-          format.json { render :show, status: :ok, location: @item }
-        else
-          set_categories
-          format.html { render :edit }
-          format.json { render json: @item.errors, status: :unprocessable_entity }
-        end
+        redirect_to [:admin, @item], success: "Item was successfully updated."
+      else
+        set_categories
+        render :edit
       end
     end
 
-    # DELETE /items/1
-    # DELETE /items/1.json
     def destroy
       @item.destroy
-      respond_to do |format|
-        format.html { redirect_to [:admin, @item], warning: "Item was successfully destroyed." }
-        format.json { head :no_content }
-      end
+      redirect_to [:admin, @item], warning: "Item was successfully destroyed."
     end
 
     private
@@ -102,13 +79,13 @@ module Admin
     end
 
     def item_params
-      all_item_params.except(:delete_manual)
+      all_item_params.except(:delete_image)
     end
 
     def all_item_params
       params.require(:item).permit(
         :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :borrow_policy_id, :quantity, :checkout_notice, :manual, :delete_manual, category_ids: []
+        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, category_ids: []
       )
     end
 

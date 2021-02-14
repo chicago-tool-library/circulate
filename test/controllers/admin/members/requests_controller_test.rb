@@ -9,7 +9,7 @@ module Admin
         3.times do
           create(:member)
         end
-        @user = create(:user)
+        @user = create(:admin_user)
         sign_in @user
       end
 

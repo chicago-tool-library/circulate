@@ -30,7 +30,8 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  username: <%= ENV.fetch("POSTGRES_USER") { } %>
+  username: <%= ENV.fetch("PGUSER") { } %>
+  password: <%= ENV.fetch("PGPASSWORD") { } %>
 
   # The password associated with the postgres role (username).
   #password:
@@ -38,8 +39,7 @@ development:
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  host: <%= ENV.fetch("DATABASE_HOST") { } %>
-
+  host: <%= ENV.fetch("PGHOST") { } %>
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
   #port: 5432
@@ -59,8 +59,9 @@ development:
 test:
   <<: *default
   database: circulate_test
-  username: <%= ENV.fetch("POSTGRES_USER") { } %>
-  host: <%= ENV.fetch("DATABASE_HOST") { } %>
+  username: <%= ENV.fetch("PGUSER") { } %>
+  password: <%= ENV.fetch("PGPASSWORD") { } %>
+  host: <%= ENV.fetch("PGHOST") { } %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

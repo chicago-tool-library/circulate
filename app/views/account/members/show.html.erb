@@ -1,0 +1,87 @@
+<div class="account-settings-heading">
+  <h2 class="title">Account Settings</h2>
+  <div class="d-flex justify-content-end">
+    <%= link_to "Edit Password", edit_account_password_url, class: "btn btn-lg mr-2" %>
+    <%= link_to "Edit Member Profile", edit_account_member_path, class: "btn btn-primary btn-lg" %>
+  </div>
+</div>
+<div class="columns card-container">
+  <div class="column">
+    <dl>
+      <dt class="caption">Full Name</dt>
+      <dd class="title_bold"><%= @member.full_name %></dd>
+
+      <dt class="caption">Preferred Name</dt>
+      <dd class="title_bold"><%= @member.preferred_name %></dd>
+
+      <dt class="caption">Pronouns</dt>
+      <dd class="title_bold"><%= @member.display_pronouns %></dd>
+
+      <dt class="caption">Email</dt>
+      <dd class="title_bold"><%= @member.email %></dd>
+
+      <dt class="caption">Phone Number</dt>
+      <dd class="title_bold"><%= format_phone_number(@member.phone_number,"-") %></dd>
+
+      <dt class="caption">Address</dt>
+      <dd class="title_bold">
+        <%= @member.address1 %><br>
+        <%= @member.address2 %><br>
+        <%= @member.city %>,
+        <%= @member.region %>&nbsp;
+        <%= @member.postal_code %>
+      </dd>
+    </dl>
+
+  </div>
+  <div class="column">
+
+    <dl>
+      <dt class="caption">Membership Status</dt>
+
+      <% if @member.active_membership %>
+        <dd class="title_bold">Member</dd>
+
+        <dt>Membership #</dt>
+        <dd class="title_bold"><%= @member.number %></dd>
+
+        <dt>Membership Expiration Date</dt>
+        <dd class="title_bold"><%= date_with_time_title(@member.last_membership.ended_at) %></dd>
+      <% else %>
+        <dd class="label"><%= @member.status %></dd>
+      <% end %>
+
+      <dt class="caption">What kind of tools are you interested in borrowing, today or sometime the future?</dt>
+      <dd class="title_bold"><%= @member.desires %></dd>
+
+      <dt class="caption">Loan Reminders</dt>
+      <dd>
+        <%= label_tag "reminders_via_email", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "reminders_via_email", @member.reminders_via_email,  @member.reminders_via_email, disabled: true %>
+          <i class="form-icon"></i>Send me loan reminders via email
+        <% end %>
+
+        <%= label_tag "reminders_via_text", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "reminders_via_text", @member.reminders_via_text,  @member.reminders_via_text, disabled: true %>
+          <i class="form-icon"></i>Send me loan reminders via text (coming soon)
+        <% end %>
+      </dd>
+
+      <dt class="caption">Subscribe to our Newsletter</dt>
+      <dd>
+        <%= label_tag "receive_newsletter", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "receive_newsletter", @member.receive_newsletter,  @member.receive_newsletter, disabled: true %>
+          <i class="form-icon"></i>Send me occasional news about the library
+        <% end %>
+      </dd>
+
+      <dt class="caption">Want to help us out?</dt>
+      <dd>
+        <%= label_tag "volunteer_interest", class: "form-checkbox form-inline" do %>
+          <%= check_box_tag "volunteer_interest", @member.volunteer_interest,  @member.volunteer_interest, disabled: true %>
+          <i class="form-icon"></i>I am interested in volunteering with the library
+        <% end %>
+      </dd>
+    </dl>
+  </div>
+</div>

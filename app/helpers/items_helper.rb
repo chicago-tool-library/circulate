@@ -17,6 +17,16 @@ module ItemsHelper
     end
   end
 
+  def item_power_source_options
+    Item.power_sources.map do |key, value|
+      [value.titleize, key]
+    end
+  end
+
+  def item_powered_by_label(item)
+    Item.power_sources[item.power_source]&.titleize
+  end
+
   def borrow_policy_options
     BorrowPolicy.alpha_by_code.map do |borrow_policy|
       ["(#{borrow_policy.code}) #{borrow_policy.name}: #{borrow_policy.description}", borrow_policy.id]
@@ -26,10 +36,11 @@ module ItemsHelper
   def category_nav(categories, current_category = nil)
     return unless categories
 
-    tag.div class: "nav tag-nav" do
+    tag.ul class: "nav tag-nav" do
       categories.map { |category|
-        tag.li(class: "nav-item #{"active" if category.id == current_category&.id}") {
-          "&nbsp;&nbsp;".html_safe * category.path_ids.size + link_to(category.name, category: category.id)
+        is_parent = category.parent_id.nil?
+        tag.li(class: "nav-item #{"active" if category.id == current_category&.id} #{"parent" if is_parent}") {
+          is_parent ? link_to(category.name, category: category.id) : "&nbsp;&nbsp;".html_safe * category.path_ids.size + "-".html_safe + link_to(category.name, category: category.id)
         }
       }.join.html_safe
     end

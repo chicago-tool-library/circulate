@@ -1,0 +1,24 @@
+<%= render "admin/items/profile" do %>
+  <table class="table">
+      <tr>
+          <th>File</th>
+          <th>Notes</th>
+          <th></th>
+      </tr>
+      <% @attachments.each do |attachment| %>
+          <tr>
+              <td>
+                <%= link_to rails_blob_url(attachment.file), title: attachment.file.filename do %>
+                  <%= attachment.kind == "other" ? attachment.other_kind : attachment.kind.titleize %>
+                <% end %>
+              </td>
+              <td><%= attachment.notes %></td>
+              <td>
+                  <%= link_to "Edit", edit_admin_item_attachment_path(@item, attachment), class: "btn btn-sm" %>
+                  <%= link_to "Delete", admin_item_attachment_path(@item, attachment), 
+                      method: :delete, data: {confirm: "Delete this file?"}, class: "btn btn-sm" %>
+              </td>
+          </tr>
+      <% end %>
+  </table>
+<% end %>

@@ -20,7 +20,7 @@ def delete_attachments
 end
 
 def scrub_data
-  User.all.each do |user|
+  User.in_batches.each_record do |user|
     user.update!(
       password: "password",
       email: "user#{user.id}@domain.test",
@@ -35,9 +35,7 @@ def scrub_data
       preferred_name: "Member #{id}",
       email: "member#{id}@example.com",
       phone_number: "7732420923",
-      pronoun: "she/her",
-      custom_pronoun: nil,
-      notes: nil,
+      pronouns: ["she/her"],
       address1: "1048 W 37th St",
       address2: "Suite 102",
       postal_code: 60609
@@ -78,7 +76,7 @@ task update_analysis_database: [:pull_production_database, :environment] do
 end
 
 desc "Pulls production database into local develeopment database"
-task :pull_production_database do
-  puts `dropdb circulate_development`
+task pull_production_database: :environment do
+  puts `rails db:drop`
   puts `heroku pg:pull DATABASE circulate_development --app chicagotoollibrary`
 end

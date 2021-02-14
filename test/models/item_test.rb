@@ -57,4 +57,35 @@ class ItemTest < ActiveSupport::TestCase
 
     assert_equal @category.id, @item.audits.last.audited_changes["category_ids"].flatten.first
   end
+
+  test "it has two items without images" do
+    image = File.open(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"))
+    items = create_list(:item, 3)
+    item = items.first
+    item.image.attach(io: image, filename: "tool-image.jpg")
+
+    assert_equal 2, Item.without_attached_image.count
+  end
+
+  test "can delete an item with a renewed loan" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+    loan.renew!
+
+    assert item.destroy
+  end
+
+  test "can delete an item with an active loan" do
+    item = create(:item)
+    create(:loan, item: item)
+
+    assert item.destroy
+  end
+
+  test "can delete an item with a hold" do
+    item = create(:item)
+    create(:hold, item: item)
+
+    assert item.destroy
+  end
 end

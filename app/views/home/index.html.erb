@@ -1,25 +1,14 @@
-<div class="columns">
-  <div class="column col-12 text-center">
-    <%= logo classes: "site-logo" %>
-  </div>
-</div>
-
 <div class="columns landing-options">
   <div class="column col-sm-12 col-md-3 col-4 col-ml-auto text-center">
     <%= link_to "View our inventory", items_path %>
   </div>
-
+  <% unless current_user %>
   <div class="column col-sm-12 col-4 text-center">
     <%= link_to "Become a member", signup_path %>
   </div>
+  <% end %>
 
   <div class="column col-sm-12 col-md-3 col-4 col-mr-auto text-center">
     <%= link_to "Visit our website", "https://chicagotoollibrary.org" %>
-  </div>
-</div>
-
-<div class="columns">
-  <div class="column col-12 text-center admin-login-link">
-    <%= link_to "Admin login", admin_items_path %>
   </div>
 </div>

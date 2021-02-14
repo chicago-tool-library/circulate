@@ -107,7 +107,7 @@ module Admin
 
     test "should get index" do
       get admin_users_url
-      assert_redirected_to admin_items_url
+      assert_redirected_to root_url
     end
   end
 end

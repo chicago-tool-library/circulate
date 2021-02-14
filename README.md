@@ -1,6 +1,6 @@
 # Circulate
 
-[![CircleCI](https://circleci.com/gh/rubyforgood/circulate.svg?style=svg)](https://circleci.com/gh/rubyforgood/circulate)
+[![CircleCI](https://circleci.com/gh/rubyforgood/circulate/tree/main.svg?style=svg)](https://circleci.com/gh/rubyforgood/circulate)
 
 <!-- toc -->
 
@@ -10,9 +10,11 @@
 - [Integrations](#integrations)
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
+  * [Who to log in as](#who-to-log-in-as)
 - [Deployment](#deployment)
   * [Buildpacks](#buildpacks)
   * [Release Command](#release-command)
@@ -44,7 +46,7 @@ There is content and information hard-coded in many of the views that is specifi
 
 Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
 
-* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests.
+* A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests. This will be downloaded automatically for you when running system tests.
 * Imagemagick needs to be installed for gift memberships and item thumbnails to be generated.
 
 ## Integrations
@@ -60,7 +62,7 @@ The following third party services are used:
 
 ## Development
 
-Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+Once you've completed the setup below, you can login to the app using `admin@example.com` and `password` to see the admin interface.
 
 See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
@@ -101,10 +103,9 @@ Close your Terminal window and open a new one so your changes take effect.
 Okay, at this point you've got a Ruby on Rails development environment set up and cloned the Circulate repo! Now you'll need to run the following commands one at a time in your terminal:
 
 ```console
-$ yarn install
-$ bundle install
-$ bundle exec rails db:setup
+$ bin/setup
 ```
+
 All right, almost there! In the terminal, type and run:
 
 `rails test`
@@ -129,13 +130,20 @@ After you have the application running, here are some places to explore:
 The default tenant for this application is the Chicago Tool Library, but the application permits multiple tenants, identified by the URL used to access the application. In the local development environment, the following tenants are available:
 
 * chicago.local.chicagotoollibrary.org
-* portland.local.chicagotoollibrary.org
 
 Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
+
+### Resetting the application
+
+During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
+
+This can be useful if you need to run through a certain scenario multiple times manually.
 
 ### Running tests
 
 Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+
+Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
 
 ### Setup pre-commit checks
 
@@ -151,6 +159,18 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 * Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
 * Feather iconset [Website](https://feathericons.com)
 * MJML responsive email framework [Docs](https://mjml.io/documentation/)
+
+### Who to log in as
+
+During development, you will probably want to log into the app as various users (e.g. an admin or a member). [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) creates a set of user accounts when `bin/setup` or `bin/reset` are run. They are:
+- Admin `admin@example.com`
+- Verified member `verified_member@example.com`
+- New member `new_member@example.com`
+- Member for 18 months `member_for_18_months@example.com`
+- Expired Member `expired_member@example.com`
+- Membership expiring in one week `expires_soon@example.com`
+
+All of their passwords are "password".
 
 ## Deployment
 

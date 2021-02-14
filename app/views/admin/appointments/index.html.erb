@@ -3,18 +3,18 @@
 <% end %>
 
 <div class="columns">
-  <div class="col-12" style="justify-content: center;">
+  <div class="col-12 admin-appointments">
     <ul class="pagination">
-      <li class="page-item page-prev">
-        <%= link_to admin_appointments_path(day: pervious_day) do %>
+      <li class="page-item page-prev appointments-date-nav">
+        <%= link_to admin_appointments_path(day: previous_day) do %>
           <div class="page-item-subtitle">
             <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
           </div>
-          
+
         <% end %>
       </li>
-      <li><b><%= l current_day, format: :with_weekday %></b></li>
-      <li class="page-item page-next">
+      <li class="pt-2 appointments-date"><b><%= current_day_label %></b></li>
+      <li class="page-item page-next appointments-date-nav">
         <%= link_to admin_appointments_path(day: next_day) do %>
           <div class="page-item-subtitle">
             <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
@@ -27,11 +27,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Time</th>
-            <th>Name</th>
-            <th>Pronouns</th>
-            <th>Appointment purpose</th>
-            <th>Notes</th>
+            <th class="time">Time</th>
+            <th class="member">Member</th>
+            <th class="items">Items</th>
+            <th class="notes">Notes</th>
             <th></th>
           </tr>
         </thead>
@@ -39,23 +38,29 @@
         <tbody>
           <% @appointments.each do |appointment| %>
             <tr>
-              <td><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
-              <td><%= appointment.member.full_name %></td>
-              <td><%= appointment.member.pronouns.first %></td>
-              <td>
+              <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
+              <td class="member">
+                <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
+                <%= appointment.member.display_pronouns %>
+              </td>
+              <td class="items">
                 <% appointment.holds.each do |hold| %>
-                  <%= pickup_or_dropoff(hold.loan) %> 
-                    <%= hold.item.name %> <br/>
+                    pick-up
+                    <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number%> <br/>
+                <% end %>
+                <% appointment.loans.each do |loan| %>
+                    drop-off
+                    <%= link_to loan.item.name, admin_item_path(loan.item) %> <br/>
                 <% end %>
               </td>
-              <td><%= appointment.comment %></td>
-              <td></td>
+              <td class="notes"><%= appointment.comment %></td>
+              <td><%= link_to "view/edit", admin_appointment_path(appointment)%></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     <% else %>
-        <%= empty_state "No matching appointsments for this day!" %>
+        <%= empty_state "No appointments scheduled for this day." %>
     <% end %>
   </div>
 </div>

@@ -1,0 +1,9 @@
+<% content_for :header do %>
+  <%= index_header "Schedule an Appointment" %>
+<% end %>
+
+<div class="new-appointment">
+  <h1 class="title">Schedule an Appointment</h1>
+
+  <%= render partial: "form", locals: { holds: @holds, loans: @loans } %>
+</div>

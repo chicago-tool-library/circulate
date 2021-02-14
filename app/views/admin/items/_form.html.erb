@@ -1,7 +1,7 @@
 <%= form_with(model: [:admin, item], builder: SpectreFormBuilder, data: {controller: "form"}, id: dom_id(item)) do |form| %>
   <%= form.errors %>
 
-  <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true, 
+  <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true,
       hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
   <%= form.text_field :other_names,
@@ -20,19 +20,20 @@
 
   <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
 
-  <%= form.autocomplete_text_field :size, path: admin_ui_sizes_path(format: :json), 
+  <%= form.autocomplete_text_field :size, path: admin_ui_sizes_path(format: :json),
       hint: "Blade or bit diameter, width or height; e.g. 3/8\"" %>
 
   <%= form.autocomplete_text_field :strength, path: admin_ui_strengths_path(format: :json),
       hint: "i.e. voltage or amps; e.g. 18v, heavy duty" %>
+
+  <%= form.select :power_source, options_for_select(item_power_source_options, item.power_source), include_blank: "Not powered", hint: "Specify how the item is powered, if it is powered" %>
 
   <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
   <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
   <%= form.text_field :serial, hint: "Usually near the model number" %>
 
   <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
-  <%= form.file_field :manual, hint: "This item's manual", data: {"turbolinks-permanent": true} %>
-  <%= form.check_box :delete_manual, label: "Delete current manual" %>
+  <%= form.check_box :delete_image, label: "Delete current image" %>
 
   <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
 

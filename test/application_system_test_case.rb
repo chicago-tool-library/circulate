@@ -1,5 +1,8 @@
 require "test_helper"
 
+# The webdrivers gem doesn't work properly for folks using docker-compose
+require "webdrivers/chromedriver" unless ENV["DOCKER"]
+
 # Backported from Rails 6.1
 Capybara.add_selector :rich_text_area do
   label "rich-text area"
@@ -35,7 +38,7 @@ Capybara.register_driver :headless_chrome_in_container do |app|
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: {args: %w[headless disable-gpu]}
+      chromeOptions: {args: %w[headless disable-gpu window-size=1400x1800]}
     )
 end
 
@@ -43,7 +46,9 @@ Capybara.register_driver :chrome_in_container do |app|
   Capybara::Selenium::Driver.new app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    desired_capabilities: :chrome
+    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: {args: %w[window-size=1400x1800]}
+    )
 end
 
 FactoryBot::SyntaxRunner.class_eval do
@@ -52,7 +57,7 @@ end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
-  driven_by :selenium, using: driver, screen_size: [1400, 1400]
+  driven_by :selenium, using: driver, screen_size: [1400, 1800]
 
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
@@ -62,7 +67,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       Capybara.current_driver = Capybara.javascript_driver
       Capybara.server_host = "0.0.0.0"
       Capybara.server_port = 4000
-      Capybara.app_host = "http://web:4000"
+      Capybara.app_host = "http://example.com:4000"
 
       ActsAsTenant.test_tenant = libraries(:system_test_library)
     end

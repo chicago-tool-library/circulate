@@ -1,0 +1,23 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+     <div class="instructions">
+      <p class="main">Please read through the following terms.</p>
+      <p class="sub">Once you have read and understood everything, click the checkbox if you agree to the terms and then <em>Continue</em> to go on.</p>
+      <div class="divider"></div>
+    </div>
+
+    <h2><%= @document.name %></h2>
+
+    <div class="rich-text">
+      <%= @document.body %>
+    </div>
+
+    <%= form_with(model: @acceptance, url: renewal_acceptance_url(document_id: @document), builder: SpectreFormBuilder) do |form| %>
+      <%= form.errors %>
+      <%= form.check_box :terms, class: "input-lg", label: "I have read, understand, and agree to these terms." %>
+      <%= form.actions do %>
+        <%= form.submit "Continue" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

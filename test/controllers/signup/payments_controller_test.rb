@@ -5,7 +5,10 @@ module Signup
     include Devise::Test::IntegrationHelpers
 
     setup do
-      post signup_members_url, params: {member: attributes_for(:member)}
+      create(:agreement_document)
+      post signup_members_url, params: {
+        member_signup_form: attributes_for(:member, password: "password", password_confirmation: "password")
+      }
       assert_redirected_to signup_agreement_url
       @member = Member.find(session[:member_id])
     end
@@ -16,21 +19,24 @@ module Signup
       mock_result.expect :value, "https://squareup.com/checkout/12345"
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :checkout_url, mock_result, [{
-        amount: Money.new(1200),
-        email: @member.email,
-        return_to: "http://www.example.com/signup/payments/callback",
-        member_id: @member.id
-      }]
+      Time.use_zone "America/Chicago" do
+        mock_checkout.expect :checkout_url, mock_result, [{
+          amount: Money.new(1200),
+          email: @member.email,
+          return_to: "http://www.example.com/signup/payments/callback",
+          member_id: @member.id,
+          date: Date.current
+        }]
 
-      SquareCheckout.stub :new, mock_checkout do
-        post signup_payments_url, params: {signup_payment: {amount_dollars: "12"}}
+        SquareCheckout.stub :new, mock_checkout do
+          post signup_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
+        end
+
+        assert_redirected_to "https://squareup.com/checkout/12345"
+
+        assert_mock mock_result
+        assert_mock mock_checkout
       end
-
-      assert_redirected_to "https://squareup.com/checkout/12345"
-
-      assert_mock mock_result
-      assert_mock mock_checkout
     end
 
     test "fails to create a checkout_url" do
@@ -42,7 +48,7 @@ module Signup
       mock_checkout.expect :checkout_url, mock_result, [Hash]
 
       SquareCheckout.stub :new, mock_checkout do
-        post signup_payments_url, params: {signup_payment: {amount_dollars: "12"}}
+        post signup_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
       end
 
       assert_redirected_to "http://www.example.com/signup/payments/new"

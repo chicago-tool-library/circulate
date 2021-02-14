@@ -38,4 +38,26 @@ class Category < ApplicationRecord
   def refresh_category_nodes
     CategoryNode.refresh
   end
+
+  def self.recursive_all
+    find_by_sql(<<~SQL)
+      WITH RECURSIVE subcategories AS (
+        SELECT
+          categories.*
+        FROM
+          categories  WHERE
+          parent_id IS NULL
+        UNION
+        SELECT
+          c.*
+        FROM
+          categories AS c
+          INNER JOIN subcategories s ON s.id = c.parent_id
+      )
+      SELECT
+        *
+      FROM
+        subcategories;
+    SQL
+  end
 end

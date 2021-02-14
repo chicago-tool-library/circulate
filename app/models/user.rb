@@ -1,9 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, # :registerable,
-    :recoverable, :rememberable, :validatable,
-    :lockable, :timeoutable, :trackable
+  devise :database_authenticatable, :recoverable, :rememberable,
+    :lockable, :timeoutable, :trackable, :validatable
 
   acts_as_tenant :library
 
@@ -16,6 +13,10 @@ class User < ApplicationRecord
     admin: "admin",
     super_admin: "super_admin",
   }
+
+  belongs_to :member, optional: true
+
+  scope :by_creation_date, -> { order(created_at: :asc) }
 
   def roles
     case role
@@ -40,8 +41,4 @@ class User < ApplicationRecord
     record = eager_load(:member).find_by(id: key)
     record if record && record.authenticatable_salt == salt
   end
-
-  belongs_to :member, optional: true
-
-  scope :by_creation_date, -> { order(created_at: :asc) }
 end
