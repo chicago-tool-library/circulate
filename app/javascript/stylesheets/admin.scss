@@ -1,4 +1,7 @@
 body.admin {
+  .off-canvas {
+    height: auto;
+  }
 
   table .table-stripe {
     background: rgba(255,255,255,.7);
@@ -49,6 +52,23 @@ body.admin {
     }
     .container {
       padding-bottom: 0;
+    }
+  }
+
+  .admin-dashboard {
+    dl {
+    }
+    .pair {
+      width: 19%;
+      display: inline-block;
+    }
+    dt {
+    }
+    dd {
+      font-size: 4rem;
+      line-height: 1;
+      font-weight: 300;
+      margin-top: 0;
     }
   }
 }
