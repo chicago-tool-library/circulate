@@ -127,8 +127,8 @@ class SquareCheckoutTest < ActiveSupport::TestCase
 
   test "handles a successful charge" do
     member = create(:member)
+
     mock_body_transaction = Minitest::Mock.new
-    mock_body_transaction.expect :[], member.id.to_s, [:reference_id]
     mock_body_transaction.expect :[], [{amount_money: {amount: 1200, currency: "USD"}}], [:tenders]
 
     mock_body = Minitest::Mock.new

@@ -44,10 +44,6 @@ class SquareCheckout
 
     if transaction_response.success?
       transaction = transaction_response.body.transaction
-      if transaction[:reference_id] != member.id.to_s
-        raise "member_id mismatch, current member is #{member.id} but transaction #{transaction[:id]} is for member #{transaction[:reference_id]}"
-      end
-
       amount_money = transaction[:tenders][0][:amount_money]
       raise "non-USD currency is not supported" unless amount_money[:currency] == "USD"
 
