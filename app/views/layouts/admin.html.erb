@@ -30,6 +30,9 @@
               <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
               <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
               <li class="nav-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+              <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" %>
+              <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
+              <% end %>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
@@ -108,6 +111,9 @@
                 <li class="menu-item"><%= link_to "Items", admin_items_path %></li>
                 <li class="menu-item"><%= link_to "Members", admin_members_path %></li>
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+                <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" %>
+                <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
+                <% end %>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
