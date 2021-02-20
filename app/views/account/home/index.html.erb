@@ -34,9 +34,13 @@
           <td><%= render_loan_status(loan) %></td>
           <td>
             <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.renewal_requests.any? %>
-              <%= button_to "Renewal #{loan.latest_renewal_request.rejected? ? "Rejected" : "Requested"}", "#", method: :post, class: "btn", disabled: true %>
+              <% if loan.latest_renewal_request.rejected? %>
+                Renewal refused
+              <% else %>
+                Renewal requested
+              <% end %>
             <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
-              <%= button_to "Renewed", "#", method: :post, class: "btn", disabled: true %>
+              Renewed
             <% elsif loan.member_renewable? %>
               <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
             <% elsif ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.member_renewal_requestable? %>
