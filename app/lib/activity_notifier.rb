@@ -41,7 +41,7 @@ class ActivityNotifier
     Member.find(ids).each do |member|
       summaries = member.loan_summaries
         .active_on(@now)
-        .or(member.loan_summaries.checked_out)
+        .or(member.loan_summaries.includes(:renewal_requests).checked_out)
         .includes(item: :borrow_policy)
       yield member, summaries
     end

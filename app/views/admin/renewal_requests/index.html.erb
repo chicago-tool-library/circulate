@@ -46,12 +46,22 @@
               <td><%= full_item_number(request.loan.item) %></td>
               <td><%= link_to preferred_or_default_name(request.loan.member), [:admin, request.loan.member] %></td>
               <td><%= date_with_time_title request.created_at %></td>
-              <td><%= request.status %></td>
               <td>
+                <% if request.approved? && request.loan.renewals.any? %>
+                  <%= request.status %>, due <%= date_with_time_title request.loan.renewals.max_by{ |r| r.created_at }.due_at %>
+                <% elsif request.rejected? %>
+                  <%= request.status %> <%= date_with_time_title request.updated_at %>
+                <% else %>
+                  <%= request.status %>
+                <% end %>
+              </td>
+              <td>
+                <% if request.requested? %>
                 <div class="btn-group">
-                  <%= button_to "Renew", "#", method: :post, class: "btn" %>
-                  <%= button_to "Reject", "#", method: :post, class: "btn" %>
+                  <%= button_to "Renew", admin_renewal_request_path(request, renewal_request: {status: :approved}), method: :put, class: "btn" %>
+                  <%= button_to "Reject", admin_renewal_request_path(request, renewal_request: {status: :rejected}), method: :put, class: "btn" %>
                 </div>
+                <% end %>
               </td>
             </tr>
           <% end %>

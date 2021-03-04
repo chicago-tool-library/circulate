@@ -13,7 +13,7 @@
       li {
         margin-bottom: 1em;
       }
-      .overdue, .people-waiting {
+      .rejected, .overdue, .people-waiting {
         color: #DF6C54;
       }
       p.overdue {
