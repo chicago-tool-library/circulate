@@ -5,11 +5,12 @@ class LoanSummary < ApplicationRecord
   belongs_to :latest_loan, class_name: "Loan"
   belongs_to :member
   has_one :adjustment, -> { unscope(where: :adjutable_type).where(adjustable_type: "Loan") }, as: :adjustable
+  has_many :renewal_requests, foreign_key: "loan_id"
 
   scope :active_on, ->(date) {
     morning = date.beginning_of_day.utc
     night = date.end_of_day.utc
-    where("loan_summaries.created_at BETWEEN ? AND ? OR loan_summaries.ended_at BETWEEN ? AND ?", morning, night, morning, night)
+    where("loan_summaries.created_at BETWEEN :morning AND :night OR loan_summaries.ended_at BETWEEN :morning AND :night OR renewal_requests.updated_at BETWEEN :morning AND :night", morning: morning, night: night).includes(:renewal_requests).references(:renewal_requests)
   }
 
   scope :checked_out, -> { where(ended_at: nil) }
@@ -40,5 +41,9 @@ class LoanSummary < ApplicationRecord
 
   def overdue_as_of?(time)
     !ended? && due_at < time
+  end
+
+  def renewal_request_rejected?
+    renewal_requests.max_by { |r| r.created_at }&.rejected?
   end
 end

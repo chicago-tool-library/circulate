@@ -9,6 +9,11 @@
     <% if summary.ended? %>
       returned
     <% else %>
+      <% if summary.renewal_request_rejected? %>
+        <span class="rejected">
+          renewal rejected,
+        </span>
+      <% end %>
       <% if summary.overdue_as_of?(now) %>
         <span class="overdue">
           was due
