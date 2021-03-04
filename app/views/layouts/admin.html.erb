@@ -66,10 +66,10 @@
               <% end %>
             </ul>
           </li>
-        </ul>
-        <div class="dropdown">
+          <li class="nav-item">
             <%= link_to "Members Page", root_path, class: "btn btn-link" %>
-        </div>
+          </li>
+        </ul>
 
         <ul class="nav">
           <% if user_signed_in? %>
@@ -173,7 +173,7 @@
     </div>
 
     <% if content_for? :header %>
-      <div class="app">
+      <div class="app-header">
         <div class="header-header">
           <div class="container grid-lg">
             <%= yield :header %>
@@ -182,7 +182,7 @@
       </div>
     <% end %>
 
-    <div class="container grid-lg admin app">
+    <div class="container grid-lg admin app-body">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>
