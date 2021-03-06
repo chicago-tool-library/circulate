@@ -1,12 +1,19 @@
 body.admin {
 
-    .off-canvas {
-        height: auto;
-    }
-
-
-table .table-stripe {
+  table .table-stripe {
     background: rgba(255,255,255,.7);
-}
+  }
 
+ .app-header {
+    background: $primary-color;
+    color: white;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    header.navbar {
+      margin-bottom: 0;
+    }
+    .container {
+      padding-bottom: 0;
+    }
+  }
 }

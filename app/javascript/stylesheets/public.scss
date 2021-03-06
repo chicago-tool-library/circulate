@@ -1,0 +1,56 @@
+.public {
+  position: relative;
+
+  .navbar {
+    .navbar-brand {
+      width: 3rem;
+      img {
+        width: 100%;
+      }
+    }
+    align-items: center;
+    .navbar-section {
+      flex: 1 auto;
+    }
+    .search-section {
+      input[name=query] {
+        width: 8rem;
+      }
+    }
+
+    @media all and (min-width: 841px) {
+      .btn-link.librarian-link {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: .9rem;
+      }
+    }
+  }
+
+  ul.navbar-links {
+    list-style: none outside;
+    li {
+      display: inline;
+    }
+    .btn-link {
+      font-size: 1rem;
+    }
+  }
+}
+
+.mobile-logo {
+  width: 3rem;
+  margin-left: -2rem;
+}
+
+.container.public {
+  flex: 1 0 auto;
+}
+
+.public {
+  header.navbar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+}

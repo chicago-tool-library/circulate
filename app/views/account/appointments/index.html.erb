@@ -1,6 +1,10 @@
-<div class="appointments-page">
-  <h1 class="title">Upcoming Appointments</h1>
+<% content_for :header do %>
+  <%= index_header "Appointments" do %>
+    <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-lg btn-primary" %>
+  <% end %>
+<% end %>
 
+<div class="appointments-page">
   <% if @appointments.blank? %>
     <section class="appointment">
       <h3 class="title_bold">
@@ -12,7 +16,7 @@
   <% @appointments.each_with_index do |appointment, index| %>
     <section class="appointment">
       <div class="float-right d-flex">        
-        <%= button_to "Cancel", account_appointment_path(appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+        <%= button_to "Cancel", account_appointment_path(appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
         
       </div>
       <div class="appointment-date">

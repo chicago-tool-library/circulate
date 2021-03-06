@@ -14,15 +14,9 @@ module ApplicationHelper
     tag.div(**attrs, &block)
   end
 
-  def navbar_link_to(text, link, version = "")
-    if version == "mobile"
-      tag.span(class: "navbar-brand  mr-2 ml-2") do
-        link_to(text, link)
-      end
-    else
-      tag.li(class: "nav-item") do
-        link_to(text, link)
-      end
+  def navbar_link_to(text, link, **options)
+    tag.li(class: "nav-item") do
+      link_to(text, link, class: "btn btn-link #{options.delete(:class)}", **options)
     end
   end
 end
