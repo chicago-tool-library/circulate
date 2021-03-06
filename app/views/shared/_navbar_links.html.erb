@@ -2,9 +2,9 @@
   <%= navbar_link_to "View Inventory", items_path %>
   <%= navbar_link_to "Loans & Holds", account_home_path %>
   <%= navbar_link_to "Appointments", account_appointments_path %>
-  <%= navbar_link_to "Account", account_member_path %>
+  <%= navbar_link_to "Membership", account_member_path %>
   <% if current_user.admin? %>
-    <%= navbar_link_to "Librarian", admin_dashboard_path %>
+    <%= navbar_link_to "Librarian View", admin_dashboard_path, class: "librarian-link" %>
   <% end %>
 <% else %>
   <%= navbar_link_to 'Member Login', new_user_session_path %>
