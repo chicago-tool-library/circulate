@@ -14,6 +14,7 @@
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
+  * [Who to log in as](#who-to-log-in-as)
 - [Deployment](#deployment)
   * [Buildpacks](#buildpacks)
   * [Release Command](#release-command)
@@ -61,7 +62,7 @@ The following third party services are used:
 
 ## Development
 
-Once you've completed the setup below, you can login to the app using `admin@chicagotoollibrary.org` and `password` to see the admin interface.
+Once you've completed the setup below, you can login to the app using `admin@example.com` and `password` to see the admin interface.
 
 See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
@@ -121,7 +122,7 @@ Open an internet browser, and type `localhost:3000`. You should see the Circulat
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Resetting the application
@@ -150,6 +151,18 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 * Spectre CSS framework [Docs](https://picturepan2.github.io/spectre/getting-started.html)
 * Feather iconset [Website](https://feathericons.com)
 * MJML responsive email framework [Docs](https://mjml.io/documentation/)
+
+### Who to log in as
+
+During development, you will probably want to log into the app as various users (e.g. an admin or a member). [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) creates a set of user accounts when `bin/setup` or `bin/reset` are run. They are:
+- Admin `admin@example.com`
+- Verified member `verified_member@example.com`
+- New member `new_member@example.com`
+- Member for 18 months `member_for_18_months@example.com`
+- Expired Member `expired_member@example.com`
+- Membership expiring in one week `expires_soon@example.com`
+
+All of their passwords are "password".
 
 ## Deployment
 

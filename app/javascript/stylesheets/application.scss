@@ -9,13 +9,10 @@
 @import './partials/index';
 
 @import 'admin';
+@import 'public';
 
 body {
   background-color: $background-color;
-}
-
-.public .navbar {
-  align-items: center;
 }
 
 .feather-icon {
@@ -42,7 +39,6 @@ body {
 .feather-icon.error {
   stroke:$error-color;
 }
-
 
 .more-info {
   border-bottom: .05rem dotted;
@@ -89,13 +85,6 @@ form details {
 
 header.navbar {
   margin-bottom: 1rem;
-}
-
-.public {
-  header.navbar {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-  }
 }
 
 .toast {
@@ -161,9 +150,6 @@ header.navbar {
 .form-buttons {
   margin-top: 2rem;
 }
-
-
-
 
 .members-table {
   display: grid;
@@ -658,13 +644,10 @@ form.membership-amount {
 }
 
 .landing-page {
-  background: #fafafa;
-  img.site-logo {
-    max-width: 200px;
-    margin: 2rem 0 3rem;
+  .landing-options {
+    font-size: 1.5rem;
+    line-height: 1.1;
   }
-  font-size: 1.5rem;
-  line-height: 1.1;
   .landing-options .column {
     margin-bottom: .5em;
   }
@@ -974,20 +957,9 @@ table.monthly-adjustments {
   }
 }
 
-.header-header {
-  background: $primary-color;
-  color: white;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  header.navbar {
-    margin-bottom: 0;
-  }
-  .container {
-    padding-bottom: 0;
-  }
-}
 
-.app {
+
+.app-body, .app-header {
   .btn {
     @include default-button();
     border-radius: 5px;
@@ -1118,9 +1090,6 @@ body {
   flex-direction: column;
 }
 
-.container.public {
-  flex: 1 0 auto;
-}
 footer.page-footer {
   font-size: 0.8rem;
   padding: 1rem 0 0;
@@ -1128,4 +1097,4 @@ footer.page-footer {
   background: $background-color-dark;
   text-align: center;
   position: relative;
-  }
+}

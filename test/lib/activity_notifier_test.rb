@@ -176,4 +176,32 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, checked_out_today.item.complete_number
     refute_includes mail.encoded, previous_loan.item.complete_number
   end
+
+  test "sends emails to folks with rejected renewal requests" do
+    loan = Time.use_zone("America/Chicago") {
+      create(:loan, created_at: Time.current.beginning_of_day - 1.minute)
+    }
+
+    Time.use_zone("America/Chicago") do
+      end_of_previous_day = Time.current.beginning_of_day - 1.minute
+
+      travel_to end_of_previous_day do
+        loan.return!
+      end
+
+      create(:renewal_request, loan: loan, status: :rejected)
+
+      notifier = ActivityNotifier.new
+      notifier.send_daily_loan_summaries
+    end
+
+    refute ActionMailer::Base.deliveries.empty?
+
+    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
+    refute mail.nil?
+
+    assert_equal "Today's loan summary", mail.subject
+    assert_includes mail.encoded, loan.item.complete_number
+    refute_includes mail.encoded, "rejected"
+  end
 end

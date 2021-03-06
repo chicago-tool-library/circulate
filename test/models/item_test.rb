@@ -58,6 +58,20 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal @category.id, @item.audits.last.audited_changes["category_ids"].flatten.first
   end
 
+  test "updating it without changing categories doesn't add existing categories to audit history" do
+    @item = create(:complete_item)
+    @category = create(:category)
+
+    # add initial category
+    @item.categories << @category
+    @item.save!
+
+    # update property that isn't category
+    @item.update!(name: "something different")
+
+    assert_equal [], @item.audits.last.audited_changes["category_ids"].first
+  end
+
   test "it has two items without images" do
     image = File.open(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"))
     items = create_list(:item, 3)

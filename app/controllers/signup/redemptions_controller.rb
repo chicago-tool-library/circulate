@@ -4,15 +4,15 @@ module Signup
 
     def new
       activate_step(:payment)
-      @redemption = Redemption.new
+      @form = GiftMembershipRedemptionForm.new
     end
 
     def create
-      @redemption = Redemption.new(redemption_params)
-      if @redemption.valid?
+      @form = GiftMembershipRedemptionForm.new(form_params)
+      if @form.valid?
         Membership.transaction do
           @membership = Membership.create_for_member(@member)
-          @gift_membership = GiftMembership.find(@redemption.gift_membership_id)
+          @gift_membership = GiftMembership.find(@form.gift_membership_id)
           @gift_membership.redeem(@membership)
         end
 
@@ -28,8 +28,8 @@ module Signup
 
     private
 
-    def redemption_params
-      params.require(:signup_redemption).permit(:code)
+    def form_params
+      params.require(:gift_membership_redemption_form).permit(:code)
     end
   end
 end

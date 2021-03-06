@@ -3,6 +3,7 @@ class Loan < ApplicationRecord
   belongs_to :member
   has_one :adjustment, as: :adjustable
   has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  has_many :renewal_requests, dependent: :destroy
   belongs_to :initial_loan, class_name: "Loan", optional: true
   has_one :hold, dependent: :nullify
 
@@ -84,6 +85,10 @@ class Loan < ApplicationRecord
     renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable? && ended_at.nil?
   end
 
+  def member_renewal_requestable?
+    renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && !renewal_requests.any?
+  end
+
   def within_borrow_policy_duration?
     due_at - Time.current <= item.borrow_policy.duration.days
   end
@@ -98,6 +103,10 @@ class Loan < ApplicationRecord
 
   def checked_out?
     ended_at.blank?
+  end
+
+  def latest_renewal_request
+    renewal_requests.max_by { |r| r.created_at }
   end
 
   def upcoming_appointment

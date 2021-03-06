@@ -1,8 +1,9 @@
 module Signup
   class BaseController < ApplicationController
     before_action :load_steps
+    before_action :set_page_title
 
-    layout "signup"
+    layout "steps"
 
     private
 
@@ -35,6 +36,10 @@ module Signup
           break
         end
       end
+    end
+
+    def set_page_title
+      @page_title = "New Member Signup"
     end
   end
 end

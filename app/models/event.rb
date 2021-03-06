@@ -18,10 +18,10 @@ class Event < ApplicationRecord
     transaction(requires_new: true) do
       gcal_events.each do |gcal_event|
         if gcal_event.cancelled?
-          Event.find_by(
+          Event.where(
             calendar_event_id: gcal_event.id,
             calendar_id: gcal_event.calendar_id
-          ).delete
+          ).delete_all
         else
           Event.find_or_initialize_by(
             calendar_event_id: gcal_event.id,

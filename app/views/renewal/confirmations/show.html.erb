@@ -1,0 +1,23 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="main">Renewal Complete</p>
+      <div class="divider"></div>
+    </div>
+    <div class="verification-instructions">
+      <p>Thank you for renewing your Chicago Tool Library membership.</p>
+
+      <% if @amount %>
+        <p><strong>Your payment of <%= @amount.format %> has been processed and applied to your account.</strong></p>
+      <% end %>
+    </div>
+    <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+    <p>See you at the library!</p>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto mt-2">
+    <%= link_to "Back to your account", account_home_url, class: "btn btn-block" %>
+  </div>
+</div>

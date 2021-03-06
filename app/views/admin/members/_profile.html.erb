@@ -12,19 +12,7 @@
 
   <div class="column col-sm-12 col-8">
 
-    <% if !@member.active_membership %>
-      <% if @member.pending_membership %>
-        <div class="toast member-membership clearfix">
-          <p class="float-left"><i class="icon icon-stop"></i> Member has a pending membership.</p>
-          <p class="float-right"><%= link_to "Start Membership", admin_member_membership_path(@member, @member.pending_membership), method: :patch %></p>
-        </div>
-      <% else %>
-        <div class="toast member-membership clearfix">
-          <p class="float-left"><i class="icon icon-stop"></i> Member needs to start a membership.</p>
-          <p class="float-right"><%= link_to "Create Membership", new_admin_member_membership_path(@member) %></p>
-        </div>
-      <% end %>
-    <% end %>
+    <%= render partial: "admin/members/membership_status", locals: { member: @member } %>
 
     <% unless @member.status_verified? %>
       <div class="toast clearfix member-membership">
@@ -45,4 +33,3 @@
 
   </div>
 </div>
-

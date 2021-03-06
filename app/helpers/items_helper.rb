@@ -50,7 +50,7 @@ module ItemsHelper
     if image.metadata.key? "rotation"
       options[:rotate] ||= image.metadata["rotation"]
     end
-    image.variant(options)
+    image.variant(options) if image.variable?
   end
 
   def item_image_url(item, options = {})

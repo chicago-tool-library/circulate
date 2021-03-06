@@ -14,4 +14,8 @@ class NullBorrowPolicy
   def duration
     7
   end
+
+  def member_renewable?
+    false
+  end
 end

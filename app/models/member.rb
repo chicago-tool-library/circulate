@@ -14,19 +14,18 @@ class Member < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"
   has_one :pending_membership, -> { merge(Membership.pending) }, class_name: "Membership"
+  has_one :last_membership, -> { order("ended_at DESC NULLS FIRST") }, class_name: "Membership"
 
   has_one :user, dependent: :destroy
   has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
-  enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
   enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
   validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}, uniqueness: true
   validates :full_name, presence: true
   validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
-  validates :custom_pronoun, presence: true, if: proc { |m| m.custom_pronoun? }
   validates :address1, presence: true, on: :create
   validates :city, presence: true
   validates :region, presence: true

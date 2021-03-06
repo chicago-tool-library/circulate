@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-alpine AS builder
+FROM ruby:2.7.2-alpine3.13 AS builder
 
 LABEL maintainer="jeanine@littleforestconsulting.com"
 
@@ -26,7 +26,7 @@ COPY . .
 
 ### BUILD STEP DONE ###
 
-FROM ruby:2.7.2-alpine
+FROM ruby:2.7.2-alpine3.13
 
 ARG RAILS_ROOT=/usr/src/app/
 ARG USER_ID
@@ -38,13 +38,18 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   postgresql-client \
   tzdata \
   vim \
+  git \
+  openssl \
   fontconfig \
+  libwebp \
   yarn && rm -rf /var/cache/apk/*
 
 RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \
  update-ms-fonts 2>/dev/null && \
  fc-cache -f && \
  apk del .ms-fonts
+
+RUN yarn global add heroku
 
 RUN adduser --disabled-password --gecos '' --uid $USER_ID user
 USER user

@@ -1,0 +1,65 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <p class="caption_lg">Select a Payment Option</p>
+      <p class="main">You can pay online now or in person at the library.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="signup-fee-description">
+      <p>
+        Every dollar goes directly to improving the shared resources provided by The Chicago Tool Library.
+      </p>
+      <p>
+        <strong>Last year you paid <%= @amount.format(no_cents: true) %>.</strong>
+        This year we’re encouraging our library members who can afford to do so to give a little more. As always, though, we don’t turn anyone away for an inability to pay.
+
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-sm-12 col-4 col-ml-auto pay-online">
+
+    <%= form_with(model: @form, url: renewal_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
+      <fieldset>
+        <legend>Pay Online</legend>
+        <p>
+          You can save time by making one-time payment online using a credit card or Apple/Google Pay.
+        </p>
+        <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
+      </fieldset>
+      <%= form.actions do %>
+        <%= form.submit "Pay Online Now" %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="divider-vert hide-sm" data-content="OR"></div>
+  <div class="column col-sm-12 show-sm">
+    <div class="divider text-center small-horizontal-divider" data-content="OR"></div>
+  </div>
+
+  <div class="column col-sm-12 col-4 col-mr-auto complete-in-person">
+    <%= form_with(url: skip_renewal_payments_url, builder: SpectreFormBuilder) do |form| %>
+      <fieldset>
+        <legend>Complete Signup at the Library</legend>
+        <p>
+          You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and 
+          are happy to answer any questions you have about membership.
+        </p>
+      </fieldset>
+
+      <%= button_tag "Complete in Person", class: "btn btn-lg btn-block" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column col-12 col-ml-auto text-center gift-membership">
+    <p>
+      Have a <strong>gift membership</strong> code? Right this way:
+      <%= link_to "Redeem Gift Membership", new_renewal_redemption_path, class: "btn"%>
+    </p>
+  </div>
+</div>

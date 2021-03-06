@@ -6,6 +6,8 @@ class Membership < ApplicationRecord
 
   scope :active, -> { where("started_at <= ? AND ended_at >= ?", Time.current, Time.current) }
   scope :pending, -> { where(started_at: nil, ended_at: nil) }
+  scope :ended, -> { where("ended_at <= ?", Time.current).order("ended_at ASC") }
+  scope :expiring_before, ->(date) { where("ended_at <= ?", date) }
 
   validate :no_overlapping_dates
   validate :start_after_end
@@ -16,6 +18,24 @@ class Membership < ApplicationRecord
 
   def pending?
     started_at.nil? && ended_at.nil?
+  end
+
+  def ended?
+    ends_within?(Time.current)
+  end
+
+  def ends_within?(day)
+    ended_at && ended_at < day
+  end
+
+  def status_text
+    if pending?
+      "pending"
+    elsif ended?
+      "ended on #{ended_at.to_s(:month_day_year)}"
+    else
+      "ends on #{ended_at.to_s(:month_day_year)}"
+    end
   end
 
   def start!(now = Time.current)

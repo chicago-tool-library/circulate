@@ -11,6 +11,9 @@ end
 FileUtils.chdir APP_ROOT do
   # This script resets the application to a stable state for development
 
+  puts '== Drop db connections =='
+  system! 'bin/rails db:close_connections'
+
   puts '== Database reset =='
   system! 'bin/rails db:reset'
 

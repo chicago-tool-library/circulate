@@ -3,6 +3,7 @@ class MemberMailer < ApplicationMailer
   helper :members
   helper :date
   helper :holds
+  helper :admin
 
   before_action :generate_uuid
   after_action :set_uuid_header
@@ -12,6 +13,13 @@ class MemberMailer < ApplicationMailer
     @member = params[:member]
     @amount = Money.new(params[:amount]) if params.key?(:amount)
     @subject = "Welcome to The Chicago Tool Library"
+    mail(to: @member.email, subject: @subject)
+  end
+
+  def renewal_message
+    @member = params[:member]
+    @amount = Money.new(params[:amount]) if params.key?(:amount)
+    @subject = "Your membership to The Chicago Tool Library has been renewed"
     mail(to: @member.email, subject: @subject)
   end
 
@@ -42,6 +50,18 @@ class MemberMailer < ApplicationMailer
     @hold = params[:hold]
     @subject = "One of your holds is available"
     mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
+  end
+
+  def loan_renewal_request_message
+    # TODO: Implement
+    @subject = "Renewal Request"
+  end
+
+  def membership_renewal_reminder
+    @member = params[:member]
+    @amount = params[:amount] || Money.new(0)
+    @subject = "Inviting you to renew and reconnect with the Chicago Tool Library in 2021!"
+    mail(to: @member.email, subject: @subject)
   end
 
   private

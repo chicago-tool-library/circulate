@@ -26,7 +26,26 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
+    resources :renewal_requests, only: :create if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
     get "/", to: "home#index", as: "home"
+  end
+
+  namespace :renewal do
+    resource :member, only: [:edit, :update]
+    scope :documents do
+      get :agreement, to: "documents#agreement"
+      get :rules, to: "documents#rules"
+
+      resource :acceptance, only: [:create, :destroy]
+    end
+    resources :payments, only: [:new, :create] do
+      get :callback, on: :collection
+      post :skip, on: :collection
+    end
+    resources :redemptions, only: [:new, :create]
+
+    get "confirmation", to: "confirmations#show"
+    get "/", to: "home#index"
   end
 
   namespace :volunteer do
@@ -96,6 +115,7 @@ Rails.application.routes.draw do
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
+    resources :renewal_requests, only: [:index, :update] if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

@@ -1,3 +1,7 @@
+<% content_for :header do %>
+  <%= index_header "Editing Password" %>
+<% end %>
+
 <%= form_with(model: @user, :url => { :action => "update" }, builder: SpectreFormBuilder ) do |f| %>
   <%= f.password_field :current_password, :autocomplete => "off" %>
   <%= f.password_field :password, label: "New password", :autocomplete => "off" %>

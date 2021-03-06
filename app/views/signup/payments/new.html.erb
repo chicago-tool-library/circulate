@@ -22,7 +22,7 @@
 <div class="columns">
   <div class="column col-sm-12 col-4 col-ml-auto pay-online">
 
-    <%= form_with(model: @payment, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
+    <%= form_with(model: @form, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
       <fieldset>
         <legend>Pay Online</legend>
         <p>

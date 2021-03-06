@@ -75,7 +75,7 @@ class UserSignupTest < ApplicationSystemTestCase
     click_on "Login"
 
     refute_selector "a", text: "Member Login"
-    assert_selector "a.dropdown-toggle", text: "Nora"
+    assert_selector "a", text: "Membership"
   end
 
   test "signup and pay through square", :remote do
@@ -121,7 +121,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Redeem Gift Membership"
 
-    fill_in "signup_redemption_code", with: gift_membership.code.value
+    fill_in "gift_membership_redemption_form_code", with: gift_membership.code.value
 
     perform_enqueued_jobs do
       click_on "Redeem"

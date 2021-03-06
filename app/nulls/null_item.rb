@@ -13,6 +13,10 @@ class NullItem
     NullBorrowPolicy.new
   end
 
+  def holds
+    NullAssociationProxy.new
+  end
+
   def id
     "deleted"
   end
@@ -27,6 +31,10 @@ class NullItem
 
   def name
     "Deleted Item"
+  end
+
+  def active?
+    false
   end
 
   def marked_for_destruction?
