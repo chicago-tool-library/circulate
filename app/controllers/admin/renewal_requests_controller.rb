@@ -1,6 +1,7 @@
 module Admin
   class RenewalRequestsController < BaseController
     include Pagy::Backend
+    include Lending
 
     def index
       renewal_requests_scope = RenewalRequest.send(index_filter)
@@ -14,7 +15,7 @@ module Admin
 
       @renewal_request = RenewalRequest.find(params[:id])
       flash_message = if @renewal_request.update(renewal_request_params)
-        @renewal_request.loan.renew! if @renewal_request.approved?
+        renew_loan(@renewal_request.loan) if @renewal_request.approved?
         {success: "Renewal request updated."}
       else
         {error: "Something went wrong!"}

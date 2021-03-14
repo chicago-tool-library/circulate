@@ -3,6 +3,7 @@ require "test_helper"
 module Admin
   class RenewalsControllerTest < ActionDispatch::IntegrationTest
     include Devise::Test::IntegrationHelpers
+    include Lending
 
     setup do
       @user = create(:admin_user)
@@ -34,7 +35,7 @@ module Admin
 
     test "should delete renewal" do
       @loan = create(:loan)
-      @renewal = @loan.renew!
+      @renewal = renew_loan(@loan)
 
       assert_difference("Loan.count", -1) do
         delete admin_renewal_url(@renewal)

@@ -2,6 +2,7 @@ require "test_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
   include Lending
+
   setup do
     ActionMailer::Base.deliveries.clear
   end
@@ -186,7 +187,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       end_of_previous_day = Time.current.beginning_of_day - 1.minute
 
       travel_to end_of_previous_day do
-        loan.return!
+        assert return_loan(loan)
       end
 
       create(:renewal_request, loan: loan, status: :rejected)

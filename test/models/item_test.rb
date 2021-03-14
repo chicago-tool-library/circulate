@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
+  include Lending
+
   test "assigns a number" do
     borrow_policy = create(:borrow_policy)
     item = build(:item, number: nil, borrow_policy: borrow_policy)
@@ -84,7 +86,7 @@ class ItemTest < ActiveSupport::TestCase
   test "can delete an item with a renewed loan" do
     item = create(:item)
     loan = create(:loan, item: item)
-    loan.renew!
+    renew_loan(loan)
 
     assert item.destroy
   end

@@ -1,16 +1,9 @@
 GIT
-  remote: https://github.com/bonekost/audited.git
-  revision: ae2ada47a0a8b815a940a6d79147d8261e034889
+  remote: https://github.com/collectiveidea/audited.git
+  revision: 7fd8334edf682ea994b6f84980ddd19303590071
   specs:
-    audited (4.7.0)
-      activerecord (>= 4.2, < 6.1)
-
-GIT
-  remote: https://github.com/jim/mjml-rails.git
-  revision: dbb18740bf8725701135d1f8b8ec063c21687ae1
-  branch: webpacker
-  specs:
-    mjml-rails (4.3.0)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
 
 PATH
   remote: gems/active_storage_log_suppressor
@@ -202,6 +195,7 @@ GEM
     minitest (5.14.2)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
+    mjml-rails (4.6.1)
     monetize (1.9.4)
       money (~> 6.12)
     money (6.13.8)
@@ -425,7 +419,7 @@ DEPENDENCIES
   listen
   mini_magick
   minitest-ci
-  mjml-rails!
+  mjml-rails
   money-rails
   omniauth-google-oauth2
   omniauth-rails_csrf_protection (~> 0.1)

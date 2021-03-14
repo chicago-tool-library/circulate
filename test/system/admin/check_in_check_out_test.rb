@@ -142,8 +142,6 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
       within "#returned-loans" do
         assert_text @item.name
       end
-
-      assert_content "$-13.00"
     end
   end
 
