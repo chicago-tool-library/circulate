@@ -75,7 +75,7 @@ class UserSignupTest < ApplicationSystemTestCase
     click_on "Login"
 
     refute_selector "a", text: "Member Login"
-    assert_selector "a.dropdown-toggle", text: "Nora"
+    assert_selector "a", text: "Membership"
   end
 
   test "signup and pay through square", :remote do

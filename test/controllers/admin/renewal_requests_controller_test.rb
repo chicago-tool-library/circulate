@@ -16,5 +16,28 @@ module Admin
       get admin_renewal_requests_url
       assert_response :success
     end
+
+    test "should renew a loan on approval" do
+      put admin_renewal_request_path(@renewal_request), params: {
+        renewal_request: {
+          status: :approved
+        }
+      }
+      assert_response :redirect
+
+      assert @renewal_request.reload.approved?
+      refute @renewal_request.loan.checked_out?
+    end
+
+    test "should reject a renewal" do
+      put admin_renewal_request_path(@renewal_request), params: {
+        renewal_request: {
+          status: :rejected
+        }
+      }
+      assert_response :redirect
+
+      assert @renewal_request.reload.rejected?
+    end
   end
 end
