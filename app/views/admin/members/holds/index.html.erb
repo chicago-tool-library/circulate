@@ -7,7 +7,7 @@
             <%= tag.div class: "item-image" do %>
               <% if hold.item.image.attached? %>
                 <%= link_to admin_item_path(hold.item) do %>
-                  <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                  <%= image_tag item_image_url(hold.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
                 <% end %>
               <% else %>
                 <div class="image-placeholder"></div>

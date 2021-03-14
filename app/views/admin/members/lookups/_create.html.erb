@@ -33,7 +33,7 @@
   <div class="column col-4">
     <% if @item.image.attached? %>
       <%= link_to admin_item_path(@item) do %>
-        <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+        <%= image_tag item_image_url(@item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
       <% end %>
     <% else %>
       <div class="image-placeholder"></div>

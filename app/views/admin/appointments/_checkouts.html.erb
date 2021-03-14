@@ -11,7 +11,7 @@
       <div class="column col-sm-6 col-4">
         <%= tag.div class: "item-image" do %>
           <% if pickup_item.item.image.attached? %>
-            <%= image_tag rotated_variant(pickup_item.item.image, resize_to_limit: [160, 112]) %>
+            <%= image_tag item_image_url(pickup_item.item.image, resize_to_limit: [160, 112]) %>
           <% else %>
             <div class="image-placeholder"></div>
           <% end %>

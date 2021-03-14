@@ -19,7 +19,7 @@
             <%= tag.div class: "item-image" do %>
               <% if summary.item.image.attached? %>
                 <%= link_to admin_item_path(summary.item) do %>
-                  <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                  <%= image_tag item_image_url(summary.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
                 <% end %>
               <% else %>
                 <div class="image-placeholder"></div>
@@ -65,7 +65,7 @@
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
                   <%= link_to admin_item_path(summary.item) do %>
-                    <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                    <%= image_tag item_image_url(summary.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
                   <% end %>
                 <% else %>
                   <div class="image-placeholder"></div>

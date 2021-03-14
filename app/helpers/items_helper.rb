@@ -53,8 +53,8 @@ module ItemsHelper
     image.variant(options) if image.variable?
   end
 
-  def item_image_url(item, options = {})
-    if ENV["IMAGEKIT_URL"]
+  def item_image_url(image, options = {})
+    if ENV["IMAGEKIT_URL"].present?
       transforms = if options[:resize_to_limit]
         width, height = options[:resize_to_limit]
         "tr=w-#{width},h-#{height},fo-auto"
@@ -62,14 +62,14 @@ module ItemsHelper
         ""
       end
 
-      if item.image.metadata.key? "rotation"
-        transforms << ",rt-#{item.image.metadata["rotation"]}"
+      if image.metadata.key? "rotation"
+        transforms << ",rt-#{image.metadata["rotation"]}"
       end
 
-      ENV["IMAGEKIT_URL"] + item.image.blob.key + "?" + transforms
+      ENV["IMAGEKIT_URL"] + image.blob.key + "?" + transforms
     else
       # fallback when there isn't an image proxy in place
-      rotated_variant(image, options)
+      url_for(rotated_variant(image, options))
     end
   end
 
