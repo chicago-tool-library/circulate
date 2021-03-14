@@ -330,10 +330,8 @@ GEM
     semantic_range (2.3.0)
     sentry-raven (2.13.0)
       faraday (>= 0.7.6, < 1.0)
-    skylight (4.3.1)
-      skylight-core (= 4.3.1)
-    skylight-core (4.3.1)
-      activesupport (>= 4.2.0)
+    skylight (5.0.1)
+      activesupport (>= 5.2.0)
     solargraph (0.39.15)
       backport (~> 1.1)
       benchmark
