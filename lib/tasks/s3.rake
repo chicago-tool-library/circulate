@@ -1,5 +1,5 @@
 task :s3_import do
-  storage_folder = Rails.root.join('storage')
+  storage_folder = Rails.root.join("storage")
   storage_folder.mkpath
 
   # Ignores sub_folders already created and .keep files

@@ -15,7 +15,7 @@ namespace :devdata do
 
   def dump_models(klass, models, skip: [], append: [])
     model_attributes = models.map { |model|
-      attrs = model.attributes.delete_if { |k, v| v.blank? || skip.include?(k)}
+      attrs = model.attributes.delete_if { |k, v| v.blank? || skip.include?(k) }
       attrs["created_at"] = attrs["created_at"].to_s
       attrs["updated_at"] = attrs["updated_at"].to_s
       append.each do |attr|
@@ -67,7 +67,8 @@ namespace :devdata do
       full_name: "Member Number #{id}",
       preferred_name: "Member ##{id}",
       address1: "#{id} W. Chicago Ave",
-      postal_code: "60609")
+      postal_code: "60609"
+    )
 
     holds.times do
       item = random_model(Item.active.available)
