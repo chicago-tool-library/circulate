@@ -3,6 +3,7 @@
 <% end %>
 
 <% @monthly_adjustments.group_by(&:year).each do |year, adjustments| %>
+  <h2><%= year -%></h2>
   <table class="table monthly-adjustments mb-2">
     <thead>
       <tr>
@@ -45,4 +46,5 @@
       </tr>
     </tfoot>
   </table>
+  <br><br>
 <% end %>
