@@ -101,8 +101,7 @@ jobs:
           command: gem install bundler:2.1.4
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: bundle exec rake db:test:prepare
       - run:
           name: run tests
           command: |
@@ -141,8 +140,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: bundle exec rake db:test:prepare
       - run:
           name: run system tests
           command: |

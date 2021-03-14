@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0.0"
+gem "rails", "~> 6.1.0"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
@@ -27,7 +27,7 @@ gem "jbuilder", "~> 2.5"
 
 gem "devise"
 gem "pundit"
-gem "audited", github: "bonekost/audited"
+gem "audited", github: "collectiveidea/audited"
 gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
