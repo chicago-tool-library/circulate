@@ -81,4 +81,110 @@ class HoldTest < ActiveSupport::TestCase
     hold.start!
     assert hold.started_at
   end
+
+  test "#ready_for_pickup? is true by default" do
+    hold = create(:hold)
+
+    assert hold.ready_for_pickup?
+  end
+
+  test "#ready_for_pickup? is false when an item is checked out" do
+    hold = create(:hold)
+    create(:loan, item: hold.item)
+
+    hold.reload
+    refute hold.ready_for_pickup?
+  end
+
+  test "#ready_for_pickup? is false when there is an earlier hold" do
+    hold = create(:hold)
+    second_hold = create(:hold, item: hold.item)
+
+    refute second_hold.ready_for_pickup?
+  end
+
+  test "#ready_for_pickup? is true for uncounted items despite active loans" do
+    item = create(:uncounted_item)
+
+    hold = create(:hold, item: item)
+    create(:loan, item: item)
+
+    hold.reload
+    refute hold.ready_for_pickup?
+  end
+
+  test "start_waiting_holds starts a hold" do
+    create(:hold)
+
+    started = assert_difference("Hold.started.count") {
+      Hold.start_waiting_holds
+    }
+    assert_equal 1, started
+  end
+
+  test "start_waiting_holds starts multiple holds" do
+    3.times do
+      create(:hold)
+    end
+
+    started = assert_difference("Hold.started.count", 3) {
+      Hold.start_waiting_holds
+    }
+    assert_equal 3, started
+  end
+
+  test "start_waiting_holds starts only the next hold for an item" do
+    hammer = create(:item)
+    create(:hold, item: hammer)
+    create(:hold, item: hammer)
+
+    started = assert_difference("Hold.started.count") {
+      Hold.start_waiting_holds
+    }
+    assert_equal 1, started
+  end
+
+  test "does not start a hold when an item isn't available" do
+    hammer = create(:item)
+    create(:loan, item: hammer)
+    create(:hold, item: hammer)
+
+    started = assert_no_difference("Hold.started.count") {
+      Hold.start_waiting_holds
+    }
+    assert_equal 0, started
+  end
+
+  test "does not start an already started hold" do
+    hold = create(:started_hold)
+
+    # pass in a time in the future to more easily detect if started_at
+    # was modified
+    started = Hold.start_waiting_holds(now: 1.hour.since)
+    assert_equal 0, started
+
+    assert_in_delta hold.started_at, hold.reload.started_at, 1.second
+  end
+
+  test "does not start an ended hold" do
+    hold = create(:ended_hold)
+    hold.start!
+
+    started = assert_no_difference("Hold.started.count") {
+      Hold.start_waiting_holds
+    }
+    assert_equal 0, started
+  end
+
+  test "starts all of the holds for an uncounted item" do
+    item = create(:uncounted_item)
+    3.times do
+      create(:hold, item: item)
+    end
+
+    started = assert_difference("Hold.started.count", 3) {
+      Hold.start_waiting_holds
+    }
+    assert_equal 3, started
+  end
 end

@@ -70,10 +70,38 @@ class Hold < ApplicationRecord
   end
 
   def ready_for_pickup?
-    previous_active_holds.empty? && item.available?
+    if item.borrow_policy.uniquely_numbered?
+      previous_active_holds.empty? && item.available?
+    else
+      item.available?
+    end
   end
 
   def upcoming_appointment
     member.upcoming_appointment_of(self)
+  end
+
+  def self.start_waiting_holds(now: Time.current)
+    started = 0
+
+    active.includes(item: :borrow_policy).find_each do |hold|
+      if hold.started?
+        Rails.logger.debug "[hold #{hold.id}]: already started"
+        next
+      end
+
+      unless hold.ready_for_pickup?
+        Rails.logger.debug "[hold #{hold.id}]: not ready for pickup"
+        next
+      end
+
+      Rails.logger.debug "[hold #{hold.id}]: ready to start"
+      hold.start!(now)
+      started += 1
+    end
+
+    Rails.logger.debug "Audit active holds: started #{started}."
+
+    started
   end
 end
