@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_165140) do
+ActiveRecord::Schema.define(version: 2021_03_14_163055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -510,15 +510,20 @@ ActiveRecord::Schema.define(version: 2021_02_16_165140) do
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
       (date_part('month'::text, adjustments.created_at))::integer AS month,
-      count(*) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_count,
-      count(*) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_count,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'fine'::adjustment_kind)) AS fine_total_cents,
-      sum((- adjustments.amount_cents)) FILTER (WHERE (adjustments.kind = 'membership'::adjustment_kind)) AS membership_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)) AS payment_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))) AS square_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))) AS cash_total_cents,
-      sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'forgiveness'::adjustment_source))) AS forgiveness_total_cents
-     FROM adjustments
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_total_cents,
+      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)), (0)::bigint) AS payment_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))), (0)::bigint) AS square_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))), (0)::bigint) AS cash_total_cents
+     FROM (adjustments
+       LEFT JOIN ( SELECT members.id AS member_id,
+              min(memberships.id) AS first_membership_id
+             FROM (members
+               LEFT JOIN memberships ON ((members.id = memberships.member_id)))
+            GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
+    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
+    ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
   SQL
 end
