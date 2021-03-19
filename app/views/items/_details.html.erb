@@ -1,4 +1,7 @@
 <div class="stats">
+
+  <p><strong>Status:</strong> <%= item_status_label(item) %></p>
+
   <p><strong>Number:</strong> <%= item.complete_number %></p>
 
   <% unless item.size.blank? %>

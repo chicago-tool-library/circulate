@@ -86,11 +86,11 @@ module ItemsHelper
     item.complete_number
   end
 
-  def item_status_label(item)
-    class_name, label = if item.active?
+  def css_class_and_status_label(item)
+    if item.active?
       if item.checked_out_exclusive_loan
         ["label-warning", "Checked Out"]
-      elsif item.holds.active.count > 0
+      elsif item.borrow_policy.uniquely_numbered? && item.holds.active.count > 0
         ["label-warning", "On Hold"]
       else
         ["label-success", "Available"]
@@ -98,6 +98,10 @@ module ItemsHelper
     else
       ["", "Unavailable"]
     end
+  end
+
+  def item_status_label(item)
+    class_name, label = css_class_and_status_label(item)
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
 
