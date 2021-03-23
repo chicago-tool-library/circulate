@@ -1,0 +1,15 @@
+<% content_for :header do %>
+  <%= index_header "Edit an Appointment" %>
+<% end %>
+
+<div class="new-appointment">
+  <%= render partial: "form", 
+    locals: { 
+        holds: @holds, 
+        loans: @loans, 
+        can_schedule_appointment: @holds.any? || @loans.any?,
+        url: account_appointment_path(@appointment),
+        method: :put
+    } 
+  %>
+</div>
