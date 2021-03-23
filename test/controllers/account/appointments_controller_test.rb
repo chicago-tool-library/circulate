@@ -13,7 +13,6 @@ module Account
       @appointment.member = @member
       @appointment.starts_at = "2020-10-05 7:00AM"
       @appointment.ends_at = "2020-10-05 8:00AM"
-      @appointment.time_range_string = @appointment.starts_at.to_s + ".." + @appointment.ends_at.to_s
       @appointment.save
 
       sign_in @user
@@ -43,11 +42,13 @@ module Account
     end
 
     test "should not update appointment with invalid params" do
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [], time_range_string: @appointment.time_range_string, comment: "new comment"}}
 
-      assert_equal 1, @appointment.holds.count
       assert_template :edit
       assert_select "ul.error", /Please select an item to pick-up or return for your appointment/
+
+      @appointment.reload
+      assert_equal 1, @appointment.holds.count
     end
   end
 end
