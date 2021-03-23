@@ -9,4 +9,14 @@ class HoldTest < ActiveSupport::TestCase
       hold.upcoming_appointment
     end
   end
+
+  test "is ready for pickup if item is uncounted" do
+    item = create(:uncounted_item)
+
+    hold = create(:hold, item: item)
+    assert hold.ready_for_pickup?
+
+    second_hold = create(:hold, item: item)
+    assert second_hold.ready_for_pickup?
+  end
 end

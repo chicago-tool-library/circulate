@@ -24,7 +24,7 @@
         <h2 class="title_bold">
           <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %>
           <br />
-          <small class="gray-dark"><%= "#{appointment.starts_at.strftime("%I:%M%P")} - #{appointment.ends_at.strftime("%I:%M%P")}" %></small>
+          <small class="gray-dark"><%= appointment_time(appointment) %></small>
         </h2>
       </div>
 
