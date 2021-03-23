@@ -8,8 +8,6 @@ module Account
       @appointment = Appointment.new
       @holds = Hold.active.includes(member: {appointments: :holds}).where(member: current_user.member)
       @loans = current_user.member.loans.includes(:item, member: {appointments: :loans}).checked_out
-      @url = account_appointments_path
-      @method = :post
       load_appointment_slots
     end
 
@@ -22,9 +20,6 @@ module Account
       else
         @holds = Hold.active.where(member: member)
         @loans = member.loans.includes(:item).checked_out
-        @url = account_appointments_path
-        @method = :post
-
         load_appointment_slots
         render :new, alert: @appointment.errors.full_messages
       end
@@ -35,8 +30,6 @@ module Account
       @holds = Hold.active.includes(member: {appointments: :holds}).where(member: current_user.member)
       @loans = current_user.member.loans.includes(:item, member: {appointments: :loans}).checked_out
       @comment = @appointment.comment
-      @url = account_appointment_path(@appointment)
-      @method = :put
       @appointment.time_range_string = @appointment.starts_at.to_s + ".." + @appointment.ends_at.to_s
       load_appointment_slots
     end
@@ -50,8 +43,6 @@ module Account
       else
         @holds = Hold.active.where(member: member)
         @loans = member.loans.includes(:item).checked_out
-        @url = account_appointment_path(@appointment)
-        @method = :put
         load_appointment_slots
         render :edit, alert: @appointment.errors.full_messages
       end
@@ -87,19 +78,6 @@ module Account
         starts_at: starts_at,
         ends_at: ends_at
       }
-    end
-
-    def update_appointment(appointment, url, method)
-      if appointment.update(appointment_fields)
-        redirect_to account_appointments_path, notice: "Appointment was successfully saved."
-      else
-        @holds = Hold.active.where(member: current_user.member)
-        @loans = current_user.member.loans.includes(:item).checked_out
-        @url = url
-        @method = method
-        load_appointment_slots
-        render :new, alert: appointment.errors.full_messages
-      end
     end
 
     def load_appointment_slots

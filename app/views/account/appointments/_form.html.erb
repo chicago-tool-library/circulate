@@ -13,7 +13,7 @@
   </div>
 <% end %>
 
-<%= form_for :appointment, url: @url, method: @method do |form| %>
+<%= form_for :appointment, url: url, method: method do |form| %>
   <% if loans.any? %>
     <h2 class="title_bold">Select Items to Return</h2>
 
@@ -85,7 +85,7 @@
   <div class="form-group" data-controller="appointment-date">
     <label class="form-label" for="time_range_string">Select a time to pick-up/return your items</label>
     <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: 'Select a Date' },
-      class: "form-select", data: { action: "change->appointment-date#sync", target: "appointment-date.select" }, disabled: !can_schedule_appointment) %>
+      class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }, disabled: !can_schedule_appointment) %>
       <span data-target="appointment-date.display"></span>
   </div>
 
@@ -95,7 +95,7 @@
   </div>
 
   <div>
-    <%= form.submit "Create Appointment", class: "btn btn-primary", disabled: !can_schedule_appointment %>
+    <%= form.submit "Submit", class: "btn btn-primary", disabled: !can_schedule_appointment %>
   </div>
 
 <% end %>

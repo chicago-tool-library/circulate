@@ -3,5 +3,13 @@
 <% end %>
 
 <div class="new-appointment">
-  <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
+  <%= render partial: "form", 
+    locals: { 
+        holds: @holds, 
+        loans: @loans, 
+        can_schedule_appointment: @holds.any? || @loans.any?,
+        url: account_appointments_path,
+        method: :post
+    } 
+  %>
 </div>
