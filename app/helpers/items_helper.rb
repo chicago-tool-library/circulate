@@ -53,23 +53,32 @@ module ItemsHelper
     image.variant(options) if image.variable?
   end
 
-  def item_image_url(item, options = {})
-    if ENV["IMAGEKIT_URL"]
+  def item_image_url(image, options = {})
+    if ENV["IMAGEKIT_URL"].present?
       transforms = if options[:resize_to_limit]
         width, height = options[:resize_to_limit]
-        "tr=w-#{width},h-#{height},fo-auto"
+        ["tr=w-#{width}", "h-#{height}", "c-at_max"]
       else
-        ""
+        []
       end
 
-      if item.image.metadata.key? "rotation"
-        transforms << ",rt-#{item.image.metadata["rotation"]}"
+      if image.metadata.key? "rotation"
+        transforms << "rt-#{image.metadata["rotation"]}"
       end
 
-      ENV["IMAGEKIT_URL"] + item.image.blob.key + "?" + transforms
+      parts = [
+        ENV["IMAGEKIT_URL"],
+        image.blob.key
+      ]
+      unless transforms.empty?
+        parts << "?"
+        parts << transforms.join(",")
+      end
+
+      parts.join
     else
       # fallback when there isn't an image proxy in place
-      rotated_variant(image, options)
+      url_for(rotated_variant(image, options))
     end
   end
 
@@ -77,11 +86,11 @@ module ItemsHelper
     item.complete_number
   end
 
-  def item_status_label(item)
-    class_name, label = if item.active?
+  def css_class_and_status_label(item)
+    if item.active?
       if item.checked_out_exclusive_loan
         ["label-warning", "Checked Out"]
-      elsif item.holds.active.count > 0
+      elsif item.borrow_policy.uniquely_numbered? && item.active_holds.size > 0
         ["label-warning", "On Hold"]
       else
         ["label-success", "Available"]
@@ -89,6 +98,10 @@ module ItemsHelper
     else
       ["", "Unavailable"]
     end
+  end
+
+  def item_status_label(item)
+    class_name, label = css_class_and_status_label(item)
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
 

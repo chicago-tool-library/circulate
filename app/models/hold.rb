@@ -70,11 +70,14 @@ class Hold < ApplicationRecord
   end
 
   def ready_for_pickup?
-    if item.borrow_policy.uniquely_numbered?
-      previous_active_holds.empty? && item.available?
-    else
-      item.available?
+    # Holds for uncounted items are always ready to be picked up
+    unless item.borrow_policy.uniquely_numbered?
+      return true
     end
+
+    # For uniquely numbered items there need to be no earlier holds
+    # and the item needs to be in the library
+    previous_active_holds.empty? && item.available?
   end
 
   def upcoming_appointment

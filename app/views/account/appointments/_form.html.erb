@@ -5,6 +5,14 @@
     <% end %>
   </ul>
 <% end %>
+
+<% if !can_schedule_appointment %>
+  <div class="toast toast-warning">
+    <p>You can only schedule an appointment if you have a tool on hold or that can be returned.</p>
+    <%= link_to "View Inventory", items_path, class: "btn btn-lg btn-default" %>
+  </div>
+<% end %>
+
 <%= form_for :appointment, url: account_appointments_path do |form| %>
   <% if loans.any? %>
     <h2 class="title_bold">Select Items to Return</h2>
@@ -28,7 +36,7 @@
             <td>
               <%= link_to item_path(loan.item) do %>
                 <% if loan.item.image.attached? %>
-                  <%= image_tag url_for(rotated_variant(loan.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+                  <%= image_tag item_image_url(loan.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
                 <% end %>
               <% end %>
             </td>
@@ -62,7 +70,7 @@
           <td>
             <%= link_to item_path(hold.item) do %>
               <% if hold.item.image.attached? %>
-                <%= image_tag url_for(rotated_variant(hold.item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+                <%= image_tag item_image_url(hold.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
               <% end %>
             <% end %>
           </td>
@@ -77,17 +85,17 @@
   <div class="form-group" data-controller="appointment-date">
     <label class="form-label" for="time_range_string">Select a time to pick-up/return your items</label>
     <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: 'Select a Date'},
-      class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }) %>
+      class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }, disabled: !can_schedule_appointment) %>
       <span data-target="appointment-date.display"></span>
   </div>
 
   <div class="form-group mb-2">
     <label class="form-label" for="appointment_comment">Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.</label>
-    <%= form.text_area :comment, class: "form-input" %>
+    <%= form.text_area :comment, class: "form-input", disabled: !can_schedule_appointment %>
   </div>
 
   <div>
-    <%= form.submit "Create Appointment", class: "btn btn-primary" %>
+    <%= form.submit "Create Appointment", class: "btn btn-primary", disabled: !can_schedule_appointment %>
   </div>
 
 <% end %>
