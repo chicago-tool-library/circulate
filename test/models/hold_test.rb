@@ -110,7 +110,7 @@ class HoldTest < ActiveSupport::TestCase
     create(:loan, item: item)
 
     hold.reload
-    refute hold.ready_for_pickup?
+    assert hold.ready_for_pickup?
   end
 
   test "start_waiting_holds starts a hold" do
