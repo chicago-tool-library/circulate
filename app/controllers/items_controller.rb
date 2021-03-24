@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
       item_scope = @category.items.listed_publicly
     end
 
-    item_scope = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
+    item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
 
     @categories = CategoryNode.all
     @pagy, @items = pagy(item_scope)
