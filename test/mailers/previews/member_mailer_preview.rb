@@ -61,6 +61,6 @@ class MemberMailerPreview < ActionMailer::Preview
 
     renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", Time.current.beginning_of_day.utc).includes(loan: [:item, :member]).limit(5)
 
-    MemberMailer.with(member: Member.joins(:user).where(users: {role: [:staff, :admin]}).first, renewal_requests: renewal_requests).staff_daily_renewal_requests
+    MemberMailer.with(member: Member.joins(:user).where(users: {role: :admin}).first, renewal_requests: renewal_requests).staff_daily_renewal_requests
   end
 end
