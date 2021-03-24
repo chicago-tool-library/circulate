@@ -15,12 +15,9 @@
 
   <% @appointments.each_with_index do |appointment, index| %>
     <section class="appointment">
-      <div class="float-right d-flex">        
+      <div class="d-flex float-right">        
         <%= button_to "Edit", edit_account_appointment_path(appointment), class: "btn", method: :get, data: { disabled_with: "Editing appointment..." } %>
-      </div>
-      <div class="float-right d-flex">        
         <%= button_to "Cancel", account_appointment_path(appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
-        
       </div>
       <div class="appointment-date">
         <h2 class="title_bold"><%= index + 1 %>.</h2>

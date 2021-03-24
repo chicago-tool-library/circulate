@@ -13,7 +13,7 @@
   </div>
 <% end %>
 
-<%= form_for :appointment, url: url, method: method do |form| %>
+<%= form_with(model: [:account, @appointment]) do |form| %>
   <% if loans.any? %>
     <h2 class="title_bold">Select Items to Return</h2>
 
@@ -32,7 +32,7 @@
       <tbody>
         <% loans.each do |loan| %>
           <tr>
-            <td><%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan))) if loan.upcoming_appointment.nil? %></td>
+            <td><%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan))) if loan.upcoming_appointment.nil? || (loan.upcoming_appointment == @appointment) %></td>
             <td>
               <%= link_to item_path(loan.item) do %>
                 <% if loan.item.image.attached? %>
@@ -95,7 +95,7 @@
   </div>
 
   <div>
-    <%= form.submit "Submit", class: "btn btn-primary", disabled: !can_schedule_appointment %>
+    <%= form.submit "#{ @appointment.new_record? ? "Create" : "Edit" } Appointment", class: "btn btn-primary", disabled: !can_schedule_appointment %>
   </div>
 
 <% end %>

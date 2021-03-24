@@ -42,7 +42,7 @@ module Account
     end
 
     test "should not update appointment with invalid params" do
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [], time_range_string: @appointment.time_range_string, comment: "new comment"}}
+      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
 
       assert_template :edit
       assert_select "ul.error", /Please select an item to pick-up or return for your appointment/

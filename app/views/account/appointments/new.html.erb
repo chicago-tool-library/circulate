@@ -7,9 +7,7 @@
     locals: { 
         holds: @holds, 
         loans: @loans, 
-        can_schedule_appointment: @holds.any? || @loans.any?,
-        url: account_appointments_path,
-        method: :post
+        can_schedule_appointment: @holds.any? || @loans.any?
     } 
   %>
 </div>
