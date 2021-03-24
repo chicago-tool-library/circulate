@@ -153,7 +153,7 @@ GEM
       faraday (>= 0.8)
     faraday_middleware (0.14.0)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.14.2)
+    ffi (1.15.0)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -185,7 +185,7 @@ GEM
     lefthook (0.7.2)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    listen (3.4.1)
+    listen (3.5.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     little-plugger (1.1.4)
