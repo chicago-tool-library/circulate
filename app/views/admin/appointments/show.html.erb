@@ -16,6 +16,7 @@
           <h6>Appointment Date</h6>
           <h6><%= l current_appointment.starts_at, format: :date %></h6>
           <h6><%= l current_appointment.starts_at, format: :hour %>&nbsp;&ndash;<%= l current_appointment.ends_at, format: :hour %></h6>
+          <%= link_to "Edit date and time", edit_admin_appointment_path(current_appointment), class: "btn btn-sm mt-2" %>
         </div>
         <div class="column col-3">
           <%= button_to "Cancel", admin_appointment_path(current_appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>

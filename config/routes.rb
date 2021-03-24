@@ -60,7 +60,7 @@ Rails.application.routes.draw do
     resources :shifts, only: :index
     resources :categories, except: :show
     resources :gift_memberships
-    resources :appointments, only: [:index, :show, :destroy] do
+    resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
       resources :loans, only: [:create, :destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
