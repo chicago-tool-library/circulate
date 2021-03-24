@@ -24,4 +24,32 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     get item_url(@item)
     assert_response :success
   end
+
+  [:retired, :pending].each do |status|
+    test "doesn't display the show page for a #{status} item" do
+      hidden_item = create(:item, status: status)
+
+      assert_raises ActiveRecord::RecordNotFound do
+        get item_url(hidden_item)
+      end
+    end
+
+    test "hides #{status} items from the item index" do
+      hidden_item = create(:item, status: status)
+
+      get items_url
+
+      assert_match @item.complete_number, @response.body
+      refute_match hidden_item.complete_number, @response.body
+    end
+
+    test "hides #{status} items from the item index for a category" do
+      category = create(:category)
+      hidden_item = create(:item, status: status, categories: [category])
+
+      get items_url(category: category)
+
+      refute_match hidden_item.complete_number, @response.body
+    end
+  end
 end
