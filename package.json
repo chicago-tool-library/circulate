@@ -12,7 +12,7 @@
     "jquery": "^3.5.0",
     "mjml": "^4.6.3",
     "selectize": "^0.12.6",
-    "smooth-scroll-into-view-if-needed": "^1.1.27",
+    "smooth-scroll-into-view-if-needed": "^1.1.32",
     "spectre.css": "^0.5.8",
     "stimulus": "^1.1.1",
     "trix": "^1.0.0",
@@ -21,6 +21,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "markdown-toc": "^1.2.0",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.11.2"
   }
 }
