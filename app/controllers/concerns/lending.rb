@@ -2,10 +2,11 @@ module Lending
   private
 
   def return_loan(loan, now: Time.current)
-    loan.transaction do
-      return false unless loan.update(ended_at: now)
+    success = false
+    policy = loan.item.borrow_policy
 
-      policy = loan.item.borrow_policy
+    loan.transaction do
+      next unless loan.update(ended_at: now)
 
       amount = FineCalculator.new.amount(fine: policy.fine, period: policy.fine_period, due_at: loan.due_at, returned_at: loan.ended_at)
       if amount > 0
@@ -16,9 +17,10 @@ module Lending
         hold.start!
         MemberMailer.with(member: hold.member, hold: hold).hold_available.deliver_later
       end
-      return loan
+      success = true
     end
-    false
+
+    success ? loan : false
   end
 
   def restore_loan(loan)
@@ -26,26 +28,33 @@ module Lending
   end
 
   def renew_loan(loan, now: Time.current)
-    loan.transaction do
-      return false unless return_loan(loan, now: now)
+    success = false
+    period_start_date = [loan.due_at, now.end_of_day].max
+    new_loan = Loan.new(
+      member_id: loan.member_id,
+      item_id: loan.item_id,
+      initial_loan_id: loan.initial_loan_id || loan.id,
+      renewal_count: loan.renewal_count + 1,
+      due_at: Loan.next_open_day(period_start_date + loan.item.borrow_policy.duration.days),
+      uniquely_numbered: loan.uniquely_numbered,
+      created_at: now
+    )
 
-      period_start_date = [loan.due_at, now.end_of_day].max
-      return Loan.create!(
-        member_id: loan.member_id,
-        item_id: loan.item_id,
-        initial_loan_id: loan.initial_loan_id || loan.id,
-        renewal_count: loan.renewal_count + 1,
-        due_at: Loan.next_open_day(period_start_date + loan.item.borrow_policy.duration.days),
-        uniquely_numbered: loan.uniquely_numbered,
-        created_at: now
-      )
+    loan.transaction do
+      next unless return_loan(loan, now: now)
+      new_loan.save!
+      success = true
     end
-    false
+
+    success ? new_loan : false
   end
 
   def undo_loan_renewal(loan)
+    success = false
+    target = nil
+
     loan.transaction do
-      return false unless loan.destroy
+      next unless loan.destroy
 
       target = if loan.renewal_count > 1
         loan.initial_loan.renewals.order(created_at: :desc).where.not(id: loan.id).first
@@ -53,8 +62,9 @@ module Lending
         loan.initial_loan
       end
       target.update!(ended_at: nil)
-      return target
+      success = true
     end
-    false
+
+    success ? target : false
   end
 end
