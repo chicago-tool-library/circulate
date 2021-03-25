@@ -5,10 +5,10 @@ module Account
     end
 
     def new
+      @member = current_user.member
       @appointment = Appointment.new
-      @holds = Hold.active.includes(member: {appointments: :holds}).where(member: current_user.member)
-      @loans = current_user.member.loans.includes(:item, member: {appointments: :loans}).checked_out
 
+      load_holds_and_loans
       load_appointment_slots
     end
 
@@ -19,19 +19,17 @@ module Account
       if update_appointment
         redirect_to account_appointments_path, notice: "Appointment was successfully created."
       else
-        @holds = Hold.active.where(member: @member)
-        @loans = @member.loans.includes(:item).checked_out
-
+        load_holds_and_loans
         load_appointment_slots
         render :new, alert: @appointment.errors.full_messages
       end
     end
 
     def edit
-      @appointment = current_user.member.appointments.find(params[:id])
-      @holds = Hold.active.includes(member: {appointments: :holds}).where(member: current_user.member)
-      @loans = current_user.member.loans.includes(:item, member: {appointments: :loans}).checked_out
+      @member = current_user.member
+      @appointment = @member.appointments.find(params[:id])
 
+      load_holds_and_loans
       load_appointment_slots
     end
 
@@ -42,9 +40,7 @@ module Account
       if update_appointment
         redirect_to account_appointments_path, notice: "Appointment was successfully updated."
       else
-        @holds = Hold.active.where(member: @member)
-        @loans = @member.loans.includes(:item).checked_out
-
+        load_holds_and_loans
         load_appointment_slots
         render :edit, alert: @appointment.errors.full_messages
       end
@@ -79,6 +75,11 @@ module Account
       }
 
       @appointment.update(params)
+    end
+
+    def load_holds_and_loans
+      @holds = Hold.active.includes(member: {appointments: :holds}).where(member: @member)
+      @loans = @member.loans.includes(:item, member: {appointments: :loans}).checked_out
     end
 
     def load_appointment_slots
