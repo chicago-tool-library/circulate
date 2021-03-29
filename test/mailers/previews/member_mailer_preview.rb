@@ -51,4 +51,16 @@ class MemberMailerPreview < ActionMailer::Preview
   def membership_renewal_reminder
     MemberMailer.with(member: Member.first).membership_renewal_reminder
   end
+
+  def staff_daily_renewal_requests
+    tomorrow = Time.current.end_of_day + 1.day
+    3.times do
+      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+      RenewalRequest.create!(loan: loan)
+    end
+
+    renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", Time.current.beginning_of_day.utc).includes(loan: [:item, :member]).limit(5)
+
+    MemberMailer.with(member: Member.joins(:user).where(users: {role: :admin}).first, renewal_requests: renewal_requests).staff_daily_renewal_requests
+  end
 end

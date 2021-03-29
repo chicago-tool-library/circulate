@@ -90,7 +90,7 @@ module ItemsHelper
     if item.active?
       if item.checked_out_exclusive_loan
         ["label-warning", "Checked Out"]
-      elsif item.borrow_policy.uniquely_numbered? && item.holds.active.count > 0
+      elsif item.borrow_policy.uniquely_numbered? && item.active_holds.size > 0
         ["label-warning", "On Hold"]
       else
         ["label-success", "Available"]
