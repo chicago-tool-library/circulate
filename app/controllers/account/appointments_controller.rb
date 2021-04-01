@@ -58,20 +58,12 @@ module Account
     end
 
     def update_appointment
-      if appointment_params[:time_range_string].present?
-        time_range_string = appointment_params[:time_range_string]
-        appointment_times = time_range_string.split("..")
-        starts_at = DateTime.parse appointment_times[0]
-        ends_at = DateTime.parse appointment_times[1]
-      end
-
       params = {
         member: @member,
         holds: Hold.where(id: appointment_params[:hold_ids], member: @member),
         loans: Loan.where(id: appointment_params[:loan_ids], member: @member),
         comment: appointment_params[:comment],
-        starts_at: starts_at,
-        ends_at: ends_at
+        time_range_string: appointment_params[:time_range_string]
       }
 
       @appointment.update(params)

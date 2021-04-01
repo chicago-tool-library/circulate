@@ -1,5 +1,7 @@
 module Admin
   class AppointmentsController < BaseController
+    before_action :load_appointment, except: :index
+
     def index
       @current_day = Date.parse(params[:day] ||= Time.current.to_date.to_s)
       @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day).chronologically
@@ -13,7 +15,7 @@ module Admin
     end
 
     def update
-      if current_appointment.update(appointment_params)
+      if @appointment.update(appointment_params)
         redirect_to admin_appointments_path, flash: {success: "Appointment updated."}
       else
         load_appointment_slots
@@ -22,11 +24,15 @@ module Admin
     end
 
     def destroy
-      current_appointment.destroy
+      @appointment.destroy
       redirect_to admin_appointments_path, flash: {success: "Appointment cancelled."}
     end
 
     private
+
+    def load_appointment
+      @appointment = Appointment.find(params[:id])
+    end
 
     helper_method def previous_day
       @current_day - 1.day
@@ -46,24 +52,20 @@ module Admin
       end
     end
 
-    helper_method def current_appointment
-      Appointment.find(params[:id])
-    end
-
     helper_method def items_available_to_add_to_pickup
       Item.available.eager_load(:borrow_policy)
     end
 
     helper_method def items_available_to_add_to_dropoff
-      (current_appointment.member.loans.checked_out - appointment_return_items).map(&:item)
+      (@appointment.member.loans.checked_out - appointment_return_items).map(&:item)
     end
 
     helper_method def appointment_pickup_items
-      current_appointment.holds
+      @appointment.holds
     end
 
     helper_method def appointment_return_items
-      current_appointment.loans
+      @appointment.loans
     end
 
     helper_method def checkout_items_quantity_for_appointment
@@ -74,22 +76,14 @@ module Admin
       appointment_return_items.length
     end
 
-    helper_method def appointment_time_range_string
-      "#{current_appointment.starts_at}..#{current_appointment.ends_at}"
-    end
-
     def appointment_params
-      update_params = params.require(:appointment).permit(:time_range_string)
-      appointment_times = update_params[:time_range_string].split("..")
-      update_params[:starts_at] = DateTime.parse appointment_times[0]
-      update_params[:ends_at] = DateTime.parse appointment_times[1]
-      update_params
+      params.require(:appointment).permit(:time_range_string)
     end
 
     def load_appointment_slots
       events = Event.appointment_slots.upcoming
       @appointment_slots = events.group_by { |event| event.start.to_date }.map { |date, events|
-        times = events.map { |event| [event.times, event.start..event.finish] }
+        times = events.map { |event| [helpers.format_appointment_times(event.start, event.finish), event.start..event.finish] }
         [date.strftime("%A, %B %-d, %Y"), times]
       }
     end
