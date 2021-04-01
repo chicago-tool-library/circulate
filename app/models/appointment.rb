@@ -14,6 +14,16 @@ class Appointment < ApplicationRecord
     starts_at.to_s + ".." + ends_at.to_s
   end
 
+  def time_range_string=(string)
+    if string.present?
+      times = string.split("..")
+      self.starts_at = DateTime.parse times[0]
+      self.ends_at = DateTime.parse times[1]
+    end
+  rescue Date::Error
+    # ignore parsing error
+  end
+
   private
 
   def item_present

@@ -35,6 +35,13 @@ class ActivityNotifier
     end
   end
 
+  def send_staff_daily_renewal_requests
+    daily_renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", @now.beginning_of_day.utc).includes(loan: [:item, :member])
+    Member.joins(:user).where(users: {role: :admin}).each do |staff|
+      MemberMailer.with(member: staff, renewal_requests: daily_renewal_requests).staff_daily_renewal_requests.deliver
+    end
+  end
+
   private
 
   def each_member(ids, &block)

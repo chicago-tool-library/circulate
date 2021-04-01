@@ -35,4 +35,9 @@ namespace :email do
       MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
     end
   end
+
+  desc "Send staff renewal request summary emails"
+  task :send_staff_daily_renewal_requests, [:date] => :environment do |task, args|
+    send_emails :send_staff_daily_renewal_requests, args[:date]
+  end
 end

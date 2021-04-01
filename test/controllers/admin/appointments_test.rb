@@ -26,5 +26,17 @@ module Admin
       assert_select "a[href=?]", admin_item_path(@hold.item)
       assert_select "a[href=?]", admin_member_path(@appointment.member)
     end
+
+    test "allows admins to modify appointment time range" do
+      starts_at = Time.current
+      ends_at = starts_at + 2.hours
+
+      put admin_appointment_path(@appointment), params: {appointment: {time_range_string: "#{starts_at}..#{ends_at}"}}
+      assert_redirected_to admin_appointments_url
+
+      @appointment.reload
+      assert_equal @appointment.starts_at.to_i, starts_at.to_i
+      assert_equal @appointment.ends_at.to_i, ends_at.to_i
+    end
   end
 end

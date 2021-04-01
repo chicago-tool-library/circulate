@@ -19,4 +19,22 @@ class AppointmentTest < ActiveSupport::TestCase
     appointment.save
     assert_equal appointment.errors[:base], ["Please select an item to pick-up or return for your appointment", "Please select a date and time for this appointment."]
   end
+
+  test "sets starts_at and ends_at using time_range_string=" do
+    appointment = Appointment.new
+    appointment.time_range_string = "2021-03-31 18:00:00 -0500..2021-03-31 19:00:00 -0500"
+
+    assert_equal DateTime.new(2021, 3, 31, 23, 0, 0), appointment.starts_at
+    assert_equal DateTime.new(2021, 4, 1, 0, 0, 0), appointment.ends_at
+  end
+
+  ["blarg..blarg", "boom", nil, ""].each do |value|
+    test "handles invalid dates: #{value} (#{value.class})" do
+      appointment = Appointment.new
+      appointment.time_range_string = value
+
+      refute appointment.starts_at
+      refute appointment.ends_at
+    end
+  end
 end
