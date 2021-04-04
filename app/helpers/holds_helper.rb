@@ -23,7 +23,11 @@ module HoldsHelper
       "Scheduled for pick-up at #{format_date(appointment.starts_at)}, " +
         appointment_time(appointment)
     elsif hold.ready_for_pickup?
-      "Ready for pickup. Schedule by #{format_date(hold.expires_at)}"
+      if hold.expires_at
+        "Ready for pickup. Schedule by #{format_date(hold.expires_at)}"
+      else
+        "Ready for pickup."
+      end
     else
       "##{previous_holds_count + 1} on wait list"
     end
