@@ -6,10 +6,23 @@ class Appointment < ApplicationRecord
   belongs_to :member
 
   validate :ends_at_later_than_starts_at, :item_present, :date_present
-  attr_accessor :time_range_string
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
+
+  def time_range_string
+    starts_at.to_s + ".." + ends_at.to_s
+  end
+
+  def time_range_string=(string)
+    if string.present?
+      times = string.split("..")
+      self.starts_at = DateTime.parse times[0]
+      self.ends_at = DateTime.parse times[1]
+    end
+  rescue Date::Error
+    # ignore parsing error
+  end
 
   private
 

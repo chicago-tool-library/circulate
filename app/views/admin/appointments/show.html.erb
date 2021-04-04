@@ -1,12 +1,15 @@
 <% content_for :header do %>
-  <%= index_header "#{preferred_or_default_name(current_appointment.member)}'s Appointment" %>
+  <%= index_header "#{preferred_or_default_name(@appointment.member)}'s Appointment" do %>
+    <%= link_to 'View Member Page', admin_member_path(@appointment.member), class: "btn" %>
+  <% end %>
+
 <% end %>
 
-<%= render partial: "admin/members/membership_status", locals: { member: current_appointment.member } %>
+<%= render partial: "admin/members/membership_status", locals: { member: @appointment.member } %>
 
 <div class="columns">
   <div class="column col-4 col-sm-12">
-    <%= render "admin/members/member_details", member: current_appointment.member %>
+    <%= render "admin/members/member_details", member: @appointment.member %>
   </div>
   <div class="column col-sm-12 col-8">
     <div class="panel member-panel">
@@ -14,15 +17,15 @@
         <div class="columns col-oneline">
         <div class="column col-3">
           <h6>Appointment Date</h6>
-          <h6><%= l current_appointment.starts_at, format: :date %></h6>
-          <h6><%= l current_appointment.starts_at, format: :hour %>&nbsp;&ndash;<%= l current_appointment.ends_at, format: :hour %></h6>
-          <%= link_to "Edit date and time", edit_admin_appointment_path(current_appointment), class: "btn btn-sm mt-2" %>
+          <h6><%= l @appointment.starts_at, format: :date %></h6>
+          <h6><%= appointment_time(@appointment) %></h6>
+          <%= link_to "Edit date and time", edit_admin_appointment_path(@appointment), class: "btn btn-sm mt-2" %>
         </div>
         <div class="column col-3">
-          <%= button_to "Cancel", admin_appointment_path(current_appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+          <%= button_to "Cancel", admin_appointment_path(@appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
         </div>
       </div>
   </div>
-  <%= render "checkouts", member: current_appointment.member %>
+  <%= render "checkouts", member: @appointment.member %>
   <%= render "checkins" %>
 </div>

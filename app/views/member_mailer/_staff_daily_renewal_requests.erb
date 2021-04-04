@@ -1,0 +1,15 @@
+<% if renewal_requests.empty? %>
+<p>
+  No open renewal requests
+</p>
+<% else %>
+<ul>
+<% renewal_requests.each do |request| %>
+  <li>
+    <strong><%= full_item_number(request.loan.item) %> - <%= request.loan.item.name %></strong>,
+    by <%= preferred_or_default_name(request.loan.member) %>,
+    requested <%= checked_out_date(request.created_at) %>
+  </li>
+<% end %>
+</ul>
+<% end %>

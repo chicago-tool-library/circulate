@@ -64,6 +64,14 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject)
   end
 
+  def staff_daily_renewal_requests
+    @member = params[:member]
+    @renewal_requests = params[:renewal_requests]
+    @now = params[:now] || Time.current
+    @subject = "Open renewal requests as of #{@now.strftime("%m/%d/%Y")}"
+    mail(to: @member.email, subject: @subject)
+  end
+
   private
 
   def summary_mail

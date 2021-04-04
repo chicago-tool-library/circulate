@@ -1,6 +1,6 @@
-<% if current_appointment.errors.any?  %>
+<% if @appointment.errors.any?  %>
   <ul class="error">
-    <% current_appointment.errors.full_messages.each do |message| %>
+    <% @appointment.errors.full_messages.each do |message| %>
       <li><%= message %></li>
     <% end %>
   </ul>
@@ -10,7 +10,7 @@
 
   <div class="form-group" data-controller="appointment-date">
     <label class="form-label" for="time_range_string">Select an appointment time</label>
-    <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, appointment_time_range_string), { include_blank: 'Select a Date'},
+    <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: 'Select a Date'},
       class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }) %>
       <span data-target="appointment-date.display"></span>
   </div>
