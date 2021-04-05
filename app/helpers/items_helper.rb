@@ -2,7 +2,10 @@ module ItemsHelper
   include Pagy::Frontend
 
   def item_categories(item)
-    item.categories.map(&:name).sort.join(", ")
+    item.categories.select(:id, :name)
+                   .order(:name)
+                   .map { |obj| link_to(obj.name, items_path(category: obj.id)) }
+                   .join(", ")
   end
 
   def item_status_options
