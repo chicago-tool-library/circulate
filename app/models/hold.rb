@@ -84,7 +84,7 @@ class Hold < ApplicationRecord
     member.upcoming_appointment_of(self)
   end
 
-  def self.start_waiting_holds(now: Time.current)
+  def self.start_waiting_holds(now: Time.current, &block)
     started = 0
 
     active.includes(item: :borrow_policy).find_each do |hold|
@@ -100,6 +100,7 @@ class Hold < ApplicationRecord
 
       Rails.logger.debug "[hold #{hold.id}]: ready to start"
       hold.start!(now)
+      yield hold if block_given? # send email
       started += 1
     end
 
