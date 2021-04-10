@@ -103,6 +103,6 @@ class HoldsTest < ApplicationSystemTestCase
 
     visit account_home_path
 
-    within(row_containing(@item.complete_number)) { assert_text "Hold expired"}
+    within(row_containing(@item.complete_number)) { assert_text "Hold expired" }
   end
 end
