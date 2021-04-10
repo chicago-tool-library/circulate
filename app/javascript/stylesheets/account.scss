@@ -1,0 +1,14 @@
+.account-home-index {
+  .rule-list {
+    summary {
+      color: $primary-color;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    ul {
+      list-style: outside;
+      max-width: 24rem;
+      margin-left: 2rem;
+    }
+  }
+}
