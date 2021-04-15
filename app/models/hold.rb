@@ -65,11 +65,11 @@ class Hold < ApplicationRecord
     started_at.present?
   end
 
-  def previous_active_holds
-    Hold.active.where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
+  def previous_active_holds(now=Time.current)
+    Hold.active(now).where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
   end
 
-  def ready_for_pickup?
+  def ready_for_pickup?(now=Time.current)
     # Holds for uncounted items are always ready to be picked up
     unless item.borrow_policy.uniquely_numbered?
       return true
@@ -77,23 +77,23 @@ class Hold < ApplicationRecord
 
     # For uniquely numbered items there need to be no earlier holds
     # and the item needs to be in the library
-    previous_active_holds.empty? && item.available?
+    previous_active_holds(now).empty? && item.available?
   end
 
   def upcoming_appointment
     member.upcoming_appointment_of(self)
   end
 
-  def self.start_waiting_holds(now: Time.current, &block)
+  def self.start_waiting_holds(now=Time.current, &block)
     started = 0
 
-    active.includes(item: :borrow_policy).find_each do |hold|
+    active(now).includes(item: :borrow_policy).find_each do |hold|
       if hold.started?
         Rails.logger.debug "[hold #{hold.id}]: already started"
         next
       end
 
-      unless hold.ready_for_pickup?
+      unless hold.ready_for_pickup?(now)
         Rails.logger.debug "[hold #{hold.id}]: not ready for pickup"
         next
       end
