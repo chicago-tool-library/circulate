@@ -120,6 +120,11 @@ class HoldTest < ActiveSupport::TestCase
       Hold.start_waiting_holds
     }
     assert_equal 1, started
+
+    # should be safe to run again
+    assert_no_difference("Hold.started.count") {
+      Hold.start_waiting_holds
+    }
   end
 
   test "start_waiting_holds starts multiple holds" do
@@ -160,7 +165,7 @@ class HoldTest < ActiveSupport::TestCase
 
     # pass in a time in the future to more easily detect if started_at
     # was modified
-    started = Hold.start_waiting_holds(now: 1.hour.since)
+    started = Hold.start_waiting_holds(1.hour.since)
     assert_equal 0, started
 
     assert_in_delta hold.started_at, hold.reload.started_at, 1.second
@@ -186,6 +191,32 @@ class HoldTest < ActiveSupport::TestCase
       Hold.start_waiting_holds
     }
     assert_equal 3, started
+  end
+
+  test "starts the next hold when a previous one times out" do
+    hammer = create(:item)
+    hold1 = create(:hold, item: hammer)
+    hold2 = create(:hold, item: hammer)
+
+    assert_difference("Hold.started.count") {
+      Hold.start_waiting_holds do |hold|
+        assert_equal hold1, hold
+      end
+    }
+
+    hold1.reload
+    hold2.reload
+    assert hold1.started?
+    refute hold2.started?
+
+    assert_difference("Hold.started.count") {
+      Hold.start_waiting_holds(15.days.since) do |hold|
+        assert_equal hold2, hold
+      end
+    }
+
+    hold2.reload
+    assert hold2.started?
   end
 
   test "is ready for pickup if item is uncounted" do
