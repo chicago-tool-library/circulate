@@ -28,7 +28,7 @@
 
 We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues. 
 
-We highly recommend that you join us in [the Ruby For Good Slack/(https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (currently the first and third Wednesday from 7-8pm Central time), stakeholder news, and upcoming new issues.
+We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (currently the first and third Wednesday from 7-8pm Central time), stakeholder news, and upcoming new issues.
 
 Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue".
 
