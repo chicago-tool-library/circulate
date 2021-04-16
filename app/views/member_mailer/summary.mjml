@@ -1,96 +1,29 @@
-<mjml>
-  <mj-head>
-    <mj-preview><%= @subject %></mj-preview>
-    <mj-attributes>
-      <mj-all font-family="Montserrat, Helvetica, Arial, sans-serif"></mj-all>
-      <mj-text font-weight="400" font-size="16px" color="#1D181A" line-height="24px"></mj-text>
-      <mj-section background-color="#FFF" padding="0"></mj-section>
-    </mj-attributes>
-    <mj-style inline="inline">
-      a, a:visited {
-        color: #2F7890;
-      }
-      li {
-        margin-bottom: 1em;
-      }
-      .rejected, .overdue, .people-waiting {
-        color: #DF6C54;
-      }
-      p.overdue {
-        margin-bottom: 0;
-        font-size: 1.2em;
-      }
-      .warning {
-        border: solid 3px gold;
-        background: lemonchiffon;
-        padding: 0 1em;
-      }
-      .info {
-        border: solid 3px #66C4E3;
-        background: aliceblue;
-        padding: 0 1em;
-      }
-    </mj-style>
-  </mj-head>
-  <mj-body background-color="#F4F4F4">
-    <mj-section>
-      <mj-column padding-top="20px">
-        <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now} %>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <div class="info">
-            <p><strong>
-              Need to return or pick-up tools?
-              <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>
-            </strong></p>
-          </div>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <div class="warning">
-            <p><strong>
-              We are open <em>by appointment only</em> in response to COVID-19.<br><a href="https://chicagotoollibrary.org/covid-19">Please check our COVID-19 page for more information and our current hours.</a>
-            </strong></p>
-          </div>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
-          <p>See you at the library!</p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section background-color="#F4F4F4">
-      <mj-column>
-        <mj-text font-size="14px" line-height="20px" align="center">
-          <p>
-            <a href="https://chicagotoollibrary.org">The Chicago Tool Library</a><br>
-                1048 W 37th Street Suite 102<br>
-                Chicago, IL 60609
-          </p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-  </mj-body>
-</mjml>
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now} %>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <div class="info">
+        <p><strong>
+          Need to return or pick-up tools?
+          <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>
+        </strong></p>
+      </div>
+    </mj-text>
+  </mj-column>
+</mj-section>

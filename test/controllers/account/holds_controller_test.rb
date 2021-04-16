@@ -11,12 +11,28 @@ module Account
       sign_in @user
     end
 
-    test "should create hold for A tool" do
-      assert_difference("Hold.count") do
+    test "creates hold for an item and starts hold" do
+      assert_difference("@item.holds.count") do
         post account_holds_url, params: {item_id: @item.id}
       end
 
       assert_redirected_to item_url(@item.id)
+
+      hold = @item.holds.last
+      assert hold.started?
+    end
+
+    test "creates hold for an item and doesn't start hold" do
+      create(:hold, item: @item)
+
+      assert_difference("@item.holds.count") do
+        post account_holds_url, params: {item_id: @item.id}
+      end
+
+      assert_redirected_to item_url(@item.id)
+
+      hold = @item.holds.last
+      refute hold.started?
     end
   end
 end

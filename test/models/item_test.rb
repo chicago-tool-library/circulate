@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
+  include Lending
+
   test "assigns a number" do
     borrow_policy = create(:borrow_policy)
     item = build(:item, number: nil, borrow_policy: borrow_policy)
@@ -84,7 +86,7 @@ class ItemTest < ActiveSupport::TestCase
   test "can delete an item with a renewed loan" do
     item = create(:item)
     loan = create(:loan, item: item)
-    loan.renew!
+    renew_loan(loan)
 
     assert item.destroy
   end
@@ -101,5 +103,21 @@ class ItemTest < ActiveSupport::TestCase
     create(:hold, item: item)
 
     assert item.destroy
+  end
+
+  test "has a next_hold" do
+    item = create(:item)
+    hold = create(:hold, item: item, created_at: 2.days.ago)
+    create(:hold, item: item, created_at: 1.day.ago)
+
+    assert_equal hold, item.next_hold
+  end
+
+  test "next_hold ignores inactive holds" do
+    item = create(:item)
+    create(:ended_hold, item: item)
+    create(:expired_hold, item: item)
+
+    refute item.next_hold
   end
 end

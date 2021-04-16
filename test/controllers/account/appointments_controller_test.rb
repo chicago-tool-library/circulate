@@ -8,7 +8,7 @@ module Account
       @appointment = FactoryBot.build(:appointment)
       @user = FactoryBot.create(:user)
       @member = FactoryBot.create(:member, user: @user)
-      @hold = FactoryBot.create(:hold, member: @member)
+      @hold = FactoryBot.create(:started_hold, member: @member)
       @appointment.holds << @hold
       @appointment.member = @member
       @appointment.starts_at = "2020-10-05 7:00AM"

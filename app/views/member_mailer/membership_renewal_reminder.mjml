@@ -1,96 +1,48 @@
-<mjml>
-  <mj-head>
-    <mj-preview><%= @subject %></mj-preview>
-    <mj-attributes>
-      <mj-all font-family="Montserrat, Helvetica, Arial, sans-serif"></mj-all>
-      <mj-text font-weight="400" font-size="16px" color="#1D181A" line-height="24px"></mj-text>
-      <mj-section background-color="#FFF" padding="0"></mj-section>
-    </mj-attributes>
-    <mj-style inline="inline">
-      a, a:visited {
-        color: #2F7890;
-      }
-      li {
-        margin-bottom: 1em;
-      }
-      .warning {
-        border: solid 3px gold;
-        background: lemonchiffon;
-        padding: 0 1em;
-        margin-top: 1em;
-      }
-      .info {
-        border: solid 3px #66C4E3;
-        background: aliceblue;
-        padding: 0 1em;
-        font-weight: bold;
-      }
-    </mj-style>
-  </mj-head>
-  <mj-body background-color="#F4F4F4">
-    <mj-section>
-      <mj-column padding-top="20px">
-        <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" alt="logo" />
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <p>Hello <%= preferred_or_default_name(@member) %>,
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>Hello <%= preferred_or_default_name(@member) %>,
 
-          <p>As the end of your first (extended) year of tool library membership approaches, we hope you were able to accomplish great things as a library member.  How has it felt to be one of the founding members and knowing you have access to these tools and this community?  <strong>Are you ready to renew your membership so you can keep borrowing for another year of repair, learning, and exploration?</strong></p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-button background-color="#DF6C54" font-size="24px" font-weight="bold" href="<%= renewal_url %>">
-          RENEW NOW
-        </mj-button>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <p>Membership fees are the Chicago Tool Library’s #1 source of income and the <%= @amount.format(no_cents: true) %> you contributed last year helped your community tool library accomplish so much in 2020:</p>
+      <p>As the end of your first (extended) year of tool library membership approaches, we hope you were able to accomplish great things as a library member.  How has it felt to be one of the founding members and knowing you have access to these tools and this community?  <strong>Are you ready to renew your membership so you can keep borrowing for another year of repair, learning, and exploration?</strong></p>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-button background-color="#DF6C54" font-size="24px" font-weight="bold" href="<%= renewal_url %>">
+      RENEW NOW
+    </mj-button>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>Membership fees are the Chicago Tool Library’s #1 source of income and the <%= @amount.format(no_cents: true) %> you contributed last year helped your community tool library accomplish so much in 2020:</p>
 
-          <ol>
-            <li>We added <strong>676 tools</strong> to our inventory that now houses 1,286 unique tools!</li>
-            <li>We welcomed <strong>498 new library members</strong>!</li>
-            <li>We developed <strong>new software features</strong> like member logins and appointment scheduling.</li>
-          </ol>
+      <ol>
+        <li>We added <strong>676 tools</strong> to our inventory that now houses 1,286 unique tools!</li>
+        <li>We welcomed <strong>498 new library members</strong>!</li>
+        <li>We developed <strong>new software features</strong> like member logins and appointment scheduling.</li>
+      </ol>
 
-          <p>This year we’re encouraging our library members who can afford to do so to give a little more.  If all of our members gave an extra:</p>
+      <p>This year we’re encouraging our library members who can afford to do so to give a little more.  If all of our members gave an extra:</p>
 
-          <ul style="list-style: none outside;">
-            <li><strong>$10</strong>: we would be able to buy expensive in-demand tools like a floor sander, more nail guns, or a rug doctor.</li>
-            <li><strong>$25</strong>: we would be able to hire a part-time staff-member and expand our hours from 10 hours to 20+ hours/week.</li>
-            <li><strong>$50</strong>: we would be able to launch innovative new programs like tool <strong>delivery and pick-up services</strong>.</li>
-          </ul>
+      <ul style="list-style: none outside;">
+        <li><strong>$10</strong>: we would be able to buy expensive in-demand tools like a floor sander, more nail guns, or a rug doctor.</li>
+        <li><strong>$25</strong>: we would be able to hire a part-time staff-member and expand our hours from 10 hours to 20+ hours/week.</li>
+        <li><strong>$50</strong>: we would be able to launch innovative new programs like tool <strong>delivery and pick-up services</strong>.</li>
+      </ul>
 
-          <p>If you’re ready to renew your membership, <%= link_to "login to your member profile here", account_home_url %>. As always, we don’t turn anyone away for an inability to pay. </p>
+      <p>If you’re ready to renew your membership, <%= link_to "login to your member profile here", account_home_url %>. As always, we don’t turn anyone away for an inability to pay. </p>
 
-          <p>If you no longer need a membership but you’d like to keep supporting the Tool Library; <%= link_to "you can still donate!", "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=9G7F4GRKDBRAC&source=url" %> Every dollar will go directly to improving this shared space for all Chicagoans. If you’d like to deactivate your membership please let us know.</p>
+      <p>If you no longer need a membership but you’d like to keep supporting the Tool Library; <%= link_to "you can still donate!", "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=9G7F4GRKDBRAC&source=url" %> Every dollar will go directly to improving this shared space for all Chicagoans. If you’d like to deactivate your membership please let us know.</p>
 
-          <p>Also, look out for a forthcoming survey about the Tool Library to make sure your voice is heard.  After all, the Chicago Tool Library is about YOU!</p>
+      <p>Also, look out for a forthcoming survey about the Tool Library to make sure your voice is heard.  After all, the Chicago Tool Library is about YOU!</p>
 
-          <p>Thank you for participating in this amazing experiment with us!</p>
+      <p>Thank you for participating in this amazing experiment with us!</p>
 
-          <p><strong>- The Chicago Tool Library Team</strong></p>
-      
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section background-color="#F4F4F4">
-      <mj-column>
-        <mj-text font-size="14px" line-height="20px" align="center">
-          <p>
-            <a href="https://chicagotoollibrary.org">The Chicago Tool Library</a><br>
-                1048 W 37th Street Suite 102<br>
-                Chicago, IL 60609
-          </p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-  </mj-body>
-</mjml>
+      <p><strong>- The Chicago Tool Library Team</strong></p>
+  
+    </mj-text>
+  </mj-column>
+</mj-section>

@@ -24,4 +24,7 @@ class HoldsHelperTest < ActionView::TestCase
     assert_equal 1, place_in_line_for(@hold_1)
     assert_equal 2, place_in_line_for(hold_3)
   end
+
+  test "hold_status" do
+  end
 end

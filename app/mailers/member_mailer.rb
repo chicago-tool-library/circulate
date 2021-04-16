@@ -45,6 +45,13 @@ class MemberMailer < ApplicationMailer
     summary_mail
   end
 
+  def hold_available
+    @member = params[:member]
+    @hold = params[:hold]
+    @subject = "One of your holds is available"
+    mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
+  end
+
   def loan_renewal_request_message
     # TODO: Implement
     @subject = "Renewal Request"

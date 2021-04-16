@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_163055) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
+    t.datetime "started_at"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
     t.index ["loan_id"], name: "index_holds_on_loan_id"

@@ -28,8 +28,8 @@ class AppointmentsTest < ApplicationSystemTestCase
     login_as @member.user
     create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 27.hours.since.beginning_of_hour, finish: 28.hours.since.beginning_of_hour)
 
-    create(:hold, item: @held_item1, member: @member)
-    create(:hold, item: @held_item2, member: @member)
+    create(:started_hold, item: @held_item1, member: @member)
+    create(:started_hold, item: @held_item2, member: @member)
 
     create(:loan, item: @borrowed_item1, member: @member)
     create(:loan, item: @borrowed_item2, member: @member)
@@ -48,7 +48,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Just a small project"
     click_on "Create Appointment"
 
-    assert_text " Appointments"
+    assert_text "Appointments"
     assert_text selected_date
     assert_text @held_item1.complete_number
     assert_text @borrowed_item1.complete_number

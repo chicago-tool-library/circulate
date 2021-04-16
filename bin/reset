@@ -20,6 +20,9 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Loading dev data =="
   system! 'bin/rails devdata:load'
 
+  puts "\n== Creating loans and holds =="
+  system! 'bin/rails devdata:create_loans_and_holds'
+
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'
 

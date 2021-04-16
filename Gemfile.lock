@@ -5,13 +5,6 @@ GIT
     audited (4.10.0)
       activerecord (>= 4.2, < 6.2)
 
-GIT
-  remote: https://github.com/jim/mjml-rails.git
-  revision: dbb18740bf8725701135d1f8b8ec063c21687ae1
-  branch: webpacker
-  specs:
-    mjml-rails (4.3.0)
-
 PATH
   remote: gems/active_storage_log_suppressor
   specs:
@@ -206,6 +199,7 @@ GEM
     minitest (5.14.4)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
+    mjml-rails (4.6.1)
     monetize (1.9.4)
       money (~> 6.12)
     money (6.13.8)
@@ -429,7 +423,7 @@ DEPENDENCIES
   listen
   mini_magick
   minitest-ci
-  mjml-rails!
+  mjml-rails
   money-rails
   omniauth-google-oauth2
   omniauth-rails_csrf_protection (~> 0.1)

@@ -71,6 +71,8 @@
           <% end %>
         </section>
       </header>
+      
+      <%= render partial: "shared/time_override" if Rails.env.development? %>
 
       <% if content_for? :header %>
         <div class="app-header">
@@ -91,6 +93,6 @@
       </div>
     </div>
   <% end %>
-
+  
   <%= render partial: 'layouts/footer', object: @member, as: :member %>
 </html>

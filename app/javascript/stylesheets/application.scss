@@ -10,6 +10,7 @@
 
 @import 'admin';
 @import 'public';
+@import 'account';
 
 body {
   background-color: $background-color;
@@ -1097,4 +1098,10 @@ footer.page-footer {
   background: $background-color-dark;
   text-align: center;
   position: relative;
+}
+
+.time-override {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

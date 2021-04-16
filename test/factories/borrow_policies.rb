@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:code, "b")
     name { "Policy ##{code.upcase}" }
     duration { 7 }
-    fine_cents { 100 }
+    fine_cents { 0 }
     fine_currency { "USD" }
     fine_period { 1 }
     renewal_limit { 2 }
@@ -24,7 +24,7 @@ FactoryBot.define do
     factory :default_borrow_policy do
       name { "Default" }
       duration { 7 }
-      fine_cents { 1.00 }
+      fine_cents { 0 }
       fine_period { 7 }
       code { "D" }
     end
