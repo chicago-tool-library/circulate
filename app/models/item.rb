@@ -67,6 +67,8 @@ class Item < ApplicationRecord
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
 
+  after_update :clear_holds_if_inactive
+
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
     if limit
@@ -124,6 +126,12 @@ class Item < ApplicationRecord
       value = attributes[attr_name]
       next unless value.present?
       write_attribute attr_name, value.strip
+    end
+  end
+
+  def clear_holds_if_inactive
+    if saved_change_to_status? && [Item.statuses[:maintenance], Item.statuses[:expired]].include?(Item.statuses[status])
+      active_holds.update_all(ended_at: Time.current)
     end
   end
 
