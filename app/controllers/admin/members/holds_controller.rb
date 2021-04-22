@@ -4,7 +4,7 @@ module Admin
       include ActionView::RecordIdentifier
 
       def index
-        @holds = @member.holds.active.includes(:item)
+        @holds = @member.active_holds.includes(:item)
       end
 
       def create
@@ -24,7 +24,7 @@ module Admin
       end
 
       def lend
-        @hold = @member.holds.find(params[:id])
+        @hold = @member.active_holds.find(params[:id])
         Loan.lend(@hold.item, to: @member).tap do |loan|
           @hold.lend(loan)
         end
@@ -32,7 +32,7 @@ module Admin
       end
 
       def destroy
-        @hold = @member.holds.find(params[:id])
+        @hold = @member.active_holds.find(params[:id])
 
         @hold.destroy!
         redirect_to admin_member_holds_path(@hold.member)

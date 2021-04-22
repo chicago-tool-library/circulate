@@ -112,7 +112,7 @@ module ItemsHelper
     if item.active?
       if item.checked_out_exclusive_loan
         "status-checked-out"
-      elsif item.holds.active.count > 0
+      elsif item.active_holds.count > 0
         "status-on-hold"
       else
         "status-available"

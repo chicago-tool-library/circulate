@@ -21,8 +21,8 @@ class ItemsController < ApplicationController
     @item = Item.listed_publicly.find(params[:id])
 
     if user_signed_in?
-      @current_hold = current_member.holds.active.where(item_id: @item.id).first
-      @current_hold_count = current_member.holds.active_hold_count_for_item(@item).to_i
+      @current_hold = current_member.active_holds.active.where(item_id: @item.id).first
+      @current_hold_count = current_member.active_holds.active_hold_count_for_item(@item).to_i
     end
   end
 
