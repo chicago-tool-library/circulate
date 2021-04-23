@@ -120,4 +120,15 @@ class ItemTest < ActiveSupport::TestCase
 
     refute item.next_hold
   end
+
+  test "clears holds when changing to an inactive status" do
+    item = create(:item)
+    create(:started_hold, item: item)
+
+    item.update!(status: Item.statuses[:pending])
+    assert_equal item.active_holds.count, 1
+
+    item.update!(status: Item.statuses[:maintenance])
+    assert_equal item.active_holds.count, 0
+  end
 end
