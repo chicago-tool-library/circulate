@@ -15,6 +15,8 @@ class Hold < ApplicationRecord
   scope :expired, ->(now = Time.current) { where("started_at < ?", now - HOLD_LENGTH) }
   scope :started, -> { where("started_at IS NOT NULL") }
 
+  scope :recent_first, -> { order("created_at desc")}
+
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
   end

@@ -1,5 +1,10 @@
 module Account
   class HoldsController < BaseController
+
+    def index
+      @holds = current_member.holds.recent_first.includes(:item)
+    end
+
     def create
       @item = Item.find(params[:item_id])
       @new_hold = Hold.new(item: @item, member: current_member, creator: current_user)
@@ -15,7 +20,7 @@ module Account
     end
 
     def destroy
-      current_member.holds.find(params[:id]).destroy!
+      current_member.active_holds.find(params[:id]).destroy!
       redirect_to account_home_path
     end
   end

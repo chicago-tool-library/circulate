@@ -48,7 +48,7 @@ module Admin
       @item_to_add_hold ||= if item_to_add.allow_multiple_holds_per_member?
         appointment.member.holds.new(item: item_to_add, creator: current_user)
       elsif item_to_add.available?
-        appointment.member.holds.active.find_or_initialize_by(item: item_to_add, creator: current_user)
+        appointment.member.active_holds.find_or_initialize_by(item: item_to_add, creator: current_user)
       end
     end
 

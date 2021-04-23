@@ -92,7 +92,7 @@ class HoldsTest < ApplicationSystemTestCase
     end
   end
 
-  test "holds are shown as expired after two weeks" do
+  test "holds are shown only in hold history after two weeks" do
     login_as @member.user
 
     @item = create(:item)
@@ -102,7 +102,11 @@ class HoldsTest < ApplicationSystemTestCase
     end
 
     visit account_home_path
+    refute_text @item.complete_number
+    refute_text @item.name
 
-    within(row_containing(@item.complete_number)) { assert_text "Hold expired" }
+    visit account_holds_path
+    assert_text @item.complete_number
+    assert_text @item.name
   end
 end

@@ -74,7 +74,9 @@
   <div class="columns">
     <div class="column">
 
-      <h1>Holds</h1>
+      <%= index_header "Holds" do %>
+        <%= link_to "View Hold History", account_holds_path, class: "btn btn-lg" %>
+      <% end %>
 
       <details class="rule-list">
         <summary>How do holds work?</summary>
