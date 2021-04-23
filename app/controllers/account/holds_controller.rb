@@ -1,5 +1,10 @@
 module Account
   class HoldsController < BaseController
+
+    def index
+      @holds = current_member.holds.recent_first.includes(:item)
+    end
+
     def create
       @item = Item.find(params[:item_id])
       @new_hold = Hold.new(item: @item, member: current_member, creator: current_user)
