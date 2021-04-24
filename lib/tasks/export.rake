@@ -22,6 +22,34 @@ namespace :export do
     end
   end
 
+  desc "Export members and memberships to a flat CSV"
+  task members_and_memberships_to_csv: :environment do
+    now = Time.current.rfc3339
+    path = Rails.root + "exports" + "members-memberships-#{now}.csv"
+    puts "writing member and membership info to #{path}"
+
+    CSV.open(path, "wb") do |csv|
+      csv << [
+        *Member.column_names,
+        *Membership.column_names.map {|n| "membership_#{n}"}
+      ]
+      Member.includes(:memberships).find_each do |member|
+        if member.memberships.any?
+          member.memberships.each do |membership|
+            csv << [
+              *member.attributes.values_at(*Member.column_names),
+              *membership.attributes.values_at(*Membership.column_names)
+            ]
+          end
+        else
+          csv << [
+            *member.attributes.values_at(*Member.column_names),
+          ]
+        end
+      end
+    end
+  end
+
   desc "Export items to CSV"
   task items_to_csv: :environment do
     columns = %w[
