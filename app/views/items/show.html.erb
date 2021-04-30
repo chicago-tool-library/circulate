@@ -10,6 +10,10 @@
 
   <h1><%= @item.name %></h1>
 
+  <% if user_signed_in? && current_member.staff? %>
+    <%= link_to "View as Librarian", admin_item_path(@item) %>
+  <% end %>
+
   <div class="columns">
     <div class="column col-6 item-image">
       <% if @item.image.attached? %>

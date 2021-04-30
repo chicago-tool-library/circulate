@@ -958,8 +958,6 @@ table.monthly-adjustments {
   }
 }
 
-
-
 .app-body, .app-header {
   .btn {
     @include default-button();
@@ -1101,7 +1099,18 @@ footer.page-footer {
 }
 
 .time-override {
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: none;
+}
+
+@media all and (min-width: 840px) {
+  .time-override {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.mobile-heading {
+  margin-top: 3.5rem;
 }

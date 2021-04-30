@@ -1,14 +1,64 @@
 .account-home-index {
   .rule-list {
-    summary {
-      color: $primary-color;
-      text-decoration: underline;
-      cursor: pointer;
+    @media all and (min-width: 841px) {      
+      margin-left: 2rem;
     }
     ul {
       list-style: outside;
-      max-width: 24rem;
-      margin-left: 2rem;
+    }
+  }
+
+  .loan-summary, .hold-summary {
+    font-size: 1rem;
+    margin-top: .5rem;
+  }
+
+  .loan-list, .hold-list {
+    margin: 0;
+    li {
+      list-style: none outside;
+      margin-bottom: 1.5rem;
+      border-bottom: solid 2px $gray-color-light;
+      padding-bottom: 1rem;
+      &:last-of-type {
+        border: none;
+      }
+    }
+    .image {
+      float: right;
+      width: 8rem;
+      height: 100%;
+      padding-right: .8rem;
+      img {
+        height: 100%;
+        max-width: 100%;
+      }
+    }
+    .item {
+      font-size: .9rem;
+    }
+    .status {
+      display: block;
+    }
+    .pickup {
+      display: block;
+    }
+    .actions {
+      margin-top: .8rem;
+      form {
+        margin-top: 0.5rem;
+      }
+      .message {
+        margin-right: .5rem;
+      }
+    }
+    @media all and (max-width: 840px) {
+      .image {
+        width: 25%;
+      }
+      .actions {
+        width: 100%;
+      }
     }
   }
 }
