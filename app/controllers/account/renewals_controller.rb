@@ -7,7 +7,7 @@ module Account
       authorize @loan, :renew?
 
       renew_loan(@loan)
-      redirect_to account_home_path
+      redirect_to account_home_path, success: "#{@loan.item.name} was renewed."
     end
   end
 end

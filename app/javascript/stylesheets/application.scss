@@ -985,6 +985,16 @@ table.monthly-adjustments {
   }
 }
 
+@media all and (max-width: 840px) {
+  .app-body, .app-header {
+    margin-top: 3.5rem;
+  }
+
+  .app-header + .app-body {
+    margin-top: 0;
+  }
+}
+
 .style-guide {
   .colors {
     .column {
@@ -1109,8 +1119,4 @@ footer.page-footer {
     top: 0;
     right: 0;
   }
-}
-
-.mobile-heading {
-  margin-top: 3.5rem;
 }
