@@ -25,14 +25,6 @@
 
       <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
         <ul class="nav">
-          <li class="nav-item">
-            <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
-                <div class="has-icon-left">
-                  <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
-                  <i class="form-icon icon icon-search"></i>
-                </div>
-            <% end %>
-          </li>
           <%= render partial: 'shared/navbar_links' %>
           <% if user_signed_in? %>
             <%= navbar_link_to('Logout', destroy_user_session_path, method: :delete) %>
@@ -42,10 +34,20 @@
 
       <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
 
-      <div class="off-canvas-content text-center show-sm">
-        <a href="https://chicagotoollibrary.org/">
-          <%= image_pack_tag "logo_small.png", class: "mobile-logo" %>
-        </a>
+      <div class="off-canvas-content text-center show-sm mobile-banner">
+        <div class="mobile-banner-content">
+          <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
+              <div class="has-icon-left">
+                <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+                <i class="form-icon icon icon-search"></i>
+              </div>
+          <% end %>
+          <div class="logo">
+            <a href="https://chicagotoollibrary.org/">
+              <%= image_pack_tag "logo_small.png",  alt:"Chicago Tool Library logo" %>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 

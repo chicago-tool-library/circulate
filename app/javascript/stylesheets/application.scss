@@ -987,7 +987,7 @@ table.monthly-adjustments {
 
 @media all and (max-width: 840px) {
   .app-body, .app-header {
-    margin-top: 3.5rem;
+    margin-top: 4rem;
   }
 
   .app-header + .app-body {
@@ -1118,5 +1118,29 @@ footer.page-footer {
     position: absolute;
     top: 0;
     right: 0;
+  }
+}
+
+.mobile-banner {
+  width: 100%;
+  background: $primary-color-light;
+  color: white;
+  .mobile-banner-content {
+    position: relative;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    form {
+      color: $dark-color;
+      max-width: 65%;
+    }
+    input {
+      border-radius: 1rem;
+    }
+    img {
+      width: 3rem;
+    }
   }
 }
