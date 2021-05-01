@@ -1,7 +1,7 @@
 <% content_for :header do %>
-  <%= index_header "Edit an Appointment" %>
+  <%= index_header "Edit Appointment" %>
 <% end %>
 
-<div class="new-appointment">
+<div class="appointment-form">
   <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
 </div>

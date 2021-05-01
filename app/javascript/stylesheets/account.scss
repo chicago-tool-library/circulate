@@ -1,4 +1,5 @@
-.account-home-index {
+.account-home-index,
+.appointment-form {
   .rule-list {
     @media all and (min-width: 841px) {      
       margin-left: 2rem;
@@ -62,3 +63,5 @@
     }
   }
 }
+
+

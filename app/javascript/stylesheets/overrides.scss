@@ -198,3 +198,23 @@ trix-toolbar {
     }
   }
 }
+
+.checkbox-lg {
+  .form-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0;
+  }
+  &.form-checkbox {
+    padding-left: 1.8rem;
+  }
+  &.form-checkbox input:checked + .form-icon::before {
+    border: 0.2rem solid white;
+    border-left-width: 0;
+    border-top-width: 0;
+    height: 18px;
+    margin-left: -5px;
+    margin-top: -11px;
+    width: 10px;
+  }
+}
