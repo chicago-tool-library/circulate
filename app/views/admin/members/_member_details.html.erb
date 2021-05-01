@@ -22,11 +22,11 @@
           <%= feather_icon "clipboard" %> <%= pluralize(member.holds.active.count, "hold") %>
         <% end %>
       </li>
-      <% next_appointment = member.appointments.upcoming.first %>
+      <% next_appointment = member.appointments.today_or_later.first %>
       <% if next_appointment %>
         <li>
           <%= link_to admin_appointment_path(next_appointment) do %>
-            <%= feather_icon "calendar" %> <%= pluralize(member.appointments.upcoming.count, "upcoming appointment") %>
+            <%= feather_icon "calendar" %> <%= pluralize(member.appointments.today_or_later.count, "upcoming appointment") %>
           <% end %>
         </li>
       <% end %>

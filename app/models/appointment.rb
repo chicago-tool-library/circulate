@@ -8,6 +8,7 @@ class Appointment < ApplicationRecord
   validate :ends_at_later_than_starts_at, :item_present, :date_present
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
+  scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
 
   def time_range_string
