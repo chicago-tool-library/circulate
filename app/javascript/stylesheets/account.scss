@@ -67,3 +67,29 @@
 }
 
 
+.account-appointments-index {
+  .appointment-list {
+    margin: 0;
+  }
+  .appointment {
+    margin-top: 1rem;
+    list-style: none outside;
+    h2 {
+      line-height: 1.2rem;
+    }
+    .schedule {
+      display: flex;
+      justify-content: space-between;
+      .time {
+        font-size: 1rem;
+        color: $gray-color;
+      }
+      .actions {
+        text-align: right;
+        form {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

@@ -1,111 +1,90 @@
-<% content_for :header do %>
-  <%= index_header "Appointments" do %>
-    <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-lg btn-primary" %>
-  <% end %>
-<% end %>
+<div class="account account-appointments-index">
+  <div class="columns">
+    <div class="column col-8 col-md-12">
 
-<div class="appointments-page">
-  <% if @appointments.blank? %>
-    <section class="appointment">
-      <h3 class="title_bold">
-        You have no scheduled appointments.
-      </h3>
-    </section>
-  <% end %>
+      <%= index_header "Appointments" do %>
+        <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-lg btn-primary" %>
+      <% end %>
 
-  <% @appointments.each_with_index do |appointment, index| %>
-    <section class="appointment">
-      <div class="d-flex float-right">        
-        <%= button_to "Edit", edit_account_appointment_path(appointment), class: "btn", method: :get, data: { disabled_with: "Editing appointment..." } %>
-        <%= button_to "Cancel", account_appointment_path(appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
-      </div>
-      <div class="appointment-date">
-        <h2 class="title_bold"><%= index + 1 %>.</h2>
-        <h2 class="title_bold">
-          <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %>
-          <br />
-          <small class="gray-dark"><%= appointment_time(appointment) %></small>
-        </h2>
-      </div>
+      <% if @appointments.any? %>
+        <ul class="appointment-list">
+          <% @appointments.each do |appointment| %>
+            <li class="appointment">
+              <div class="schedule">
+                <h2>
+                  <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %><br>
+                  <span class="time">between <%= appointment_time(appointment) %></span>
+                </h2>
+                <div class="actions">
+                  <%= button_to "Edit", edit_account_appointment_path(appointment), class: "btn", method: :get, data: { disabled_with: "Editing appointment..." } %>
+                  <%= button_to "Cancel", account_appointment_path(appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+                </div>
+              </div>
 
-      <div class="appointment-wrapper">
-        <section>
-          <h3 class="title_bold">Here's what you're returning</h3>
+              <h3>Here's what you're returning</h3>
 
-          <% if appointment.loans.any? %>
-            <table class="table table-scroll mb-2" id="items-to-pickup-table">
-              <thead>
-                <tr>
-                  <th class="caption">Image</th>
-                  <th class="caption">Item</th>
-                  <th class="caption">Inventory Number</th>
-                  <th class="caption">Due Date</th>
-                  <th class="caption">Status</th>
-                </tr>
-              </thead>
+              <% if appointment.loans.any? %>
+                <ul class="loan-list" id="items-to-pickup-table">
+                  <% appointment.loans.each do |loan| %>
+                    <li class="clearfix">
+                      <div class="image">
+                        <%= link_to item_path(loan.item) do %>
+                          <% if loan.item.image.attached? %>
+                            <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                          <% else %>
+                            <div class="placeholder p-centered"></div>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      <div class="details">
+                        <span class="item">
+                          <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
+                        </span>
+                        <span class="status">
+                          <span class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span><br>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <p>No items to return</p>
+              <% end %>
 
-              <tbody>
-                <% appointment.loans.each do |loan| %>
-                  <tr>
-                    <td>
-                      <%= link_to item_path(loan.item) do %>
-                        <% if loan.item.image.attached? %>
-                          <%= image_tag item_image_url(loan.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
+              <h3>Here's what you're picking up</h3>
+
+              <ul class="hold-list">
+                <% appointment.holds.each do |hold| %>
+                  <li class="clearfix">
+                    <div class="image">
+                      <%= link_to item_path(hold.item) do %>
+                        <% if hold.item.image.attached? %>
+                          <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                        <% else %>
+                          <div class="placeholder p-centered"></div>
                         <% end %>
                       <% end %>
-                    </td>
-                    <td><%= link_to loan.item.name, item_path(loan.item) %></td>
-                    <td><%= loan.item.complete_number %></td>
-                    <td class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></td>
-                    <td><%= render_loan_status(loan) %></td>
-                  </tr>
+                    </div>
+                    <div class="details">
+                      <span class="item">
+                        <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
+                      </span>
+                    </div>
+                  </li>
                 <% end %>
-              </tbody>
-            </table>
-          <% else %>
-            No items to return
-          <% end %>
-        </section>
+              </ul>
 
-        <section>
-          <h3 class="title_bold">Here's what you're picking up</h3>
-
-          <table class="table table-scroll" id="items-to-pickup-table">
-            <thead>
-              <tr>
-                <th class="caption">Image</th>
-                <th class="caption">Item</th>
-                <th class="caption">Inventory Number</th>
-                <th class="caption">Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% appointment.holds.each do |hold| %>
-                <tr>
-                  <td>
-                    <%= link_to item_path(hold.item) do %>
-                      <% if hold.item.image.attached? %>
-                        <%= image_tag item_image_url(hold.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
-                      <% end %>
-                    <% end %>
-                  </td>
-                  <td><%= link_to hold.item.name, item_path(hold.item) %></td>
-                  <td><%= hold.item.complete_number %></td>
-                  <td><%= render_hold_status(hold) %></td>
-                </tr>
+              <% if appointment.comment.present? %>
+                <h3>What kind of project are you working on?</h3>
+                <%= appointment.comment %>
               <% end %>
-            </tbody>
-          </table>
-        </section>
+            </li>
+          <% end %>
+        </ul>
 
-        <% if appointment.comment.present? %>
-          <section>
-            <h3 class="title_bold">What kind of project are you working on?</h3>
-            <%= appointment.comment %>
-          </section>
-        <% end %>
-      </div>
-    </section>
-  <% end %>
+      <% else %>
+        <%= empty_state "You have no scheduled appointments" %>
+      <% end %>
+    </div>
+  </div>
 </div>
