@@ -17,8 +17,8 @@ module Account
       get account_loans_url
       assert_response :success
 
-      assert_select "td", @loan1.item.complete_number.upcase
-      assert_select "td", count: 0, text: @loan2.item.complete_number.upcase
+      assert_select "span", @loan1.item.complete_number.upcase
+      assert_select "span", count: 0, text: @loan2.item.complete_number.upcase
     end
   end
 end

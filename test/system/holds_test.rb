@@ -101,11 +101,11 @@ class HoldsTest < ApplicationSystemTestCase
       create(:started_hold, member: @member, item: @item)
     end
 
-    visit account_home_path
+    visit account_holds_path
     refute_text @item.complete_number
     refute_text @item.name
 
-    visit account_holds_path
+    visit history_account_holds_path
     assert_text @item.complete_number
     assert_text @item.name
   end
