@@ -6,10 +6,13 @@ class Appointment < ApplicationRecord
   belongs_to :member
 
   validate :ends_at_later_than_starts_at, :item_present, :date_present
+  validate :starts_before_holds_expire, if: :member_updating
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
+
+  attr_accessor :member_updating
 
   def time_range_string
     starts_at.to_s + ".." + ends_at.to_s
@@ -44,6 +47,14 @@ class Appointment < ApplicationRecord
 
     if ends_at < starts_at
       errors.add(:ends_at, "must be after the starts_at date")
+    end
+  end
+
+  def starts_before_holds_expire
+    holds_first_expire = holds.filter_map(&:expires_at).min
+    before_holds_expire = holds_first_expire.nil? || starts_at <= holds_first_expire
+    unless before_holds_expire
+      errors.add(:base, "Please pick an appointment on or before hold expires on #{holds_first_expire.strftime("%a, %-m/%-d")}.")
     end
   end
 end
