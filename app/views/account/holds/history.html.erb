@@ -1,0 +1,42 @@
+<% content_for :header do %>
+  <%= index_header "Hold History" %>
+<% end %>
+      
+<% if @holds.any? %>
+  <table class="table table-scroll">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="caption">Item</th>
+        <th class="caption">Inventory Number</th>
+        <th class="caption">Created</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @holds.each do |hold| %>
+        <tr>
+          <td>
+            <%= link_to item_path(hold.item) do %>
+              <% if hold.item.image.attached? %>
+                <%= image_tag item_image_url(hold.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
+              <% end %>
+            <% end %>
+          </td>
+          <td><%= link_to hold.item.name, item_path(hold.item) %></td>
+          <td><%= hold.item.complete_number %></td>
+          <td><%= date_with_time_title(hold.created_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
+    <p>
+      <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
+    </p>
+  <% end %>
+<% else %>
+  <%= empty_state "You have had no items on hold" %>
+<% end %>

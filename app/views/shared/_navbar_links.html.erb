@@ -1,6 +1,7 @@
 <%= navbar_link_to "View Inventory", items_path %>
 <% if user_signed_in? %>
-  <%= navbar_link_to "Loans & Holds", account_home_path %>
+  <%= navbar_link_to "Loans", account_home_path %>
+  <%= navbar_link_to "Holds", account_holds_path %>
   <%= navbar_link_to "Appointments", account_appointments_path %>
   <%= navbar_link_to "Membership", account_member_path %>
   <% if current_user.admin? %>

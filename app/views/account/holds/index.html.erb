@@ -1,42 +1,58 @@
-<% content_for :header do %>
-  <%= index_header "Hold History" %>
-<% end %>
-      
-<% if @holds.any? %>
-  <table class="table table-scroll">
-    <thead>
-      <tr>
-        <th></th>
-        <th class="caption">Item</th>
-        <th class="caption">Inventory Number</th>
-        <th class="caption">Created</th>
-        <th></th>
-      </tr>
-    </thead>
+<div class="account-holds-index">
+  <div class="columns">
+    <div class="column col-8 col-md-12">
 
-    <tbody>
-      <% @holds.each do |hold| %>
-        <tr>
-          <td>
-            <%= link_to item_path(hold.item) do %>
-              <% if hold.item.image.attached? %>
-                <%= image_tag item_image_url(hold.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
-              <% end %>
-            <% end %>
-          </td>
-          <td><%= link_to hold.item.name, item_path(hold.item) %></td>
-          <td><%= hold.item.complete_number %></td>
-          <td><%= date_with_time_title(hold.created_at) %></td>
-        </tr>
+      <%= index_header "Holds" do %>
+        <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
+          <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
+        <% end %>
+        <%= link_to "View Hold History", history_account_holds_path, class: "btn" %>
       <% end %>
-    </tbody>
-  </table>
 
-  <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
-    <p>
-      <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
-    </p>
-  <% end %>
-<% else %>
-  <%= empty_state "You have had no items on hold" %>
-<% end %>
+      <% if @holds.any? %>
+        <p class="hold-summary">You have <span class="text-bold"><%= pluralize @holds.count, "item" %></span> on hold.</p>
+
+        <ul class="hold-list">
+          <% @holds.each do |hold| %>
+            <li>
+              <div class="image">
+                <%= link_to item_path(hold.item) do %>
+                  <% if hold.item.image.attached? %>
+                    <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  <% else %>
+                    <div class="placeholder p-centered"></div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="details">
+                <span class="item">
+                  <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
+                </span>
+                <span class="status">
+                  <%= render_hold_status(hold) %>
+                </span>
+              </div>
+              <div class="actions">
+                <%= render_remove_link(hold) %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <%= empty_state "You have no items on hold" %>
+      <% end %>
+    </div>
+    <div class="column col-4 col-md-12">
+      <div class="rule-list">
+        <h3>How do holds work?</h3>
+        <ul>
+          <li>Placing a hold means you are putting yourself in line to borrow an item. Please do not do this unless you plan on borrowing the item.</li>
+          <li>If you are first in line you have 2 weeks to pick up an item. If you do not pick up the item, you will lose your position in line and another person may borrow it.</li>
+          <li>If another person is borrowing the tool when you place your hold you will receive an email when it is your turn to borrow the item. You then have 2 weeks to pick up the item.</li>
+          <li>If you no longer need to borrow an item you can delete your hold to remove yourself from the line.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
