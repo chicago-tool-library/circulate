@@ -4,6 +4,31 @@ body.admin {
     background: rgba(255,255,255,.7);
   }
 
+  @media all and (max-width: 840px) {
+    .app-body, .app-header {
+      // margin-top: 3.5rem;
+    }
+
+  }
+
+  .admin-search-form {
+    margin-top: 0.6rem;
+  } 
+
+  .off-canvas-sidebar .nav-item {
+    margin-top: 0.2rem;
+  }
+
+  .off-canvas-title {
+    line-height: 3rem;
+  }
+
+  .off-canvas {
+    .off-canvas-content {
+      background: $dark-color;
+    }
+  }
+
  .app-header {
     background: $primary-color;
     color: white;

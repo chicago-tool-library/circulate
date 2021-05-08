@@ -1,6 +1,34 @@
 .public {
   position: relative;
 
+  header.navbar {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .off-canvas .off-canvas-toggle {
+    right: 0.8rem;
+    left: unset;
+  }
+  .off-canvas .off-canvas-sidebar {
+    left: unset;
+    right: 0;
+    transform: translateX(100%);
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  .off-canvas .off-canvas-content {
+    padding-left: 0;
+    padding-right: 3rem;
+  }
+
+  @media all and (max-width: 600px) {
+    .app-body {
+      margin-top: 0.5rem;
+    }
+  }
+
   .navbar {
     .navbar-brand {
       width: 3rem;
@@ -15,15 +43,7 @@
     .search-section {
       input[name=query] {
         width: 8rem;
-      }
-    }
-
-    @media all and (min-width: 841px) {
-      .btn-link.librarian-link {
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-size: .9rem;
+        border-radius: 1rem;
       }
     }
   }
@@ -34,7 +54,16 @@
       display: inline;
     }
     .btn-link {
-      font-size: 1rem;
+      font-size: .8rem;
+      padding: 0.25rem 0.25rem;
+    }
+  }
+
+  @media all and (max-width: 900px) {
+    .navbar-section.search-section {
+      position: absolute;
+      top: .5rem;
+      right: 1rem;
     }
   }
 }
@@ -49,9 +78,31 @@
   flex: 1 0 auto;
 }
 
-.public {
-  header.navbar {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+.mobile-banner {
+  width: 100%;
+  background: $primary-color-light;
+  color: white;
+  .mobile-banner-content {
+    position: relative;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    form {
+      color: $dark-color;
+      max-width: 65%;
+      input[name=query] {
+        width: 8rem;
+        border-radius: 1rem;
+      }
+    }
+  }
+  .logo {
+    margin-left: 0.3rem;
+    img {
+      width: 60px;
+      height: 53px;
+    }
   }
 }

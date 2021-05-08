@@ -7,6 +7,7 @@
   <% if current_user.admin? %>
     <%= navbar_link_to "Librarian View", admin_dashboard_path, class: "librarian-link" %>
   <% end %>
+  <%= navbar_link_to 'Logout', destroy_user_session_path, method: :delete %>
 <% else %>
   <%= navbar_link_to 'Member Login', new_user_session_path %>
   <%= navbar_link_to "Become a Member", signup_path %>
