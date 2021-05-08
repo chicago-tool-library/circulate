@@ -14,7 +14,7 @@
 
         <ul class="hold-list">
           <% @holds.each do |hold| %>
-            <li>
+            <li class="clearfix">
               <div class="image">
                 <%= link_to item_path(hold.item) do %>
                   <% if hold.item.image.attached? %>

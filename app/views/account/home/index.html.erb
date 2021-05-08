@@ -13,7 +13,7 @@
 
         <ul class="loan-list">
           <% @loans.each do |loan| %>
-            <li>
+            <li class="clearfix">
               <div class="image">
                 <%= link_to item_path(loan.item) do %>
                   <% if loan.item.image.attached? %>
