@@ -24,7 +24,7 @@ module Account
     end
 
     def history
-      @holds = current_member.holds.recent_first.includes(:item)
+      @holds = current_member.inactive_holds.recent_first.includes(:item)
     end
   end
 end
