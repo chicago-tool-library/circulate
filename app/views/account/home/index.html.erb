@@ -2,9 +2,9 @@
   <div class="columns">
 
     <div class="column col-8 col-md-12">
-      <%= index_header "Loans" do %>
-        <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn" %>
-        <%= link_to "View Loan History", account_loans_path, class: "btn" %>
+      <%= section_header "Loans" do %>
+        <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-primary" %>
+        <%= link_to "View Loan History", account_loans_path, class: "ml-2" %>
       <% end %>
 
       <% if @loans.any? %>

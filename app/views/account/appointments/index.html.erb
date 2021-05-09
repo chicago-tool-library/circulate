@@ -2,8 +2,8 @@
   <div class="columns">
     <div class="column col-8 col-md-12">
 
-      <%= index_header "Appointments" do %>
-        <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-lg btn-primary" %>
+      <%= section_header "Appointments" do %>
+        <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-primary" %>
       <% end %>
 
       <% if @appointments.any? %>

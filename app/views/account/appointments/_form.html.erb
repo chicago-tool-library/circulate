@@ -21,7 +21,7 @@
 
       <ul class="loan-list">
         <% @loans.each do |loan| %>
-          <li>
+          <li class="clearfix">
             <% if loan.item.image.attached? %>
               <div class="image">
                 <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>

@@ -8,9 +8,12 @@
 @import 'spectre.css/src/mixins/_shadow';
 @import './partials/index';
 
+@import './helpers/layouts_helper';
+
 @import 'admin';
 @import 'public';
 @import 'account';
+@import 'responsive';
 
 body {
   background-color: $background-color;
@@ -1086,6 +1089,7 @@ html {
 
 body {
   display: flex;
+  min-height: 100%;
   flex-direction: column;
 }
 

@@ -1,5 +1,5 @@
 <% content_for :header do %>
-  <%= index_header "Editing Password" %>
+  <%= section_header "Editing Password" %>
 <% end %>
 
 <%= form_with(model: @user, :url => { :action => "update" }, builder: SpectreFormBuilder ) do |f| %>

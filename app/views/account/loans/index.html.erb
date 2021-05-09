@@ -2,8 +2,8 @@
   <div class="columns">
 
     <div class="column col-8 col-md-12">
-      <%= index_header "Loan History" do %>
-        <%= link_to "View Current Loans", account_home_path, class: "btn" %>
+      <%= section_header "Loan History" do %>
+        <%= link_to "View Current Loans", account_home_path %>
       <% end %>
 
       <% if @loans.any? %>
