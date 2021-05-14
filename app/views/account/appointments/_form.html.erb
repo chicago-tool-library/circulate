@@ -61,7 +61,7 @@
           <div class="form-group">
             <label class="form-checkbox checkbox-lg">
             <%= check_box_tag("appointment[hold_ids][]", hold.id, @appointment.holds.include?(hold), 
-              disabled: !hold.ready_for_pickup? || (hold.upcoming_appointment.present? && hold.upcoming_appointment == @appointment)) %>
+              disabled: !hold.ready_for_pickup? || (hold.upcoming_appointment.present? && hold.upcoming_appointment != @appointment)) %>
             <i class="form-icon"></i>
             <%= hold.item.name %> (<%= hold.item.complete_number %>)
             </label>
