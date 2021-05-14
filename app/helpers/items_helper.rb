@@ -99,7 +99,7 @@ module ItemsHelper
         ["label-success", "Available"]
       end
     elsif item.maintenance?
-      ["label", "In Maintenance"]
+      ["", "In Maintenance"]
     else
       ["", "Unavailable"]
     end
