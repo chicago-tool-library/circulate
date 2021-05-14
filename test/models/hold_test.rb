@@ -198,22 +198,22 @@ class HoldTest < ActiveSupport::TestCase
     hold1 = create(:hold, item: hammer)
     hold2 = create(:hold, item: hammer)
 
-    assert_difference("Hold.started.count") {
+    assert_difference("Hold.started.count") do
       Hold.start_waiting_holds do |hold|
         assert_equal hold1, hold
       end
-    }
+    end
 
     hold1.reload
     hold2.reload
     assert hold1.started?
     refute hold2.started?
 
-    assert_difference("Hold.started.count") {
+    assert_difference("Hold.started.count") do
       Hold.start_waiting_holds(15.days.since) do |hold|
         assert_equal hold2, hold
       end
-    }
+    end
 
     hold2.reload
     assert hold2.started?
@@ -227,5 +227,24 @@ class HoldTest < ActiveSupport::TestCase
 
     second_hold = create(:hold, item: item)
     assert second_hold.ready_for_pickup?
+  end
+
+  test "can be put on hold if the item is active" do
+    item = create(:item, status: :active)
+    member = create(:verified_member_with_membership)
+
+    hold = Hold.new(item: item, member: member, creator: member.user)
+    assert hold.valid?
+  end
+
+  %i[pending retired maintenance].each do |status|
+    test "can't be put on hold if the item is #{status}" do
+      item = create(:item, status: status)
+      member = create(:verified_member_with_membership)
+
+      hold = Hold.new(item: item, member: member, creator: member.user)
+      refute hold.valid?
+      assert_equal ["can not be placed on hold"], hold.errors[:item]
+    end
   end
 end

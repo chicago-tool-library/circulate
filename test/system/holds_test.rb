@@ -22,6 +22,16 @@ class HoldsTest < ApplicationSystemTestCase
     assert_text "You placed a hold on this item."
   end
 
+  test "member can't place a hold on an item in maintenance" do
+    login_as @member.user
+
+    @item = create(:item, status: :maintenance)
+
+    visit item_url(@item)
+
+    refute_selector 'input[value="Place a hold"]'
+  end
+
   test "member can place a hold multiple times when the borrow policy allows it" do
     login_as @member.user
 
