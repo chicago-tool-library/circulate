@@ -7,6 +7,8 @@ class AdminRenewalRequestsTest < ApplicationSystemTestCase
     @loan = create(:loan, item: @item, member: @member)
     @renewal_request = create(:renewal_request, loan: @loan)
 
+    ActionMailer::Base.deliveries.clear
+
     sign_in_as_admin
     visit admin_renewal_requests_url
   end
