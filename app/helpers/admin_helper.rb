@@ -95,15 +95,10 @@ module AdminHelper
   end
 
   def sort_by_member_and_time(appointments)
-    list = []
-    appointments.each do |appointment|
-      earlier_appointment_index = list.index { |a| a.member == appointment.member }
-      if earlier_appointment_index
-        list[earlier_appointment_index + 1] = appointment
-      else
-        list << appointment
-      end
-    end
-    list
+    appointments
+      .group_by { |a| a.member }
+      .map { |member, appointments| [appointments.map(&:starts_at).min, appointments] }
+      .sort_by { |first_time, appointments| first_time }
+      .flat_map { |_, appointments| appointments }
   end
 end
