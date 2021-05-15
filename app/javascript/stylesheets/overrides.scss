@@ -185,6 +185,9 @@ trix-toolbar {
   h2, .h2 {
     font-size: 1.3rem;
   }
+  h3, .h3 {
+    font-size: 1rem;
+  }
 
   .header-header {
     margin-bottom: .5rem;
@@ -196,5 +199,37 @@ trix-toolbar {
       height: 1.8rem;
       padding: 0.25rem 0.4rem;
     }
+  }
+}
+
+@media all and (max-width: 400px)  {
+  h1, .h1 {
+    font-size: 1.3rem;
+  }
+  h2, .h2 {
+    font-size: 1rem;
+  }
+  h3, .h3 {
+    font-size: .8rem;
+  }
+}
+
+.checkbox-lg {
+  .form-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0;
+  }
+  &.form-checkbox {
+    padding-left: 1.8rem;
+  }
+  &.form-checkbox input:checked + .form-icon::before {
+    border: 0.2rem solid white;
+    border-left-width: 0;
+    border-top-width: 0;
+    height: 18px;
+    margin-left: -5px;
+    margin-top: -11px;
+    width: 10px;
   }
 }

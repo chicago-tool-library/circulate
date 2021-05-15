@@ -1,132 +1,70 @@
-<% content_for :header do %>
-  <%= index_header "Loans" do %>
-    <%= link_to "View Loan History", account_loans_path, class: "btn btn-lg" %>
-  <% end %>
-<% end %>
-
 <div class="account-home-index">
-  <div class="columns ">
-    <div class="column">
-      <details class="rule-list">
-        <summary>How do loans work?</summary>
+  <div class="columns">
+
+    <div class="column col-8 col-md-12">
+      <%= section_header "Loans" do %>
+        <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-primary" %>
+        <%= link_to "View Loan History", account_loans_path, class: "ml-2" %>
+      <% end %>
+
+      <% if @loans.any? %>
+
+        <p class="loan-summary">You have <span class="text-bold"><%= pluralize @loans.count, "item" %></span> checked out.<br> The next day items are due is <span class="text-bold"><%= next_due_date(@loans) %></span>.</p>
+
+        <ul class="loan-list">
+          <% @loans.each do |loan| %>
+            <li class="clearfix">
+              <div class="image">
+                <%= link_to item_path(loan.item) do %>
+                  <% if loan.item.image.attached? %>
+                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  <% else %>
+                    <div class="placeholder p-centered"></div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="details">
+                <span class="item">
+                  <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
+                </span>
+                <span class="status">
+                  <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
+                  <span class="pickup"><%= loan_pickup_status(loan) %></span>
+                </span>
+              </div>
+              <div class="actions">
+                <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.renewal_requests.any? %>
+                  <% if loan.latest_renewal_request.rejected? %>
+                    Renewal denied! There are others waiting to borrow this tool.
+                  <% else %>
+                    Renewal requested
+                  <% end %>
+                <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
+                  Renewed
+                <% elsif loan.member_renewable? %>
+                  <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
+                <% elsif ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.member_renewal_requestable? %>
+                  <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to 'Request Loan Renewal', account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= empty_state "You have no items on loan" %>
+      <% end %>
+    </div>
+
+    <div class="column col-4 col-md-12">
+      <div class="rule-list">
+        <h3>How do loans work?</h3>
         <ul>
           <li>You can borrow items for 7 days.</li>
           <li>You can ask to renew your loans on this page. Your renewal will be either accepted or rejected. If your renewal is rejected you must return your item.</li>
           <li>You cannot borrow new items until overdue items are returned.</li>
           <li>If you frequently return tools late you risk losing your membership.</li>
         </ul>
-      </details>
-
-      <% if @loans.any? %>
-        <table class="table table-scroll" id="loans-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th class="caption">Item</th>
-              <th class="caption">Inventory Number</th>
-              <th class="caption">Due Date</th>
-              <th class="caption">Status</th>
-              <th class="caption">Renew</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @loans.each do |loan| %>
-              <tr>
-                <td>
-                  <%= link_to item_path(loan.item) do %>
-                    <% if loan.item.image.attached? %>
-                      <%= image_tag item_image_url(loan.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
-                    <% end %>
-                  <% end %>
-                </td>
-                <td><%= link_to loan.item.name, item_path(loan.item) %></td>
-                <td><%= loan.item.complete_number %></td>
-                <td class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></td>
-                <td><%= render_loan_status(loan) %></td>
-                <td>
-                  <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.renewal_requests.any? %>
-                    <% if loan.latest_renewal_request.rejected? %>
-                      Renewal refused
-                    <% else %>
-                      Renewal requested
-                    <% end %>
-                  <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
-                    Renewed
-                  <% elsif loan.member_renewable? %>
-                    <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
-                  <% elsif ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.member_renewal_requestable? %>
-                    <%= button_to 'Request Loan Renewal', account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <p>
-          <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn" %>
-        </p>
-      <% else %>
-        <%= empty_state "You have no items on loan" %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="columns">
-    <div class="column">
-
-      <%= index_header "Holds" do %>
-        <%= link_to "View Hold History", account_holds_path, class: "btn btn-lg" %>
-      <% end %>
-
-      <details class="rule-list">
-        <summary>How do holds work?</summary>
-        <ul>
-          <li>Placing a hold means you are putting yourself in line to borrow an item. Please do not do this unless you plan on borrowing the item.</li>
-          <li>If you are first in line you have 2 weeks to pick up an item. If you do not pick up the item, you will lose your position in line and another person may borrow it.</li>
-          <li>If another person is borrowing the tool when you place your hold you will receive an email when it is your turn to borrow the item. You then have 2 weeks to pick up the item.</li>
-          <li>If you no longer need to borrow an item you can delete your hold to remove yourself from the line.</li>
-        </ul>
-      </details>
-
-      <% if @holds.any? %>
-        <table class="table table-scroll">
-          <thead>
-            <tr>
-              <th></th>
-              <th class="caption">Item</th>
-              <th class="caption">Inventory Number</th>
-              <th class="caption">Status</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @holds.each do |hold| %>
-              <tr>
-                <td>
-                  <%= link_to item_path(hold.item) do %>
-                    <% if hold.item.image.attached? %>
-                      <%= image_tag item_image_url(hold.item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
-                    <% end %>
-                  <% end %>
-                </td>
-                <td><%= link_to hold.item.name, item_path(hold.item) %></td>
-                <td><%= hold.item.complete_number %></td>
-                <td><%= render_hold_status(hold) %></td>
-                <td><%= render_remove_link(hold) %>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-
-        <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
-          <p>
-            <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn" %>
-          </p>
-        <% end %>
-      <% else %>
-        <%= empty_state "You have no items on hold" %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

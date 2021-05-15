@@ -8,6 +8,8 @@
 @import 'spectre.css/src/mixins/_shadow';
 @import './partials/index';
 
+@import './helpers/layouts_helper';
+
 @import 'admin';
 @import 'public';
 @import 'account';
@@ -958,8 +960,6 @@ table.monthly-adjustments {
   }
 }
 
-
-
 .app-body, .app-header {
   .btn {
     @include default-button();
@@ -1081,13 +1081,14 @@ ul.hold-items {
   margin-left: 20px;
 }
 
-html, body {
+html {
   height: 100%;
   min-height: 100%;
-
 }
+
 body {
   display: flex;
+  min-height: 100%;
   flex-direction: column;
 }
 
@@ -1101,7 +1102,14 @@ footer.page-footer {
 }
 
 .time-override {
-  position: absolute;
-  top: 0;
-  right: 0;
+  display: none;
+}
+
+@media all and (min-width: 840px) {
+  .time-override {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 10rem;
+  }
 }

@@ -10,6 +10,7 @@ class Member < ApplicationRecord
 
   has_many :holds, dependent: :destroy
   has_many :active_holds, -> { active }, class_name: "Hold"
+  has_many :inactive_holds, -> { inactive }, class_name: "Hold"
 
   has_many :memberships, dependent: :destroy
   has_one :active_membership, -> { merge(Membership.active) }, class_name: "Membership"

@@ -1,8 +1,8 @@
 require "application_system_test_case"
 
 class HoldsTest < ApplicationSystemTestCase
-  def row_containing(text)
-    find("tr", text: text)
+  def list_item_containing(text)
+    find("li", text: text)
   end
 
   setup do
@@ -64,9 +64,9 @@ class HoldsTest < ApplicationSystemTestCase
     assert_selector "button[disabled]", text: "Place a hold"
     assert_text "You placed a hold on this item."
 
-    visit account_home_path
-    within(row_containing(@item.complete_number)) { assert_text "#1 on wait list" }
-    within(row_containing(@popular_item.complete_number)) { assert_text "#2 on wait list" }
+    visit account_holds_path
+    within(list_item_containing(@item.complete_number)) { assert_text "#1 on wait list" }
+    within(list_item_containing(@popular_item.complete_number)) { assert_text "#2 on wait list" }
   end
 
   test "member with next hold is notified when an item is returned" do
@@ -86,7 +86,7 @@ class HoldsTest < ApplicationSystemTestCase
         click_on "Return"
       end
 
-      refute_selector "#current-loans"
+      refute_selector "#current-loans", wait: 10
     end
 
     @hold.reload
@@ -111,11 +111,11 @@ class HoldsTest < ApplicationSystemTestCase
       create(:started_hold, member: @member, item: @item)
     end
 
-    visit account_home_path
+    visit account_holds_path
     refute_text @item.complete_number
     refute_text @item.name
 
-    visit account_holds_path
+    visit history_account_holds_path
     assert_text @item.complete_number
     assert_text @item.name
   end

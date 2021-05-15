@@ -1,14 +1,14 @@
 require "application_system_test_case"
 
 class AppointmentsTest < ApplicationSystemTestCase
-  def check_row_with_name(item_name)
-    within row_containing(item_name) do
-      find("input[type=checkbox]").check
+  def check_list_item_with_name(item_name)
+    within list_item_containing(item_name) do
+      find("label").click # Styled checkboxes can't be toggled using #check
     end
   end
 
-  def row_containing(text)
-    find("tr", text: text)
+  def list_item_containing(text)
+    find("li", text: text)
   end
 
   def select_first_available_date
@@ -34,19 +34,19 @@ class AppointmentsTest < ApplicationSystemTestCase
     create(:loan, item: @borrowed_item1, member: @member)
     create(:loan, item: @borrowed_item2, member: @member)
 
-    visit account_home_url
+    visit account_holds_url
 
     click_on "Schedule a Pick Up"
 
     assert_text "Schedule an Appointment"
 
-    check_row_with_name(@held_item1.complete_number)
-    check_row_with_name(@borrowed_item1.complete_number)
+    check_list_item_with_name(@held_item1.complete_number)
+    check_list_item_with_name(@borrowed_item1.complete_number)
 
     selected_date = select_first_available_date
 
     fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Just a small project"
-    click_on "Create Appointment"
+    click_on "Schedule Appointment"
 
     assert_text "Appointments"
     assert_text selected_date
@@ -58,10 +58,13 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     visit account_home_url
 
-    within(row_containing(@held_item1.complete_number)) { assert_text "Scheduled for pick-up" }
-    within(row_containing(@held_item2.complete_number)) { assert_text "Ready for pickup" }
-    within(row_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
-    within(row_containing(@borrowed_item2.complete_number)) { assert_text "Checked-out" }
+    within(list_item_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
+    within(list_item_containing(@borrowed_item2.complete_number)) { assert_text "Due" }
+
+    visit account_holds_url
+
+    within(list_item_containing(@held_item1.complete_number)) { assert_text "Scheduled for pick-up" }
+    within(list_item_containing(@held_item2.complete_number)) { assert_text "Ready for pickup" }
   end
 
   test "multiple members can make an appointment for an uncounted tool" do
@@ -77,24 +80,24 @@ class AppointmentsTest < ApplicationSystemTestCase
     [@member, @second_member].each do |member|
       login_as member.user
 
-      visit account_home_url
+      visit account_holds_path
 
       click_on "Schedule a Pick Up"
 
       assert_text "Schedule an Appointment"
-      check_row_with_name(@held_item.complete_number)
+      check_list_item_with_name(@held_item.complete_number)
 
       selected_date = select_first_available_date
 
-      click_on "Create Appointment"
+      click_on "Schedule Appointment"
 
-      assert_text "Appointments"
+      assert_selector "h1", text: "Appointments", wait: 10
+      assert_equal account_appointments_path, current_path
       assert_text selected_date
       assert_text @held_item.complete_number
 
-      visit account_home_url
-
-      within(row_containing(@held_item.complete_number)) { assert_text "Scheduled for pick-up" }
+      visit account_holds_url
+      within(list_item_containing(@held_item.complete_number)) { assert_text "Scheduled for pick-up" }
     end
   end
 
@@ -126,26 +129,30 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     click_on "Edit"
 
-    check_row_with_name(@held_item2.complete_number)
-    check_row_with_name(@borrowed_item2.complete_number)
+    check_list_item_with_name(@held_item2.complete_number)
+    check_list_item_with_name(@borrowed_item2.complete_number)
 
     selected_date = select_first_available_date
 
     fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Updated appointment"
-    click_on "Edit Appointment"
+    click_on "Update Appointment"
 
     assert_text "Appointments"
     assert_text selected_date
+
     assert_text "Updated appointment"
+
     assert_text @held_item1.complete_number
     assert_text @borrowed_item1.complete_number
     assert_text @held_item2.complete_number
     assert_text @borrowed_item2.complete_number
 
     visit account_home_url
-    within(row_containing(@held_item1.complete_number)) { assert_text "Scheduled for pick-up" }
-    within(row_containing(@held_item2.complete_number)) { assert_text "Scheduled for pick-up" }
-    within(row_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
-    within(row_containing(@borrowed_item2.complete_number)) { assert_text "Scheduled for return" }
+    within(list_item_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
+    within(list_item_containing(@borrowed_item2.complete_number)) { assert_text "Scheduled for return" }
+
+    visit account_holds_url
+    within(list_item_containing(@held_item1.complete_number)) { assert_text "Scheduled for pick-up" }
+    within(list_item_containing(@held_item2.complete_number)) { assert_text "Scheduled for pick-up" }
   end
 end
