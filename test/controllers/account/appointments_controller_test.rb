@@ -50,5 +50,13 @@ module Account
       @appointment.reload
       assert_equal 1, @appointment.holds.count
     end
+
+    test "should not update appointment scheduled after any holds expire" do
+      @expired_hold = FactoryBot.create(:hold, member: @member, started_at: @appointment.starts_at - Hold::HOLD_LENGTH - 1.days)
+      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [@hold.id, @expired_hold.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+
+      assert_template :edit
+      assert_select "ul.error", /on or before hold expires on/
+    end
   end
 end

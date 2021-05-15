@@ -63,7 +63,8 @@ module Account
         holds: Hold.where(id: appointment_params[:hold_ids], member: @member),
         loans: Loan.where(id: appointment_params[:loan_ids], member: @member),
         comment: appointment_params[:comment],
-        time_range_string: appointment_params[:time_range_string]
+        time_range_string: appointment_params[:time_range_string],
+        member_updating: true
       }
 
       @appointment.update(params)

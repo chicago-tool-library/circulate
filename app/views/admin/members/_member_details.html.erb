@@ -1,14 +1,9 @@
 <div class="panel member-panel">
   <div class="panel-header">
-  <h6>Member Details</h6>
+  <h6><%= link_to preferred_or_default_name(member), admin_member_path(member) %></h6>
   </div>
   <div class="panel-body">
     <ul class="member-stats member">
-      <% if member.number.blank? %>
-        <%= icon_stat "hash", member.number, title: "member-number", placeholder: "No member number" %>
-      <% else %>
-        <li><%= feather_icon "hash" %> <%= member.number %></li>
-      <% end %>
       <%= icon_stat "message-square", member.display_pronouns, title: "pronouns", placeholder: "No pronouns" %>
       <%= icon_stat "user", member.full_name, title: "full_name", placeholder: "No name" %>
       <%= icon_stat "mail", member.email, title: "email", placeholder: "No email" %>
@@ -27,9 +22,22 @@
           <%= feather_icon "clipboard" %> <%= pluralize(member.holds.active.count, "hold") %>
         <% end %>
       </li>
+      <% next_appointment = member.appointments.today_or_later.first %>
+      <% if next_appointment %>
+        <li>
+          <%= link_to admin_appointment_path(next_appointment) do %>
+            <%= feather_icon "calendar" %> <%= pluralize(member.appointments.today_or_later.count, "upcoming appointment") %>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
 
     <ul class="member-stats account">
+      <% if member.number.blank? %>
+        <%= icon_stat "hash", member.number, title: "member-number", placeholder: "No member number" %>
+      <% else %>
+        <li><%= feather_icon "hash" %> <%= member.number %></li>
+      <% end %>
       <% if member.status_verified? %>
         <li><%= feather_icon "user-check" %> Info verified</li>
       <% end %>

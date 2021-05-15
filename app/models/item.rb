@@ -113,7 +113,7 @@ class Item < ApplicationRecord
   end
 
   def holdable?
-    available? && active_holds.size == 0
+    active?
   end
 
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy
