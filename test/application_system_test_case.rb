@@ -14,9 +14,9 @@ Capybara.add_selector :rich_text_area do
 
       XPath.descendant(:"trix-editor").where \
         XPath.attr(:id).equals(locator) |
-        XPath.attr(:placeholder).equals(locator) |
-        XPath.attr(:"aria-label").equals(locator) |
-        XPath.attr(:input).equals(input_located_by_name)
+          XPath.attr(:placeholder).equals(locator) |
+          XPath.attr(:"aria-label").equals(locator) |
+          XPath.attr(:input).equals(input_located_by_name)
     end
   end
 end

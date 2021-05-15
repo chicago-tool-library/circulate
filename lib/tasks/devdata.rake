@@ -1,8 +1,8 @@
 require "fileutils"
 
-namespace :devdata do
-  DEVDATA_DIR = File.expand_path("db/devdata", Rails.root)
+DEVDATA_DIR = File.expand_path("db/devdata", Rails.root)
 
+namespace :devdata do
   def models_file_path(klass)
     "#{DEVDATA_DIR}/#{klass.to_s.underscore.pluralize}.yml"
   end

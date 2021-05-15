@@ -112,7 +112,7 @@ class Hold < ApplicationRecord
 
       Rails.logger.debug "[hold #{hold.id}]: ready to start"
       hold.start!(now)
-      yield hold if block_given? # send email
+      yield hold if block # send email
       started += 1
     end
 

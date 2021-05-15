@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
-    resources :loans, only: [:index] 
+    resources :loans, only: [:index]
     resources :renewals, only: :create
     resources :renewal_requests, only: :create if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
     get "/", to: "home#index", as: "home"

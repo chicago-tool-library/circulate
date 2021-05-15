@@ -2,6 +2,7 @@ class AddDefaultDocuments < ActiveRecord::Migration[6.0]
   class MigrationDocument < ActiveRecord::Base
     self.table_name = :documents
   end
+
   def change
     MigrationDocument.delete_all
     MigrationDocument.create!(code: "agreement", name: "Agreement")

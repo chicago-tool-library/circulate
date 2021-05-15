@@ -25,7 +25,7 @@ module Admin
         item = create(:item)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: {item_id: item.id }}
+          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
         end
 
         hold = member.holds.last
@@ -38,7 +38,7 @@ module Admin
         create(:loan, item: item)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: { item_id: item.id } }
+          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
         end
 
         hold = member.holds.last
@@ -51,7 +51,7 @@ module Admin
         create(:hold, item: item)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: { item_id: item.id } }
+          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
         end
 
         hold = member.holds.last

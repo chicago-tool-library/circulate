@@ -31,7 +31,7 @@ namespace :export do
     CSV.open(path, "wb") do |csv|
       csv << [
         *Member.column_names,
-        *Membership.column_names.map {|n| "membership_#{n}"}
+        *Membership.column_names.map { |n| "membership_#{n}" }
       ]
       Member.includes(:memberships).find_each do |member|
         if member.memberships.any?
@@ -43,7 +43,7 @@ namespace :export do
           end
         else
           csv << [
-            *member.attributes.values_at(*Member.column_names),
+            *member.attributes.values_at(*Member.column_names)
           ]
         end
       end
