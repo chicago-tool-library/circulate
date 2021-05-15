@@ -20,7 +20,7 @@ module Account
 
     def destroy
       current_member.active_holds.find(params[:id]).destroy!
-      redirect_to account_home_path
+      redirect_to account_holds_path
     end
 
     def history

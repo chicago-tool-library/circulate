@@ -1,4 +1,4 @@
-<div class="account-apointment-new">
+<div class="appointment-form">
 
   <% if @appointment.errors.any?  %>
     <ul class="error">
@@ -18,6 +18,7 @@
   <%= form_with(model: [:account, @appointment]) do |form| %>
 
     <div class="columns">
+
       <% if loans.any? %>
         <div class="column col-5 col-sm-12 col-mr-auto">
           <h2 class="h3">Select Items to Return</h2>
@@ -49,8 +50,8 @@
               </li>
             <% end %>
           </ul>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
 
       <div class="column col-5 col-sm-12 col-mr-auto">
         <h2 class="h3">Select Items to Pick-Up</h2>

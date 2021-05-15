@@ -18,8 +18,8 @@
 
   .loan-list, .hold-list {
     margin: 0;
+    list-style: none outside;
     li {
-      list-style: none outside;
       margin-bottom: 1.5rem;
       border-bottom: solid 2px $gray-color-light;
       padding-bottom: 1rem;

@@ -2,10 +2,9 @@ require "application_system_test_case"
 
 class MemberCheckedOutItemsTest < ApplicationSystemTestCase
   setup do
-    @user = create(:user)
-    @member = create(:member, user: @user)
+    @member = create(:member)
 
-    login_as(@user)
+    login_as(@member.user)
   end
 
   test "member can see loans" do
@@ -13,11 +12,11 @@ class MemberCheckedOutItemsTest < ApplicationSystemTestCase
 
     visit account_home_url
 
-    within "#loans-table" do
+    within ".loan-list" do
       assert_text @loan.item.name
     end
 
     click_on @loan.item.name
-    assert_equal "/items/#{@loan.item.id}", current_path
+    assert_equal item_path(@loan.item), current_path
   end
 end

@@ -52,6 +52,8 @@ class Appointment < ApplicationRecord
 
   def starts_before_holds_expire
     holds_first_expire = holds.filter_map(&:expires_at).min
+    return unless starts_at
+
     before_holds_expire = holds_first_expire.nil? || starts_at <= holds_first_expire
     unless before_holds_expire
       errors.add(:base, "Please pick an appointment on or before hold expires on #{holds_first_expire.strftime("%a, %-m/%-d")}.")
