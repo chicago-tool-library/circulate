@@ -24,7 +24,7 @@
         <p>Your request to renew <strong><%= @item.name %> (<%= @item.complete_number %>)</strong> was approved!</p>
         <p>It is now due on <%= checked_out_date @renewal_request.loan_summary.due_at %>.</p>
       <% else %>
-        <p>We aren't able to renew <strong><%= @item.name %> (<%= @item.complete_number %>)</strong> due to demand.</p>
+        <p>Sorry, we aren't able to renew <strong><%= @item.name %> (<%= @item.complete_number %>)</strong> due to demand.</p>
          <p>Please try to return it by <%= checked_out_date @renewal_request.loan.due_at %>.</p>
       <% end %>
     </mj-text>
