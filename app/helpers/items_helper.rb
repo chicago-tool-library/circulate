@@ -3,9 +3,9 @@ module ItemsHelper
 
   def item_categories(item)
     item.categories.select(:id, :name)
-                   .order(:name)
-                   .map { |obj| link_to(obj.name, items_path(category: obj.id)) }
-                   .join(", ")
+      .order(:name)
+      .map { |obj| link_to(obj.name, items_path(category: obj.id)) }
+      .join(", ")
   end
 
   def item_status_options
@@ -98,6 +98,8 @@ module ItemsHelper
       else
         ["label-success", "Available"]
       end
+    elsif item.maintenance?
+      ["", "In Maintenance"]
     else
       ["", "Unavailable"]
     end

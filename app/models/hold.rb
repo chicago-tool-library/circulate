@@ -15,7 +15,17 @@ class Hold < ApplicationRecord
   scope :expired, ->(now = Time.current) { where("started_at < ?", now - HOLD_LENGTH) }
   scope :started, -> { where("started_at IS NOT NULL") }
 
-  scope :recent_first, -> { order("created_at desc")}
+  scope :recent_first, -> { order("created_at desc") }
+
+  validates :item, presence: true
+  validates_each :item do |record, attr, value|
+    if value
+      value.reload
+      unless value.holdable?
+        record.errors.add(attr, "can not be placed on hold")
+      end
+    end
+  end
 
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
@@ -67,11 +77,11 @@ class Hold < ApplicationRecord
     started_at.present?
   end
 
-  def previous_active_holds(now=Time.current)
+  def previous_active_holds(now = Time.current)
     Hold.active(now).where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
   end
 
-  def ready_for_pickup?(now=Time.current)
+  def ready_for_pickup?(now = Time.current)
     # Holds for uncounted items are always ready to be picked up
     unless item.borrow_policy.uniquely_numbered?
       return true
@@ -86,7 +96,7 @@ class Hold < ApplicationRecord
     member.upcoming_appointment_of(self)
   end
 
-  def self.start_waiting_holds(now=Time.current, &block)
+  def self.start_waiting_holds(now = Time.current, &block)
     started = 0
 
     active(now).includes(item: :borrow_policy).find_each do |hold|

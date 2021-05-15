@@ -102,7 +102,12 @@ class ItemsHelperTest < ActionView::TestCase
       assert_equal ["label-warning", "On Hold"], css_class_and_status_label(item)
     end
 
-    [:pending, :maintenance, :retired].each do |status|
+    test "item status for an uniquely numbered item with status maintenance" do
+      item = create(:item, status: :maintenance)
+      assert_equal ["", "In Maintenance"], css_class_and_status_label(item)
+    end
+
+    [:pending, :retired].each do |status|
       test "item status for an uniquely numbered item with status #{status}" do
         item = create(:item, status: status)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
@@ -131,7 +136,12 @@ class ItemsHelperTest < ActionView::TestCase
       assert_equal ["label-success", "Available"], css_class_and_status_label(item)
     end
 
-    [:pending, :maintenance, :retired].each do |status|
+    test "item status for an unnumbered item with status maintenance" do
+      item = create(:uncounted_item, status: :maintenance)
+      assert_equal ["", "In Maintenance"], css_class_and_status_label(item)
+    end
+
+    [:pending, :retired].each do |status|
       test "item status for an unnumbered item with status #{status}" do
         item = create(:uncounted_item, status: status)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
