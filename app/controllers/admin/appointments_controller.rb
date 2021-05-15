@@ -4,7 +4,10 @@ module Admin
 
     def index
       @current_day = Date.parse(params[:day] ||= Time.current.to_date.to_s)
-      @appointments = Appointment.where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day).chronologically
+      @appointments = Appointment
+        .where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day)
+        .chronologically
+        .includes(:member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
     end
 
     def show
