@@ -9,28 +9,59 @@
       <% if @appointments.any? %>
         <ul class="appointment-list">
           <% @appointments.each do |appointment| %>
-            <li class="appointment">
-              <div class="schedule">
+            <li class="appointment card">
+              <div class="card-header schedule">
                 <h2>
                   <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %><br>
                   <span class="time">between <%= appointment_time(appointment) %></span>
                 </h2>
                 <div class="actions">
-                  <%= button_to "Edit", edit_account_appointment_path(appointment), class: "btn", method: :get, data: { disabled_with: "Editing appointment..." } %>
+                  <%= button_to "Edit", edit_account_appointment_path(appointment), class: "btn btn-primary", method: :get, data: { disabled_with: "Editing appointment..." } %>
                   <%= button_to "Cancel", account_appointment_path(appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
                 </div>
               </div>
 
-              <h3>Here's what you're returning</h3>
+              <div class="card-body">
 
-              <% if appointment.loans.any? %>
-                <ul class="loan-list" id="items-to-pickup-table">
-                  <% appointment.loans.each do |loan| %>
+                <h3 class="h5">Here's what you're returning</h3>
+
+                <% if appointment.loans.any? %>
+                  <ul class="loan-list" id="items-to-pickup-table">
+                    <% appointment.loans.each do |loan| %>
+                      <li class="clearfix">
+                        <div class="image">
+                          <%= link_to item_path(loan.item) do %>
+                            <% if loan.item.image.attached? %>
+                              <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                            <% else %>
+                              <div class="placeholder p-centered"></div>
+                            <% end %>
+                          <% end %>
+                        </div>
+                        <div class="details">
+                          <span class="item">
+                            <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
+                          </span>
+                          <span class="status">
+                            <span class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span><br>
+                          </span>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% else %>
+                  <p>No items to return</p>
+                <% end %>
+
+                <h3 class="h5">Here's what you're picking up</h3>
+
+                <ul class="hold-list">
+                  <% appointment.holds.each do |hold| %>
                     <li class="clearfix">
                       <div class="image">
-                        <%= link_to item_path(loan.item) do %>
-                          <% if loan.item.image.attached? %>
-                            <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                        <%= link_to item_path(hold.item) do %>
+                          <% if hold.item.image.attached? %>
+                            <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
                           <% else %>
                             <div class="placeholder p-centered"></div>
                           <% end %>
@@ -38,47 +69,19 @@
                       </div>
                       <div class="details">
                         <span class="item">
-                          <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
-                        </span>
-                        <span class="status">
-                          <span class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span><br>
+                          <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
                         </span>
                       </div>
                     </li>
                   <% end %>
                 </ul>
-              <% else %>
-                <p>No items to return</p>
-              <% end %>
 
-              <h3>Here's what you're picking up</h3>
-
-              <ul class="hold-list">
-                <% appointment.holds.each do |hold| %>
-                  <li class="clearfix">
-                    <div class="image">
-                      <%= link_to item_path(hold.item) do %>
-                        <% if hold.item.image.attached? %>
-                          <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
-                        <% else %>
-                          <div class="placeholder p-centered"></div>
-                        <% end %>
-                      <% end %>
-                    </div>
-                    <div class="details">
-                      <span class="item">
-                        <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
-                      </span>
-                    </div>
-                  </li>
+                <% if appointment.comment.present? %>
+                  <h3 class="h5">What kind of project are you working on?</h3>
+                  <%= appointment.comment %>
                 <% end %>
-              </ul>
-
-              <% if appointment.comment.present? %>
-                <h3>What kind of project are you working on?</h3>
-                <%= appointment.comment %>
-              <% end %>
-            </li>
+              </li>
+            </div>
           <% end %>
         </ul>
 

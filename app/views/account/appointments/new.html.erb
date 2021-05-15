@@ -1,12 +1,11 @@
 <div class="account account-appointments-index">
   <div class="columns">
     <div class="column col-12">
-
       <%= section_header "Schedule an Appointment" %>
-
-      <div class="appointment-form">
-        <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
-      </div>
     </div>
+  </div>
+
+  <div class="appointment-form">
+    <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
   </div>
 </div>

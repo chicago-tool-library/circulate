@@ -16,70 +16,75 @@
   <% end %>
 
   <%= form_with(model: [:account, @appointment]) do |form| %>
-    <% if loans.any? %>
-      <h2>Select Items to Return</h2>
 
-      <ul class="loan-list">
-        <% @loans.each do |loan| %>
-          <li class="clearfix">
-            <% if loan.item.image.attached? %>
-              <div class="image">
-                <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
-              </div>
+    <div class="columns">
+      <% if loans.any? %>
+        <div class="column col-5 col-sm-12 col-mr-auto">
+          <h2 class="h3">Select Items to Return</h2>
+
+          <ul class="loan-list">
+            <% @loans.each do |loan| %>
+              <li class="clearfix">
+                <% if loan.item.image.attached? %>
+                  <div class="image">
+                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  </div>
+                <% end %>
+                <div class="details">
+                  <div class="form-group">
+                    <label class="form-checkbox checkbox-lg">
+                    <%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan)), 
+                      disabled: loan.upcoming_appointment.present? && loan.upcoming_appointment != @appointment) %> 
+                    <i class="form-icon"></i>
+                    <%= loan.item.name %> (<%= loan.item.complete_number %>)
+                    </label>
+                  </div>
+                  <span class="status">
+                    <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
+                    <span class="pickup">
+                      <%= loan_pickup_status(loan) %>
+                    </span>
+                  </span>
+                </div>
+              </li>
             <% end %>
-            <div class="details">
+          </ul>
+        <% end %>
+      </div>
+
+      <div class="column col-5 col-sm-12 col-mr-auto">
+        <h2 class="h3">Select Items to Pick-Up</h2>
+
+        <ul class="hold-list">
+          <% @holds.each do |hold| %>
+            <li>
+              <% if hold.item.image.attached? %>
+                <div class="image">
+                  <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                </div>
+              <% end %>
               <div class="form-group">
                 <label class="form-checkbox checkbox-lg">
-                <%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan)), 
-                  disabled: loan.upcoming_appointment.present? && loan.upcoming_appointment != @appointment) %> 
+                <%= check_box_tag("appointment[hold_ids][]", hold.id, @appointment.holds.include?(hold), 
+                  disabled: !hold.ready_for_pickup? || (hold.upcoming_appointment.present? && hold.upcoming_appointment != @appointment)) %>
                 <i class="form-icon"></i>
-                <%= loan.item.name %> (<%= loan.item.complete_number %>)
+                <%= hold.item.name %> (<%= hold.item.complete_number %>)
                 </label>
               </div>
-              <span class="status">
-                <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
-                <span class="pickup">
-                  <%= loan_pickup_status(loan) %>
+              <div class="details">
+                <span class="status">
+                  <%= render_hold_status(hold) %>
                 </span>
-              </span>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
-
-    <h2>Select Items to Pick-Up</h2>
-
-    <ul class="hold-list">
-      <% @holds.each do |hold| %>
-        <li>
-          <% if hold.item.image.attached? %>
-            <div class="image">
-              <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
-            </div>
+              </div>
+            </li>
           <% end %>
-          <div class="form-group">
-            <label class="form-checkbox checkbox-lg">
-            <%= check_box_tag("appointment[hold_ids][]", hold.id, @appointment.holds.include?(hold), 
-              disabled: !hold.ready_for_pickup? || (hold.upcoming_appointment.present? && hold.upcoming_appointment != @appointment)) %>
-            <i class="form-icon"></i>
-            <%= hold.item.name %> (<%= hold.item.complete_number %>)
-            </label>
-          </div>
-          <div class="details">
-            <span class="item">
-              <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
-            </span>
-            <span class="status">
-              <%= render_hold_status(hold) %>
-            </span>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+        </ul>
+
+      </div>
+    </div>
 
     <div class="form-group" data-controller="appointment-date">
-      <label class="form-label" for="time_range_string">Select a time to pick-up/return your items</label>
+      <label class="form-label h3" for="time_range_string">Select a time to pick-up/return your items</label>
       <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: 'Select a Date' },
         class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }, disabled: !can_schedule_appointment) %>
         <span data-target="appointment-date.display"></span>
