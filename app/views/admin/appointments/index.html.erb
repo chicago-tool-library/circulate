@@ -36,7 +36,7 @@
         </thead>
 
         <tbody>
-          <% @appointments.each do |appointment| %>
+          <% sort_by_member_and_time(@appointments).each do |appointment| %>
             <tr>
               <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
               <td class="member">
