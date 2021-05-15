@@ -93,4 +93,17 @@ module AdminHelper
   def modal(title:, body:, &block)
     render "shared/modal", title: title, body: body, &block
   end
+
+  def sort_by_member_and_time(appointments)
+    list = []
+    appointments.each do |appointment|
+      earlier_appointment_index = list.index { |a| a.member == appointment.member }
+      if earlier_appointment_index
+        list[earlier_appointment_index + 1] = appointment
+      else
+        list << appointment
+      end
+    end
+    list
+  end
 end
