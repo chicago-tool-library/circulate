@@ -26,7 +26,5 @@
   </div>
 
 <% else %>
-  <%= empty_state "There are no borrow policies.", subtitle:"Create one?" do %>
-    <%= link_to "Add a Borrow Policy", new_admin_borrow_policy_path, class: "btn btn-primary" %>
-  <% end %>
+  <%= empty_state "There are no borrow policies." %>
 <% end %>
