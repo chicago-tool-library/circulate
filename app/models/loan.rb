@@ -56,6 +56,10 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
+  def summary
+    @summary ||= LoanSummary.find(initial_loan_id || id)
+  end
+
   def self.open_days
     [
       3, # Wednesday

@@ -1,5 +1,5 @@
 <% if @renewal_request.approved? %>
-Your request to renew <%= @item.name %> (<%= @item.complete_number %>) was approved!. It is now due on <%= checked_out_date @renewal_request.loan_summary.due_at %>.
+Your request to renew <%= @item.name %> (<%= @item.complete_number %>) was approved!. It is now due on <%= checked_out_date @renewal_request.loan.summary.due_at %>.
 <% else %>
 Sorry, we aren't able to renew <%= @item.name %> (<%= @item.complete_number %>) due to demand. Please try to return it by <%= checked_out_date @renewal_request.loan.due_at %>.
 <% end %>
