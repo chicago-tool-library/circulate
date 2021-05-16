@@ -52,9 +52,15 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
   end
 
-  def loan_renewal_request_message
-    # TODO: Implement
-    @subject = "Renewal Request"
+  def renewal_request_updated
+    @renewal_request = params[:renewal_request]
+    @item = @renewal_request.loan.item
+    @member = @renewal_request.loan.member
+
+    message = @renewal_request.approved? ? "Your item was renewed" : "Your item couldn't be renewed"
+    @subject = "#{message} (#{@item.name})"
+
+    mail(to: @member.email, subject: @subject)
   end
 
   def membership_renewal_reminder

@@ -1,5 +1,7 @@
 # Preview all emails at http://localhost:3000/rails/mailers/member_mailer
 class MemberMailerPreview < ActionMailer::Preview
+  include Lending
+
   def welcome_message
     MemberMailer.with(member: Member.first, amount: 2500).welcome_message
   end
@@ -69,5 +71,20 @@ class MemberMailerPreview < ActionMailer::Preview
     renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", Time.current.beginning_of_day.utc).includes(loan: [:item, :member]).limit(5)
 
     MemberMailer.with(member: Member.joins(:user).where(users: {role: :admin}).first, renewal_requests: renewal_requests).staff_daily_renewal_requests
+  end
+
+  def renewal_request_approved
+    tomorrow = Time.current.end_of_day + 1.day
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    renew_loan(loan)
+    renewal_request = RenewalRequest.create!(loan: loan, status: :approved)
+    MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
+  end
+
+  def renewal_request_rejected
+    tomorrow = Time.current.end_of_day + 1.day
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
+    MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
   end
 end

@@ -14,8 +14,10 @@ module Admin
       return head(:forbidden) unless current_user.admin? || current_user.staff?
 
       @renewal_request = RenewalRequest.find(params[:id])
+
       flash_message = if @renewal_request.update(renewal_request_params)
         renew_loan(@renewal_request.loan) if @renewal_request.approved?
+        MemberMailer.with(renewal_request: @renewal_request).renewal_request_updated.deliver_later
         {success: "Renewal request updated."}
       else
         {error: "Something went wrong!"}
