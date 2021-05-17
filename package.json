@@ -9,7 +9,7 @@
     "@rails/webpacker": "^4.0.2",
     "awesomplete": "^1.1.4",
     "feather-icons": "^4.25.0",
-    "jquery": "^3.5.0",
+    "jquery": "^3.6.0",
     "mjml": "^4.6.3",
     "selectize": "^0.12.6",
     "smooth-scroll-into-view-if-needed": "^1.1.32",
