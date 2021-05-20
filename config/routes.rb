@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       resources :loans, only: [:create, :destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
       resources :checkins, only: [:create], controller: :appointment_checkins
+      resource :completion, only: [:create, :destroy], controller: :appointment_completions
     end
     resources :items do
       scope module: "items" do

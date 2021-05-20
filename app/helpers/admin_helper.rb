@@ -94,11 +94,15 @@ module AdminHelper
     render "shared/modal", title: title, body: body, &block
   end
 
+  def appointment_in_schedule_path(appointment)
+    admin_appointments_path(day: appointment.starts_at.to_date.to_s, anchor: dom_id(appointment))
+  end
+
   def sort_by_member_and_time(appointments)
     appointments
       .group_by { |a| a.member }
       .map { |member, appointments| [appointments.map(&:starts_at).min, appointments] }
-      .sort_by { |first_time, appointments| first_time }
-      .flat_map { |_, appointments| appointments }
+      .sort_by { |first_time, appointments| [first_time, preferred_or_default_name(appointments.first.member)] }
+      .flat_map { |_, appointments| appointments.sort_by(&:created_at) }
   end
 end

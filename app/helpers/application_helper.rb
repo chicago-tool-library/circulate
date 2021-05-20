@@ -4,14 +4,14 @@ module ApplicationHelper
     %w[new edit].include? params[:action]
   end
 
-  def portal(&block)
+  def portal(tag_name: "div", &block)
     attrs = {
       data: {
         controller: "portal",
         action: "ajax:error->portal#replaceContent ajax:success->portal#replaceContent"
       }
     }
-    tag.div(**attrs, &block)
+    tag.send(tag_name, **attrs, &block)
   end
 
   def navbar_link_to(text, link, **options)

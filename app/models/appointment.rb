@@ -28,6 +28,10 @@ class Appointment < ApplicationRecord
     # ignore parsing error
   end
 
+  def completed?
+    completed_at.present?
+  end
+
   private
 
   def item_present
