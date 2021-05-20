@@ -22,7 +22,6 @@ export default class extends Controller {
     }
 
     while (source.firstChild) {
-      console.debug(source.firstChild)
       this.element.appendChild(source.firstChild);
     }
     this.installNoCacheMetaTag();
