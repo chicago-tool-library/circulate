@@ -1,5 +1,6 @@
 <% content_for :header do %>
   <%= index_header "#{preferred_or_default_name(@appointment.member)}'s Appointment" do %>
+    <%= link_to "View in Schedule", appointment_in_schedule_path(@appointment), class: "btn" %>
     <%= link_to 'View Member Page', admin_member_path(@appointment.member), class: "btn" %>
   <% end %>
 
