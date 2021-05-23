@@ -1,0 +1,17 @@
+<%= render "admin/members/profile" do %>
+
+<% if @appointments.any? %>
+    <ul>
+    <% @appointments.each do |appointment| %>
+        <li>
+            <%= link_to appointment_date_and_time(appointment), admin_appointment_path(appointment) %>
+        </li>
+    <% end %>
+    </ul>
+<% else %>
+    <p>No upcoming appointments</p>
+<% end %>
+
+<%= render partial: "admin/members/appointments/form" %>
+
+<% end %>

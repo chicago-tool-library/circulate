@@ -1,5 +1,7 @@
 module Account
   class AppointmentsController < BaseController
+    include AppointmentSlots
+
     def index
       @appointments = current_user.member.appointments.upcoming.includes(:member, :holds, :loans)
     end
@@ -73,14 +75,6 @@ module Account
     def load_holds_and_loans
       @holds = Hold.active.includes(member: {appointments: :holds}).where(member: @member)
       @loans = @member.loans.includes(:item, member: {appointments: :loans}).checked_out
-    end
-
-    def load_appointment_slots
-      events = Event.appointment_slots.upcoming
-      @appointment_slots = events.group_by { |event| event.start.to_date }.map { |date, events|
-        times = events.map { |event| [helpers.format_appointment_times(event.start, event.finish), event.start..event.finish] }
-        [date.strftime("%A, %B %-d, %Y"), times]
-      }
     end
   end
 end

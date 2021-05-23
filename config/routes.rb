@@ -99,6 +99,7 @@ Rails.application.routes.draw do
         resources :memberships, only: [:index, :new, :create, :update]
         resources :payments, only: [:new, :create]
         resource :verification, only: [:edit, :update]
+        resources :appointments, only: [:index, :create]
 
         resources :loan_summaries, only: :index
       end
