@@ -701,6 +701,12 @@ form.membership-amount {
       background: $secondary-color-light;
     }
   }
+
+  .member-appointment-form {
+    .form-select {
+      width: auto;
+    }
+  }
 }
 
 @keyframes highlight-fade-out {
