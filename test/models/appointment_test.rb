@@ -17,7 +17,7 @@ class AppointmentTest < ActiveSupport::TestCase
   test "invalid without hold or loan selected and date not given" do
     appointment = Appointment.new
     appointment.save
-    assert_equal appointment.errors[:base], ["Please select an item to pick-up or return for your appointment", "Please select a date and time for this appointment."]
+    assert_equal appointment.errors[:base], ["Please select a date and time for this appointment.", "Please select an item to pick-up or return for your appointment"]
   end
 
   test "sets starts_at and ends_at using time_range_string=" do
