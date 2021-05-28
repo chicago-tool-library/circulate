@@ -215,6 +215,21 @@ class LoanTest < ActiveSupport::TestCase
     refute loan.member_renewal_requestable?
   end
 
+  test "is member_renewal_requestable until the end of the day a loan expires" do
+    loan_ends = Date.new(2021, 0o5, 27, 4).to_time
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item, due_at: loan_ends)
+
+    travel_to loan_ends + 1.minute do
+      assert loan.member_renewal_requestable?
+    end
+
+    travel_to loan_ends + 1.day do
+      assert loan.member_renewal_requestable?
+    end
+  end
+
   test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
     member_double = Minitest::Mock.new
     loan = create(:loan)
