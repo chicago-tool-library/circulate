@@ -5,14 +5,15 @@ class Appointment < ApplicationRecord
   has_many :loans, through: :appointment_loans
   belongs_to :member
 
-  validate :ends_at_later_than_starts_at, :item_present, :date_present
+  validate :ends_at_later_than_starts_at, :date_present
   validate :starts_before_holds_expire, if: :member_updating
+  validate :item_present, unless: :staff_updating
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
 
-  attr_accessor :member_updating
+  attr_accessor :member_updating, :staff_updating
 
   def time_range_string
     starts_at.to_s + ".." + ends_at.to_s
@@ -26,6 +27,10 @@ class Appointment < ApplicationRecord
     end
   rescue Date::Error
     # ignore parsing error
+  end
+
+  def completed?
+    completed_at.present?
   end
 
   private

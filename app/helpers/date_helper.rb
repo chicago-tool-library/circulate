@@ -16,6 +16,6 @@ module DateHelper
     date_string = appointment.starts_at.strftime("%A, %B %-d, %Y")
     return date_string unless include_time
 
-    date_string + " between #{appointment.starts_at.strftime("%I:%M%P")} and #{appointment.ends_at.strftime("%I:%M%P")}"
+    date_string + " between #{appointment.starts_at.strftime("%-I:%M%P")} and #{appointment.ends_at.strftime("%-I:%M%P")}"
   end
 end

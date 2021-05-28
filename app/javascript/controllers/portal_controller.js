@@ -12,8 +12,17 @@ export default class extends Controller {
     while (this.element.firstChild) {
       this.element.removeChild(this.element.firstChild);
     }
-    while (doc.body.firstChild) {
-      this.element.appendChild(doc.body.firstChild);
+
+    // Table rows need to be wrapped in a table tag so the browser doesn't
+    // discard some of the elements for being invalid. In that case, we
+    // want to ignore that wrapper element.
+    let source = doc.body;
+    while (source.firstElementChild.dataset.portalIgnore === "true") {
+      source = source.firstElementChild;
+    }
+
+    while (source.firstChild) {
+      this.element.appendChild(source.firstChild);
     }
     this.installNoCacheMetaTag();
 

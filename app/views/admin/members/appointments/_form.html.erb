@@ -1,0 +1,16 @@
+<div class="columns member-appointment-form">
+    <div class="column col-12">
+        <h2 class="h3">Create an Appointment</h2>
+        <%= form_with(model: Appointment.new, url: admin_member_appointments_path(@member)) do |form| %>
+            <div class="form-group" data-controller="appointment-date">
+                <label class="form-label" for="time_range_string">Select an appointment time to create an appointment for this member</label>
+                <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, nil), { include_blank: 'Select a Date' },
+                    class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }) %>
+                <span data-target="appointment-date.display"></span>
+            </div>
+            <div class="form-buttons">
+                <%= form.submit "Create Appointment", class: "btn btn-primary" %>
+            </div>
+        <% end %>
+    </div>
+</div>

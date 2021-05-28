@@ -43,7 +43,7 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "ended hold" do
-    hold = create(:hold, ended_at: 3.days.ago, started_at: 10.days.ago)
+    hold = create(:hold, ended_at: 2.days.ago, started_at: 9.days.ago)
 
     refute hold.active?
     assert hold.inactive?
@@ -72,6 +72,25 @@ class HoldTest < ActiveSupport::TestCase
     refute Hold.ended.find_by(id: hold)
     assert Hold.expired.find_by(id: hold)
     assert Hold.started.find_by(id: hold)
+  end
+
+  test "doesn't expire until the end of the day" do
+    hold_started = Date.new(2021, 5, 27, 16)
+    hold = create(:hold, ended_at: nil, started_at: hold_started)
+
+    travel_to (hold_started + Hold::HOLD_LENGTH).end_of_day do
+      assert hold.active?
+      refute hold.inactive?
+      refute hold.ended?
+      refute hold.expired?
+      assert hold.started?
+
+      assert Hold.active.find_by(id: hold)
+      refute Hold.inactive.find_by(id: hold)
+      refute Hold.ended.find_by(id: hold)
+      refute Hold.expired.find_by(id: hold)
+      assert Hold.started.find_by(id: hold)
+    end
   end
 
   test "#start!" do
