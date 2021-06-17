@@ -3,9 +3,9 @@ module AdminHelper
     render "shared/index_header", title: title, icon: icon, &block
   end
 
-  def flash_message(key)
+  def flash_message(key, classname = key)
     if flash.key?(key)
-      tag.div(class: "toast toast-#{key}", data: {controller: "alert"}) do
+      tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do
         tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key]
       end
     end
