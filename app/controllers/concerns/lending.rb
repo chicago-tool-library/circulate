@@ -13,10 +13,6 @@ module Lending
         Adjustment.create!(member_id: loan.member_id, adjustable: loan, amount: amount * -1, kind: "fine")
       end
 
-      if (hold = loan.item.next_hold)
-        hold.start!
-        MemberMailer.with(member: hold.member, hold: hold).hold_available.deliver_later
-      end
       success = true
     end
 

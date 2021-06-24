@@ -80,26 +80,19 @@ class HoldsTest < ApplicationSystemTestCase
 
     visit admin_member_url(@loan.member)
 
-    perform_enqueued_jobs do
-      within "#current-loans" do
-        assert_text @item.name
-        click_on "Return"
-      end
+    within "#current-loans" do
+      assert_text @item.name
+      click_on "Return"
+    end
 
-      refute_selector "#current-loans", wait: 10
+    refute_selector "#current-loans", wait: 10
+
+    Hold.start_waiting_holds do |hold|
+      assert_equal @hold, hold
     end
 
     @hold.reload
     assert @hold.started?
-
-    assert_emails 1
-    assert_delivered_email(to: @member.email) do |html, text, attachments|
-      assert_includes html, "An item you placed on hold"
-      assert_includes html, @item.complete_number
-
-      assert_includes text, "An item you placed on hold"
-      assert_includes text, @item.complete_number
-    end
   end
 
   test "holds are shown only in hold history after two weeks" do
