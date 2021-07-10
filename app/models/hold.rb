@@ -1,5 +1,5 @@
 class Hold < ApplicationRecord
-  HOLD_LENGTH = 7.days
+  HOLD_LENGTH = 14.days
 
   has_many :appointment_holds
   has_many :appointments, through: :appointment_holds

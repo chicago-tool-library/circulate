@@ -43,7 +43,7 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "ended hold" do
-    hold = create(:hold, ended_at: 2.days.ago, started_at: 5.days.ago)
+    hold = create(:hold, ended_at: 2.days.ago, started_at: 9.days.ago)
 
     refute hold.active?
     assert hold.inactive?
