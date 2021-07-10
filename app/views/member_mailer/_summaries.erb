@@ -7,28 +7,27 @@
   <li>
     <strong><%= full_item_number(summary.item) %> - <%= summary.item.name %></strong>
     <% if summary.ended? %>
-      returned
+      <%= _("returned") %>
     <% else %>
       <% if summary.renewal_request_rejected? %>
         <span class="rejected">
-          renewal rejected,
+          <%= _("renewal rejected") %>,
         </span>
       <% end %>
       <% if summary.overdue_as_of?(now) %>
         <span class="overdue">
-          was due
-          <%= checked_out_date(summary.due_at) %>
+          <%= _("was due %{date}") % { date: checked_out_date(summary.due_at) } %>
         </span>
       <% else %> 
         <% if summary.renewed? # and was active today %>
-          renewed until
+          <%= _("renewed until") %>
         <% else %>
-          due
+          <%= _("due") %>
         <% end %>
         <%= checked_out_date(summary.due_at) %>
       <% end %>
       <% if (count = summary.item.holds.active.count) && count > 0 %>
-        <br><span class="people-waiting"><%= pluralize count, "member" %> waiting for this item</span>
+        <br><span class="people-waiting"><%= n_("One member is waiting for this item", "%{n} members are waiting for this item", count) %></span>
       <% end %>
     <% end %>
   </li>

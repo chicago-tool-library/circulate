@@ -37,6 +37,7 @@ gem "activerecord-postgres_enum"
 gem "scenic"
 gem "reverse_markdown"
 gem "http"
+gem "translation"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false

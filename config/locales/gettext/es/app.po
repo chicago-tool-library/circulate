@@ -1,0 +1,45 @@
+# Spanish translations for app package.
+# Copyright (C) 2021 app
+# This file is distributed under the same license as the app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: app 1.0\n"
+"Report-Msgid-Bugs-To: contact@translation.io\n"
+"POT-Creation-Date: 2021-07-10 03:02+0000\n"
+"PO-Revision-Date: 2021-07-10 05:02+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
+"\n"
+
+#: ../../../app/views/member_mailer/_summaries.erb:10
+msgid "returned"
+msgstr "Devuelto"
+
+#: ../../../app/views/member_mailer/_summaries.erb:14
+msgid "renewal rejected"
+msgstr "renovación rechazada"
+
+#: ../../../app/views/member_mailer/_summaries.erb:19
+msgid "was due %{date}"
+msgstr "vencía %{date}"
+
+#: ../../../app/views/member_mailer/_summaries.erb:23
+msgid "renewed until"
+msgstr "renovado hasta"
+
+#: ../../../app/views/member_mailer/_summaries.erb:25
+msgid "due"
+msgstr "Debido"
+
+#: ../../../app/views/member_mailer/_summaries.erb:30
+msgid "One member is waiting for this item"
+msgid_plural "%{n} members are waiting for this item"
+msgstr[0] "Un miembro está esperando este artículo"
+msgstr[1] "%{n} miembros están esperando este artículo"

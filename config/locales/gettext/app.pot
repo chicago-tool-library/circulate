@@ -1,0 +1,45 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021 app
+# This file is distributed under the same license as the app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: app 1.0\n"
+"Report-Msgid-Bugs-To: contact@translation.io\n"
+"POT-Creation-Date: 2021-07-10 03:02+0000\n"
+"PO-Revision-Date: 2021-07-10 03:02+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ../../../app/views/member_mailer/_summaries.erb:10
+msgid "returned"
+msgstr ""
+
+#: ../../../app/views/member_mailer/_summaries.erb:14
+msgid "renewal rejected"
+msgstr ""
+
+#: ../../../app/views/member_mailer/_summaries.erb:19
+msgid "was due %{date}"
+msgstr ""
+
+#: ../../../app/views/member_mailer/_summaries.erb:23
+msgid "renewed until"
+msgstr ""
+
+#: ../../../app/views/member_mailer/_summaries.erb:25
+msgid "due"
+msgstr ""
+
+#: ../../../app/views/member_mailer/_summaries.erb:30
+msgid "One member is waiting for this item"
+msgid_plural "%{n} members are waiting for this item"
+msgstr[0] ""
+msgstr[1] ""
