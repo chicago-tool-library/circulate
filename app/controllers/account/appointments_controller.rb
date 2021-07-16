@@ -19,7 +19,7 @@ module Account
       @appointment = Appointment.new
 
       if update_appointment
-        redirect_to account_appointments_path, notice: "Appointment was successfully created."
+        redirect_to account_appointments_path, success: "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
       else
         load_holds_and_loans
         load_appointment_slots
@@ -40,7 +40,7 @@ module Account
       @appointment = @member.appointments.find(params[:id])
 
       if update_appointment
-        redirect_to account_appointments_path, notice: "Appointment was successfully updated."
+        redirect_to account_appointments_path, success: "Appointment was successfully updated."
       else
         load_holds_and_loans
         load_appointment_slots

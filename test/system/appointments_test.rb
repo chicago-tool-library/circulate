@@ -127,7 +127,7 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     assert_text "Appointments"
 
-    click_on "Edit"
+    click_on "Modify Appointment"
 
     check_list_item_with_name(@held_item2.complete_number)
     check_list_item_with_name(@borrowed_item2.complete_number)
