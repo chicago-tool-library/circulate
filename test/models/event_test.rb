@@ -131,8 +131,8 @@ class EventTest < ActiveSupport::TestCase
   test "times on the hour" do
     Time.use_zone("America/Chicago") do
       event = create(:event,
-        start: Time.new(2020, 11, 5, 18, 0),
-        finish: Time.new(2020, 11, 5, 20, 0))
+        start: Time.zone.local(2020, 11, 5, 18, 0),
+        finish: Time.zone.local(2020, 11, 5, 20, 0))
       assert_equal "6pm - 8pm", event.times
     end
   end
@@ -140,8 +140,8 @@ class EventTest < ActiveSupport::TestCase
   test "times with minutes" do
     Time.use_zone("America/Chicago") do
       event = create(:event,
-        start: Time.new(2020, 11, 5, 18, 15),
-        finish: Time.new(2020, 11, 5, 20, 30))
+        start: Time.zone.local(2020, 11, 5, 18, 15),
+        finish: Time.zone.local(2020, 11, 5, 20, 30))
       assert_equal "6:15pm - 8:30pm", event.times
     end
   end
