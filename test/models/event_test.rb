@@ -127,4 +127,22 @@ class EventTest < ActiveSupport::TestCase
       Event.update_events([gcal_event])
     end
   end
+
+  test "times on the hour" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 0),
+        finish: Time.zone.local(2020, 11, 5, 20, 0))
+      assert_equal "6pm - 8pm", event.times
+    end
+  end
+
+  test "times with minutes" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 15),
+        finish: Time.zone.local(2020, 11, 5, 20, 30))
+      assert_equal "6:15pm - 8:30pm", event.times
+    end
+  end
 end
