@@ -42,7 +42,7 @@ gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "sentry-raven"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 0.1"
+gem "omniauth-rails_csrf_protection", "~> 1.0"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
