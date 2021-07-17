@@ -24,7 +24,9 @@ class Member < ApplicationRecord
   enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
   enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
-  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}, uniqueness: true
+  validates :email,
+    format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"},
+    uniqueness: {conditions: -> { where.not(status: "deactivated") }}
   validates :full_name, presence: true
   validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
   validates :address1, presence: true
