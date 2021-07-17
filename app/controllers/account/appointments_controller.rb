@@ -8,7 +8,7 @@ module Account
 
     def new
       @member = current_user.member
-      @appointment = Appointment.new
+      @appointment = @member.appointments.new
 
       load_holds_and_loans
       load_appointment_slots
@@ -16,10 +16,15 @@ module Account
 
     def create
       @member = current_user.member
-      @appointment = Appointment.new
+      @appointment = @member.appointments.new
 
-      if update_appointment
-        redirect_to account_appointments_path, success: "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
+      if @appointment.update(appointment_params)
+        message = if merge_simultaneous_appointments
+          "Your existing appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} has been updated."
+        else
+          "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
+        end
+        redirect_to account_appointments_path, success: message
       else
         load_holds_and_loans
         load_appointment_slots
@@ -39,8 +44,13 @@ module Account
       @member = current_user.member
       @appointment = @member.appointments.find(params[:id])
 
-      if update_appointment
-        redirect_to account_appointments_path, success: "Appointment was successfully updated."
+      if @appointment.update(appointment_params)
+        message = if merge_simultaneous_appointments
+          "Your existing appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} has been updated."
+        else
+          "Your appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} was updated."
+        end
+        redirect_to account_appointments_path, success: message
       else
         load_holds_and_loans
         load_appointment_slots
@@ -56,25 +66,28 @@ module Account
     private
 
     def appointment_params
-      params.require(:appointment).permit(:comment, :time_range_string, hold_ids: [], loan_ids: [])
-    end
+      form_params = params.require(:appointment).permit(:comment, :time_range_string, hold_ids: [], loan_ids: [])
 
-    def update_appointment
-      params = {
-        member: @member,
-        holds: Hold.where(id: appointment_params[:hold_ids], member: @member),
-        loans: Loan.where(id: appointment_params[:loan_ids], member: @member),
-        comment: appointment_params[:comment],
-        time_range_string: appointment_params[:time_range_string],
+      {
+        holds: @member.holds.where(id: form_params[:hold_ids]),
+        loans: @member.loans.where(id: form_params[:loan_ids]),
+        comment: form_params[:comment],
+        time_range_string: form_params[:time_range_string],
         member_updating: true
       }
-
-      @appointment.update(params)
     end
 
     def load_holds_and_loans
       @holds = Hold.active.includes(member: {appointments: :holds}).where(member: @member)
       @loans = @member.loans.includes(:item, member: {appointments: :loans}).checked_out
+    end
+
+    def merge_simultaneous_appointments
+      simultaneous_appointment = @member.appointments.simultaneous(@appointment).first
+      if simultaneous_appointment
+        simultaneous_appointment.merge!(@appointment)
+        true
+      end
     end
   end
 end

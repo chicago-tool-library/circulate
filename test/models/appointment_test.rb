@@ -37,4 +37,35 @@ class AppointmentTest < ActiveSupport::TestCase
       refute appointment.ends_at
     end
   end
+
+  test "finds a simultaneous appointments" do
+    member = create(:member)
+    hold = create(:hold, member: member)
+    hold2 = create(:hold, member: member)
+    original = create(:appointment, holds: [hold], member: member)
+    dupe = create(:appointment, holds: [hold2], member: member, starts_at: original.starts_at, ends_at: original.ends_at)
+
+    assert_equal [dupe], Appointment.simultaneous(original)
+    assert_equal [original], Appointment.simultaneous(dupe)
+  end
+
+  test "merges appointments" do
+    member = create(:member)
+    hold = create(:hold, member: member)
+    hold2 = create(:hold, member: member)
+    loan = create(:loan, member: member)
+    loan2 = create(:loan, member: member)
+    original = create(:appointment,
+      holds: [hold], loans: [loan], member: member, comment: "First notes")
+    dupe = create(:appointment,
+      holds: [hold2], loans: [loan2], member: member, comment: "Second notes",
+      starts_at: original.starts_at, ends_at: original.ends_at)
+
+    original.merge!(dupe)
+    assert_raises(ActiveRecord::RecordNotFound) { dupe.reload }
+
+    assert_equal [hold, hold2], original.holds
+    assert_equal [loan, loan2], original.loans
+    assert_equal "First notes\n\nSecond notes", original.comment
+  end
 end
