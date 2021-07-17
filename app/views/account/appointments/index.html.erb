@@ -76,7 +76,7 @@
 
                 <% if appointment.comment.present? %>
                   <h3 class="h5">What kind of project are you working on?</h3>
-                  <%= appointment.comment %>
+                  <%= simple_format appointment.comment %>
                 <% end %>
               </div>
             </li>
