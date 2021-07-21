@@ -11,9 +11,6 @@
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% if Rails.env.production? %>
-      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
-    <% end %>
   </head>
 
   <body>
@@ -35,5 +32,13 @@
       <%= yield %>
     </div>
 
+    <% if Rails.env.production? %>
+      <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+      <script>
+          Weglot.initialize({
+              api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key") %>'
+          });
+      </script>
+    <% end %>
   </body>
 </html>
