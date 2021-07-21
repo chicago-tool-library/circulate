@@ -13,6 +13,8 @@ class Appointment < ApplicationRecord
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
 
+  scope :simultaneous, ->(appointment) { where(starts_at: appointment.starts_at, ends_at: appointment.ends_at).where.not(id: appointment.id) }
+
   attr_accessor :member_updating, :staff_updating
 
   def time_range_string
@@ -31,6 +33,15 @@ class Appointment < ApplicationRecord
 
   def completed?
     completed_at.present?
+  end
+
+  def merge!(other_appointment)
+    transaction do
+      holds << other_appointment.holds
+      loans << other_appointment.loans
+      update!(comment: "#{comment}\n\n#{other_appointment.comment}".strip) unless other_appointment.comment.blank?
+      other_appointment.destroy!
+    end
   end
 
   private
