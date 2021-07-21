@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2021 app
-# This file is distributed under the same license as the app package.
+# Copyright (C) 2021 circulate
+# This file is distributed under the same license as the circulate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: app 1.0\n"
+"Project-Id-Version: circulate 1.0\n"
 "Report-Msgid-Bugs-To: contact@translation.io\n"
-"POT-Creation-Date: 2021-07-10 03:02+0000\n"
-"PO-Revision-Date: 2021-07-10 03:02+0000\n"
+"POT-Creation-Date: 2021-07-20 20:44-0500\n"
+"PO-Revision-Date: 2021-07-20 20:44-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "due"
 msgstr ""
 
-#: ../../../app/views/member_mailer/_summaries.erb:30
+#: ../../../app/views/member_mailer/_summaries.erb:32
 msgid "One member is waiting for this item"
 msgid_plural "%{n} members are waiting for this item"
 msgstr[0] ""

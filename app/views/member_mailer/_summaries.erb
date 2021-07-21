@@ -27,7 +27,10 @@
         <%= checked_out_date(summary.due_at) %>
       <% end %>
       <% if (count = summary.item.holds.active.count) && count > 0 %>
-        <br><span class="people-waiting"><%= n_("One member is waiting for this item", "%{n} members are waiting for this item", count) %></span>
+        <br>
+        <span class="people-waiting">
+          <%= n_("One member is waiting for this item", "%{n} members are waiting for this item", count) % {n: count} %>
+        </span>
       <% end %>
     <% end %>
   </li>
