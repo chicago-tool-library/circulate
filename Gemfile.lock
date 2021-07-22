@@ -81,21 +81,21 @@ GEM
     appsignal (3.0.2)
       rack
     ast (2.4.2)
-    aws-eventstream (1.1.0)
-    aws-partitions (1.365.0)
-    aws-sdk-core (3.105.0)
+    aws-eventstream (1.1.1)
+    aws-partitions (1.479.0)
+    aws-sdk-core (3.117.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.37.0)
-      aws-sdk-core (~> 3, >= 3.99.0)
+    aws-sdk-kms (1.44.0)
+      aws-sdk-core (~> 3, >= 3.112.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.79.1)
-      aws-sdk-core (~> 3, >= 3.104.3)
+    aws-sdk-s3 (1.96.2)
+      aws-sdk-core (~> 3, >= 3.112.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.2.2)
+    aws-sigv4 (1.2.4)
       aws-eventstream (~> 1, >= 1.0.2)
     backport (1.1.2)
     barnes (0.0.9)
@@ -332,8 +332,6 @@ GEM
     semantic_range (2.3.0)
     sentry-raven (2.13.0)
       faraday (>= 0.7.6, < 1.0)
-    skylight (5.0.1)
-      activesupport (>= 5.2.0)
     solargraph (0.40.4)
       backport (~> 1.1)
       benchmark
@@ -451,7 +449,6 @@ DEPENDENCIES
   scenic
   selenium-webdriver
   sentry-raven
-  skylight
   solargraph
   spy
   square.rb
