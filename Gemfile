@@ -76,10 +76,6 @@ group :development do
   gem "lefthook"
 end
 
-group :production do
-  gem "skylight"
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
