@@ -137,4 +137,12 @@ module ItemsHelper
     link = link_to preferred_or_default_name(loan.member), [:admin, loan.member]
     "Currently on loan to ".html_safe + link + "."
   end
+
+  def item_location_span(item)
+    location = []
+    location << "area #{item.location_area}" unless item.location_area.blank?
+    location << "shelf #{item.location_shelf}" unless item.location_shelf.blank?
+
+    location.join(", ")
+  end
 end
