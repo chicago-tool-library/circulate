@@ -34,4 +34,21 @@ body.admin {
       padding-bottom: 0;
     }
   }
+
+  .app-banner {
+    color: white;
+    padding-top: 0.5rem;
+    background: $error-color;
+    p {
+      margin-bottom: 0.7rem;
+    }
+    a {
+      color: white;
+      font-weight: bolder;
+      text-decoration: underline;
+    }
+    .container {
+      padding-bottom: 0;
+    }
+  }
 }
