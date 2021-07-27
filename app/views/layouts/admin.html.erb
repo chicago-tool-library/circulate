@@ -169,6 +169,20 @@
       </div>
     </div>
 
+    <% if @requested_renewal_request_count > 0 %>
+      <div class="app-banner">
+        <div class="header-header">
+          <div class="container grid-lg">
+            <p>
+              <%= link_to admin_renewal_requests_path do %> 
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>. 
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <% if content_for? :header %>
       <div class="app-header">
         <div class="header-header">
