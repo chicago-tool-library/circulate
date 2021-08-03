@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   namespace :volunteer do
     resources :shifts, only: [:index, :new, :create]
+    get "calendar", to: "shifts#calendar"
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"

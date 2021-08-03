@@ -1,7 +1,30 @@
 module Volunteer
-  class Day
-    attr_reader :events
+  class Shift
+    def initialize(events)
+      @events = events
+    end
 
+    def times
+      @events.first.times
+    end
+
+    def foo
+      shift_attendees_count = shift_events.inject(0) { |sum, de| de.accepted_attendees_count + sum }
+
+      shift_events.sort_by { |e| e.summary }.each_with_index do |event, event_index|
+        daily_events_size = daily_events.size if last_date != date
+        shift_events_size = shift_events.size if event_index == 0
+        yield date, event, daily_events_size, shift_events_size, shift_attendees_count
+        last_date = date
+      end
+    end
+
+    def each_event(&block)
+      @events.each(&block)
+    end
+  end
+
+  class Day
     def initialize(date, today, events, state = nil)
       @date = date
       @today = today
@@ -28,31 +51,40 @@ module Volunteer
     def next_month?
       @state == :next
     end
+
+    def events?
+      @events.any?
+    end
+
+    def each_shift(&block)
+      @events.group_by { |e| [e.start, e.finish] }.each do |((start, finish), shift_events)|
+        yield Shift.new(shift_events)
+      end
+    end
   end
 
   class MonthCalendar
     attr_reader :first_date
     attr_reader :last_date
 
-    def initialize(events, day, today = nil)
+    def initialize(events, today = nil)
       @events = events
-      @first_date = day.beginning_of_month.beginning_of_week
-      @last_date = day.end_of_month.end_of_week
-      @day = day
-      @today = today || day
+      @today = today || Time.zone.now.to_date
+      @first_date = @today.beginning_of_month.beginning_of_week
+      @last_date = @today.end_of_month.end_of_week
     end
 
     def title
-      @day.strftime("%B %Y")
+      @today.strftime("%B %Y")
     end
 
     def each_day(&block)
       date = @first_date
       loop do
         break if date > @last_date
-        state = if date > @day.end_of_month
+        state = if date > @today.end_of_month
           :next
-        elsif date < @day.beginning_of_month
+        elsif date < @today.beginning_of_month
           :previous
         end
         events = @events.select { |event|

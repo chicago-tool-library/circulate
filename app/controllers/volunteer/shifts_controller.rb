@@ -8,6 +8,11 @@ module Volunteer
       @attendee = Attendee.new(email: session[:email], name: session[:name])
     end
 
+    def calendar
+      index
+      @month_calendar = Volunteer::MonthCalendar.new(@events)
+    end
+
     def new
       result = google_calendar.fetch_event(params[:event_id])
       if result.success?
