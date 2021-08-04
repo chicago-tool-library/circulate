@@ -2,8 +2,10 @@ module Account
   class AppointmentsController < BaseController
     include AppointmentSlots
 
+    before_action :load_appointment_for_editing, only: [:edit, :update, :destroy]
+
     def index
-      @appointments = current_user.member.appointments.upcoming.includes(:member, :holds, :loans)
+      @appointments = current_user.member.appointments.today_or_later.includes(:member, :holds, :loans)
     end
 
     def new
@@ -34,7 +36,6 @@ module Account
 
     def edit
       @member = current_user.member
-      @appointment = @member.appointments.find(params[:id])
 
       load_holds_and_loans
       load_appointment_slots
@@ -42,7 +43,6 @@ module Account
 
     def update
       @member = current_user.member
-      @appointment = @member.appointments.find(params[:id])
 
       if @appointment.update(appointment_params)
         message = if merge_simultaneous_appointments
@@ -59,7 +59,7 @@ module Account
     end
 
     def destroy
-      current_user.member.appointments.find(params[:id]).destroy
+      @appointment.destroy
       redirect_to account_appointments_path, flash: {success: "Appointment cancelled."}
     end
 
@@ -88,6 +88,11 @@ module Account
         simultaneous_appointment.merge!(@appointment)
         true
       end
+    end
+
+    def load_appointment_for_editing
+      @appointment = current_member.appointments.find(params[:id])
+      redirect_to account_appointments_path, alert: "Completed appointments can't be changed" if @appointment.completed?
     end
   end
 end
