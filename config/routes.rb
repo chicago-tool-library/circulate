@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
+  get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
