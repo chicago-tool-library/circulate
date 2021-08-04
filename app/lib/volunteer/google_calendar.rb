@@ -32,6 +32,15 @@ module Volunteer
       Result.success(gcal_event_to_event(event_response.parse))
     end
 
+    def fetch_events(event_ids)
+      results = event_ids.map { |id| fetch_event(id) }
+      if results.any? { |r| r.failure? }
+        Result.failure("could not fetch events")
+      else
+        Result.success(results.map(&:value))
+      end
+    end
+
     def add_attendee_to_event(attendee, event_id)
       # get event by id
       event_url = events_endpoint + "/#{event_id}"

@@ -14,7 +14,7 @@ module Volunteer
     end
 
     def new
-      result = google_calendar.fetch_event(params[:event_id])
+      result = google_calendar.fetch_events(params[:event_ids])
       if result.success?
         @event = result.value
       else

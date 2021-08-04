@@ -1,0 +1,16 @@
+.shift-schedule .calendar-lg {
+  .calendar-events {
+    line-height: 1.2;
+  }
+  .calendar-event {
+    white-space: normal;
+    margin-bottom: 0.4rem;
+  }
+  .calendar-body .calendar-date {
+    height: auto;
+    background: white;
+    .date-item {
+      pointer-events: none;
+    }
+  }
+}

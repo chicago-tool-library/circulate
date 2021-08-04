@@ -43,30 +43,24 @@
     </div>
 
     <div class="calendar-body">
-      <!-- calendar previous month -->
-        <% @month_calendar.each_day do |day| %>
-          <div class="calendar-date <%= calendar_day_class(day) %>">
-            <button class="date-item <%= calendar_date_item_class(day) %>" <%= "disabled" unless day.events? %>><%= day.number %></button>
-            <div class="calendar-events">
-              <% day.each_shift do |shift| %>
-                <% shift.each_event do |event| %>
-                  <a class="calendar-event" href="#calendars">
-                    <%= event.summary %>
-                  </a>
+      <% @month_calendar.each_day do |day| %>
+        <div class="calendar-date <%= calendar_day_class(day) %>">
+          <span class="date-item <%= calendar_date_item_class(day) %>" <%= "disabled" unless day.events? %>><%= day.number %></span>
+          <div class="calendar-events">
+            <% day.each_shift do |shift| %>
+              <% if @attendee && shift.attended_by?(@attendee.email) %>
+                <%= link_to new_volunteer_shift_path(event_ids: shift.event_ids), class: "calendar-event bg-primary text-light", title: "You are signed up for this shift." do %>
+                  <%= shift.times %><br><%= shift.title %>
+                <% end %>
+              <% else %>
+                <%= link_to new_volunteer_shift_path(event_ids: shift.event_ids), class: "calendar-event" do %>
+                  <%= shift.times %><br><%= shift.title %>
                 <% end %>
               <% end %>
-            </div>
+            <% end %>
           </div>
-        <% end %>
-
-      <!-- calendar date: tooltip -->
-      <div class="calendar-date tooltip" data-tooltip="You have appointments">
-        <button class="date-item">5</button>
-      </div>
-      <!-- calendar date: not available -->
-      <div class="calendar-date tooltip" data-tooltip="Not available">
-        <button class="date-item" disabled="">6</button>
-      </div>
+        </div>
+      <% end %>
     </div>
   </div>
 
