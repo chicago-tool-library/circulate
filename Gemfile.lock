@@ -78,7 +78,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    appsignal (3.0.2)
+    appsignal (3.0.11)
       rack
     ast (2.4.2)
     aws-eventstream (1.1.1)
@@ -175,7 +175,7 @@ GEM
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
-    jwt (2.2.2)
+    jwt (2.2.3)
     kramdown (2.3.1)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -193,7 +193,7 @@ GEM
     logging (2.3.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
-    loofah (2.10.0)
+    loofah (2.11.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -202,7 +202,7 @@ GEM
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.0.3)
-    mini_portile2 (2.5.3)
+    mini_portile2 (2.6.1)
     minitest (5.14.4)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
@@ -221,8 +221,8 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.7)
-    nokogiri (1.11.7)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.12.2)
+      mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -242,9 +242,9 @@ GEM
     omniauth-oauth2 (1.7.1)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
-    omniauth-rails_csrf_protection (0.1.2)
+    omniauth-rails_csrf_protection (1.0.0)
       actionpack (>= 4.2)
-      omniauth (>= 1.3.1)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     pagy (3.12.0)
     parallel (1.20.1)
@@ -441,7 +441,7 @@ DEPENDENCIES
   mjml-rails
   money-rails
   omniauth-google-oauth2
-  omniauth-rails_csrf_protection (~> 0.1)
+  omniauth-rails_csrf_protection
   pagy
   pg (>= 0.18, < 2.0)
   pg_search
