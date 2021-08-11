@@ -16,7 +16,7 @@ module Volunteer
     def new
       result = google_calendar.fetch_events(params[:event_ids])
       if result.success?
-        @event = result.value
+        @shift = Volunteer::Shift.new(result.value)
       else
         redirect_to volunteer_shifts_url, error: "That event was not found"
       end
