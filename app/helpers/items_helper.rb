@@ -49,6 +49,63 @@ module ItemsHelper
     end
   end
 
+  class TreeNode
+    attr_reader :children
+    attr_reader :value
+
+    def initialize(value)
+      @value = value
+      @children = {}
+    end
+
+    def [](key)
+      @children[key]
+    end
+
+    def []=(key, value)
+      @children[key] = value
+    end
+  end
+
+  def category_tree_nav(categories, current_category = nil)
+    root = TreeNode.new(nil)
+    categories.each do |category|
+      parent = category.path_ids[0..-2].reduce(root) { |node, id| node[id] }
+      parent[category.id] = TreeNode.new(category)
+    end
+
+    tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
+      concat(tag.ul do
+        root.children.values.map do |node|
+          concat(render_tree_node(node))
+        end
+      end)
+    end
+  end
+
+  def render_tree_node(node)
+    has_children = node.children.size > 0
+    tag.li(class: "tree-node") do
+      if has_children
+        concat(
+          tag.button(
+            '<i class="icon icon-arrow-right"></i>'.html_safe,
+            class: "tree-node-toggle",
+            data: {action: "tree-nav#toggle"}
+          )
+        )
+      end
+      concat(link_to(node.value.name, category: node.value.id))
+      if has_children
+        concat(tag.ul(class: "tree-node-children") do
+          node.children.values.map do |child|
+            concat(render_tree_node(child))
+          end
+        end)
+      end
+    end
+  end
+
   def rotated_variant(image, options = {})
     if image.metadata.key? "rotation"
       options[:rotate] ||= image.metadata["rotation"]
