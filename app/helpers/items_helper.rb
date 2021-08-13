@@ -89,14 +89,14 @@ module ItemsHelper
       if has_children
         concat(
           tag.button(
-            '<i class="icon icon-arrow-right"></i>'.html_safe,
+            '<i class="icon icon-arrow-right">Toggle subcategories</i>'.html_safe,
             class: "tree-node-toggle",
             data: {action: "tree-nav#toggle"},
             "aria-expanded": false
           )
         )
       end
-      concat(link_to(node.value.name, {category: node.value.id}))
+      concat(link_to((node.value.name + "&nbsp;(#{node.value.tree_categorizations_count})").html_safe, {category: node.value.id}))
       if has_children
         concat(tag.ul(class: "tree-node-children") do
           node.children.values.map do |child|
