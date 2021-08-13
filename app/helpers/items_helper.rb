@@ -77,29 +77,30 @@ module ItemsHelper
     tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
       concat(tag.ul do
         root.children.values.map do |node|
-          concat(render_tree_node(node))
+          concat(render_tree_node(node, current_category))
         end
       end)
     end
   end
 
-  def render_tree_node(node)
+  def render_tree_node(node, current_value)
     has_children = node.children.size > 0
-    tag.li(class: "tree-node") do
+    tag.li(class: "tree-node", data: {id: node.value.id}) do
       if has_children
         concat(
           tag.button(
             '<i class="icon icon-arrow-right"></i>'.html_safe,
             class: "tree-node-toggle",
-            data: {action: "tree-nav#toggle"}
+            data: {action: "tree-nav#toggle"},
+            "aria-expanded": false
           )
         )
       end
-      concat(link_to(node.value.name, category: node.value.id))
+      concat(link_to(node.value.name, {category: node.value.id}))
       if has_children
         concat(tag.ul(class: "tree-node-children") do
           node.children.values.map do |child|
-            concat(render_tree_node(child))
+            concat(render_tree_node(child, current_value))
           end
         end)
       end

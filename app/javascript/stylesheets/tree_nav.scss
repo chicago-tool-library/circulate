@@ -4,12 +4,12 @@ nav.tree-nav {
     margin: 0;
   }
   .tree-node {
-    padding-left: 1.3rem;
+    padding-left: 1.2rem;
     position: relative;
     line-height: 1.2;
     margin-top: .5rem;
     ul {
-      margin-left: -1rem;
+      margin-left: -.6rem;
     }
   }
   .tree-node-toggle {
@@ -23,6 +23,9 @@ nav.tree-nav {
     &:hover {
       cursor: pointer;
       color: $secondary-color;
+    }
+    .icon {
+      font-size: 14px;
     }
   }
   .tree-node button[aria-expanded='false'] + a + ul.tree-node-children {

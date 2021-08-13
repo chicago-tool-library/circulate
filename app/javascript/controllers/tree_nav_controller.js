@@ -2,15 +2,41 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   connect() {
-    this.element.querySelectorAll("button.tree-node-toggle").forEach(button => {
-        button.setAttribute("aria-expanded", "false")
-    })
+    try {
+      const location = window.location.href.toLowerCase();
+      const url = new URL(location);
+      const id = url.searchParams.get("category");
+
+      if (!id) {
+        return;
+      }
+
+      let listItem = this.element.querySelector(`li.tree-node[data-id="${id}"]`);
+      if (!listItem) {
+        return;
+      }
+
+      listItem.querySelector("a").classList.add("text-bold");
+      while (listItem) {
+        const button = listItem.querySelector("button")
+        if (button) {
+          this.toggleButton(button);
+        }
+        listItem = listItem.parentElement.closest("li.tree-node")
+      }
+    } catch (err) {
+      console.error(err)
+      // issue handling category id
+    }
   }
 
   toggle(event) {
     console.debug(event.currentTarget)
     const button = event.currentTarget;
+    this.toggleButton(button);
+  }
 
+  toggleButton(button) {
     if (button.getAttribute("aria-expanded") === "true") {
         button.setAttribute("aria-expanded", "false")
     } else {

@@ -1,0 +1,19 @@
+.items-index {
+  .category-nav {
+    button.toggle-categories {
+      margin-bottom: .3rem;
+      @media all and (min-width: 641px)  {
+        display: none;
+      }
+    }
+    .categories {
+      margin-bottom: 1rem;
+
+      @media all and (max-width: 640px)  {
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+  }
+}
