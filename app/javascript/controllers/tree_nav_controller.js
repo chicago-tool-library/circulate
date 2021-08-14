@@ -31,7 +31,6 @@ export default class extends Controller {
   }
 
   toggle(event) {
-    console.debug(event.currentTarget)
     const button = event.currentTarget;
     this.toggleButton(button);
   }
