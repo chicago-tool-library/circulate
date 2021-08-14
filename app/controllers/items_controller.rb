@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
 
     item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
 
-    @categories = CategoryNode.all
+    @categories = CategoryNode.with_items
     @pagy, @items = pagy(item_scope)
   end
 

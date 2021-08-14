@@ -106,3 +106,19 @@
     }
   }
 }
+
+.accessibility-links a {
+  position: absolute;
+  left: 0;
+  top: -3.2rem;
+  transition: top 1s ease-out;
+  padding: 1rem;
+  background: white;
+  font-size: 1.2;
+  z-index: 1000;
+ 
+  &:focus {
+    top: 0;
+    transition: 0.1s ease-in;
+  }
+}

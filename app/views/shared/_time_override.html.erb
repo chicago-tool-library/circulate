@@ -8,15 +8,15 @@
       <li class="menu-item">
         <%= form_with url: dev_time_path, class: "form" do |form| %>
           <div class="input-group input-inline">
-            <%= form.text_field :new_time, value: Time.zone.now.to_s, class: "form-input" %>
-            <%= form.hidden_field :return_to, value: request.path %>
+            <%= form.text_field :new_time, value: Time.zone.now.to_s, class: "form-input", title: "Enter new time" %>
+            <%= form.hidden_field :return_to, value: request.path, id: "returnTo" %>
           </div>
         <% end %>
       </li>
       <li class="divider" data-content="Clear override">
       <li class="menu-item">
         <%= form_with url: dev_time_path, method: :delete, class: "form" do |form| %>
-          <%= form.hidden_field :return_to, value: request.path %>
+          <%= form.hidden_field :return_to, value: request.path, id: "returnTo2" %>
           <%= form.button "Reset", type: "submit", class: "btn btn-sm" %>
         <% end %>
       </li>

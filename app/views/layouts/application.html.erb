@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Circulate</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-cache">
     <% end %>
@@ -23,6 +23,11 @@
   </head>
 
   <%= tag.body class: "public #{@body_class}" do %>
+
+    <div class="accessibility-links" role="navigation" data-turbolinks="false">
+      <%= link_to "Skip to content", "#content-start" %>
+    </div>
+
     <div class="off-canvas" data-controller="sidebar">
 
       <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
@@ -31,7 +36,7 @@
         </ul>
       </div>
 
-      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
+      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close" title="close sidebar"></a>
 
       <div class="off-canvas-content show-sm mobile-banner">
         <div class="mobile-banner-content">
@@ -49,7 +54,7 @@
         </div>
       </div>
 
-      <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open">
+      <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open" title="show sidebar nvigation">
         <i class="icon icon-menu"></i>
       </a>
     </div>
@@ -60,7 +65,7 @@
         <section class="navbar-section">
           <span class="navbar-brand mr-3">
             <a href="https://chicagotoollibrary.org/">
-              <%= image_pack_tag "logo_small.png" %>
+              <%= image_pack_tag "logo_small.png", alt: "Chicago Tool Library logo" %>
             </a>
           </span>
           <ul class="navbar-links">
@@ -70,7 +75,7 @@
         <section class="navbar-section search-section">
           <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
             <div class="has-icon-left">
-              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items", id: "navbarQuery" %>
               <i class="form-icon icon icon-search"></i>
             </div>
           <% end %>
@@ -79,24 +84,26 @@
       
       <%= render partial: "shared/time_override" if Rails.env.development? %>
 
-      <% if content_for? :header %>
-        <div class="app-header">
-          <div class="header-header">
-            <%= yield :header %>
+      <main id="content-start">
+        <% if content_for? :header %>
+          <div class="app-header">
+            <div class="header-header">
+              <%= yield :header %>
+            </div>
           </div>
+        <% end %>
+
+        <div class="app-body">
+          <%= flash_message :success  %>
+          <%= flash_message :warning  %>
+          <%= flash_message :error  %>
+          <%= flash_message :alert, "error"  %>
+
+          <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
+
+          <%= yield %>
         </div>
-      <% end %>
-
-      <div class="app-body">
-        <%= flash_message :success  %>
-        <%= flash_message :warning  %>
-        <%= flash_message :error  %>
-        <%= flash_message :alert, "error"  %>
-
-        <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
-
-        <%= yield %>
-      </div>
+      </main>
     </div>
 
     <%= render partial: 'layouts/footer', object: @member, as: :member %>

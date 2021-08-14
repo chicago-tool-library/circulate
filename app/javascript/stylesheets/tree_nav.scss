@@ -1,0 +1,34 @@
+nav.tree-nav {
+  ul {
+    list-style: none;
+    margin: 0;
+  }
+  .tree-node {
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.2;
+    margin-top: .5rem;
+    ul {
+      margin-left: -.6rem;
+    }
+  }
+  .tree-node-toggle {
+    border: 0;
+    background: transparent;
+    padding-right: 0.4rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    color: $dark-color;
+    &:hover {
+      cursor: pointer;
+      color: $secondary-color;
+    }
+    .icon {
+      font-size: 14px;
+    }
+  }
+  .tree-node button[aria-expanded='false'] + a + ul.tree-node-children {
+    display: none;
+  }
+}
