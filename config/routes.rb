@@ -136,8 +136,9 @@ Rails.application.routes.draw do
   if Rails.env.development?
     post "/dev/time", to: "dev#set_time"
     delete "/dev/time", to: "dev#clear_time"
-    get "/dev/styles", to: "dev#styles"
   end
+
+  get "/dev/styles", to: "dev#styles"
 
   get "/s/:id", to: "short_links#show", as: :short_link
 
