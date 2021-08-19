@@ -1,4 +1,6 @@
 version: 2
+orbs:
+  browser-tools: circleci/browser-tools@1.1
 jobs:
   bundler_dependencies:
     working_directory: ~/repo
@@ -83,6 +85,7 @@ jobs:
           PARALLEL_WORKERS: 4
       - image: circleci/postgres:11.5-ram
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - attach_workspace:
           at: ~/repo
@@ -122,6 +125,7 @@ jobs:
           HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - attach_workspace:
           at: ~/repo
