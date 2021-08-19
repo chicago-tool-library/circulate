@@ -3,7 +3,7 @@ jobs:
   bundler_dependencies:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -29,7 +29,7 @@ jobs:
   yarn_dependencies:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
     steps:
       - checkout
       - restore_cache:
@@ -45,7 +45,7 @@ jobs:
   build_assets:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -74,7 +74,7 @@ jobs:
   test:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -112,7 +112,7 @@ jobs:
   test_system:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
