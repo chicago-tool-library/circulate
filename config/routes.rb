@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
+  get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
@@ -136,8 +137,9 @@ Rails.application.routes.draw do
   if Rails.env.development?
     post "/dev/time", to: "dev#set_time"
     delete "/dev/time", to: "dev#clear_time"
-    get "/dev/styles", to: "dev#styles"
   end
+
+  get "/dev/styles", to: "dev#styles"
 
   get "/s/:id", to: "short_links#show", as: :short_link
 
