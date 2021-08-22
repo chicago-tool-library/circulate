@@ -33,7 +33,7 @@
                 </span>
               </div>
               <div class="actions">
-                <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.renewal_requests.any? %>
+                <% if loan.renewal_requests.any? %>
                   <% if loan.latest_renewal_request.rejected? %>
                     Renewal denied! There are others waiting to borrow this tool.
                   <% else %>
@@ -43,7 +43,7 @@
                   Renewed
                 <% elsif loan.member_renewable? %>
                   <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
-                <% elsif ENV["FEATURE_RENEWAL_REQUESTS"] == "on" && loan.member_renewal_requestable? %>
+                <% elsif loan.member_renewal_requestable? %>
                   <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to 'Request Loan Renewal', account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
                 <% end %>
               </div>
