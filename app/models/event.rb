@@ -1,8 +1,9 @@
 class Event < ApplicationRecord
   scope :upcoming, -> { where("start > ?", Time.current) }
 
-  scope :appointment_slots, -> {
-    upcoming.where(calendar_id: appointment_slot_calendar_id).order("start ASC")
+  scope :appointment_slots, ->(now = Time.current) {
+    where(calendar_id: appointment_slot_calendar_id)
+      .where("finish > ?", now + 15.minutes).order("start ASC")
   }
 
   def date

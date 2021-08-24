@@ -13,7 +13,6 @@ class ItemsTest < ApplicationSystemTestCase
     click_on "New Item"
 
     fill_in "Name", with: @item.name
-    find("summary", text: "Description").click
     fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
     fill_in "Strength", with: @item.strength
@@ -151,7 +150,6 @@ class ItemsTest < ApplicationSystemTestCase
     click_on "New Item"
 
     fill_in "Name", with: @item.name
-    find("summary", text: "Description").click
     fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
     fill_in "Strength", with: @item.strength

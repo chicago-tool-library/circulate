@@ -68,4 +68,25 @@ class RenewalRequestsControllerAdditionalTest < ActionDispatch::IntegrationTest
     assert renewal_request.reload.approved?
     refute renewal_request.loan.checked_out?
   end
+
+  test "does not renew an item that has been checked in" do
+    item = create(:item)
+    loan = create(:loan, item: item)
+
+    renewal_request = create(:renewal_request, loan: loan)
+    return_loan(loan)
+    assert item.reload.available?
+
+    assert_difference("Loan.count", 0) do
+      put admin_renewal_request_path(renewal_request), params: {
+        renewal_request: {
+          status: :approved
+        }
+      }
+      assert_response :redirect
+    end
+
+    refute renewal_request.reload.approved?
+    assert item.reload.available?
+  end
 end

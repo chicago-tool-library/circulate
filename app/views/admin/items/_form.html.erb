@@ -49,14 +49,7 @@
     </div>
   </div>
 
-  <% if item.new_record? %>
-    <details class="form-group">
-      <summary>Description</summary>
-      <%= form.rich_text_area :description, hint: "Optional; additional information about this tool" %>
-    </details>
-  <% else %>
-    <%= form.rich_text_area :description %>
-  <% end %>
+  <%= form.rich_text_area :description %>
 
   <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
 

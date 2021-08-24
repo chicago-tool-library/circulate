@@ -36,6 +36,15 @@ module Admin
       assert @loan.ended_at.present?
     end
 
+    test "rejects requested renewal requests when returning an item" do
+      @loan = create(:loan, item: @item)
+      @renewal_request = create(:renewal_request, loan: @loan)
+
+      patch admin_loan_url(@loan), params: {loan: {ended: "1"}}
+
+      assert_equal RenewalRequest.statuses[:rejected], @renewal_request.reload.status
+    end
+
     test "should return item by updating loan for an overdue item" do
       @loan = create(:loan, item: @item, due_at: 8.days.ago)
       assert_enqueued_emails 0 do
