@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/collectiveidea/audited.git
-  revision: 7fd8334edf682ea994b6f84980ddd19303590071
+  revision: 5f7225955ac58ccce99279203ba23ab5cae2a596
   specs:
-    audited (4.10.0)
-      activerecord (>= 4.2, < 6.2)
+    audited (5.0.1)
+      activerecord (>= 5.0, < 6.2)
 
 PATH
   remote: gems/active_storage_log_suppressor
