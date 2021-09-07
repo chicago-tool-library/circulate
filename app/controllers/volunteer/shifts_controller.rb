@@ -11,7 +11,11 @@ module Volunteer
     def index
       load_upcoming_events
       @attendee = Attendee.new(email: session[:email], name: session[:name])
-      @month_calendar = Volunteer::MonthCalendar.new(@events)
+      @month_calendars = [
+        Volunteer::MonthCalendar.new(@events),
+        Volunteer::MonthCalendar.new(@events, 1.month.since),
+        Volunteer::MonthCalendar.new(@events, 2.months.since)
+      ]
     end
 
     def event

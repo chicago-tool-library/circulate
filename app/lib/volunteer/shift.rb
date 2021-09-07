@@ -1,5 +1,7 @@
 module Volunteer
   class Shift
+    FULLY_STAFFED_COUNT = 2
+
     def initialize(events)
       @events = events
     end
@@ -14,6 +16,14 @@ module Volunteer
 
     def event_count
       @events.size
+    end
+
+    def staffed?
+      accepted_attendees_count >= FULLY_STAFFED_COUNT
+    end
+
+    def accepted_attendees_count
+      @events.map(&:accepted_attendees_count).sum
     end
 
     def title
@@ -32,16 +42,6 @@ module Volunteer
 
     def event_ids
       @events.map(&:calendar_event_id)
-    end
-
-    def foo
-      shift_attendees_count = shift_events.inject(0) { |sum, de| de.accepted_attendees_count + sum }
-
-      shift_events.sort_by { |e| e.summary }.each_with_index do |event, event_index|
-        daily_events_size = daily_events.size if last_date != date
-        shift_events_size = shift_events.size if event_index == 0
-        yield date, event, daily_events_size, shift_events_size, shift_attendees_count
-      end
     end
 
     def each_event(&block)

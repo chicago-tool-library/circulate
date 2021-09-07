@@ -7,7 +7,7 @@ namespace :sync do
 
   def sync_calendar(calendar_id)
     calendar = Google::Calendar.new(calendar_id: calendar_id)
-    result = calendar.upcoming_events(Time.zone.now, 2.months.since)
+    result = calendar.upcoming_events(Time.zone.now, 3.months.since)
     if result.success?
       Event.update_events(result.value)
       Rails.logger.info "Updated #{result.value.size} events"

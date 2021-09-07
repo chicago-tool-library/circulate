@@ -1,43 +1,4 @@
 module Volunteer
-  class Day
-    def initialize(date, today, events, state = nil)
-      @date = date
-      @today = today
-      @events = events
-      @state = state
-    end
-
-    def number
-      @date.day
-    end
-
-    def today?
-      @today == @date
-    end
-
-    def past?
-      @date < @today
-    end
-
-    def previous_month?
-      @state == :previous
-    end
-
-    def next_month?
-      @state == :next
-    end
-
-    def events?
-      @events.any?
-    end
-
-    def each_shift(&block)
-      @events.group_by { |e| [e.start, e.finish] }.each do |((start, finish), shift_events)|
-        yield Shift.new(shift_events)
-      end
-    end
-  end
-
   class MonthCalendar
     attr_reader :first_date
     attr_reader :last_date
@@ -62,9 +23,13 @@ module Volunteer
         elsif date < @today.beginning_of_month
           :previous
         end
-        events = @events.select { |event|
-          date.beginning_of_day <= event.start && date.end_of_day >= event.start
-        }
+        events = if state.nil?
+          @events.select { |event|
+            date.beginning_of_day <= event.start && date.end_of_day >= event.start
+          }
+        else
+          []
+        end
         yield Day.new(date, @today, events, state)
         date += 1.day
       end

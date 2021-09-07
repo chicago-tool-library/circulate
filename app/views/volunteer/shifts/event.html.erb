@@ -42,7 +42,7 @@
                 <%= link_to "Cancel signup", volunteer_attendee_path(id: event.id), method: :delete %>
               </div>
             <% elsif @shift.attended_by?(@attendee.email) %>
-              <p class="text-italic">You are signed up as another role at this time.</p>
+              <p class="text-italic">You are signed up for another role at this time.</p>
             <% else %>
               <%= form_with url: volunteer_attendees_path, method: :post do |f| %>
                 <%= f.hidden_field :event_id, value: event.id %>
