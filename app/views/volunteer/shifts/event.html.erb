@@ -1,0 +1,59 @@
+<div class="volunteer-shift">
+  <div class="columns">
+    <div class="column col-12">
+      <h1>Volunteer Shifts</h1>
+      <div class="instructions mt-2">
+        <p class="main">Shift Sign Up</p>
+        <p class="sub">
+          There <%= "is".pluralize(@shift.event_count) %> <strong><%= pluralize @shift.event_count, "role" %></strong> available on
+          <strong><%= @shift.start.strftime("%A, %B %-d, %Y") %></strong> 
+          from
+          <strong><%= @shift.times %></strong>:
+        </p>
+      </div>
+
+      <% unless signed_in_via_google? %>
+        <p>Clicking below will ask you to log into Gmail so we can confirm your identity and invite you to the calendar event. We will not access your email or other personal information.</p>
+      <% end %>
+
+      <p>
+        You will receive a calendar invite for this shift containing more information. 
+      </p>
+    </div>
+  </div>
+
+  <div class="columns">
+    <% @shift.each_event do |event| %>
+      <div class="column col-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title h5"><%= event.summary %></div>
+            <div class="card-subtitle text-gray">
+              <%= event_attendees(event) %> 
+            </div>
+          </div>
+          <div class="card-body">
+            <%= event.description %>
+          </div>
+          <div class="card-footer">
+            <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
+              <div class="toast toast-success">
+                You are signed up!
+                <%= link_to "Cancel signup", volunteer_attendee_path(id: event.id), method: :delete %>
+              </div>
+            <% elsif @shift.attended_by?(@attendee.email) %>
+              <p class="text-italic">You are signed up as another role at this time.</p>
+            <% else %>
+              <%= form_with url: volunteer_attendees_path, method: :post do |f| %>
+                <%= f.hidden_field :event_id, value: event.id %>
+                <%= f.button "Sign up as a #{event.summary}", class:"btn btn-primary" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <p class="nevermind"><%= link_to "Nevermind - take me back to the calendar", volunteer_shifts_path, class: "btn" %></p>
+
+</div>

@@ -1,8 +1,8 @@
-module Volunteer
-  class GoogleCalendar
+module Google
+  class Calendar
     TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
 
-    def initialize(calendar_id: ENV.fetch("VOLUNTEER_SLOT_CALENDAR_ID"))
+    def initialize(calendar_id:)
       @calendar_id = calendar_id
     end
 
@@ -12,7 +12,8 @@ module Volunteer
         singleEvents: true,
         timeZone: "America/Chicago",
         timeMin: start_time.rfc3339,
-        timeMax: end_time.rfc3339
+        timeMax: end_time.rfc3339,
+        showDeleted: true
       })
 
       if events_response.status == 200
@@ -81,7 +82,7 @@ module Volunteer
       # build new list of attendees
       event = event_response.parse
       attendees = event["attendees"] || []
-      new_attendees = attendees.reject { |a| a.email == attendee.email }
+      new_attendees = attendees.reject { |a| a["email"] == attendee.email }
 
       # update event
       patch_response = client.patch(event_url, json: {
@@ -106,28 +107,36 @@ module Volunteer
     end
 
     def new_client
-      http = HTTP # .use(logging: {logger: Logger.new(STDOUT)})
+      http = HTTP.use(instrumentation: {instrumenter: ActiveSupport::Notifications.instrumenter})
       token_response = http.post(TOKEN_ENDPOINT, params: {
-        client_id: ENV.fetch("GCAL_CLIENT_ID"),
-        client_secret: ENV.fetch("GCAL_CLIENT_SECRET"),
+        client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
+        client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
         grant_type: "refresh_token",
-        refresh_token: ENV.fetch("GCAL_REFRESH_TOKEN")
+        refresh_token: ENV.fetch("GOOGLE_REFRESH_TOKEN")
       })
       token = token_response.parse["access_token"]
       http.auth("Bearer #{token}")
     end
 
     def gcal_event_to_event(gcal_event)
-      Event.new(
+      CalendarEvent.new(
         id: gcal_event["id"],
+        calendar_id: @calendar_id,
         summary: gcal_event["summary"],
         description: gcal_event["description"],
         start: Time.iso8601(gcal_event["start"]["dateTime"]),
         finish: Time.iso8601(gcal_event["end"]["dateTime"]),
+        status: gcal_event["status"],
         attendees: gcal_event.fetch("attendees", []).map { |attendee|
           Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
         }
       )
     end
+  end
+
+  ActiveSupport::Notifications.subscribe("request.http") do |name, start, finish, id, payload|
+    Rails.logger.info(
+      name: name, start: start.to_f, finish: finish.to_f, id: id, payload: payload
+    )
   end
 end

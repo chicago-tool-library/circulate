@@ -31,7 +31,7 @@ module Volunteer
     end
 
     def event_ids
-      @events.map(&:id)
+      @events.map(&:calendar_event_id)
     end
 
     def foo

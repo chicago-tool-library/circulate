@@ -23,4 +23,12 @@ module ShiftsHelper
   def calendar_date_item_class(day)
     return "date-today" if day.today?
   end
+
+  def event_attendees(event)
+    return "" if event.attendees.empty?
+
+    event.attendees.map { |a|
+      Member.find_by(email: a.email)&.preferred_name || a.email
+    }.join(", ")
+  end
 end

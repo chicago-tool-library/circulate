@@ -3,17 +3,19 @@ module Volunteer
     include ShiftsHelper
     include Calendaring
 
-    def index
+    def list
       load_upcoming_events
       @attendee = Attendee.new(email: session[:email], name: session[:name])
     end
 
-    def calendar
-      index
+    def index
+      load_upcoming_events
+      @attendee = Attendee.new(email: session[:email], name: session[:name])
       @month_calendar = Volunteer::MonthCalendar.new(@events)
     end
 
-    def new
+    def event
+      @attendee = Attendee.new(email: session[:email], name: session[:name])
       result = google_calendar.fetch_events(params[:event_ids])
       if result.success?
         @shift = Volunteer::Shift.new(result.value)
@@ -22,27 +24,10 @@ module Volunteer
       end
     end
 
-    def create
-      if signed_in_via_google?
-        event_signup(params[:event_id])
-      else
-        # store requested event id for later reference
-        session[:event_id] = params[:event_id]
-        render html: post_redirect("/auth/google_oauth2")
-      end
-    end
-
     private
 
-    def post_redirect(path)
-      <<~HTML.html_safe
-        <form id="redirect" action="#{helpers.send(:h, path)}" method="post">
-        <input name="authenticity_token" value="#{form_authenticity_token}" type="hidden">
-        </form>
-        <script>
-          document.getElementById("redirect").submit();
-        </script>
-      HTML
+    def google_calendar_id
+      ::Event.volunteer_shift_calendar_id
     end
   end
 end
