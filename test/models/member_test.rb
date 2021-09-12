@@ -153,6 +153,13 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal Member.last.bio, member.bio
   end
 
+  test "a member can have an optional pronunciation" do
+    member = FactoryBot.build(:member, :with_pronunciation)
+    member.save
+
+    assert_equal Member.last.pronunciation, member.pronunciation
+  end
+
   test "last_membership finds the only membership" do
     member = create(:member)
     membership = create(:membership, member: member)
