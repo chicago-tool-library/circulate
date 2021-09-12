@@ -13,6 +13,11 @@ module Lending
         Adjustment.create!(member_id: loan.member_id, adjustable: loan, amount: amount * -1, kind: "fine")
       end
 
+      # reject any renewal requests to avoid confusion
+      loan.renewal_requests.requested.each do |renewal_request|
+        renewal_request.update!(status: "rejected")
+      end
+
       success = true
     end
 

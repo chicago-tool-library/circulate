@@ -5,6 +5,8 @@ class CategoryNode < ApplicationRecord
     foreign_key: "category_id"
   has_many :items, through: :categorizations
 
+  scope :with_items, -> { where("tree_categorizations_count > 0") }
+
   def full_name
     path_names.join("  ")
   end

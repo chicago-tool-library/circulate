@@ -37,12 +37,13 @@ gem "activerecord-postgres_enum"
 gem "scenic"
 gem "reverse_markdown"
 gem "http"
+gem "translation"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "sentry-raven"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 0.1"
+gem "omniauth-rails_csrf_protection"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
@@ -75,15 +76,11 @@ group :development do
   gem "lefthook"
 end
 
-group :production do
-  gem "skylight"
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
-  gem "webdrivers", "~> 4.6", require: false
+  gem "webdrivers", "~> 4.6"
   gem "minitest-ci"
   gem "rails-controller-testing"
 end

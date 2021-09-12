@@ -49,6 +49,64 @@ module ItemsHelper
     end
   end
 
+  class TreeNode
+    attr_reader :children
+    attr_reader :value
+
+    def initialize(value)
+      @value = value
+      @children = {}
+    end
+
+    def [](key)
+      @children[key]
+    end
+
+    def []=(key, value)
+      @children[key] = value
+    end
+  end
+
+  def category_tree_nav(categories, current_category = nil)
+    root = TreeNode.new(nil)
+    categories.each do |category|
+      parent = category.path_ids[0..-2].reduce(root) { |node, id| node[id] }
+      parent[category.id] = TreeNode.new(category)
+    end
+
+    tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
+      concat(tag.ul do
+        root.children.values.map do |node|
+          concat(render_tree_node(node, current_category))
+        end
+      end)
+    end
+  end
+
+  def render_tree_node(node, current_value)
+    has_children = node.children.size > 0
+    tag.li(class: "tree-node", data: {id: node.value.id}) do
+      if has_children
+        concat(
+          tag.button(
+            '<i class="icon icon-arrow-right">Toggle subcategories</i>'.html_safe,
+            class: "tree-node-toggle",
+            data: {action: "tree-nav#toggle"},
+            "aria-expanded": false
+          )
+        )
+      end
+      concat(link_to((node.value.name + "&nbsp;(#{node.value.tree_categorizations_count})").html_safe, {category: node.value.id}))
+      if has_children
+        concat(tag.ul(class: "tree-node-children") do
+          node.children.values.map do |child|
+            concat(render_tree_node(child, current_value))
+          end
+        end)
+      end
+    end
+  end
+
   def rotated_variant(image, options = {})
     if image.metadata.key? "rotation"
       options[:rotate] ||= image.metadata["rotation"]
@@ -136,5 +194,13 @@ module ItemsHelper
   def loan_description(loan)
     link = link_to preferred_or_default_name(loan.member), [:admin, loan.member]
     "Currently on loan to ".html_safe + link + "."
+  end
+
+  def item_location_span(item)
+    location = []
+    location << "area #{item.location_area}" unless item.location_area.blank?
+    location << "shelf #{item.location_shelf}" unless item.location_shelf.blank?
+
+    location.join(", ")
   end
 end

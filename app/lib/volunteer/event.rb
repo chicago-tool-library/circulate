@@ -16,8 +16,8 @@ module Volunteer
     end
 
     def times
-      hour_meridian = "%l%P"
-      @start.strftime(hour_meridian) + " - " + @finish.strftime(hour_meridian).strip
+      format = "%l:%M%P"
+      "#{start.strftime(format).strip} - #{finish.strftime(format).strip}".gsub(/:00/, "").strip
     end
 
     def attended_by?(email)

@@ -127,4 +127,29 @@ class EventTest < ActiveSupport::TestCase
       Event.update_events([gcal_event])
     end
   end
+
+  test "times on the hour" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 0),
+        finish: Time.zone.local(2020, 11, 5, 20, 0))
+      assert_equal "6pm - 8pm", event.times
+    end
+  end
+
+  test "times with minutes" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 15),
+        finish: Time.zone.local(2020, 11, 5, 20, 30))
+      assert_equal "6:15pm - 8:30pm", event.times
+    end
+  end
+
+  test "upcoming_slots includes slots that end more than 15 minutes in the future" do
+    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+
+    assert_equal [ends_in_sixteen_minutes.id], Event.appointment_slots.pluck(:id)
+  end
 end

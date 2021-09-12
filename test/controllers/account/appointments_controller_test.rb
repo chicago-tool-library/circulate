@@ -20,7 +20,6 @@ module Account
 
     test "should cancel appointment without affecting holds" do
       delete account_appointment_path(@appointment)
-      assert_nil assigns(:appointment)
       assert_equal 1, @member.holds.count, "Member holds should not be deleted when an appointment is cancelled"
       assert_redirected_to account_appointments_path
     end

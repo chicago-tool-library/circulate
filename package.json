@@ -2,10 +2,10 @@
   "name": "circulate",
   "private": true,
   "dependencies": {
-    "@rails/actioncable": "^6.0.0-alpha",
-    "@rails/actiontext": "^6.1.3",
+    "@rails/actioncable": "^6.1.4",
+    "@rails/actiontext": "^6.1.4",
     "@rails/activestorage": "^6.1.3",
-    "@rails/ujs": "^6.0.0-alpha",
+    "@rails/ujs": "^6.1.4",
     "@rails/webpacker": "^5.4.0",
     "awesomplete": "^1.1.4",
     "feather-icons": "^4.25.0",

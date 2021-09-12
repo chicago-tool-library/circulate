@@ -11,9 +11,6 @@
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% if Rails.env.production? %>
-      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
-    <% end %>
   </head>
 
   <body class="admin">
@@ -30,9 +27,7 @@
               <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
               <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
               <li class="nav-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
-              <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" %>
               <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
-              <% end %>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
@@ -111,9 +106,7 @@
                 <li class="menu-item"><%= link_to "Items", admin_items_path %></li>
                 <li class="menu-item"><%= link_to "Members", admin_members_path %></li>
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
-                <% if ENV["FEATURE_RENEWAL_REQUESTS"] == "on" %>
                 <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
-                <% end %>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
@@ -171,6 +164,20 @@
         </header>
       </div>
     </div>
+
+    <% if @requested_renewal_request_count > 0 %>
+      <div class="app-banner">
+        <div class="header-header">
+          <div class="container grid-lg">
+            <p>
+              <%= link_to admin_renewal_requests_path do %> 
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>. 
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
     <% if content_for? :header %>
       <div class="app-header">

@@ -23,7 +23,7 @@ end
 
 Capybara.register_driver(:headless_chrome) do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {args: %w[headless disable-gpu]}
+    chromeOptions: {args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage]}
   )
 
   Capybara::Selenium::Driver.new(
@@ -56,17 +56,16 @@ FactoryBot::SyntaxRunner.class_eval do
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
-  driven_by :selenium, using: driver, screen_size: [1400, 1800]
-
   setup do
     if ENV["DOCKER"]
-      Capybara.javascript_driver = ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
-      Capybara.current_driver = Capybara.javascript_driver
+      driver = ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
       Capybara.server_host = "0.0.0.0"
       Capybara.server_port = 4000
       Capybara.app_host = "http://example.com:4000"
+    else
+      driver = ENV["HEADLESS"] == "true" ? :headless_chrome : :chrome
     end
+    driven_by :selenium, using: driver, screen_size: [1400, 1800]
   end
 
   include Warden::Test::Helpers

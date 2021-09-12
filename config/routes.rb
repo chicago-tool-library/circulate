@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
-    resources :renewal_requests, only: :create if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
+    resources :renewal_requests, only: :create 
     get "/", to: "home#index", as: "home"
   end
 
@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
+  get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
@@ -123,7 +124,7 @@ Rails.application.routes.draw do
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
-    resources :renewal_requests, only: [:index, :update] if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
+    resources :renewal_requests, only: [:index, :update] 
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
@@ -139,8 +140,9 @@ Rails.application.routes.draw do
   if Rails.env.development?
     post "/dev/time", to: "dev#set_time"
     delete "/dev/time", to: "dev#clear_time"
-    get "/dev/styles", to: "dev#styles"
   end
+
+  get "/dev/styles", to: "dev#styles"
 
   get "/s/:id", to: "short_links#show", as: :short_link
 
