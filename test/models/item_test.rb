@@ -38,7 +38,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "strips whitespace before validating" do
     item = Item.new(name: " name ", brand: " brand ", size: " 12v", model: "123 ",
-                    serial: " a bc", strength: " heavy")
+      serial: " a bc", strength: " heavy")
 
     item.valid?
 
