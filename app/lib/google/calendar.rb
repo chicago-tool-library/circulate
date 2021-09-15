@@ -133,10 +133,4 @@ module Google
       )
     end
   end
-
-  ActiveSupport::Notifications.subscribe("request.http") do |name, start, finish, id, payload|
-    Rails.logger.info(
-      name: name, start: start.to_f, finish: finish.to_f, id: id, payload: payload
-    )
-  end
 end
