@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  attribute :attendees, Attendee.to_array_type
+  attribute :attendees, Attendee.to_array_type, default: []
 
   scope :upcoming, -> { where("start > ?", Time.current) }
 

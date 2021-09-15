@@ -149,4 +149,8 @@ Rails.application.routes.draw do
   get "search", to: "searches#show"
 
   root to: "home#index"
+
+  if Rails.env.test?
+    get "/test/google_auth", to: "test#google_auth"
+  end
 end

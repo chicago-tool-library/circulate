@@ -1,17 +1,25 @@
 module Calendaring
   extend ActiveSupport::Concern
 
-  def load_upcoming_events
-    # Date.beginning_of_week = :sunday
-    # cutoff = Time.current + 60.days
-    # result = google_calendar.upcoming_events(Time.current.beginning_of_day, cutoff)
-    # if result.success?
-    #   @events = result.value
-    # else
-    #   @events = []
-    #   flash.now[:error] = result.error
-    # end
-    @events = Event.volunteer_shifts.upcoming
+  def sync_upcoming_events
+    Date.beginning_of_week = :sunday
+    cutoff = Time.current + 60.days
+    result = google_calendar.upcoming_events(Time.current.beginning_of_day, cutoff)
+    if result.success?
+      Event.update_events(result.value)
+    else
+      @events = []
+      flash.now[:error] = result.error
+    end
+  end
+
+  def sync_events(event_ids)
+    result = google_calendar.fetch_events(event_ids)
+    if result.success?
+      Event.update_events(result.value)
+    else
+      flash.now[:error] = result.error
+    end
   end
 
   def event_signup(event_id)
@@ -41,7 +49,11 @@ module Calendaring
   end
 
   def google_calendar
-    Google::Calendar.new(calendar_id: google_calendar_id)
+    if Rails.env.test?
+      Google::TestCalendar.new(calendar_id: google_calendar_id)
+    else
+      Google::Calendar.new(calendar_id: google_calendar_id)
+    end
   end
 
   def google_calendar_id

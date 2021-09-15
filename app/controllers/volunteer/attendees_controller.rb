@@ -4,8 +4,9 @@ module Volunteer
     include Calendaring
 
     def create
+      @event = Event.volunteer_shifts.find(params[:event_id])
       if signed_in_via_google?
-        event_signup(params[:event_id])
+        event_signup(@event.calendar_event_id)
       else
         # store requested event id for later reference
         session[:event_id] = params[:event_id]
@@ -15,7 +16,8 @@ module Volunteer
 
     def destroy
       if signed_in_via_google?
-        event_remove_signup(params[:id])
+        @event = Event.volunteer_shifts.find(params[:id])
+        event_remove_signup(@event.calendar_event_id)
       else
         redirect_to volunteer_shifts_url, error: "You must be logged in"
       end

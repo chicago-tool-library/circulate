@@ -2,7 +2,7 @@ require "test_helper"
 
 class EventTest < ActiveSupport::TestCase
   test "creates new events" do
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
@@ -40,7 +40,7 @@ class EventTest < ActiveSupport::TestCase
       attendees: [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")]
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
@@ -78,7 +78,7 @@ class EventTest < ActiveSupport::TestCase
       description: "more info"
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
@@ -112,7 +112,7 @@ class EventTest < ActiveSupport::TestCase
       description: "more info"
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",

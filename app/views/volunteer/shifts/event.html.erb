@@ -29,7 +29,7 @@
           <div class="card-header">
             <div class="card-title h5"><%= event.summary %></div>
             <div class="card-subtitle text-gray">
-              <%= event_attendees(event) %> 
+              <%= event_attendees(event.attendees) %> 
             </div>
           </div>
           <div class="card-body">
@@ -55,5 +55,4 @@
     <% end %>
 
     <p class="nevermind"><%= link_to "Nevermind - take me back to the calendar", volunteer_shifts_path, class: "btn" %></p>
-
 </div>

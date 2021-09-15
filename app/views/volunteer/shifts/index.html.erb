@@ -12,8 +12,12 @@
         Signed in as <strong><%= @attendee.email %></strong> &ndash;
         <%= link_to "Sign out", volunteer_session_path, method: :delete %>
       </p>
-      <p>If you can no longer attend a shift you signed up for, please cancel the signup on this site or 
-      decline the invitation in your calendar.</p>
+      <ul>
+        <li>Shifts you are signed up for are <span class="bg-primary p-1">shown with a blue background</span>.
+        <li><strong class="text-primary">Bold shifts</strong> need at least one more person to be sufficiently staffed.</li>
+        <li>If you can no longer attend a shift you signed up for, please cancel the signup on this site or 
+      decline the invitation in your calendar.</li>
+      </ul>
     <% end %>
   </div>
 </div>

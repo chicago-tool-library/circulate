@@ -16,4 +16,12 @@ class Attendee
   }
 
   validates :email, :status, presence: true
+
+  def accepted?
+    status == "accepted"
+  end
+
+  def declined?
+    status == "declined"
+  end
 end

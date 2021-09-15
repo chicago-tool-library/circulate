@@ -24,11 +24,13 @@ module ShiftsHelper
     return "date-today" if day.today?
   end
 
-  def event_attendees(event)
-    return "" if event.attendees.empty?
+  def event_attendees(attendees)
+    return "" if attendees.empty?
 
-    event.attendees.map { |a|
-      Member.find_by(email: a.email)&.preferred_name || a.email
-    }.join(", ")
+    attendees
+      .select { |a| a.accepted? }
+      .map { |a|
+        Member.find_by(email: a.email)&.preferred_name || a.email.split("@").first
+      }.compact.sort.join(", ")
   end
 end

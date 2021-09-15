@@ -3,13 +3,8 @@ module Volunteer
     include ShiftsHelper
     include Calendaring
 
-    def list
-      load_upcoming_events
-      @attendee = Attendee.new(email: session[:email], name: session[:name])
-    end
-
     def index
-      load_upcoming_events
+      @events = Event.volunteer_shifts.upcoming
       @attendee = Attendee.new(email: session[:email], name: session[:name])
       @month_calendars = [
         Volunteer::MonthCalendar.new(@events),
@@ -20,9 +15,11 @@ module Volunteer
 
     def event
       @attendee = Attendee.new(email: session[:email], name: session[:name])
-      result = google_calendar.fetch_events(params[:event_ids])
-      if result.success?
-        @shift = Volunteer::Shift.new(result.value)
+
+      @events = Event.volunteer_shifts.where(calendar_event_id: params[:event_ids])
+      if @events.any?
+        sync_events(params[:event_ids])
+        @shift = Volunteer::Shift.new(@events)
       else
         redirect_to volunteer_shifts_url, error: "That event was not found"
       end
