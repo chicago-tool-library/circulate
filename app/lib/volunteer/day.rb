@@ -32,7 +32,7 @@ module Volunteer
     end
 
     def each_shift(&block)
-      @events.group_by { |e| [e.start, e.finish] }.each do |((start, finish), shift_events)|
+      @events.group_by { |e| [e.start, e.finish, e.title] }.each do |((start, finish, title), shift_events)|
         yield Shift.new(shift_events)
       end
     end

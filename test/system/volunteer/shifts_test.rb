@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 module Volunteer
   class ShiftsTest < ApplicationSystemTestCase
-    roles = ["Senior Librarian", "Librarian"]
+    roles = ["Librarian (Senior)", "Librarian"]
 
     test "views shift calendar" do
       visit test_google_auth_url(email: "volunteer@example.com")
@@ -33,7 +33,7 @@ module Volunteer
         assert_text "There are 2 roles available"
         assert_text first_event.summary
 
-        click_on "Sign up as a Senior Librarian"
+        click_on "Sign up as a Librarian (Senior)"
 
         assert_text "You have signed up for the shift."
 

@@ -145,4 +145,16 @@ class EventTest < ActiveSupport::TestCase
       assert_equal "6:15pm - 8:30pm", event.times
     end
   end
+
+  test "returns a basic summary" do
+    event = Event.new(summary: "Something simple")
+
+    assert_equal "Something simple", event.title
+  end
+
+  test "removes parenthesized text" do
+    event = Event.new(summary: "Something simple (and complex) ")
+
+    assert_equal "Something simple", event.title
+  end
 end

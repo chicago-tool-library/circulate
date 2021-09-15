@@ -27,6 +27,12 @@ class Event < ApplicationRecord
     attendees.count { |a| a.accepted? }
   end
 
+  # The title of the event is a simplified summary, mostly used to
+  # group similar events together for display purposes.
+  def title
+    summary.gsub(/\(.+\)/, "").strip
+  end
+
   def self.update_events(gcal_events)
     transaction(requires_new: true) do
       gcal_events.each do |gcal_event|

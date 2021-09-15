@@ -27,13 +27,7 @@ module Volunteer
     end
 
     def title
-      if @events.any? { |e| e.summary =~ /training/i }
-        "Librarian Training"
-      elsif @events.any? { |e| e.summary =~ /repair/i }
-        "Repair Team"
-      else
-        "Librarian"
-      end
+      @events.first.title
     end
 
     def attended_by?(email)
@@ -45,7 +39,7 @@ module Volunteer
     end
 
     def each_event(&block)
-      @events.each(&block)
+      @events.sort_by(&:summary).each(&block)
     end
   end
 end
