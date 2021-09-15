@@ -1,4 +1,5 @@
 module Google
+  # This object is only used during tests to circumvent connections to the Google Calendar API.
   class TestCalendar
     def initialize(calendar_id:)
       @calendar_id = calendar_id

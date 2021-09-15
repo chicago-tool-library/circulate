@@ -8,7 +8,7 @@
           There <%= "is".pluralize(@shift.event_count) %> <strong><%= pluralize @shift.event_count, "role" %></strong> available on
           <strong><%= @shift.start.strftime("%A, %B %-d, %Y") %></strong> 
           from
-          <strong><%= @shift.times %></strong>:
+          <strong><%= @shift.times %></strong>.
         </p>
       </div>
 
@@ -53,6 +53,6 @@
         </div>
       </div>
     <% end %>
-
-    <p class="nevermind"><%= link_to "Nevermind - take me back to the calendar", volunteer_shifts_path, class: "btn" %></p>
+  </div>
+  <p class="nevermind"><%= link_to "Back to the calendar", volunteer_shifts_path %></p>
 </div>
