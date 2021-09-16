@@ -147,8 +147,8 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "upcoming_slots includes slots that end more than 15 minutes in the future" do
-    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
-    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: Event.appointment_slot_calendar_id)
+    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: Event.appointment_slot_calendar_id)
 
     assert_equal [ends_in_sixteen_minutes.id], Event.appointment_slots.pluck(:id)
   end
