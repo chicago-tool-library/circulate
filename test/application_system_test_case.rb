@@ -55,19 +55,19 @@ FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
 end
 
-class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
-  driven_by :selenium, using: driver, screen_size: [1400, 1800]
+if ENV["DOCKER"]
+  Capybara.server_host = "0.0.0.0"
+  Capybara.server_port = 4000
+  Capybara.app_host = "http://example.com:4000"
+end
 
-  setup do
-    if ENV["DOCKER"]
-      Capybara.javascript_driver = ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
-      Capybara.current_driver = Capybara.javascript_driver
-      Capybara.server_host = "0.0.0.0"
-      Capybara.server_port = 4000
-      Capybara.app_host = "http://example.com:4000"
-    end
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  driver = if ENV["DOCKER"]
+    ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
+  else
+    ENV["HEADLESS"] == "true" ? :headless_chrome : :chrome
   end
+  driven_by :selenium, using: driver, screen_size: [1400, 1800]
 
   include Warden::Test::Helpers
   include ActionMailer::TestHelper

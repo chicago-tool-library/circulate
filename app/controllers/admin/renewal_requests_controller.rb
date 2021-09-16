@@ -15,6 +15,11 @@ module Admin
 
       @renewal_request = RenewalRequest.find(params[:id])
 
+      if @renewal_request.loan.ended?
+        redirect_to admin_renewal_requests_url, error: "That item is not on loan"
+        return
+      end
+
       flash_message = if @renewal_request.update(renewal_request_params)
         renew_loan(@renewal_request.loan) if @renewal_request.approved?
         MemberMailer.with(renewal_request: @renewal_request).renewal_request_updated.deliver_later
