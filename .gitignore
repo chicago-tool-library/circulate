@@ -47,3 +47,4 @@ yarn-debug.log*
 .ruby-version
 .tool-versions
 .yardoc
+.env.local
