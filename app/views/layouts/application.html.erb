@@ -1,118 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Circulate</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-cache">
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <% if Rails.env.production? %>
-      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
+      <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+      <script>
+          Weglot.initialize({
+              api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key") %>'
+          });
+      </script>
     <% end %>
   </head>
 
-  <%= tag.body class: @body_class do %>
+  <%= tag.body class: "public #{@body_class}" do %>
 
-    <div class="container grid-lg public app">
+    <div class="accessibility-links" role="navigation" data-turbolinks="false">
+      <%= link_to "Skip to content", "#content-start" %>
+    </div>
 
-      <div class="member-nav">
-        <%# Mobile Nav Div %>
-        <div class="off-canvas" data-controller="sidebar">
+    <div class="off-canvas" data-controller="sidebar">
 
-          <%# Hamburger Menu Toggle, Positioned Absolutely from Hidden off-canvas div %>
-          <a class="off-canvas-toggle btn btn-action show-sm" href="#sidebar-id" data-action="sidebar#open">
-            <i class="icon icon-menu"></i>
-          </a>
+      <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
+        <ul class="nav">
+          <%= render partial: 'shared/navbar_links' %>
+        </ul>
+      </div>
 
-          <%# Mobile Nav Logo %>
-          <%# Surrounding div used to create navbar with primary-color %>
-          <div class="show-sm mobile-nav">
+      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close" title="close sidebar"></a>
+
+      <div class="off-canvas-content show-sm mobile-banner">
+        <div class="mobile-banner-content">
+          <div class="logo">
             <a href="https://chicagotoollibrary.org/">
               <%= logo(small: true) %>
             </a>
           </div>
-
-          <%# Sidebar Div %>
-          <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
-            <div class="sidebar-list">
-              <a href="https://chicagotoollibrary.org/">
-                <%= logo(small: true) %>
-              </a>
-              <ul class="nav">
-                  <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
-                    <li class="nav-item">
-                      <div class="input-group input-inline">
-                        <i class="icon icon-search"></i>
-                        <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
-                      </div>
-                    </li>
-                  <% end %>
-                <span class="nav-category">Site Links</span>
-                <ul class="nav">
-                  <%= render partial: 'shared/navbar_links' %>
-                </ul>
-
-                <%# Member Links -- Displayed if User is Signed in %>
-                <% if user_signed_in? %>
-                  <span class="nav-category">Member Links</span>
-                  <ul class="nav">
-                    <li class="nav-item"><%= link_to "My Loans & Holds", account_home_path %></li>
-                    <li class="nav-item"><%= link_to "Schedule an Appointment", new_account_appointment_path %></li>
-                    <li class="nav-item"><%= link_to "My Appointments", account_appointments_path %></li>
-                    <li class="nav-item"><%= link_to "View Loan History", account_loans_path %></li>
-                    <li class="nav-item"><%= link_to "Account Settings", account_member_path %></li>
-                  </ul>
-                    <li class="nav-item logout-link"><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
-                <% else %>
-                  <span class="nav-category"><i class="icon icon-people mr-1"></i><%= link_to "Member Login", user_session_path %></span>
-                <% end %>
-              </li>
-              </ul>
-            </div>
-          </div>
-
-          <%# Link to Close Sidebar %>
-          <a class="off-canvas-overlay" href="#close" data-action="sidebar#close"></a>
-        </div>
-
-        <%# Full Size Nav, Hidden under 600px %>
-        <div class="hide-sm">
-          <div class="grid-lg public">
-            <header class="navbar">
-              <section class="navbar-section">
-                <span class="navbar-brand mr-2">
-                  <a href="https://chicagotoollibrary.org/">
-                    <%= logo(small: true) %
-                  </a>
-                </span>
-                <%= form_with url: search_path, method: :get, class: "mr-2", local: true do |form| %>
-                  <div class="input-group input-inline">
-                    <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
-                  </div>
-                <% end %>
-                |
-                <%=render partial: 'shared/navbar_links', locals: {version: 'mobile'} %>
-              </section>
-              <%= render partial: 'layouts/user', object: @member, as: :member %>
-            </header>
-          </div>
+          <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
+              <div class="has-icon-left">
+                <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
+                <i class="form-icon icon icon-search"></i>
+              </div>
+          <% end %>
         </div>
       </div>
 
-      <%= flash_message :success  %>
-      <%= flash_message :warning  %>
-      <%= flash_message :error  %>
-
-      <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
-
-      <%= yield %>
+      <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open" title="show sidebar nvigation">
+        <i class="icon icon-menu"></i>
+      </a>
     </div>
-  <% end %>
 
-  <%= render partial: 'layouts/footer', object: @member, as: :member %>
+    <div class="container grid-lg public">
+
+      <header class="navbar hide-sm">
+        <section class="navbar-section">
+          <span class="navbar-brand mr-3">
+            <a href="https://chicagotoollibrary.org/">
+              <%= image_pack_tag "logo_small.png", alt: "Chicago Tool Library logo" %>
+            </a>
+          </span>
+          <ul class="navbar-links">
+            <%= render partial: 'shared/navbar_links' %>
+          </ul>
+        </section>
+        <section class="navbar-section search-section">
+          <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
+            <div class="has-icon-left">
+              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items", id: "navbarQuery" %>
+              <i class="form-icon icon icon-search"></i>
+            </div>
+          <% end %>
+        </section>
+      </header>
+      
+      <%= render partial: "shared/time_override" if Rails.env.development? %>
+
+      <main id="content-start">
+        <% if content_for? :header %>
+          <div class="app-header">
+            <div class="header-header">
+              <%= yield :header %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="app-body">
+          <%= flash_message :success  %>
+          <%= flash_message :warning  %>
+          <%= flash_message :error  %>
+          <%= flash_message :alert, "error"  %>
+
+          <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
+
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+
+    <%= render partial: 'layouts/footer', object: @member, as: :member %>
+  <% end %>
 </html>

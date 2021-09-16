@@ -14,16 +14,16 @@ Capybara.add_selector :rich_text_area do
 
       XPath.descendant(:"trix-editor").where \
         XPath.attr(:id).equals(locator) |
-        XPath.attr(:placeholder).equals(locator) |
-        XPath.attr(:"aria-label").equals(locator) |
-        XPath.attr(:input).equals(input_located_by_name)
+          XPath.attr(:placeholder).equals(locator) |
+          XPath.attr(:"aria-label").equals(locator) |
+          XPath.attr(:input).equals(input_located_by_name)
     end
   end
 end
 
 Capybara.register_driver(:headless_chrome) do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {args: %w[headless disable-gpu]}
+    chromeOptions: {args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage]}
   )
 
   Capybara::Selenium::Driver.new(
@@ -55,22 +55,22 @@ FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
 end
 
+if ENV["DOCKER"]
+  Capybara.server_host = "0.0.0.0"
+  Capybara.server_port = 4000
+  Capybara.app_host = "http://example.com:4000"
+end
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
+  driver = if ENV["DOCKER"]
+    ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
+  else
+    ENV["HEADLESS"] == "true" ? :headless_chrome : :chrome
+  end
   driven_by :selenium, using: driver, screen_size: [1400, 1800]
 
   setup do
-    ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
-
-    if ENV["DOCKER"]
-      Capybara.javascript_driver = ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
-      Capybara.current_driver = Capybara.javascript_driver
-      Capybara.server_host = "0.0.0.0"
-      Capybara.server_port = 4000
-      Capybara.app_host = "http://example.com:4000"
-
-      ActsAsTenant.test_tenant = libraries(:system_test_library)
-    end
+    ActsAsTenant.test_tenant = libraries(:system_test_library)
   end
 
   include Warden::Test::Helpers

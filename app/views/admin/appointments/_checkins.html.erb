@@ -2,7 +2,7 @@
   <div class="columns col-oneline">
     <div class="column col-8"><h4>Items to be checked-in (<%= checkin_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
-      <%= button_to "Check-in All", admin_appointment_checkins_path(current_appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
+      <%= button_to "Check-in All", admin_appointment_checkins_path(@appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
     </div>
   </div>
   <% appointment_return_items.each do |return_item| %>
@@ -10,13 +10,13 @@
       <div class="column col-sm-6 col-4">
         <%= tag.div class: "item-image" do %>
           <% if return_item.item.image.attached? %>
-            <%= image_tag rotated_variant(return_item.item.image, resize_to_limit: [160, 112]) %>
+            <%= image_tag item_image_url(return_item.item.image, resize_to_limit: [160, 112]) %>
           <% else %>
             <div class="image-placeholder"></div>
           <% end %>
         <% end %>
         <% if return_item.checked_out? %>
-          <%= link_to 'remove item', admin_appointment_loan_path(current_appointment, return_item), method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
+          <%= link_to 'remove item', admin_appointment_loan_path(@appointment, return_item), method: :delete, data: { disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?" } %>
         <% end %>
       </div>
       <div class="column col-sm-6 col-4">
@@ -24,7 +24,7 @@
         <p><%= full_item_number(return_item.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right">
-        <%= button_to "Check-in", admin_appointment_checkins_path(current_appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-in..." }, disabled: !return_item.checked_out? %>
+        <%= button_to "Check-in", admin_appointment_checkins_path(@appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-in..." }, disabled: !return_item.checked_out? %>
         <% if !return_item.checked_out? %>
           <em>Item checked-in</em>
         <% end %>
@@ -35,7 +35,7 @@
   <% unless items_available_to_add_to_dropoff.empty? %>
     <div class="columns">
       <p>Find and add another item to the appointment for check-in.</p>
-      <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(current_appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
+      <%= form_with(model: [:admin, AppointmentLoan.new], url: admin_appointment_loans_path(@appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
         <%= form.collection_select :item_id, items_available_to_add_to_dropoff, :id, :complete_number_and_name %>
 
         <%= form.submit do %>

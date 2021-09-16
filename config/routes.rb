@@ -20,13 +20,15 @@ Rails.application.routes.draw do
   end
 
   namespace :account do
-    resources :holds, only: [:create, :destroy]
-    resources :appointments, only: [:index, :new, :create, :destroy]
+    resources :holds, only: [:index, :create, :destroy] do
+      get :history, to: "holds#history", on: :collection
+    end
+    resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
-    resources :renewal_requests, only: :create if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
+    resources :renewal_requests, only: :create 
     get "/", to: "home#index", as: "home"
   end
 
@@ -53,6 +55,7 @@ Rails.application.routes.draw do
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
+  get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
@@ -60,11 +63,12 @@ Rails.application.routes.draw do
     resources :shifts, only: :index
     resources :categories, except: :show
     resources :gift_memberships
-    resources :appointments, only: [:index, :show, :destroy] do
+    resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
       resources :loans, only: [:create, :destroy], controller: :appointment_loans
       resources :checkouts, only: [:create], controller: :appointment_checkouts
       resources :checkins, only: [:create], controller: :appointment_checkins
+      resource :completion, only: [:create, :destroy], controller: :appointment_completions
     end
     resources :items do
       scope module: "items" do
@@ -96,6 +100,7 @@ Rails.application.routes.draw do
         resources :memberships, only: [:index, :new, :create, :update]
         resources :payments, only: [:new, :create]
         resource :verification, only: [:edit, :update]
+        resources :appointments, only: [:index, :create]
 
         resources :loan_summaries, only: :index
       end
@@ -105,17 +110,17 @@ Rails.application.routes.draw do
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
+      get "money", to: "money#index"
     end
 
     resources :items_without_image, only: :index
     resources :member_requests, only: :index
-    resources :monthly_adjustments, only: :index
     resources :monthly_activities, only: :index
     resources :notifications, only: :index
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
-    resources :renewal_requests, only: :update if ENV["FEATURE_RENEWAL_REQUESTS"] == "on"
+    resources :renewal_requests, only: [:index, :update] 
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
@@ -125,14 +130,15 @@ Rails.application.routes.draw do
     get "/ui/sizes", to: "ui#sizes"
     get "/ui/strengths", to: "ui#strengths"
 
-    if Rails.env.development?
-      post "/dev/time", to: "dev#set_time"
-      delete "/dev/time", to: "dev#clear_time"
-      get "/dev/styles", to: "dev#styles"
-    end
-
     get "/", to: "dashboard#index", as: "dashboard"
   end
+
+  if Rails.env.development?
+    post "/dev/time", to: "dev#set_time"
+    delete "/dev/time", to: "dev#clear_time"
+  end
+
+  get "/dev/styles", to: "dev#styles"
 
   get "/s/:id", to: "short_links#show", as: :short_link
 

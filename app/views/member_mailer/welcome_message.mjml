@@ -1,69 +1,19 @@
-<mjml>
-  <mj-head>
-    <mj-preview><%= @subject %></mj-preview>
-    <mj-attributes>
-      <mj-all font-family="Montserrat, Helvetica, Arial, sans-serif"></mj-all>
-      <mj-text font-weight="400" font-size="16px" color="#1D181A" line-height="24px"></mj-text>
-      <mj-section background-color="#FFF" padding="0"></mj-section>
-    </mj-attributes>
-    <mj-style inline="inline">
-      a, a:visited {
-        color: #2F7890;
-      }
-      li {
-        margin-bottom: 1em;
-      }
-      .warning {
-        border: solid 3px gold;
-        background: lemonchiffon;
-        padding: 0 1em;
-        margin-top: 1em;
-      }
-      .info {
-        border: solid 3px #66C4E3;
-        background: aliceblue;
-        padding: 0 1em;
-        font-weight: bold;
-      }
-    </mj-style>
-  </mj-head>
-  <mj-body background-color="#F4F4F4">
-    <mj-section>
-      <mj-column padding-top="20px">
-        <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Welcome!</mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <p>Thank you for signing up as a member of The <%= @library.name %>. We are excited to have you!</p>
-          <%= render partial: "signup/confirmations/instructions", locals: {library: @library} %>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:<%= @library.email %>"><%= @library.email %></a>.</p>
-          <p>See you at the library!</p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-section background-color="#F4F4F4">
-      <mj-column>
-        <mj-text font-size="14px" line-height="20px" align="center">
-          <p>
-            <a href="https://chicagotoollibrary.org">The Chicago Tool Library</a><br>
-                1048 W 37th Street Suite 102<br>
-                Chicago, IL 60609
-          </p>
-        </mj-text>
-      </mj-column>
-    </mj-section>
-  </mj-body>
-</mjml>
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Welcome!</mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
+      <%= render partial: "signup/confirmations/instructions" %>
+      <%= render partial: "signup/confirmations/account_login" %>
+    </mj-text>
+  </mj-column>
+</mj-section>

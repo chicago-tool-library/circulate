@@ -35,13 +35,25 @@ class ActivityNotifier
     end
   end
 
+  def send_staff_daily_renewal_requests
+    daily_renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", @now.beginning_of_day.utc).includes(loan: [:item, :member])
+    unless daily_renewal_requests.any?
+      Rails.logger.info "no renewal requests waiting for approval"
+      return
+    end
+
+    Member.joins(:user).where(users: {role: :admin}).each do |staff|
+      MemberMailer.with(member: staff, renewal_requests: daily_renewal_requests).staff_daily_renewal_requests.deliver
+    end
+  end
+
   private
 
   def each_member(ids, &block)
     Member.find(ids).each do |member|
       summaries = member.loan_summaries
         .active_on(@now)
-        .or(member.loan_summaries.checked_out)
+        .or(member.loan_summaries.includes(:renewal_requests).checked_out)
         .includes(item: :borrow_policy)
       yield member, summaries
     end

@@ -100,4 +100,56 @@ class EventTest < ActiveSupport::TestCase
 
     refute updated_event
   end
+
+  test "handles cancelled events that have already been deleted" do
+    Event.create(
+      calendar_event_id: "ev2",
+      calendar_id: "CAL1",
+      summary: "a quick event",
+      attendees: ["person@example.com"],
+      start: Time.new(2020, 11, 5, 18, 0),
+      finish: Time.new(2020, 11, 5, 20, 0),
+      description: "more info"
+    )
+
+    gcal_event = GoogleCalendarEvent.new(
+      id: "ev1",
+      calendar_id: "CAL1",
+      summary: "a quick event",
+      attendees: ["someone-else@example.com"],
+      start: Time.new(2020, 11, 5, 18, 0),
+      finish: Time.new(2020, 11, 5, 20, 0),
+      status: "cancelled",
+      description: "more info"
+    )
+
+    assert_difference "Event.count", 0 do
+      Event.update_events([gcal_event])
+    end
+  end
+
+  test "times on the hour" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 0),
+        finish: Time.zone.local(2020, 11, 5, 20, 0))
+      assert_equal "6pm - 8pm", event.times
+    end
+  end
+
+  test "times with minutes" do
+    Time.use_zone("America/Chicago") do
+      event = create(:event,
+        start: Time.zone.local(2020, 11, 5, 18, 15),
+        finish: Time.zone.local(2020, 11, 5, 20, 30))
+      assert_equal "6:15pm - 8:30pm", event.times
+    end
+  end
+
+  test "upcoming_slots includes slots that end more than 15 minutes in the future" do
+    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+
+    assert_equal [ends_in_sixteen_minutes.id], Event.appointment_slots.pluck(:id)
+  end
 end

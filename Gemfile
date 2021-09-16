@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0.0"
+gem "rails", "~> 6.1.3"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
@@ -30,22 +30,23 @@ gem "jbuilder", "~> 2.5"
 gem "acts_as_tenant", github: "ErwinM/acts_as_tenant", branch: "master", ref: "1ba28d1354848fd422603efa343b145bae5c5fdf"
 gem "devise"
 gem "pundit"
-gem "audited", github: "bonekost/audited"
+gem "audited", github: "collectiveidea/audited"
 gem "turbolinks_render"
 gem "money-rails"
-gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
+gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
 gem "pg_search"
 gem "activerecord-postgres_enum"
 gem "scenic"
 gem "reverse_markdown"
 gem "http"
+gem "translation"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "sentry-raven"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 0.1"
+gem "omniauth-rails_csrf_protection"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
@@ -53,6 +54,7 @@ gem "mini_magick"
 gem "barnes"
 gem "sucker_punch"
 gem "dotenv-rails"
+gem "appsignal"
 
 gem "chronic"
 
@@ -77,15 +79,11 @@ group :development do
   gem "lefthook"
 end
 
-group :production do
-  gem "skylight"
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
-  gem "webdrivers", "~> 4.0", require: false
+  gem "webdrivers", "~> 4.6"
   gem "minitest-ci"
   gem "rails-controller-testing"
 end

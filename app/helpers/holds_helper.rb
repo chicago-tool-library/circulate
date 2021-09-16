@@ -21,31 +21,33 @@ module HoldsHelper
 
     if appointment
       "Scheduled for pick-up at #{format_date(appointment.starts_at)}, " +
-        format_time_range(appointment.starts_at, appointment.ends_at)
+        appointment_time(appointment)
+    elsif hold.expired?
+      "Hold expired on #{format_date(hold.expires_at)}"
     elsif hold.ready_for_pickup?
-      "Ready for pickup. Schedule by #{format_date(hold.created_at + 7.days)}"
+      if hold.expires_at
+        "Ready for pickup. Schedule by #{format_date(hold.expires_at)}"
+      else
+        "Ready for pickup."
+      end
     else
-      "##{previous_holds_count} on wait list"
+      "##{previous_holds_count + 1} on wait list"
     end
   end
 
   def render_remove_link(hold)
     unless hold.appointments.present?
-      link_to("Remove", account_hold_path(hold), method: :delete, data: {confirm: "Are you sure you want to remove this hold?"})
+      link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: {confirm: "Are you sure you want to remove this hold?"})
     end
   end
 
   def place_in_line_for(hold)
-    Item.find(hold.item.id).holds.active.index(hold) + 1
+    hold.previous_active_holds.count + 1
   end
 
   private
 
   def format_date(date)
     date.strftime("%a, %-m/%-d")
-  end
-
-  def format_time_range(starts_at, ends_at)
-    "#{starts_at.strftime("%l%P")}–#{ends_at.strftime("%l%P")}"
   end
 end

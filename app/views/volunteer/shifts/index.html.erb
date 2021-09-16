@@ -4,7 +4,7 @@
     <div class="instructions mt-2">
       <p class="main">Click <em>Sign up</em> on a shift you'd like to cover.</p>
       <p class="sub">
-        We try to have at least 2 people at each shift (but no more than three due to COVID).
+        We try to have at least 2 people at each shift.
       </p>
     </div>
     <% if signed_in_via_google? %>
@@ -29,36 +29,31 @@
             <th></th>
           </tr>
         </thead>
-        <% @events.group_by { |e| e.start.to_date }.each do |date, daily_events| %>
-          <% daily_events.group_by { |e| [e.start, e.finish] }.each do |(start,finish), shift_events| %>
-            <% shift_attendees = shift_events.inject(0) { |sum, de| de.accepted_attendees_count + sum } %>
-            <% shift_events.sort_by{|e| e.start}.each_with_index do |event, i| %>
-              <tr>
-                <% if i == 0 %>
-                  <td rowspan="<%= shift_events.size %>%">
-                    <span class="hide-sm"><%= date.strftime("%A, %B %-d, %Y") %></span>
-                    <span class="show-sm"><%= date.strftime("%a, %b %-d") %></span>
-                  </td>
-                  <td rowspan="<%= shift_events.size %>"><%= shift_events.first.times %></td>
-                <% end %>
-                <td>
-                  <%= modal title: event.summary, body: event.description do %>
-                    <%= tag.a event.summary, class: "c-help", data: {action: "click->modal#show"} %>
-                  <% end %>
-                </td>
-                <td class="text-center"><%= event.attendees.size %></td>
-                <td>
-                  <% if shift_attendees >= 3 %>
-                    <em>Shift full</em>
-                  <% elsif signed_in_via_google? && event.attended_by?(@attendee.email) %>
-                    <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
-                  <% else %>
-                    <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if shift_attendees < 2}") %>
-                  <% end %>
-                </td>
-              </tr>
+        <% each_shift(@events) do |date, event, daily_events_size, shift_events_size, shift_attendees_count| %>
+          <tr>
+            <% if daily_events_size %>
+              <td rowspan="<%= daily_events_size %>">
+                <span class="hide-sm"><%= date.strftime("%A, %B %-d, %Y") %></span>
+                <span class="show-sm"><%= date.strftime("%a, %b %-d") %></span>
+              </td>
             <% end %>
-          <% end %>
+            <% if shift_events_size %>
+              <td rowspan="<%= shift_events_size %>"><%= event.times %></td>
+            <% end %>
+            <td>
+              <%= modal title: event.summary, body: event.description do %>
+                <%= tag.a event.summary, class: "c-help", data: {action: "click->modal#show"} %>
+              <% end %>
+            </td>
+            <td class="text-center"><%= event.accepted_attendees_count %></td>
+            <td>
+              <% if signed_in_via_google? && event.attended_by?(@attendee.email) %>
+                <%= link_to("Signed up", "", class: "btn btn-success", disabled: true) %>
+              <% else %>
+                <%= link_to("Sign up", new_volunteer_shift_path(event_id: event.id), class: "btn #{"btn-primary" if shift_attendees_count < 2}") %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
       </table>
     </div>

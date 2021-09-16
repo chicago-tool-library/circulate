@@ -22,6 +22,10 @@ module Volunteer
       redirect_to volunteer_shifts_url
     end
 
+    def failure
+      raise "failed to authenticate"
+    end
+
     private
 
     def auth_hash

@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-alpine AS builder
+FROM ruby:2.7.2-alpine3.13 AS builder
 
 LABEL maintainer="jeanine@littleforestconsulting.com"
 
@@ -26,7 +26,7 @@ COPY . .
 
 ### BUILD STEP DONE ###
 
-FROM ruby:2.7.2-alpine
+FROM ruby:2.7.2-alpine3.13
 
 ARG RAILS_ROOT=/usr/src/app/
 ARG USER_ID
@@ -41,6 +41,7 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   git \
   openssl \
   fontconfig \
+  libwebp \
   yarn && rm -rf /var/cache/apk/*
 
 RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \

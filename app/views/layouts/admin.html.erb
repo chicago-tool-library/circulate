@@ -11,9 +11,6 @@
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% if Rails.env.production? %>
-      <script async defer data-domain="app.chicagotoollibrary.org" src="https://plausible.io/js/plausible.js"></script>
-    <% end %>
   </head>
 
   <body class="admin">
@@ -30,6 +27,7 @@
               <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
               <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
               <li class="nav-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+              <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
@@ -42,7 +40,7 @@
               <li class="nav-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
               <li class="nav-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
               <li class="nav-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
-              <li class="nav-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
+              <li class="nav-item"><%= link_to "Money", admin_reports_money_path %></li>
               <li class="nav-item"><%= link_to "Notifications", admin_notifications_path %></li>
               <li class="nav-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
               <li class="nav-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
@@ -63,10 +61,10 @@
               <% end %>
             </ul>
           </li>
+          <li class="nav-item">
+            <%= link_to "Member View", root_path, class: "btn btn-link" %>
+          </li>
         </ul>
-        <div class="dropdown">
-            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
-        </div>
 
         <ul class="nav">
           <% if user_signed_in? %>
@@ -83,7 +81,7 @@
         <span class="off-canvas-title">
           <%= link_to "Circulate", admin_items_path %>
         </span>
-        <div class="float-right mt-1 mr-1">
+        <div class="float-right mr-1 admin-search-form">
           <%= form_with url: admin_search_path do |form| %>
             <div class="has-icon-left">
               <%= form.text_field :query, class: "form-input input-sm", placeholder: "search", type: "search" %>
@@ -108,6 +106,7 @@
                 <li class="menu-item"><%= link_to "Items", admin_items_path %></li>
                 <li class="menu-item"><%= link_to "Members", admin_members_path %></li>
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+                <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
@@ -122,7 +121,7 @@
                 <li class="menu-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
                 <li class="menu-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
                 <li class="menu-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
-                <li class="menu-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
+                <li class="menu-item"><%= link_to "Money", admin_reports_money_path %></li>
                 <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
@@ -158,7 +157,7 @@
           </section>
           <%= render partial: "shared/time_override" if Rails.env.development? %>
           <div class="dropdown">
-            <%= link_to "Members Page", root_path, class: "btn btn-link" %>
+            <%= link_to "Member View", root_path, class: "btn btn-link" %>
           </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
@@ -169,8 +168,22 @@
       </div>
     </div>
 
+    <% if @requested_renewal_request_count > 0 %>
+      <div class="app-banner">
+        <div class="header-header">
+          <div class="container grid-lg">
+            <p>
+              <%= link_to admin_renewal_requests_path do %> 
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>. 
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <% if content_for? :header %>
-      <div class="app">
+      <div class="app-header">
         <div class="header-header">
           <div class="container grid-lg">
             <%= yield :header %>
@@ -179,7 +192,7 @@
       </div>
     <% end %>
 
-    <div class="container grid-lg admin app">
+    <div class="container grid-lg admin app-body">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>

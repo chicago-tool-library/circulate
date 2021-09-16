@@ -45,7 +45,7 @@ class Loan < ApplicationRecord
   }
 
   acts_as_tenant :library
-  
+
   def item
     super || NullItem.new
   end
@@ -58,8 +58,13 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
+  def summary
+    @summary ||= LoanSummary.find(initial_loan_id || id)
+  end
+
   def self.open_days
     [
+      0, # Sunday
       3, # Wednesday
       4, # Thursday
       6 # Saturday
@@ -79,56 +84,25 @@ class Loan < ApplicationRecord
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
   end
 
+  # Will another renewal exceed the maximum number of renewals?
+  # TODO rename this within_renewal_limit?
   def renewable?
     renewal_count < item.borrow_policy.renewal_limit
   end
 
+  # Can a member renew this loan themselves without approval?
   def member_renewable?
     renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable? && ended_at.nil?
   end
 
+  # Can a member request this loan be renewed?
   def member_renewal_requestable?
     renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && !renewal_requests.any?
   end
 
+  # Is it after the loan was created? This method is basically a no-op and can likely be removed.
   def within_borrow_policy_duration?
     due_at - Time.current <= item.borrow_policy.duration.days
-  end
-
-  def renew!(now = Time.current)
-    transaction do
-      return!(now)
-
-      period_start_date = [due_at, now.end_of_day].max
-      Loan.create!(
-        member_id: member_id,
-        item_id: item_id,
-        initial_loan_id: initial_loan_id || id,
-        renewal_count: renewal_count + 1,
-        due_at: self.class.next_open_day(period_start_date + item.borrow_policy.duration.days),
-        uniquely_numbered: uniquely_numbered,
-        created_at: now
-      )
-    end
-  end
-
-  def undo_renewal!
-    transaction do
-      destroy!
-      target = if renewal_count > 1
-        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first
-      else
-        initial_loan
-      end
-      target.update!(ended_at: nil)
-      target
-    end
-  end
-
-  def return!(now = Time.current)
-    # raise an error if already returned
-    update!(ended_at: now)
-    self
   end
 
   def status

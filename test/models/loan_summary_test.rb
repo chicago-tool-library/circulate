@@ -1,6 +1,8 @@
 require "test_helper"
 
 class LoanSummaryTest < ActiveSupport::TestCase
+  include Lending
+
   test "summarizes the state of a two loans" do
     @member = create(:member)
     @hammer = create(:item, name: "hammer")
@@ -21,10 +23,10 @@ class LoanSummaryTest < ActiveSupport::TestCase
     @loom = create(:item, name: "loom")
 
     hammer_loan = create(:loan, member: @member, item: @hammer, created_at: 2.weeks.ago, due_at: 1.week.ago)
-    hammer_renewal = hammer_loan.renew!(1.week.ago)
+    hammer_renewal = renew_loan(hammer_loan, now: 1.week.ago)
     drill_loan = create(:loan, member: @member, item: @drill)
     loom_loan = create(:loan, member: @member, item: @loom, created_at: 2.weeks.ago, due_at: 1.week.ago)
-    loom_renewal = loom_loan.renew!(1.week.ago).return!
+    loom_renewal = return_loan(renew_loan(loom_loan, now: 1.week.ago))
 
     summaries = LoanSummary.where(member_id: @member.id).order("initial_loan_id ASC")
 

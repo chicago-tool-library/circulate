@@ -1,6 +1,7 @@
 @import 'mixins';
 
 $primary-color: #2F7890;
+$primary-color-light: lighten(#2F7890, 20%);
 $secondary-color: darken(#CDABBE, 10%);
 $error-color: #DF6C54;
 $warning-color: #FBCF33;

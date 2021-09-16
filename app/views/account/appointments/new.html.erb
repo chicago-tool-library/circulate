@@ -1,9 +1,9 @@
-<% content_for :header do %>
-  <%= index_header "Schedule an Appointment" %>
-<% end %>
+<div class="account account-appointments-new">
+  <div class="columns">
+    <div class="column col-12">
+      <%= section_header "Schedule an Appointment" %>
+    </div>
+  </div>
 
-<div class="new-appointment">
-  <h1 class="title">Schedule an Appointment</h1>
-
-  <%= render partial: "form", locals: { holds: @holds, loans: @loans } %>
+  <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
 </div>

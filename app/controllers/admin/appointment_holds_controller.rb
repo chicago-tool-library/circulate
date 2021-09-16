@@ -7,7 +7,7 @@ module Admin
 
     def destroy
       remove_appointment_hold
-      redirect_to admin_appointment_path(appointment), flash: { success: "Item removed from appointment." }
+      redirect_to admin_appointment_path(appointment), flash: {success: "Item removed from appointment."}
     end
 
     private
@@ -23,7 +23,7 @@ module Admin
     def add_new_appointment_hold
       return if item_to_add.blank? ||
         item_to_add.allow_one_holds_per_member? &&
-          appointment.appointment_holds.joins(:hold).exists?(holds: { item: item_to_add })
+          appointment.appointment_holds.joins(:hold).exists?(holds: {item: item_to_add})
 
       new_appointment_hold.save
     end
@@ -48,7 +48,7 @@ module Admin
       @item_to_add_hold ||= if item_to_add.allow_multiple_holds_per_member?
         appointment.member.holds.new(item: item_to_add, creator: current_user)
       elsif item_to_add.available?
-        appointment.member.holds.active.find_or_initialize_by(item: item_to_add, creator: current_user)
+        appointment.member.active_holds.find_or_initialize_by(item: item_to_add, creator: current_user)
       end
     end
 

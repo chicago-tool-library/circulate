@@ -1,0 +1,27 @@
+<mj-section>
+  <mj-column>
+    <mj-text
+      font-size="36px"
+      line-height="28px"
+      font-weight="bold"
+      align="center"
+      ><%= @subject %></mj-text
+    >
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <%= render partial: "member_mailer/staff_daily_renewal_requests", locals: {renewal_requests: @renewal_requests, now: @now} %>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>
+        <a href="<%= admin_renewal_requests_url %>">Review these renewal requests</a> in the Circulate app.
+      </p>
+    </mj-text>
+  </mj-column>
+</mj-section>

@@ -14,11 +14,18 @@ class Item < ApplicationRecord
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
+
   has_many :loans, dependent: :nullify
+  has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
+  has_many :loan_summaries
+
   has_many :holds, dependent: :destroy
   has_many :active_holds, -> { active }, dependent: :destroy, class_name: "Hold"
-  has_many :loan_summaries
-  has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
+
+  def next_hold
+    active_holds.order(created_at: :asc).first
+  end
+
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
   has_many :attachments, class_name: "ItemAttachment"
@@ -37,6 +44,7 @@ class Item < ApplicationRecord
   }
 
   audited
+  acts_as_tenant :library
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
@@ -60,7 +68,7 @@ class Item < ApplicationRecord
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
 
-  acts_as_tenant :library
+  after_update :clear_holds_if_inactive
 
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
@@ -106,7 +114,7 @@ class Item < ApplicationRecord
   end
 
   def holdable?
-    available? && active_holds.size == 0
+    active?
   end
 
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy
@@ -122,6 +130,12 @@ class Item < ApplicationRecord
     end
   end
 
+  def clear_holds_if_inactive
+    if saved_change_to_status? && [Item.statuses[:maintenance], Item.statuses[:expired]].include?(Item.statuses[status])
+      active_holds.update_all(ended_at: Time.current)
+    end
+  end
+
   def cache_category_ids(category)
     @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
   end
@@ -133,6 +147,9 @@ class Item < ApplicationRecord
 
   # called when item is updated
   def audited_changes
+    unless @current_category_ids.present?
+      cache_category_ids(nil)
+    end
     if (@current_category_ids.present? || category_ids.present?) && @current_category_ids != category_ids.sort
       super.merge("category_ids" => [@current_category_ids, category_ids.sort])
     else

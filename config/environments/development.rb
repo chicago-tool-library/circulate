@@ -31,6 +31,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  config.active_storage.variable_content_types << "image/webp"
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -62,7 +64,7 @@ Rails.application.configure do
 
   config.hosts << "shiny.local"
   config.hosts << ".local.chicagotoollibrary.org"
-  
+
   if ENV.fetch("DOCKER", "") == "true"
     Socket.ip_address_list.each do |addrinfo|
       next unless addrinfo.ipv4?

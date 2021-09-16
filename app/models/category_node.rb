@@ -7,6 +7,8 @@ class CategoryNode < ApplicationRecord
 
   acts_as_tenant :library
 
+  scope :with_items, -> { where("tree_categorizations_count > 0") }
+
   def full_name
     path_names.join("  ")
   end

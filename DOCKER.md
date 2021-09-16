@@ -24,7 +24,7 @@ Dockerfile, or if gems or npm packages have been added or updated.
 1. Run `docker-compose up -d` to start all services.
 1. Run `docker-compose up -d --force-recreate` to start services with new
    containers.
-1. Run `docker-compose build web` to build a new image for the web service.
+1. Run `./docker-build.sh` to build a new image for the web service.
    After re-building an image, run `docker-compose up -d --force-recreate web`
    to start a container running the new image.
 5. Run `docker-compose ps` to view status of containers.

@@ -2,7 +2,10 @@ module ItemsHelper
   include Pagy::Frontend
 
   def item_categories(item)
-    item.categories.map(&:name).sort.join(", ")
+    item.categories.select(:id, :name)
+      .order(:name)
+      .map { |obj| link_to(obj.name, items_path(category: obj.id)) }
+      .join(", ")
   end
 
   def item_status_options
@@ -46,30 +49,97 @@ module ItemsHelper
     end
   end
 
+  class TreeNode
+    attr_reader :children
+    attr_reader :value
+
+    def initialize(value)
+      @value = value
+      @children = {}
+    end
+
+    def [](key)
+      @children[key]
+    end
+
+    def []=(key, value)
+      @children[key] = value
+    end
+  end
+
+  def category_tree_nav(categories, current_category = nil)
+    root = TreeNode.new(nil)
+    categories.each do |category|
+      parent = category.path_ids[0..-2].reduce(root) { |node, id| node[id] }
+      parent[category.id] = TreeNode.new(category)
+    end
+
+    tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
+      concat(tag.ul do
+        root.children.values.map do |node|
+          concat(render_tree_node(node, current_category))
+        end
+      end)
+    end
+  end
+
+  def render_tree_node(node, current_value)
+    has_children = node.children.size > 0
+    tag.li(class: "tree-node", data: {id: node.value.id}) do
+      if has_children
+        concat(
+          tag.button(
+            '<i class="icon icon-arrow-right">Toggle subcategories</i>'.html_safe,
+            class: "tree-node-toggle",
+            data: {action: "tree-nav#toggle"},
+            "aria-expanded": false
+          )
+        )
+      end
+      concat(link_to((node.value.name + "&nbsp;(#{node.value.tree_categorizations_count})").html_safe, {category: node.value.id}))
+      if has_children
+        concat(tag.ul(class: "tree-node-children") do
+          node.children.values.map do |child|
+            concat(render_tree_node(child, current_value))
+          end
+        end)
+      end
+    end
+  end
+
   def rotated_variant(image, options = {})
     if image.metadata.key? "rotation"
       options[:rotate] ||= image.metadata["rotation"]
     end
-    image.variant(options)
+    image.variant(options) if image.variable?
   end
 
-  def item_image_url(item, options = {})
-    if ENV["IMAGEKIT_URL"]
+  def item_image_url(image, options = {})
+    if ENV["IMAGEKIT_URL"].present?
       transforms = if options[:resize_to_limit]
         width, height = options[:resize_to_limit]
-        "tr=w-#{width},h-#{height},fo-auto"
+        ["tr=w-#{width}", "h-#{height}", "c-at_max"]
       else
-        ""
+        []
       end
 
-      if item.image.metadata.key? "rotation"
-        transforms << ",rt-#{item.image.metadata["rotation"]}"
+      if image.metadata.key? "rotation"
+        transforms << "rt-#{image.metadata["rotation"]}"
       end
 
-      ENV["IMAGEKIT_URL"] + item.image.blob.key + "?" + transforms
+      parts = [
+        ENV["IMAGEKIT_URL"],
+        image.blob.key
+      ]
+      unless transforms.empty?
+        parts << "?"
+        parts << transforms.join(",")
+      end
+
+      parts.join
     else
       # fallback when there isn't an image proxy in place
-      rotated_variant(image, options)
+      url_for(rotated_variant(image, options))
     end
   end
 
@@ -77,18 +147,24 @@ module ItemsHelper
     item.complete_number
   end
 
-  def item_status_label(item)
-    class_name, label = if item.active?
+  def css_class_and_status_label(item)
+    if item.active?
       if item.checked_out_exclusive_loan
         ["label-warning", "Checked Out"]
-      elsif item.holds.active.count > 0
+      elsif item.borrow_policy.uniquely_numbered? && item.active_holds.size > 0
         ["label-warning", "On Hold"]
       else
         ["label-success", "Available"]
       end
+    elsif item.maintenance?
+      ["", "In Maintenance"]
     else
       ["", "Unavailable"]
     end
+  end
+
+  def item_status_label(item)
+    class_name, label = css_class_and_status_label(item)
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
 
@@ -96,7 +172,7 @@ module ItemsHelper
     if item.active?
       if item.checked_out_exclusive_loan
         "status-checked-out"
-      elsif item.holds.active.count > 0
+      elsif item.active_holds.count > 0
         "status-on-hold"
       else
         "status-available"
@@ -118,5 +194,13 @@ module ItemsHelper
   def loan_description(loan)
     link = link_to preferred_or_default_name(loan.member), [:admin, loan.member]
     "Currently on loan to ".html_safe + link + "."
+  end
+
+  def item_location_span(item)
+    location = []
+    location << "area #{item.location_area}" unless item.location_area.blank?
+    location << "shelf #{item.location_shelf}" unless item.location_shelf.blank?
+
+    location.join(", ")
   end
 end

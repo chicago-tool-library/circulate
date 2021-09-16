@@ -4,12 +4,14 @@
 
 <!-- toc -->
 
+- [Welcome contributors!](#welcome-contributors)
 - [About](#about)
   * [Project Considerations](#project-considerations)
 - [Requirements](#requirements)
 - [Integrations](#integrations)
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  * [Multi-tenancy](#multi-tenancy)
   * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
@@ -23,6 +25,18 @@
 
 <!-- tocstop -->
 
+## Welcome contributors!
+
+We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues. 
+
+We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (currently the first and third Wednesday from 7-8pm Central time), stakeholder news, and upcoming new issues.
+
+Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue".
+
+Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make github issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three. 
+
+See also our [contributing guide](./CONTRIBUTING.md) 💖
+
 ## About
 
 Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
@@ -30,6 +44,7 @@ Circulate is an operating system for lending libraries. It is in the early stage
 * Member signup, including optional payment via Square
 * Inventory management, including item photos and configurable borrowing rules
 * Item loaning to members, including fine calculation
+* Appointment scheduling for item pick-up and drop-off
 * Volunteer shift scheduling
 * Gift membership generation and redemption
 
@@ -137,7 +152,7 @@ Users are not currently shared between libraries; check `db/seeds.rb` for the fu
 
 During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
 
-This can be useful if you need to run through a certain scenario multiple times manually.
+This can be useful if you need to run through a certain scenario multiple times manually, or when switching branches to get back into a known good state.
 
 ### Running tests
 

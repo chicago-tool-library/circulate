@@ -1,7 +1,7 @@
 Thank you for signing up as a member of The <%= @library.name %>. We are excited to have you!
 
-<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions.html", locals: {library: @library})) %>
-If you have any questions, please email us at <%= @library.email %>.
+<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions", formats: [:html] locals: {library: @library})) %>
+If you have any questions, please email us at team@chicagotoollibrary.org.
 
 See you at the library!
 

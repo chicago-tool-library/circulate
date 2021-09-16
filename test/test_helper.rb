@@ -7,6 +7,8 @@ require "minitest/mock"
 require "helpers/return_values"
 require "helpers/ensure_request_tenant"
 
+Webpacker.manifest.lookup("missing.js") # force pack compilation before forking
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)

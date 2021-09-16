@@ -47,15 +47,36 @@ class MemberMailer < ApplicationMailer
     summary_mail
   end
 
-  def loan_renewal_request_message
-    # TODO: Implement
-    @subject = "Renewal Request"
+  def hold_available
+    @member = params[:member]
+    @hold = params[:hold]
+    @subject = "One of your holds is available"
+    mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
+  end
+
+  def renewal_request_updated
+    @renewal_request = params[:renewal_request]
+    @item = @renewal_request.loan.item
+    @member = @renewal_request.loan.member
+
+    message = @renewal_request.approved? ? "Your item was renewed" : "Your item couldn't be renewed"
+    @subject = "#{message} (#{@item.name})"
+
+    mail(to: @member.email, subject: @subject)
   end
 
   def membership_renewal_reminder
     @member = params[:member]
     @amount = params[:amount] || Money.new(0)
     @subject = "Inviting you to renew and reconnect with the Chicago Tool Library in 2021!"
+    mail(to: @member.email, subject: @subject)
+  end
+
+  def staff_daily_renewal_requests
+    @member = params[:member]
+    @renewal_requests = params[:renewal_requests]
+    @now = params[:now] || Time.current
+    @subject = "Open renewal requests as of #{@now.strftime("%m/%d/%Y")}"
     mail(to: @member.email, subject: @subject)
   end
 

@@ -1,10 +1,10 @@
-<div class="account-settings-heading">
-  <h2 class="title">Account Settings</h2>
-  <div class="d-flex justify-content-end">
-    <%= link_to "Edit Password", edit_account_password_url, class: "btn btn-lg mr-2" %>
-    <%= link_to "Edit Member Profile", edit_account_member_path, class: "btn btn-primary btn-lg" %>
-  </div>
-</div>
+<% content_for :header do %>
+  <%= section_header "Membership" do %>
+    <%= link_to "Edit Password", edit_account_password_url, class: "btn" %>
+    <%= link_to "Edit Member Profile", edit_account_member_path, class: "btn" %>
+  <% end %>
+<% end %>
+
 <div class="columns card-container">
   <div class="column">
     <dl>

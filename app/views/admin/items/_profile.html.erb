@@ -30,7 +30,7 @@
       <div class="item-image">
         <% if @item.image.attached? %>
           <%= link_to edit_admin_item_image_path(@item) do %>
-            <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [600, 600])), class: "p-centered" %>
+            <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "p-centered" %>
           <% end %>
         <% end %>
       </div>
@@ -44,21 +44,20 @@
 
       <div class="panel-body">
         <ul class="item-stats">
+          <%= icon_stat "map-pin", item_location_span(@item), title: "location", placeholder: "No location" %>
           <%= icon_stat "maximize", @item.size, title: "size", placeholder: "No size" %>
           <%= icon_stat "zap", @item.strength, title: "strength", placeholder: "No strength" %>
           <%= icon_stat "battery-charging", item_powered_by_label(@item), title: "powered by", placeholder: "Not powered" %>
           <%= icon_stat "package", @item.brand, title: "brand", placeholder: "No brand" %>
           <%= icon_stat "box", @item.model, title: "model", placeholder: "No model" %>
           <%= icon_stat "hash", @item.serial, title: "serial number", placeholder: "No serial number" %>
-          <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No category" do %>
+          <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
             <% if @item.categories.size > 0 %>
               <ul class="category-stats">
                 <% @item.categories.map(&:name).sort.each do |name| %>
                   <li><%= name %></li>
                 <% end %>
               </ul>
-            <% else %>
-              <span class="placeholder-text">No categories</span>
             <% end %>
           <% end %>
           <%= icon_stat "file", title: "files", placeholder: "No files" do %>
