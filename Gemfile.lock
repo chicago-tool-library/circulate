@@ -183,7 +183,7 @@ GEM
       kramdown (~> 2.0)
     launchy (2.5.0)
       addressable (~> 2.7)
-    lefthook (0.7.2)
+    lefthook (0.7.6)
     letter_opener (1.7.0)
       launchy (~> 2.2)
     listen (3.5.1)
