@@ -2,11 +2,11 @@ require "test_helper"
 
 class EventTest < ActiveSupport::TestCase
   test "creates new events" do
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
-      attendees: ["person@example.com"],
+      attendees: [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")],
       start: Time.new(2020, 11, 5, 18, 0),
       finish: Time.new(2020, 11, 5, 20, 0),
       status: "confirmed",
@@ -23,7 +23,7 @@ class EventTest < ActiveSupport::TestCase
     ).first
 
     assert new_event
-    assert_equal ["person@example.com"], new_event.attendees
+    assert_equal [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")], new_event.attendees
     assert_equal Time.new(2020, 11, 5, 18, 0), new_event.start
     assert_equal Time.new(2020, 11, 5, 20, 0), new_event.finish
     assert_equal "more info", new_event.description
@@ -37,14 +37,14 @@ class EventTest < ActiveSupport::TestCase
       description: "description before",
       start: Time.new(2020, 11, 12, 18, 0),
       finish: Time.new(2020, 11, 12, 20, 0),
-      attendees: ["fake@example.com"]
+      attendees: [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")]
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
-      attendees: ["someone-else@example.com"],
+      attendees: [Attendee.new(email: "someone-else@example.com", name: "Someone Else", status: "needsAction")],
       start: Time.new(2020, 11, 5, 18, 0),
       finish: Time.new(2020, 11, 5, 20, 0),
       status: "confirmed",
@@ -61,7 +61,7 @@ class EventTest < ActiveSupport::TestCase
     ).first
 
     assert updated_event
-    assert_equal ["someone-else@example.com"], updated_event.attendees
+    assert_equal [Attendee.new(email: "someone-else@example.com", name: "Someone Else", status: "needsAction")], updated_event.attendees
     assert_equal Time.new(2020, 11, 5, 18, 0), updated_event.start
     assert_equal Time.new(2020, 11, 5, 20, 0), updated_event.finish
     assert_equal "more info", updated_event.description
@@ -78,7 +78,7 @@ class EventTest < ActiveSupport::TestCase
       description: "more info"
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
@@ -112,7 +112,7 @@ class EventTest < ActiveSupport::TestCase
       description: "more info"
     )
 
-    gcal_event = GoogleCalendarEvent.new(
+    gcal_event = Google::CalendarEvent.new(
       id: "ev1",
       calendar_id: "CAL1",
       summary: "a quick event",
@@ -147,9 +147,21 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "upcoming_slots includes slots that end more than 15 minutes in the future" do
-    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
-    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: "appointmentSlots@calendar.google.com")
+    create(:event, start: 106.minutes.ago, finish: 14.minutes.since, calendar_id: Event.appointment_slot_calendar_id)
+    ends_in_sixteen_minutes = create(:event, start: 104.minutes.ago, finish: 16.minutes.since, calendar_id: Event.appointment_slot_calendar_id)
 
     assert_equal [ends_in_sixteen_minutes.id], Event.appointment_slots.pluck(:id)
+  end
+
+  test "returns a basic summary" do
+    event = Event.new(summary: "Something simple")
+
+    assert_equal "Something simple", event.title
+  end
+
+  test "removes parenthesized text" do
+    event = Event.new(summary: "Something simple (and complex) ")
+
+    assert_equal "Something simple", event.title
   end
 end

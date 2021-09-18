@@ -14,4 +14,23 @@ module ShiftsHelper
       end
     end
   end
+
+  def calendar_day_class(day)
+    return "prev-month" if day.previous_month?
+    return "next-month" if day.next_month?
+  end
+
+  def calendar_date_item_class(day)
+    return "date-today" if day.today?
+  end
+
+  def event_attendees(attendees)
+    return "" if attendees.empty?
+
+    attendees
+      .select { |a| a.accepted? }
+      .map { |a|
+        Member.find_by(email: a.email)&.preferred_name || a.email.split("@").first
+      }.compact.sort.join(", ")
+  end
 end

@@ -1,0 +1,35 @@
+.shift-schedule .calendar-lg {
+  margin-bottom: 2rem;
+
+  .calendar-events {
+    line-height: 1.2;
+  }
+  .calendar-event {
+    white-space: normal;
+    margin-bottom: 0.4rem;
+  }
+  .calendar-body .calendar-date {
+    height: auto;
+    background: white;
+    .date-item {
+      pointer-events: none;
+    }
+  }
+  .calendar-date.prev-month,
+  .calendar-date.next-month {
+    opacity: 0.7;
+  }
+  .calendar-nav {
+    justify-content: center;
+  }
+  
+  .short-staffed {
+    font-weight: bold;
+  }
+}
+
+.volunteer-shift {
+  .card {
+    margin-bottom: 2rem;
+  }
+}
