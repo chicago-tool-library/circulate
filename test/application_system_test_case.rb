@@ -21,15 +21,15 @@ Capybara.add_selector :rich_text_area do
   end
 end
 
-Capybara.register_driver(:headless_chrome) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    "goog:chromeOptions": {args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage window-size=1400x1800]}
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage window-size=1400x1800]
   )
 
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    desired_capabilities: capabilities
+    options: options
   )
 end
 
