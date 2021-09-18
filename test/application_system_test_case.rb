@@ -21,15 +21,15 @@ Capybara.add_selector :rich_text_area do
   end
 end
 
-Capybara.register_driver(:headless_chrome) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage]}
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage window-size=1400x1800]
   )
 
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    desired_capabilities: capabilities
+    options: options
   )
 end
 
@@ -65,9 +65,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driver = if ENV["DOCKER"]
     ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
   else
-    ENV["HEADLESS"] == "true" ? :headless_chrome : :chrome
+    ENV["HEADLESS"] == "true" ? :headless_chrome : nil
   end
-  driven_by :selenium, using: driver, screen_size: [1400, 1800]
+
+  if driver
+    driven_by driver
+  else
+    driven_by :selenium, using: :chrome, screen_size: [1400, 1800]
+  end
 
   include Warden::Test::Helpers
   include ActionMailer::TestHelper
