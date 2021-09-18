@@ -61,22 +61,16 @@ namespace :export do
         *Member.column_names,
         "level",
         *Membership.column_names.map { |n| "membership_#{n}" },
-        "membership_amount",
+        "membership_amount"
       ]
       Member.find_each do |member|
         membership = member.memberships.order(created_at: "asc").first
-        if membership
           csv << [
             *member.attributes.values_at(*Member.column_names),
             "member",
             *membership.attributes.values_at(*Membership.column_names),
             membership.amount.format
           ]
-        else
-          # csv << [
-          #   *member.attributes.values_at(*Member.column_names),
-          #   "person"
-          # ]
         end
       end
     end
