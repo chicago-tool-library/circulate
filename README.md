@@ -73,6 +73,7 @@ The following third party services are used:
 * Gmail and Google Calendar for volunteer scheduling
 * Sentry for error collection
 * Skylight for app performance monitoring
+* Imagekit for image resizing and manipulation
 
 ## Development
 
@@ -122,7 +123,9 @@ $ bin/setup
 
 All right, almost there! In the terminal, type and run:
 
-`rails test`
+```console
+$ rails test
+```
 
 Look for the word "Finished". That output should look similar to this:
 
@@ -147,7 +150,12 @@ This can be useful if you need to run through a certain scenario multiple times 
 
 ### Running tests
 
-Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+Use the standard Rails test commands: 
+
+```console
+$ rails test # to run model, controller, and integration tests
+$ rails test:system # to run system tests
+```
 
 Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
 

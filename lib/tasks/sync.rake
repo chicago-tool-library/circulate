@@ -2,13 +2,12 @@ namespace :sync do
   desc "Syncronizes calendars with the events database"
   task calendars: :environment do
     sync_calendar Event.appointment_slot_calendar_id
-    # TODO also sync other calendars
-    # sync_calendar ENV.fetch("VOLUNTEER_SLOT_CALENDAR_ID")
+    sync_calendar Event.volunteer_shift_calendar_id
   end
 
   def sync_calendar(calendar_id)
-    calendar = GoogleCalendar.new(calendar_id: calendar_id)
-    result = calendar.upcoming_events(Time.zone.now, 1.month.since)
+    calendar = Google::Calendar.new(calendar_id: calendar_id)
+    result = calendar.upcoming_events(Time.zone.now, 3.months.since)
     if result.success?
       Event.update_events(result.value)
       Rails.logger.info "Updated #{result.value.size} events"

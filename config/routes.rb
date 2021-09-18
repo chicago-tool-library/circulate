@@ -51,7 +51,9 @@ Rails.application.routes.draw do
   end
 
   namespace :volunteer do
-    resources :shifts, only: [:index, :new, :create]
+    resources :shifts, only: [:index, :create, :destroy]
+    resources :attendees, only: [:create, :destroy]
+    get "event", to: "shifts#event"
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
@@ -147,4 +149,8 @@ Rails.application.routes.draw do
   get "search", to: "searches#show"
 
   root to: "home#index"
+
+  if Rails.env.test?
+    get "/test/google_auth", to: "test#google_auth"
+  end
 end
