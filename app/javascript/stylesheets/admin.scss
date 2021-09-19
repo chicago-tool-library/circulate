@@ -52,3 +52,14 @@ body.admin {
     }
   }
 }
+
+.member-notes {
+  .note {
+    position: relative;
+    .edit-button {
+      position: absolute;
+      top: .4rem;
+      right: .4rem;
+    }
+  }
+}
