@@ -3,20 +3,20 @@ require "test_helper"
 require "json"
 
 class NeonTest < ActiveSupport::TestCase
-  test "converts from member to account representation" do
-    member = create(:member)
-    account = Neon.member_to_account(member)
+  # test "converts from member to account representation" do
+  #   member = create(:member)
+  #   account = Neon.member_to_account(member)
 
-    expected = {
-      individualAccount: {
-        customAccountFields: [
-          {id: "82", value: member.id}
-        ]
-      }
-    }
+  #   expected = {
+  #     individualAccount: {
+  #       customAccountFields: [
+  #         {id: "82", value: member.id}
+  #       ]
+  #     }
+  #   }
 
-    assert_equal(expected, account)
-  end
+  #   assert_equal(expected, account)
+  # end
 
   test "converts from account to member" do
     account = JSON.parse(<<-JSON)
@@ -66,8 +66,8 @@ class NeonTest < ActiveSupport::TestCase
           "addresses": [
             {
               "addressId": "1050",
-              "addressLine1": "",
-              "addressLine2": "",
+              "addressLine1": "1048 W. 37th St.",
+              "addressLine2": "Suite 102",
               "city": "Chicago",
               "stateProvince": {
                 "code": "IL",
@@ -78,6 +78,9 @@ class NeonTest < ActiveSupport::TestCase
                 "id": "999",
                 "name": "Other"
               },
+              "phone1": "312 131-2131",
+              "phone1Type": "Home",
+              "zipCode": "60609",
               "validAddress": false
             }
           ]
@@ -92,15 +95,22 @@ class NeonTest < ActiveSupport::TestCase
     JSON
 
     expected = {
-      neon_id: "5269",
-      email: "jim@chicagotoollibrary.org",
-      pronouns: ["he/him"],
-      city: "Chicago",
-      region: "IL",
-      full_name: "Jim Benton",
-      preferred_name: "Jim"
+      "id" => "1",
+      "neon_id" => "5269",
+      "email" => "jim@chicagotoollibrary.org",
+      "pronouns" => ["he/him"],
+      "city" => "Chicago",
+      "region" => "IL",
+      "full_name" => "Jim Benton",
+      "preferred_name" => "Jim",
+      "number" => "1",
+      "address1" => "1048 W. 37th St.",
+      "address2" => "Suite 102",
+      "volunteer_interest" => true,
+      "phone_number" => "312-131-2131",
+      "postal_code" => "60609"
     }
 
-    assert_equal expected, Neon.account_to_member(account)
+    assert_equal expected, Neon.account_to_synced_attributes(account)
   end
 end

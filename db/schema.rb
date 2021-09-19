@@ -18,32 +18,32 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
@@ -227,6 +227,14 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     t.string "code"
     t.integer "library_id"
     t.index ["library_id", "code"], name: "index_documents_on_library_id_and_code"
+  end
+
+  create_table "email_templates", force: :cascade do |t|
+    t.string "type", null: false
+    t.string "subject"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|

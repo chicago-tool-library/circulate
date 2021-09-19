@@ -1,46 +1,122 @@
 module Neon
+  # Map from the fields returned by the Neon API to attributes on the Member model
+  # keys are the names of the Member attribute, values are one of:
+  #
+  # - a period-delimited string, which is used to lookup values using Hash#dig.
+  #   This is a shortcut for passing a Hash with the string as :key
+  # - a Proc, which is used to define a custom function for determining a value
+  # - a Hash with either :key or :name:
+  #   - :key will lookup the value at that key using Hash#dig
+  #   - :name will search for the field by name in the custom fields section of the payload.
+  #
+  # Callables passed as :finalize will be called to finalize the value if provided.
   FIELD_MAP = {
-    id: {name: "Circulate ID", id: "82"},
-    full_name: "",
-    preferred_name: "preferredName",
-    email: "",
-    phone_number: "",
-    postal_code: "",
-    address1: "",
-    address2: "",
-    city: "",
-    region: "",
-    pronouns: "",
-    status: "",
-    number: {name: "Member number", id: "77"},
-    volunteer_interest: "",
-    receive_newsletter: ""
+    id: {
+      name: "Circulate ID"
+    },
+    neon_id: "individualAccount.accountId",
+    full_name: ->(account) {
+      contact = account.dig("individualAccount", "primaryContact")
+      [contact["firstName"], contact["lastName"]].compact.join(" ")
+    },
+    preferred_name: "individualAccount.primaryContact.preferredName",
+    email: "individualAccount.primaryContact.email1",
+    phone_number: {
+      key: "individualAccount.primaryContact.addresses.0.phone1",
+      finalize: ->(value) { value.tr(" ", "-") }
+    },
+    postal_code: "individualAccount.primaryContact.addresses.0.zipCode",
+    address1: "individualAccount.primaryContact.addresses.0.addressLine1",
+    address2: "individualAccount.primaryContact.addresses.0.addressLine2",
+    city: "individualAccount.primaryContact.addresses.0.city",
+    region: "individualAccount.primaryContact.addresses.0.stateProvince.code",
+    pronouns: {
+      name: "Pronouns",
+      finalize: ->(value) { [value] }
+    },
+    number: {
+      name: "Member number"
+    },
+    volunteer_interest: {
+      name: "Volunteer Interest",
+      finalize: ->(value) { value == "Yes" }
+    }
   }
 
-  def self.account_to_member(account)
-    individual = account["individualAccount"]
+  def self.member_to_synced_attributes(member)
+    member.attributes.slice(
+      "id", "neon_id", "email", "pronouns", "address1", "address2", "city", "region",
+      "postal_code", "preferred_name", "volunteer_interest", "phone_number"
+    )
 
-    pronouns = individual["accountCustomFields"].find { |f| f["name"] == "Pronouns" }.dig("value")
-    address = individual.dig("primaryContact", "addresses", 0)
+    #  "full_name", "pronouns"
+  end
 
-    {
-      neon_id: individual["accountId"],
-      email: individual.dig("primaryContact", "email1"),
-      region: address.dig("stateProvince", "code"),
-      city: address["city"],
-      pronouns: [pronouns]
+  def self.account_to_synced_attributes(account)
+    custom_fields = account.dig("individualAccount", "accountCustomFields")
+
+    lookup = ->(account, key) {
+      account.dig(*key.split(".").map { |v| /^\d$/.match?(v) ? v.to_i : v })
+    }
+
+    FIELD_MAP.each_with_object({}) { |(key, definition), sum|
+      if definition.is_a?(Hash)
+        value = if lookup_key == definition[:key]
+          lookup.call(account, lookup_key)
+        else
+          custom_fields.find { |f| f["name"] == definition[:name] }.dig("value")
+        end
+        value = definition[:finalize].call(value) if definition.key?(:finalize)
+        sum[key.to_s] = value
+      elsif definition.is_a?(Proc)
+        sum[key.to_s] = definition.call(account)
+      else
+        sum[key.to_s] = lookup.call(account, definition)
+      end
     }
   end
 
   def self.member_to_account(member)
     {
-      individualAccount: {
-
-        customAccountFields: [
-          {id: "82", value: member.id}
+      "individualAccount" => {
+        "accountId" => "",
+        "individualTypes" => "",
+        "primaryContact" => {
+          "contactId" => "",
+          "firstName" => "Courtney",
+          "lastName" => "Tan",
+          "suffix" => "",
+          "preferredName" => member.preferred_name,
+          "email1" => member.email,
+          "deceased" => false,
+          "addresses" => [
+            {"addressId" => "1046",
+             "addressLine1" => member.address1,
+             "addressLine2" => member.address2,
+             "city" => member.city,
+             "stateProvince" => {
+               "code" => member.region,
+               "name" => "Illinois"
+             },
+             "isPrimaryAddress" => true,
+             "type" => {
+               "id" => "999",
+               "name" => "Other"
+             },
+             "validAddress" => false}
+          ]
+        },
+        "accountCustomFields" => [
+          {"id" => "77", "name" => "Member number", "value" => member.number.to_s},
+          {"id" => "76", "name" => "Pronouns", "value" => "she/her"},
+          {"id" => "75", "name" => "Volunteer Interest", "value" => boolean_to_yes_no(member.volunteer_interest)}
         ]
       }
     }
+  end
+
+  def self.boolean_to_yes_no(value)
+    value ? "Yes" : "No"
   end
 
   class Client
