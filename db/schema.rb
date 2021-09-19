@@ -237,6 +237,14 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "email_templates", force: :cascade do |t|
+    t.string "type", null: false
+    t.string "subject"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "calendar_id", null: false
     t.string "calendar_event_id", null: false
