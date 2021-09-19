@@ -1,7 +1,6 @@
 require "csv"
 
 namespace :import do
-
   def update_item_with_row(row)
     id = row["id"]
     item = Item.find(id)
@@ -10,9 +9,8 @@ namespace :import do
       raise "wrong number for item with id #{id}"
     end
 
-    attributes = %w{name other_names size brand model strength checkout_notice power_source description}.inject({}) do |sum, field|
+    attributes = %w[name other_names size brand model strength checkout_notice power_source description].each_with_object({}) do |field, sum|
       sum[field] = row[field] unless row[field].blank? || row[field] == "NULL"
-      sum
     end
 
     attributes["power_source"] = row["power_source"] == "not powered" ? nil : row["power_source"]
@@ -21,7 +19,6 @@ namespace :import do
     item.update!(attributes)
     puts item.attributes.slice(*attributes.keys).inspect
     puts "updated item #{id}"
-
   rescue ActiveRecord::RecordNotFound
     puts "Item with id #{id} not found!"
   end
@@ -38,6 +35,5 @@ namespace :import do
         update_item_with_row(row)
       end
     end
-
   end
 end

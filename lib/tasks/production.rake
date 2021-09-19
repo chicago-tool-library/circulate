@@ -1,9 +1,9 @@
-require 'open3'
+require "open3"
 
 def run_and_print(command)
   puts command
   Open3.popen2e(command) do |stdin, stdout_err, wait_thr|
-    while line = stdout_err.gets
+    while (line = stdout_err.gets)
       puts line
     end
 
