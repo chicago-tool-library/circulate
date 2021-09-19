@@ -8,7 +8,7 @@ module Neon
   # - a Hash with either :key or :name:
   #   - :key will lookup the value at that key using Hash#dig
   #   - :name will search for the field by name in the custom fields section of the payload.
-  #
+  # 
   # Callables passed as :finalize will be called to finalize the value if provided.
   FIELD_MAP = {
     id: {
@@ -31,16 +31,16 @@ module Neon
     city: "individualAccount.primaryContact.addresses.0.city",
     region: "individualAccount.primaryContact.addresses.0.stateProvince.code",
     pronouns: {
-      name: "Pronouns",
+      name: "Pronouns", 
       finalize: ->(value) { [value] }
     },
     number: {
       name: "Member number"
     },
     volunteer_interest: {
-      name: "Volunteer Interest",
+      name: "Volunteer Interest", 
       finalize: ->(value) { value == "Yes" }
-    }
+    },
   }
 
   def self.member_to_synced_attributes(member)
