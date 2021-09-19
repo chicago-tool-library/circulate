@@ -25,6 +25,10 @@ module Admin
       end
     end
 
+    def new
+      @note = @parent.notes.new
+    end
+
     def edit
       @note = @parent.notes.find(params[:id])
 
