@@ -38,6 +38,7 @@ gem "scenic"
 gem "reverse_markdown"
 gem "http"
 gem "translation"
+gem "hashdiff"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
