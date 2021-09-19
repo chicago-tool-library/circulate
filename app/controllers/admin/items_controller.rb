@@ -17,6 +17,7 @@ module Admin
       item_scope = item_scope.includes(:categories, :borrow_policy).with_attached_image.order(index_order)
 
       @pagy, @items = pagy(item_scope)
+      @categories = CategoryNode.with_items
     end
 
     def show
