@@ -11,6 +11,7 @@
 - [Integrations](#integrations)
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  * [Configuring your database](#configuring-your-database)
   * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
@@ -86,7 +87,6 @@ See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using
 If you're new to Ruby or Rails applications, a recommended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this project, you **only** need to run the first, initial script command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles:
 **Note** You do want to pay attention to this install as it runs in your terminal- it may ask for your password once or twice throughout the process- keep an eye on it and be prepared to type your computer's password (in the terminal! NEVER share your password in a GitHub doc). Also note that the install takes some time to run completely- it is not a 5-minute process.
 
-
 Time to get the Circulate repo! In your terminal, first make sure you're where you want to put the repo by typing `pwd`. If you want the Circulate repo to be in a different spot, type `cd` and **change** to the **directory** you want to put the Circulate repo in.
 
 Next, put the full text below and press enter:
@@ -141,6 +141,20 @@ After you have the application running, here are some places to explore:
 
 1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
+
+### Configuring your database
+
+By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to 
+specify other credentials on your machine, add any required values to the file `.env.local`:
+
+```
+# Database credentials
+PGUSER=your-postgres-username
+PGPASSWORD=your-postgres-password
+PGHOST=localhost
+```
+
+If `.env.local` doesn't exist in your project directory yet, you will need to create it.
 
 ### Resetting the application
 
