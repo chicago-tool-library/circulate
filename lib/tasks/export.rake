@@ -65,13 +65,12 @@ namespace :export do
       ]
       Member.find_each do |member|
         membership = member.memberships.order(created_at: "asc").first
-          csv << [
-            *member.attributes.values_at(*Member.column_names),
-            "member",
-            *membership.attributes.values_at(*Membership.column_names),
-            membership.amount.format
-          ]
-        end
+        csv << [
+          *member.attributes.values_at(*Member.column_names),
+          "member",
+          *membership.attributes.values_at(*Membership.column_names),
+          membership.amount.format
+        ]
       end
     end
   end
@@ -103,4 +102,5 @@ namespace :export do
       end
     end
   end
+
 end
