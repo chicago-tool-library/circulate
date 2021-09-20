@@ -17,7 +17,7 @@ module Google
       })
 
       if events_response.status == 200
-        events = events_response.parse.fetch("items", []).map { |event| gcal_event_to_event(event) }
+        events = events_response.parse.fetch("items", []).map { |event| gcal_event_to_event(event) }.compact
         Result.success(events)
       else
         Result.failure(events_response.body)
@@ -119,6 +119,11 @@ module Google
     end
 
     def gcal_event_to_event(gcal_event)
+      # skip all day events
+      unless gcal_event["start"]["dateTime"] && gcal_event["end"]["dateTime"]
+        Rails.logger.info "skipping all-day event #{gcal_event["id"]} in calendar #{@calendar_id}"
+        return nil
+      end
       CalendarEvent.new(
         id: gcal_event["id"],
         calendar_id: @calendar_id,
