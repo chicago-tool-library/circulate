@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :loans, only: [:index]
     resources :renewals, only: :create
-    resources :renewal_requests, only: :create 
+    resources :renewal_requests, only: :create
     get "/", to: "home#index", as: "home"
   end
 
@@ -51,7 +51,9 @@ Rails.application.routes.draw do
   end
 
   namespace :volunteer do
-    resources :shifts, only: [:index, :new, :create]
+    resources :shifts, only: [:index, :create, :destroy]
+    resources :attendees, only: [:create, :destroy]
+    get "event", to: "shifts#event"
     resource :session, only: [:destroy]
   end
   get "/auth/google_oauth2/callback", to: "volunteer/sessions#create"
@@ -120,7 +122,7 @@ Rails.application.routes.draw do
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
-    resources :renewal_requests, only: [:index, :update] 
+    resources :renewal_requests, only: [:index, :update]
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"
@@ -151,4 +153,8 @@ Rails.application.routes.draw do
   get "search", to: "searches#show"
 
   root to: "home#index"
+
+  if Rails.env.test?
+    get "/test/google_auth", to: "test#google_auth"
+  end
 end

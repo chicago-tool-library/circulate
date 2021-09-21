@@ -31,5 +31,9 @@ module Volunteer
     def auth_hash
       request.env["omniauth.auth"]
     end
+
+    def google_calendar_id
+      ::Event.volunteer_shift_calendar_id
+    end
   end
 end

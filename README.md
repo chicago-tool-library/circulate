@@ -12,6 +12,7 @@
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
   * [Multi-tenancy](#multi-tenancy)
+  * [Configuring your database](#configuring-your-database)
   * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
@@ -74,6 +75,7 @@ The following third party services are used:
 * Gmail and Google Calendar for volunteer scheduling
 * Sentry for error collection
 * Skylight for app performance monitoring
+* Imagekit for image resizing and manipulation
 
 ## Development
 
@@ -85,7 +87,6 @@ See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using
 
 If you're new to Ruby or Rails applications, a recommended way to get set up is to use the [community setup guides for Discourse](https://github.com/discourse/discourse#development). Discourse is a popular forum software project that also uses Ruby on Rails. There are scripts provided for [macOS](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-macos-for-development/15772), [Ubuntu](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-ubuntu-for-development/14727), and [Windows](https://meta.discourse.org/t/beginners-guide-to-install-discourse-on-windows-10-for-development/75149). On those pages you'll see more than the one script- for the purposes of this project, you **only** need to run the first, initial script command that you see. You do not need to keep going with the steps/information on Discourse. Stop when you get to "Clone Discourse"- don't do that! Come back here :sparkles:
 **Note** You do want to pay attention to this install as it runs in your terminal- it may ask for your password once or twice throughout the process- keep an eye on it and be prepared to type your computer's password (in the terminal! NEVER share your password in a GitHub doc). Also note that the install takes some time to run completely- it is not a 5-minute process.
-
 
 Time to get the Circulate repo! In your terminal, first make sure you're where you want to put the repo by typing `pwd`. If you want the Circulate repo to be in a different spot, type `cd` and **change** to the **directory** you want to put the Circulate repo in.
 
@@ -123,7 +124,9 @@ $ bin/setup
 
 All right, almost there! In the terminal, type and run:
 
-`rails test`
+```console
+$ rails test
+```
 
 Look for the word "Finished". That output should look similar to this:
 
@@ -148,6 +151,20 @@ The default tenant for this application is the Chicago Tool Library, but the app
 
 Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
 
+### Configuring your database
+
+By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to 
+specify other credentials on your machine, add any required values to the file `.env.local`:
+
+```
+# Database credentials
+PGUSER=your-postgres-username
+PGPASSWORD=your-postgres-password
+PGHOST=localhost
+```
+
+If `.env.local` doesn't exist in your project directory yet, you will need to create it.
+
 ### Resetting the application
 
 During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
@@ -156,7 +173,12 @@ This can be useful if you need to run through a certain scenario multiple times 
 
 ### Running tests
 
-Use the standard Rails test commands: `rails test`, `rails test:system`, etc.
+Use the standard Rails test commands: 
+
+```console
+$ rails test # to run model, controller, and integration tests
+$ rails test:system # to run system tests
+```
 
 Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
 

@@ -27,7 +27,6 @@
 
 /public/assets
 .byebug_history
-.env
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -47,3 +46,4 @@ yarn-debug.log*
 .ruby-version
 .tool-versions
 .yardoc
+.env.local

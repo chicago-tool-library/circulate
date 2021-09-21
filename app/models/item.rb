@@ -14,6 +14,7 @@ class Item < ApplicationRecord
   has_many :categories, through: :categorizations,
                         before_add: :cache_category_ids,
                         before_remove: :cache_category_ids
+  has_many :category_nodes, through: :categorizations
 
   has_many :loans, dependent: :nullify
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"

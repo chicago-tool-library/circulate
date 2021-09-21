@@ -13,6 +13,7 @@
 @import 'admin';
 @import 'public';
 @import 'account';
+@import 'volunteer';
 
 body {
   background-color: $background-color;
@@ -694,7 +695,7 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items, .member-notes, .member-appointment-form {
+  .member-lookup-items, .member-appointment-form {
     background: white;
     padding: .7rem .5rem;
     .info-box {
