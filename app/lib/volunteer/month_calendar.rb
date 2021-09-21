@@ -6,8 +6,8 @@ module Volunteer
     def initialize(events, today = nil)
       @events = events
       @today = today || Time.zone.now.to_date
-      @first_date = @today.beginning_of_month.beginning_of_week
-      @last_date = @today.end_of_month.end_of_week
+      @first_date = @today.beginning_of_month.beginning_of_week(:sunday)
+      @last_date = @today.end_of_month.end_of_week(:sunday)
     end
 
     def title
