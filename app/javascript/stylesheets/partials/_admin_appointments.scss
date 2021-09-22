@@ -42,3 +42,11 @@
 .appointments-date {
 	flex-basis: 1!important;
 }
+.checkout-button-column,
+.checkout-button-group {
+	display: flex;
+	flex-direction: column;
+}
+.checkout-button-column {
+	justify-content: space-between;
+}
