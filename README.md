@@ -40,11 +40,12 @@ See also our [contributing guide](./CONTRIBUTING.md) 💖
 
 ## About
 
-Circulate is an operating system for lending libraries. It is in the early stages of development. It currently provides the following functionality:
+Circulate is an operating system for lending libraries. It currently provides the following functionality:
 
 * Member signup, including optional payment via Square
 * Inventory management, including item photos and configurable borrowing rules
 * Item loaning to members, including fine calculation
+* Item holds and waitlists
 * Appointment scheduling for item pick-up and drop-off
 * Volunteer shift scheduling
 * Gift membership generation and redemption
@@ -57,10 +58,9 @@ There is content and information hard-coded in many of the views that is specifi
 * circulate may be used by other tool libraries or other lending organizations in the future, so should be built with an eye towards multi-tenancy. (Multi-lingual support may also be a goal someday!)
 * Many desired features may be able to be adapted from [babywearing](https://github.com/rubyforgood/babywearing), Ruby For Good's lending app for babywearing accessories.
 
-
 ## Requirements
 
-Circulate is a fairly basic Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
+Circulate is a fairly standard Rails application. The main application requires a recent version of Ruby, a PostgreSQL database, and a modern version of Node and Yarn to build assets.
 
 * A version of chromium (Google Chrome is fine) and a compatible `chromedriver` are required to run application tests. This will be downloaded automatically for you when running system tests.
 * Imagemagick needs to be installed for gift memberships and item thumbnails to be generated.
@@ -72,7 +72,7 @@ The following third party services are used:
 * Sendgrid for sending email
 * Amazon S3 for image storage
 * Square for payment processing
-* Gmail and Google Calendar for volunteer scheduling
+* Gmail and Google Calendar for volunteer and appointment shift scheduling
 * Sentry for error collection
 * Skylight for app performance monitoring
 * Imagekit for image resizing and manipulation
@@ -218,7 +218,10 @@ During development, you will probably want to log into the app as various users 
 - Expired Member `expired_member@example.com`
 - Membership expiring in one week `expires_soon@example.com`
 
-All of their passwords are "password".
+These users are associated with the first seed library, Chicago Tool Library. A similar set of users can be used to log in to
+the second seed library, Denver Tool Library, by appending `.denver` to the username portion of the email address (for example, `admin.denver@example.com`).
+
+All of the seed user passwords are the word "password".
 
 ## Deployment
 
