@@ -7,6 +7,8 @@ class Library < ApplicationRecord
 
   has_one_attached :image
   has_many :documents
+  has_many :users
+  has_many :members
 
   after_create :create_docs
 
@@ -28,7 +30,7 @@ class Library < ApplicationRecord
 
     begin
       Regexp.new(member_postal_code_pattern)
-    rescue StandardError => e
+    rescue => e
       logger.debug "Error parsing `member_postal_code_pattern` `#{member_postal_code_pattern}': #{e}"
       errors.add(:member_postal_code_pattern, :invalid)
     end

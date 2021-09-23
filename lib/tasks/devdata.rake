@@ -7,8 +7,18 @@ namespace :devdata do
     "#{DEVDATA_DIR}/#{klass.to_s.underscore.pluralize}.yml"
   end
 
-  def load_models(klass)
+  def load_models(klass, id_offset: 0)
     YAML.load_file(models_file_path(klass)).each do |attributes|
+      attributes.each do |key, value|
+        if key =~ /ids?$/
+          next if key == 'library_id'
+          attributes[key] = if value.is_a?(Array)
+            value.map { |v| v + id_offset }
+          else
+            value + id_offset
+          end
+        end
+      end
       klass.create!(**attributes)
     end
   end
@@ -37,24 +47,35 @@ namespace :devdata do
   end
 
   task load: :environment do
-    admin = User.where(email: "admin@example.com").first!
-    Audited.audit_class.as_user(admin) do
-      load_models Document
-      load_models BorrowPolicy
-      load_models Category
-      load_models Item
+    Library.all.each_with_index do |library, index|
+      offset = (index + 1) * 10000
+      admin = library.users.where(role: "admin").first
+      ActsAsTenant.with_tenant(library) do
+        Audited.audit_class.as_user(admin) do
+          load_models Document, id_offset: offset
+          load_models BorrowPolicy, id_offset: offset
+          load_models Category, id_offset: offset
+          load_models Item, id_offset: offset
+        end
+      end
     end
   end
 
   task create_loans_and_holds: :environment do
+    postal_codes = ["60609", "80219"]
     ActiveRecord::Base.transaction do
-      create_member(holds: 2, waiting_holds: 2, loans: 2)
-      create_member(loans: 5)
-      create_member
+      Library.all.each_with_index do |library, index|
+        postal_code = postal_codes[index]
+        ActsAsTenant.with_tenant(library) do
+          create_member(holds: 2, waiting_holds: 2, loans: 2, postal_code: postal_code)
+          create_member(loans: 5, postal_code: postal_code)
+          create_member(postal_code: postal_code)
+        end
+      end
     end
   end
 
-  def create_member(holds: 0, waiting_holds: 0, loans: 0, status: :verified)
+  def create_member(holds: 0, waiting_holds: 0, loans: 0, status: :verified, postal_code: "60609")
     @members ||= 0
     id = @members += 1
     email = "member#{id}@example.com"
@@ -67,7 +88,7 @@ namespace :devdata do
       full_name: "Member Number #{id}",
       preferred_name: "Member ##{id}",
       address1: "#{id} W. Chicago Ave",
-      postal_code: "60609"
+      postal_code: postal_code
     )
 
     holds.times do
