@@ -17,6 +17,10 @@ FactoryBot.define do
       bio { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }
     end
 
+    trait :with_pronunciation do
+      pronunciation { "ˈaɪdə welz" }
+    end
+
     factory :complete_member do
       preferred_name { "Ida" }
       pronouns { ["she/her"] }
