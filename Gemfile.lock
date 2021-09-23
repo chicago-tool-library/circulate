@@ -104,7 +104,7 @@ GEM
     bcrypt (3.1.16)
     benchmark (0.1.1)
     bindex (0.8.1)
-    bootsnap (1.7.7)
+    bootsnap (1.9.1)
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
