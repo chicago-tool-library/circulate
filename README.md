@@ -30,9 +30,9 @@
 
 We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues. 
 
-We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (currently the first and third Wednesday from 7-8pm Central time), stakeholder news, and upcoming new issues.
+We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (on hold for the moment, but occasionally on Tuesdays at 7pm CT), stakeholder news, and upcoming new issues.
 
-Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue".
+Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue." Feel free to assign to yourself and move the Issue to the "In Progress" column if you have Project permissions.
 
 Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make github issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three. 
 
@@ -46,9 +46,13 @@ Circulate is an operating system for lending libraries. It currently provides th
 * Inventory management, including item photos and configurable borrowing rules
 * Item loaning to members, including fine calculation
 * Item holds and waitlists
+* Renewal requests and approvals
+* Member account view and profile management
 * Appointment scheduling for item pick-up and drop-off
 * Volunteer shift scheduling
 * Gift membership generation and redemption
+* Various internal reporting and metrics
+* Limited support for multi-tenancy (see Project Board for current status)
 
 There is content and information hard-coded in many of the views that is specific to The Chicago Tool Library, for which the software is being initially developed. Over time, the plan is for these specifics to make their way into configuration or user-editable content so that the software is easily used by other lending libraries.
 
@@ -56,7 +60,7 @@ There is content and information hard-coded in many of the views that is specifi
 * The Chicago Tool Library serves a diverse group of people in Chicago, with varying levels of technological sophistication, abilities, and understandings of English. The app should strive to be accessible to as many people as possible, including easy-to-understand UX; accessibility to different levels of vision (blind, low vision, color-blind); and straightforward, simple English.
 * Look-and feel for Chicago Tool Library overall is generally fun, warm, bright, accessible, approachable, humble. A neighborhood old-timey hardware store. The Chicago Tool Library version of the app doesn't need to have as specific of a look-and-feel, but it shouldn't clash with this aesthetic. See the [SquareSpace Chicago Tool Library site](https://chicagotoollibrary.org/) for more of a sense of this.
 * circulate may be used by other tool libraries or other lending organizations in the future, so should be built with an eye towards multi-tenancy. (Multi-lingual support may also be a goal someday!)
-* Many desired features may be able to be adapted from [babywearing](https://github.com/rubyforgood/babywearing), Ruby For Good's lending app for babywearing accessories.
+
 
 ## Requirements
 
