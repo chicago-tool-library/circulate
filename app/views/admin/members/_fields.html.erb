@@ -1,6 +1,7 @@
 <%= form.errors %>
 
   <%= form.text_field :full_name, hint: "Your full name, first and last, found on your ID and other official documents" %>
+  <%= form.text_field :pronunciation if local_assigns[:librarian_view] %>
   <%= form.text_field :preferred_name, hint: "What you like to be called (we'll use this instead of your full name)" %>
 
   <%= render partial: 'account/members/pronoun_fields' , locals: { object: form.object } %>

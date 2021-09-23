@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_03_205105) do
+ActiveRecord::Schema.define(version: 2021_09_11_202001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(version: 2021_09_03_205105) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
+    t.string "pronunciation"
     t.index ["number"], name: "index_members_on_number", unique: true
   end
 
