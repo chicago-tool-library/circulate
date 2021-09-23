@@ -8,7 +8,7 @@ If you don't have any questions, the issue is clear, and no one has commented sa
 
 Here are the basic steps to submit a pull request:
 
-1. Claim an issue on [our issue tracker](https://github.com/rubyforgood/circulate/issues) by commenting on the issue saying you are working on it. The issues that are listed on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are the highest priority based on input from oustakeholders.
+1. Claim an issue on [our issue tracker](https://github.com/rubyforgood/circulate/issues) by commenting on the issue saying you are working on it. The issues that are listed on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are the highest priority based on input from our stakeholders.
 
 If the issue you want to work on doesn't exist yet, feel free to open it. Please only claim one issue at a time unless you are waiting on us to review work.
 
