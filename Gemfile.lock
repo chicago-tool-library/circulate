@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/ErwinM/acts_as_tenant.git
+  revision: 1ba28d1354848fd422603efa343b145bae5c5fdf
+  ref: 1ba28d1354848fd422603efa343b145bae5c5fdf
+  branch: master
+  specs:
+    acts_as_tenant (0.4.4)
+      rails (>= 4.0)
+      request_store (>= 1.0.5)
+
+GIT
   remote: https://github.com/collectiveidea/audited.git
   revision: 7fd8334edf682ea994b6f84980ddd19303590071
   specs:
@@ -305,6 +315,8 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (2.1.1)
+    request_store (1.5.0)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -424,6 +436,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_log_suppressor!
   activerecord-postgres_enum
+  acts_as_tenant!
   appsignal
   audited!
   aws-sdk-s3

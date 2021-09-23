@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
   include Pundit
   include ActiveSupport::Testing::TimeHelpers
 
-  helper_method :current_member
+  set_current_tenant_through_filter
+  before_action :set_tenant
+
+  helper_method :current_member, :current_library
 
   add_flash_types :success, :error, :warning
 
@@ -28,6 +31,21 @@ class ApplicationController < ActionController::Base
     current_user.member
   end
 
+  def current_library
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.second
+  end
+
+  private
+
+  def set_tenant
+    if current_library
+      set_current_tenant current_library
+    else
+      Rails.logger.debug "No Library found for the provided hostname"
+      render_not_found
+    end
+  end
+
   def set_time_zone(&block)
     Time.use_zone "America/Chicago" do
       Chronic.time_class = Time.zone
@@ -46,6 +64,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
+    return super_admin_libraries_path if user.super_admin?
+
     referer = stored_location_for(user)
     default_path = user.admin? || user.staff? ? admin_dashboard_path : account_home_path
     if referer.eql? root_path

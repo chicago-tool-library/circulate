@@ -62,6 +62,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.hosts << ".circulate.local"
+
   if ENV.fetch("DOCKER", "") == "true"
     Socket.ip_address_list.each do |addrinfo|
       next unless addrinfo.ipv4?

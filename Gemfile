@@ -25,6 +25,9 @@ gem "jbuilder", "~> 2.5"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# The latest release doesn't include the test helpers. Using this branch includes those.
+# See: https://github.com/ErwinM/acts_as_tenant/issues/215#issuecomment-552076674
+gem "acts_as_tenant", github: "ErwinM/acts_as_tenant", branch: "master", ref: "1ba28d1354848fd422603efa343b145bae5c5fdf"
 gem "devise"
 gem "pundit"
 gem "audited", github: "collectiveidea/audited"

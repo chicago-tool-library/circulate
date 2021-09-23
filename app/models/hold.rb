@@ -27,6 +27,8 @@ class Hold < ApplicationRecord
     end
   end
 
+  acts_as_tenant :library
+
   def self.active_hold_count_for_item(item)
     active.where(item: item).count
   end

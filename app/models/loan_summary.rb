@@ -23,6 +23,8 @@ class LoanSummary < ApplicationRecord
   scope :by_due_date, -> { order(due_at: :asc) }
   scope :chronologically, -> { order(created_at: :asc) }
 
+  acts_as_tenant :library
+
   def item
     super || NullItem.new
   end

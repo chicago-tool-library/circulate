@@ -1,0 +1,16 @@
+<% content_for :header do %>
+  <%= index_header @library.name do %>
+    <%= link_to 'Edit Library', edit_super_admin_library_path(@library), class: "btn" %>
+    <%= link_to 'Libraries', super_admin_libraries_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<div>
+  <%= logo(library: @library, small: true) %> (Default logo)
+</div>
+
+<p>Domain: <%= link_to @library.hostname, URI::HTTP.build(host: @library.hostname).to_s %></p>
+<p>Member postal code pattern: <%= @library.member_postal_code_pattern %></p>
+<p>City: <%= @library.city %></p>
+<p>Email: <%= @library.email %></p>
+<p>Address: <%= @library.address %></p>

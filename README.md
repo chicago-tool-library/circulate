@@ -11,6 +11,7 @@
 - [Integrations](#integrations)
 - [Development](#development)
   * [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  * [Multi-tenancy](#multi-tenancy)
   * [Configuring your database](#configuring-your-database)
   * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
@@ -135,12 +136,31 @@ Finished in 4.167485s, 41.0319 runs/s, 134.8535 assertions/s.
 
 For working on this app, it is great to have several terminal windows open. Run `bin/rails server` in one terminal,  `bin/webpack-dev-server` in another, and have a third terminal open for commands. The command in the second terminal kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
 
-Open an internet browser, and type `localhost:3000`. You should see the Circulate app in your browser!
+Open an internet browser, and type `chicago.circulate.local:3000`. You should see the Circulate app in your browser!
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
-2. Complete the [new member signup flow](http://localhost:3000/signup).
+1. Sign in to [the admin interface](http://chicago.circulate.local:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+2. Complete the [new member signup flow](http://chicago.circulate.local:3000/signup).
+
+### Multi-tenancy
+
+The default tenant for this application is the Chicago Tool Library, but the application permits multiple tenants, identified by the URL used to access the application. In the local development environment, the following tenants are available:
+
+* chicago.circulate.local
+
+Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
+
+In order to access libraries other than the first one on your local machine, add the following to your hosts file:
+
+```
+127.0.0.1 chicago.circulate.local
+127.0.0.1	denver.circulate.local
+```
+
+This file is located at `/etc/hosts` on macOS and Linux and `C:\Windows\System32\drivers\etc` on Windows or under WSL.
+
+You will need to add additional lines to your hosts file if you need to work with additional libraries locally.
 
 ### Configuring your database
 

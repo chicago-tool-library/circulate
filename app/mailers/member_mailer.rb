@@ -11,8 +11,9 @@ class MemberMailer < ApplicationMailer
 
   def welcome_message
     @member = params[:member]
+    @library = @member.library
     @amount = Money.new(params[:amount]) if params.key?(:amount)
-    @subject = "Welcome to The Chicago Tool Library"
+    @subject = "Welcome to The #{@library.name}"
     mail(to: @member.email, subject: @subject)
   end
 
@@ -25,6 +26,7 @@ class MemberMailer < ApplicationMailer
 
   def membership_reminder
     @member = params[:member]
+    @library = @member.library
     @subject = "Don't forget to to activate your membership!"
     mail(to: @member.email, subject: @subject)
   end
@@ -82,6 +84,7 @@ class MemberMailer < ApplicationMailer
 
   def summary_mail
     @member = params[:member]
+    @library = @member.library
     @summaries = params[:summaries]
     @now = params[:now] || Time.current
 
@@ -101,6 +104,6 @@ class MemberMailer < ApplicationMailer
   end
 
   def store_notification
-    Notification.create!(member: @member, uuid: @uuid, action: action_name, address: @member.email, subject: @subject)
+    Notification.create!(member: @member, uuid: @uuid, action: action_name, address: @member.email, subject: @subject, library: @library)
   end
 end

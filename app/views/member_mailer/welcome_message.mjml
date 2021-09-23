@@ -12,7 +12,7 @@
   <mj-column>
     <mj-text>
       <p>Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!</p>
-      <%= render partial: "signup/confirmations/instructions" %>
+      <%= render partial: "signup/confirmations/instructions", formats: [:html], locals: {library: @library} %>
       <%= render partial: "signup/confirmations/account_login" %>
     </mj-text>
   </mj-column>

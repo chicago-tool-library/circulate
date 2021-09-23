@@ -3,6 +3,7 @@ FactoryBot.define do
     "CALEVENTID#{n}"
   end
   factory :event do
+    library { Library.first || create(:library) }
     calendar_id { "calid1234" }
     calendar_event_id
     start { "2020-07-22 12:51:56" }

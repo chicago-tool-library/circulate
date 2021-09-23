@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :loan do
+    library { Library.first || create(:library) }
     item
     association :member, factory: :verified_member
     due_at { Time.current + 1.week }

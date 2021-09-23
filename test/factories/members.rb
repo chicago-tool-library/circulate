@@ -4,6 +4,8 @@ FactoryBot.define do
   end
 
   factory :member do
+    library { Library.first || create(:library) }
+
     full_name { "Ida B. Wells" }
     email
     phone_number { "3121234567" }

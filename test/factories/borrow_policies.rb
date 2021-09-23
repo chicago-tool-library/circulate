@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :borrow_policy do
+    library { Library.first || create(:library) }
     sequence(:code, "b")
     name { "Policy ##{code.upcase}" }
     duration { 7 }

@@ -74,6 +74,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     driven_by :selenium, using: :chrome, screen_size: [1400, 1800]
   end
 
+  setup do
+    ActsAsTenant.test_tenant = libraries(:system_test_library)
+  end
+
   include Warden::Test::Helpers
   include ActionMailer::TestHelper
   include ActiveJob::TestHelper
@@ -84,6 +88,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
+    ActsAsTenant.test_tenant = nil
+
     errors = page.driver.browser.manage.logs.get(:browser)
     fail = false
     if errors.present?

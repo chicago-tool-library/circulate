@@ -5,6 +5,7 @@ require "spy/integration"
 require "minitest/mock"
 
 require "helpers/return_values"
+require "helpers/ensure_request_tenant"
 
 Webpacker.manifest.lookup("missing.js") # force pack compilation before forking
 
@@ -37,4 +38,17 @@ class ActiveSupport::TestCase
       end
     end
   end
+
+  setup do
+    ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
+  end
+
+  teardown do
+    ActsAsTenant.test_tenant = nil
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  # @note Just to make tests pass for now...
+  include EnsureRequestTenant
 end

@@ -106,13 +106,23 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_content "Your payment of $42.00"
     assert_content "See you at the library!"
 
+    assert Membership.last.pending?
+
     assert_emails 1
     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
     end
 
-    assert Membership.last.pending?
+    visit user_session_url
+
+    fill_in :user_email, with: "nkjemisin@test.com"
+    fill_in :user_password, with: "password"
+    click_on "Login"
+
+    within ".navbar" do
+      assert_text "N. K. Jemisin"
+    end
   end
 
   test "signup and redeem a gift membership" do

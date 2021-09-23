@@ -44,6 +44,8 @@ class Loan < ApplicationRecord
     )
   }
 
+  acts_as_tenant :library
+
   def item
     super || NullItem.new
   end

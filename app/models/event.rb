@@ -3,6 +3,8 @@ class Event < ApplicationRecord
 
   scope :upcoming, -> { where("start > ?", Time.current) }
 
+  acts_as_tenant :library
+
   scope :appointment_slots, ->(now = Time.current) {
     where(calendar_id: appointment_slot_calendar_id)
       .where("finish > ?", now + 15.minutes).order("start ASC")

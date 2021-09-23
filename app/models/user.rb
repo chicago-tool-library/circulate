@@ -2,13 +2,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable,
     :lockable, :timeoutable, :trackable, :validatable
 
+  acts_as_tenant :library
+
   # while the canonical list of roles is the "user_role" enum in the
   # database, this enum exists to help display the list of roles
   # elsewhere in the app
   enum role: {
     member: "member",
     staff: "staff",
-    admin: "admin"
+    admin: "admin",
+    super_admin: "super_admin",
   }
 
   belongs_to :member, optional: true
@@ -23,9 +26,15 @@ class User < ApplicationRecord
       [:member, :staff]
     when "admin"
       [:member, :staff, :admin]
+    when "super_admin"
+      [:member, :staff, :admin, :super_admin]
     else
       []
     end
+  end
+
+  def has_role?(other)
+    roles.include?(other.to_sym)
   end
 
   def self.serialize_from_session(key, salt)

@@ -45,6 +45,7 @@ class Item < ApplicationRecord
   }
 
   audited
+  acts_as_tenant :library
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
@@ -60,7 +61,7 @@ class Item < ApplicationRecord
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
-  validates :number, numericality: {only_integer: true}, uniqueness: true
+  validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
   validates :status, inclusion: {in: Item.statuses.keys}
   validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}

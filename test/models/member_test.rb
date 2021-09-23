@@ -43,30 +43,25 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal [member], Member.matching("(312) 123-4567")
   end
 
-  test "allows 606 postal codes" do
-    member = FactoryBot.build(:member)
+  test "checks postal codes against the library's pattern" do
+    library = build(:library, member_postal_code_pattern: "60707|60827|^606")
+    ActsAsTenant.with_tenant(library) do
+      member = build(:member)
 
-    assert member.valid?
-  end
+      member.postal_code = "60609"
+      assert member.valid?
 
-  test "allows 60707 postal code" do
-    member = FactoryBot.build(:member, postal_code: "60707")
+      member.postal_code = "60707"
+      assert member.valid?
 
-    assert member.valid?
-  end
+      member.postal_code = "60827"
+      assert member.valid?
 
-  test "allows 60827 postal code" do
-    member = FactoryBot.build(:member, postal_code: "60827")
-
-    assert member.valid?
-  end
-
-  test "rejects non-Chicago postal codes" do
-    member = FactoryBot.build(:member, postal_code: "90210")
-
-    assert member.invalid?
-    assert member.errors.messages.include?(:postal_code)
-    assert member.errors.messages[:postal_code].include?("must be in Chicago")
+      member.postal_code = "90210"
+      assert member.invalid?
+      assert member.errors.messages.include?(:postal_code)
+      assert member.errors.messages[:postal_code].include?("must be admissible in #{library.name}")
+    end
   end
 
   test "member without a user has a role 'member'" do
