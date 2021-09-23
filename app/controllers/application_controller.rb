@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_library
-    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.second
   end
 
   private
@@ -59,20 +59,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) ||
-      if resource.super_admin?
-        super_admin_libraries_path
-      else
-        super
-      end
-  end
-
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
   end
 
   def after_sign_in_path_for(user)
+    return super_admin_libraries_path if resource.super_admin?
+
     referer = stored_location_for(user)
     default_path = user.admin? || user.staff? ? admin_dashboard_path : account_home_path
     if referer.eql? root_path

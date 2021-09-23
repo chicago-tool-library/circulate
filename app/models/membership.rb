@@ -4,7 +4,6 @@ class Membership < ApplicationRecord
   belongs_to :member
   has_one :adjustment, as: "adjustable"
   acts_as_tenant :library
-  validates_uniqueness_to_tenant :member_id
 
   scope :active, -> { where("started_at <= ? AND ended_at >= ?", Time.current, Time.current) }
   scope :pending, -> { where(started_at: nil, ended_at: nil) }

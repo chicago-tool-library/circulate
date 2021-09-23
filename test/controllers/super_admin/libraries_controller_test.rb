@@ -7,7 +7,7 @@ module SuperAdmin
     setup do
       @library = create(:library)
 
-      @user = users(:super_admin)
+      @user = create(:super_admin_user)
       sign_in @user
     end
 
@@ -64,7 +64,7 @@ module SuperAdmin
     end
 
     test "should require super admin role" do
-      sign_in users(:admin)
+      sign_in create(:admin_user)
       library = create(:library)
 
       assert_access_denied { get super_admin_libraries_url }
