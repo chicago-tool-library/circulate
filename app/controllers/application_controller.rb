@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
-    return super_admin_libraries_path if resource.super_admin?
+    return super_admin_libraries_path if user.super_admin?
 
     referer = stored_location_for(user)
     default_path = user.admin? || user.staff? ? admin_dashboard_path : account_home_path

@@ -12,7 +12,7 @@ class MultitenancyTest < ApplicationSystemTestCase
     click_on "Login"
 
     within ".navbar" do
-      assert_text member.full_name
+      assert_text "Logout"
     end
   end
 
