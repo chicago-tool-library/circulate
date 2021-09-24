@@ -2,7 +2,7 @@
   <div class="columns col-oneline">
     <div class="column col-8"><h4>Items to be checked-in (<%= checkin_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
-      <%= button_to "Check-in All", admin_appointment_checkins_path(@appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
+      <%#= button_to "Check-in All", admin_appointment_checkins_path(@appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
     </div>
   </div>
   <% appointment_return_items.each do |return_item| %>
