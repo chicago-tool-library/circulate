@@ -29,7 +29,7 @@ class Item < ApplicationRecord
 
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
-  has_many :attachments, class_name: "ItemAttachment"
+  has_many :attachments, class_name: "ItemAttachment", dependent: :destroy
 
   has_rich_text :description
   has_one_attached :image

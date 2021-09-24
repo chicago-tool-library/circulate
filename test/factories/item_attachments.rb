@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :item_attachment do
-    item_id { nil }
-    kind { "" }
+    kind { "manual" }
     other_kind { "MyString" }
+    file { Rack::Test::UploadedFile.new(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"), "image/jpg") }
   end
 end
