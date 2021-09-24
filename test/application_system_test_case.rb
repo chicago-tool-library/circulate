@@ -75,7 +75,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   setup do
-    ActsAsTenant.test_tenant = libraries(:system_test_library)
+    ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
   end
 
   include Warden::Test::Helpers
