@@ -4,11 +4,9 @@
 
   <div>
     <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member", 
-    pattern: "[0-9]{1,4}", 
     placeholder: "1-4 digit item number", 
     autocomplete: "off",
-    data: {action: "keydown->item-number-input#keydown"}, 
-    hint: "Just the number; no need for letters, dashes, etc." %>
+    hint: "Please enter only the 1-4 digit number; no need for letters, dashes, spaces, etc." %>
   </div>
 
   <%= form.actions do %>
