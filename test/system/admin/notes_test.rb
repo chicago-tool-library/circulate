@@ -6,18 +6,20 @@ class NotesTest < ApplicationSystemTestCase
   end
 
   test "adding a note to an item" do
-    @item = create(:item)
-    visit admin_item_url(@item)
+    ignore_js_errors(reason: "This intentionally causes a 422 error") do
+      @item = create(:item)
+      visit admin_item_url(@item)
 
-    click_on "Add a Note"
-    click_on "Create Note"
+      click_on "Add a Note"
+      click_on "Create Note"
 
-    assert_content "can't be blank"
+      assert_content "can't be blank"
 
-    fill_in_rich_text_area "note_body", with: "Information you should know"
-    click_on "Create Note"
+      fill_in_rich_text_area "note_body", with: "Information you should know"
+      click_on "Create Note"
 
-    assert_selector ".note", text: "Information you should know"
+      assert_selector ".note", text: "Information you should know"
+    end
   end
 
   test "editing a note on an item" do
