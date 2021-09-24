@@ -206,6 +206,8 @@ Note, in order to get system tests to run, you will need `chromedriver` installe
 
 Circulate uses [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
 
+One of the linters run by Lefthook, circleci, will need to be installed. [Follow Circleci's cli installation instructions](https://circleci.com/docs/2.0/local-cli/#installation).
+
 ### Documentation
 
 Circulate leans heavily on a handful of open source frameworks and libraries, the documentation for which will be useful to developers:

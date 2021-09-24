@@ -42,7 +42,7 @@ Some things that will increase the chance that your pull request is accepted:
 
   ```
   bundle exec rails test
-  bundle exec tails test:system
+  bundle exec rails test:system
   bundle exec standardrb
   ```
 
