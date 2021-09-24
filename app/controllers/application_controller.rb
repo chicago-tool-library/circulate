@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_library
-    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.second
+    @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
 
   private
