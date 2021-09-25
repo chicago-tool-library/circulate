@@ -80,6 +80,14 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject)
   end
 
+  def appointment_confirmation
+    @member = params[:member]
+    @library = @member.library
+    @appointment = params[:appointment]
+    @subject = "Appointment Confirmation for #{@member.full_name} at #{@appointment.created_at}"
+    mail(to: @member.email, subject: @subject)
+  end
+
   private
 
   def summary_mail
