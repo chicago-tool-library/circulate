@@ -17,6 +17,10 @@ class AppointmentsTest < ApplicationSystemTestCase
     first_optgroup.text
   end
 
+  def fill_in_optional_field(text)
+    fill_in "Optional: Tell us about the project you're working on. We may be able to recommend a different or additional tool. If you're dropping off, please let us know if you had any issues with the items you're returning.", with: text
+  end
+
   test "schedules an appointment" do
     @held_item1 = create(:item)
     @held_item2 = create(:item)
@@ -45,11 +49,12 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     selected_date = select_first_available_date
 
-    fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Just a small project"
+    fill_in_optional_field("Just a small project")
     click_on "Schedule Appointment"
 
     assert_text "Appointments"
     assert_text selected_date
+    assert_text "Just a small project"
     assert_text @held_item1.complete_number
     assert_text @borrowed_item1.complete_number
 
@@ -134,7 +139,7 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     selected_date = select_first_available_date
 
-    fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Updated appointment"
+    fill_in_optional_field("Updated appointment")
     click_on "Update Appointment"
 
     assert_text "Appointments"
@@ -179,7 +184,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     check_list_item_with_name(@held_item1.complete_number)
     check_list_item_with_name(@borrowed_item1.complete_number)
     select_first_available_date
-    fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "First appointment"
+    fill_in_optional_field("First appointment")
     click_on "Schedule Appointment"
 
     visit new_account_appointment_path(@appointment)
@@ -187,7 +192,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     check_list_item_with_name(@borrowed_item2.complete_number)
     select_first_available_date
 
-    fill_in "Optional: Tell us about the project you are working on. This may help us recommend a different or additional tool for you.", with: "Second appointment"
+    fill_in_optional_field("Second appointment")
     click_on "Schedule Appointment"
 
     assert_text "existing appointment"
