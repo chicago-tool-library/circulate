@@ -5,6 +5,7 @@ class Item < ApplicationRecord
       name: "A",
       other_names: "B",
       brand: "C",
+      plain_text_description: "C",
       size: "D",
       strength: "D"
     },
@@ -69,6 +70,8 @@ class Item < ApplicationRecord
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
 
+  before_save :cache_description_as_pain_text
+
   after_update :clear_holds_if_inactive
 
   def self.next_number(limit = nil)
@@ -122,6 +125,10 @@ class Item < ApplicationRecord
   delegate :allow_one_holds_per_member?, to: :borrow_policy
 
   private
+
+  def cache_description_as_pain_text
+    self.plain_text_description = description.to_plain_text
+  end
 
   def strip_whitespace
     %w[name brand size model serial strength].each do |attr_name|
