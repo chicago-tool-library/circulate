@@ -18,7 +18,7 @@ class AppointmentsTest < ApplicationSystemTestCase
   end
 
   def fill_in_optional_field(text)
-    fill_in "Optional: Tell us about the project you're working on. We may be able to recommend a different or additional tool. If you're dropping off, please let us know if you had any issues with the items you're returning.", with: text
+    fill_in "Tell us about the project you're working on. We may be able to recommend a different or additional tool. If you're dropping off, please let us know if you had any issues with the items you're returning.", with: text
   end
 
   test "schedules an appointment" do
