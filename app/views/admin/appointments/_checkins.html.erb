@@ -21,7 +21,7 @@
       </div>
       <div class="column col-sm-6 col-4">
         <p><%= return_item.item.name %></p>
-        <p><%= full_item_number(return_item.item) %></p>
+        <p><%= link_to full_item_number(return_item.item), full_item_number(return_item.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right">
         <%= button_to "Check-in", admin_appointment_checkins_path(@appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-in..." }, disabled: !return_item.checked_out? %>
