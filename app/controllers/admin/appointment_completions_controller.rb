@@ -5,7 +5,7 @@ module Admin
     def create
       @appointment = Appointment.find(params[:appointment_id])
       @appointment.update!(completed_at: Time.current)
-      render_to_portal("admin/appointments/appointment.html.erb", table_row: true, locals: {appointment: @appointment})
+      render_to_portal("admin/appointments/appointment", table_row: true, locals: {appointment: @appointment})
     end
 
     def destroy
