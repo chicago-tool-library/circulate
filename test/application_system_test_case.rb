@@ -104,6 +104,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   private
 
+  def ignore_js_errors(reason: "I know what I am doing")
+    Rails.logger.info("Swallowed JS error because: #{reason}")
+    yield if block_given?
+    page.driver.browser.manage.logs.get(:browser)
+  end
+
   def sign_in_as_admin
     @user = FactoryBot.create(:user, role: "admin")
     login_as(@user, scope: :user)
