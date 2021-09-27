@@ -34,6 +34,6 @@ class ItemsController < ApplicationController
       "number" => "items.number ASC",
       "added" => "items.created_at DESC"
     }
-    options.fetch(params[:sort]) { options["name"] }
+    options.fetch(params[:sort]) { options["added"] }
   end
 end
