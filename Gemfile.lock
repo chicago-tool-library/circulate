@@ -233,7 +233,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.8)
-    nokogiri (1.12.4)
+    nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     oauth2 (1.4.7)
@@ -350,7 +350,7 @@ GEM
     semantic_range (2.3.0)
     sentry-raven (2.13.0)
       faraday (>= 0.7.6, < 1.0)
-    solargraph (0.43.1)
+    solargraph (0.44.0)
       backport (~> 1.2)
       benchmark
       bundler (>= 1.17.2)
