@@ -54,9 +54,10 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def hold_available
     first_item = Item.active.first
-    hold = Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    member = Member.second
+    hold = Hold.create!(item: first_item, member: member, creator: User.first, library: member.library)
 
-    MemberMailer.with(member: Member.first, hold: hold).hold_available
+    MemberMailer.with(member: Member.first, hold: hold, library: member.library).hold_available
   end
 
   def membership_renewal_reminder
