@@ -26,7 +26,6 @@ module Account
         else
           "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
         end
-        MemberMailer.with(member: @member, appointment: @appointment).appointment_confirmation.deliver_later
         redirect_to account_appointments_path, success: message
       else
         load_holds_and_loans
