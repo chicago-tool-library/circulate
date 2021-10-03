@@ -67,8 +67,9 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def staff_daily_renewal_requests
     tomorrow = Time.current.end_of_day + 1.day
+    member = Member.verified.first
     3.times do
-      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
       RenewalRequest.create!(loan: loan)
     end
 
@@ -79,7 +80,8 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def renewal_request_approved
     tomorrow = Time.current.end_of_day + 1.day
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    member = Member.verified.first
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
     renew_loan(loan)
     renewal_request = RenewalRequest.create!(loan: loan, status: :approved)
     MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
@@ -87,7 +89,8 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def renewal_request_rejected
     tomorrow = Time.current.end_of_day + 1.day
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    member = Member.verified.first
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
     renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
     MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
   end

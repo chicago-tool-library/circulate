@@ -20,6 +20,7 @@ class MemberMailer < ApplicationMailer
   def renewal_message
     @member = params[:member]
     @amount = Money.new(params[:amount]) if params.key?(:amount)
+    @library = @member.library
     @subject = "Your membership to The Chicago Tool Library has been renewed"
     mail(to: @member.email, subject: @subject)
   end
@@ -59,7 +60,7 @@ class MemberMailer < ApplicationMailer
     @renewal_request = params[:renewal_request]
     @item = @renewal_request.loan.item
     @member = @renewal_request.loan.member
-
+    @library = @member.library
     message = @renewal_request.approved? ? "Your item was renewed" : "Your item couldn't be renewed"
     @subject = "#{message} (#{@item.name})"
 
@@ -77,6 +78,7 @@ class MemberMailer < ApplicationMailer
   def staff_daily_renewal_requests
     @member = params[:member]
     @renewal_requests = params[:renewal_requests]
+    @library = @member.library
     @now = params[:now] || Time.current
     @subject = "Open renewal requests as of #{@now.strftime("%m/%d/%Y")}"
     mail(to: @member.email, subject: @subject)
