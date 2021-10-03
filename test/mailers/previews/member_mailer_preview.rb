@@ -44,9 +44,10 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def items_on_hold
     loan_summaries = LoanSummary.where("due_at > ?", Time.current + 1.day).limit(5).includes(item: :borrow_policy).to_a
+    member = Member.second
 
     first_item = loan_summaries.first.item
-    Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    Hold.create!(item: first_item, member: member, creator: User.first, library: member.library)
     loan_summaries.first.latest_loan = Loan.new(created_at: Time.current)
 
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
