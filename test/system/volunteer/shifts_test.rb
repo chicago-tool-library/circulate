@@ -46,10 +46,7 @@ module Volunteer
     end
 
     def within_day(date, &block)
-      month = find(".calendar", text: date.strftime("%B"))
-      within(month) do
-        within(find(".calendar-date", text: date.mday), &block)
-      end
+      within(find(".calendar-date[data-test-date='#{date.to_date}']"), &block)
     end
   end
 end
