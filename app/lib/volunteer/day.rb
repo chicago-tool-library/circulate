@@ -11,6 +11,10 @@ module Volunteer
       @date.day
     end
 
+    def date
+      @date.to_date
+    end
+
     def today?
       @today == @date
     end
