@@ -69,6 +69,7 @@ class MemberMailer < ApplicationMailer
   def membership_renewal_reminder
     @member = params[:member]
     @amount = params[:amount] || Money.new(0)
+    @library = @member.library
     @subject = "Inviting you to renew and reconnect with the Chicago Tool Library in 2021!"
     mail(to: @member.email, subject: @subject)
   end
