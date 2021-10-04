@@ -47,6 +47,13 @@ jobs:
       - uses: nanasess/setup-chromedriver@master
         if: matrix.test == 'system'
 
+      - name: Setup fonts
+        if: matrix.test == 'system'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install ttf-mscorefonts-installer
+          sudo fc-cache -f -v
+
       - uses: actions/setup-node@v2.4.1
         with:
           node-version: 14.x
