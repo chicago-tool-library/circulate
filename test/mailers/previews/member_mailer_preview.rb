@@ -28,23 +28,26 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def due_soon
     tomorrow = Time.current.end_of_day + 1.day
+    member = Member.verified.first
+    loans = []
     3.times do
-      Loan.create(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+      loans << Loan.create(item: Item.available.order("RANDOM()").first, member: member, due_at: tomorrow, uniquely_numbered: false, library: member.library)
     end
 
     loan_summaries = LoanSummary.where("due_at BETWEEN ? AND ?", tomorrow.beginning_of_day.utc, tomorrow.utc).limit(5).includes(item: :borrow_policy).to_a
 
     first_item = loan_summaries.first.item
-    Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    Hold.create!(item: first_item, member: Member.second, creator: User.first, library: member.library)
 
-    MemberMailer.with(member: Member.first, summaries: loan_summaries).return_reminder
+    MemberMailer.with(member: member, summaries: loan_summaries).return_reminder
   end
 
   def items_on_hold
     loan_summaries = LoanSummary.where("due_at > ?", Time.current + 1.day).limit(5).includes(item: :borrow_policy).to_a
+    member = Member.second
 
     first_item = loan_summaries.first.item
-    Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    Hold.create!(item: first_item, member: member, creator: User.first, library: member.library)
     loan_summaries.first.latest_loan = Loan.new(created_at: Time.current)
 
     MemberMailer.with(member: Member.first, summaries: loan_summaries).loan_summaries
@@ -52,9 +55,10 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def hold_available
     first_item = Item.active.first
-    hold = Hold.create!(item: first_item, member: Member.second, creator: User.first)
+    member = Member.second
+    hold = Hold.create!(item: first_item, member: member, creator: User.first, library: member.library)
 
-    MemberMailer.with(member: Member.first, hold: hold).hold_available
+    MemberMailer.with(member: Member.first, hold: hold, library: member.library).hold_available
   end
 
   def membership_renewal_reminder
@@ -63,8 +67,9 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def staff_daily_renewal_requests
     tomorrow = Time.current.end_of_day + 1.day
+    member = Member.verified.first
     3.times do
-      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
       RenewalRequest.create!(loan: loan)
     end
 
@@ -75,7 +80,8 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def renewal_request_approved
     tomorrow = Time.current.end_of_day + 1.day
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    member = Member.verified.first
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
     renew_loan(loan)
     renewal_request = RenewalRequest.create!(loan: loan, status: :approved)
     MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
@@ -83,7 +89,8 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def renewal_request_rejected
     tomorrow = Time.current.end_of_day + 1.day
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false)
+    member = Member.verified.first
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
     renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
     MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
   end
