@@ -9,4 +9,6 @@ class RenewalRequest < ApplicationRecord
   }
 
   validates :status, inclusion: {in: RenewalRequest.statuses.keys}
+
+  acts_as_tenant :library
 end
