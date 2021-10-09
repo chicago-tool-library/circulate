@@ -70,7 +70,7 @@ class Item < ApplicationRecord
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
 
-  before_save :cache_description_as_pain_text
+  before_save :cache_description_as_plain_text
 
   after_update :clear_holds_if_inactive
 
@@ -126,7 +126,7 @@ class Item < ApplicationRecord
 
   private
 
-  def cache_description_as_pain_text
+  def cache_description_as_plain_text
     self.plain_text_description = description.to_plain_text
   end
 
