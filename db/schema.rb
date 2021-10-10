@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 2021_10_06_183946) do
     t.text "location_area"
     t.text "location_shelf"
     t.integer "library_id"
+    t.text "plain_text_description"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"

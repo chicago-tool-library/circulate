@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
       @category = CategoryNode.where(id: params[:category]).first
       redirect_to(items_path, error: "Category not found") && return unless @category
 
-      item_scope = @category.items.listed_publicly
+      item_scope = @category.items.listed_publicly.distinct
     end
 
     item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)

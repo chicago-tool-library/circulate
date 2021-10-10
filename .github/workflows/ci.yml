@@ -9,6 +9,7 @@ env:
   CI: "true"
   RUBYOPT: "-W0"
   SECRET_KEY_BASE: "secret_key_base"
+  PARALLEL_WORKERS: 1
 
 jobs:
   test:
