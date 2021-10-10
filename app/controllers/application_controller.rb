@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found
-    render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+    redirect_to error_404_path, status: :not_found
   end
 
   def after_sign_in_path_for(user)
