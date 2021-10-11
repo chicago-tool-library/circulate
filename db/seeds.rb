@@ -73,3 +73,10 @@ denver_tool_library = Library.create!(
   member_postal_code_pattern: "^802"
 )
 seed_library(denver_tool_library, ".denver", "80219")
+
+User.create!(
+  email: "super.admin@example.com",
+  password: "password",
+  library: Library.first,
+  role: "super_admin"
+)
