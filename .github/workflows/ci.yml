@@ -107,7 +107,7 @@ jobs:
 
     steps:
     - name: Run bin/setup script
-      run: ./bin/setup
+      run: ../../bin/setup
 
     - name: Run bin/reset script
-      run: ./bin/reset
+      run: ../../bin/reset
