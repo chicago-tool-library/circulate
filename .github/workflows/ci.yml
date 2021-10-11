@@ -125,7 +125,17 @@ jobs:
         bundler-cache: true
 
     - name: Run bin/setup script
+      env:
+        PGHOST: localhost
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
       run: ./bin/setup
 
     - name: Run bin/reset script
+      env:
+        PGHOST: localhost
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
       run: ./bin/reset
