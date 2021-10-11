@@ -9,10 +9,6 @@ Rails.application.routes.draw do
 
       resource :acceptance, only: [:create, :destroy]
     end
-    resources :neon_payments, only: [:new, :create] do
-      get :callback, on: :collection
-      post :skip, on: :collection
-    end
     resources :payments, only: [:new, :create] do
       get :callback, on: :collection
       post :skip, on: :collection
