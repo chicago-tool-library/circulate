@@ -99,3 +99,15 @@ jobs:
         with:
           path: test/reports
           name: test-reports
+
+  run-scripts:
+    name: Run bin/setup and bin/reset scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+    - name: Run bin/setup script
+      run: ./bin/setup
+
+    - name: Run bin/reset script
+      run: ./bin/reset
