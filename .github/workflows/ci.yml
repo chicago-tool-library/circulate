@@ -108,6 +108,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+
     - name: Run bin/setup script
       run: ./bin/setup
 
