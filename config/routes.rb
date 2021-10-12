@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
-    resources :shifts, only: :index
     resources :categories, except: :show
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
@@ -116,6 +115,7 @@ Rails.application.routes.draw do
       resources :member_requests, only: :index
       resources :notifications, only: :index
       resources :potential_volunteers, only: :index
+      resources :shifts, only: :index
       get "money", to: "money#index"
     end
 
