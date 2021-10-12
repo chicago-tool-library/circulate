@@ -65,6 +65,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "only displays active items on the items index, when filtering by active items" do
     active_item = create(:item, status: :active)
+    active_item_with_hold = create(:item, status: :active)
+    create(:hold, item: active_item_with_hold)
     maintenance_item = create(:item, status: :maintenance)
     pending_item = create(:item, status: :pending)
     retired_item = create(:item, status: :retired)
@@ -75,6 +77,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     refute_match maintenance_item.complete_number, @response.body
     refute_match pending_item.complete_number, @response.body
     refute_match retired_item.complete_number, @response.body
+    refute_match active_item_with_hold.complete_number, @response.body
   end
 
   test "only displays active items from the category on the items index, when filtering by active items and category" do

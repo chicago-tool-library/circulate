@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
     item_scope = Item.listed_publicly.includes(:checked_out_exclusive_loan)
 
     if params[:filter] == "active"
-      item_scope = item_scope.active
+      item_scope = item_scope.active.without_holds
     end
 
     if params[:category]

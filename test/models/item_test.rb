@@ -139,4 +139,13 @@ class ItemTest < ActiveSupport::TestCase
     item.update!(status: Item.statuses[:maintenance])
     assert_equal item.active_holds.count, 0
   end
+
+  test ".without_holds" do
+    item_without_hold_1 = create(:item)
+    item_without_hold_2 = create(:item)
+    item_with_hold = create(:item)
+    create(:hold, item: item_with_hold)
+
+    assert_equal Item.without_holds, [item_without_hold_1, item_without_hold_2]
+  end
 end
