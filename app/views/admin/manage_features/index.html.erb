@@ -1,6 +1,7 @@
 <% content_for :header do %>
-  <%= index_header "Customize Library-level Settings" %>
+  <%= index_header "Customize Library Settings" %>
 <% end %>
+
 <%= form_with(model: @current_library, url:  admin_manage_feature_path(@current_library.id), builder: SpectreFormBuilder) do |form| %>
 
   <%= form.check_box :allow_members, label: "Enable Members", hint: "Enable member creation"%>
