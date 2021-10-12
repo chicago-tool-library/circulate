@@ -150,6 +150,7 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
+  resources :homepage, only: [:index]
   get "search", to: "searches#show"
 
   root to: "home#index"
