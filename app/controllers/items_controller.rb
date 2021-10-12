@@ -4,6 +4,10 @@ class ItemsController < ApplicationController
   def index
     item_scope = Item.listed_publicly.includes(:checked_out_exclusive_loan)
 
+    if params[:filter] == "active"
+      item_scope = item_scope.active
+    end
+
     if params[:category]
       @category = CategoryNode.where(id: params[:category]).first
       redirect_to(items_path, error: "Category not found") && return unless @category

@@ -25,16 +25,28 @@
         <strong><%= pluralize @pagy.count, "item" %></strong>,
       <% end %>
 
-      sorted by: 
+      active/inactive:
 
       <div class="btn-group">
-        <%= link_to_unless_current "name", {sort: "name", category: params[:category]}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "Available now", current_page_params.merge({filter: "active", category: params[:category]}), class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">available now</button>
+        <% end %>
+
+        <%= link_to_unless params[:filter] == "all" || params[:filter].blank?, "All items", current_page_params.merge({filter: "all", category: params[:category]}), class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">all items</button>
+        <% end %>
+      </div>
+
+      sorted by:
+
+      <div class="btn-group">
+        <%= link_to_unless_current "name", current_page_params.merge({sort: "name", category: params[:category]}), class: "btn btn-sm" do %>
           <button class="btn btn-sm active">name</button>
         <% end %>
-        <%= link_to_unless_current "number", {sort: "number", category: params[:category]}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "number", current_page_params.merge({sort: "number", category: params[:category]}), class: "btn btn-sm" do %>
           <button class="btn btn-sm active">number</button>
         <% end %>
-        <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {sort: "added", category: params[:category]}, class: "btn btn-sm" do %>
+        <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", current_page_params.merge({sort: "added", category: params[:category]}), class: "btn btn-sm" do %>
           <button class="btn btn-sm active">date added</button>
         <% end %>
       </div>
