@@ -72,7 +72,7 @@ Rails.application.routes.draw do
       resources :checkins, only: [:create], controller: :appointment_checkins
       resource :completion, only: [:create, :destroy], controller: :appointment_completions
     end
-    get "manage_features", to: "manage_features#index"
+    resources :manage_features, only: [:index, :update]
     resources :items do
       scope module: "items" do
         resources :attachments
