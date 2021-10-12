@@ -53,6 +53,7 @@ class Member < ApplicationRecord
   before_validation :downcase_email
 
   after_save :update_user_email
+  after_update :update_neon_crm, if: :can_update_neon_crm?
 
   acts_as_tenant :library
 
@@ -108,6 +109,17 @@ class Member < ApplicationRecord
 
   def update_user_email
     user.update_column(:email, email) if user && !user.new_record? # Skip validations
+  end
+
+  def update_neon_crm
+    client = Neon::Client.new(ENV.fetch("NEON_ORGANIZATION_ID"), ENV.fetch("NEON_API_KEY"))
+    account = client.search_account(email)
+    payload = Neon.member_to_account(self)
+    client.update_account(account["individualAccount"]["accountId"], account.deep_merge(payload))
+  end
+
+  def can_update_neon_crm?
+    Rails.env.production? && ENV["NEON_ORGANIZATION_ID"] && ENV["NEON_API_KEY"]
   end
 
   def strip_phone_number
