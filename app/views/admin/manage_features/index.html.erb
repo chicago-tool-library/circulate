@@ -4,7 +4,7 @@
 
 <%= form_with(model: @current_library, url:  admin_manage_feature_path(@current_library.id), builder: SpectreFormBuilder) do |form| %>
 
-  <%= form.check_box :allow_members, label: "Enable Members", hint: "Enable member creation"%>
+  <%= form.check_box :allow_members, label: "Enable Members", hint: "Enable member creation" %>
 
   <%= form.actions do %>
     <%= form.submit %>
