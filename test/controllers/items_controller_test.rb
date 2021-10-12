@@ -44,12 +44,12 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "hides #{status} items from the item index" do
-      available_item = create(:item)
+      active_item = create(:item)
       hidden_item = create(:item, status: status)
 
       get items_url
 
-      assert_match available_item.complete_number, @response.body
+      assert_match active_item.complete_number, @response.body
       refute_match hidden_item.complete_number, @response.body
     end
 
@@ -61,5 +61,35 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
       refute_match hidden_item.complete_number, @response.body
     end
+  end
+
+  test "only displays active items on the items index, when filtering by active items" do
+    active_item = create(:item, status: :active)
+    maintenance_item = create(:item, status: :maintenance)
+    pending_item = create(:item, status: :pending)
+    retired_item = create(:item, status: :retired)
+
+    get items_url(filter: "active")
+
+    assert_match active_item.complete_number, @response.body
+    refute_match maintenance_item.complete_number, @response.body
+    refute_match pending_item.complete_number, @response.body
+    refute_match retired_item.complete_number, @response.body
+  end
+
+  test "only displays active items from the category on the items index, when filtering by active items and category" do
+    active_item_category = create(:category)
+    hidden_item_category = create(:category)
+    active_item = create(:item, categories: [active_item_category])
+    maintenance_item = create(:item, status: :maintenance, categories: [active_item_category])
+    pending_item = create(:item, status: :pending, categories: [active_item_category])
+    retired_item = create(:item, status: :retired, categories: [active_item_category])
+
+    get items_url(filter: "active", category: active_item_category)
+
+    assert_match active_item.complete_number, @response.body
+    refute_match maintenance_item.complete_number, @response.body
+    refute_match pending_item.complete_number, @response.body
+    refute_match retired_item.complete_number, @response.body
   end
 end
