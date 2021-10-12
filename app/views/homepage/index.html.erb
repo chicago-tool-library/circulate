@@ -1,1 +1,20 @@
-Hello world!
+<h1>Weclome to Circulate!</h1>
+
+<%= form_for :homepage do |form| %>
+  <%= form.label :name %><br />
+  <%= form.text_field :name %><br />
+
+  <%= form.label :email %><br />
+  <%= form.email_field :email %><br />
+
+  <%= form.label :address %><br />
+  <%= form.text_field :address %><br />
+
+  <%= form.label :appartment, "Appt or unit" %><br />
+  <%= form.text_field :appartment %><br />
+
+  <%= form.label :zip %><br />
+  <%= form.text_field :zip %><br />
+
+  <%= form.submit "Submit" %>
+<% end  %>
