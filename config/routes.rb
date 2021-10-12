@@ -114,11 +114,11 @@ Rails.application.routes.draw do
       resources :items_in_maintenance, only: :index
       resources :monthly_activities, only: :index
       resources :member_requests, only: :index
+      resources :notifications, only: :index
       get "money", to: "money#index"
     end
 
     resources :items_without_image, only: :index
-    resources :notifications, only: :index
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
