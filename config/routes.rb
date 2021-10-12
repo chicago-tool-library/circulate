@@ -116,10 +116,10 @@ Rails.application.routes.draw do
       resources :notifications, only: :index
       resources :potential_volunteers, only: :index
       resources :shifts, only: :index
+      resources :items_without_image, only: :index
       get "money", to: "money#index"
     end
 
-    resources :items_without_image, only: :index
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
