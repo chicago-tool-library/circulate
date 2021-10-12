@@ -1,5 +1,7 @@
 module Signup
   class MembersController < BaseController
+    before_action :is_membership_enabled?
+
     def new
       if session[:member_id]
         redirect_to signup_agreement_url
@@ -35,6 +37,12 @@ module Signup
         :address1, :address2, :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter,
         :volunteer_interest, :password, :password_confirmation, pronouns: []
       )
+    end
+
+    def is_membership_enabled?
+      if !@current_library.allow_members?
+        render_not_found
+      end
     end
   end
 end
