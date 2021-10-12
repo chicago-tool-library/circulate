@@ -107,7 +107,7 @@ Rails.application.routes.draw do
       end
       resources :notes
     end
-    
+
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
