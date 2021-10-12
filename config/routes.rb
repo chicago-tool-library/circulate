@@ -108,16 +108,16 @@ Rails.application.routes.draw do
       end
       resources :notes
     end
-
+    
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
+      resources :monthly_activities, only: :index
       get "money", to: "money#index"
     end
 
     resources :items_without_image, only: :index
     resources :member_requests, only: :index
-    resources :monthly_activities, only: :index
     resources :notifications, only: :index
     resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
