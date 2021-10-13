@@ -84,6 +84,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     active_item_category = create(:category)
     hidden_item_category = create(:category)
     active_item = create(:item, categories: [active_item_category])
+    active_item_with_hold = create(:item, status: :active, categories: [active_item_category])
+    create(:hold, item: active_item_with_hold)
     maintenance_item = create(:item, status: :maintenance, categories: [active_item_category])
     pending_item = create(:item, status: :pending, categories: [active_item_category])
     retired_item = create(:item, status: :retired, categories: [active_item_category])
@@ -91,6 +93,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     get items_url(filter: "active", category: active_item_category)
 
     assert_match active_item.complete_number, @response.body
+    refute_match active_item_with_hold.complete_number, @response.body
     refute_match maintenance_item.complete_number, @response.body
     refute_match pending_item.complete_number, @response.body
     refute_match retired_item.complete_number, @response.body
