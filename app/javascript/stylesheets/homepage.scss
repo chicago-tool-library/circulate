@@ -28,6 +28,11 @@
   padding-right: 23px;
   .navlink {
     padding-right: 15px;
+    font-family: Proxima Nova;
+    font-size: 16px;
+    color: white;
+    letter-spacing: -0.6px;
+    font-weight: bold;
     color: white;
   }
 }
@@ -44,4 +49,13 @@
 
 .main-container {
   margin-top: 64px;
+}
+
+.homepage-nav-header {
+  font-family: Proxima Nova;
+  font-size: 24px;
+  color: white;
+  letter-spacing: -0.6px;
+  font-weight: lighter;
+  margin-bottom: 0;
 }
