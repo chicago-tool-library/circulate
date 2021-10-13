@@ -38,11 +38,5 @@ module Signup
         :volunteer_interest, :password, :password_confirmation, pronouns: []
       )
     end
-
-    def is_membership_enabled?
-      if !@current_library.allow_members?
-        render_not_found
-      end
-    end
   end
 end
