@@ -49,7 +49,7 @@ export default class extends Controller {
         this.resultsTarget.innerHTML = html;
       }
       this.toggleLoader(false);
-      document.dispatchEvent(new Event("turbolinks:load"));
+      document.dispatchEvent(new Event("turbo:load"));
     }).catch((e) => {
       this.toggleLoader(false);
       console.error(e);

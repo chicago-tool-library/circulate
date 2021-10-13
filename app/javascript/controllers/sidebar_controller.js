@@ -18,10 +18,10 @@ export default class extends Controller {
   }
 
   connect() {
-    document.addEventListener('turbolinks:before-cache', this.handleCache);
+    document.addEventListener('turbo:before-cache', this.handleCache);
   }
 
   disconnect() {
-    document.removeEventListener('turbolinks:before-cache', this.handleCache);
+    document.removeEventListener('turbo:before-cache', this.handleCache);
   }
 }

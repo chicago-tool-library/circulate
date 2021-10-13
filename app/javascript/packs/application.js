@@ -3,10 +3,9 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
-require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("@hotwired/turbo-rails")
 
 import "controllers"
 
@@ -16,7 +15,7 @@ require("@rails/actiontext")
 require.context('../images', true)
 
 const feather = require("feather-icons/dist/feather")
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener("turbo:load", function() {
   feather.replace({
     width: 20,
     height: 20,
@@ -26,7 +25,7 @@ document.addEventListener("turbolinks:load", function() {
 
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-Turbolinks.ScrollManager.prototype.scrollToElement = function(element) {
+Turbo.ScrollManager.prototype.scrollToElement = function(element) {
   let classes = element.classList;
   if (classes.contains("highlightable")) {
     classes.add("highlight");

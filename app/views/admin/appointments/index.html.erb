@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="columns">
-  <div class="col-12 admin-appointments" data-controller="appointments-index" data-action="turbolinks:load@document->appointments-index#arrange">
+  <div class="col-12 admin-appointments" data-controller="appointments-index" data-action="turbo:load@document->appointments-index#arrange">
     <ul class="pagination">
       <li class="page-item page-prev appointments-date-nav">
         <%= link_to admin_appointments_path(day: previous_day) do %>

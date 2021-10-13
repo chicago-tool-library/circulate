@@ -284,12 +284,12 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  # ==> Turbolinks configuration
-  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
+  # ==> Turbo configuration
+  # If your app is using Turbo, Turbo::Controller needs to be included to make redirection work correctly:
   #
-  ActiveSupport.on_load(:devise_failure_app) do
-    include Turbolinks::Controller
-  end
+  # ActiveSupport.on_load(:devise_failure_app) do
+  #   include Turbo::Controller
+  # end
 
   # ==> Configuration for :registerable
 

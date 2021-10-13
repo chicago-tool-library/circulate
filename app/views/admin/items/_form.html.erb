@@ -69,7 +69,7 @@
     <legend>Item Image</legend>
     <div class="columns">
       <div class="column col-4 col-sm-12">
-        <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
+        <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbo-permanent": true} %>
       </div>
       <div class="column col-4 col-sm-12">
         <%= form.check_box :delete_image, label: "Delete current image", required: false %>

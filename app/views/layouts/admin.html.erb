@@ -6,11 +6,11 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
-      <meta name="turbolinks-cache-control" content="no-preview">
+    <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbo-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbo-track': 'reload' %>
   </head>
 
   <body class="admin">
@@ -99,7 +99,7 @@
             <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_dashboard_path %></span>
 
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Lending <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -114,7 +114,7 @@
               <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
             </div>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Reports <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -130,7 +130,7 @@
               </ul>
             </div>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Settings <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -173,8 +173,8 @@
         <div class="header-header">
           <div class="container grid-lg">
             <p>
-              <%= link_to admin_renewal_requests_path do %> 
-                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>. 
+              <%= link_to admin_renewal_requests_path do %>
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>.
               <% end %>
             </p>
           </div>

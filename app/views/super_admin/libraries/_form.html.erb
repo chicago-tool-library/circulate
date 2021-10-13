@@ -7,7 +7,7 @@
   <%= form.text_field :email %>
   <%= form.text_area :address, rows: 5 %>
   <%= form.text_field :member_postal_code_pattern, hint: "E.g., <code>60707|60827|^606</code> for Chicago".html_safe %>
-  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
+  <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbo-permanent": true} %>
 
   <%= form.submit %>
 <% end %>

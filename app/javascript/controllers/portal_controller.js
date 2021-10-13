@@ -26,15 +26,15 @@ export default class extends Controller {
     }
     this.installNoCacheMetaTag();
 
-    document.dispatchEvent(new Event("turbolinks:load"));
+    document.dispatchEvent(new Event("turbo:load"));
   }
 
   installNoCacheMetaTag() {
-    let metaTag = document.querySelector("[name=turbolinks-cache-control]");
+    let metaTag = document.querySelector("[name=turbo-cache-control]");
 
     if (!metaTag) {
       let meta = document.createElement("meta");
-      meta.setAttribute("name", "turbolinks-cache-control");
+      meta.setAttribute("name", "turbo-cache-control");
       meta.setAttribute("content", "no-cache");
       document.head.appendChild(meta);
 

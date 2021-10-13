@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2021_10_06_183946) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2021_10_06_183946) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -51,20 +52,20 @@ ActiveRecord::Schema.define(version: 2021_10_06_183946) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
     "member",
-    "super_admin"
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -377,8 +378,8 @@ ActiveRecord::Schema.define(version: 2021_10_06_183946) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
-    t.string "pronunciation"
     t.integer "library_id"
+    t.string "pronunciation"
     t.index ["library_id"], name: "index_members_on_library_id"
     t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true
