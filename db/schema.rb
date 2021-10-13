@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_25_151216) do
+ActiveRecord::Schema.define(version: 2021_10_06_183946) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -377,8 +377,8 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
-    t.integer "library_id"
     t.string "pronunciation"
+    t.integer "library_id"
     t.index ["library_id"], name: "index_members_on_library_id"
     t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true
@@ -424,6 +424,8 @@ ActiveRecord::Schema.define(version: 2021_09_25_151216) do
     t.bigint "loan_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
   end
 

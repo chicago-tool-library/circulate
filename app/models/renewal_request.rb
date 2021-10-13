@@ -1,6 +1,5 @@
 class RenewalRequest < ApplicationRecord
   belongs_to :loan
-  belongs_to :loan_summary, foreign_key: "loan_id", optional: true
 
   enum status: {
     requested: "requested",
@@ -9,4 +8,6 @@ class RenewalRequest < ApplicationRecord
   }
 
   validates :status, inclusion: {in: RenewalRequest.statuses.keys}
+
+  acts_as_tenant :library
 end
