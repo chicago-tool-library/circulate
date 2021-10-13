@@ -1,20 +1,91 @@
-<h1>Weclome to Circulate!</h1>
+<div class="off-canvas" data-controller="sidebar">
 
-<%= form_for :homepage do |form| %>
-  <%= form.label :name %><br />
-  <%= form.text_field :name %><br />
+  <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
+    <ul class="nav">
+      <a href="#" class="btn btn-link navlink">About</a>
+      <a href="#" class="btn btn-link navlink">How it works</a>
+      <a href="#" class="btn btn-link navlink">Contact us</a>
+    </ul>
+  </div>
 
-  <%= form.label :email %><br />
-  <%= form.email_field :email %><br />
+  <a class="off-canvas-overlay" href="#close" data-action="sidebar#close" title="close sidebar"></a>
 
-  <%= form.label :address %><br />
-  <%= form.text_field :address %><br />
+  <div class="off-canvas-content show-sm mobile-banner">
+    <div class="mobile-banner-content">
+      <div class="logo">
+        <a href="https://chicagotoollibrary.org/">
+          <%= logo(small: true) %>
+        </a>
+      </div>
+      <h3>Circulate</h3>
+    </div>
+  </div>
 
-  <%= form.label :appartment, "Appt or unit" %><br />
-  <%= form.text_field :appartment %><br />
+  <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open" title="show sidebar nvigation">
+    <i class="icon icon-menu"></i>
+  </a>
+</div>
 
-  <%= form.label :zip %><br />
-  <%= form.text_field :zip %><br />
+<header class="navbar homepage-navbar hide-sm">
+  <section class="navbar-section">
+    <%= image_pack_tag "logo_small.png", alt: "Circulate logo", class: "homepage-navbar-logo" %>
+    <h3 class="ml-2 mb-0">Circulate</h3>
+  </section>
+  <section class="navbar-section navlink-section">
+    <a href="#" class="btn btn-link navlink">About</a>
+    <a href="#" class="btn btn-link navlink">How it works</a>
+    <a href="#" class="btn btn-link navlink">Contact us</a>
+  </section>
+</header>
 
-  <%= form.submit "Submit" %>
-<% end  %>
+<div class="container main-container">
+
+  <%= form_for :homepage do |form| %>
+    <%= form.label :name %><br />
+    <%= form.text_field :name %><br />
+
+    <%= form.label :email %><br />
+    <%= form.email_field :email %><br />
+
+    <%= form.label :address %><br />
+    <%= form.text_field :address %><br />
+
+    <%= form.label :appartment, "Appt or unit" %><br />
+    <%= form.text_field :appartment %><br />
+
+    <%= form.label :zip %><br />
+    <%= form.text_field :zip %><br />
+
+    <%= form.label :name %><br />
+    <%= form.text_field :name %><br />
+
+    <%= form.label :email %><br />
+    <%= form.email_field :email %><br />
+
+    <%= form.label :address %><br />
+    <%= form.text_field :address %><br />
+
+    <%= form.label :appartment, "Appt or unit" %><br />
+    <%= form.text_field :appartment %><br />
+
+    <%= form.label :zip %><br />
+    <%= form.text_field :zip %><br />
+
+    <%= form.label :name %><br />
+    <%= form.text_field :name %><br />
+
+    <%= form.label :email %><br />
+    <%= form.email_field :email %><br />
+
+    <%= form.label :address %><br />
+    <%= form.text_field :address %><br />
+
+    <%= form.label :appartment, "Appt or unit" %><br />
+    <%= form.text_field :appartment %><br />
+
+    <%= form.label :zip %><br />
+    <%= form.text_field :zip %><br />
+
+    <%= form.submit "Submit" %>
+  <% end  %>
+</div>
