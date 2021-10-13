@@ -146,6 +146,8 @@ class ItemTest < ActiveSupport::TestCase
     item_with_hold = create(:item)
     create(:hold, item: item_with_hold)
 
-    assert_equal Item.without_holds, [item_without_hold_1, item_without_hold_2]
+    query = Item.without_holds
+    expected_result = [item_without_hold_1, item_without_hold_2]
+    assert_equal query.sort, expected_result.sort
   end
 end
