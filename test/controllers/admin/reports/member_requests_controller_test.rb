@@ -1,8 +1,8 @@
 require "test_helper"
 
 module Admin
-  module Members
-    class RequestsControllerTest < ActionDispatch::IntegrationTest
+  module Reports
+    class MemberRequestsControllerTest < ActionDispatch::IntegrationTest
       include Devise::Test::IntegrationHelpers
 
       setup do
@@ -14,7 +14,7 @@ module Admin
       end
 
       test "should get index" do
-        get admin_member_requests_url
+        get admin_reports_member_requests_url
         assert_response :success
       end
     end
