@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
-    resources :shifts, only: :index
     resources :categories, except: :show
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
@@ -113,14 +112,15 @@ Rails.application.routes.draw do
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
+      resources :monthly_activities, only: :index
+      resources :member_requests, only: :index
+      resources :notifications, only: :index
+      resources :potential_volunteers, only: :index
+      resources :shifts, only: :index
+      resources :items_without_image, only: :index
       get "money", to: "money#index"
     end
 
-    resources :items_without_image, only: :index
-    resources :member_requests, only: :index
-    resources :monthly_activities, only: :index
-    resources :notifications, only: :index
-    resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
@@ -157,5 +157,9 @@ Rails.application.routes.draw do
 
   if Rails.env.test?
     get "/test/google_auth", to: "test#google_auth"
+  end
+
+  %w(404 422 500 503).each do |code|
+    match code, to: "errors#show", via: :all, code: code, as: "error_#{code}"
   end
 end

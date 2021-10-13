@@ -28,10 +28,10 @@ namespace :export do
     path = Rails.root + "exports" + "members-#{now}.csv"
     puts "writing member info to #{path}"
 
-    member_columns = %w{preferred_name first_name middle_name last_name email phone_number status address1 address2 city region postal_code number pronouns volunteer_interest level}
+    member_columns = %w[preferred_name first_name middle_name last_name email phone_number status address1 address2 city region postal_code number pronouns volunteer_interest level]
     max_memberships = 3
     membership_columns = max_memberships.times.flat_map { |n|
-      ["membership_started#{n+1}", "membership_ended#{n+1}", "membership_amount#{n+1}"]
+      ["membership_started#{n + 1}", "membership_ended#{n + 1}", "membership_amount#{n + 1}"]
     }
 
     CSV.open(path, "wb") do |csv|
@@ -43,9 +43,9 @@ namespace :export do
         level = member.memberships.any?
         name_parts = member.full_name.split(" ")
         names = if name_parts.size == 2
-          [name_parts[0], '', name_parts[1]]
+          [name_parts[0], "", name_parts[1]]
         else
-          [name_parts[0], name_parts[1], name_parts[2..-1]&.join(' ')]
+          [name_parts[0], name_parts[1], name_parts[2..-1]&.join(" ")]
         end
         row = [
           member.preferred_name,
@@ -59,11 +59,11 @@ namespace :export do
           member.region,
           member.postal_code,
           member.number,
-          member.pronouns.join(' '),
+          member.pronouns.join(" "),
           member.volunteer_interest,
           level
         ]
-        
+
         member.memberships.order("created_at ASC").each do |membership|
           row << membership.started_at&.to_date&.strftime("%m/%d/%Y")
           row << membership.ended_at&.to_date&.strftime("%m/%d/%Y")
@@ -97,7 +97,7 @@ namespace :export do
             item.complete_number,
             item.borrow_policy.code,
             item.number,
-            item.category_nodes.map{|cn| cn.path_names.join("//")}.sort.join("; "),
+            item.category_nodes.map { |cn| cn.path_names.join("//") }.sort.join("; "),
             *item.attributes.values_at(*columns)
           ]
         end
@@ -119,7 +119,7 @@ namespace :export do
       ]
       CategoryNode.in_batches(of: 100) do |nodes|
         nodes.each do |node|
-          csv << [ 
+          csv << [
             node.id,
             node.name,
             node.path_names.join("//"),
@@ -129,5 +129,4 @@ namespace :export do
       end
     end
   end
-
 end
