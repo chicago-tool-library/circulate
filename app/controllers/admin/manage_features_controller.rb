@@ -11,7 +11,7 @@ module Admin
         Library.find(@current_library.id).update_column :allow_members, params[:library][:allow_members]
         redirect_to admin_manage_features_url, success: "You have successfully updated the library"
       else
-        redirect_to admin_manage_features_url, warning: "That's already the status!"
+        redirect_to admin_manage_features_url, warning: "You didn't make any changes"
       end
     end
   end
