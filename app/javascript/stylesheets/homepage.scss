@@ -47,10 +47,6 @@
   margin-top: 13px;
 }
 
-.main-container {
-  margin-top: 64px;
-}
-
 .homepage-nav-header {
   font-family: Proxima Nova;
   font-size: 24px;
@@ -58,4 +54,51 @@
   letter-spacing: -0.6px;
   font-weight: lighter;
   margin-bottom: 0;
+}
+
+.main-container {
+  margin-top: 128px;
+}
+
+.mb-lg {
+  margin-bottom: 32px;
+}
+
+.mb-xl {
+  margin-bottom: 32px;
+}
+
+.pr-4 {
+  padding-right: 32px;
+}
+
+.pl-4 {
+  padding-left: 32px;
+}
+
+.header-text {
+  font-family: Proxima Nova;
+  font-size: 48px;
+  letter-spacing: -0.6px;
+  font-weight: lighter;
+}
+
+.body-text {
+  font-family: Proxima Nova;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.items-img {
+  width: 100%;
+}
+
+.primary-button {
+  font-family: Proxima Nova;
+  color: white;
+  width: 126px;
+  height: 48px;
+  background: #42768D;
+  border-radius: 4px;
+  border: none;
 }

@@ -9,7 +9,6 @@
         <ul class="menu dropdown-menu">
           <li><a href="#" class="btn btn-link navlink">About Us</a></li>
           <li><a href="#" class="btn btn-link navlink">How It Works</a></li>
-          <li><a href="#" class="btn btn-link navlink">Video Description</a></li>
           <li><a href="#" class="btn btn-link navlink">Contact us</a></li>
         </ul>
       </div>
@@ -28,44 +27,39 @@
   <section class="navbar-section navlink-section">
     <a href="#" class="btn btn-link navlink">About Us</a>
     <a href="#" class="btn btn-link navlink">How It Works</a>
-    <a href="#" class="btn btn-link navlink">Video Description</a>
     <a href="#" class="btn btn-link navlink">Contact us</a>
   </section>
 </header>
 
-<div class="container main-container">
+<div class="container grid-xl main-container">
+  <p class="header-text text-center mb-lg">Software for Lending Libraries</p>
+  <div class="columns col-oneline mb-xl">
+    <div class="column col-6 pr-4">
+      <%= image_pack_tag "items.png", alt: "Items example", class: "items-img" %>
+    </div>
+    <div class="column col-6 pl-4">
+      <p class="body-text">
+        CIRCULATE is an <a href="https://github.com/rubyforgood/circulate">open source</a> lending library software solution backed by <a href="https://rubyforgood.org/">Ruby for Good</a> that allows community libraries lend out tools, insert another item here, and another one here, and more.
+
+        <br /><br />
+
+        Dui id ornare arcu odio ut sem nulla pharetra. Egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam. Ultricies tristique nulla aliquet enim tortor at auctor. Sed felis eget velit aliquet sagittis id consectetur purus ut.
+
+        <br /><br />
+
+        Lorem ipsum dolor sit amet consectetur adipiscing elit duis. Facilisis sed odio morbi quis commodo odio aenean sed adipiscing. Lectus quam id leo in vitae turpis massa sed. Adipiscing enim eu turpis egestas pretium aenean pharetra. Nibh cras pulvinar mattis nunc sed blandit libero.
+
+        <br /><br />
+
+        Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Vel quam elementum pulvinar etiam. Vitae semper quis lectus nulla at. Dui ut ornare lectus sit amet est placerat. Euismod elementum nisi quis eleifend quam. Dolor sit amet consectetur adipiscing. Sed tempus urna et pharetra pharetra massa massa. Non arcu risus quis varius. Dui nunc mattis enim ut. Nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices.
+      </p>
+
+      <button class="primary-button">Learn More</button>
+    </div>
+  </div>
+
 
   <%= form_for :homepage do |form| %>
-    <%= form.label :name %><br />
-    <%= form.text_field :name %><br />
-
-    <%= form.label :email %><br />
-    <%= form.email_field :email %><br />
-
-    <%= form.label :address %><br />
-    <%= form.text_field :address %><br />
-
-    <%= form.label :appartment, "Appt or unit" %><br />
-    <%= form.text_field :appartment %><br />
-
-    <%= form.label :zip %><br />
-    <%= form.text_field :zip %><br />
-
-    <%= form.label :name %><br />
-    <%= form.text_field :name %><br />
-
-    <%= form.label :email %><br />
-    <%= form.email_field :email %><br />
-
-    <%= form.label :address %><br />
-    <%= form.text_field :address %><br />
-
-    <%= form.label :appartment, "Appt or unit" %><br />
-    <%= form.text_field :appartment %><br />
-
-    <%= form.label :zip %><br />
-    <%= form.text_field :zip %><br />
-
     <%= form.label :name %><br />
     <%= form.text_field :name %><br />
 
