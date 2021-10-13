@@ -710,6 +710,11 @@ form.membership-amount {
   }
 }
 
+// delete when homepage is relocated
+.homepage {
+  background-color: white !important;
+}
+
 @keyframes highlight-fade-out {
   from {
     background-color: antiquewhite;
