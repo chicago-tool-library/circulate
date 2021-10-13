@@ -52,6 +52,7 @@ jobs:
         if: matrix.test == 'system'
         run: |
           sudo apt-get update -y
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
           sudo apt-get install ttf-mscorefonts-installer
           sudo fc-cache -f -v
 
