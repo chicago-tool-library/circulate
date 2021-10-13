@@ -5,7 +5,7 @@ module Admin
     end
 
     def update
-      checked_value = { "0": false, "1": true }
+      checked_value = {"0": false, "1": true}
 
       if checked_value[params[:library][:allow_members].to_sym] != @current_library.allow_members
         Library.find(@current_library.id).update_column :allow_members, params[:library][:allow_members]
