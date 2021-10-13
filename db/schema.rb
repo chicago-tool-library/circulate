@@ -379,8 +379,8 @@ ActiveRecord::Schema.define(version: 2021_10_12_153401) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
-    t.string "pronunciation"
     t.integer "library_id"
+    t.string "pronunciation"
     t.index ["library_id"], name: "index_members_on_library_id"
     t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true

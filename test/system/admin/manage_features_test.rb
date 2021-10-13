@@ -5,7 +5,7 @@ class ManageFeaturesTest < ApplicationSystemTestCase
     sign_in_as_admin
   end
 
-  test "do not update allowing members for library" do
+  test "do not update allowing member signups for library" do
     audited_as_admin do
       @current_library = create(:library)
     end
@@ -15,5 +15,18 @@ class ManageFeaturesTest < ApplicationSystemTestCase
     click_on "Update Library"
 
     assert_text "You didn't make any changes"
+  end
+
+  test "updates allowing member signups for library" do
+    audited_as_admin do
+      @current_library = create(:library)
+    end
+
+    visit admin_manage_features_url
+
+    find(".form-checkbox").click
+    click_on "Update Library"
+
+    assert_text "You have successfully updated the library"
   end
 end
