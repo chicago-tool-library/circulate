@@ -1,29 +1,23 @@
-<div class="off-canvas" data-controller="sidebar">
-
-  <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
-    <ul class="nav">
-      <a href="#" class="btn btn-link navlink">About</a>
-      <a href="#" class="btn btn-link navlink">How it works</a>
-      <a href="#" class="btn btn-link navlink">Contact us</a>
-    </ul>
-  </div>
-
-  <a class="off-canvas-overlay" href="#close" data-action="sidebar#close" title="close sidebar"></a>
-
-  <div class="off-canvas-content show-sm mobile-banner">
-    <div class="mobile-banner-content">
-      <div class="logo">
-        <a href="https://chicagotoollibrary.org/">
-          <%= logo(small: true) %>
+<div class="homepage-navbar show-sm">
+  <div class="columns ">
+    <div class="dropdown">
+      <div class="btn-group">
+        <a href="#" class="btn dropdown-toggle menu-button" tabindex="0">
+          <i class="icon icon-menu"></i>
         </a>
-      </div>
-      <h3>Circulate</h3>
-    </div>
-  </div>
 
-  <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open" title="show sidebar nvigation">
-    <i class="icon icon-menu"></i>
-  </a>
+        <ul class="menu dropdown-menu">
+          <li><a href="#" class="btn btn-link navlink">About Us</a></li>
+          <li><a href="#" class="btn btn-link navlink">How It Works</a></li>
+          <li><a href="#" class="btn btn-link navlink">Video Description</a></li>
+          <li><a href="#" class="btn btn-link navlink">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <%= image_pack_tag "logo_small.png", alt: "Circulate logo", class: "homepage-mobile-navbar-logo" %>
+    <h3 class="mb-0">Circulate</h3>
+    </div>
 </div>
 
 <header class="navbar homepage-navbar hide-sm">
@@ -32,8 +26,9 @@
     <h3 class="ml-2 mb-0">Circulate</h3>
   </section>
   <section class="navbar-section navlink-section">
-    <a href="#" class="btn btn-link navlink">About</a>
-    <a href="#" class="btn btn-link navlink">How it works</a>
+    <a href="#" class="btn btn-link navlink">About Us</a>
+    <a href="#" class="btn btn-link navlink">How It Works</a>
+    <a href="#" class="btn btn-link navlink">Video Description</a>
     <a href="#" class="btn btn-link navlink">Contact us</a>
   </section>
 </header>

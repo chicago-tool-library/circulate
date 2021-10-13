@@ -6,10 +6,13 @@
   width: 32px;
   height: 32px;
   margin-left: 32px;
-  img {
-    width: 100%;
+}
 
-  }
+.homepage-mobile-navbar-logo {
+  width: 32px;
+  height: 32px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .homepage-navbar {
@@ -27,6 +30,16 @@
     padding-right: 15px;
     color: white;
   }
+}
+
+.menu-button {
+  margin-left: 16px;
+  background-color: #42768D;
+}
+
+.dropdown-menu {
+  min-width: 610px !important;
+  margin-top: 13px;
 }
 
 .main-container {
