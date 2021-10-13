@@ -60,6 +60,7 @@ class Item < ApplicationRecord
   scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }
   scope :without_holds, -> { left_outer_joins(:holds).where(holds: { id: nil }) }
   scope :with_uniquely_numbered_borrow_policy, -> { joins(:borrow_policy).where(borrow_policies: { uniquely_numbered: true }) }
+  scope :without_any_holds, -> { left_outer_joins(:holds).where(holds: { id: nil }) }
 
   scope :by_name, -> { order(name: :asc) }
 

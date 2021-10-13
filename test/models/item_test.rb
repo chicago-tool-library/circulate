@@ -140,16 +140,29 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal item.active_holds.count, 0
   end
 
-  test ".without_holds" do
+  test ".without_any_holds" do
     item_without_hold_1 = create(:item)
     item_without_hold_2 = create(:item)
     item_with_hold = create(:item)
     create(:hold, item: item_with_hold)
 
-    query = Item.without_holds
+    query = Item.without_any_holds
     expected_result = [item_without_hold_1, item_without_hold_2]
     assert_equal query.sort, expected_result.sort
   end
+
+  test ".without_active_holds" do
+    freeze_time do
+      started_hold = create(:started_hold)
+      expired_hold = create(:expired_hold)
+      ended_hold = create(:ended_hold)
+
+      query = Item.without_active_holds
+      expected_result = [expired_hold.item, ended_hold.item]
+      assert_equal query.sort, expected_result.sort
+    end
+  end
+
   test ".with_uniquely_numbered_borrow_policy" do
     borrow_policy = create(:unnumbered_borrow_policy)
     screwdriver = create(:item, borrow_policy: borrow_policy, name: "screwdriver")
