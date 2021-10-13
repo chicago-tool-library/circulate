@@ -6,16 +6,16 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta charset="utf-8">
-    <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
-      <meta name="turbolinks-cache-control" content="no-cache">
+    <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbo-cache-control" content="no-cache">
     <% end %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload", defer: true %>
-    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_include_tag "application", 'data-turbo-track': "reload", defer: true %>
+    <%= stylesheet_link_tag "application", media: "all", 'data-turbo-track': "reload" %>
 
     <% if Rails.env.production? %>
       <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
       <script>
-          document.addEventListener("turbolinks:load", function() {
+          document.addEventListener("turbo:load", function() {
               Weglot.initialize({
                   api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key").to_json %>'
               });
@@ -26,7 +26,7 @@
 
   <%= tag.body class: "public #{@body_class}" do %>
 
-    <div class="accessibility-links" role="navigation" data-turbolinks="false">
+    <div class="accessibility-links" role="navigation" data-turbo="false">
       <%= link_to "Skip to content", "#content-start" %>
     </div>
 

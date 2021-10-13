@@ -1,8 +1,7 @@
-import Rails from "@rails/ujs"
-Rails.start()
+// import Rails from "@rails/ujs"
+// Rails.start()
 
-import Turbolinks from "turbolinks"
-Turbolinks.start()
+import "@hotwired/turbo-rails"
 
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
@@ -21,15 +20,15 @@ document.addEventListener("turbolinks:load", function() {
   });
 })
 
-import scrollIntoView from 'smooth-scroll-into-view-if-needed';
-
-Turbolinks.ScrollManager.prototype.scrollToElement = function(element) {
-  let classes = element.classList;
-  if (classes.contains("highlightable")) {
-    classes.add("highlight");
-  }
-  scrollIntoView(element, {
-    behavior: 'smooth',
-    scrollMode: 'if-needed',
-  });
-}
+// import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+// 
+// Turbo.ScrollManager.prototype.scrollToElement = function(element) {
+//   let classes = element.classList;
+//   if (classes.contains("highlightable")) {
+//     classes.add("highlight");
+//   }
+//   scrollIntoView(element, {
+//     behavior: 'smooth',
+//     scrollMode: 'if-needed',
+//   });
+// }

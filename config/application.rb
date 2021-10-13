@@ -41,7 +41,7 @@ module Circulate
     config.active_storage.variant_processor = :mini_magick
     config.active_job.queue_adapter = :sucker_punch
     config.action_dispatch.cookies_same_site_protection = nil
-    config.action_view.form_with_generates_remote_forms = true
+    config.action_view.form_with_generates_remote_forms = false
     ActiveSupport.utc_to_local_returns_utc_offset_times = false
 
     # Delegates exception handling to the routes

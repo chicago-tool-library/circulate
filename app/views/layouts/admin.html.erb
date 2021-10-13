@@ -6,11 +6,11 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
-      <meta name="turbolinks-cache-control" content="no-preview">
+    <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbo-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
-    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_include_tag "application", 'data-turbo-track': "reload" %>
+    <%= stylesheet_link_tag "application", media: "all", 'data-turbo-track': "reload" %>
   </head>
 
   <body class="admin">
@@ -110,7 +110,7 @@
             <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_dashboard_path %></span>
 
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Lending <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -127,7 +127,7 @@
               </div>
             <% end %>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Reports <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -145,7 +145,7 @@
               </ul>
             </div>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Settings <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">

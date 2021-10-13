@@ -15,9 +15,6 @@ gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
 gem "puma"
 
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.11"
 
@@ -32,7 +29,6 @@ gem "acts_as_tenant"
 gem "devise"
 gem "pundit"
 gem "audited"
-gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
@@ -60,6 +56,8 @@ gem "dotenv-rails"
 gem "appsignal"
 
 gem "chronic"
+gem "turbo-rails"
+gem "stimulus-rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
