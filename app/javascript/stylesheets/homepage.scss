@@ -56,24 +56,12 @@
   margin-bottom: 0;
 }
 
+.container {
+  padding-bottom: 0 !important;
+}
+
 .main-container {
   margin-top: 128px;
-}
-
-.mb-lg {
-  margin-bottom: 32px;
-}
-
-.mb-xl {
-  margin-bottom: 32px;
-}
-
-.pr-4 {
-  padding-right: 32px;
-}
-
-.pl-4 {
-  padding-left: 32px;
 }
 
 .header-text {
@@ -101,4 +89,32 @@
   background: #42768D;
   border-radius: 4px;
   border: none;
+}
+
+.background-cream {
+  background: #F8F6F2;
+}
+
+.mb-lg {
+  margin-bottom: 32px;
+}
+
+.mb-xl {
+  margin-bottom: 64px;
+}
+
+.pb-xl {
+  padding-bottom: 64px;
+}
+
+.pr-4 {
+  padding-right: 32px;
+}
+
+.pl-4 {
+  padding-left: 32px;
+}
+
+.pt-xl {
+  padding-top: 64px;
 }
