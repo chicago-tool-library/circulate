@@ -150,4 +150,14 @@ class ItemTest < ActiveSupport::TestCase
     expected_result = [item_without_hold_1, item_without_hold_2]
     assert_equal query.sort, expected_result.sort
   end
+  test ".with_uniquely_numbered_borrow_policy" do
+    borrow_policy = create(:unnumbered_borrow_policy)
+    screwdriver = create(:item, borrow_policy: borrow_policy, name: "screwdriver")
+    table_saw =  create(:item, name: "table saw")
+    sander =  create(:item, name: "sander")
+
+    query = Item.with_uniquely_numbered_borrow_policy
+    expected_result = [table_saw, sander]
+    assert_equal query.sort, expected_result.sort
+  end
 end

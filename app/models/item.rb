@@ -59,6 +59,7 @@ class Item < ApplicationRecord
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
   scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }
   scope :without_holds, -> { left_outer_joins(:holds).where(holds: { id: nil }) }
+  scope :with_uniquely_numbered_borrow_policy, -> { joins(:borrow_policy).where(borrow_policies: { uniquely_numbered: true }) }
 
   scope :by_name, -> { order(name: :asc) }
 
