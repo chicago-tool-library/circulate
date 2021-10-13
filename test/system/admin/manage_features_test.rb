@@ -14,6 +14,6 @@ class ManageFeaturesTest < ApplicationSystemTestCase
 
     click_on "Update Library"
 
-    assert_text "That's already the status!"
+    assert_text "You didn't make any changes"
   end
 end
