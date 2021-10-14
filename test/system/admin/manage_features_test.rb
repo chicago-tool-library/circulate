@@ -24,7 +24,7 @@ class ManageFeaturesTest < ApplicationSystemTestCase
 
     visit admin_manage_features_url
 
-    find(".form-checkbox").click
+    find("label", text: "Enable Member Signup").click
     click_on "Update Library"
 
     assert_text "You have successfully updated the library"
