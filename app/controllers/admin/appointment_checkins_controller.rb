@@ -1,5 +1,7 @@
 module Admin
   class AppointmentCheckinsController < BaseController
+    before_action :are_appointments_enabled?
+
     include Lending
 
     def create

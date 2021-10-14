@@ -1,5 +1,7 @@
 module Admin
   class AppointmentCompletionsController < BaseController
+    before_action :are_appointments_enabled?
+
     include PortalRendering
 
     def create
