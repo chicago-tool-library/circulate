@@ -3,9 +3,16 @@ class ItemsController < ApplicationController
 
   def index
     item_scope = Item.listed_publicly.includes(:checked_out_exclusive_loan)
+    item_ids_to_remove = []
 
     if params[:filter] == "active"
-      item_scope = item_scope.active.without_holds
+      uniquely_numbered_items = item_scope.active.with_uniquely_numbered_borrow_policy.pluck(:id)
+      items_with_active_holds = item_scope.active.with_active_holds.pluck(:id)
+      item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
+      items_not_active = Item.not_active.pluck(:id)
+      items_not_active.each do |item|
+        item_ids_to_remove << item
+      end
     end
 
     if params[:category]
@@ -13,16 +20,28 @@ class ItemsController < ApplicationController
       redirect_to(items_path, error: "Category not found") && return unless @category
 
       if params[:filter] == "active"
-        item_scope = @category.items.active.without_holds.listed_publicly.distinct
+        item_scope = @category.items.active.listed_publicly.distinct
+        uniquely_numbered_items = @category.items.active.with_uniquely_numbered_borrow_policy.pluck(:id)
+        items_with_active_holds = @category.items.active.with_active_holds.pluck(:id)
+        item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
       else
         item_scope = @category.items.listed_publicly.distinct
       end
     end
 
-    item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
+    # Some products are always available, for all intents and purposes. For a tool library, this includes things like
+    # screwdrivers and other smaller hand tools.
+    always_available_items = Item.always_available.pluck(:id)
+
+    without_rejected = item_scope.pluck(:id).reject { |item| item_ids_to_remove.include? item }
+    always_available_items.each do |item|
+      without_rejected << item
+    end
+
+    items_to_display = Item.where(id: without_rejected).includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
 
     @categories = CategoryNode.with_items
-    @pagy, @items = pagy(item_scope)
+    @pagy, @items = pagy(items_to_display)
   end
 
   def show

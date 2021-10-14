@@ -59,8 +59,10 @@ class Item < ApplicationRecord
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
   scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }
   scope :without_holds, -> { left_outer_joins(:holds).where(holds: { id: nil }) }
+  scope :always_available, -> { joins(:borrow_policy).where(borrow_policies: { uniquely_numbered: false }) }
   scope :with_uniquely_numbered_borrow_policy, -> { joins(:borrow_policy).where(borrow_policies: { uniquely_numbered: true }) }
   scope :without_any_holds, -> { left_outer_joins(:holds).where(holds: { id: nil }) }
+  scope :not_active, -> { where.not(id: active) }
 
   scope :by_name, -> { order(name: :asc) }
 
@@ -90,6 +92,11 @@ class Item < ApplicationRecord
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
     joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
+  end
+
+  def self.with_active_holds
+    active_holds = Hold.active
+    where(id: active_holds.pluck(:item_id))
   end
 
   def assign_number
