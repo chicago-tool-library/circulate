@@ -11,8 +11,8 @@ module Renewal
 
     def load_steps
       agreement = Document.agreement
-      if @current_library.allow_payments?
-        @steps = [
+      @steps = if @current_library.allow_payments?
+        [
           Step.new(:rules, name: "Rules"),
           Step.new(:profile, name: "Profile"),
           Step.new(:agreement, name: agreement.name),
@@ -20,7 +20,7 @@ module Renewal
           Step.new(:complete, name: "Complete")
         ]
       else
-        @steps = [
+        [
           Step.new(:rules, name: "Rules"),
           Step.new(:profile, name: "Profile"),
           Step.new(:agreement, name: agreement.name),
