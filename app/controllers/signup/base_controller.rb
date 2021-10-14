@@ -5,6 +5,12 @@ module Signup
 
     layout "steps"
 
+    def is_membership_enabled?
+      if !@current_library.allow_members?
+        render_not_found
+      end
+    end
+
     private
 
     def load_member

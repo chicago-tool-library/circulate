@@ -58,6 +58,7 @@
               <li class="nav-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
               <% if current_user.admin? %>
                 <li class="nav-item"><%= link_to "Users", admin_users_path %></li>
+                <li class="nav-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
               <% end %>
             </ul>
           </li>
@@ -140,6 +141,7 @@
                 <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
                 <% if current_user.has_role?(:admin) %>
                   <li class="menu-item"><%= link_to "Users", admin_users_path %></li>
+                  <li class="menu-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
                 <% end %>
                 <% if current_user.has_role?(:super_admin) %>
                   <li class="menu-item"><%= link_to "Libraries", super_admin_libraries_path %></li>
@@ -173,8 +175,8 @@
         <div class="header-header">
           <div class="container grid-lg">
             <p>
-              <%= link_to admin_renewal_requests_path do %> 
-                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>. 
+              <%= link_to admin_renewal_requests_path do %>
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>.
               <% end %>
             </p>
           </div>

@@ -29,7 +29,9 @@
 
     <div class="callout-box">
       <ul>
+      <% if @current_library.allow_members? %>
         <li>If you don't have a membership with us yet, <%= link_to "sign up online", signup_path %>.</li>
+      <% end %>
         <li>If you need to choose or don't remember your password, <%= link_to "reset your password", new_user_password_path %>.</li>
       </ul>
   </div>
