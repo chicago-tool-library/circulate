@@ -4,6 +4,7 @@ class HomepageController < ApplicationController
   def index; end
 
   def create
+    byebug
     redirect_to homepage_index_path
   end
 end

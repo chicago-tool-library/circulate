@@ -169,6 +169,62 @@
   </div>
 </div>
 
+<div class="container grid-sm pt-xl mb-xl">
+  <p class="header-text text-center mb-lg">Get Started</p>
+  <p class="body-text text-center mb-lg">
+    Maecenas ultricies mi eget mauris pharetra et. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Viverra ipsum nunc aliquet bibendum enim facilisis. Sagittis eu volutpat odio facilisis mauris sit.
+  </p>
+
+  <div class="column col-12 full-width">
+    <form id="get-started" method="post">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="form-group">
+        <label class="form-label" for="homepage_name">Name</label>
+        <input class="form-input input-height" type="text" name="homepage[name]" id="homepage_name">
+
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input input-height" type="email" name="homepage[email]" id="homepage_email">
+
+        <div class="columns col-oneline">
+          <div class="column col-6 pr-1">
+            <label class="form-label" for="city">City</label>
+            <input class="form-input input-height" type="text" name="homepage[city]" id="homepage_city">
+          </div>
+          <div class="column col-6 pl-1">
+            <label class="form-label" for="state">State</label>
+            <select class="form-select input-height round" name="homepage[state]" id="homepage_state">
+              <option>Select one</option>
+              <option>Slack</option>
+              <option>Skype</option>
+              <option>Hipchat</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="form-label" for="country">Country</label>
+        <select class="form-select input-height" name="homepage[country]" id="homepage_country">
+          <option>Select one</option>
+          <option>Slack</option>
+          <option>Skype</option>
+          <option>Hipchat</option>
+        </select>
+
+        <label class="form-label" for="description">Which best describes you?</label>
+        <select class="form-select input-height" name="homepage[description]" id="homepage_description">
+          <option>Select one</option>
+          <option>Slack</option>
+          <option>Skype</option>
+          <option>Hipchat</option>
+        </select>
+
+        <label class="form-label" for="inventory">Items in your inventory (optional)</label>
+        <textarea class="form-input" name="homepage[inventory]"id="homepage_inventory" placeholder="If you are a part of an existing lending organization, what kinds of items are in your inventory?" rows="4"></textarea>
+
+        <button class="btn input-group-btn mt-md" type="submit" form="get-started">Send</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="background-blue">
   <div class="container grid-sm pt-xl">
@@ -196,25 +252,6 @@
     </div>
   </div>
 </div>
-
-  <%# form_for :homepage do |form| %>
-    <%# form.label :name %>
-    <%# form.text_field :name %>
-
-    <%# form.label :email %>
-    <%# form.email_field :email %>
-
-    <%# form.label :address %>
-    <%# form.text_field :address %>
-
-    <%# form.label :appartment, "Appt or unit" %>
-    <%# form.text_field :appartment %>
-
-    <%# form.label :zip %>
-    <%# form.text_field :zip %>
-
-    <%# form.submit "Submit" %>
-  <%# end  %>
 
 <%# <footer>
   <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> or visit their website to learn how to attribute.

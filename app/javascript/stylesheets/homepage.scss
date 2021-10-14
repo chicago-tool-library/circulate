@@ -1,3 +1,45 @@
+button[type=submit] {
+  width: 75px;
+  height: 47px;
+  background: #42768D;
+  border-radius: 4px;
+  border: none;
+  font-family: Proxima Nova;
+  font-size: 16px;
+  color: white;
+}
+
+.form-group {
+  .form-select,
+  textarea,
+  input[type="text"],
+  input[type="email"] {
+    border: 1px solid rgba(64, 55, 49, 0.25);
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    font-family: Proxima Nova;
+    font-size: 16px;
+    color: rgba(64, 55, 49, 0.75);
+    font-weight: lighter;
+    resize: none;
+  }
+}
+
+.input-height {
+  height: 49px;
+}
+
+label {
+  font-family: Proxima Nova;
+  font-size: 12px;
+  letter-spacing: 1.12px;
+  text-transform: uppercase;
+  color: rgba(64, 55, 49, 0.75);
+  padding-top: 16px !important;
+  padding-bottom: 8px !important;
+}
+
 .background-white {
   background-color: white;
 }
@@ -21,6 +63,7 @@
   margin-bottom: 0 !important;
   background-color: #42768D;
   position: fixed;
+  z-index: 1000;
   width: 100%;
 }
 
@@ -160,6 +203,10 @@
   margin-bottom: 64px;
 }
 
+.mt-md {
+  margin-top: 16px;
+}
+
 .pb-lg {
   padding-bottom: 32px;
 }
@@ -168,12 +215,20 @@
   padding-bottom: 64px;
 }
 
+.pr-1 {
+  padding-right: 4px;
+}
+
 .pr-3 {
   padding-right: 16px;
 }
 
 .pr-4 {
   padding-right: 32px;
+}
+
+.pl-1 {
+  padding-left: 4px;
 }
 
 .pl-3 {
@@ -187,3 +242,5 @@
 .pt-xl {
   padding-top: 64px;
 }
+
+// FIX MARGIN/PADDING CLASS NAMES
