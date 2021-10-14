@@ -6,7 +6,7 @@ module Volunteer
     before_action :volunteers_allowed?
 
     def volunteers_allowed?
-      redirect_to account_home_path, error: "We are not taking any volunteers at the moment" unless @current_library.allow_volunteers?
+      redirect_to account_home_path, error: "We are not scheduling volunteer shifts on this calendar at this time" unless @current_library.allow_volunteers?
     end
 
     def index
