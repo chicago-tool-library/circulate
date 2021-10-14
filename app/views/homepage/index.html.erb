@@ -203,11 +203,9 @@
             </div>
             <div class="column col-6 pl-1">
               <label class="form-label" for="state">State</label>
-              <select class="form-select input-height round" name="homepage[state]" id="homepage_state">
-                <option>Select one</option>
-                <option>Slack</option>
-                <option>Skype</option>
-                <option>Hipchat</option>
+              <select class="form-select input-height round" name="homepage[state]" id="homepage_state" required>
+                <option selected>Select one</option>
+                <%= options_for_select(@state_options) %>
               </select>
             </div>
           </div>
@@ -215,19 +213,15 @@
           <a id="contact-us"></a>
 
           <label class="form-label" for="country">Country</label>
-          <select class="form-select input-height" name="homepage[country]" id="homepage_country">
-            <option>Select one</option>
-            <option>Slack</option>
-            <option>Skype</option>
-            <option>Hipchat</option>
+          <select class="form-select input-height" name="homepage[country]" id="homepage_country" required>
+            <option disabled selected value>Select one</option>
+            <%= options_for_select(@country_options) %>
           </select>
 
           <label class="form-label" for="description">Which best describes you?</label>
-          <select class="form-select input-height" name="homepage[description]" id="homepage_description">
-            <option>Select one</option>
-            <option>Slack</option>
-            <option>Skype</option>
-            <option>Hipchat</option>
+          <select class="form-select input-height" name="homepage[description]" id="homepage_description" required>
+            <option disabled selected value>Select one</option>
+            <%= options_for_select(@description_options) %>
           </select>
 
           <label class="form-label" for="inventory">Items in your inventory (optional)</label>
@@ -271,5 +265,4 @@
   <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> or visit their website to learn how to attribute.
 </footer> %>
 
-<%# make links do something %>
 <%# populate dropdowns %>
