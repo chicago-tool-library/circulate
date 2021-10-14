@@ -71,15 +71,23 @@
   font-weight: lighter;
 }
 
+.sub-header-text {
+  font-family: Proxima Nova;
+  font-size: 36px;
+  letter-spacing: -0.6px;
+  font-weight: lighter;
+}
+
 .body-text {
   font-family: Proxima Nova;
   font-size: 16px;
   font-weight: lighter;
 }
 
-.items-img {
+.full-width {
   width: 100%;
 }
+
 
 .primary-button {
   font-family: Proxima Nova;
@@ -93,6 +101,37 @@
 
 .background-cream {
   background: #F8F6F2;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.video-container iframe,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+}
+
+.video-wrap {
+  width: 100%;
+  max-width: 600px;
 }
 
 .mb-lg {
