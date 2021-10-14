@@ -31,10 +31,10 @@ class ItemsController < ApplicationController
 
     # Some products are always available, for all intents and purposes. For a tool library, this includes things like
     # screwdrivers and other smaller hand tools.
-    always_available_items = Item.always_available.pluck(:id)
+    uncounted_items = Item.uncounted.pluck(:id)
 
     without_rejected = item_scope.pluck(:id).reject { |item| item_ids_to_remove.include? item }
-    always_available_items.each do |item|
+    uncounted_items.each do |item|
       without_rejected << item
     end
 
