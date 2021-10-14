@@ -9,6 +9,20 @@ button[type=submit] {
   color: white;
 }
 
+label {
+  font-family: Proxima Nova;
+  font-size: 12px;
+  letter-spacing: 1.12px;
+  text-transform: uppercase;
+  color: rgba(64, 55, 49, 0.75);
+  padding-top: 16px !important;
+  padding-bottom: 8px !important;
+}
+
+p {
+  margin: 0 0 0;
+}
+
 .form-group {
   .form-select,
   textarea,
@@ -28,16 +42,6 @@ button[type=submit] {
 
 .input-height {
   height: 49px;
-}
-
-label {
-  font-family: Proxima Nova;
-  font-size: 12px;
-  letter-spacing: 1.12px;
-  text-transform: uppercase;
-  color: rgba(64, 55, 49, 0.75);
-  padding-top: 16px !important;
-  padding-bottom: 8px !important;
 }
 
 .background-white {
@@ -104,14 +108,24 @@ label {
 }
 
 .main-container {
-  margin-top: 128px;
+  @media only screen and (max-width: 840px) {
+    margin-top: 96px;
+  }
+  @media only screen and (min-width: 841px) {
+    margin-top: 128px;
+  }
 }
 
 .header-text {
   font-family: Proxima Nova;
-  font-size: 48px;
   letter-spacing: -0.6px;
   font-weight: lighter;
+  @media only screen and (max-width: 840px) {
+    font-size: 28px;
+  }
+  @media only screen and (min-width: 841px) {
+    font-size: 48px;
+  }
 }
 
 .header-nav-text {
@@ -121,11 +135,23 @@ label {
   letter-spacing: -0.6px;
 }
 
+.text-md-center {
+  @media only screen and (max-width: 840px) {
+    text-align: center;
+  }
+}
+
 .sub-header-text {
   font-family: Proxima Nova;
-  font-size: 36px;
   letter-spacing: -0.6px;
-  font-weight: lighter;
+  @media only screen and (max-width: 840px) {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  @media only screen and (min-width: 841px) {
+    font-size: 36px;
+    font-weight: lighter;
+  }
 }
 
 .body-text {
@@ -136,6 +162,7 @@ label {
 
 .full-width {
   width: 100%;
+  max-width: none;
 }
 
 .half-width {
@@ -195,6 +222,85 @@ label {
   max-width: 600px;
 }
 
+.left-item-padding {
+  @media only screen and (max-width: 840px) {
+    padding-left: none;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-left: 32px;
+  }
+}
+
+.right-item-padding {
+  @media only screen and (max-width: 840px) {
+    padding-right: none;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-right: 32px;
+  }
+}
+
+.mobile-width {
+  @media only screen and (max-width: 840px) {
+    width: 50%;
+    margin: auto;
+  }
+  @media only screen and (min-width: 841px) {
+    width: 100%;
+  }
+}
+
+.mobile-pb-4 {
+  @media only screen and (max-width: 840px) {
+    padding-bottom: 32px;
+  }
+}
+
+.mobile-full-width {
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.mobile-mb-lg {
+  @media only screen and (max-width: 840px) {
+    margin-bottom: 16px;
+  }
+  @media only screen and (min-width: 841px) {
+    margin-bottom: 32px;
+  }
+}
+
+.mobile-mb-xl {
+  @media only screen and (max-width: 840px) {
+    margin-bottom: 32px;
+  }
+  @media only screen and (min-width: 841px) {
+    margin-bottom: 64px;
+  }
+}
+
+.mobile-pb-xl {
+  @media only screen and (max-width: 840px) {
+    padding-bottom: 32px;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-bottom: 64px;
+  }
+}
+
+.mobile-py {
+  @media only screen and (max-width: 840px) {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+}
+
 .mb-lg {
   margin-bottom: 32px;
 }
@@ -241,6 +347,11 @@ label {
 
 .pt-xl {
   padding-top: 64px;
+}
+
+.px-3 {
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 // FIX MARGIN/PADDING CLASS NAMES
