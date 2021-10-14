@@ -71,6 +71,13 @@
   font-weight: lighter;
 }
 
+.header-nav-text {
+  font-family: Proxima Nova;
+  color: white;
+  font-size: 16px;
+  letter-spacing: -0.6px;
+}
+
 .sub-header-text {
   font-family: Proxima Nova;
   font-size: 36px;
@@ -88,6 +95,9 @@
   width: 100%;
 }
 
+.half-width {
+  width: 50%;
+}
 
 .primary-button {
   font-family: Proxima Nova;
@@ -101,6 +111,14 @@
 
 .background-cream {
   background: #F8F6F2;
+}
+
+.background-blue {
+  background-color: #42768D;
+}
+
+.white {
+  color: white !important;
 }
 
 .vertical-center {
@@ -142,12 +160,24 @@
   margin-bottom: 64px;
 }
 
+.pb-lg {
+  padding-bottom: 32px;
+}
+
 .pb-xl {
   padding-bottom: 64px;
 }
 
+.pr-3 {
+  padding-right: 16px;
+}
+
 .pr-4 {
   padding-right: 32px;
+}
+
+.pl-3 {
+  padding-left: 16px;
 }
 
 .pl-4 {
