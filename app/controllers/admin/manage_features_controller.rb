@@ -1,6 +1,5 @@
 module Admin
   class ManageFeaturesController < BaseController
-
     def index
       @current_library = current_library
     end
@@ -14,7 +13,7 @@ module Admin
       end
     end
 
-  private
+    private
 
     def check_for_edit
       checked_value = {"0": false, "1": true}
