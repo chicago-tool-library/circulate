@@ -3,14 +3,14 @@
   <div class="columns ">
     <div class="dropdown">
       <div class="btn-group">
-        <a href="#" class="btn dropdown-toggle menu-button" tabindex="0">
+        <a class="btn dropdown-toggle menu-button" tabindex="0">
           <i class="icon icon-menu"></i>
         </a>
 
         <ul class="menu dropdown-menu">
-          <li><a href="#" class="btn btn-link navlink">About Us</a></li>
-          <li><a href="#" class="btn btn-link navlink">How It Works</a></li>
-          <li><a href="#" class="btn btn-link navlink">Contact Us</a></li>
+          <li><a href="#about-us" class="btn btn-link navlink">About Us</a></li>
+          <li><a href="#how-it-works" class="btn btn-link navlink">How It Works</a></li>
+          <li><a href="#contact-us" class="btn btn-link navlink">Contact Us</a></li>
         </ul>
       </div>
     </div>
@@ -27,13 +27,14 @@
     <p class="homepage-nav-header ml-2">Circulate</p>
   </section>
   <section class="navbar-section navlink-section">
-    <a href="#" class="btn btn-link navlink">About Us</a>
-    <a href="#" class="btn btn-link navlink">How It Works</a>
-    <a href="#" class="btn btn-link navlink">Contact Us</a>
+    <a href="#about-us" class="btn btn-link navlink">About Us</a>
+    <a href="#how-it-works" class="btn btn-link navlink">How It Works</a>
+    <a href="#contact-us" class="btn btn-link navlink">Contact Us</a>
   </section>
 </header>
 
 <div class="container grid-xl px-3 main-container">
+  <a id="about-us"></a>
   <p class="header-text text-center mb-lg">Software for Lending Libraries</p>
   <div class="columns mobile-mb-xl">
     <div class="column col-md-12 col-6 right-item-padding mobile-pb-4">
@@ -56,7 +57,9 @@
         Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Vel quam elementum pulvinar etiam. Vitae semper quis lectus nulla at. Dui ut ornare lectus sit amet est placerat. Euismod elementum nisi quis eleifend quam. Dolor sit amet consectetur adipiscing. Sed tempus urna et pharetra pharetra massa massa. Non arcu risus quis varius. Dui nunc mattis enim ut. Nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices.
       </p>
 
-      <button class="primary-button mobile-full-width">Learn More</button>
+      <a href="#learn-more">
+        <button class="btn primary-button mobile-full-width">Learn More</button>
+      </a>
     </div>
   </div>
 </div>
@@ -80,6 +83,7 @@
         <p class="body-text">
           Maecenas ultricies mi eget mauris pharetra et. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Viverra ipsum nunc aliquet bibendum enim facilisis. Sagittis eu volutpat odio facilisis mauris sit. Sollicitudin ac orci phasellus egestas. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Cursus euismod quis viverra nibh cras. Turpis massa sed elementum tempus egestas sed sed risus. Quis hendrerit dolor magna eget est. Nunc sed augue lacus viverra. Id diam maecenas ultricies mi eget mauris pharetra et.
         </p>
+        <a id="how-it-works"></a>
         <ul class="body-text">
           <li>Fact 1 placeholder information</li>
           <li>Fact 2 placeholder information</li>
@@ -92,10 +96,10 @@
 
 <div class="container grid-xl px-3">
   <div class="columns mobile-py">
-    <div class="column col-md-12 col-2 right-item-padding vertical-center mobile-pb-4 show-md">
+    <div class="column col-md-12 col-2 vertical-center mobile-pb-4 show-md">
       <%= image_pack_tag "checklist.png", alt: "Checklist example", class: "mobile-width vertical-center" %>
     </div>
-    <div class="column col-md-12 col-10 left-item-padding">
+    <div class="column col-md-12 col-10 right-item-padding">
       <p class="sub-header-text mobile-mb-lg text-md-center">Inventory</p>
       <p class="body-text">
         Maecenas ultricies mi eget mauris pharetra et. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Viverra ipsum nunc aliquet bibendum enim facilisis. Sagittis eu volutpat odio facilisis mauris sit. Sollicitudin ac orci phasellus egestas. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Cursus euismod quis viverra nibh cras. Turpis massa sed elementum tempus egestas sed sed risus. Quis hendrerit dolor magna eget est. Nunc sed augue lacus viverra. Id diam maecenas ultricies mi eget mauris pharetra et.
@@ -106,7 +110,7 @@
         <li>Fact 3 placeholder information</li>
       </ul>
     </div>
-    <div class="column col-2 pr-4 vertical-center hide-md">
+    <div class="column col-2 vertical-center left-item-padding hide-md">
       <%= image_pack_tag "checklist.png", alt: "Checklist example", class: "full-width vertical-center" %>
     </div>
   </div>
@@ -135,10 +139,10 @@
 
 <div class="container grid-xl px-3">
   <div class="columns mobile-py">
-    <div class="column col-md-12 col-2 right-item-padding vertical-center mobile-pb-4 show-md">
+    <div class="column col-md-12 col-2 vertical-center mobile-pb-4 show-md">
       <%= image_pack_tag "donation.png", alt: "Donation example", class: "mobile-width vertical-center" %>
     </div>
-    <div class="column col-md-12 col-10 left-item-padding">
+    <div class="column col-md-12 col-10 right-item-padding">
       <p class="sub-header-text mobile-mb-lg text-md-center">Pay Online</p>
       <p class="body-text">
         Maecenas ultricies mi eget mauris pharetra et. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Viverra ipsum nunc aliquet bibendum enim facilisis. Sagittis eu volutpat odio facilisis mauris sit. Sollicitudin ac orci phasellus egestas. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Cursus euismod quis viverra nibh cras. Turpis massa sed elementum tempus egestas sed sed risus. Quis hendrerit dolor magna eget est. Nunc sed augue lacus viverra. Id diam maecenas ultricies mi eget mauris pharetra et.
@@ -149,7 +153,7 @@
         <li>Fact 3 placeholder information</li>
       </ul>
     </div>
-    <div class="column col-2 pr-4 vertical-center hide-md">
+    <div class="column col-2 vertical-center left-item-padding hide-md">
       <%= image_pack_tag "donation.png", alt: "Donation example", class: "full-width vertical-center" %>
     </div>
   </div>
@@ -178,10 +182,10 @@
 <div class="container grid-sm px-3">
   <div class="mobile-py">
     <p class="header-text text-center mb-lg">Get Started</p>
+    <a id="learn-more"></a>
     <p class="body-text text-center mb-lg">
       Maecenas ultricies mi eget mauris pharetra et. Neque gravida in fermentum et sollicitudin. Urna et pharetra pharetra massa massa ultricies mi quis. Viverra ipsum nunc aliquet bibendum enim facilisis. Sagittis eu volutpat odio facilisis mauris sit.
     </p>
-
     <div class="column col-12 full-width">
       <form id="get-started" method="post">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -207,6 +211,8 @@
               </select>
             </div>
           </div>
+
+          <a id="contact-us"></a>
 
           <label class="form-label" for="country">Country</label>
           <select class="form-select input-height" name="homepage[country]" id="homepage_country">
@@ -265,5 +271,5 @@
   <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> or visit their website to learn how to attribute.
 </footer> %>
 
-<%# update img alts %>
 <%# make links do something %>
+<%# populate dropdowns %>
