@@ -13,6 +13,10 @@ class ItemsController < ApplicationController
       items_not_active.each do |item|
         item_ids_to_remove << item
       end
+      items_loaned_out = Item.loaned_out.pluck(:id)
+      items_loaned_out.each do |item|
+        item_ids_to_remove << item
+      end
     end
 
     if params[:category]
@@ -24,6 +28,10 @@ class ItemsController < ApplicationController
         uniquely_numbered_items = @category.items.active.with_uniquely_numbered_borrow_policy.pluck(:id)
         items_with_active_holds = @category.items.active.with_active_holds.pluck(:id)
         item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
+        items_loaned_out = Item.loaned_out.pluck(:id)
+        items_loaned_out.each do |item|
+          item_ids_to_remove << item
+        end
       else
         item_scope = @category.items.listed_publicly.distinct
       end

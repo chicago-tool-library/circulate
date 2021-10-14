@@ -71,6 +71,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     pending_item = create(:item, status: :pending)
     retired_item = create(:item, status: :retired)
     uncounted_item = create(:uncounted_item)
+    active_item_with_loan = create(:item, status: :active)
+    create(:loan, item: active_item_with_loan)
 
     get items_url(filter: "active")
 
@@ -80,6 +82,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     refute_match pending_item.complete_number, @response.body
     refute_match retired_item.complete_number, @response.body
     refute_match active_item_with_hold.complete_number, @response.body
+    refute_match active_item_with_loan.complete_number, @response.body
   end
 
   test "only displays active items from the category on the items index, when filtering by active items and category" do
@@ -92,6 +95,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     pending_item = create(:item, status: :pending, categories: [active_item_category])
     retired_item = create(:item, status: :retired, categories: [active_item_category])
     uncounted_item = create(:uncounted_item)
+    active_item_with_loan = create(:item, status: :active)
+    create(:loan, item: active_item_with_loan)
 
     get items_url(filter: "active", category: active_item_category)
 
@@ -101,5 +106,6 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     refute_match maintenance_item.complete_number, @response.body
     refute_match pending_item.complete_number, @response.body
     refute_match retired_item.complete_number, @response.body
+    refute_match active_item_with_loan.complete_number, @response.body
   end
 end
