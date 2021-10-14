@@ -1,7 +1,11 @@
 <div class="users-sign-in container">
     <h2 class="text-center">Member Login</h2>
 
-    <p class="text-center">Login to view your loans, holds, and appointments.</p>
+    <% if @current_library.allow_appointments? %>
+      <p class="text-center">Login to view your loans, holds, and appointments.</p>
+    <% else %>
+      <p class="text-center">Login to view your loans and holds.</p>
+    <% end %>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 

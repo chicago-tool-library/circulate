@@ -31,9 +31,11 @@
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
-          <li  class="nav-item">
-            <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
-          </li>
+          <% if @current_library.allow_appointments? %>
+            <li  class="nav-item">
+              <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <span class="nav-category">Reports</span>
             <ul class="nav">
@@ -111,9 +113,11 @@
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
-            <div class="dropdown">
-              <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
-            </div>
+            <% if @current_library.allow_appointments? %>
+              <div class="dropdown">
+                <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+              </div>
+            <% end %>
             <div class="dropdown">
               <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
                 Reports <i class="icon icon-caret"></i>
