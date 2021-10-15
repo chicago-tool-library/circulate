@@ -1,4 +1,4 @@
-button[type=submit] {
+.homepage_submit {
   width: 75px;
   height: 47px;
   background: #42768D;
@@ -9,7 +9,7 @@ button[type=submit] {
   color: white;
 }
 
-label {
+.homepage-label {
   font-family: Proxima Nova;
   font-size: 12px;
   letter-spacing: 1.12px;

@@ -190,29 +190,29 @@
       <form id="get-started" method="post">
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
         <div class="form-group">
-          <label class="form-label" for="homepage_name">Name</label>
+          <label class="form-label homepage-label" for="homepage_name">Name</label>
           <input class="form-input input-height" type="text" name="homepage[name]" id="homepage_name">
 
-          <label class="form-label" for="email">Email</label>
+          <label class="form-label homepage-label" for="email">Email</label>
           <input class="form-input input-height" type="email" name="homepage[email]" id="homepage_email">
 
           <div class="columns col-oneline">
             <div class="column col-6 pr-1">
-              <label class="form-label" for="city">City</label>
+              <label class="form-label homepage-label" for="city">City</label>
               <input class="form-input input-height" type="text" name="homepage[city]" id="homepage_city">
             </div>
             <div class="column col-6 pl-1">
-              <label class="form-label" for="state">State / Prov / Reg</label>
+              <label class="form-label homepage-label" for="state">State / Prov / Reg</label>
               <input class="form-input input-height" type="text"  name="homepage[state]" id="homepage_state" >
             </div>
           </div>
 
           <a id="contact-us"></a>
 
-          <label class="form-label" for="country">Country</label>
+          <label class="form-label homepage-label" for="country">Country</label>
           <input class="form-input input-height" type="text" name="homepage[country]" id="homepage_country">
 
-          <label class="form-label" for="description">Which best describes you?</label>
+          <label class="form-label homepage-label" for="description">Which best describes you?</label>
           <select class="form-select input-height" name="homepage[description]" id="homepage_description" required>
             <option disabled selected value>Select one</option>
             <option>I’m starting or planning to open a lending library</option>
@@ -220,10 +220,10 @@
             <option>I’m just interested in learning more about Circulate</option>
           </select>
 
-          <label class="form-label" for="inventory">Items in your inventory (optional)</label>
+          <label class="form-label homepage-label" for="inventory">Items in your inventory (optional)</label>
           <textarea class="form-input" name="homepage[inventory]"id="homepage_inventory" placeholder="If you are a part of an existing lending organization, what kinds of items are in your inventory?" rows="4"></textarea>
 
-          <button class="btn input-group-btn mobile-full-width mt-3" type="submit" form="get-started">Send</button>
+          <button class="btn homepage_submit input-group-btn mobile-full-width mt-3" type="submit" form="get-started">Send</button>
         </div>
       </form>
     </div>
