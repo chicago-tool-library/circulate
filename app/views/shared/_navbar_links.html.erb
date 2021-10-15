@@ -10,5 +10,7 @@
   <%= navbar_link_to 'Logout', destroy_user_session_path, method: :delete %>
 <% else %>
   <%= navbar_link_to 'Member Login', new_user_session_path %>
-  <%= navbar_link_to "Become a Member", signup_path %>
+  <% if @current_library.allow_members? %>
+    <%= navbar_link_to "Become a Member", signup_path %>
+  <% end %>
 <% end %>

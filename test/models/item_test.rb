@@ -139,4 +139,50 @@ class ItemTest < ActiveSupport::TestCase
     item.update!(status: Item.statuses[:maintenance])
     assert_equal item.active_holds.count, 0
   end
+
+  test ".without_any_holds" do
+    item_without_hold_1 = create(:item)
+    item_without_hold_2 = create(:item)
+    item_with_hold = create(:item)
+    create(:hold, item: item_with_hold)
+
+    query = Item.without_any_holds
+    expected_result = [item_without_hold_1, item_without_hold_2]
+    assert_equal query.sort, expected_result.sort
+  end
+
+  test ".with_active_holds" do
+    freeze_time do
+      started_hold = create(:started_hold)
+      expired_hold = create(:expired_hold)
+      ended_hold = create(:ended_hold)
+
+      query = Item.with_active_holds
+      expected_result = [started_hold.item]
+      assert_equal query.sort, expected_result.sort
+    end
+  end
+
+  test ".not_active" do
+    active_item = create(:item, status: :active)
+    maintenance_item = create(:item, status: :maintenance)
+    pending_item = create(:item, status: :pending)
+    retired_item = create(:item, status: :retired)
+
+    query = Item.not_active
+    expected_result = [maintenance_item, pending_item, retired_item]
+
+    assert_equal query.sort, expected_result.sort
+  end
+
+  test ".with_uniquely_numbered_borrow_policy" do
+    borrow_policy = create(:unnumbered_borrow_policy)
+    screwdriver = create(:item, borrow_policy: borrow_policy, name: "screwdriver")
+    table_saw =  create(:item, name: "table saw")
+    sander =  create(:item, name: "sander")
+
+    query = Item.with_uniquely_numbered_borrow_policy
+    expected_result = [table_saw, sander]
+    assert_equal query.sort, expected_result.sort
+  end
 end

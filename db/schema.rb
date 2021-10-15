@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_183946) do
+ActiveRecord::Schema.define(version: 2021_10_12_153401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -325,6 +325,7 @@ ActiveRecord::Schema.define(version: 2021_10_06_183946) do
     t.text "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "allow_members", default: true, null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
 

@@ -49,10 +49,10 @@ jobs:
         if: matrix.test == 'system'
 
       - name: Setup fonts
-        if: matrix.test == 'system'
         run: |
           sudo apt-get update -y
-          sudo apt-get install ttf-mscorefonts-installer
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt-get install gsfonts
           sudo fc-cache -f -v
 
       - uses: actions/setup-node@v2.4.1

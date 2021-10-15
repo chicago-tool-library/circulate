@@ -6,8 +6,10 @@
     <div class="column col-sm-12 col-md-3 col-4 col-mr-auto text-center">
       <%= link_to "Log in to your account", new_user_session_path %>
     </div>
-    <div class="column col-sm-12 col-4 text-center">
-      <%= link_to "Become a member", signup_path %>
-    </div>
+    <% if @current_library.allow_members? %>
+      <div class="column col-sm-12 col-4 text-center">
+        <%= link_to "Become a member", signup_path %>
+      </div>
+    <% end %>
   <% end %>
 </div>
