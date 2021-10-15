@@ -49,10 +49,10 @@ jobs:
         if: matrix.test == 'system'
 
       - name: Setup fonts
-        if: matrix.test == 'system'
         run: |
           sudo apt-get update -y
-          sudo apt-get install ttf-mscorefonts-installer
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt-get install gsfonts
           sudo fc-cache -f -v
 
       - uses: actions/setup-node@v2.4.1
@@ -99,3 +99,43 @@ jobs:
         with:
           path: test/reports
           name: test-reports
+
+  run-scripts:
+    name: Run bin/setup and bin/reset scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+
+    - name: Run bin/setup script
+      env:
+        PGHOST: localhost
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
+      run: ./bin/setup
+
+    - name: Run bin/reset script
+      env:
+        PGHOST: localhost
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGPORT: ${{ job.services.postgres.ports[5432] }}
+      run: ./bin/reset

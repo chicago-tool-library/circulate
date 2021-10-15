@@ -203,4 +203,9 @@ module ItemsHelper
 
     location.join(", ")
   end
+
+  # https://gorails.com/episodes/rails-link-to-current-page-with-params
+  def current_page_params
+    request.params.slice("category", "filter", "sort")
+  end
 end

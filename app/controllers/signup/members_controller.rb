@@ -1,5 +1,7 @@
 module Signup
   class MembersController < BaseController
+    before_action :is_membership_enabled?
+
     def new
       if session[:member_id]
         redirect_to signup_agreement_url
