@@ -40,10 +40,6 @@ label {
   height: 49px;
 }
 
-.background-white {
-  background-color: white;
-}
-
 .homepage-navbar-logo {
   width: 32px;
   height: 32px;
@@ -98,10 +94,6 @@ label {
   letter-spacing: -0.6px;
   font-weight: lighter;
   margin-bottom: 0;
-}
-
-.container {
-  padding-bottom: 0 !important;
 }
 
 .main-container {
@@ -193,10 +185,6 @@ label {
   align-items: center;
 }
 
-.flex-column {
-  flex-direction: column;
-}
-
 .video-container {
   position: relative;
   overflow: hidden;
@@ -236,6 +224,12 @@ label {
   }
 }
 
+.mobile-full-width {
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
 .mobile-width {
   @media only screen and (max-width: 840px) {
     width: 50%;
@@ -252,39 +246,6 @@ label {
   }
 }
 
-.mobile-full-width {
-  @media only screen and (max-width: 600px) {
-    width: 100%;
-  }
-}
-
-.mobile-mb-lg {
-  @media only screen and (max-width: 840px) {
-    margin-bottom: 16px;
-  }
-  @media only screen and (min-width: 841px) {
-    margin-bottom: 32px;
-  }
-}
-
-.mobile-mb-xl {
-  @media only screen and (max-width: 840px) {
-    margin-bottom: 32px;
-  }
-  @media only screen and (min-width: 841px) {
-    margin-bottom: 64px;
-  }
-}
-
-.mobile-pb-xl {
-  @media only screen and (max-width: 840px) {
-    padding-bottom: 32px;
-  }
-  @media only screen and (min-width: 841px) {
-    padding-bottom: 64px;
-  }
-}
-
 .mobile-py {
   @media only screen and (max-width: 840px) {
     padding-top: 32px;
@@ -294,26 +255,29 @@ label {
     padding-top: 64px;
     padding-bottom: 64px;
   }
-
 }
 
-.mb-lg {
+.mb-none-important {
+  padding-bottom: 0 !important;
+}
+
+.mb-4 {
   margin-bottom: 32px;
 }
 
-.mb-xl {
+.mb-5 {
   margin-bottom: 64px;
 }
 
-.mt-md {
+.mt-3 {
   margin-top: 16px;
 }
 
-.pb-lg {
+.pb-4 {
   padding-bottom: 32px;
 }
 
-.pb-xl {
+.pb-5 {
   padding-bottom: 64px;
 }
 
@@ -325,10 +289,6 @@ label {
   padding-right: 16px;
 }
 
-.pr-4 {
-  padding-right: 32px;
-}
-
 .pl-1 {
   padding-left: 4px;
 }
@@ -337,17 +297,7 @@ label {
   padding-left: 16px;
 }
 
-.pl-4 {
-  padding-left: 32px;
-}
-
-.pt-xl {
-  padding-top: 64px;
-}
-
 .px-3 {
   padding-left: 24px;
   padding-right: 24px;
 }
-
-// FIX MARGIN/PADDING CLASS NAMES
