@@ -1,7 +1,8 @@
 class HomepageController < ApplicationController
   layout "homepage"
 
-  def index; end
+  def index
+  end
 
   def create
     HomepageMailer.with(homepage_params: homepage_params[:homepage]).inquiry.deliver_later

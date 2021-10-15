@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found
-    render 'errors/show', status: :not_found
+    render "errors/show", status: :not_found
   end
 
   def after_sign_in_path_for(user)

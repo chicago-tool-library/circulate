@@ -2,13 +2,13 @@
 class HomepageMailerPreview < ActionMailer::Preview
   def inquiry
     homepage_params = {
-      "name"=>"Jim",
-      "email"=>"jim@jim.com",
-      "city"=>"Chicago",
-      "state"=>"Illinois",
-      "country"=>"United States",
-      "description"=>"I manage or volunteer with an established lending library",
-      "inventory"=>"Lots of tools."
+      "name" => "Jim",
+      "email" => "jim@email.com",
+      "city" => "Chicago",
+      "state" => "Illinois",
+      "country" => "United States",
+      "description" => "I manage or volunteer with an established lending library",
+      "inventory" => "Lots of tools."
     }
 
     HomepageMailer.with(homepage_params: homepage_params).inquiry
