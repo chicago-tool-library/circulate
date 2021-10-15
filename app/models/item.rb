@@ -100,6 +100,53 @@ class Item < ApplicationRecord
     where(id: active_holds.pluck(:item_id))
   end
 
+  def self.for_inventory(filter:, category:)
+    item_scope = Item.listed_publicly.includes(:checked_out_exclusive_loan)
+    item_ids_to_remove = []
+
+    if filter == "active"
+      uniquely_numbered_items = item_scope.active.with_uniquely_numbered_borrow_policy.pluck(:id)
+      items_with_active_holds = item_scope.active.with_active_holds.pluck(:id)
+      item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
+      items_not_active = Item.not_active.pluck(:id)
+      items_not_active.each do |item|
+        item_ids_to_remove << item
+      end
+
+      items_loaned_out = Item.loaned_out.pluck(:id)
+      items_loaned_out.each do |item|
+        item_ids_to_remove << item
+      end
+    end
+
+    if category
+      if filter == "active"
+        item_scope = category.items.active.listed_publicly.distinct
+        uniquely_numbered_items = category.items.active.with_uniquely_numbered_borrow_policy.pluck(:id)
+        items_with_active_holds = category.items.active.with_active_holds.pluck(:id)
+        item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
+
+        items_loaned_out = Item.loaned_out.pluck(:id)
+        items_loaned_out.each do |item|
+          item_ids_to_remove << item
+        end
+      else
+        item_scope = category.items.listed_publicly.distinct
+      end
+    end
+
+    # Some products are always available, for all intents and purposes. For a tool library, this includes things like
+    # screwdrivers and other smaller hand tools.
+    uncounted_items = Item.uncounted.pluck(:id)
+
+    without_rejected = item_scope.pluck(:id).reject { |item| item_ids_to_remove.include? item }
+    uncounted_items.each do |item|
+      without_rejected << item
+    end
+
+    Item.where(id: without_rejected).includes(:categories, :borrow_policy, :active_holds).with_attached_image
+  end
+
   def assign_number
     if number.blank?
       return unless borrow_policy
