@@ -6,8 +6,8 @@ class HomepageController < ApplicationController
   def create
     HomepageMailer.with(homepage_params: homepage_params[:homepage]).inquiry.deliver_later
 
+    # TO DO: render flash message on redirection
     redirect_to homepage_index_path
-    # , flash: { success: "Your request has been submitted." }
   end
 
   private
