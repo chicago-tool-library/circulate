@@ -7,11 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta charset="utf-8">
     <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
-      <meta name="turbo-cache-control" content="no-cache">
+      <!-- <meta name="turbo-cache-control" content="no-cache"> -->
     <% end %>
     <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbo-track': 'reload' %>
-
     <% if Rails.env.production? %>
       <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
       <script>

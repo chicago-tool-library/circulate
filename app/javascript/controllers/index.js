@@ -3,5 +3,56 @@
 
 import { application } from "./application"
 
-import HelloController from "./hello_controller"
+import AlertController from "./alert_controller.js"
+application.register("alert", AlertController)
+
+import AppointmentDateController from "./appointment_date_controller.js"
+application.register("appointment-date", AppointmentDateController)
+
+import AppointmentsIndexController from "./appointments_index_controller.js"
+application.register("appointments-index", AppointmentsIndexController)
+
+import AutocompleteController from "./autocomplete_controller.js"
+application.register("autocomplete", AutocompleteController)
+
+import CollapseController from "./collapse_controller.js"
+application.register("collapse", CollapseController)
+
+import ConditionalFieldController from "./conditional_field_controller.js"
+application.register("conditional-field", ConditionalFieldController)
+
+import FindToolController from "./find_tool_controller.js"
+application.register("find-tool", FindToolController)
+
+import HelloController from "./hello_controller.js"
 application.register("hello", HelloController)
+
+import ImageEditorController from "./image_editor_controller.js"
+application.register("image-editor", ImageEditorController)
+
+import ModalController from "./modal_controller.js"
+application.register("modal", ModalController)
+
+import MultiSelectController from "./multi_select_controller.js"
+application.register("multi-select", MultiSelectController)
+
+// import NotesController from "./notes_controller.js"
+// application.register("notes", NotesController)
+
+import PortalController from "./portal_controller.js"
+application.register("portal", PortalController)
+
+import RequestItemController from "./request_item_controller.js"
+application.register("request-item", RequestItemController)
+
+import SidebarController from "./sidebar_controller.js"
+application.register("sidebar", SidebarController)
+
+import TagEditorController from "./tag_editor_controller.js"
+application.register("tag-editor", TagEditorController)
+
+import ToggleController from "./toggle_controller.js"
+application.register("toggle", ToggleController)
+
+import TreeNavController from "./tree_nav_controller.js"
+application.register("tree-nav", TreeNavController)
