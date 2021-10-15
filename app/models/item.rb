@@ -105,18 +105,12 @@ class Item < ApplicationRecord
     item_ids_to_remove = []
 
     if filter == "active"
-      uniquely_numbered_items = item_scope.active.with_uniquely_numbered_borrow_policy.pluck(:id)
-      items_with_active_holds = item_scope.active.with_active_holds.pluck(:id)
-      item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
-      items_not_active = Item.not_active.pluck(:id)
-      items_not_active.each do |item|
-        item_ids_to_remove << item
-      end
+      filtered_items = self.filter_inventory_by_active_and_category(item_scope: item_scope,
+                                                                    category: category,
+                                                                    only_include_active_items: filter == "active")
 
-      items_loaned_out = Item.loaned_out.pluck(:id)
-      items_loaned_out.each do |item|
-        item_ids_to_remove << item
-      end
+      item_scope = filtered_items[:item_scope]
+      item_ids_to_remove = filtered_items[:item_ids_to_remove]
     end
 
     if category
@@ -145,6 +139,23 @@ class Item < ApplicationRecord
     end
 
     Item.where(id: without_rejected).includes(:categories, :borrow_policy, :active_holds).with_attached_image
+  end
+
+  def self.filter_inventory_by_active_and_category(item_scope:, category:, only_include_active_items:)
+    uniquely_numbered_items = item_scope.active.with_uniquely_numbered_borrow_policy.pluck(:id)
+    items_with_active_holds = item_scope.active.with_active_holds.pluck(:id)
+    item_ids_to_remove = uniquely_numbered_items.intersection(items_with_active_holds)
+    items_not_active = Item.not_active.pluck(:id)
+    items_not_active.each do |item|
+      item_ids_to_remove << item
+    end
+
+    items_loaned_out = Item.loaned_out.pluck(:id)
+    items_loaned_out.each do |item|
+      item_ids_to_remove << item
+    end
+
+    return { item_scope: item_scope, item_ids_to_remove: item_ids_to_remove }
   end
 
   def assign_number
