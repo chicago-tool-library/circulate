@@ -36,6 +36,10 @@ label {
   }
 }
 
+.background-white {
+  background-color: white;
+}
+
 .input-height {
   height: 49px;
 }
@@ -243,6 +247,15 @@ label {
 .mobile-pb-4 {
   @media only screen and (max-width: 840px) {
     padding-bottom: 32px;
+  }
+}
+
+.mobile-pb-5 {
+  @media only screen and (max-width: 840px) {
+    padding-bottom: 32px;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-bottom: 64px;
   }
 }
 
