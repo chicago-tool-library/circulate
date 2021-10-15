@@ -31,7 +31,7 @@
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
-          <% if @current_library.allow_appointments? %>
+          <% if current_library.allow_appointments? %>
             <li  class="nav-item">
               <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
             </li>
@@ -113,7 +113,7 @@
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
-            <% if @current_library.allow_appointments? %>
+            <% if current_library.allow_appointments? %>
               <div class="dropdown">
                 <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
               </div>
