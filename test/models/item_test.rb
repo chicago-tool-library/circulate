@@ -176,8 +176,8 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test ".with_uniquely_numbered_borrow_policy" do
+    borrow_policy = create(:unnumbered_borrow_policy)
     create(:item, borrow_policy: borrow_policy, name: "screwdriver")
-    create(:unnumbered_borrow_policy)
     table_saw = create(:item, name: "table saw")
     sander = create(:item, name: "sander")
 
