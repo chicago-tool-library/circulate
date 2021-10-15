@@ -126,6 +126,7 @@ label {
   color: white;
   font-size: 16px;
   letter-spacing: -0.6px;
+  font-weight: bold;
 }
 
 .text-md-center {
@@ -184,6 +185,10 @@ label {
   color: white !important;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .vertical-center {
   display: flex;
   align-items: center;
@@ -230,7 +235,7 @@ label {
 
 .mobile-full-width {
   @media only screen and (max-width: 600px) {
-    width: 100%;
+    width: 100% !important;
   }
 }
 
@@ -267,6 +272,15 @@ label {
   @media only screen and (min-width: 841px) {
     padding-top: 64px;
     padding-bottom: 64px;
+  }
+}
+
+.mobile-pb-3-4 {
+  @media only screen and (max-width: 840px) {
+    padding-bottom: 16px;
+  }
+  @media only screen and (min-width: 841px) {
+    padding-bottom: 32px;
   }
 }
 
