@@ -139,3 +139,11 @@ jobs:
         PGPASSWORD: postgres
         PGPORT: ${{ job.services.postgres.ports[5432] }}
       run: ./bin/reset
+
+  StandardRB:
+    runs-on: ubuntu-latest
+    steps:
+      - name: standardrb
+        uses: amoeba/standardrb-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
