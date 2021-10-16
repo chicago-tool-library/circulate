@@ -14,6 +14,13 @@ class Adjustment < ApplicationRecord
     payment: "payment"
   }
 
+  invalid_hash = {
+    fine: "fine",
+    membership: "membership",
+    donation: "donation",
+    payment: "payment"
+  }
+
   belongs_to :adjustable, polymorphic: true, optional: true
   belongs_to :member
 
