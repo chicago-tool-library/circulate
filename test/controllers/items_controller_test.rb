@@ -87,7 +87,6 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "only displays active items from the category on the items index, when filtering by active items and category" do
     active_item_category = create(:category)
-    hidden_item_category = create(:category)
     active_item = create(:item, categories: [active_item_category])
     active_item_with_hold = create(:item, status: :active, categories: [active_item_category])
     create(:hold, item: active_item_with_hold)

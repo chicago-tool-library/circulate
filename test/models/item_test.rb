@@ -107,7 +107,6 @@ class ItemTest < ActiveSupport::TestCase
 
   test "can delete an item with an attachment" do
     item = create(:item)
-    attachments = create(:item_attachment, item: item, creator: create(:user))
     create(:hold, item: item)
 
     assert item.destroy
@@ -154,8 +153,8 @@ class ItemTest < ActiveSupport::TestCase
   test ".with_active_holds" do
     freeze_time do
       started_hold = create(:started_hold)
-      expired_hold = create(:expired_hold)
-      ended_hold = create(:ended_hold)
+      create(:expired_hold)
+      create(:ended_hold)
 
       query = Item.with_active_holds
       expected_result = [started_hold.item]
@@ -164,7 +163,6 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test ".not_active" do
-    active_item = create(:item, status: :active)
     maintenance_item = create(:item, status: :maintenance)
     pending_item = create(:item, status: :pending)
     retired_item = create(:item, status: :retired)
@@ -176,10 +174,9 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test ".with_uniquely_numbered_borrow_policy" do
-    borrow_policy = create(:unnumbered_borrow_policy)
-    screwdriver = create(:item, borrow_policy: borrow_policy, name: "screwdriver")
-    table_saw =  create(:item, name: "table saw")
-    sander =  create(:item, name: "sander")
+    create(:unnumbered_borrow_policy)
+    table_saw = create(:item, name: "table saw")
+    sander = create(:item, name: "sander")
 
     query = Item.with_uniquely_numbered_borrow_policy
     expected_result = [table_saw, sander]
