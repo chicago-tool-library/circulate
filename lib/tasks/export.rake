@@ -44,7 +44,7 @@ namespace :export do
         names = if name_parts.size == 2
           [name_parts[0], "", name_parts[1]]
         else
-          [name_parts[0], name_parts[1], name_parts[2..]&.join(" ")]
+          [name_parts[0], name_parts[1], name_parts[2..-1]&.join(" ")]
         end
         row = [
           member.preferred_name,
