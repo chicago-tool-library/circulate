@@ -107,6 +107,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "can delete an item with an attachment" do
     item = create(:item)
+    create(:item_attachment, item: item, creator: create(:user))
     create(:hold, item: item)
 
     assert item.destroy
@@ -163,6 +164,7 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test ".not_active" do
+    create(:item, status: :active)
     maintenance_item = create(:item, status: :maintenance)
     pending_item = create(:item, status: :pending)
     retired_item = create(:item, status: :retired)
@@ -174,7 +176,8 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test ".with_uniquely_numbered_borrow_policy" do
-    create(:unnumbered_borrow_policy)
+    borrow_policy = create(:unnumbered_borrow_policy)
+    create(:item, borrow_policy: borrow_policy, name: "screwdriver")
     table_saw = create(:item, name: "table saw")
     sander = create(:item, name: "sander")
 
