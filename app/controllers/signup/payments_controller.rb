@@ -2,6 +2,7 @@ module Signup
   class PaymentsController < BaseController
     before_action :load_member
     before_action :set_raven_context
+    before_action :are_payments_enabled?
 
     def new
       @form = MembershipPaymentForm.new
@@ -86,6 +87,12 @@ module Signup
 
     def set_raven_context
       Raven.extra_context(session)
+    end
+
+    def are_payments_enabled?
+      if !@current_library.allow_payments?
+        render_not_found
+      end
     end
   end
 end

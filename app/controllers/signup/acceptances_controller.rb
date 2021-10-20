@@ -4,8 +4,10 @@ module Signup
 
     def create
       @acceptance = @member.acceptances.new(member: @member, terms: acceptance_params[:terms])
-      if @acceptance.save
+      if @acceptance.save && @current_library.allow_payments?
         redirect_to new_signup_payment_url
+      elsif @acceptance.save
+        redirect_to signup_confirmation_url
       else
         activate_step(:agreement)
         @document = Document.agreement

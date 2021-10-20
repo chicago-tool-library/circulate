@@ -5,7 +5,7 @@ class ManageFeaturesTest < ApplicationSystemTestCase
     sign_in_as_admin
   end
 
-  test "do not update allowing member signups for library" do
+  test "do not update allowing features for library" do
     audited_as_admin do
       @current_library = create(:library)
     end
@@ -38,6 +38,19 @@ class ManageFeaturesTest < ApplicationSystemTestCase
     visit admin_manage_features_url
 
     find("label", text: "Enable Appointments").click
+    click_on "Update Library"
+
+    assert_text "You have successfully updated the library"
+  end
+
+  test "updates allowing payments for library" do
+    audited_as_admin do
+      @current_library = create(:library)
+    end
+
+    visit admin_manage_features_url
+
+    find("label", text: "Enable Payments").click
     click_on "Update Library"
 
     assert_text "You have successfully updated the library"
