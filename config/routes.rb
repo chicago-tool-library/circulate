@@ -159,7 +159,7 @@ Rails.application.routes.draw do
     get "/test/google_auth", to: "test#google_auth"
   end
 
-  %w(404 422 500 503).each do |code|
+  %w[404 422 500 503].each do |code|
     match code, to: "errors#show", via: :all, code: code, as: "error_#{code}"
   end
 end
