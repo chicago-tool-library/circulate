@@ -3,6 +3,7 @@ module Admin
     class MembershipsController < BaseController
       def index
         @memberships = @member.memberships
+        @adjustments = @member.adjustments.order(created_at: :desc)
       end
 
       def new
