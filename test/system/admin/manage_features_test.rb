@@ -29,15 +29,29 @@ class ManageFeaturesTest < ApplicationSystemTestCase
 
     assert_text "You have successfully updated the library"
   end
-
+  
+  
   test "updates allowing volunteer signups for library" do
     audited_as_admin do
       @current_library = create(:library)
     end
 
     visit admin_manage_features_url
-
+    
     find("label", text: "Enable Volunteer Signup").click
+    click_on "Update Library"
+
+    assert_text "You have successfully updated the library"
+  end
+
+  test "updates allowing payments for library" do
+    audited_as_admin do
+      @current_library = create(:library)
+    end
+
+    visit admin_manage_features_url
+
+    find("label", text: "Enable Payments").click
     click_on "Update Library"
 
     assert_text "You have successfully updated the library"
