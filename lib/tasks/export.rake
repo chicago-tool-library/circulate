@@ -28,7 +28,6 @@ namespace :export do
     path = Rails.root + "exports" + "members-#{now}.csv"
     puts "writing member info to #{path}"
 
-    member_columns = %w[preferred_name first_name middle_name last_name email phone_number status address1 address2 city region postal_code number pronouns volunteer_interest level]
     max_memberships = 3
     membership_columns = max_memberships.times.flat_map { |n|
       ["membership_started#{n + 1}", "membership_ended#{n + 1}", "membership_amount#{n + 1}"]
@@ -45,7 +44,7 @@ namespace :export do
         names = if name_parts.size == 2
           [name_parts[0], "", name_parts[1]]
         else
-          [name_parts[0], name_parts[1], name_parts[2..-1]&.join(" ")]
+          [name_parts[0], name_parts[1], name_parts[2..]&.join(" ")]
         end
         row = [
           member.preferred_name,

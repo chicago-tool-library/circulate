@@ -93,7 +93,6 @@ Rails.application.routes.draw do
 
     resources :members do
       scope module: "members" do
-        resources :adjustments, only: :index
         resources :holds, only: [:create, :index, :destroy] do
           post :lend, on: :member
         end
