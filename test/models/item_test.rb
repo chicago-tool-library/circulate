@@ -153,9 +153,9 @@ class ItemTest < ActiveSupport::TestCase
 
   test ".with_active_holds" do
     freeze_time do
-      started_hold = create(:started_hold)
       create(:expired_hold)
       create(:ended_hold)
+      started_hold = create(:started_hold)
 
       query = Item.with_active_holds
       expected_result = [started_hold.item]
