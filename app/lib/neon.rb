@@ -1,4 +1,19 @@
 module Neon
+  # Until we are storing per-library credentials somewhere other than environment variables,
+  # we will prefix the variable names with the library ID to scope credentials to
+  # each tenant.
+  def self.credentials_for_library(library)
+    api_key_var_name = "NEON_API_KEY_LIB_#{library.id}"
+    org_var_name = "NEON_ORGANIZATION_ID_LIB_#{library.id}"
+
+    api_key = ENV[api_key_var_name]
+    organization_id = ENV[org_var_name]
+
+    return nil unless api_key.present? && organization_id.present?
+
+    [organization_id, api_key]
+  end
+
   def self.member_to_account(member)
     {
       "individualAccount" => {
