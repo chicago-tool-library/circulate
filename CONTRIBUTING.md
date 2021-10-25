@@ -1,6 +1,6 @@
 ## Contributing
 
-We ♥ contributors! By participating in this project, you agree to abide by our [code of conduct](./CODE_OF_CONDUCT).
+We ♥ contributors! By participating in this project, you agree to abide by our [code of conduct](./CODE_OF_CONDUCT.md).
 
 If you're unsure about an issue or have any questions or concerns, just ask in an *existing issue* or *open a new issue*. If you would like to talk to other contributors and get more context about the project before jumping in, you can request to join [RubyForGood Slack](https://rubyforgood.herokuapp.com/). Once you are in Slack, come by `#circulate` channel, introduce yourself, and ask us questions!
 
