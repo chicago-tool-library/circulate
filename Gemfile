@@ -66,6 +66,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "spy"
   gem "letter_opener"
+
+
 end
 
 group :development do
@@ -75,6 +77,10 @@ group :development do
   gem "solargraph"
   gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
   gem "lefthook"
+
+  gem 'pry', '~> 0.14.1'
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :test do

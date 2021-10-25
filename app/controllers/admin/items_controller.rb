@@ -21,6 +21,7 @@ module Admin
     end
 
     def show
+      @notes = @item.notes.by_creation_date
     end
 
     def number
@@ -54,9 +55,9 @@ module Admin
     end
 
     def update
+      binding.pry
       if @item.update(item_params)
         @item.image.purge_later if all_item_params[:delete_image] == "1"
-
         redirect_to [:admin, @item], success: "Item was successfully updated."
       else
         set_categories

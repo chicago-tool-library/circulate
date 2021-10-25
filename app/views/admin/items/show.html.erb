@@ -11,5 +11,18 @@
       </p>
     </div>
   <% end %>
-  <%= render partial: "admin/notes/list", locals: {parent: @item} %>
+
+  <%= turbo_stream_from :admin_item_notes %>
+
+  <%= turbo_frame_tag :admin_item_notes do %>
+    <%= render partial: "admin/notes/index" %>
+  <% end %>
+
+  <%= turbo_frame_tag "add_new_note_form" do %>
+    <%= link_to new_admin_item_note_path(@item.id), class: "btn" do %>
+      <%= feather_icon "message-square" %>
+      Add a Note
+    <% end %>
+  <% end %>
+
 <% end %>

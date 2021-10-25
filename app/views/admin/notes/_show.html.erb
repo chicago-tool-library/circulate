@@ -1,8 +1,0 @@
-<%= tag.blockquote class: "note", id: dom_id(note) do %>
-  <%= note.body %>
-  <br>
-
-  <%= turbo_frame_tag "admin_notes_form" do %>
-    <%= link_to " Edit Note", edit_admin_item_note_path(parent.id, note.id), class: "btn btn-sm" %>
-  <% end %>
-<% end %>

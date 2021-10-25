@@ -1,14 +1,16 @@
 module Admin
   class NotesController < BaseController
     include ActionView::RecordIdentifier
-    # include PortalRendering
-
     before_action :load_parent
+
+    def index
+      @notes = @parent.notes.by_creation_date
+    end
 
     def create
       @note = @parent.notes.create(note_params.merge(creator: current_user))
       if @note.save
-        redirect_back fallback_location: admin_item_note_path(@parent, @note)
+        redirect_to admin_item_path(@parent)
       else
         render "form", locals: {parent: @parent, note: @note}, status: 422
       end
@@ -16,8 +18,9 @@ module Admin
 
     def update
       @note = @parent.notes.find(params[:id])
+
       if @note.update(note_params)
-        redirect_to [:admin, @parent, anchor: dom_id(@note)]
+        redirect_to admin_item_path(@parent)
       else
         render "form", locals: {parent: @parent, note: @note}, status: 422
       end
@@ -39,7 +42,6 @@ module Admin
 
     def show
       @note = @parent.notes.find(params[:id])
-      # render_to_portal "show", locals: {parent: @parent, note: @note}
     end
 
     def destroy
