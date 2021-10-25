@@ -112,14 +112,13 @@ class Member < ApplicationRecord
   end
 
   def update_neon_crm
-    client = Neon::Client.new(ENV.fetch("NEON_ORGANIZATION_ID"), ENV.fetch("NEON_API_KEY"))
-    account = client.search_account(email)
-    payload = Neon.member_to_account(self)
-    client.update_account(account["individualAccount"]["accountId"], account.deep_merge(payload))
+    organization_id, api_key = Neon.credentials_for_library(library)
+    client = Neon::Client.new(organization_id, api_key)
+    client.update_account_with_member(self)
   end
 
   def can_update_neon_crm?
-    Rails.env.production? && ENV["NEON_ORGANIZATION_ID"] && ENV["NEON_API_KEY"]
+    Rails.env.production? && Neon.credentials_for_library(library)
   end
 
   def strip_phone_number
