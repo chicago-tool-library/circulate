@@ -112,9 +112,7 @@ class Member < ApplicationRecord
   end
 
   def update_neon_crm
-    organization_id, api_key = Neon.credentials_for_library(library)
-    client = Neon::Client.new(organization_id, api_key)
-    client.update_account_with_member(self)
+    NeonMemberJob.perform_async(id)
   end
 
   def can_update_neon_crm?

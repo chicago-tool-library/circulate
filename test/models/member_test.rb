@@ -175,4 +175,15 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_nil member.last_membership
   end
+
+  test "schedules a job for updating Neon membership when enabled" do
+    member = create(:member)
+
+    NeonMemberJob.stub :perform_async, true do
+      member.stub :can_update_neon_crm?, true do
+        member.update(city: "#{member.city} Test")
+        assert_send([NeonMemberJob, :perform_async])
+      end
+    end
+  end
 end
