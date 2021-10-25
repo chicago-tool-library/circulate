@@ -1,0 +1,13 @@
+<!-- admin/notes item <%#= @item.inspect %> -->
+<%= turbo_frame_tag note do %>
+<div id="<%= dom_id(note) %>">
+  <%= tag.blockquote class: "note" do %>
+    <%= note.body %>
+    <br>
+
+    <%= turbo_frame_tag "add_new_note_form" do %>
+      <%= link_to " Edit Note", edit_admin_item_note_path(@item.id, note.id), class: "btn btn-sm" %>
+    <% end %>
+  <% end %>
+</div>
+<% end %>
