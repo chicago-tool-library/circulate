@@ -8,6 +8,8 @@
   <%= form.check_box :allow_appointments, label: "Enable Appointments", hint: "Allows or blocks access to creating appointments" %>
   <%= form.check_box :allow_payments, label: "Enable Payments", hint: "Allows or blocks access to accepting online payments" %>
 
+  <%= form.check_box :allow_volunteers, label: "Enable Volunteer Signup", hint: "Allows or blocks access to volunteer signup flow and calendar ( #{@current_library.hostname}/volunteer/shifts )" %>
+
   <%= form.actions do %>
     <%= form.submit %>
   <% end %>

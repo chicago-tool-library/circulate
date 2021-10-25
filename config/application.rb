@@ -44,7 +44,7 @@ module Circulate
     # the framework and any gems in your application.
 
     # Delegates exception handling to the routes
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
   end
 end
 

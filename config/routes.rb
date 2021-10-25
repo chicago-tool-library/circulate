@@ -93,7 +93,6 @@ Rails.application.routes.draw do
 
     resources :members do
       scope module: "members" do
-        resources :adjustments, only: :index
         resources :holds, only: [:create, :index, :destroy] do
           post :lend, on: :member
         end
@@ -151,6 +150,7 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
+  resources :homepage, only: [:index, :create]
   get "search", to: "searches#show"
 
   root to: "home#index"
@@ -159,7 +159,7 @@ Rails.application.routes.draw do
     get "/test/google_auth", to: "test#google_auth"
   end
 
-  %w(404 422 500 503).each do |code|
+  %w[404 422 500 503].each do |code|
     match code, to: "errors#show", via: :all, code: code, as: "error_#{code}"
   end
 end

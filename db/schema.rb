@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 2021_10_14_184745) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "allow_members", default: true, null: false
     t.boolean "allow_appointments", default: true, null: false
+    t.boolean "allow_volunteers", default: true, null: false
     t.boolean "allow_payments", default: true, null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
