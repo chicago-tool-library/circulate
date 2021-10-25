@@ -91,8 +91,14 @@
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
-                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true do %>
-                  <%= feather_icon "repeat" %>Renew
+                <% if summary.latest_loan.any_active_holds? %>
+                  <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true, data: { confirm: "This item is on hold by other members and should only be renewed under special circumstances. Click OK to renew the item, or Cancel to go back." } do %>
+                    <%= feather_icon "repeat" %>Renew
+                  <% end %>
+                <% else %>
+                  <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true do %>
+                    <%= feather_icon "repeat" %>Renew
+                  <% end %>
                 <% end %>
               <% end %>
               <% if Time.current - summary.latest_loan.created_at < 24.hours %>
