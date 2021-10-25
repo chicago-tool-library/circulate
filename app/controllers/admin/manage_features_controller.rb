@@ -24,7 +24,7 @@ module Admin
     end
 
     def library_feature_params
-      params.require(:library).permit(:allow_members, :allow_payments)
+      params.require(:library).permit(:allow_members, :allow_payments, :allow_volunteers)
     end
   end
 end
