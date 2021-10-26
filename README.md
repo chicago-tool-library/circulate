@@ -146,7 +146,7 @@ Open an internet browser, type `localhost:3000`, and hit enter. You should see t
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Multi-tenancy
