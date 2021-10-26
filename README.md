@@ -28,13 +28,13 @@
 
 ## Welcome contributors!
 
-We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues. 
+We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues.
 
 We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (on hold for the moment, but occasionally on Tuesdays at 7pm CT), stakeholder news, and upcoming new issues.
 
 Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue." Feel free to assign to yourself and move the Issue to the "In Progress" column if you have Project permissions.
 
-Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make github issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three. 
+Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make github issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three.
 
 See also our [contributing guide](./CONTRIBUTING.md) 💖
 
@@ -146,7 +146,7 @@ Open an internet browser, type `localhost:3000`, and hit enter. You should see t
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Multi-tenancy
@@ -173,7 +173,7 @@ You will need to add additional lines to your hosts file if you need to work wit
 
 ### Configuring your database
 
-By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to 
+By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to
 specify other credentials on your machine, add any required values to the file `.env.local`:
 
 ```
@@ -187,13 +187,13 @@ If `.env.local` doesn't exist in your project directory yet, you will need to cr
 
 ### Resetting the application
 
-During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
+During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database!
 
 This can be useful if you need to run through a certain scenario multiple times manually, or when switching branches to get back into a known good state.
 
 ### Running tests
 
-Use the standard Rails test commands: 
+Use the standard Rails test commands:
 
 ```console
 $ rails test # to run model, controller, and integration tests
