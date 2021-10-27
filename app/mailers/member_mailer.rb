@@ -86,13 +86,13 @@ class MemberMailer < ApplicationMailer
 
   private
 
-  def summary_mail
+  def summary_mail(template_name: "summary")
     @member = params[:member]
     @library = @member.library
     @summaries = params[:summaries]
     @now = params[:now] || Time.current
 
-    mail(to: @member.email, subject: @subject, template_name: "summary")
+    mail(to: @member.email, subject: @subject, template_name: template_name)
   end
 
   def generate_uuid
