@@ -160,14 +160,16 @@ denver.circulate.local
 
 Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
 
-In order to access libraries other than the first one on your local machine, add the following to your hosts file:
+In order to access libraries other than the first one on your local machine, you need to edit your hosts file.
+This file is located at `/etc/hosts` on macOS and Linux, and `C:\Windows\System32\drivers\etc` on Windows or under WSL (Windows Subsystem for Linux).
+Add the following lines to the file:
 
 ```
 127.0.0.1 chicago.circulate.local
-127.0.0.1	denver.circulate.local
+127.0.0.1 denver.circulate.local
 ```
 
-This file is located at `/etc/hosts` on macOS and Linux and `C:\Windows\System32\drivers\etc` on Windows or under WSL.
+You can now access these libraries at http://chicago.circulate.local:3000 and http://denver.circulate.local:3000.
 
 You will need to add additional lines to your hosts file if you need to work with additional libraries locally.
 
