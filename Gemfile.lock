@@ -70,8 +70,8 @@ GEM
     activerecord (6.1.4.1)
       activemodel (= 6.1.4.1)
       activesupport (= 6.1.4.1)
-    activerecord-postgres_enum (1.6.1)
-      activerecord (>= 5, < 6.2)
+    activerecord-postgres_enum (1.7.0)
+      activerecord (>= 5)
       pg
     activestorage (6.1.4.1)
       actionpack (= 6.1.4.1)
@@ -431,7 +431,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.26)
-    zeitwerk (2.4.2)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   ruby
