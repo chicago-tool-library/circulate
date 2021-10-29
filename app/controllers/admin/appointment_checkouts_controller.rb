@@ -1,5 +1,7 @@
 module Admin
   class AppointmentCheckoutsController < BaseController
+    before_action :are_appointments_enabled?
+
     def create
       create_loans_for_holds
       redirect_to admin_appointment_path(appointment), flash: {success: "#{pluralize(checked_out_item_count, "Item")} checked-out."}

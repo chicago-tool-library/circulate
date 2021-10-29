@@ -3,6 +3,8 @@ module Admin
     class AppointmentsController < BaseController
       include AppointmentSlots
 
+      before_action :are_appointments_enabled?
+
       def index
         @appointments = @member.appointments.today_or_later.chronologically
         load_appointment_slots

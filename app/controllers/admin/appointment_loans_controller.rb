@@ -1,5 +1,7 @@
 module Admin
   class AppointmentLoansController < ApplicationController
+    before_action :are_appointments_enabled?
+
     def create
       add_new_appointment_loan
       redirect_to admin_appointment_path(appointment), flash: create_flash_message

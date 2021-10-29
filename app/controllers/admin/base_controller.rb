@@ -23,5 +23,11 @@ module Admin
     def load_requested_renewal_request_count
       @requested_renewal_request_count = RenewalRequest.requested.count
     end
+
+    def are_appointments_enabled?
+      if !@current_library.allow_appointments?
+        render_not_found
+      end
+    end
   end
 end

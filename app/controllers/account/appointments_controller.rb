@@ -3,6 +3,7 @@ module Account
     include AppointmentSlots
 
     before_action :load_appointment_for_editing, only: [:edit, :update, :destroy]
+    before_action :are_appointments_enabled?
 
     def index
       @appointments = current_user.member.appointments.today_or_later.includes(:member, :holds, :loans)

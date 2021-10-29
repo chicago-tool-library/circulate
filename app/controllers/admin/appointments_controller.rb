@@ -1,6 +1,7 @@
 module Admin
   class AppointmentsController < BaseController
     before_action :load_appointment, except: :index
+    before_action :are_appointments_enabled?
 
     def index
       @current_day = Date.parse(params[:day] ||= Time.current.to_date.to_s)
