@@ -37,4 +37,16 @@ class LibraryTest < ActiveSupport::TestCase
     assert library.allows_postal_code?("19011")
     assert library.allows_postal_code?("90310")
   end
+
+  test "#admissible_postal_codes returns list of admissible postal codes" do
+    library = build(:library, member_postal_code_pattern: "12345|67890")
+
+    assert_equal %w[12345 67890], library.admissible_postal_codes
+  end
+
+  test "#admissible_postal_codes pads results with the letter x if needed" do
+    library = build(:library, member_postal_code_pattern: "00000|^1111|^222|^33|^4")
+
+    assert_equal %w[00000 1111x 222xx 33xxx 4xxxx], library.admissible_postal_codes
+  end
 end

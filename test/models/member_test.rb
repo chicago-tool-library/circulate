@@ -60,7 +60,8 @@ class MemberTest < ActiveSupport::TestCase
       member.postal_code = "90210"
       assert member.invalid?
       assert member.errors.messages.include?(:postal_code)
-      assert member.errors.messages[:postal_code].include?("must be admissible in #{library.name}")
+      error_message = "must be one of: 60707, 60827, 606xx"
+      assert member.errors.messages[:postal_code].include?(error_message)
     end
   end
 

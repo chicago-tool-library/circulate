@@ -18,6 +18,13 @@ class Library < ApplicationRecord
     /#{member_postal_code_pattern}/ =~ postal_code.to_s
   end
 
+  def admissible_postal_codes
+    member_postal_code_pattern
+      .delete("^")
+      .split("|")
+      .map { |postal_code| postal_code.ljust(5, "x") }
+  end
+
   private
 
   def create_docs
