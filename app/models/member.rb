@@ -138,7 +138,7 @@ class Member < ApplicationRecord
     return unless library && postal_code.present?
 
     unless library.allows_postal_code?(postal_code)
-      errors.add :postal_code, "must be admissible in #{library.name}"
+      errors.add :postal_code, "must be one of: #{library.admissible_postal_codes.join(", ")}"
     end
   end
 end
