@@ -97,7 +97,12 @@ class Loan < ApplicationRecord
 
   # Can a member request this loan be renewed?
   def member_renewal_requestable?
-    renewable? && within_borrow_policy_duration? && ended_at.nil? && !item.active_holds.any? && !renewal_requests.any?
+    renewable? && within_borrow_policy_duration? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
+  end
+
+  # Does the item have any active holds?
+  def any_active_holds?
+    item.active_holds.any?
   end
 
   # Is it after the loan was created? This method is basically a no-op and can likely be removed.
