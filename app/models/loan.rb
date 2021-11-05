@@ -92,12 +92,12 @@ class Loan < ApplicationRecord
 
   # Can a member renew this loan themselves without approval?
   def member_renewable?
-    renewable? && within_borrow_policy_duration? && item.borrow_policy.member_renewable? && ended_at.nil?
+    renewable? && item.borrow_policy.member_renewable? && ended_at.nil?
   end
 
   # Can a member request this loan be renewed?
   def member_renewal_requestable?
-    renewable? && within_borrow_policy_duration? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
+    renewable? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
   end
 
   # Does the item have any active holds?
@@ -105,13 +105,8 @@ class Loan < ApplicationRecord
     item.active_holds.any?
   end
 
-  # Is it after the loan was created? This method is basically a no-op and can likely be removed.
-  def within_borrow_policy_duration?
-    due_at - Time.current <= item.borrow_policy.duration.days
-  end
-
   def status
-    if due_at < Time.now
+    if due_at < Time.current
       "overdue"
     else
       "checked-out"
