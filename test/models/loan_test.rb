@@ -177,15 +177,6 @@ class LoanTest < ActiveSupport::TestCase
     assert loan.member_renewal_requestable?
   end
 
-  test "is member_renewal_requestable if there is a previous approved renewal request" do
-    borrow_policy = create(:borrow_policy, member_renewable: false)
-    item = create(:item, borrow_policy: borrow_policy)
-    loan = create(:loan, item: item)
-    create(:renewal_request, loan: loan, status: RenewalRequest.statuses[:approved])
-
-    assert loan.member_renewal_requestable?
-  end
-
   test "is not member_renewal_requestable if there are active holds" do
     borrow_policy = create(:borrow_policy, member_renewable: false)
     item = create(:item, borrow_policy: borrow_policy)

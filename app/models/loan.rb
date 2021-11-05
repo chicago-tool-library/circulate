@@ -97,7 +97,7 @@ class Loan < ApplicationRecord
 
   # Can a member request this loan be renewed?
   def member_renewal_requestable?
-    renewable? && ended_at.nil? && !any_active_holds? && !renewal_requests.rejected.any?
+    renewable? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
   end
 
   # Does the item have any active holds?
