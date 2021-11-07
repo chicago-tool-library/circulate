@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence :hostname do |n|
       "alexandria#{n}.example.com"
     end
-    member_postal_code_pattern { ".*"}
+    member_postal_code_pattern { ".*" }
     city { "Alexandria" }
     email { "team@alexandria.example.com" }
     address do
