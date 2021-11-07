@@ -10,8 +10,8 @@ namespace :devdata do
   def load_models(klass, id_offset: 0)
     YAML.load_file(models_file_path(klass)).each do |attributes|
       attributes.each do |key, value|
-        if key =~ /ids?$/
-          next if key == 'library_id'
+        if /ids?$/.match?(key)
+          next if key == "library_id"
           attributes[key] = if value.is_a?(Array)
             value.map { |v| v + id_offset }
           else

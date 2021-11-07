@@ -98,7 +98,7 @@ namespace :export do
             item.complete_number,
             item.borrow_policy.code,
             item.number,
-            item.category_nodes.map{|cn| cn.path_names.join("//")}.sort.join("; "),
+            item.category_nodes.map { |cn| cn.path_names.join("//") }.sort.join("; "),
             *item.attributes.values_at(*columns)
           ]
         end
@@ -120,7 +120,7 @@ namespace :export do
       ]
       CategoryNode.in_batches(of: 100) do |nodes|
         nodes.each do |node|
-          csv << [ 
+          csv << [
             node.id,
             node.name,
             node.path_names.join("//"),
@@ -130,5 +130,4 @@ namespace :export do
       end
     end
   end
-
 end
