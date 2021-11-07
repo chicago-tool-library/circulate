@@ -1,4 +1,6 @@
 class MemberMailer < ApplicationMailer
+  include DateHelper
+
   helper :items
   helper :members
   helper :date
@@ -84,7 +86,7 @@ class MemberMailer < ApplicationMailer
     @member = params[:member]
     @library = @member.library
     @appointment = params[:appointment]
-    @subject = "Appointment Confirmation for #{@member.full_name} at #{@appointment.created_at}"
+    @subject = "New appointment scheduled for #{appointment_date_and_time(@appointment, include_time: false)}"
     mail(to: @member.email, subject: @subject)
   end
 
