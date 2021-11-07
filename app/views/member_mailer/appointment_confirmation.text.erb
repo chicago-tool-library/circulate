@@ -1,6 +1,6 @@
 Thank you for making an appointment!
 
-Your appointment is scheduled for <%= @appointment.starts_at %>
+Your appointment is scheduled for <%= appointment_date_and_time(@appointment) %>
 
 <% if @appointment.holds.present? %>
 The following holds are associated with your appointment:
@@ -17,3 +17,5 @@ These are the loans associated with your appointment:
     Number: <%= loan.item.complete_number %>
   <% end %>
 <% end %>
+
+You can make changes to this appointment here: <%= account_appointment_url(@appointment) %>
