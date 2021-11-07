@@ -44,25 +44,24 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "checks postal codes against the library's pattern" do
-    library = build(:library, member_postal_code_pattern: "60707|60827|^606")
-    ActsAsTenant.with_tenant(library) do
-      member = build(:member)
+    library = create(:library, member_postal_code_pattern: "60707|60827|^606")
+    member = build(:member, library: library)
 
-      member.postal_code = "60609"
-      assert member.valid?
+    member.postal_code = "60609"
+    assert member.valid?
 
-      member.postal_code = "60707"
-      assert member.valid?
+    member.postal_code = "60707"
+    assert member.valid?
 
-      member.postal_code = "60827"
-      assert member.valid?
+    member.postal_code = "60827"
+    assert member.valid?
 
-      member.postal_code = "90210"
-      assert member.invalid?
-      assert member.errors.messages.include?(:postal_code)
-      error_message = "must be one of: 60707, 60827, 606xx"
-      assert member.errors.messages[:postal_code].include?(error_message)
-    end
+    member.postal_code = "90210"
+    refute library.allows_postal_code? "90210"
+    refute member.valid?
+    assert member.errors.messages.include?(:postal_code)
+    error_message = "must be one of: 60707, 60827, 606xx"
+    assert member.errors.messages[:postal_code].include?(error_message)
   end
 
   test "member without a user has a role 'member'" do
