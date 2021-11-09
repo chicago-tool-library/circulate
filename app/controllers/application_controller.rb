@@ -3,6 +3,7 @@ require "active_support/testing/time_helpers"
 class ApplicationController < ActionController::Base
   include Pundit
   include ActiveSupport::Testing::TimeHelpers
+  include PageAttributes
 
   set_current_tenant_through_filter
   before_action :set_tenant
