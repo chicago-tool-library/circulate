@@ -9,6 +9,7 @@ class ItemsController < ApplicationController
       redirect_to(items_path, error: "Category not found") && return unless @category
 
       item_scope = @category.items.listed_publicly.distinct
+      set_page_attr :title, @category.name
     end
 
     item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
@@ -19,6 +20,8 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.listed_publicly.find(params[:id])
+
+    set_page_attr :title, "#{@item.name} (#{@item.complete_number})"
 
     if user_signed_in?
       @current_hold = current_member.active_holds.active.where(item_id: @item.id).first

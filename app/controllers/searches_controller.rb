@@ -10,5 +10,7 @@ class SearchesController < ApplicationController
       @items = Item.search_by_anything(query).by_name
       @items_by_number = Item.number_contains(query)
     end
+
+    set_page_attr :title, "Search results for #{query}"
   end
 end
