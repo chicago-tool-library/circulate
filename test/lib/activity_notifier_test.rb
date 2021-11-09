@@ -86,25 +86,26 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  test "sends emails to folks with overdue items" do
-    loan = Time.use_zone("America/Chicago") {
-      create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
-    }
-
+  test "sends overdue notice emails only to folks with overdue items" do
     Time.use_zone("America/Chicago") do
-      notifier = ActivityNotifier.new
+      @overdue_loan = create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
+      @not_overdue_loan = create(:loan, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
+
       assert_difference "Notification.count" do
-        notifier.send_overdue_notices
+        ActivityNotifier.new.send_overdue_notices
       end
     end
 
-    refute ActionMailer::Base.deliveries.empty?
+    mails = ActionMailer::Base.deliveries
+    assert_equal 1, mails.count
 
-    assert mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
+    mail = mails.first
+    assert_includes mail.to, @overdue_loan.member.email
+    assert_not_includes mail.to, @not_overdue_loan.member.email
 
     assert_equal "You have overdue items!", mail.subject
-    assert_includes mail.encoded, loan.item.complete_number
     assert_includes mail.encoded, "return all overdue items as soon as possible"
+    assert_includes mail.encoded, @overdue_loan.item.complete_number
   end
 
   test "doesn't send overdue notices to folks with returned overdue items" do
