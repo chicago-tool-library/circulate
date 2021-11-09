@@ -1,0 +1,36 @@
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <%= render partial: "member_mailer/overdue", locals: {summaries: @summaries, warning: @warning, now: @now} %>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <div class="info">
+        <p><strong>
+          You can view more information about the items you have checked out in <%= link_to "your account", account_home_url %>.
+        </strong></p>
+        <p><strong>
+          Need to return or pick-up tools?
+          <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>
+        </strong></p>
+        <p><strong>
+          Request a renewal for your tools or schedule a drop-off
+          <a href="https://app.chicagotoollibrary.org/account">here.</a>
+        </strong></p>
+      </div>
+    </mj-text>
+  </mj-column>
+</mj-section>
