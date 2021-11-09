@@ -15,7 +15,7 @@ class ActivityNotifier
     members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.checked_out.due_whole_weeks_ago).pluck(:id)
 
     each_member(members_with_overdue_items) do |member, summaries|
-      MemberMailer.with(member: member, summaries: summaries, now: @now).overdue_notice.deliver
+      MemberMailer.with(member: member, summaries: summaries.overdue_as_of(@now.tomorrow.beginning_of_day), now: @now).overdue_notice.deliver
     end
   end
 
