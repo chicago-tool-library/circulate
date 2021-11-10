@@ -45,7 +45,7 @@ class Item < ApplicationRecord
     electric_battery: "electric (battery)"
   }
 
-  audited
+  audited except: :plain_text_description
   acts_as_tenant :library
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
