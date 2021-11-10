@@ -43,7 +43,7 @@
                   <% else %>
                     Renewal requested
                   <% end %>
-                <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
+                <% elsif loan.renewal? %>
                   Renewed
                 <% elsif loan.member_renewable? %>
                   <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>

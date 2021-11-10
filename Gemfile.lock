@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/ErwinM/acts_as_tenant.git
-  revision: 1ba28d1354848fd422603efa343b145bae5c5fdf
-  ref: 1ba28d1354848fd422603efa343b145bae5c5fdf
-  branch: master
-  specs:
-    acts_as_tenant (0.4.4)
-      rails (>= 4.0)
-      request_store (>= 1.0.5)
-
-GIT
   remote: https://github.com/collectiveidea/audited.git
   revision: 39d29e29c31abdb029b2941016ec411c5cea12d8
   specs:
@@ -70,8 +60,8 @@ GEM
     activerecord (6.1.4.1)
       activemodel (= 6.1.4.1)
       activesupport (= 6.1.4.1)
-    activerecord-postgres_enum (1.6.1)
-      activerecord (>= 5, < 6.2)
+    activerecord-postgres_enum (1.7.0)
+      activerecord (>= 5)
       pg
     activestorage (6.1.4.1)
       actionpack (= 6.1.4.1)
@@ -86,6 +76,9 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    acts_as_tenant (0.5.1)
+      rails (>= 5.2)
+      request_store (>= 1.0.5)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     appsignal (3.0.14)
@@ -176,7 +169,7 @@ GEM
     http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    i18n (1.8.10)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.1)
       mini_magick (>= 4.9.5, < 5)
@@ -211,7 +204,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
+    marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
     mini_magick (4.11.0)
@@ -322,7 +315,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    reverse_markdown (2.0.0)
+    reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
     rubocop (1.20.0)
@@ -416,10 +409,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (4.7.0)
+    webdrivers (5.0.0)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
-      selenium-webdriver (> 3.141, < 5.0)
+      selenium-webdriver (~> 4.0)
     webpacker (5.2.1)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -431,7 +424,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.26)
-    zeitwerk (2.4.2)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   ruby
@@ -439,7 +432,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_log_suppressor!
   activerecord-postgres_enum
-  acts_as_tenant!
+  acts_as_tenant
   appsignal
   audited!
   aws-sdk-s3
@@ -484,7 +477,7 @@ DEPENDENCIES
   turbolinks (~> 5)
   turbolinks_render
   web-console (>= 3.3.0)
-  webdrivers (~> 4.7)
+  webdrivers (~> 5.0)
   webpacker (>= 4.0.0.rc.3)
 
 RUBY VERSION
