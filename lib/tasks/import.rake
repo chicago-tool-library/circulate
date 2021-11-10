@@ -73,9 +73,9 @@ namespace :import do
           if path_names.size != category_ids.size
             puts "wrong number of categories found for item #{row["id"]}: wanted #{path_names.size}, got #{category_ids.size}"
             puts path_names
+          else
+            item.update!(category_ids: category_ids)
           end
-
-          item.update!(category_ids: category_ids)
         end
       end
     end
@@ -89,6 +89,7 @@ namespace :import do
         parent.find_or_create_by!(name: name.strip).children
       }
     end
+    CategoryNode.refresh
   rescue ActiveRecord::RecordInvalid
     puts "failed to save category"
     nil
