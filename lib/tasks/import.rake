@@ -39,12 +39,13 @@ namespace :import do
 
   desc "Updates items with categories"
   task category_csv: :environment do
-
+    # rubocop:disable Lint/ConstantDefinitionInBlock
     class Category
       def refresh_category_nodes
         # no need to do this after every change
       end
     end
+    # rubocop:enable Lint/ConstantDefinitionInBlock
 
     path = ENV["CSV_FILE"]
     library = Library.find(ENV["LIBRARY_ID"])
