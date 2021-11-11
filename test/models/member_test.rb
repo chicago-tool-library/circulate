@@ -178,12 +178,15 @@ class MemberTest < ActiveSupport::TestCase
 
   test "schedules a job for updating Neon membership when enabled" do
     member = create(:member)
+    mock = Minitest::Mock.new
+    mock.expect :call, true, [Integer]
 
-    NeonMemberJob.stub :perform_async, true do
+    NeonMemberJob.stub :perform_async, mock do
       member.stub :can_update_neon_crm?, true do
         member.update(city: "#{member.city} Test")
-        assert_send([NeonMemberJob, :perform_async])
       end
     end
+
+    assert mock
   end
 end
