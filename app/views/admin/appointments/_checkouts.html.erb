@@ -2,7 +2,7 @@
   <div class="columns col-oneline">
     <div class="column col-8"><h4>Items to be checked-out (<%= checkout_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
-      <%= button_to "Check-out All", admin_appointment_checkouts_path(@appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? || !member.borrow? %>
+      <%#= button_to "Check-out All", admin_appointment_checkouts_path(@appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? || !member.borrow? %>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
       </div>
       <div class="column col-sm-6 col-4">
         <p><%= pickup_item.item.name %></p>
-        <p><%= full_item_number(pickup_item.item) %></p>
+        <p><%= link_to full_item_number(pickup_item.item), item_path(pickup_item.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right checkout-button-column">
         <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary btn-sm", data: { disable_with: "Checking-out..." }, disabled: !pickup_item.active? || !member.borrow? %>

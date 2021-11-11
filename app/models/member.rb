@@ -53,6 +53,7 @@ class Member < ApplicationRecord
   before_validation :downcase_email
 
   after_save :update_user_email
+  after_update :update_neon_crm, if: :can_update_neon_crm?
 
   acts_as_tenant :library
 
@@ -110,6 +111,16 @@ class Member < ApplicationRecord
     user.update_column(:email, email) if user && !user.new_record? # Skip validations
   end
 
+  def update_neon_crm
+    organization_id, api_key = Neon.credentials_for_library(library)
+    client = Neon::Client.new(organization_id, api_key)
+    client.update_account_with_member(self)
+  end
+
+  def can_update_neon_crm?
+    Rails.env.production? && Neon.credentials_for_library(library)
+  end
+
   def strip_phone_number
     self.phone_number = phone_number.gsub(/\D/, "")
   end
@@ -127,7 +138,7 @@ class Member < ApplicationRecord
     return unless library && postal_code.present?
 
     unless library.allows_postal_code?(postal_code)
-      errors.add :postal_code, "must be admissible in #{library.name}"
+      errors.add :postal_code, "must be one of: #{library.admissible_postal_codes.join(", ")}"
     end
   end
 end

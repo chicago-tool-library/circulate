@@ -1,8 +1,10 @@
 <%= @subject %>
 
-<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/summaries", locals: {summaries: @summaries, warning: @warning, now: @now})) %>
+<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/summaries", locals: {summaries: @summaries, now: @now})) %>
 
 Need to return or pick-up tools? Schedule a time here: https://app.chicagotoollibrary.org/account/appointments/new
+
+Request a renewal for your tools or schedule a drop-off here: https://app.chicagotoollibrary.org/account
 
 We are open *by appointment only* in response to COVID-19. Please check our COVID-19 page for more information and our current hours: https://chicagotoollibrary.org/covid-19
 

@@ -44,7 +44,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "checks postal codes against the library's pattern" do
-    library = build(:library, member_postal_code_pattern: "60707|60827|^606")
+    library = create(:library, member_postal_code_pattern: "60707|60827|^606")
     ActsAsTenant.with_tenant(library) do
       member = build(:member)
 
@@ -58,9 +58,11 @@ class MemberTest < ActiveSupport::TestCase
       assert member.valid?
 
       member.postal_code = "90210"
-      assert member.invalid?
+      refute library.allows_postal_code? "90210"
+      refute member.valid?
       assert member.errors.messages.include?(:postal_code)
-      assert member.errors.messages[:postal_code].include?("must be admissible in #{library.name}")
+      error_message = "must be one of: 60707, 60827, 606xx"
+      assert member.errors.messages[:postal_code].include?(error_message)
     end
   end
 

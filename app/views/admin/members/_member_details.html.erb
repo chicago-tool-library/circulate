@@ -44,7 +44,7 @@
       <% end %>
       <li>
         <%= feather_icon "credit-card" %>
-        <%= link_to member.account_balance.format, admin_member_adjustments_path(member) %>
+        <%= link_to member.account_balance.format, admin_member_memberships_path(member) %>
       </li>
       <% if member.active_membership %>
         <li>

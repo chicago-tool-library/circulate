@@ -3,7 +3,9 @@
 
     <div class="column col-8 col-md-12">
       <%= section_header "Loans" do %>
-        <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-primary" %>
+        <% if @current_library.allow_appointments? %>
+          <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-primary" %>
+        <% end %>
         <%= link_to "View Loan History", account_loans_path, class: "ml-2" %>
       <% end %>
 
@@ -29,7 +31,9 @@
                 </span>
                 <span class="status">
                   <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
-                  <span class="pickup"><%= loan_pickup_status(loan) %></span>
+                  <% if @current_library.allow_appointments? %>
+                    <span class="pickup"><%= loan_pickup_status(loan) %></span>
+                  <% end %>
                 </span>
               </div>
               <div class="actions">
@@ -39,7 +43,7 @@
                   <% else %>
                     Renewal requested
                   <% end %>
-                <% elsif !loan.within_borrow_policy_duration? && loan.renewal? %>
+                <% elsif loan.renewal? %>
                   Renewed
                 <% elsif loan.member_renewable? %>
                   <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>

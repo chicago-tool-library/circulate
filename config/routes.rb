@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
-    resources :shifts, only: :index
     resources :categories, except: :show
     resources :gift_memberships
     resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
@@ -72,6 +71,7 @@ Rails.application.routes.draw do
       resources :checkins, only: [:create], controller: :appointment_checkins
       resource :completion, only: [:create, :destroy], controller: :appointment_completions
     end
+    resources :manage_features, only: [:index, :update]
     resources :items do
       scope module: "items" do
         resources :attachments
@@ -93,7 +93,6 @@ Rails.application.routes.draw do
 
     resources :members do
       scope module: "members" do
-        resources :adjustments, only: :index
         resources :holds, only: [:create, :index, :destroy] do
           post :lend, on: :member
         end
@@ -112,14 +111,15 @@ Rails.application.routes.draw do
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
+      resources :monthly_activities, only: :index
+      resources :member_requests, only: :index
+      resources :notifications, only: :index
+      resources :potential_volunteers, only: :index
+      resources :shifts, only: :index
+      resources :items_without_image, only: :index
       get "money", to: "money#index"
     end
 
-    resources :items_without_image, only: :index
-    resources :member_requests, only: :index
-    resources :monthly_activities, only: :index
-    resources :notifications, only: :index
-    resources :potential_volunteers, only: :index
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
@@ -150,11 +150,16 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
+  resources :homepage, only: [:index, :create]
   get "search", to: "searches#show"
 
   root to: "home#index"
 
   if Rails.env.test?
     get "/test/google_auth", to: "test#google_auth"
+  end
+
+  %w[404 422 500 503].each do |code|
+    match code, to: "errors#show", via: :all, code: code, as: "error_#{code}"
   end
 end

@@ -2,7 +2,7 @@
   <div class="columns col-oneline">
     <div class="column col-8"><h4>Items to be checked-in (<%= checkin_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
-      <%= button_to "Check-in All", admin_appointment_checkins_path(@appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
+      <%#= button_to "Check-in All", admin_appointment_checkins_path(@appointment, loan_ids: appointment_return_items.checked_out.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-in...", confirm: "Are you sure you want to check-in all items?" }, disabled: !appointment_return_items.checked_out.exists? %>
     </div>
   </div>
   <% appointment_return_items.each do |return_item| %>
@@ -21,7 +21,7 @@
       </div>
       <div class="column col-sm-6 col-4">
         <p><%= return_item.item.name %></p>
-        <p><%= full_item_number(return_item.item) %></p>
+        <p><%= link_to full_item_number(pickup_item.item), item_path(pickup_item.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right">
         <%= button_to "Check-in", admin_appointment_checkins_path(@appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: { disable_with: "Checking-in..." }, disabled: !return_item.checked_out? %>

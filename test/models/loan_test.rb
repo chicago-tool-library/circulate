@@ -161,35 +161,18 @@ class LoanTest < ActiveSupport::TestCase
     refute loan.member_renewable?
   end
 
-  test "is not member_renewable if not within original loan duration" do
+  test "is not member_renewable if loan has end date" do
     borrow_policy = create(:member_renewable_borrow_policy)
     item = create(:item, borrow_policy: borrow_policy)
-    loan = create(:loan, item: item, due_at: (borrow_policy.duration + 1).days.from_now)
-
-    refute loan.member_renewable?
-  end
-
-  test "is not member_renewable if loan has end date" do
-    borrow_policy = build(:member_renewable_borrow_policy)
-    item = build(:item, borrow_policy: borrow_policy)
-    loan = build(:loan, item: item, ended_at: Time.current)
+    loan = create(:loan, item: item, created_at: Time.current, ended_at: Time.current)
 
     refute loan.member_renewable?
   end
 
   test "is member_renewal_requestable without a renewable borrow policy" do
-    borrow_policy = build(:borrow_policy, member_renewable: false)
-    item = build(:item, borrow_policy: borrow_policy)
-    loan = build(:loan, item: item)
-
-    assert loan.member_renewal_requestable?
-  end
-
-  test "is member_renewal_requestable if there is a previous approved renewal request" do
-    borrow_policy = build(:borrow_policy, member_renewable: false)
-    item = build(:item, borrow_policy: borrow_policy)
-    loan = build(:loan, item: item)
-    build(:renewal_request, loan: loan, status: RenewalRequest.statuses[:approved])
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
 
     assert loan.member_renewal_requestable?
   end

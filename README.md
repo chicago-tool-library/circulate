@@ -28,13 +28,13 @@
 
 ## Welcome contributors!
 
-We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contrinbutors of all skill levels. We have plenty of tiny, small, and medium issues. 
+We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contributors of all skill levels. We have plenty of tiny, small, and medium issues.
 
 We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (on hold for the moment, but occasionally on Tuesdays at 7pm CT), stakeholder news, and upcoming new issues.
 
 Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue." Feel free to assign to yourself and move the Issue to the "In Progress" column if you have Project permissions.
 
-Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make github issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three. 
+Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make GitHub issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three.
 
 See also our [contributing guide](./CONTRIBUTING.md) 💖
 
@@ -58,7 +58,7 @@ There is content and information hard-coded in many of the views that is specifi
 
 ### Project Considerations
 * The Chicago Tool Library serves a diverse group of people in Chicago, with varying levels of technological sophistication, abilities, and understandings of English. The app should strive to be accessible to as many people as possible, including easy-to-understand UX; accessibility to different levels of vision (blind, low vision, color-blind); and straightforward, simple English.
-* Look-and feel for Chicago Tool Library overall is generally fun, warm, bright, accessible, approachable, humble. A neighborhood old-timey hardware store. The Chicago Tool Library version of the app doesn't need to have as specific of a look-and-feel, but it shouldn't clash with this aesthetic. See the [SquareSpace Chicago Tool Library site](https://chicagotoollibrary.org/) for more of a sense of this.
+* Look-and-feel for Chicago Tool Library overall is generally fun, warm, bright, accessible, approachable, humble. A neighborhood old-timey hardware store. The Chicago Tool Library version of the app doesn't need to have as specific of a look-and-feel, but it shouldn't clash with this aesthetic. See the [SquareSpace Chicago Tool Library site](https://chicagotoollibrary.org/) for more of a sense of this.
 * circulate may be used by other tool libraries or other lending organizations in the future, so should be built with an eye towards multi-tenancy. (Multi-lingual support may also be a goal someday!)
 
 
@@ -146,7 +146,7 @@ Open an internet browser, type `localhost:3000`, and hit enter. You should see t
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@chicagotoollibrary.org` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Multi-tenancy
@@ -160,20 +160,22 @@ denver.circulate.local
 
 Users are not currently shared between libraries; check `db/seeds.rb` for the full set of users as whom you can login to each of these libraries.
 
-In order to access libraries other than the first one on your local machine, add the following to your hosts file:
+In order to access libraries other than the first one on your local machine, you need to edit your hosts file.
+This file is located at `/etc/hosts` on macOS and Linux, and `C:\Windows\System32\drivers\etc` on Windows or under WSL (Windows Subsystem for Linux).
+Add the following lines to the file:
 
 ```
 127.0.0.1 chicago.circulate.local
-127.0.0.1	denver.circulate.local
+127.0.0.1 denver.circulate.local
 ```
 
-This file is located at `/etc/hosts` on macOS and Linux and `C:\Windows\System32\drivers\etc` on Windows or under WSL.
+You can now access these libraries at http://chicago.circulate.local:3000 and http://denver.circulate.local:3000.
 
 You will need to add additional lines to your hosts file if you need to work with additional libraries locally.
 
 ### Configuring your database
 
-By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to 
+By default the application will attempt to connect to a local PostgreSQL database accessible via a local domain socket. IF you need to
 specify other credentials on your machine, add any required values to the file `.env.local`:
 
 ```
@@ -187,13 +189,13 @@ If `.env.local` doesn't exist in your project directory yet, you will need to cr
 
 ### Resetting the application
 
-During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database! 
+During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database!
 
 This can be useful if you need to run through a certain scenario multiple times manually, or when switching branches to get back into a known good state.
 
 ### Running tests
 
-Use the standard Rails test commands: 
+Use the standard Rails test commands:
 
 ```console
 $ rails test # to run model, controller, and integration tests

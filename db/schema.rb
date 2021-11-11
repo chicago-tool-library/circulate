@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_11_202001) do
+ActiveRecord::Schema.define(version: 2021_10_14_184745) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2021_09_11_202001) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -51,20 +52,20 @@ ActiveRecord::Schema.define(version: 2021_09_11_202001) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
     "member",
-    "super_admin"
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -308,6 +309,7 @@ ActiveRecord::Schema.define(version: 2021_09_11_202001) do
     t.text "location_area"
     t.text "location_shelf"
     t.integer "library_id"
+    t.text "plain_text_description"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"
@@ -323,6 +325,10 @@ ActiveRecord::Schema.define(version: 2021_09_11_202001) do
     t.text "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "allow_members", default: true, null: false
+    t.boolean "allow_appointments", default: true, null: false
+    t.boolean "allow_volunteers", default: true, null: false
+    t.boolean "allow_payments", default: true, null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
 
@@ -423,6 +429,8 @@ ActiveRecord::Schema.define(version: 2021_09_11_202001) do
     t.bigint "loan_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "library_id"
+    t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
   end
 

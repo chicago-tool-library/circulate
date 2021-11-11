@@ -5,6 +5,12 @@ module Signup
 
     layout "steps"
 
+    def is_membership_enabled?
+      if !@current_library.allow_members?
+        render_not_found
+      end
+    end
+
     private
 
     def load_member
@@ -19,13 +25,22 @@ module Signup
 
     def load_steps
       agreement = Document.agreement
-      @steps = [
-        Step.new(:rules, name: "Rules"),
-        Step.new(:profile, name: "Profile"),
-        Step.new(:agreement, name: agreement.name),
-        Step.new(:payment, name: "Payment"),
-        Step.new(:complete, name: "Complete")
-      ]
+      @steps = if @current_library.allow_payments?
+        [
+          Step.new(:rules, name: "Rules"),
+          Step.new(:profile, name: "Profile"),
+          Step.new(:agreement, name: agreement.name),
+          Step.new(:payment, name: "Payment"),
+          Step.new(:complete, name: "Complete")
+        ]
+      else
+        [
+          Step.new(:rules, name: "Rules"),
+          Step.new(:profile, name: "Profile"),
+          Step.new(:agreement, name: agreement.name),
+          Step.new(:complete, name: "Complete")
+        ]
+      end
     end
 
     def activate_step(step_id)

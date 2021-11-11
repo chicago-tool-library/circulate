@@ -46,7 +46,7 @@ class UserSignupTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Complete in Person"
 
-      assert_selector "li.step-item.active", text: "Complete", wait: 5
+      assert_selector "li.step-item.active", text: "Complete", wait: 10
     end
 
     assert_emails 1
@@ -62,7 +62,7 @@ class UserSignupTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Complete in Person"
 
-      assert_selector "li.step-item.active", text: "Complete", wait: 5
+      assert_selector "li.step-item.active", text: "Complete", wait: 10
     end
 
     visit root_url

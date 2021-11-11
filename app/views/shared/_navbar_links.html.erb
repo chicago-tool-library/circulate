@@ -2,7 +2,9 @@
 <% if user_signed_in? %>
   <%= navbar_link_to "Loans", account_home_path %>
   <%= navbar_link_to "Holds", account_holds_path %>
-  <%= navbar_link_to "Appointments", account_appointments_path %>
+  <% if @current_library.allow_appointments? %>
+    <%= navbar_link_to "Appointments", account_appointments_path %>
+  <% end %>
   <%= navbar_link_to "Membership", account_member_path %>
   <% if current_user.admin? %>
     <%= navbar_link_to "Librarian View", admin_dashboard_path, class: "librarian-link" %>
@@ -10,5 +12,7 @@
   <%= navbar_link_to 'Logout', destroy_user_session_path, method: :delete %>
 <% else %>
   <%= navbar_link_to 'Member Login', new_user_session_path %>
-  <%= navbar_link_to "Become a Member", signup_path %>
+  <% if @current_library.allow_members? %>
+    <%= navbar_link_to "Become a Member", signup_path %>
+  <% end %>
 <% end %>

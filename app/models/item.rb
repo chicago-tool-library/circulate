@@ -5,6 +5,7 @@ class Item < ApplicationRecord
       name: "A",
       other_names: "B",
       brand: "C",
+      plain_text_description: "C",
       size: "D",
       strength: "D"
     },
@@ -29,7 +30,7 @@ class Item < ApplicationRecord
 
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
-  has_many :attachments, class_name: "ItemAttachment"
+  has_many :attachments, class_name: "ItemAttachment", dependent: :destroy
 
   has_rich_text :description
   has_one_attached :image
@@ -44,7 +45,7 @@ class Item < ApplicationRecord
     electric_battery: "electric (battery)"
   }
 
-  audited
+  audited except: :plain_text_description
   acts_as_tenant :library
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
@@ -68,6 +69,8 @@ class Item < ApplicationRecord
 
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
+
+  before_save :cache_description_as_plain_text
 
   after_update :clear_holds_if_inactive
 
@@ -122,6 +125,10 @@ class Item < ApplicationRecord
   delegate :allow_one_holds_per_member?, to: :borrow_policy
 
   private
+
+  def cache_description_as_plain_text
+    self.plain_text_description = description.to_plain_text
+  end
 
   def strip_whitespace
     %w[name brand size model serial strength].each do |attr_name|

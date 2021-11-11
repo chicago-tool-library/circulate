@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
   around_action :set_time_zone
   around_action :override_time_in_development, if: -> { Rails.env.development? }
 
+  def are_appointments_enabled?
+    if !@current_library.allow_appointments?
+      render_not_found
+    end
+  end
+
   private
 
   def override_time_in_development(&block)
@@ -60,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found
-    render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+    render "errors/show", status: :not_found
   end
 
   def after_sign_in_path_for(user)
