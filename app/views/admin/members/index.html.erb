@@ -11,9 +11,9 @@
     <%= link_to_unless params[:filter] == "closed", "closed", {filter: "closed", sort: params[:sort]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">closed</button>
     <% end %>
-  </div> 
+  </div>
 
-  sort by: 
+  sort by:
   <div class="btn-group">
     <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">added</button>
@@ -21,14 +21,14 @@
     <%= link_to_unless params[:sort] == "name", "name", {sort: "name", filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">name</button>
     <% end %>
-  </div> 
-</div> 
+  </div>
+</div>
 
 <% if @members.any? %>
-  <%= render partial: "members", locals: { members: @members } %>
+  <%= render partial: "members", locals: {members: @members} %>
   <%== pagy_bootstrap_nav(@pagy) %>
 <% else %>
-  <%= empty_state "There are no members.", subtitle:"Create one?", icon: "people" do %>
+  <%= empty_state "There are no members.", subtitle: "Create one?", icon: "people" do %>
     <%= link_to "Add a Member", new_admin_member_path, class: "btn btn-primary" %>
   <% end %>
 <% end %>

@@ -31,7 +31,7 @@
             <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
             <% if summary.renewed? %>
               <p>
-                <%= tag.span class:"tooltip tooltip-bottom more-info", data: {tooltip:"Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
+                <%= tag.span class: "tooltip tooltip-bottom more-info", data: {tooltip: "Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
               </p>
             <% end %>
           </div>
@@ -47,7 +47,7 @@
   <% if @active_loan_summaries.any? %>
     <div id="current-loans" class="member-active-loans">
       <div class="column col-sm-12 col-12 text-right">
-        <%= button_to admin_bulk_renewal_path(@member), method: :put, class:"btn ml-2 mb-2", data: { confirm: "Are you sure you want renew all renewable loans for #{@member.full_name}?" }, remote: true do %>
+        <%= button_to admin_bulk_renewal_path(@member), method: :put, class: "btn ml-2 mb-2", data: {confirm: "Are you sure you want renew all renewable loans for #{@member.full_name}?"}, remote: true do %>
           <%= feather_icon "repeat" %>Renew All
         <% end %>
       </div>
@@ -77,7 +77,7 @@
               <p><%= link_to summary.item.name, admin_item_path(summary.item) %></p>
               <% if summary.renewed? %>
                 <p>
-                  <%= tag.span class:"tooltip tooltip-bottom more-info", data: {tooltip:"Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
+                  <%= tag.span class: "tooltip tooltip-bottom more-info", data: {tooltip: "Initial check out #{checked_out_date(summary.created_at)}"} do %>Renewed <%= pluralize(summary.renewal_count, "time") %><% end %>
                 </p>
               <% end %>
               <% if summary.overdue_as_of?(Time.current) %>
@@ -87,17 +87,16 @@
               <% end %>
             </div>
             <div class="column col-sm-12 col-4 text-right">
-              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class:"btn btn-primary mb-2", remote: true do %>
+              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class: "btn btn-primary mb-2", remote: true do %>
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
                 <% renew_button_data = if summary.latest_loan.any_active_holds?
-                      { confirm: "This item is on hold by other members and should only be renewed under special circumstances. Click OK to renew the item, or Cancel to go back." }
-                    else
+                      {confirm: "This item is on hold by other members and should only be renewed under special circumstances. Click OK to renew the item, or Cancel to go back."}
+                   else
                       {}
-                    end
-                %>
-                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true, data: renew_button_data do %>
+                   end %>
+                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class: "btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true, data: renew_button_data do %>
                   <%= feather_icon "repeat" %>Renew
                 <% end %>
               <% end %>
@@ -116,8 +115,7 @@
     <p class="mt-2">No current loans or recently returned items.</p>
   <% end %>
 
-  <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+  <%= render partial: "admin/members/lookup", locals: {member: @member} %>
 </div>
-
 
 <% end %>

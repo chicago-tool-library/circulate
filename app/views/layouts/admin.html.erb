@@ -9,8 +9,8 @@
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+    <%= stylesheet_pack_tag "styles", media: "all", 'data-turbolinks-track': "reload" %>
   </head>
 
   <body class="admin">
@@ -32,7 +32,7 @@
             </ul>
           </li>
           <% if current_library.allow_appointments? %>
-            <li  class="nav-item">
+            <li class="nav-item">
               <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
             </li>
           <% end %>
@@ -47,7 +47,7 @@
               <li class="nav-item"><%= link_to "Potential Volunteers", admin_reports_potential_volunteers_path %></li>
               <li class="nav-item"><%= link_to "Volunteer Shifts", admin_reports_shifts_path %></li>
               <li class="nav-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
-              <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
+              <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %>
             </ul>
           </li>
 
@@ -131,7 +131,7 @@
                 <li class="menu-item"><%= link_to "Potential Volunteers", admin_reports_potential_volunteers_path %></li>
                 <li class="menu-item"><%= link_to "Volunteer Shifts", admin_reports_shifts_path %></li>
                 <li class="menu-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
-                <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
+                <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %>
               </ul>
             </div>
             <div class="dropdown">
@@ -199,9 +199,9 @@
     <% end %>
 
     <div class="container grid-lg admin app-body">
-      <%= flash_message :success  %>
-      <%= flash_message :warning  %>
-      <%= flash_message :error  %>
+      <%= flash_message :success %>
+      <%= flash_message :warning %>
+      <%= flash_message :error %>
       <%= yield %>
     </div>
 

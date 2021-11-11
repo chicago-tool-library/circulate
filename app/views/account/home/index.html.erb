@@ -4,7 +4,7 @@
     <div class="column col-8 col-md-12">
       <%= section_header "Loans" do %>
         <% if @current_library.allow_appointments? %>
-          <%= link_to 'Schedule a Return', new_account_appointment_path, class: "btn btn-primary" %>
+          <%= link_to "Schedule a Return", new_account_appointment_path, class: "btn btn-primary" %>
         <% end %>
         <%= link_to "View Loan History", account_loans_path, class: "ml-2" %>
       <% end %>
@@ -46,9 +46,9 @@
                 <% elsif loan.renewal? %>
                   Renewed
                 <% elsif loan.member_renewable? %>
-                  <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to 'Renew Loan', account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
+                  <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to "Renew Loan", account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
                 <% elsif loan.member_renewal_requestable? %>
-                  <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to 'Request Loan Renewal', account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
+                  <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to "Request Loan Renewal", account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
                 <% end %>
               </div>
             </li>

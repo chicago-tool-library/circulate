@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="sort-controls">
-  sort by: 
+  sort by:
   <div class="btn-group">
     <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">added</button>
@@ -11,8 +11,8 @@
     <%= link_to_unless params[:sort] == "name", "name", {sort: "name", filter: params[:filter]}, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">name</button>
     <% end %>
-  </div> 
-</div> 
+  </div>
+</div>
 
 <% if @members.any? %>
   <div class="responsive-table two-columns">

@@ -1,4 +1,4 @@
-<%= tag.div data: {controller: "image-editor", image_editor_rotation: @image.metadata.fetch("rotation", 0) } do %>
+<%= tag.div data: {controller: "image-editor", image_editor_rotation: @image.metadata.fetch("rotation", 0)} do %>
   <%= form_with(model: @image, scope: "image", url: admin_item_image_path(@item), builder: SpectreFormBuilder) do |f| %>
     <div class="image-editor">
       <div class="image-editor-row">

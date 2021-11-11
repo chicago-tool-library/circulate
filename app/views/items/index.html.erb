@@ -19,13 +19,13 @@
         <strong><%= pluralize @pagy.count, "item" %></strong> in category
         <span class="chip">
           <%= @category.name %>
-          <%= link_to "", items_path, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
+          <%= link_to "", items_path, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", :title => "Clear filter" %>
         </span>,
       <% else %>
         <strong><%= pluralize @pagy.count, "item" %></strong>,
       <% end %>
 
-      sorted by: 
+      sorted by:
 
       <div class="btn-group">
         <%= link_to_unless_current "name", {sort: "name", category: params[:category]}, class: "btn btn-sm" do %>
@@ -39,7 +39,7 @@
         <% end %>
       </div>
 
-    </div> 
+    </div>
 
     <% if @items.any? %>
       <div class="items-table">

@@ -1,16 +1,16 @@
 <%= render "admin/items/profile" do %>
   <div class="timeline item-edit-history">
-    <% @item.audits.reverse.each do |audit| %>
+    <% @item.audits.reverse_each do |audit| %>
       <div class="timeline-item" id="<%= dom_id(audit) %>">
         <div class="timeline-left">
           <a class="timeline-icon" href="#<%= dom_id(audit) %>"></a>
         </div>
         <div class="timeline-content">
           <div class="tile-content">
-            <p class="tile-title"><%= audit.created_at.to_s(:short) %> by 
+            <p class="tile-title"><%= audit.created_at.to_s(:short) %> by
               <% if audit.user.present? %>
                 <%= audit.user.email %>
-              <% end %>  
+              <% end %>
             </p>
           </div>
           <% audit.audited_changes.each do |key, values| %>

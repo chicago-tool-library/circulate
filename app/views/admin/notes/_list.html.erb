@@ -1,6 +1,6 @@
 <% parent.notes.by_creation_date.each do |note| %>
   <%= portal do %>
-    <%= render partial: "admin/notes/show", locals: {note: note, parent: parent } %>
+    <%= render partial: "admin/notes/show", locals: {note: note, parent: parent} %>
   <% end %>
 <% end %>
 
@@ -11,7 +11,7 @@
 
   <div data-target="toggle.toggled">
     <%= portal do %>
-      <%= render partial: "admin/notes/form", locals: { parent: parent } %>
+      <%= render partial: "admin/notes/form", locals: {parent: parent} %>
     <% end %>
   </div>
 </div>

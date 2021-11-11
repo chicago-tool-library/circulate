@@ -9,8 +9,8 @@
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+    <%= stylesheet_pack_tag "styles", media: "all", 'data-turbolinks-track': "reload" %>
     <% if Rails.env.production? %>
       <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
       <script>
@@ -25,9 +25,9 @@
 
   <body>
     <div class="container grid-lg signup app">
-      <%= flash_message :success  %>
-      <%= flash_message :warning  %>
-      <%= flash_message :error  %>
+      <%= flash_message :success %>
+      <%= flash_message :warning %>
+      <%= flash_message :error %>
 
       <div class="columns">
         <div class="column col-12">
@@ -35,7 +35,7 @@
             <%= logo(small: true) %>
             <h1><%= @page_title %></h1>
           </div>
-          <%= render 'shared/steps', steps: @steps unless @hide_steps %>
+          <%= render "shared/steps", steps: @steps unless @hide_steps %>
         </div>
       </div>
 

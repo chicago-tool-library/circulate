@@ -33,7 +33,7 @@
             </td>
             <td class="text-center"><%= event.accepted_attendees_count %></td>
             <td>
-              <% event.attendees.select {|a| !a.declined? }.each do |a| %>
+              <% event.attendees.select { |a| !a.declined? }.each do |a| %>
                 <%= tag.span a.name.blank? ? a.email : a.name, title: a.email %>
                 <% unless a.accepted? %><strong title="not confirmed">&#63;</strong><% end %>
                 <br>

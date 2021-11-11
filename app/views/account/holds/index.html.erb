@@ -5,7 +5,7 @@
       <%= section_header "Holds" do %>
         <% if @holds.any? {|hold| hold.ready_for_pickup? } %>
           <% if @current_library.allow_appointments? %>
-            <%= link_to 'Schedule a Pick Up', new_account_appointment_path, class: "btn btn-primary" %>
+            <%= link_to "Schedule a Pick Up", new_account_appointment_path, class: "btn btn-primary" %>
           <% end %>
         <% end %>
         <%= link_to "View Hold History", history_account_holds_path, class: "ml-2" %>

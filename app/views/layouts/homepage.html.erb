@@ -10,17 +10,17 @@
       <meta name="turbolinks-cache-control" content="no-preview">
     <% end %>
 
-    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag "styles", media: "all", 'data-turbolinks-track': "reload" %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
 
   </head>
 
   <body class="background-white">
 
     <div>
-      <%= flash_message :success  %>
-      <%= flash_message :warning  %>
-      <%= flash_message :error  %>
+      <%= flash_message :success %>
+      <%= flash_message :warning %>
+      <%= flash_message :error %>
       <%= yield %>
     </div>
 

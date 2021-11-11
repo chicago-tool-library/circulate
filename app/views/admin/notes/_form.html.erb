@@ -8,19 +8,19 @@
     <%= form.actions do %>
       <%= form.submit class: "btn btn-primary" %>
       <% if note.new_record? %>
-        or 
-        <%= link_to "Cancel", nil, data: { action: "click->toggle#toggle"} %>
+        or
+        <%= link_to "Cancel", nil, data: {action: "click->toggle#toggle"} %>
       <% else %>
         <% if parent.is_a?(Item) %>
                 or
         <%= link_to "Cancel", [:admin, parent, note], method: :get, remote: true %>
         <% end %>
       <% end %>
-      
+
       <br><br>
       <% unless note.new_record? %>
         <%= tag.div class: "notes-actions" do %>
-          <%= link_to 'Delete Note', [:admin, parent, note], method: :delete, remote: true, class: "btn btn-link" %>
+          <%= link_to "Delete Note", [:admin, parent, note], method: :delete, remote: true, class: "btn btn-link" %>
         <% end %>
       <% end %>
     <% end %>
