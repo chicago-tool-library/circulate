@@ -11,7 +11,7 @@
 <mj-section>
   <mj-column>
     <mj-text>
-      <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, now: @now} %>
+      <%= render partial: "member_mailer/overdue", locals: {summaries: @summaries, warning: @warning, now: @now} %>
     </mj-text>
   </mj-column>
 </mj-section>
@@ -19,6 +19,9 @@
   <mj-column>
     <mj-text>
       <div class="info">
+        <p><strong>
+          You can view more information about the items you have checked out in <%= link_to "your account", account_home_url %>.
+        </strong></p>
         <p><strong>
           Need to return or pick-up tools?
           <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>

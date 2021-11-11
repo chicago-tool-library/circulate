@@ -1,7 +1,3 @@
-<% unless warning.blank? %>
-  <p class="overdue"><strong><%= warning %></strong></p>
-<% end %>
-
 <ul>
 <% summaries.each do |summary| %>
   <li>
@@ -18,7 +14,7 @@
         <span class="overdue">
           <%= _("was due %{date}") % { date: checked_out_date(summary.due_at) } %>
         </span>
-      <% else %> 
+      <% else %>
         <% if summary.renewed? # and was active today %>
           <%= _("renewed until") %>
         <% else %>

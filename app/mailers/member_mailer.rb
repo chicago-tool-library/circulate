@@ -40,7 +40,7 @@ class MemberMailer < ApplicationMailer
   def overdue_notice
     @subject = "You have overdue items!"
     @warning = "Please return all overdue items as soon as possible so other members can check them out."
-    summary_mail
+    summary_mail(template_name: "overdue_notice")
   end
 
   def return_reminder
@@ -86,13 +86,13 @@ class MemberMailer < ApplicationMailer
 
   private
 
-  def summary_mail
+  def summary_mail(template_name: "summary")
     @member = params[:member]
     @library = @member.library
     @summaries = params[:summaries]
     @now = params[:now] || Time.current
 
-    mail(to: @member.email, subject: @subject, template_name: "summary")
+    mail(to: @member.email, subject: @subject, template_name: template_name)
   end
 
   def generate_uuid

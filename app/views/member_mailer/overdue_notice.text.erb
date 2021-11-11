@@ -1,6 +1,8 @@
 <%= @subject %>
 
-<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/summaries", locals: {summaries: @summaries, now: @now})) %>
+<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/overdue", locals: {summaries: @summaries, warning: @warning, now: @now})) %>
+
+You can view more information about the items you have checked out in your account: <%= account_home_url %>
 
 Need to return or pick-up tools? Schedule a time here: https://app.chicagotoollibrary.org/account/appointments/new
 
