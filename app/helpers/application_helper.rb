@@ -27,4 +27,12 @@ module ApplicationHelper
       link_to(text, link, class: "btn btn-link #{options.delete(:class)}", **options)
     end
   end
+
+  def page_title
+    if page_attr?(:title)
+      "#{page_attr(:title)} - #{current_library.name}"
+    else
+      "#{current_library.name} Inventory"
+    end
+  end
 end
