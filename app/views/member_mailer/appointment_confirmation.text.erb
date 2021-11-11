@@ -1,0 +1,19 @@
+Thank you for making an appointment!
+
+Your appointment is scheduled for <%= appointment_date_and_time(@appointment) %>
+
+<% if @appointment.holds.present? %>
+The following items will be ready to pickup:
+  <% @appointment.holds.each do |hold| %>
+    - <%= hold.item.complete_number %> <%= hold.item.name %>
+  <% end %>
+<% end %>
+
+<% if @appointment.loans %>
+These are the items to be returned at your appointment:
+  <% @appointment.loans.each do |loan| %>
+    - <%= loan.item.complete_number %> <%= loan.item.name %>
+  <% end %>
+<% end %>
+
+You can make changes to this appointment here: <%= account_appointments_url(@appointment) %>

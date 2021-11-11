@@ -1,4 +1,6 @@
 class MemberMailer < ApplicationMailer
+  include DateHelper
+
   helper :items
   helper :members
   helper :date
@@ -81,6 +83,14 @@ class MemberMailer < ApplicationMailer
     @library = @member.library
     @now = params[:now] || Time.current
     @subject = "Open renewal requests as of #{@now.strftime("%m/%d/%Y")}"
+    mail(to: @member.email, subject: @subject)
+  end
+
+  def appointment_confirmation
+    @member = params[:member]
+    @library = @member.library
+    @appointment = params[:appointment]
+    @subject = "New appointment scheduled for #{appointment_date_and_time(@appointment, include_time: false)}"
     mail(to: @member.email, subject: @subject)
   end
 

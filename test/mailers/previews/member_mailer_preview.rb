@@ -94,4 +94,14 @@ class MemberMailerPreview < ActionMailer::Preview
     renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
     MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
   end
+
+  def appointment_confirmation
+    member = Member.verified.first
+    tomorrow = Time.current + 1.day
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false, library: member.library)
+    appointment = Appointment.new(starts_at: tomorrow, ends_at: tomorrow + 1.hour, member: member)
+    appointment.loans << loan
+    appointment.save!
+    MemberMailer.with(member: member, appointment: appointment).appointment_confirmation
+  end
 end
