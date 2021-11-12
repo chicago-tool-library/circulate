@@ -8,8 +8,10 @@ module Admin
       @appointment = FactoryBot.build(:appointment)
       @user = FactoryBot.create(:user)
       @member = FactoryBot.create(:member, user: @user)
-      @hold = FactoryBot.create(:hold, creator: @member.user)
+      @hold = FactoryBot.create(:hold, member: @member)
       @appointment.holds << @hold
+      @loan = create(:loan, member: @member)
+      @appointment.loans << @loan
       @appointment.member = @member
       @appointment.starts_at = "2020-10-05 7:00AM"
       @appointment.ends_at = "2020-10-05 8:00AM"
@@ -37,6 +39,10 @@ module Admin
       @appointment.reload
       assert_equal @appointment.starts_at.to_i, starts_at.to_i
       assert_equal @appointment.ends_at.to_i, ends_at.to_i
+    end
+
+    test "renders show page with items to pickup and drop off" do
+      get admin_appointment_path(@appointment)
     end
   end
 end
