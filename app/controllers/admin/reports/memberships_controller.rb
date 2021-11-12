@@ -9,7 +9,7 @@ module Admin
         members_and_loan_counts = Member
           .open
           .left_joins(:loan_summaries)
-          .select(:id, :email, :status, :full_name, :preferred_name, "count(loan_summaries.initial_loan_id) as loans_count")
+          .select(:id, :email, :status, :full_name, :preferred_name, :library_id, "count(loan_summaries.initial_loan_id) as loans_count")
           .group("members.id", "members.email", "members.status", "members.full_name", "members.preferred_name")
 
         @members = Member
