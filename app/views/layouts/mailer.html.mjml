@@ -44,7 +44,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <p>If you have any questions, please email us at <a href="mailto:team@chicagotoollibrary.org">team@chicagotoollibrary.org</a>.</p>
+          <p>If you have any questions, please email us at <%= mail_to @library.email %>.</p>
           <p>See you at the library!</p>
         </mj-text>
       </mj-column>
