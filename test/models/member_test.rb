@@ -187,6 +187,6 @@ class MemberTest < ActiveSupport::TestCase
       end
     end
 
-    assert mock
+    assert_mock mock
   end
 end
