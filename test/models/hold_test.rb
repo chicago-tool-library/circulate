@@ -27,7 +27,7 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "started hold" do
-    hold = create(:hold, ended_at: nil, started_at: 1.day.ago)
+    hold = create(:started_hold)
 
     assert hold.active?
     refute hold.inactive?
@@ -43,7 +43,7 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "ended hold" do
-    hold = create(:hold, ended_at: 2.days.ago, started_at: 5.days.ago)
+    hold = create(:hold, ended_at: 2.days.ago, started_at: 5.days.ago, expires_at: 3.days.since)
 
     refute hold.active?
     assert hold.inactive?
@@ -59,7 +59,8 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "expired hold" do
-    hold = create(:hold, ended_at: nil, started_at: 15.days.ago)
+    hold = create(:hold, ended_at: nil)
+    hold.start!(15.days.ago)
 
     refute hold.active?
     assert hold.inactive?
@@ -76,7 +77,8 @@ class HoldTest < ActiveSupport::TestCase
 
   test "doesn't expire until the end of the day" do
     hold_started = Date.new(2021, 5, 27, 16)
-    hold = create(:hold, ended_at: nil, started_at: hold_started)
+    hold = create(:hold, ended_at: nil)
+    hold.start!(hold_started)
 
     travel_to (hold_started + Hold::HOLD_LENGTH).end_of_day do
       assert hold.active?
@@ -96,9 +98,11 @@ class HoldTest < ActiveSupport::TestCase
   test "#start!" do
     hold = create(:hold)
     refute hold.started_at
+    refute hold.expires_at
 
     hold.start!
     assert hold.started_at
+    assert hold.expires_at
   end
 
   test "#ready_for_pickup? is true by default" do
