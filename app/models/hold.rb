@@ -99,6 +99,15 @@ class Hold < ApplicationRecord
     member.upcoming_appointment_of(self)
   end
 
+  def self.next_waiting_hold_dates
+    active.started.select("expires_at, count(holds.id)").group("expires_at").order("expires_at ASC")
+      .map { |hold| [hold.expires_at, hold.count] }
+  end
+
+  def self.extend_started_holds_until(date)
+    Hold.active.started.where("expires_at < ?", date).update_all(expires_at: date)
+  end
+
   def self.start_waiting_holds(now = Time.current, &block)
     started = 0
 

@@ -120,6 +120,10 @@ Rails.application.routes.draw do
       get "money", to: "money#index"
     end
 
+    namespace :settings do
+      get "closing", to: "closing#index"
+    end
+
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
