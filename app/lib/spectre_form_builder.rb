@@ -130,6 +130,13 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     ))
   end
 
+  def date_field(method, options = {})
+    options[:class] = "form-input"
+    sequence_layout(method, options) do
+      super method, options
+    end
+  end
+
   def actions(&block)
     @template.content_tag :div, class: "form-buttons" do
       yield
@@ -141,7 +148,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label = nil, options = {}, &block)
-    parent_button(label, options.merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true}), &block)
+    parent_button(label, options.deep_merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true}), &block)
   end
 
   def errors

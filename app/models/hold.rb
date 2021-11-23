@@ -9,15 +9,19 @@ class Hold < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :loan, required: false
 
-  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR started_at >= ?)", now.beginning_of_day - HOLD_LENGTH) }
+  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR expires_at >= ?)", now) }
   scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
-  scope :expired, ->(now = Time.current) { where("started_at < ?", now.beginning_of_day - HOLD_LENGTH) }
+  scope :expired, ->(now = Time.current) { where("expires_at < ?", now) }
   scope :started, -> { where("started_at IS NOT NULL") }
 
   scope :recent_first, -> { order("created_at desc") }
 
   validates :item, presence: true
+  validates :expires_at, presence: {
+    message: "is required when started_at is set"
+  }, if: -> { started_at.present? }
+
   validates_each :item do |record, attr, value|
     if value
       value.reload
@@ -61,17 +65,14 @@ class Hold < ApplicationRecord
 
   def start!(now = Time.current)
     update!(
-      started_at: now
+      started_at: now,
+      expires_at: (now + HOLD_LENGTH).end_of_day
     )
-  end
-
-  def expires_at
-    (started_at + HOLD_LENGTH).end_of_day if started_at.present?
   end
 
   # A hold that timed out
   def expired?(now = Time.current)
-    started_at && expires_at < now
+    started? && expires_at < now
   end
 
   # A hold whose clock has started ticking
@@ -96,6 +97,15 @@ class Hold < ApplicationRecord
 
   def upcoming_appointment
     member.upcoming_appointment_of(self)
+  end
+
+  def self.next_waiting_hold_dates
+    active.started.select("expires_at, count(holds.id)").group("expires_at").order("expires_at ASC")
+      .map { |hold| [hold.expires_at, hold.count] }
+  end
+
+  def self.extend_started_holds_until(date)
+    Hold.active.started.where("expires_at < ?", date).update_all(expires_at: date)
   end
 
   def self.start_waiting_holds(now = Time.current, &block)
