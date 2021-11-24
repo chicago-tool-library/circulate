@@ -49,6 +49,7 @@ RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \
  fc-cache -f && \
  apk del .ms-fonts
 
+RUN yarn global add node-gyp
 RUN yarn global add heroku
 
 RUN adduser --disabled-password --gecos '' --uid $USER_ID user
