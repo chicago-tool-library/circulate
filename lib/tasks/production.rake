@@ -77,15 +77,18 @@ namespace :staging do
   desc "Reset staging with a new scrubbed dataset from production"
   task reset: ["staging:update_database", "staging:update_s3"]
 
-  task update_database: :environment do
+  task scrub_data: :environment do
+    scrub_data
+  end
+
+  task :update_database do
     raise "no way buddy" if Rails.env.production?
 
+    sh "rails db:create", verbose: true
     sh "rails bin/rails db:environment:set", verbose: true
     sh "rails db:drop", verbose: true
     sh "heroku pg:pull DATABASE circulate_staging --app chicagotoollibrary", verbose: true
-
-    scrub_data
-
+    sh "rails staging:scrub_data"
     sh "heroku pg:reset DATABASE_URL --app circulate-staging --confirm circulate-staging", verbose: true
     sh "heroku pg:push circulate_staging DATABASE_URL --app circulate-staging", verbose: true
   end
