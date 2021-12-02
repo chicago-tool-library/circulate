@@ -22,9 +22,6 @@ pre-commit:
       glob: "*.rb"
       exclude: "application.rb|routes.rb"
       run: bundle exec standardrb --parallel --fix {staged_files} && git add {staged_files}
-    circleci:
-      tags: config
-      run: circleci config validate
     readme:
       tags: lint
       run: ./node_modules/.bin/markdown-toc -i README.md && git add README.md
