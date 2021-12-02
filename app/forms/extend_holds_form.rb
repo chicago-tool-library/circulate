@@ -14,7 +14,7 @@ class ExtendHoldsForm
   end
 
   def latest_valid_date
-    earliest_valid_date + 1.month
+    earliest_valid_date + 30.days
   end
 
   private
