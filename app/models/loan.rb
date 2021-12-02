@@ -1,10 +1,12 @@
 class Loan < ApplicationRecord
-  belongs_to :item
+  belongs_to :item, optional: true
   belongs_to :member
   has_one :adjustment, as: :adjustable
   has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  has_many :renewal_requests, dependent: :destroy
   belongs_to :initial_loan, class_name: "Loan", optional: true
   has_one :hold, dependent: :nullify
+
   validates :due_at, presence: true
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
   validates :initial_loan_id, uniqueness: {scope: :renewal_count}, if: ->(l) { l.initial_loan_id.present? }
@@ -17,7 +19,7 @@ class Loan < ApplicationRecord
       elsif !record.item.active?
         record.errors.add(attr, "is not available to loan")
       end
-    else
+    elsif record.new_record? && !record.renewal?
       record.errors.add(attr, "does not exist")
     end
   end
@@ -42,6 +44,12 @@ class Loan < ApplicationRecord
     )
   }
 
+  acts_as_tenant :library
+
+  def item
+    super || NullItem.new
+  end
+
   def ended?
     ended_at.present?
   end
@@ -50,8 +58,15 @@ class Loan < ApplicationRecord
     renewal_count > 0
   end
 
+  def summary
+    @summary ||= LoanSummary.find(initial_loan_id || id)
+  end
+
   def self.open_days
     [
+      0, # Sunday
+      3, # Wednesday
+      4, # Thursday
       6 # Saturday
     ]
   end
@@ -69,43 +84,44 @@ class Loan < ApplicationRecord
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
   end
 
+  # Will another renewal exceed the maximum number of renewals?
+  # TODO rename this within_renewal_limit?
   def renewable?
     renewal_count < item.borrow_policy.renewal_limit
   end
 
-  def renew!(now = Time.current)
-    transaction do
-      return!(now)
+  # Can a member renew this loan themselves without approval?
+  def member_renewable?
+    renewable? && item.borrow_policy.member_renewable? && ended_at.nil?
+  end
 
-      period_start_date = [due_at, now.end_of_day].max
-      Loan.create!(
-        member_id: member_id,
-        item_id: item_id,
-        initial_loan_id: initial_loan_id || id,
-        renewal_count: renewal_count + 1,
-        due_at: self.class.next_open_day(period_start_date + item.borrow_policy.duration.days),
-        uniquely_numbered: uniquely_numbered,
-        created_at: now
-      )
+  # Can a member request this loan be renewed?
+  def member_renewal_requestable?
+    renewable? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
+  end
+
+  # Does the item have any active holds?
+  def any_active_holds?
+    item.active_holds.any?
+  end
+
+  def status
+    if due_at < Time.current
+      "overdue"
+    else
+      "checked-out"
     end
   end
 
-  def undo_renewal!
-    transaction do
-      destroy!
-      target = if renewal_count > 1
-        initial_loan.renewals.order(created_at: :desc).where.not(id: id).first
-      else
-        initial_loan
-      end
-      target.update!(ended_at: nil)
-      target
-    end
+  def checked_out?
+    ended_at.blank?
   end
 
-  def return!(now = Time.current)
-    # raise an error if already returned
-    update!(ended_at: now)
-    self
+  def latest_renewal_request
+    renewal_requests.max_by { |r| r.created_at }
+  end
+
+  def upcoming_appointment
+    member.upcoming_appointment_of(self)
   end
 end

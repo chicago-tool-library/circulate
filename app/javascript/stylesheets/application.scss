@@ -6,6 +6,15 @@
 @import 'trix/dist/trix.css';
 
 @import 'spectre.css/src/mixins/_shadow';
+@import './partials/index';
+
+@import './helpers/layouts_helper';
+
+@import 'admin';
+@import 'public';
+@import 'account';
+@import 'volunteer';
+@import 'homepage';
 
 body {
   background-color: $background-color;
@@ -36,11 +45,14 @@ body {
   stroke:$error-color;
 }
 
-
 .more-info {
   border-bottom: .05rem dotted;
   cursor: help;
   text-decoration: none;
+}
+
+ul.error {
+  color: red;
 }
 
 form details {
@@ -82,7 +94,49 @@ header.navbar {
 
 .toast {
   margin-bottom: 1rem;
+  a {
+    color: $primary-color;
+  }
 }
+
+.tool-card  {
+  position: relative;
+  margin-bottom: 1rem;
+
+  .card-title {
+    height: 2.2rem;
+  }
+  .item-number-chip {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background: white;
+  }
+  .item-checkout-status {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+  .image-placeholder {
+    width: 100%;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  &.status-on-hold, &.status-checked-out {
+    border-color: $warning-color;
+  }
+  &.status-available, &.status-on-hold, &.status-checked-out {
+    border-width: 3px;
+    margin: -2px;
+  }
+
+  .remove-link {
+    margin-left: 0.5em;
+    font-size: 0.9em;
+  }
+}
+
 
 .off-canvas-content {
   .off-canvas-title a {
@@ -102,14 +156,11 @@ header.navbar {
   margin-top: 2rem;
 }
 
-
-
-
 .members-table {
   display: grid;
   grid-row-gap: .5rem;
   grid-column-gap: .3rem;
-  grid-template-columns: .3fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: .3fr 1fr 1fr 1fr 1fr .5fr .5fr;
 
   .members-table-header {
     font-weight: bold;
@@ -194,9 +245,26 @@ $photo-width: 187px;
 }
 
 .tag-nav {
-  li a {
-    display: inline-block;
-    line-height: 1.2;
+  li {
+    margin: 0;
+    display: flex;
+
+    a {
+      display: inline-block;
+      line-height: 1.5;
+    }
+  }
+
+  .active a {
+    color: red;
+  }
+
+  .parent a {
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
 
@@ -250,18 +318,6 @@ $photo-width: 187px;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .responsive-table {
   display: flex;
   flex-wrap: wrap;
@@ -301,7 +357,7 @@ $photo-width: 187px;
   .responsive-table {
     display: block;
     & .responsive-table-header { display: none; }
-    & .responsive-table-cell { 
+    & .responsive-table-cell {
       width: 100% !important;
       &:empty {
         display: none;
@@ -314,7 +370,7 @@ $photo-width: 187px;
     .responsive-table.four-columns  > &:nth-of-type(4n+1),
     .responsive-table.five-columns  > &:nth-of-type(5n+1),
     .responsive-table.six-columns   > &:nth-of-type(6n+1),
-    .responsive-table.seven-columns > &:nth-of-type(7n+1) { 
+    .responsive-table.seven-columns > &:nth-of-type(7n+1) {
       font-weight: bold;
     }
     .responsive-table.two-columns   > &:nth-of-type(2n),
@@ -322,7 +378,7 @@ $photo-width: 187px;
     .responsive-table.four-columns  > &:nth-of-type(4n),
     .responsive-table.five-columns  > &:nth-of-type(5n),
     .responsive-table.six-columns   > &:nth-of-type(6n),
-    .responsive-table.seven-columns > &:nth-of-type(7n) { 
+    .responsive-table.seven-columns > &:nth-of-type(7n) {
       margin-bottom: 2rem;
     }
   }
@@ -337,7 +393,6 @@ $photo-width: 187px;
   border-radius: 4px;
   padding: .5rem .5rem .3rem .6rem;
   margin-bottom: 1rem;
-  color: darken($secondary-color, 30%);
   .float-left {
     line-height: 32px;
     font-weight: 500;
@@ -348,25 +403,24 @@ $photo-width: 187px;
     stroke: darken($secondary-color, 10%);
   }
   .btn {
-    background-color: $secondary-color;
-    border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 20%);
+    border-color: darken($secondary-color, 20%);
     color: white;
     &:hover, &:visited {
-      background-color: darken($secondary-color, 10%);
-      border-color: darken($secondary-color, 10%);
+    background-color: darken($secondary-color, 30%);
+      border-color: darken($secondary-color, 30%);
       color: white;
     }
   }
+
   &.action-bar-warning {
     background-color: lighten($warning-color, 20%);
     color: darken($warning-color, 30%);
     .btn {
-      background-color: $warning-color;
-      border-color: darken($warning-color, 10%);
-      color: $gray-color-dark;
+      background-color: darken($warning-color, 20%);
+      border-color: darken($warning-color, 20%);
       &:hover {
-        background-color: darken($warning-color, 10%);
-        color: $gray-color-dark;
+        background-color: darken($warning-color, 30%);
       }
     }
     .feather-icon {
@@ -439,8 +493,8 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background: $error-color;
-  color: $light-color;
+  background-color: lighten($error-color, 20%);
+  color: inherit;
 }
 
 .conditional-field-child.nested {
@@ -471,7 +525,7 @@ legend {
   &.on-step {
     img {
       display: inline;
-      max-width: 10%;
+      max-width: 8%;
       vertical-align: middle;
     }
     h1 {
@@ -532,17 +586,18 @@ form.membership-amount {
   margin-bottom: 1rem;
 }
 
+.callout-box {
+  background: white;
+  padding: 1rem .5rem .5rem 1.5rem;
+  margin-bottom: 1rem;
+  ul {
+    list-style: outside;
+  }
+}
+
 .signup {
   .rich-text {
     margin-bottom: 2rem;
-  }
-  .callout-box {
-    background: white;
-    padding: 1rem .5rem .5rem 1.5rem;
-    margin-bottom: 1rem;
-    ul {
-      list-style: outside;
-    }
   }
   .verification-instructions {
   }
@@ -594,13 +649,10 @@ form.membership-amount {
 }
 
 .landing-page {
-  background: #fafafa;
-  img.site-logo {
-    max-width: 200px;
-    margin: 2rem 0 3rem;
+  .landing-options {
+    font-size: 1.5rem;
+    line-height: 1.1;
   }
-  font-size: 1.5rem;
-  line-height: 1.1;
   .landing-options .column {
     margin-bottom: .5em;
   }
@@ -644,11 +696,17 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items {
+  .member-lookup-items, .member-appointment-form {
     background: white;
     padding: .7rem .5rem;
     .info-box {
       background: $secondary-color-light;
+    }
+  }
+
+  .member-appointment-form {
+    .form-select {
+      width: auto;
     }
   }
 }
@@ -797,6 +855,7 @@ table.monthly-adjustments {
 
 .member-panel, .item-panel {
   background: white;
+  margin-bottom: 16px;
   h6 {
     margin-bottom: 0;
   }
@@ -833,7 +892,7 @@ table.monthly-adjustments {
   margin: 1rem .5rem;
 }
 
-.item-stats {
+.item-stats, .member-stats {
   li.categories {
     svg, .category-stats {
       float: left;
@@ -846,6 +905,10 @@ table.monthly-adjustments {
     li {
       margin: 0;
     }
+  }
+  .placeholder-text {
+    color: #C0C0C0;
+    font-style: italic;
   }
 }
 
@@ -905,20 +968,7 @@ table.monthly-adjustments {
   }
 }
 
-.header-header {
-  background: $primary-color;
-  color: white;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  header.navbar {
-    margin-bottom: 0;
-  }
-  .container {
-    padding-bottom: 0;
-  }
-}
-
-.app {
+.app-body, .app-header {
   .btn {
     @include default-button();
     border-radius: 5px;
@@ -962,5 +1012,112 @@ table.monthly-adjustments {
     .gray { background-color: $gray-color; }
     .gray-light { background-color: $gray-color-light; }
     .light { background-color: $light-color; }
+  }
+}
+
+.c-help {
+  cursor: help;
+}
+
+.warning {
+  color: $error-color;
+}
+
+ul.hold-items {
+  margin: 0
+}
+
+.hold-item {
+  list-style: none;
+  background: $light-color;
+  padding: .5rem;
+  float: left;
+  margin: 0 .5rem .5rem 0;
+  border-radius: 3px;
+  border: solid 2px;
+  position: relative;;
+  .item-name {
+    display: inline-block;
+  }
+  img {
+    vertical-align: top;
+    margin-right: .5em;
+  }
+  &.status-checked-out, &.status-on-hold {
+    border-color: $warning-color;
+  }
+  &.status-available {
+    border-color: $success-color;
+  }
+  .remove-link {
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    font-size: 0.9em;
+  }
+}
+
+.find-tools {
+  .find-tool-results {
+    margin-top: 1rem;
+  }
+  .continue-button {
+    position: relative;
+    top: 0.9rem;
+  }
+}
+
+.tool-card .modal {
+  .stats {
+    margin-bottom: 1.2rem;
+    p { margin-bottom: .2rem; }
+  }
+}
+
+.account-settings-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.account-settings-btn {
+  margin-bottom: 18px;
+}
+
+.btn-margin {
+  margin-left: 20px;
+}
+
+html {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+footer.page-footer {
+  font-size: 0.8rem;
+  padding: 1rem 0 0;
+  flex-shrink: 0;
+  background: $background-color-dark;
+  text-align: center;
+  position: relative;
+}
+
+.time-override {
+  display: none;
+}
+
+@media all and (min-width: 840px) {
+  .time-override {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 10rem;
   }
 }

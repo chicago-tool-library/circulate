@@ -15,6 +15,9 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore editor configs
+/.idea
+
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
@@ -24,7 +27,6 @@
 
 /public/assets
 .byebug_history
-.env
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -39,3 +41,9 @@ yarn-debug.log*
 /s3
 
 /test/reports
+
+.DS_Store
+.ruby-version
+.tool-versions
+.yardoc
+.env.local

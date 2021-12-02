@@ -1,4 +1,7 @@
+@import 'mixins';
+
 $primary-color: #2F7890;
+$primary-color-light: lighten(#2F7890, 20%);
 $secondary-color: darken(#CDABBE, 10%);
 $error-color: #DF6C54;
 $warning-color: #FBCF33;
@@ -31,4 +34,157 @@ $background-color-dark: darken($background-color, 5%);
     border-color: darken($secondary-color, 10%);
     color: white;
   }
+}
+
+@mixin title{
+  border-color: lighten($gray-color-light, 5%);
+  transition: none;
+  &, &:visited {
+    color: $gray-color-dark;
+  }
+  &:hover {
+    background-color: $secondary-color-light;
+    border-color: lighten($secondary-color, 10%);
+    color: $dark-color;
+  }
+  &:active, &.active {
+    background-color: $secondary-color;
+    border-color: darken($secondary-color, 10%);
+    color: white;
+  }
+}
+
+
+
+
+
+
+// NEW ADDED STYLES
+$button-color: #36b3a8;
+$pri-btn-color-hover: darken($button-color, 7%);
+
+// body {
+//   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+// }
+
+// BUTTONS
+.primary-btn {
+  @include primary-button;
+  letter-spacing: $button-letter-spacing;
+  border: none;
+  a {
+    height: 50px !important;
+  }
+
+  &:hover {
+    background-color: $pri-btn-color-hover;
+  }
+}
+
+.secondary-btn {
+  @include secondary-button;
+  letter-spacing: $button-letter-spacing;
+}
+
+.link-btn {
+  font-weight: bold;
+  color: $new-link-color !important;
+  font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button-full-width {
+  width: 100%;
+}
+
+// TYPOGRAPHY
+// .title {
+//   a {
+//     @include standard_font;
+//     font-size: $title-size;
+//     letter-spacing: $title-letter-spacing;
+//     color: $text-color;
+//     text-decoration: none;
+
+//     &.active {
+//       color: $text-color;
+//     }
+    
+//       &:visited {
+//         color: $text-color;
+//       }
+//   }
+//   @include standard_font;
+//   @include title_uppercase_weight;
+//   font-size: $title-size;
+//   letter-spacing: $title-letter-spacing;
+// }
+
+.title_bold {
+  @include title_bold;
+}
+
+.body {
+  @include standard_font;
+  font-size: 16px;
+}
+
+.caption {
+  @include standard_font;
+  @include title_uppercase_weight;
+  font-size: 12px;
+  letter-spacing: $title-letter-spacing;
+  opacity: .5;
+}
+
+.caption_lg {
+  @include standard_font;
+  @include title_uppercase_weight;
+  font-size: 20px;
+  letter-spacing: $button-letter-spacing;
+  opacity: .5;
+}
+
+.caption_xs {
+  @include standard_font;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+
+// NEW MENU STYLING
+
+.new-menu-style {
+  a {
+    @include title_bold;
+    text-transform: uppercase;
+    border-top: 1px solid $text-color;
+    color: $text-color;
+    padding-top: 5px;
+    text-decoration: none;
+  
+    &:focus,
+    &:hover {
+      color: #000 !important;
+    }
+    &.active {
+      color: $text-color !important;
+    }
+  
+    &:visited {
+      color: $text-color !important;
+    }
+  }
+  &:hover {
+    color: #000 !important;
+  }
+}
+
+.card-container {
+  background-color: white;
+  border-radius: 7px;
+  border: #E4E8F0 solid 1px;
+  padding: 20px;
 }

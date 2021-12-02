@@ -2,21 +2,22 @@ module Signup
   class PaymentsController < BaseController
     before_action :load_member
     before_action :set_raven_context
+    before_action :are_payments_enabled?
 
     def new
-      @payment = Payment.new
+      @form = MembershipPaymentForm.new
       activate_step(:payment)
     end
 
     def create
-      @payment = Payment.new(payment_params)
-      unless @payment.valid?
+      @form = MembershipPaymentForm.new(form_params)
+      unless @form.valid?
         activate_step(:payment)
         render :new, status: :unprocessable_entity
         return
       end
 
-      result = checkout.checkout_url(amount: @payment.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id)
+      result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
         redirect_to result.value
       else
@@ -72,8 +73,8 @@ module Signup
 
     private
 
-    def payment_params
-      params.require(:signup_payment).permit(:amount_dollars)
+    def form_params
+      params.require(:membership_payment_form).permit(:amount_dollars)
     end
 
     def checkout
@@ -86,6 +87,12 @@ module Signup
 
     def set_raven_context
       Raven.extra_context(session)
+    end
+
+    def are_payments_enabled?
+      if !@current_library.allow_payments?
+        render_not_found
+      end
     end
   end
 end

@@ -1,0 +1,31 @@
+<% content_for :header do %>
+  <%= index_header "Libraries" do %>
+    <%= link_to 'New Library', new_super_admin_library_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>Domain</th>
+      <th>City</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @libraries.each do |library| %>
+      <tr id="library-<%= library.id %>">
+        <td><%= logo(library: library, small: true) %></td>
+        <td><%= link_to library.name, [:super_admin, library] %></td>
+        <td><%= link_to library.hostname, URI::HTTP.build(host: library.hostname).to_s %></td>
+        <td><%= library.city %></td>
+        <td><%= link_to 'Edit', edit_super_admin_library_path(library), class: "btn" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

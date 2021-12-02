@@ -2,6 +2,7 @@ FactoryBot.define do
   sequence :number, 1000
 
   factory :item do
+    library { Library.first || create(:library) }
     number
     name { "Item ##{number}" }
     status { Item.statuses[:active] }
@@ -13,6 +14,7 @@ FactoryBot.define do
       size { "1/4" }
       strength { "12v" }
       serial { "abcdefg" }
+      power_source { Item.power_sources[:electric_battery] }
     end
 
     factory :uncounted_item do
@@ -21,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :with_image do
-      image { fixture_file_upload(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"), "image/jpg") }
+      image { Rack::Test::UploadedFile.new(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"), "image/jpg") }
     end
   end
 end

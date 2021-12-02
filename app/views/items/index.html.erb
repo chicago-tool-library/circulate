@@ -1,50 +1,53 @@
-<div class="columns">
-  <div class="column col-12">
+<div class="columns items-index">
 
-    <h1>
-      <%= link_to "Items", items_path %>
+  <div class="column col-sm-12 col-3 category-nav" data-controller="collapse">
+    <button class="btn toggle-categories" data-target="collapse.button" data-action="collapse#toggle" class="btn">Show Categories</button>
+    <div class="categories" data-target="collapse.content">
+      <h5>Categories</h5>
+      <%= category_tree_nav(@categories, @category) %>
+    </div>
+  </div>
+
+  <div class="column col-sm-12 col-9">
+    <h1 class="title">
+      <%= @category ? @category.name : "All Items" %>
     </h1>
 
     <div class="items-summary">
       Viewing
-      <% if @tag %>
-        <strong><%= pluralize @pagy.count, "item" %></strong> tagged with
+      <% if @category %>
+        <strong><%= pluralize @pagy.count, "item" %></strong> in category
         <span class="chip">
-          <%= @tag.name %>
+          <%= @category.name %>
           <%= link_to "", items_path, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", title: "Clear filter" %>
         </span>,
       <% else %>
-        all <strong><%= pluralize @pagy.count, "item" %></strong>,
+        <strong><%= pluralize @pagy.count, "item" %></strong>,
       <% end %>
 
       sorted by: 
 
       <div class="btn-group">
-        <%= link_to_unless params[:sort] == "name" || params[:sort].blank?, "name", {tag: params[:tag]}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "name", {sort: "name", category: params[:category]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">name</button>
         <% end %>
-        <%= link_to_unless_current "number", {sort: "number", tag: params[:tag]}, class: "btn btn-sm" do %>
+        <%= link_to_unless_current "number", {sort: "number", category: params[:category]}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">number</button>
         <% end %>
-        <%= link_to_unless_current "added", {sort: "added", tag: params[:tag]}, class: "btn btn-sm" do %>
-          <button class="btn btn-sm active">added</button>
+        <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", {sort: "added", category: params[:category]}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">date added</button>
         <% end %>
       </div>
 
     </div> 
 
-  </div>
-</div>
-
-<div class="columns">
-  <div class="column col-9-sm col-12-xs">
     <% if @items.any? %>
       <div class="items-table">
         <% @items.each do |item| %>
           <%= tag.div class: "items-table-image" do %>
             <% if item.image.attached? %>
               <%= link_to item_path(item) do %>
-                <%= image_tag url_for(rotated_variant(item.image, resize_to_limit: [200, 140])), class: "p-centered" %>
+                <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
               <% end %>
             <% else %>
               <div class="image-placeholder"></div>
@@ -56,6 +59,7 @@
             <%= item_status_label(item) %>
             <br>
             <%= link_to item.name, item_path(item) %>
+            <%#= item.added %>
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
             <% end %>
@@ -82,11 +86,6 @@
     <% else %>
       <%= empty_state "There are no matching items" %>
     <% end %>
-  </div>
-
-  <div class="column col-3 hide-xs">
-    <strong>View items tagged with:</strong><br/>
-    <%= category_nav(@categories, @category) %>
   </div>
 
 </div>

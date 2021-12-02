@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  web:
+    build: 
+      context: .
+      args:
+        USER_ID: ${UID-499}
+    ports:
+      - '3000:3000'
+      - '3035:3035'
+      - '4000:4000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - config/docker.env
+    stdin_open: true
+    tty: true
+    networks:
+      default:
+        aliases:
+          - example.com
+
+  database:
+    image: postgres:12.4
+    env_file:
+      - config/docker.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - '5435:5432'
+    networks:
+      - default
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
+    ports:
+      - '5900:5900'
+    networks:
+      - default
+
+volumes:
+  db_data:
+
+networks:
+  default:

@@ -1,0 +1,33 @@
+<%= content_for :header do %>
+  <%= index_header "Potential Volunteers" do %>
+    <%= link_to "Download as CSV", admin_reports_potential_volunteers_path(format: "csv"), class: "btn" %>
+  <% end %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Signed up</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @members.each do |member| %>
+      <tr>
+        <td class="left-lined">
+          <%= link_to preferred_or_default_name(member), [:admin, member] %>
+        </td>
+        <td>
+          <%= tag.div member.email, class: "responsive-table-cell" %>
+        </td>
+        <td>
+          <%= tag.div format_phone_number(member.phone_number), class: "responsive-table-cell" %>
+        </td>
+        <td>
+          <%= member.created_at.to_s(:short_date) %>
+        </td>
+      </tr>
+    <% end %>
+</table>

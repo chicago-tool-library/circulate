@@ -1,9 +1,13 @@
-version: 2
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.2.1
+
 jobs:
   bundler_dependencies:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -12,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: install bundler
-          command: gem install bundler:2.1.4
+          command: gem install bundler:2.2.21
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -29,7 +33,7 @@ jobs:
   yarn_dependencies:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
     steps:
       - checkout
       - restore_cache:
@@ -45,7 +49,7 @@ jobs:
   build_assets:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -60,7 +64,7 @@ jobs:
             - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: install bundler
-          command: gem install bundler:2.1.4
+          command: gem install bundler:2.2.21
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: bin/rails webpacker:compile
@@ -74,7 +78,7 @@ jobs:
   test:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
@@ -83,12 +87,13 @@ jobs:
           PARALLEL_WORKERS: 4
       - image: circleci/postgres:11.5-ram
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - attach_workspace:
           at: ~/repo
       - run:
           name: install prereqs
-          command: sudo apt-get update && sudo apt-get install -y gsfonts
+          command: sudo apt-get update && sudo apt-get install -y gsfonts imagemagick
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -98,11 +103,10 @@ jobs:
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: install bundler
-          command: gem install bundler:2.1.4
+          command: gem install bundler:2.2.21
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: bundle exec rake db:test:prepare
       - run:
           name: run tests
           command: |
@@ -113,22 +117,23 @@ jobs:
   test_system:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:2.7.2-browsers
         environment:
           BUNDLE_JOBS: 4
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           DATABASE_URL: postgres://postgres@localhost
-          PARALLEL_WORKERS: 4
+          PARALLEL_WORKERS: 1
           HEADLESS: 1
       - image: circleci/postgres:11.5-ram
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - attach_workspace:
           at: ~/repo
       - run:
           name: install prereqs
-          command: sudo apt-get update && sudo apt-get install -y gsfonts
+          command: sudo apt-get update && sudo apt-get install -y gsfonts imagemagick
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -137,12 +142,11 @@ jobs:
             - v1-yarn-dependencies-{{ checksum "yarn.lock" }}
       - run:
           name: install bundler
-          command: gem install bundler:2.1.4
+          command: gem install bundler:2.2.21
       - run: yarn install --frozen-lockfile
       - run: bundle check || bundle install
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: bundle exec rake db:test:prepare
       - run:
           name: run system tests
           command: |
@@ -152,16 +156,6 @@ jobs:
           destination: test-screenshots
       - store_test_results:
           path: ~/repo/test/reports
-
-  deploy:
-    docker:
-      - image: buildpack-deps:trusty
-    steps:
-      - checkout
-      - run:
-          name: Deploy Development to Heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git development:master
 
 workflows:
   version: 2
@@ -179,10 +173,3 @@ workflows:
       - test_system:
           requires:
             - build_assets
-      - deploy:
-          requires:
-            - test
-            - test_system
-          filters:
-            branches:
-              only: development

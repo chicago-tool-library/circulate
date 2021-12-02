@@ -1,13 +1,10 @@
-Thank you for signing up as a member of The Chicago Tool Library. We are excited to have you!
+Thank you for signing up as a member of The <%= @library.name %>. We are excited to have you!
 
-<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions.html")) %>
+<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions", formats: [:html], locals: {library: @library})) %>
 If you have any questions, please email us at team@chicagotoollibrary.org.
 
 See you at the library!
 
 ---
 
-The Chicago Tool Library
-1048 W 37th Street Suite 102
-Chicago, IL 60609
-chicagotoollibrary.org
+<%= @library.address %>

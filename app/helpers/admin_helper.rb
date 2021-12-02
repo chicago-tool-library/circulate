@@ -3,9 +3,9 @@ module AdminHelper
     render "shared/index_header", title: title, icon: icon, &block
   end
 
-  def flash_message(key)
+  def flash_message(key, classname = key)
     if flash.key?(key)
-      tag.div(class: "toast toast-#{key}", data: {controller: "alert"}) do
+      tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do
         tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key]
       end
     end
@@ -25,9 +25,14 @@ module AdminHelper
     Adjustment.payment_sources.slice("cash", "square")
   end
 
-  def tab_link(label, path)
+  def item_attachment_kind_options
+    ItemAttachment.kinds.map { |k, v| [k.titleize, v] }
+  end
+
+  def tab_link(label, path, badge: nil)
+    opts = badge.present? && badge != 0 ? {class: "badge", data: {badge: badge}} : {}
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
-      link_to label, path
+      link_to label, path, **opts
     end
   end
 
@@ -67,7 +72,12 @@ module AdminHelper
       value = BorrowPolicy.find(value).complete_name
     when "category_ids"
       key = "categories"
-      value = Category.find(value).map(&:name).join(", ")
+      category_names = Category.where(id: value).map(&:name)
+      deleted_category_count = value.count - category_names.count
+      if deleted_category_count > 0
+        category_names << ["deleted category"] * deleted_category_count
+      end
+      value = category_names.join(", ")
     end
 
     if audit.action == "create" && value.blank?
@@ -78,5 +88,13 @@ module AdminHelper
     tag.em(key.titleize) +
       action +
       tag.strong(value)
+  end
+
+  def modal(title:, body:, &block)
+    render "shared/modal", title: title, body: body, &block
+  end
+
+  def appointment_in_schedule_path(appointment)
+    admin_appointments_path(day: appointment.starts_at.to_date.to_s, anchor: dom_id(appointment))
   end
 end

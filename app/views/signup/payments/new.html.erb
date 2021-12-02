@@ -1,19 +1,16 @@
 <div class="columns">
   <div class="column col-8 col-sm-12 col-mx-auto">
     <div class="instructions">
-      <p class="main">Select a Payment Option</p>
-      <p class="sub">You can pay online now or in person at the library.</p>
+      <p class="caption_lg">Select a Payment Option</p>
+      <p class="main">You can pay online now or in person at the library.</p>
       <div class="divider"></div>
     </div>
     <div class="signup-fee-description">
       <p>
-        Membership fees to The Chicago Tool Library will give you access for one year.
+        Membership fees to The <%= current_library.name %> will give you access for one year.
       </p>
       <p>
-        We suggest that members pay <strong>$1</strong> for every <strong>$1,000</strong> they make in a year.
-      </p>
-      <p>
-        For example, if you make <strong>$35,000</strong> in a year, your recommended annual membership fee would be <strong>$35</strong>.
+        Every dollar goes directly to improving the shared resources we provide.
       </p>
     </div>
   </div>
@@ -22,7 +19,7 @@
 <div class="columns">
   <div class="column col-sm-12 col-4 col-ml-auto pay-online">
 
-    <%= form_with(model: @payment, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
+    <%= form_with(model: @form, url: signup_payments_url, builder: SpectreFormBuilder, class: "membership-amount") do |form| %>
       <fieldset>
         <legend>Pay Online</legend>
         <p>
@@ -46,7 +43,7 @@
       <fieldset>
         <legend>Complete Signup at the Library</legend>
         <p>
-          You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and 
+          You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and
           are happy to answer any questions you have about membership.
         </p>
       </fieldset>

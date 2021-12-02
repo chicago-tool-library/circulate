@@ -1,0 +1,12 @@
+<% content_for :header do %>
+  <%= section_header "Editing Password" %>
+<% end %>
+
+<%= form_with(model: @user, :url => { :action => "update" }, builder: SpectreFormBuilder ) do |f| %>
+  <%= f.password_field :current_password, :autocomplete => "off" %>
+  <%= f.password_field :password, label: "New password", :autocomplete => "off" %>
+  <%= f.password_field :password_confirmation, label: "Confirm new password" %>
+  <%= f.actions do %>
+    <%= f.submit "Update Password" %>
+  <% end %>
+<% end %>

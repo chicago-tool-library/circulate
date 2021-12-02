@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
+  include Lending
+
   setup do
     ActionMailer::Base.deliveries.clear
   end
@@ -72,7 +74,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
       travel_to end_of_previous_day do
         loan = create(:loan)
-        loan.return!
+        assert return_loan(loan)
       end
 
       notifier = ActivityNotifier.new
@@ -84,25 +86,48 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  test "sends emails to folks with overdue items" do
-    loan = Time.use_zone("America/Chicago") {
-      create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
-    }
-
+  test "sends overdue notice emails only to folks with overdue items" do
     Time.use_zone("America/Chicago") do
-      notifier = ActivityNotifier.new
+      @overdue_loan = create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
+      @not_overdue_loan = create(:loan, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
+
       assert_difference "Notification.count" do
-        notifier.send_overdue_notices
+        ActivityNotifier.new.send_overdue_notices
       end
     end
 
-    refute ActionMailer::Base.deliveries.empty?
+    mails = ActionMailer::Base.deliveries
+    assert_equal 1, mails.count
 
-    assert mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
+    mail = mails.first
+    assert_includes mail.to, @overdue_loan.member.email
+    assert_not_includes mail.to, @not_overdue_loan.member.email
 
     assert_equal "You have overdue items!", mail.subject
-    assert_includes mail.encoded, loan.item.complete_number
     assert_includes mail.encoded, "return all overdue items as soon as possible"
+    assert_includes mail.encoded, @overdue_loan.item.complete_number
+  end
+
+  test "sends overdue notice emails that only contain overdue items" do
+    Time.use_zone("America/Chicago") do
+      @member = create(:verified_member)
+      @overdue_loan = create(:loan, member: @member, due_at: Time.current.end_of_day, created_at: 1.week.ago)
+      @not_overdue_loan = create(:loan, member: @member, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
+
+      assert_difference "Notification.count" do
+        ActivityNotifier.new.send_overdue_notices
+      end
+    end
+
+    mails = ActionMailer::Base.deliveries
+    assert_equal 1, mails.count
+
+    assert mail = mails.find { |mail| mail.to == [@member.email] }
+
+    assert_equal "You have overdue items!", mail.subject
+    assert_includes mail.encoded, "return all overdue items as soon as possible"
+    assert_includes mail.encoded, @overdue_loan.item.complete_number
+    assert_not_includes mail.encoded, @not_overdue_loan.item.complete_number
   end
 
   test "doesn't send overdue notices to folks with returned overdue items" do
@@ -174,5 +199,33 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, returned_today.item.complete_number
     assert_includes mail.encoded, checked_out_today.item.complete_number
     refute_includes mail.encoded, previous_loan.item.complete_number
+  end
+
+  test "sends emails to folks with rejected renewal requests" do
+    loan = Time.use_zone("America/Chicago") {
+      create(:loan, created_at: Time.current.beginning_of_day - 1.minute)
+    }
+
+    Time.use_zone("America/Chicago") do
+      end_of_previous_day = Time.current.beginning_of_day - 1.minute
+
+      travel_to end_of_previous_day do
+        assert return_loan(loan)
+      end
+
+      create(:renewal_request, loan: loan, status: :rejected)
+
+      notifier = ActivityNotifier.new
+      notifier.send_daily_loan_summaries
+    end
+
+    refute ActionMailer::Base.deliveries.empty?
+
+    mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
+    refute mail.nil?
+
+    assert_equal "Today's loan summary", mail.subject
+    assert_includes mail.encoded, loan.item.complete_number
+    refute_includes mail.encoded, "rejected"
   end
 end

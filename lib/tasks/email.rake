@@ -7,7 +7,6 @@ def send_emails(mails, date)
 end
 
 namespace :email do
-
   desc "Send daily loan summary emails"
   task :send_daily_loan_summaries, [:date] => :environment do |task, args|
     send_emails :send_daily_loan_summaries, args[:date]
@@ -28,4 +27,17 @@ namespace :email do
     send_emails :remind_pending_members, args[:date]
   end
 
+  desc "Send membership renewal reminder emails"
+  task send_membership_renewal_reminders: :environment do
+    Membership.where(ended_at: (Date.today + 30.days).all_day).each do |membership|
+      member = membership.member
+      amount = member.last_membership&.amount || Money.new(0)
+      MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
+    end
+  end
+
+  desc "Send staff renewal request summary emails"
+  task :send_staff_daily_renewal_requests, [:date] => :environment do |task, args|
+    send_emails :send_staff_daily_renewal_requests, args[:date]
+  end
 end

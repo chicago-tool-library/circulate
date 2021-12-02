@@ -1,10 +1,16 @@
 <div class="columns">
-  <div class="column col-sm-9">
+  <div class="column col-sm-9 hide-sm">
     <h1>
       <%= title %>
     </h1>
   </div>
-  <div class="column col-sm-3 text-right">
+  <div class="column col-sm-3 text-right hide-sm">
+    <%= yield %>
+  </div>
+  <div class="column col-xs-12 show-sm mobile-heading">
+    <h1>
+      <%= title %>
+    </h1>
     <%= yield %>
   </div>
 </div>

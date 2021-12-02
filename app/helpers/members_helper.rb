@@ -1,14 +1,4 @@
 module MembersHelper
-  def member_pronoun_options
-    Member.pronouns.map do |key, value|
-      if key == "custom_pronoun"
-        ["custom...", key]
-      else
-        [key, key]
-      end
-    end
-  end
-
   def member_id_kind_options
     Member.id_kinds.map do |key, value|
       if key == "other_id_kind"
@@ -25,12 +15,8 @@ module MembersHelper
     end
   end
 
-  def member_pronoun(member)
-    member.custom_pronoun? ? member.custom_pronoun : member.pronoun
-  end
-
-  def format_phone_number(number)
-    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: " ")&.strip
+  def format_phone_number(number, delimiter = " ")
+    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: delimiter)&.strip
   end
 
   def member_status(member)
@@ -39,5 +25,9 @@ module MembersHelper
       classes << "bg-success"
     end
     tag.span(member.status.titlecase, class: classes)
+  end
+
+  def format_stats_counter(number)
+    number > 0 ? number : "-"
   end
 end

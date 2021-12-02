@@ -5,7 +5,7 @@ module Admin
     include Devise::Test::IntegrationHelpers
 
     setup do
-      @user = create(:user)
+      @user = create(:admin_user)
       sign_in @user
     end
 
@@ -21,6 +21,21 @@ module Admin
     test "finds member using the last four of the phone number" do
       create(:member, preferred_name: "The Count", phone_number: "1234567890")
       get admin_search_url(query: "7890")
+      assert_response :success
+      assert_select ".members-table a", "The Count"
+    end
+
+    test "finds member using formatted phone number" do
+      create(:member, preferred_name: "The Count", phone_number: "1234567890")
+      get admin_search_url(query: "(123) 456-7890")
+      assert_response :success
+      assert_select ".members-table a", "The Count"
+
+      get admin_search_url(query: "123.456.7890")
+      assert_response :success
+      assert_select ".members-table a", "The Count"
+
+      get admin_search_url(query: " 123-456-7890 ")
       assert_response :success
       assert_select ".members-table a", "The Count"
     end

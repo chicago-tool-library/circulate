@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
   setup do
+    create(:admin_user)
     sign_in_as_admin
   end
 
@@ -24,10 +25,13 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "updating a user" do
-    create(:user)
+    user = create(:user)
 
     visit admin_users_url
-    click_on "Edit", match: :first
+
+    within("#user-#{user.id}") do
+      click_on "Edit"
+    end
 
     fill_in "Email", with: "modified.user1@example.com"
     click_on "Update User"
@@ -37,12 +41,14 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "destroying a user" do
-    create(:user)
+    user = create(:user)
 
     visit admin_users_url
 
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      within("#user-#{user.id}") do
+        click_on "Destroy"
+      end
     end
 
     assert_text "User was successfully destroyed"

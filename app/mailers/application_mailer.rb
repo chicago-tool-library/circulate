@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "team@chicagotoollibrary.org"
+  default from: "Chicago Tool Library <team@chicagotoollibrary.org>"
   layout "mailer"
 end

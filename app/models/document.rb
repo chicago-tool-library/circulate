@@ -5,6 +5,8 @@ class Document < ApplicationRecord
 
   scope :coded, ->(code) { where(code: code) }
 
+  acts_as_tenant :library
+
   def to_param
     code
   end

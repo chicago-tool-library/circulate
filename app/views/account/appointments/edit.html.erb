@@ -1,0 +1,9 @@
+<div class="account account-appointments-edit">
+  <div class="columns">
+    <div class="column col-9">
+      <%= section_header "Modify Appointment" %>
+    </div>
+  </div>
+
+  <%= render partial: "form", locals: { holds: @holds, loans: @loans, can_schedule_appointment: @holds.any? || @loans.any? } %>
+</div>

@@ -1,5 +1,8 @@
 require "test_helper"
 
+# The webdrivers gem doesn't work properly for folks using docker-compose
+require "webdrivers/chromedriver" unless ENV["DOCKER"]
+
 # Backported from Rails 6.1
 Capybara.add_selector :rich_text_area do
   label "rich-text area"
@@ -11,32 +14,69 @@ Capybara.add_selector :rich_text_area do
 
       XPath.descendant(:"trix-editor").where \
         XPath.attr(:id).equals(locator) |
-        XPath.attr(:placeholder).equals(locator) |
-        XPath.attr(:"aria-label").equals(locator) |
-        XPath.attr(:input).equals(input_located_by_name)
+          XPath.attr(:placeholder).equals(locator) |
+          XPath.attr(:"aria-label").equals(locator) |
+          XPath.attr(:input).equals(input_located_by_name)
     end
   end
 end
 
-Capybara.register_driver(:headless_chrome) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: {args: %w[headless disable-gpu]}
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage window-size=1400x1800]
   )
 
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    desired_capabilities: capabilities
+    options: options
   )
+end
+
+Capybara.register_driver :headless_chrome_in_container do |app|
+  Capybara::Selenium::Driver.new app,
+    browser: :remote,
+    url: "http://selenium_chrome:4444/wd/hub",
+    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: {args: %w[headless disable-gpu window-size=1400x1800]}
+    )
+end
+
+Capybara.register_driver :chrome_in_container do |app|
+  Capybara::Selenium::Driver.new app,
+    browser: :remote,
+    url: "http://selenium_chrome:4444/wd/hub",
+    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: {args: %w[window-size=1400x1800]}
+    )
 end
 
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
 end
 
+if ENV["DOCKER"]
+  Capybara.server_host = "0.0.0.0"
+  Capybara.server_port = 4000
+  Capybara.app_host = "http://example.com:4000"
+end
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driver = ENV["HEADLESS"] ? :headless_chrome : :chrome
-  driven_by :selenium, using: driver, screen_size: [1400, 1400]
+  driver = if ENV["DOCKER"]
+    ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
+  else
+    ENV["HEADLESS"] == "true" ? :headless_chrome : nil
+  end
+
+  if driver
+    driven_by driver
+  else
+    driven_by :selenium, using: :chrome, screen_size: [1400, 1800]
+  end
+
+  setup do
+    ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
+  end
 
   include Warden::Test::Helpers
   include ActionMailer::TestHelper
@@ -48,6 +88,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
+    ActsAsTenant.test_tenant = nil
+
     errors = page.driver.browser.manage.logs.get(:browser)
     fail = false
     if errors.present?
@@ -61,6 +103,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   private
+
+  def ignore_js_errors(reason: "I know what I am doing")
+    Rails.logger.info("Swallowed JS error because: #{reason}")
+    yield if block_given?
+    page.driver.browser.manage.logs.get(:browser)
+  end
 
   def sign_in_as_admin
     @user = FactoryBot.create(:user, role: "admin")

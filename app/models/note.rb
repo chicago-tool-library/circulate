@@ -7,4 +7,5 @@ class Note < ApplicationRecord
   validates :body, presence: true
 
   scope :by_creation_date, -> { order(created_at: :asc) }
+  scope :newest_first, -> { order(created_at: :desc) }
 end

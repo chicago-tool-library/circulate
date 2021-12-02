@@ -4,7 +4,7 @@ class BorrowPolicy < ApplicationRecord
   }
 
   validates :name,
-    presence: true, uniqueness: {case_sensitive: false}
+    presence: true, uniqueness: {scope: :library_id, case_sensitive: false}
   validates_numericality_of :duration,
     only_integer: true, greater_than_or_equal_to: 1, less_than: 365
   validates_numericality_of :fine_period,
@@ -14,6 +14,8 @@ class BorrowPolicy < ApplicationRecord
 
   scope :alpha_by_code, -> { order("code ASC") }
   scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
+
+  acts_as_tenant :library
 
   def self.default
     where(default: true).first
@@ -25,6 +27,14 @@ class BorrowPolicy < ApplicationRecord
 
   def complete_name
     "#{name} (#{code})"
+  end
+
+  def allow_multiple_holds_per_member?
+    !allow_one_holds_per_member?
+  end
+
+  def allow_one_holds_per_member?
+    uniquely_numbered
   end
 
   after_save :make_only_default

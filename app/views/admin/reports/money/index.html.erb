@@ -1,0 +1,50 @@
+<%= content_for :header do %>
+  <%= index_header "Money" %>
+<% end %>
+
+<% @monthly_adjustments.group_by(&:year).each do |year, adjustments| %>
+  <h2><%= year -%></h2>
+  <table class="table monthly-adjustments mb-2">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="left-lined" colspan="2">Memberships</th>
+        <th class="left-lined" colspan="2">Renewals</th>
+        <th class="left-lined" colspan="3">Payments</th>
+      </tr>
+      <tr>
+        <th>Month</th>
+        <th class="left-lined">Count</th>
+        <th class="text-right fees">Fees</th>
+        <th class="left-lined">Count</th>
+        <th class="text-right fees">Fees</th>
+        <th class="text-right fees left-lined">Square</th>
+        <th class="text-right fees">Cash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% adjustments.each do |ma| %>
+        <tr>
+          <td><%= Date::MONTHNAMES[ma.month] %> <%= ma.year %></td>
+          <td class="left-lined"><%= ma.new_membership_count if ma.new_membership_count > 0 %></td>
+          <td class="text-right fees"><%= ma.new_membership_total&.format %></td>
+          <td class="left-lined"><%= ma.renewal_membership_count if ma.renewal_membership_count > 0 %></td>
+          <td class="text-right fees"><%= ma.renewal_membership_total&.format %></td>
+          <td class="text-right fees left-lined"><%= ma.square_total&.format %></td>
+          <td class="text-right fees"><%= ma.cash_total&.format %></td>
+        </tr>
+      <% end %>
+    <tfoot>
+      <tr>
+        <td><%= year %> Total</td>
+        <td class="left-lined"><%= adjustments.sum(&:new_membership_count) %></td>
+        <td class="text-right fees"><%= Money.new(adjustments.map(&:new_membership_total).compact.sum).format %></td>
+        <td class="left-lined"><%= adjustments.sum(&:renewal_membership_count) %></td>
+        <td class="text-right fees"><%= Money.new(adjustments.map(&:renewal_membership_total).compact.sum).format %></td>
+        <td class="text-right fees"><%= Money.new(adjustments.map(&:square_total).compact.sum).format %></td>
+        <td class="text-right fees"><%= Money.new(adjustments.map(&:cash_total).compact.sum).format %></td>
+      </tr>
+    </tfoot>
+  </table>
+  <br><br>
+<% end %>

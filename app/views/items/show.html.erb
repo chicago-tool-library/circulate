@@ -10,59 +10,48 @@
 
   <h1><%= @item.name %></h1>
 
+  <% if user_signed_in? && current_member.staff? %>
+    <%= link_to "View as Librarian", admin_item_path(@item) %>
+  <% end %>
+
   <div class="columns">
-
-    <div class="column col-6 item-image">
+    <div class="column col-sm-12 col-6 item-image">
       <% if @item.image.attached? %>
-        <%= image_tag url_for(rotated_variant(@item.image, resize_to_limit: [600, 600])), class: "p-centered" %>
+        <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "p-centered mb-2" %>
       <% end %>
     </div>
 
-    <div class="column col-6">
-      <p>
-        <strong>Number:</strong>
-        <%= @item.number %>
-      </p>
+    <div class="column col-sm-12 col-6">
+      <%= render partial: "details", locals: {item: @item} %>
 
-      <p>
-        <strong>Size:</strong>
-        <%= @item.size %>
-      </p>
+      <% if @item.holdable? %>
 
-      <p>
-        <strong>Strength:</strong>
-        <%= @item.strength %>
-      </p>
+        <% if user_signed_in? %>
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">You can place this item on hold</h5>
+            </div>
+            <div class="card-body">
+              Placing a hold means you would like to be on the waiting list to use this tool.
+              If you are first on the waiting list you have 1 week to schedule a pick-up for the tool.
+              If the tool is currently being borrowed or if you are not first on the waiting list you will receive an email when you are first on the waiting list.
+            </div>
+            <div class="card-footer">
+              <% if @item.allow_multiple_holds_per_member? %>
+                <%= render partial: "items/place_hold_on/item_that_allows_multiple_holds", locals: {item: @item, current_hold_count: @current_hold_count} %>
+              <% elsif @current_hold %>
+                <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
+              <% else %>
+                <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
+              <% end %>
+            </div>
+          </div>
+        <% else %>
+          <%= render partial: "items/place_hold_on/not_logged_in" %>
+        <% end %>
 
-      <p>
-        <strong>Brand:</strong>
-        <%= @item.brand %>
-      </p>
-
-      <p>
-        <strong>Model:</strong>
-        <%= @item.model %>
-      </p>
-
-      <p>
-        <strong>Serial:</strong>
-        <%= @item.serial %>
-      </p>
-
-      <p>
-        <strong>Categories:</strong>
-        <%= item_categories(@item) %>
-      </p>
-
-      <% if @item.manual.attached? %>
-        <p>
-          <strong>Manual:</strong>
-          <%= link_to @item.manual.filename, url_for(@item.manual) %>
-        </p>
       <% end %>
 
-      <%= @item.description %>
     </div>
-
   </div>
 </div>

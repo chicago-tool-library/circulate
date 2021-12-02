@@ -1,0 +1,10 @@
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>Thank you for renewing your Chicago Tool Library membership. We are excited for you to borrow all kinds of great stuff for another year!</p>
+      <% if @amount %>
+        <p>Your payment of <strong><%= @amount.format %></strong> has been processed and applied to your account.</p>
+      <% end %>
+    </mj-text>
+  </mj-column>
+</mj-section>

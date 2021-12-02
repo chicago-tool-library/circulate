@@ -1,8 +1,8 @@
 <%= render "profile" do %>
 
-  <% unless @member.notes.blank? %>
+  <% unless @member.bio.blank? %>
     <div class="rich-text">
-      <%= @member.notes %>
+      <%= @member.bio %>
     </div>
   <% end %>
 
@@ -19,7 +19,7 @@
             <%= tag.div class: "item-image" do %>
               <% if summary.item.image.attached? %>
                 <%= link_to admin_item_path(summary.item) do %>
-                  <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                  <%= image_tag item_image_url(summary.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
                 <% end %>
               <% else %>
                 <div class="image-placeholder"></div>
@@ -46,6 +46,11 @@
 
   <% if @active_loan_summaries.any? %>
     <div id="current-loans" class="member-active-loans">
+      <div class="column col-sm-12 col-12 text-right">
+        <%= button_to admin_bulk_renewal_path(@member), method: :put, class:"btn ml-2 mb-2", data: { confirm: "Are you sure you want renew all renewable loans for #{@member.full_name}?" }, remote: true do %>
+          <%= feather_icon "repeat" %>Renew All
+        <% end %>
+      </div>
       <% @active_loan_summaries.group_by(&:due_at).each do |due_at, summaries| %>
         <div class="columns">
           <div class="column">
@@ -56,12 +61,11 @@
         </div>
         <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
           <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
-
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
                   <%= link_to admin_item_path(summary.item) do %>
-                    <%= image_tag url_for(rotated_variant(summary.item.image, resize_to_limit: [160, 112])), class: "p-right" %>
+                    <%= image_tag item_image_url(summary.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
                   <% end %>
                 <% else %>
                   <div class="image-placeholder"></div>
@@ -87,7 +91,13 @@
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.renewable?, summary.item.borrow_policy.renewal_limit do %>
-                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true do %>
+                <% renew_button_data = if summary.latest_loan.any_active_holds?
+                      { confirm: "This item is on hold by other members and should only be renewed under special circumstances. Click OK to renew the item, or Cancel to go back." }
+                    else
+                      {}
+                    end
+                %>
+                <%= button_to admin_renewals_path(loan_id: summary.latest_loan), method: :post, class:"btn ml-2 mb-2", disabled: !summary.latest_loan.renewable?, remote: true, data: renew_button_data do %>
                   <%= feather_icon "repeat" %>Renew
                 <% end %>
               <% end %>
@@ -95,7 +105,6 @@
                 <%= undo_button summary.latest_loan %>
               <% end %>
             </div>
-
           </div>
         <% end %>
         <div class="divider"></div>
@@ -103,6 +112,12 @@
     </div>
   <% end %>
 
+  <% unless @returned_loan_summaries.any? || @active_loan_summaries.any? %>
+    <p class="mt-2">No current loans or recently returned items.</p>
+  <% end %>
+
   <%= render partial: "admin/members/lookup", locals: {member: @member}%>
+</div>
+
 
 <% end %>

@@ -13,7 +13,7 @@
     <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="admin">
     <div class="off-canvas" data-controller="sidebar">
       <a class="off-canvas-toggle btn btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
         <i class="icon icon-menu"></i>
@@ -27,19 +27,28 @@
               <li class="nav-item"><%= link_to "Items", admin_items_path %></li>
               <li class="nav-item"><%= link_to "Members", admin_members_path %></li>
               <li class="nav-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+              <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
             </ul>
           </li>
+          <% if current_library.allow_appointments? %>
+            <li  class="nav-item">
+              <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <span class="nav-category">Reports</span>
             <ul class="nav">
-              <li class="nav-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
-              <li class="nav-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
-              <li class="nav-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
-              <li class="nav-item"><%= link_to "Notifications", admin_notifications_path %></li>
-              <li class="nav-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
-              <li class="nav-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
-            </ul>          
+              <li class="nav-item"><%= link_to "Activity", admin_reports_monthly_activities_path %></li>
+              <li class="nav-item"><%= link_to "Member Requests", admin_reports_member_requests_path %></li>
+              <li class="nav-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
+              <li class="nav-item"><%= link_to "Money", admin_reports_money_path %></li>
+              <li class="nav-item"><%= link_to "Notifications", admin_reports_notifications_path %></li>
+              <li class="nav-item"><%= link_to "Potential Volunteers", admin_reports_potential_volunteers_path %></li>
+              <li class="nav-item"><%= link_to "Volunteer Shifts", admin_reports_shifts_path %></li>
+              <li class="nav-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
+              <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
+            </ul>
           </li>
 
           <li class="nav-item">
@@ -51,8 +60,13 @@
               <li class="nav-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
               <% if current_user.admin? %>
                 <li class="nav-item"><%= link_to "Users", admin_users_path %></li>
+                <li class="nav-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
+                <li class="nav-item"><%= link_to "closing", admin_settings_closing_path %></li>
               <% end %>
-            </ul>          
+            </ul>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Member View", root_path, class: "btn btn-link" %>
           </li>
         </ul>
 
@@ -71,7 +85,7 @@
         <span class="off-canvas-title">
           <%= link_to "Circulate", admin_items_path %>
         </span>
-        <div class="float-right mt-1 mr-1">
+        <div class="float-right mr-1 admin-search-form">
           <%= form_with url: admin_search_path do |form| %>
             <div class="has-icon-left">
               <%= form.text_field :query, class: "form-input input-sm", placeholder: "search", type: "search" %>
@@ -86,7 +100,7 @@
       <div class="container grid-lg">
         <header class="navbar">
           <section class="navbar-section">
-            <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_items_path %></span>
+            <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_dashboard_path %></span>
 
             <div class="dropdown">
               <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
@@ -96,20 +110,29 @@
                 <li class="menu-item"><%= link_to "Items", admin_items_path %></li>
                 <li class="menu-item"><%= link_to "Members", admin_members_path %></li>
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
+                <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
               </ul>
             </div>
+            <% if current_library.allow_appointments? %>
+              <div class="dropdown">
+                <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
+              </div>
+            <% end %>
             <div class="dropdown">
               <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
                 Reports <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
-                <li class="menu-item"><%= link_to "Activity", admin_monthly_activities_path %></li>
-                <li class="menu-item"><%= link_to "Member Requests", admin_member_requests_path %></li>
-                <li class="menu-item"><%= link_to "Money", admin_monthly_adjustments_path %></li>
-                <li class="menu-item"><%= link_to "Notifications", admin_notifications_path %></li>
-                <li class="menu-item"><%= link_to "Potential Volunteers", admin_potential_volunteers_path %></li>
-                <li class="menu-item"><%= link_to "Volunteer Shifts", admin_shifts_path %></li>
+                <li class="menu-item"><%= link_to "Activity", admin_reports_monthly_activities_path %></li>
+                <li class="menu-item"><%= link_to "Member Requests", admin_reports_member_requests_path %></li>
+                <li class="menu-item"><%= link_to "Memberships", admin_reports_memberships_path %></li>
+                <li class="menu-item"><%= link_to "Money", admin_reports_money_path %></li>
+                <li class="menu-item"><%= link_to "Notifications", admin_reports_notifications_path %></li>
+                <li class="menu-item"><%= link_to "Potential Volunteers", admin_reports_potential_volunteers_path %></li>
+                <li class="menu-item"><%= link_to "Volunteer Shifts", admin_reports_shifts_path %></li>
+                <li class="menu-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
+                <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path%>
               </ul>
             </div>
             <div class="dropdown">
@@ -121,8 +144,13 @@
                 <li class="menu-item"><%= link_to "Categories", admin_categories_path %></li>
                 <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
                 <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
-                <% if current_user.admin? %>
+                <% if current_user.has_role?(:admin) %>
                   <li class="menu-item"><%= link_to "Users", admin_users_path %></li>
+                  <li class="menu-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
+                  <li class="menu-item"><%= link_to "Closing", admin_settings_closing_path %></li>
+                <% end %>
+                <% if current_user.has_role?(:super_admin) %>
+                  <li class="menu-item"><%= link_to "Libraries", super_admin_libraries_path %></li>
                 <% end %>
               </ul>
             </div>
@@ -136,6 +164,9 @@
             <% end %>
           </section>
           <%= render partial: "shared/time_override" if Rails.env.development? %>
+          <div class="dropdown">
+            <%= link_to "Member View", root_path, class: "btn btn-link" %>
+          </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
               <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
@@ -145,17 +176,31 @@
       </div>
     </div>
 
-    <% if content_for? :header %>
-      <div class="app">
+    <% if @requested_renewal_request_count && @requested_renewal_request_count > 0 %>
+      <div class="app-banner">
         <div class="header-header">
           <div class="container grid-lg">
-            <%= yield :header %>      
+            <p>
+              <%= link_to admin_renewal_requests_path do %>
+                There <%= "is".pluralize @requested_renewal_request_count %> <%= pluralize @requested_renewal_request_count, "pending renewal request" %>.
+              <% end %>
+            </p>
           </div>
         </div>
       </div>
     <% end %>
 
-    <div class="container grid-lg admin app">
+    <% if content_for? :header %>
+      <div class="app-header">
+        <div class="header-header">
+          <div class="container grid-lg">
+            <%= yield :header %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="container grid-lg admin app-body">
       <%= flash_message :success  %>
       <%= flash_message :warning  %>
       <%= flash_message :error  %>

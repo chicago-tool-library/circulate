@@ -31,6 +31,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  config.active_storage.variable_content_types << "image/webp"
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -60,8 +62,23 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "shiny.local"
+  config.hosts << ".circulate.local"
+
+  if ENV.fetch("DOCKER", "") == "true"
+    Socket.ip_address_list.each do |addrinfo|
+      next unless addrinfo.ipv4?
+      next if addrinfo.ip_address == "127.0.0.1"
+
+      ip = IPAddr.new(addrinfo.ip_address).mask(24)
+
+      Logger.new($stdout).info "Adding #{ip.inspect} to config.web_console.permissions"
+
+      config.web_console.permissions = ip
+    end
+  end
 
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
   config.action_mailer.asset_host = "http://localhost:3000"
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
 end

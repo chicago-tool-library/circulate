@@ -1,0 +1,65 @@
+body.admin {
+
+  table .table-stripe {
+    background: rgba(255,255,255,.7);
+  }
+
+  .admin-search-form {
+    margin-top: 0.6rem;
+  } 
+
+  .off-canvas-sidebar .nav-item {
+    margin-top: 0.2rem;
+  }
+
+  .off-canvas-title {
+    line-height: 3rem;
+  }
+
+  .off-canvas {
+    .off-canvas-content {
+      background: $dark-color;
+    }
+  }
+
+ .app-header {
+    background: $primary-color;
+    color: white;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    header.navbar {
+      margin-bottom: 0;
+    }
+    .container {
+      padding-bottom: 0;
+    }
+  }
+
+  .app-banner {
+    color: white;
+    padding-top: 0.5rem;
+    background: $error-color;
+    p {
+      margin-bottom: 0.7rem;
+    }
+    a {
+      color: white;
+      font-weight: bolder;
+      text-decoration: underline;
+    }
+    .container {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.member-notes {
+  .note {
+    position: relative;
+    .edit-button {
+      position: absolute;
+      bottom: .4rem;
+      right: .4rem;
+    }
+  }
+}

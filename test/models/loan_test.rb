@@ -55,145 +55,6 @@ class LoanTest < ActiveSupport::TestCase
     assert renewal.renewal?
   end
 
-  test "renews itself" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      assert_difference("Loan.count") { loan.renew!(sunday) }
-    }
-
-    assert_equal item.id, renewal.item_id
-    assert_equal loan.member_id, renewal.member_id
-    assert_equal loan.id, renewal.initial_loan_id
-    assert_equal sunday + 7.days, renewal.due_at
-    assert_equal 1, renewal.renewal_count
-    assert renewal.uniquely_numbered
-  end
-
-  test "renews itself for a full period starting today" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-
-    loan = create(:loan, item: item, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(sunday)
-    }
-
-    assert_equal sunday + 7.days, renewal.due_at
-  end
-
-  test "renews itself for a full period starting at due date" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-    thursday = Time.utc(2020, 1, 30).end_of_day
-
-    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(sunday)
-    }
-
-    assert_equal thursday + 7.days, renewal.due_at
-  end
-
-  test "renews a loan that is due tomorrow" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    wednesday = Time.utc(2020, 1, 29).end_of_day
-    thursday = Time.utc(2020, 1, 30).end_of_day
-
-    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(wednesday)
-    }
-
-    next_day = Loan.stub(:open_days, [0, 4]) {
-      Loan.next_open_day(thursday + 7.days)
-    }
-    assert_equal next_day, renewal.due_at
-  end
-
-  test "renews a renewal" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-    monday = Time.utc(2020, 1, 27).end_of_day
-
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-
-    assert loan.renewable?
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(sunday)
-    }
-
-    assert loan.renewable?
-    second_renewal = Loan.stub(:open_days, [0, 4]) {
-      renewal.renew!(monday)
-    }
-
-    assert_equal loan.id, second_renewal.initial_loan_id
-    assert_equal sunday + 14.days, second_renewal.due_at
-    assert_equal 2, second_renewal.renewal_count
-  end
-
-  test "isn't renewable again" do
-    borrow_policy = create(:borrow_policy, duration: 7, renewal_limit: 1)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(sunday)
-    }
-
-    refute renewal.renewable?
-  end
-
-  test "reverts a renewal" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      loan.renew!(sunday)
-    }
-
-    assert_difference "Loan.count", -1 do
-      renewal.undo_renewal!
-    end
-
-    loan.reload
-    refute loan.ended_at
-
-    refute Loan.exists?(renewal.id)
-  end
-
-  test "reverts a renewed renewal" do
-    borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
-    sunday = Time.utc(2020, 1, 26).end_of_day
-
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) { loan.renew!(sunday) }
-    second_renewal = Loan.stub(:open_days, [0, 4]) { renewal.renew!(sunday) }
-
-    assert_difference "Loan.count", -1 do
-      second_renewal.undo_renewal!
-    end
-
-    renewal.reload
-    refute renewal.ended_at
-    assert loan.ended_at
-
-    refute Loan.exists?(second_renewal.id)
-  end
-
   test "finds loans that were due whole weeks ago" do
     tonight = Time.current.end_of_day
     loan = create(:loan, due_at: tonight)
@@ -261,6 +122,103 @@ class LoanTest < ActiveSupport::TestCase
     Loan.stub(:open_days, [0, 4]) do
       assert_equal sunday, Loan.next_open_day(friday)
       assert_equal sunday, Loan.next_open_day(saturday)
+    end
+  end
+
+  test "status is checked-out when due_at is in the future" do
+    loan = build(:loan, due_at: 7.days.from_now)
+
+    assert_equal "checked-out", loan.status
+  end
+
+  test "status is overdue when due_at has past" do
+    loan = build(:loan, due_at: 2.days.ago)
+
+    assert_equal "overdue", loan.status
+  end
+
+  test "is member_renewable if borrow_policy allows member renewal is within original loan duration and has not exceeded limit" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+
+    assert loan.member_renewable?
+  end
+
+  test "is not member_renewable if renewal count exceeds limit" do
+    borrow_policy = build(:member_renewable_borrow_policy)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item, renewal_count: borrow_policy.renewal_limit)
+
+    refute loan.member_renewable?
+  end
+
+  test "is not member renewable if borrow_policy does not allow member renewals" do
+    borrow_policy = build(:borrow_policy, member_renewable: false)
+    item = build(:item, borrow_policy: borrow_policy)
+    loan = build(:loan, item: item)
+
+    refute loan.member_renewable?
+  end
+
+  test "is not member_renewable if loan has end date" do
+    borrow_policy = create(:member_renewable_borrow_policy)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item, created_at: Time.current, ended_at: Time.current)
+
+    refute loan.member_renewable?
+  end
+
+  test "is member_renewal_requestable without a renewable borrow policy" do
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
+
+    assert loan.member_renewal_requestable?
+  end
+
+  test "is not member_renewal_requestable if there are active holds" do
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
+    create(:hold, item: item, member: loan.member, ended_at: nil)
+    item.reload
+    loan.reload
+
+    refute loan.member_renewal_requestable?
+  end
+
+  test "is not member_renewal_requestable if there are pending or rejected requests" do
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item)
+    create(:renewal_request, loan: loan, status: RenewalRequest.statuses[:rejected])
+    loan.reload
+
+    refute loan.member_renewal_requestable?
+  end
+
+  test "is member_renewal_requestable until the end of the day a loan expires" do
+    loan_ends = Date.new(2021, 0o5, 27, 4).to_time
+    borrow_policy = create(:borrow_policy, member_renewable: false)
+    item = create(:item, borrow_policy: borrow_policy)
+    loan = create(:loan, item: item, due_at: loan_ends)
+
+    travel_to loan_ends + 1.minute do
+      assert loan.member_renewal_requestable?
+    end
+
+    travel_to loan_ends + 1.day do
+      assert loan.member_renewal_requestable?
+    end
+  end
+
+  test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
+    member_double = Minitest::Mock.new
+    loan = create(:loan)
+    loan.stub :member, member_double do
+      member_double.expect(:upcoming_appointment_of, nil, [loan])
+      loan.upcoming_appointment
     end
   end
 end

@@ -1,0 +1,43 @@
+<div class="account account-holds-history">
+  <div class="columns">
+    <div class="column col-8 col-md-12">
+
+      <%= section_header "Hold History" do %>
+        <%= link_to "View Current Holds", account_holds_path %>
+      <% end %>
+
+      <% if @holds.any? %>
+        <ul class="hold-list">
+          <% @holds.each do |hold| %>
+            <li class="clearfix">
+              <div class="image">
+                <%= link_to item_path(hold.item) do %>
+                  <% if hold.item.image.attached? %>
+                    <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  <% else %>
+                    <div class="placeholder p-centered"></div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="details">
+                <span class="item">
+                  <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
+                </span>
+                <span class="status">
+                  <% if hold.loan %>
+                    Checked out on <%= checked_out_date(hold.loan.created_at) %>
+                    <% else %>
+                    Not checked out
+                  <% end %>
+                </span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <%= empty_state "You have put no items on hold" %>
+      <% end %>
+    </div>
+  </div>
+</div>

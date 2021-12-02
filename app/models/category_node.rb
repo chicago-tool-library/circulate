@@ -5,6 +5,10 @@ class CategoryNode < ApplicationRecord
     foreign_key: "category_id"
   has_many :items, through: :categorizations
 
+  acts_as_tenant :library
+
+  scope :with_items, -> { where("tree_categorizations_count > 0") }
+
   def full_name
     path_names.join("  ")
   end

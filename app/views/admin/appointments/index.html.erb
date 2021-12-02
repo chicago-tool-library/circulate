@@ -1,0 +1,70 @@
+<% content_for :header do %>
+  <%= index_header "Scheduled Appointments" %>
+<% end %>
+
+<div class="columns">
+  <div class="col-12 admin-appointments" data-controller="appointments-index" data-action="turbolinks:load@document->appointments-index#arrange">
+    <ul class="pagination">
+      <li class="page-item page-prev appointments-date-nav">
+        <%= link_to admin_appointments_path(day: previous_day) do %>
+          <div class="page-item-subtitle">
+            <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
+          </div>
+
+        <% end %>
+      </li>
+      <li class="pt-2 appointments-date"><b><%= current_day_label %></b></li>
+      <li class="page-item page-next appointments-date-nav">
+        <%= link_to admin_appointments_path(day: next_day) do %>
+          <div class="page-item-subtitle">
+            <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
+          </div>
+        <% end %>
+      </li>
+    </ul>
+
+    <% if @appointments.exists? %>
+
+      <table class="table pending-appointments" data-target="appointments-index.pending" >
+        <thead>
+          <tr>
+            <th class="time">Time</th>
+            <th class="member">Member</th>
+            <th class="items">Items</th>
+            <th class="notes">Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <% @pending_appointments.each do |appointment, index| %>
+          <%= portal tag_name: "tbody", attributes: {data: {index: index}} do %>
+            <%= render partial: "appointment", locals: { appointment: appointment } %>
+          <% end %>
+        <% end %>
+      </table>
+
+      <h2>Completed Appointments</h2>
+
+      <table class="table completed-appointments" data-target="appointments-index.completed">
+        <thead>
+          <tr>
+            <th class="time">Time</th>
+            <th class="member">Member</th>
+            <th class="items">Items</th>
+            <th class="notes">Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <% @completed_appointments.each do |appointment, index| %>
+          <%= portal tag_name: "tbody", attributes: {data: {index: index}} do %>
+            <%= render partial: "appointment", locals: { appointment: appointment } %>
+          <% end %>
+        <% end %>
+      </table>
+
+    <% else %>
+        <%= empty_state "No appointments scheduled for this day." %>
+    <% end %>
+  </div>
+</div>

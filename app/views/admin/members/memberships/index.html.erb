@@ -1,4 +1,5 @@
 <%= render "admin/members/profile" do %>
+<h2>Membership Periods</h2>
   <table class="table table-scroll">
     <thead>
       <tr>
@@ -11,9 +12,40 @@
     <tbody>
       <% @memberships.each do |membership| %>
         <tr>
-          <td><%= membership.started_on.to_s(:long_date) %></td>
-          <td><%= membership.ended_on.to_s(:long_date) %></td>
+          <% if membership.pending? %>
+            <td colspan="2" class="text-center"><em>pending</em></td>
+          <% else %>
+            <td><%= membership.started_at&.to_s(:long_date) %></td>
+            <td><%= membership.ended_at&.to_s(:long_date) %></td>
+          <% end %>
           <td><%= membership.amount.format %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<h2>Transactions</h2>
+  <table class="table table-scroll">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>What</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @adjustments.each do |adjustment| %>
+        <tr>
+          <td><%= adjustment.created_at.to_s(:long_date) %></td>
+          <td><%= adjustment.amount.format %></td>
+          <td>
+            <% if adjustment.payment? %>
+              <%= adjustment.payment_source.capitalize %> payment
+            <% else %>
+              <%= adjustment.kind.capitalize %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

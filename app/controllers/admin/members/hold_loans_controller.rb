@@ -3,7 +3,7 @@ module Admin
     class HoldLoansController < BaseController
       def create
         @member.transaction do
-          @member.holds.active.map { |hold|
+          @member.active_holds.map { |hold|
             Loan.lend(hold.item, to: @member).tap do |loan|
               hold.lend(loan)
             end

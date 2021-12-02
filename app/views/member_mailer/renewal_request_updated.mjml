@@ -1,0 +1,44 @@
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+  </mj-column>
+</mj-section>
+
+<% if @item.image.attached? %>
+  <mj-section>
+    <mj-column padding-top="20px">
+      <mj-image src="<%= item_image_url(@hold.item.image, resize_to_limit: [600, 300]) %>" />
+    </mj-column>
+  </mj-section>
+<% end %>
+
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <% if @renewal_request.approved? %>
+        <p>Your request to renew <strong><%= @item.name %> (<%= @item.complete_number %>)</strong> was approved!</p>
+        <p>It is now due on <%= checked_out_date @renewal_request.loan.summary.due_at %>.</p>
+      <% else %>
+        <p>Sorry, we aren't able to renew <strong><%= @item.name %> (<%= @item.complete_number %>)</strong> due to demand.</p>
+         <p>Please try to return it by <%= checked_out_date @renewal_request.loan.due_at %>.</p>
+      <% end %>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <div class="info">
+        <p><strong>
+          Need to return or pick-up tools?
+          <%= link_to "Schedule a time here!", new_account_appointment_url %>
+        </strong></p>
+      </div>
+    </mj-text>
+  </mj-column>
+</mj-section>

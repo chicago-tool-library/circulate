@@ -1,0 +1,88 @@
+<%= content_for :header do %>
+  <h1>Application Styles</h1>
+<% end %>
+
+<div class="style-guide">
+
+  <div class="colors">
+    <div class="columns">
+      <div class="column col-2 primary">Primary</div>
+      <div class="column col-2 secondary">Secondary</div>
+    </div>
+    <div class="columns">
+      <div class="column col-2 success">Success</div>
+      <div class="column col-2 warning">Warning</div>
+      <div class="column col-2 error">Error</div>
+    </div>
+    <div class="columns">
+      <div class="column col-2 dark">Dark</div>
+      <div class="column col-2 gray-dark">Gray dark</div>
+      <div class="column col-2 gray">Gray</div>
+      <div class="column col-2 gray-light">Gray light</div>
+      <div class="column col-2 light">Light</div>
+    </div>
+  </div>
+
+    <%= action_bar "This is informational", icon: "info" do %>
+      <%= button_tag 'Learn More', class: "btn btn-sm" %>
+    <% end %>
+    <%= action_bar "This is a warning", icon: "alert-triangle", type: :warning do %>
+      <%= button_tag 'Proceed Anyway', class: "btn btn-sm" %>
+    <% end %>
+    <%= action_bar "This is an error", icon: "x-octagon", type: :error do %>
+      <%= button_tag 'Oh no, This is Bad', class: "btn btn-sm" %>
+    <% end %>
+
+    <button class="btn">Basic</button>
+    <button class="btn btn-default">Default</button>
+    <button class="btn btn-primary">Primary</button>
+    <br><br>
+
+    <span class="label">Label</span>
+    <span class="label label-primary">Primary</span>
+    <span class="label label-secondary">Secondary</span>
+    <span class="label label-success">Success</span>
+    <span class="label label-warning">Warning</span>
+    <span class="label label-error">Error</span>
+
+    <br><br>
+</div>
+
+<div class="toast">Basic toast</div>
+<div class="toast toast-primary">Primary toast</div>
+<div class="toast toast-secondary">Secondary toast</div>
+<div class="toast toast-success">Success toast</div>
+<div class="toast toast-warning">Warning toast</div>
+<div class="toast toast-error">Error toast</div>
+
+
+
+<button class="primary-btn">
+  <%= link_to "New Primary" %>
+</button>
+<button class="secondary-btn">
+  <%= link_to "New Secondary" %>
+</button>
+<button class="link-btn">New Link</button>
+<br>
+<br>
+<br>
+
+<div class="card-container">
+  Card
+</div>
+<br>
+<br>
+<span>Typography styles</span>
+<br>
+<span class="title">Title</span>
+<br>
+<span class="title_bold">Title Bold</span>
+<br>
+<span class="body">Body</span>
+<br>
+<span class="caption">Caption</span>
+<br>
+<span class="caption_lg">Caption Large</span>
+<br>
+<span class="caption_xs">Subcaption</span>

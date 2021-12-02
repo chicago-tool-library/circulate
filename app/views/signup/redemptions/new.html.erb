@@ -10,7 +10,7 @@
 
 <div class="columns">
   <div class="column col-sm-12 col-8 col-mx-auto">
-    <%= form_with(model: @redemption, builder: SpectreFormBuilder) do |form| %>
+    <%= form_with(model: @form, url: signup_redemptions_path, builder: SpectreFormBuilder) do |form| %>
       <fieldset>
         <legend>Enter Your Gift Code</legend>
         <p>

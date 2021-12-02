@@ -1,6 +1,7 @@
 module Signup
   class DocumentsController < BaseController
     before_action :load_member, only: :agreement
+    before_action :is_membership_enabled?
 
     def rules
       @document = Document.borrow_policy

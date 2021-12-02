@@ -5,6 +5,7 @@
       <th>Member</th>
       <th>Reserved</th>
       <th>Wait time</th>
+      <th>Expires on</th>
     </thead>
     <tbody>
       <% @holds.each_with_index do |hold, index| %>
@@ -16,6 +17,7 @@
           </td>
           <td><%= date_with_time_title hold.created_at %></td>
           <td><%= time_ago_in_words(hold.created_at) %></td>
+          <td><%= date_with_time_title(hold.expires_at) if hold.expires_at %></td>
         </tr>
       <% end %>
     </tbody>

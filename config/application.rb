@@ -12,9 +12,6 @@ require "active_job/railtie"
 require "action_text/engine"
 require "rails/test_unit/railtie"
 
-# require 'sprockets/railtie'
-require "rails/test_unit/railtie"
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -22,16 +19,32 @@ Bundler.require(*Rails.groups)
 module Circulate
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     # config.autoloader = :classic
+
+    config.active_record.has_many_inversing = false
+    config.active_record.legacy_connection_handling = true
+
+    config.active_storage.track_variants = false
+    config.active_storage.queues.analysis = :active_storage_analysis
 
     # config.active_storage.variant_processor = :vips
     config.active_job.queue_adapter = :sucker_punch
+    config.active_job.skip_after_callbacks_if_terminated = true
+
+    config.action_dispatch.cookies_same_site_protection = nil
+
+    config.action_view.form_with_generates_remote_forms = true
+
+    ActiveSupport.utc_to_local_returns_utc_offset_times = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Delegates exception handling to the routes
+    config.exceptions_app = routes
   end
 end
 

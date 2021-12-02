@@ -1,0 +1,11 @@
+<%= button_tag "Place a hold", class: "btn btn-primary", disabled: true, remote: true, data: { disable_with: "Saving..." }  %> <em>You placed a hold on this item.</em>
+
+<br>
+
+<% if hold.upcoming_appointment %>
+  You are scheduled to pick this item up on <%= appointment_date_and_time hold.upcoming_appointment %>.
+<% else %>
+  <% if @current_library.allow_appointments? %>
+    <%= link_to "Schedule an appointment", new_account_appointment_path %> to choose when to pick it up.
+  <% end %>
+<% end %>

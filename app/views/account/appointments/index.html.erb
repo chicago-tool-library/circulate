@@ -1,0 +1,105 @@
+<div class="account account-appointments-index">
+  <div class="columns">
+    <div class="column col-8 col-md-12">
+
+      <%= section_header "Appointments" do %>
+        <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-primary" %>
+      <% end %>
+
+      <% if @appointments.any? %>
+        <ul class="appointment-list">
+          <% @appointments.each do |appointment| %>
+            <li class="appointment card">
+              <div class="card-header schedule">
+                <h2>
+                  <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %><br>
+                  <span class="time">between <%= appointment_time(appointment) %></span>
+                </h2>
+                <div class="actions">
+                  <% unless appointment.completed? %>
+                    <%= button_to "Modify Appointment", edit_account_appointment_path(appointment), class: "btn btn-primary", method: :get, data: { disabled_with: "Editing appointment..." } %>
+                  <% end %>
+                <div>
+              </div>
+
+              <div class="card-body">
+                <% if appointment.loans.any? %>
+                  <h3 class="h5">Here's what you're returning</h3>
+
+                  <ul class="loan-list" id="items-to-pickup-table">
+                    <% appointment.loans.each do |loan| %>
+                      <li class="clearfix">
+                        <div class="image">
+                          <%= link_to item_path(loan.item) do %>
+                            <% if loan.item.image.attached? %>
+                              <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                            <% else %>
+                              <div class="placeholder p-centered"></div>
+                            <% end %>
+                          <% end %>
+                        </div>
+                        <div class="details">
+                          <span class="item">
+                            <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
+                          </span>
+                          <span class="status">
+                            <span class=<%= loan.due_at - Time.now < 3.days ? "warning" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span><br>
+                          </span>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+
+                <% if appointment.holds.any? %>
+                  <h3 class="h5">Here's what you're picking up</h3>
+
+                  <ul class="hold-list">
+                    <% appointment.holds.each do |hold| %>
+                      <li class="clearfix">
+                        <div class="image">
+                          <%= link_to item_path(hold.item) do %>
+                            <% if hold.item.image.attached? %>
+                              <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                            <% else %>
+                              <div class="placeholder p-centered"></div>
+                            <% end %>
+                          <% end %>
+                        </div>
+                        <div class="details">
+                          <span class="item">
+                            <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
+                          </span>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+
+                <% if appointment.comment.present? %>
+                  <h3 class="h5">What kind of project are you working on?</h3>
+                  <%= simple_format appointment.comment %>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      <% else %>
+        <%= empty_state "You have no scheduled appointments" %>
+      <% end %>
+    </div>
+
+    <div class="column col-4 col-md-12">
+      <div class="rule-list">
+        <h3>How do appointments work?</h3>
+        <ul>
+          <li>Currently, all library members need to make an appointment anytime they want to pick up or drop off items.</li>
+          <li>When you create an appointment, all of your Holds that you are eligible to borrow will be available for you select to add to your pick ups.  Similarly, items that you have already borrowed will be available for you to select to return.</li>
+          <li>Use the "Modify Appointment" button if you need to change an appointment by adding or removing items, moving it to a new date/time, or canceling it altogether.</li>
+          <li>Please let us know in the notes what you're working on so we can make sure you get the best tool we have for the task and also whether the tools you're returning worked as expected.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

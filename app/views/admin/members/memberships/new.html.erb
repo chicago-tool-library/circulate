@@ -1,46 +1,38 @@
-<h1>New Membership</h1>
+<% content_for :header do %>
+  <%= index_header "New Membership" %>
+<% end %>
 
 <div class="instructions">
   <p class="main">Memberships provide one year of borrowing privileges.</p>
-  <p class="sub">We ask that members pay what they can.</p>
+  <p class="sub">The Chicago Tool Library's main source of funding is membership fees. It's important to us that you pay what you want for your year of tool access. Pay more if you can, pay less if you can't - no questions asked. Your payment will go directly towards funding the tools and materials needed to make the Tool Library the magical place that it is.</p>
     <p>Our recommendation is that folks pay $1 for every $1,000 of income they make in a year.<br>For example, if a person makes $40,000 each year, we recommend their membership fee be $40.</p>
 </div>
 
-<%= form_with model: @payment, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
-
+<%= form_with model: @form, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
   <div class="columns">
-    <div class="column col-sm-12 col-lg-5 col-mr-auto">
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title"><strong>Accept a Payment</strong></div>
-        </div>
-        <div class="panel-body">
+    <div class="column col-12">
+      <fieldset>
+        <legend>
+          <%= form.radio_button :with_payment, true, label: "Accept payment today", required: false %>
+        </legend>
+        <div class="fieldset-radio-inputs">
           <%= form.money_field :amount_dollars, label: "This year's membership fee", class: "input-lg" %>
-          <%= form.select :payment_source, options_for_select(membership_payment_source_options, @payment.payment_source || "cash"), prompt: true %>
+          <%= form.select :payment_source, options_for_select(membership_payment_source_options, @form.payment_source || "cash"), prompt: true %>
         </div>
-        <div class="panel-footer">
-          <%= form.submit "Save Membership" %>
-        </div>
-      </div>
-    </div>
+      </fieldset>
 
-    <div class="divider-vert hide-sm" data-content="OR"></div>
-
-    <div class="divider text-center show-sm" data-content="OR"></div>
-
-    <div class="column col-sm-12 col-lg-5 col-mx-auto">
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-title"><strong>Create without Payment</strong></div>
-        </div>
-        <div class="panel-body">
+      <fieldset>
+        <legend>
+          <%= form.radio_button :with_payment, false, label: "Create without payment", required: false %>
+        </legend>
+        <div class="fieldset-radio-inputs">
           <p>Remember that we don't turn anyone away because they can't pay. Use this option to create a membership without accepting a payment.</p>
         </div>
-        <div class="panel-footer">
-          <%= form.button "Save without Payment", name: "without_payment", value: "1" %>
-        </div>
-      </div>
+      </fieldset>
+
+      <%= form.check_box :start_membership, label: "Start this membership", hint: "If unchecked, this membership can be started at a later time.", checked: true %>
+
+      <%= form.submit "Save Membership" %>
     </div>
   </div>
-
 <% end %>

@@ -12,7 +12,7 @@ class GiftMembershipCode
     @value.scan(/.{4}/).join("-")
   end
 
-  alias to_s format
+  alias_method :to_s, :format
 
   def self.random
     code = CODE_SIZE.times.map {

@@ -1,0 +1,38 @@
+<div class="calendar calendar-lg">
+  <div class="calendar-nav navbar">
+    <div class="navbar-primary"><%= month_calendar.title %></div>
+  </div>
+
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <div class="calendar-date">Sun</div>
+      <div class="calendar-date">Mon</div>
+      <div class="calendar-date">Tue</div>
+      <div class="calendar-date">Wed</div>
+      <div class="calendar-date">Thu</div>
+      <div class="calendar-date">Fri</div>
+      <div class="calendar-date">Sat</div>
+    </div>
+
+    <div class="calendar-body">
+      <% month_calendar.each_day do |day| %>
+        <div class="calendar-date <%= calendar_day_class(day) %>" data-test-date="<%= day.date.to_s %>">
+          <span class="date-item <%= calendar_date_item_class(day) %>" <%= "disabled" unless day.events? %>><%= day.number %></span>
+          <div class="calendar-events">
+            <% day.each_shift do |shift| %>
+              <% if attendee && shift.attended_by?(attendee.email) %>
+                <%= link_to volunteer_event_path(event_ids: shift.event_ids), class: "calendar-event bg-primary text-light", title: "You are signed up for this shift." do %>
+                  <%= shift.times %><br><%= shift.title %>
+                <% end %>
+              <% else %>
+                <%= link_to volunteer_event_path(event_ids: shift.event_ids), class: "calendar-event #{"short-staffed" unless shift.staffed?}" do %>
+                  <%= shift.times %><br><%= shift.title %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

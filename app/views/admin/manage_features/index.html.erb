@@ -1,0 +1,16 @@
+<% content_for :header do %>
+  <%= index_header "Manage Features" %>
+<% end %>
+
+<%= form_with(model: @current_library, url:  admin_manage_feature_path(@current_library.id), builder: SpectreFormBuilder) do |form| %>
+
+  <%= form.check_box :allow_members, label: "Enable Member Signup", hint: "Allows or blocks access to member signup flow" %>
+  <%= form.check_box :allow_appointments, label: "Enable Appointments", hint: "Allows or blocks access to creating appointments" %>
+  <%= form.check_box :allow_payments, label: "Enable Payments", hint: "Allows or blocks access to accepting online payments" %>
+
+  <%= form.check_box :allow_volunteers, label: "Enable Volunteer Signup", hint: "Allows or blocks access to volunteer signup flow and calendar ( #{@current_library.hostname}/volunteer/shifts )" %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

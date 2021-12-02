@@ -1,0 +1,120 @@
+<div class="appointment-form">
+
+  <% if @appointment.errors.any?  %>
+    <ul class="error">
+      <% @appointment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if !can_schedule_appointment %>
+    <div class="toast toast-warning">
+      <p>You can only schedule an appointment if you have a tool on hold or that can be returned.</p>
+      <%= link_to "View Inventory", items_path, class: "btn btn-lg btn-default" %>
+    </div>
+  <% end %>
+
+  <%= form_with(model: [:account, @appointment]) do |form| %>
+
+    <div class="columns">
+
+      <% if loans.any? %>
+        <div class="column col-5 col-sm-12 col-mr-auto">
+          <h2 class="h3">Select Items to Return</h2>
+
+          <ul class="loan-list">
+            <% @loans.each do |loan| %>
+              <li class="clearfix">
+                <% if loan.item.image.attached? %>
+                  <div class="image">
+                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  </div>
+                <% end %>
+                <div class="details">
+                  <div class="form-group">
+                    <label class="form-checkbox checkbox-lg">
+                    <%= check_box_tag("appointment[loan_ids][]", loan.id, (@appointment.loans.include?(loan)), 
+                      disabled: loan.upcoming_appointment.present? && loan.upcoming_appointment != @appointment) %> 
+                    <i class="form-icon"></i>
+                    <%= loan.item.name %> (<%= loan.item.complete_number %>)
+                    </label>
+                  </div>
+                  <span class="status">
+                    <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
+                    <span class="pickup">
+                      <%= loan_pickup_status(loan) %>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+
+      <div class="column col-5 col-sm-12 col-mr-auto">
+        <h2 class="h3">Select Items to Pick-Up</h2>
+
+        <ul class="hold-list">
+          <% @holds.each do |hold| %>
+            <li>
+              <% if hold.item.image.attached? %>
+                <div class="image">
+                  <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                </div>
+              <% end %>
+              <div class="form-group">
+                <label class="form-checkbox checkbox-lg">
+                <%= check_box_tag("appointment[hold_ids][]", hold.id, @appointment.holds.include?(hold), 
+                  disabled: !hold.ready_for_pickup? || (hold.upcoming_appointment.present? && hold.upcoming_appointment != @appointment)) %>
+                <i class="form-icon"></i>
+                <%= hold.item.name %> (<%= hold.item.complete_number %>)
+                </label>
+              </div>
+              <div class="details">
+                <span class="status">
+                  <%= render_hold_status(hold) %>
+                </span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="columns"> 
+      <div class="column col-8 col-sm-12 col-mr-auto">
+        <div class="form-group" data-controller="appointment-date">
+          <label class="form-label h3" for="time_range_string">Select a time for the appointment</label>
+          <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), { include_blank: 'Select a Date' },
+            class: "form-select", data: { action: "appointment-date#sync", target: "appointment-date.select" }, disabled: !can_schedule_appointment) %>
+            <span data-target="appointment-date.display"></span>
+            <p>Don't worry if you arrive a little bit early or late, as long as it's within the library's open hours.</p>
+        </div>
+
+        <div class="form-group mb-2">
+          <label class="form-label" for="appointment_comment">Tell us about the project you're working on. We may be able to recommend a different or additional tool. If you're dropping off, please let us know if you had any issues with the items you're returning.</label>
+          <%= form.text_area :comment, class: "form-input", disabled: !can_schedule_appointment %>
+        </div>
+
+        <div>
+          <%= form.submit "#{ @appointment.new_record? ? "Schedule" : "Update" } Appointment", class: "btn btn-block btn-lg btn-primary", disabled: !can_schedule_appointment %>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+
+  <% unless @appointment.new_record? %>
+    <div class="columns cancel-appointment"> 
+      <div class="column col-8 col-sm-12 col-mr-auto">
+        <h4 class="h5">Need to cancel?</h4>
+        <p>You can make a new appointment to pick up or return items at a later time.</p>
+        <%= button_to "Cancel Appointment", account_appointment_path(@appointment), class: "btn", method: :delete, data: { disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+      </div>
+    </div>
+  <% end %>
+</div>

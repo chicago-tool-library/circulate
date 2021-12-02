@@ -1,10 +1,10 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.1"
+ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.0.0"
+gem "rails", "~> 6.1.4"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
@@ -25,23 +25,29 @@ gem "jbuilder", "~> 2.5"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# The latest release doesn't include the test helpers. Using this branch includes those.
+# See: https://github.com/ErwinM/acts_as_tenant/issues/215#issuecomment-552076674
+gem "acts_as_tenant"
 gem "devise"
-gem "audited", github: "bonekost/audited"
+gem "pundit"
+gem "audited", github: "collectiveidea/audited"
 gem "turbolinks_render"
 gem "money-rails"
-gem "mjml-rails", github: "jim/mjml-rails", branch: "webpacker"
+gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
 gem "pg_search"
 gem "activerecord-postgres_enum"
 gem "scenic"
 gem "reverse_markdown"
 gem "http"
+gem "translation"
+gem "store_model"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "sentry-raven"
 gem "omniauth-google-oauth2"
-gem 'omniauth-rails_csrf_protection', '~> 0.1'
+gem "omniauth-rails_csrf_protection"
 
 gem "image_processing", "~> 1.2"
 gem "mini_magick"
@@ -49,6 +55,9 @@ gem "mini_magick"
 gem "barnes"
 gem "sucker_punch"
 gem "dotenv-rails"
+gem "appsignal"
+
+gem "chronic"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.1", require: false
@@ -59,6 +68,7 @@ group :development, :test do
   gem "standard"
   gem "factory_bot_rails"
   gem "spy"
+  gem "letter_opener"
 end
 
 group :development do
@@ -70,15 +80,13 @@ group :development do
   gem "lefthook"
 end
 
-group :production do
-  gem "skylight"
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
+  gem "webdrivers", "~> 5.0"
   gem "minitest-ci"
+  gem "rails-controller-testing"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
