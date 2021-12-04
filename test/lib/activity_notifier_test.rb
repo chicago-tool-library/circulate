@@ -157,7 +157,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     }
 
     black_hole = Object.new
-    def black_hole.method_missing(*args) # rubocop:disable Style/MethodMissingSuper
+    def black_hole.method_missing(*args)
       self
     end
 
