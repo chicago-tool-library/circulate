@@ -123,6 +123,7 @@ Rails.application.routes.draw do
     namespace :settings do
       get "closing", to: "closing#index"
       post "closing/extend_holds", to: "closing#extend_holds"
+      resources :library_updates
     end
 
     resources :holds, only: [:index]
