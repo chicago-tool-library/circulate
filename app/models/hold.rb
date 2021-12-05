@@ -14,6 +14,7 @@ class Hold < ApplicationRecord
   scope :ended, -> { where("ended_at IS NOT NULL") }
   scope :expired, ->(now = Time.current) { where("expires_at < ?", now) }
   scope :started, -> { where("started_at IS NOT NULL") }
+  scope :waiting, -> { where("started_at IS NULL") }
 
   scope :recent_first, -> { order("created_at desc") }
 

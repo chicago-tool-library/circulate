@@ -1,0 +1,42 @@
+<div class="account-home-index">
+  <div class="columns">
+
+    <div class="column col-8 col-md-12">
+      <%= section_header "Loan History" do %>
+        <%= link_to "View Current Loans", account_loans_path %>
+      <% end %>
+
+      <% if @loans.any? %>
+
+        <ul class="loan-list">
+          <% @loans.each do |loan| %>
+            <li class="clearfix">
+              <div class="image">
+                <%= link_to item_path(loan.item) do %>
+                  <% if loan.item.image.attached? %>
+                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                  <% else %>
+                    <div class="placeholder p-centered"></div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="details">
+                <span class="item">
+                  <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
+                </span>
+                <span class="status">
+                  Checked out <%= loan.created_at.strftime("%m/%d/%Y") %>,
+                  returned <%= loan.ended_at ? loan.ended_at.strftime("%m/%d/%Y") : "-"%>
+                </span>
+              </div>
+              <div class="actions">
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= empty_state "You have no items on loan" %>
+      <% end %>
+    </div>
+  </div>
+</div>

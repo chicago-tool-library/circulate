@@ -7,18 +7,31 @@ module Account
     setup do
       @user = create(:user)
       @member = create(:member, user: @user)
-      @loan1 = create(:ended_loan, member: @member)
-      @loan2 = create(:ended_loan)
-
       sign_in @user
     end
 
     test "loads a member's past loans" do
+      @loan = create(:ended_loan, member: @member)
+      @others_loan = create(:ended_loan)
+
+      get history_account_loans_url
+      assert_response :success
+
+      assert_match @loan.item.complete_number, response.body
+      refute_match @others_loan.item.complete_number, response.body
+    end
+
+    test "displays a member's current loans" do
+      @loan = create(:loan, member: @member)
+      @others_loan = create(:loan)
+      @ended_loan = create(:ended_loan, member: @member)
+
       get account_loans_url
       assert_response :success
 
-      assert_match @loan1.item.complete_number, response.body
-      refute_match @loan2.item.complete_number, response.body
+      assert_match @loan.item.complete_number, response.body
+      refute_match @others_loan.item.complete_number, response.body
+      refute_match @ended_loan.item.complete_number, response.body
     end
   end
 end
