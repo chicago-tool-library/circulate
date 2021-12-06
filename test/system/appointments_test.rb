@@ -63,6 +63,11 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     visit account_home_url
 
+    assert_text "You have 2 items checked out"
+    assert_text "You have 2 items ready to be picked up"
+
+    visit account_loans_url
+
     within(list_item_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
     within(list_item_containing(@borrowed_item2.complete_number)) { assert_text "Due" }
 
@@ -153,6 +158,10 @@ class AppointmentsTest < ApplicationSystemTestCase
     assert_text @borrowed_item2.complete_number
 
     visit account_home_url
+    assert_text "You have 2 items checked out"
+    assert_text "You have 2 items on hold but not ready for pickup"
+
+    visit account_loans_url
     within(list_item_containing(@borrowed_item1.complete_number)) { assert_text "Scheduled for return" }
     within(list_item_containing(@borrowed_item2.complete_number)) { assert_text "Scheduled for return" }
 
