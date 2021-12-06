@@ -105,6 +105,10 @@ class Item < ApplicationRecord
     checked_out_exclusive_loan.due_at.to_date
   end
 
+  def overdue?
+    due_on.past?
+  end
+
   def available?
     !checked_out_exclusive_loan.present?
   end
