@@ -44,6 +44,8 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
     3.upto(7).each do |number|
       Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "event#{number}#{email_suffix}", start: number.days.since, finish: number.days.since + 2.hours)
     end
+
+    LibraryUpdate.create(title: "December updates", body: "<h1>Library Closures!</h1><div>The tool library will be closed for a bit.</div>", published: true)
   end
 end
 
