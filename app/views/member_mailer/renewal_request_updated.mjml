@@ -12,7 +12,7 @@
 <% if @item.image.attached? %>
   <mj-section>
     <mj-column padding-top="20px">
-      <mj-image src="<%= item_image_url(@hold.item.image, resize_to_limit: [600, 300]) %>" />
+      <mj-image src="<%= item_image_url(@item.image, resize_to_limit: [600, 300]) %>" />
     </mj-column>
   </mj-section>
 <% end %>
