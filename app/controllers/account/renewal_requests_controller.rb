@@ -15,7 +15,7 @@ module Account
         {error: "Something went wrong!"}
       end
 
-      redirect_to account_home_path, flash: flash_message
+      redirect_to account_loans_path, flash: flash_message
     end
   end
 end

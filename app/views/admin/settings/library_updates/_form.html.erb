@@ -1,0 +1,11 @@
+<%= form_with(model: [:admin, :settings, @library_update], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :title, hint: "Not displayed to members; only for internal use" %>
+  <%= form.rich_text_area :body %>
+
+  <%= form.check_box :published, hint: "Display this update on the member home page?", required: false %>
+  <%= form.actions do %>
+    <%= form.submit "Save" %>
+  <% end %>
+<% end %>

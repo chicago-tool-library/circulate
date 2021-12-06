@@ -37,5 +37,15 @@ module Account
       assert_select "div.toast", /Your membership ended on/
       assert_select "a.btn-default", "Renew Membership"
     end
+
+    test "shows updates on the home page" do
+      create(:library_update, published: true, body: "some good news")
+      create(:library_update, published: false, body: "some old news")
+
+      get account_home_url
+
+      assert_match "some good news", response.body
+      refute_match "some old news", response.body
+    end
   end
 end

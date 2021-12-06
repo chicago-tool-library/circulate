@@ -59,9 +59,10 @@
               <li class="nav-item"><%= link_to "Documents", admin_documents_path %></li>
               <li class="nav-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
               <% if current_user.admin? %>
+                <li class="nav-item"><%= link_to "Library Updates", admin_settings_library_updates_path %></li>
                 <li class="nav-item"><%= link_to "Users", admin_users_path %></li>
                 <li class="nav-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
-                <li class="nav-item"><%= link_to "closing", admin_settings_closing_path %></li>
+                <li class="nav-item"><%= link_to "Closing", admin_settings_closing_path %></li>
               <% end %>
             </ul>
           </li>
@@ -145,6 +146,7 @@
                 <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
                 <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
                 <% if current_user.has_role?(:admin) %>
+                  <li class="menu-item"><%= link_to "Library Updates", admin_settings_library_updates_path %></li>
                   <li class="menu-item"><%= link_to "Users", admin_users_path %></li>
                   <li class="menu-item"><%= link_to "Manage Features", admin_manage_features_path %></li>
                   <li class="menu-item"><%= link_to "Closing", admin_settings_closing_path %></li>

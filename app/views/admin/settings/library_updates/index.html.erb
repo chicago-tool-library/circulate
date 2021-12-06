@@ -1,0 +1,30 @@
+<% content_for :header do %>
+  <%= index_header "Library Updates" do %>
+    <%= link_to 'New Library Update', new_admin_settings_library_update_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Updated</th>
+      <th class="text-center">Published?</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @library_updates.each do |library_update| %>
+        <tr>
+          <td><%= link_to library_update.title, edit_admin_settings_library_update_path(library_update) %></td>
+          <td><%= date_with_time_title(library_update.updated_at) %></td>
+          <td class="text-center"><%= feather_icon("check") if library_update.published %></td>
+          <td>
+            <%= link_to "Edit", edit_admin_settings_library_update_path(library_update), class: "btn" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  <table>
+</div>

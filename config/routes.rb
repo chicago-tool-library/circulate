@@ -20,13 +20,15 @@ Rails.application.routes.draw do
   end
 
   namespace :account do
+    resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :holds, only: [:index, :create, :destroy] do
       get :history, to: "holds#history", on: :collection
     end
-    resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :loans, only: :index do
+      get :history, to: "loans#history", on: :collection
+    end
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]
-    resources :loans, only: [:index]
     resources :renewals, only: :create
     resources :renewal_requests, only: :create
     get "/", to: "home#index", as: "home"
@@ -123,6 +125,7 @@ Rails.application.routes.draw do
     namespace :settings do
       get "closing", to: "closing#index"
       post "closing/extend_holds", to: "closing#extend_holds"
+      resources :library_updates
     end
 
     resources :holds, only: [:index]

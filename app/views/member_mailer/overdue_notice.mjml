@@ -20,7 +20,7 @@
     <mj-text>
       <div class="info">
         <p><strong>
-          You can view more information about the items you have checked out in <%= link_to "your account", account_home_url %>.
+          You can view more information about the items you have checked out in <%= link_to "your account", account_loans_url %>.
         </strong></p>
         <p><strong>
           Need to return or pick-up tools?

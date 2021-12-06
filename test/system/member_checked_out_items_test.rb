@@ -10,7 +10,7 @@ class MemberCheckedOutItemsTest < ApplicationSystemTestCase
   test "member can see loans" do
     @loan = create(:loan, member: @member, item: create(:item, :with_image))
 
-    visit account_home_url
+    visit account_loans_url
 
     within ".loan-list" do
       assert_text @loan.item.name
