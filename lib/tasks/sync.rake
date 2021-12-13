@@ -1,8 +1,10 @@
 namespace :sync do
   desc "Syncronizes calendars with the events database"
   task calendars: :environment do
-    sync_calendar Event.appointment_slot_calendar_id
-    sync_calendar Event.volunteer_shift_calendar_id
+    ActsAsTenant.with_tenant(Library.first) do
+      sync_calendar Event.appointment_slot_calendar_id
+      sync_calendar Event.volunteer_shift_calendar_id
+    end
   end
 
   def sync_calendar(calendar_id)
