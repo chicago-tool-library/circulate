@@ -51,10 +51,12 @@ class Event < ApplicationRecord
         calendar_id: gcal_event.calendar_id
       ).delete_all
     else
-      Event.find_or_initialize_by(
+      event = Event.find_or_initialize_by(
         calendar_event_id: gcal_event.id,
         calendar_id: gcal_event.calendar_id
-      ).update(
+      )
+
+      event.update!(
         description: gcal_event.description,
         start: gcal_event.start,
         finish: gcal_event.finish,
