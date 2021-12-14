@@ -4,7 +4,7 @@ module Admin
       include Calendaring
 
       def index
-        load_upcoming_events
+        @events = Event.volunteer_shifts
       end
     end
   end
