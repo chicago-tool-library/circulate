@@ -1,3 +1,49 @@
 <% content_for :header do %>
   <%= index_header "Dashboard" %>
 <% end %>
+
+<div class="admin-dashboard">
+  <h2>Today</h2>
+  <dl>
+    <div class="pair">
+      <dt>Appointments</dt>
+      <dd><%= @appointments_today %></dd>
+    </div>
+    <div class="pair">
+      <dt>Borrowed Items</dt>
+      <dd><%= @items_checked_out_today %></dd>
+    </div>
+  </dl>
+
+  <h2>This Week</h2>
+  <dl>
+    <div class="pair">
+      <dt>Loans</dt>
+      <dd><%= @loans_past_week %></dd>
+    </div>
+    <div class="pair">
+      <dt>New members</dt>
+      <dd><%= @new_members_past_week %></dd>
+    </div>
+  </dl>
+
+  <h2>Total</h2>
+  <dl>
+    <div class="pair">
+      <dt>Items on Loan</dt>
+      <dd><%= @items_on_loan %></dd>
+    </div>
+    <div class="pair">
+      <dt>Overdue Items</dt>
+      <dd><%= @overdue_loans %></dd>
+    </div>
+    <div class="pair">
+      <dt>Items</dt>
+      <dd><%= @total_items %></dd>
+    </div>
+    <div class="pair">
+      <dt>Members</dt>
+      <dd><%= @total_members %></dd>
+    </div>
+  </dl>
+</div>
