@@ -94,6 +94,14 @@ class ItemsHelperTest < ActionView::TestCase
       assert_equal ["label-warning", "Checked Out"], css_class_and_status_label(item)
     end
 
+    test "item status for an overdue uniquely numbered item" do
+      item = create(:item)
+      create(:overdue_loan, item: item)
+      item.reload
+
+      assert_equal ["label-error", "Overdue"], css_class_and_status_label(item)
+    end
+
     test "item status for a uniquely numbered item with a hold" do
       item = create(:item)
       create(:hold, item: item)

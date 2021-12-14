@@ -150,7 +150,11 @@ module ItemsHelper
   def css_class_and_status_label(item)
     if item.active?
       if item.checked_out_exclusive_loan
-        ["label-warning", "Checked Out"]
+        if item.overdue?
+          ["label-error", "Overdue"]
+        else
+          ["label-warning", "Checked Out"]
+        end
       elsif item.borrow_policy.uniquely_numbered? && item.active_holds.size > 0
         ["label-warning", "On Hold"]
       else
@@ -166,20 +170,6 @@ module ItemsHelper
   def item_status_label(item)
     class_name, label = css_class_and_status_label(item)
     tag.span label, class: "label item-checkout-status #{class_name}"
-  end
-
-  def item_status_class(item)
-    if item.active?
-      if item.checked_out_exclusive_loan
-        "status-checked-out"
-      elsif item.active_holds.count > 0
-        "status-on-hold"
-      else
-        "status-available"
-      end
-    else
-      "status-unavailable"
-    end
   end
 
   def item_holds_label(item)
