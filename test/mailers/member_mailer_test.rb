@@ -9,7 +9,7 @@ class MemberMailerTest < ActionMailer::TestCase
 
   [:approved, :rejected].each do |status|
     test "renders renewal request #{status} email for a renewed loan" do
-      item = create(:item)
+      item = create(:item, :with_image)
       loan = create(:loan, item: item)
       renewed_loan = renew_loan(loan)
       renewal_request = create(:renewal_request, loan: renewed_loan, status: status)
@@ -21,7 +21,7 @@ class MemberMailerTest < ActionMailer::TestCase
     end
 
     test "renders renewal request #{status} email for the first loan" do
-      item = create(:item)
+      item = create(:item, :with_image)
       loan = create(:loan, item: item)
       renewal_request = create(:renewal_request, loan: loan, status: status)
 

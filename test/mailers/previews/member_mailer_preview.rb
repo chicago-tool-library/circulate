@@ -79,20 +79,24 @@ class MemberMailerPreview < ActionMailer::Preview
   end
 
   def renewal_request_approved
-    tomorrow = Time.current.end_of_day + 1.day
-    member = Member.verified.first
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
-    renew_loan(loan)
-    renewal_request = RenewalRequest.create!(loan: loan, status: :approved)
-    MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
+    ActsAsTenant.with_tenant(Library.first) do
+      tomorrow = Time.current.end_of_day + 1.day
+      member = Member.verified.first
+      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
+      renew_loan(loan)
+      renewal_request = RenewalRequest.create!(loan: loan, status: :approved)
+      MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
+    end
   end
 
   def renewal_request_rejected
-    tomorrow = Time.current.end_of_day + 1.day
-    member = Member.verified.first
-    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
-    renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
-    MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
+    ActsAsTenant.with_tenant(Library.first) do
+      tomorrow = Time.current.end_of_day + 1.day
+      member = Member.verified.first
+      loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, library: member.library, due_at: tomorrow, uniquely_numbered: false)
+      renewal_request = RenewalRequest.create!(loan: loan, status: :rejected)
+      MemberMailer.with(renewal_request: renewal_request).renewal_request_updated
+    end
   end
 
   def appointment_confirmation
