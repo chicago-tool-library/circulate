@@ -44,6 +44,10 @@ module Lending
     loan.transaction do
       next unless return_loan(loan, now: now)
       new_loan.save!
+
+      # update any appointments connected with the old loan
+      AppointmentLoan.where(loan_id: loan).update_all(loan_id: new_loan.id)
+
       success = true
     end
 
@@ -63,6 +67,10 @@ module Lending
         loan.initial_loan
       end
       target.update!(ended_at: nil)
+
+      # update any appointments connected with the reverted loan
+      AppointmentLoan.where(loan_id: loan).update_all(loan_id: target.id)
+
       success = true
     end
 
