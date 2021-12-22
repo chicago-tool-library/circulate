@@ -102,6 +102,50 @@ class LendingTest < ActiveSupport::TestCase
     refute renewal.renewable?
   end
 
+  test "updates appointment loans to point to the renewal" do
+    borrow_policy = create(:borrow_policy, duration: 7)
+    item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
+
+    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+
+    appointment = create(:appointment, member: loan.member, loans: [loan])
+    appointment_loan = appointment.appointment_loans.first
+
+    renewal = Loan.stub(:open_days, [0, 4]) {
+      assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
+    }
+
+    appointment.reload
+    appointment_loan.reload
+
+    assert_equal 1, appointment.appointment_loans.size
+    assert_equal renewal.id, appointment_loan.loan_id
+  end
+
+  test "restores appointment loan to previous loan when reverted" do
+    borrow_policy = create(:borrow_policy, duration: 7)
+    item = create(:item, borrow_policy: borrow_policy)
+    sunday = Time.utc(2020, 1, 26).end_of_day
+
+    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+
+    appointment = create(:appointment, member: loan.member, loans: [loan])
+    appointment_loan = appointment.appointment_loans.first
+
+    renewal = Loan.stub(:open_days, [0, 4]) {
+      assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
+    }
+
+    undo_loan_renewal(renewal)
+
+    appointment.reload
+    appointment_loan.reload
+
+    assert_equal 1, appointment.appointment_loans.size
+    assert_equal loan.id, appointment_loan.loan_id
+  end
+
   test "reverts a renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
