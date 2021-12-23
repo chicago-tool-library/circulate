@@ -28,25 +28,40 @@ namespace :export do
     path = Rails.root + "exports" + "members-#{now}.csv"
     puts "writing member info to #{path}"
 
-    max_memberships = 3
-    membership_columns = max_memberships.times.flat_map { |n|
-      ["membership_started#{n + 1}", "membership_ended#{n + 1}", "membership_amount#{n + 1}"]
-    }
-
     CSV.open(path, "wb") do |csv|
       csv << [
-        "level",
-        *membership_columns
+        "circulate_id",
+        "preferred_name",
+        "first_name",
+        "middle_name",
+        "last_name",
+        "email",
+        "phone",
+        "status",
+        "address1",
+        "address2",
+        "city",
+        "region",
+        "postal_code",
+        "number",
+        "pronouns",
+        "volunteer_interest",
+        "membership_level",
+        "membership_started", 
+        "membership_ended",
+        "membership_amount"
       ]
-      Member.find_each do |member|
-        level = member.memberships.any?
+      Member.verified.find_each do |member|
         name_parts = member.full_name.split(" ")
         names = if name_parts.size == 2
           [name_parts[0], "", name_parts[1]]
         else
           [name_parts[0], name_parts[1], name_parts[2..]&.join(" ")]
         end
+
+        # 16 rows
         row = [
+          member.id,
           member.preferred_name,
           *names,
           member.email,
@@ -60,15 +75,28 @@ namespace :export do
           member.number,
           member.pronouns.join(" "),
           member.volunteer_interest,
-          level
         ]
 
-        member.memberships.order("created_at ASC").each do |membership|
-          row << membership.started_at&.to_date&.strftime("%m/%d/%Y")
-          row << membership.ended_at&.to_date&.strftime("%m/%d/%Y")
-          row << membership.amount.format
+        first_membership, *rest_memberships = member.memberships.order("created_at ASC").to_a
+
+        if first_membership
+          row << "Member"
+          row << first_membership.started_at&.to_date&.strftime("%m/%d/%Y")
+          row << first_membership.ended_at&.to_date&.strftime("%m/%d/%Y")
+          row << first_membership.amount.format
+        else
+          4.times { row << "" }
         end
         csv << row
+
+        rest_memberships.each do |membership|
+          membership_row = [""] * 16
+          membership_row << "Member"
+          membership_row << membership.started_at&.to_date&.strftime("%m/%d/%Y")
+          membership_row << membership.ended_at&.to_date&.strftime("%m/%d/%Y")
+          membership_row << membership.amount.format
+          csv << membership_row
+        end
       end
     end
   end
