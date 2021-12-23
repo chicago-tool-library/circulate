@@ -47,7 +47,7 @@ namespace :export do
         "pronouns",
         "volunteer_interest",
         "membership_level",
-        "membership_started", 
+        "membership_started",
         "membership_ended",
         "membership_amount"
       ]
@@ -74,7 +74,7 @@ namespace :export do
           member.postal_code,
           member.number,
           member.pronouns.join(" "),
-          member.volunteer_interest,
+          member.volunteer_interest
         ]
 
         first_membership, *rest_memberships = member.memberships.order("created_at ASC").to_a
