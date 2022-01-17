@@ -37,7 +37,7 @@
       <% end %>
     </div>
 
-    <ul class="tab">
+    <ul class="tab member-tabs">
       <%= tab_link "Current Loans", admin_member_path(@member) %>
       <%= tab_link "Holds", admin_member_holds_path(@member) %>
       <% if @current_library.allow_appointments? %>
@@ -47,7 +47,9 @@
       <%= tab_link "Membership", admin_member_memberships_path(@member) %>
     </ul>
 
-    <%= yield %>
+    <div class="member-tabs-content">
+      <%= yield %>
+    </div>
 
   </div>
 </div>

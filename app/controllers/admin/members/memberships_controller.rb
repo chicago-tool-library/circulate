@@ -2,7 +2,7 @@ module Admin
   module Members
     class MembershipsController < BaseController
       def index
-        @memberships = @member.memberships
+        @memberships = @member.memberships.order(created_at: :desc)
         @adjustments = @member.adjustments.order(created_at: :desc)
       end
 
@@ -13,7 +13,7 @@ module Admin
       def create
         @form = MembershipForm.new(@member, membership_form_params)
         if @form.save
-          redirect_to admin_member_path(@member), success: "Membership created."
+          redirect_to admin_member_memberships_path(@member), success: "Membership created."
         else
           render :new
         end
@@ -25,7 +25,7 @@ module Admin
 
         if @membership
           @membership.start!
-          redirect_to admin_member_path(@member), success: "Membership started."
+          redirect_to admin_member_memberships_path(@member), success: "Membership started."
         else
           redirect_to admin_member_path(@member), error: "Could not start membership"
         end

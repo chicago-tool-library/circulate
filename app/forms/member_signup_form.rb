@@ -34,6 +34,7 @@ class MemberSignupForm
       @user.email = @member.email
       @member.user = @user
       @member.save
+      @user.save
 
       raise ActiveRecord::Rollback unless @user.persisted? && @member.persisted?
       true

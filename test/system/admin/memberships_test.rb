@@ -102,4 +102,61 @@ class MembershipsTest < ApplicationSystemTestCase
     click_on "Membership"
     assert_content "$30.00"
   end
+
+  test "member with active membership can renew early" do
+    @membership = create(:membership)
+    @member = @membership.member
+
+    visit admin_member_url(@member)
+
+    within ".account" do
+      assert_content "Expires #{@membership.ended_at.strftime("%b %-d, %Y")}"
+    end
+
+    within ".member-tabs" do
+      click_on "Membership"
+    end
+
+    assert_equal 1, all("table.memberships tbody tr").size
+
+    click_on "Renew Membership"
+    fill_in "This year's membership fee", with: "30"
+    click_on "Save Membership"
+
+    assert_content "Membership created"
+
+    @member.reload
+    refute_equal @member.last_membership, @membership
+
+    within ".account" do
+      assert_content "Expires #{@member.last_membership.ended_at.strftime("%b %-d, %Y")}"
+    end
+
+    assert_equal 2, all("table.memberships tbody tr").size
+  end
+
+  test "member with active membership can't create a pending membership" do
+    @membership = create(:membership)
+    @member = @membership.member
+
+    visit admin_member_memberships_url(@member)
+
+    click_on "Renew Membership"
+    refute_selector "#membership_form_start_membership"
+  end
+
+  test "member with pending membership can't create another" do
+    @membership = create(:pending_membership)
+    @member = @membership.member
+
+    visit admin_member_memberships_url(@member)
+
+    refute_selector "a", text: "Renew Membership"
+  end
+end
+
+def membership_row_containing(text)
+  within "table.memberships" do
+    find(:tr, text: text)
+  end
 end

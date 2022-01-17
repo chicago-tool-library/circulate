@@ -1,6 +1,9 @@
 <%= render "admin/members/profile" do %>
-<h2>Membership Periods</h2>
-  <table class="table table-scroll">
+  <% unless @member.pending_membership %>
+    <%= link_to @memberships.any? ? "Renew Membership" : "Create Membership", new_admin_member_membership_path, class: "btn" %>
+  <% end %>
+
+  <table class="table memberships">
     <thead>
       <tr>
         <th>Started on</th>
@@ -24,8 +27,8 @@
     </tbody>
   </table>
 
-<h2>Transactions</h2>
-  <table class="table table-scroll">
+  <h3 class="mt-5">Transactions</h3>
+  <table class="table">
     <thead>
       <tr>
         <th>Date</th>
