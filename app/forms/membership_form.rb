@@ -13,7 +13,7 @@ class MembershipForm
     @payment = Admin::Payment.new(params.slice(*PAYMENT_ATTRIBUTES))
 
     @with_payment = params.key?("with_payment") ? params["with_payment"] == "true" : true
-    @start_membership = params["start_membership"] == "1"
+    @start_membership = params["start_membership"] != "0"
   end
 
   def errors
