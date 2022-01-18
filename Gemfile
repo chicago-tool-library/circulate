@@ -78,6 +78,7 @@ group :development do
   gem "solargraph"
   gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
   gem "lefthook"
+  gem "erb_lint", "~> 0.1.1"
 end
 
 group :test do
