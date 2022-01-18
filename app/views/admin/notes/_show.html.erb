@@ -1,9 +1,9 @@
 <%= tag.blockquote class: "note", id: dom_id(note) do %>
   <%= note.body %>
   <br>
-  
+
   <%= tag.div class: "notes-actions" do %>
-    <%= link_to 'Edit Note', [:edit, :admin, parent, note], method: :get, remote: true, class: "btn btn-sm" %>
+    <%= link_to "Edit Note", [:edit, :admin, parent, note], method: :get, remote: true, class: "btn btn-sm" %>
   <% end %>
 
 <% end %>

@@ -30,7 +30,7 @@
         <% if item.image.attached? %>
           <%= link_to "Edit Photo", edit_admin_item_image_path(item), class: "btn btn-sm" %>
         <% end %>
-        <%= link_to "Duplicate", new_admin_item_path(item_id:item), class: "btn btn-sm" %>
+        <%= link_to "Duplicate", new_admin_item_path(item_id: item), class: "btn btn-sm" %>
       </div>
     <% end %>
 

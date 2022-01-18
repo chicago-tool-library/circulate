@@ -1,6 +1,6 @@
 <% content_for :header do %>
   <%= index_header "Users" do %>
-    <%= link_to 'New User', new_admin_user_path, class: "btn" %>
+    <%= link_to "New User", new_admin_user_path, class: "btn" %>
   <% end %>
 <% end %>
 
@@ -20,8 +20,8 @@
         <td><%= link_to user.email, [:admin, user] %></td>
         <td><%= user.role %></td>
         <td><%= user.current_sign_in_at %></td>
-        <td><%= link_to 'Edit', edit_admin_user_path(user), class: "btn" %></td>
-        <td><%= link_to 'Destroy', [:admin, user], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Edit", edit_admin_user_path(user), class: "btn" %></td>
+        <td><%= link_to "Destroy", [:admin, user], method: :delete, data: {confirm: "Are you sure?"} %></td>
       </tr>
     <% end %>
   </tbody>

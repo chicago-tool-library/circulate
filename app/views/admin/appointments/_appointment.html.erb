@@ -7,31 +7,31 @@
   <td class="items">
     <% appointment.holds.take(10).each do |hold| %>
       <span class="label label-primary">pick-up</span>
-      <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number%> <br/>
+      <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %> <br>
     <% end %>
     <% if appointment.holds.count > 10 %>
       <details>
         <summary>and <%= appointment.holds.count - 10 %> more</summary>
         <% appointment.holds[10..].each do |hold| %>
           <span class="label label-primary">pick-up</span>
-          <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number%> <br/>
+          <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %> <br>
         <% end %>
       </details>
     <% end %>
     <% appointment.loans.each do |loan| %>
       <span class="label label-seondary">drop-off</span>
-      <%= link_to loan.item.name, admin_item_path(loan.item) %> <br/>
+      <%= link_to loan.item.name, admin_item_path(loan.item) %> <br>
     <% end %>
   </td>
   <td class="notes"><%= appointment.comment %></td>
   <td>
     <%= link_to "view/edit", admin_appointment_path(appointment), class: "mb-2 view-appointment" %><br>
     <% if appointment.completed? %>
-      <%= button_to "restore", admin_appointment_completion_path(appointment), 
-        method: :delete, class: "btn btn-sm", remote: true, data: { disable_with: "saving" } %>   
+      <%= button_to "restore", admin_appointment_completion_path(appointment),
+            method: :delete, class: "btn btn-sm", remote: true, data: {disable_with: "saving"} %>
     <% else %>
       <%= button_to "complete", admin_appointment_completion_path(appointment),
-        method: :post, class: "btn btn-sm", remote: true, data: { disable_with: "saving" } %>   
+            method: :post, class: "btn btn-sm", remote: true, data: {disable_with: "saving"} %>
     <% end %>
   </td>
 </tr>

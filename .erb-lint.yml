@@ -34,3 +34,5 @@ linters:
         Enabled: false
       Lint/Void:
         Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false

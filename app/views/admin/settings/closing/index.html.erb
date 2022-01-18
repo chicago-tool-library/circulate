@@ -21,7 +21,7 @@
     <p>Enter the next day that holds should expire. Any holds expiring before that day will be extended to that date.</p>
     <%= form_with(model: @form, url: admin_settings_closing_extend_holds_url, builder: SpectreFormBuilder) do |form| %>
       <%= form.date_field :date, min: @form.earliest_valid_date.iso8601, max: @form.latest_valid_date.iso8601 %>
-      <%= form.submit "Extend holds", data: { confirm: "This can't be undone. Click OK to extend holds that expire before the specified date."} %>
+      <%= form.submit "Extend holds", data: {confirm: "This can't be undone. Click OK to extend holds that expire before the specified date."} %>
     <% end %>
   </div>
 </div>

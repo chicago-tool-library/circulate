@@ -7,13 +7,13 @@
     </p>
 
     <% if @items_by_number.any? %>
-      <%= render partial: "items_table", locals: { items: @items_by_number } %>
+      <%= render partial: "items_table", locals: {items: @items_by_number} %>
     <% end %>
 
     <% if @items.any? %>
-      <%= render partial: "items_table", locals: { items: @items } %>
+      <%= render partial: "items_table", locals: {items: @items} %>
     <% else %>
-      <p>No matching items found.</p> 
+      <p>No matching items found.</p>
     <% end %>
 
   </div>
