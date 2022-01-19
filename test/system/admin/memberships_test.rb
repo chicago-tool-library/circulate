@@ -21,7 +21,7 @@ class MembershipsTest < ApplicationSystemTestCase
       membership.reload
 
       within ".account" do
-        assert_content "Expires #{membership.ended_at.strftime("%b %-d, %Y")}"
+        assert_date_displayed(membership.ended_at)
       end
 
       click_on "Membership"
@@ -110,7 +110,7 @@ class MembershipsTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     within ".account" do
-      assert_content "Expires #{@membership.ended_at.strftime("%b %-d, %Y")}"
+      assert_date_displayed(@membership.ended_at)
     end
 
     within ".member-tabs" do
@@ -129,7 +129,7 @@ class MembershipsTest < ApplicationSystemTestCase
     refute_equal @member.last_membership, @membership
 
     within ".account" do
-      assert_content "Expires #{@member.last_membership.ended_at.strftime("%b %-d, %Y")}"
+      assert_date_displayed(@member.last_membership.ended_at)
     end
 
     assert_equal 2, all("table.memberships tbody tr").size

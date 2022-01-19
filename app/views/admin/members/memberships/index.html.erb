@@ -18,8 +18,8 @@
           <% if membership.pending? %>
             <td colspan="2" class="text-center"><em>pending</em></td>
           <% else %>
-            <td><%= membership.started_at&.to_s(:long_date) %></td>
-            <td><%= membership.ended_at&.to_s(:long_date) %></td>
+            <td><%= display_date(membership.started_at, :long_date) %></td>
+            <td><%= display_date(membership.ended_at, :long_date) %></td>
           <% end %>
           <td><%= membership.amount.format %></td>
         </tr>
@@ -40,7 +40,7 @@
     <tbody>
       <% @adjustments.each do |adjustment| %>
         <tr>
-          <td><%= adjustment.created_at.to_s(:long_date) %></td>
+          <td><%= display_date(adjustment.created_at, :long_date) %></td>
           <td><%= adjustment.amount.format %></td>
           <td>
             <% if adjustment.payment? %>
