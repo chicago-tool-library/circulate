@@ -21,8 +21,11 @@
         <%= form.text_field :other_id_kind, label: "Other ID Type", placeholder: "Please specify" %>
       <% end %>
     </div>
-
-    <%= form.check_box :address_verified, hint: "The member reported living in zipcode <strong>#{@member.postal_code}</strong>. If this isn't correct, you should #{link_to "update the member", edit_admin_member_path(@member)} before completing verification.".html_safe %>
+    <%= form.check_box :address_verified, hint: "The zipcode on their proof of address matches the one in our system" %>
+    <p class="mt-5">
+      The member reported living in zipcode <strong><%= @member.postal_code %></strong>.
+      If this isn't correct, you should <%= link_to "update the member", edit_admin_member_path(@member) %> before completing verification.
+    </p>
   </fieldset>
 
   <%= form.actions do %>

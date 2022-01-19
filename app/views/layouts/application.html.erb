@@ -17,7 +17,7 @@
       <script>
           document.addEventListener("turbolinks:load", function() {
               Weglot.initialize({
-                  api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key") %>'
+                  api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key").to_json %>'
               });
           });
       </script>

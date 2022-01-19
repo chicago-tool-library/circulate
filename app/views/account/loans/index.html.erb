@@ -30,7 +30,8 @@
                   <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
                 </span>
                 <span class="status">
-                  <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
+                  <%= tag.span "Due #{humanize_due_date(loan)}",
+                        class: ("warning text-bold" if loan.due_at - Time.now < 3.days) %>
                   <% if loan.renewal? %>(renewed <%= pluralize(loan.renewal_count, "time") %>)<% end %>
                   <% if @current_library.allow_appointments? %>
                     <span class="pickup"><%= loan_pickup_status(loan) %></span>

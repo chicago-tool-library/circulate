@@ -41,7 +41,7 @@
                     </label>
                   </div>
                   <span class="status">
-                    <span class=<%= loan.due_at - Time.now < 3.days ? "warning text-bold" : "" %>><%= "Due #{humanize_due_date(loan)}" %></span>
+                    <%= tag.span "Due #{humanize_due_date(loan)}", class: ("warning text-bold" if loan.due_at - Time.now < 3.days) %>
                     <span class="pickup">
                       <%= loan_pickup_status(loan) %>
                     </span>
