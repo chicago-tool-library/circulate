@@ -142,4 +142,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     end
     yield html, text, attachments
   end
+
+  def assert_date_displayed(datetime)
+    find("time[datetime='#{datetime.utc}']")
+  end
 end
