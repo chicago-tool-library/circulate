@@ -164,4 +164,4 @@ jobs:
         bundler-cache: true
 
     - name: ERB Lint
-      run: bundle exec erb-lint --lint-all
+      run: bundle exec erblint --lint-all
