@@ -1,0 +1,40 @@
+---
+EnableDefaultLinters: true
+exclude:
+  - '**/vendor/**/*'
+linters:
+  ErbSafety:
+    enabled: true
+
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      require: standard
+      inherit_gem:
+        standard: config/base.yml
+      AllCops:
+        DisabledByDefault: true
+      Style/IdenticalConditionalBranches:
+        Enabled: false
+      Layout/BlockAlignment:
+        Enabled: false
+      Layout/HashAlignment:
+        Enabled: false
+      Layout/IndentationConsistency:
+        Enabled: false
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/IndentationWidth:
+        Enabled: false
+      Layout/LeadingEmptyLines:
+        Enabled: false
+      Layout/ParameterAlignment:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/TrailingWhitespace:
+        Enabled: false
+      Lint/Void:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false

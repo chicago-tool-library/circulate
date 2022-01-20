@@ -1,5 +1,5 @@
 <%= form_with(model: [:admin, member], builder: SpectreFormBuilder) do |form| %>
-  <%= render partial: 'fields', locals: { form: form, librarian_view: true } %>
+  <%= render partial: "fields", locals: {form: form, librarian_view: true} %>
 
   <%= form.text_area :bio %>
   <%= form.select :status, options_for_select(member_status_options, member.status), prompt: true %>

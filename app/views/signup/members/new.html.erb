@@ -6,7 +6,7 @@
       <div class="divider"></div>
     </div>
     <%= form_with(model: @member_signup_form, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
-      <%= render 'admin/members/fields', form: form %>
+      <%= render "admin/members/fields", form: form %>
 
       <fieldset>
         <legend>Your Account</legend>

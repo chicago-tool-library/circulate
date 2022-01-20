@@ -17,7 +17,7 @@
           <button class="btn btn-sm active">rejected</button>
         <% end %>
       </div>
-    </div> 
+    </div>
 
     <% if @renewal_requests.any? %>
 
@@ -47,7 +47,7 @@
               <td><%= date_with_time_title request.created_at %></td>
               <td>
                 <% if request.approved? && request.loan.renewals.any? %>
-                  <%= request.status %>, due <%= date_with_time_title request.loan.renewals.max_by{ |r| r.created_at }.due_at %>
+                  <%= request.status %>, due <%= date_with_time_title request.loan.renewals.max_by { |r| r.created_at }.due_at %>
                 <% elsif request.rejected? %>
                   <%= request.status %> <%= date_with_time_title request.updated_at %>
                 <% else %>

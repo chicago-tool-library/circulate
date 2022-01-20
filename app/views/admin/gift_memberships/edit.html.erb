@@ -2,8 +2,8 @@
   <%= index_header "Editing Gift Membership" %>
 <% end %>
 
-<%= render 'form', gift_membership: @gift_membership %>
+<%= render "form", gift_membership: @gift_membership %>
 
 <div class="destroy-button">
-  <%= link_to "Destroy Gift Membership", [:admin, @gift_membership], method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-error btn-block btn-sm" %>
+  <%= link_to "Destroy Gift Membership", [:admin, @gift_membership], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-error btn-block btn-sm" %>
 </div

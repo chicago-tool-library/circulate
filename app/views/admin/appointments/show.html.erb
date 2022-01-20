@@ -1,12 +1,12 @@
 <% content_for :header do %>
   <%= index_header "#{preferred_or_default_name(@appointment.member)}'s Appointment" do %>
     <%= link_to "View in Schedule", appointment_in_schedule_path(@appointment), class: "btn" %>
-    <%= link_to 'View Member Page', admin_member_path(@appointment.member), class: "btn" %>
+    <%= link_to "View Member Page", admin_member_path(@appointment.member), class: "btn" %>
   <% end %>
 
 <% end %>
 
-<%= render partial: "admin/members/membership_status", locals: { member: @appointment.member } %>
+<%= render partial: "admin/members/membership_status", locals: {member: @appointment.member} %>
 
 <div class="columns">
   <div class="column col-4 col-sm-12">
@@ -23,7 +23,7 @@
           <%= link_to "Edit date and time", edit_admin_appointment_path(@appointment), class: "btn btn-sm mt-2" %>
         </div>
         <div class="column col-3">
-          <%= button_to "Cancel", admin_appointment_path(@appointment), class: "btn btn-primary", method: :delete, data: { disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?" }%>
+          <%= button_to "Cancel", admin_appointment_path(@appointment), class: "btn btn-primary", method: :delete, data: {disabled_with: "Cancelling appointment...", confirm: "Are you sure to cancel this appointment?"} %>
         </div>
       </div>
   </div>

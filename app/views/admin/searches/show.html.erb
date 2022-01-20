@@ -15,13 +15,13 @@
     <div class="search-result-type">
       <h2>Exact matches</h2>
       <% if @member_by_number %>
-        <%= render partial: "admin/members/members", locals: { members: [@member_by_number] } %>
+        <%= render partial: "admin/members/members", locals: {members: [@member_by_number]} %>
       <% else %>
         <p>No member with number <strong><%= @query %></strong> found.</p>
       <% end %>
 
       <% if @item_by_number %>
-        <%= render partial: "admin/items/items", locals: { items: [@item_by_number] } %>
+        <%= render partial: "admin/items/items", locals: {items: [@item_by_number]} %>
       <% else %>
         <p>No item with number <strong><%= @query %></strong> found.</p>
       <% end %>
@@ -30,14 +30,14 @@
     <% unless @items.blank? %>
       <div class="search-result-type">
         <h2>Items</h2>
-        <%= render partial: "admin/items/items", locals: { items: @items } %>
+        <%= render partial: "admin/items/items", locals: {items: @items} %>
       </div>
     <% end %>
 
     <% unless @members.blank? %>
       <div class="search-result-type">
         <h2>Members</h2>
-        <%= render partial: "admin/members/members", locals: { members: @members } %>
+        <%= render partial: "admin/members/members", locals: {members: @members} %>
       </div>
     <% end %>
 

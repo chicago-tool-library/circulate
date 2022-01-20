@@ -18,4 +18,9 @@ module DateHelper
 
     date_string + " between #{appointment.starts_at.strftime("%-I:%M%P")} and #{appointment.ends_at.strftime("%-I:%M%P")}"
   end
+
+  def display_date(datetime, format)
+    return unless datetime
+    tag.time(datetime.to_s(format), datetime: datetime.utc)
+  end
 end

@@ -16,7 +16,7 @@
           <td><%= link_to loan.item.name, [:admin, loan.item] %></td>
           <td><%= date_with_time_title loan.created_at %></td>
           <td>
-            <% if loan.ended? %>    
+            <% if loan.ended? %>
               returned <%= date_with_time_title loan.ended_at %>
             <% else %>
               due <%= date_with_time_title loan.due_at %>

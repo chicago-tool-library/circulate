@@ -16,7 +16,7 @@
                 <li>You have <%= link_to account_loans_path do %><span class="text-bold"><%= pluralize @loans.count, "item" %></span> checked out<% end %>.</li>
                 <li> The next day items are due is <span class="text-bold"><%= next_due_date(@loans) %></span>.</li>
             <% else %>
-                <li>You are not borrowing any items.</li> 
+                <li>You are not borrowing any items.</li>
             <% end %>
             <% if @ready_holds_count > 0 %>
                 <li>You have <%= link_to account_holds_path do %><span class="text-bold"><%= pluralize @ready_holds_count, "item" %></span> ready to be picked up<% end %>.</li>

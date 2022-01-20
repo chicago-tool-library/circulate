@@ -9,15 +9,15 @@
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-cache">
     <% end %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'styles', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+    <%= stylesheet_pack_tag "styles", media: "all", 'data-turbolinks-track': "reload" %>
 
     <% if Rails.env.production? %>
       <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
       <script>
           document.addEventListener("turbolinks:load", function() {
               Weglot.initialize({
-                  api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key") %>'
+                  api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key").to_json %>'
               });
           });
       </script>
@@ -34,7 +34,7 @@
 
       <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
         <ul class="nav">
-          <%= render partial: 'shared/navbar_links' %>
+          <%= render partial: "shared/navbar_links" %>
         </ul>
       </div>
 
@@ -71,7 +71,7 @@
             </a>
           </span>
           <ul class="navbar-links">
-            <%= render partial: 'shared/navbar_links' %>
+            <%= render partial: "shared/navbar_links" %>
           </ul>
         </section>
         <section class="navbar-section search-section">
@@ -96,10 +96,10 @@
         <% end %>
 
         <div class="app-body">
-          <%= flash_message :success  %>
-          <%= flash_message :warning  %>
-          <%= flash_message :error  %>
-          <%= flash_message :alert, "error"  %>
+          <%= flash_message :success %>
+          <%= flash_message :warning %>
+          <%= flash_message :error %>
+          <%= flash_message :alert, "error" %>
 
           <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
 
@@ -108,6 +108,6 @@
       </main>
     </div>
 
-    <%= render partial: 'layouts/footer', object: @member, as: :member %>
+    <%= render partial: "layouts/footer", object: @member, as: :member %>
   <% end %>
 </html>

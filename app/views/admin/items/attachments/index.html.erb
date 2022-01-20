@@ -15,8 +15,8 @@
               <td><%= attachment.notes %></td>
               <td>
                   <%= link_to "Edit", edit_admin_item_attachment_path(@item, attachment), class: "btn btn-sm" %>
-                  <%= link_to "Delete", admin_item_attachment_path(@item, attachment), 
-                      method: :delete, data: {confirm: "Delete this file?"}, class: "btn btn-sm" %>
+                  <%= link_to "Delete", admin_item_attachment_path(@item, attachment),
+                        method: :delete, data: {confirm: "Delete this file?"}, class: "btn btn-sm" %>
               </td>
           </tr>
       <% end %>

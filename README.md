@@ -15,6 +15,7 @@
   * [Configuring your database](#configuring-your-database)
   * [Resetting the application](#resetting-the-application)
   * [Running tests](#running-tests)
+  * [Code formatting and linting](#code-formatting-and-linting)
   * [Setup pre-commit checks](#setup-pre-commit-checks)
   * [Documentation](#documentation)
   * [Who to log in as](#who-to-log-in-as)
@@ -203,9 +204,24 @@ $ rails test:system # to run system tests
 
 Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
 
+### Code formatting and linting
+
+We are using [Standard](https://github.com/testdouble/standard) and [ERB Lint](https://github.com/Shopify/erb-lint) to keep the project's code consistently formatted. The format of code is checked on PRs as a part of our GitHub Actions workflow.
+
+To check the format of the project's code, use the following commands:
+
+```
+$ bundle exec standardrb --fix                   # Check all .rb files
+$ bundle exec erblint --lint-all --autocorrect   # Check all .erb files
+```
+
+If you run into issues with these tools, please let us know and we'll be happy to help you out.
+
 ### Setup pre-commit checks
 
-Circulate uses [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
+You may choose to leverage [Lefthook](https://github.com/Arkweid/lefthook) to run a few linters before creating commits, including [Standard](https://github.com/testdouble/standard). [Follow these instructions](https://github.com/Arkweid/lefthook/blob/master/docs/ruby.md) to configure your local git repository to run pre-commit checks.
+
+Note that ERB files aren't checked as a part of precommit as it is just too slow.
 
 ### Documentation
 

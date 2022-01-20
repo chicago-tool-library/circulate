@@ -6,7 +6,7 @@
       <div class="divider"></div>
     </div>
     <%= form_with(model: @member, url: renewal_member_url, builder: SpectreFormBuilder) do |form| %>
-      <%= render 'admin/members/fields', form: form %>
+      <%= render "admin/members/fields", form: form %>
 
       <%= form.actions do %>
         <%= form.submit "Save and Continue" %>
