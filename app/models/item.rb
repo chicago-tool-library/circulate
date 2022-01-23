@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   pg_search_scope :search_by_anything,
     against: {
       name: "A",
+      number: "A",
       other_names: "B",
       brand: "C",
       plain_text_description: "C",
@@ -49,12 +50,12 @@ class Item < ApplicationRecord
   acts_as_tenant :library
 
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
-  scope :number_contains, ->(query) { where("number::text ILIKE ?", "%#{query}%") }
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
+  scope :for_category, ->(category) { joins(:categories).where(categories: {id: category}) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
   scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }

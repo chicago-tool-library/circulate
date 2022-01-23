@@ -47,12 +47,8 @@
               <%= logo(small: true) %>
             </a>
           </div>
-          <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
-              <div class="has-icon-left">
-                <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items" %>
-                <i class="form-icon icon icon-search"></i>
-              </div>
-          <% end %>
+
+          <%= render 'shared/search'  %>
         </div>
       </div>
 
@@ -75,12 +71,7 @@
           </ul>
         </section>
         <section class="navbar-section search-section">
-          <%= form_with url: search_path, method: :get, class: "mr-2 search-box", local: true do |form| %>
-            <div class="has-icon-left">
-              <%= form.text_field :query, class: "form-input input-sm", placeholder: "search items", id: "navbarQuery" %>
-              <i class="form-icon icon icon-search"></i>
-            </div>
-          <% end %>
+          <%= render 'shared/search', id: 'navbarQuery' %>
         </section>
       </header>
 

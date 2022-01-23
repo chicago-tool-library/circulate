@@ -1,7 +1,7 @@
 require "test_helper"
 
 module Admin
-  class ItemsControllerTest < ActionDispatch::IntegrationTest
+  class SearchesControllerTest < ActionDispatch::IntegrationTest
     include Devise::Test::IntegrationHelpers
 
     setup do

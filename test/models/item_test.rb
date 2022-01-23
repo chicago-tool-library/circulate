@@ -139,4 +139,24 @@ class ItemTest < ActiveSupport::TestCase
     item.update!(status: Item.statuses[:maintenance])
     assert_equal item.active_holds.count, 0
   end
+
+  test "the for_category scope returns all items for that category" do
+    category1 = create(:category)
+    category2 = create(:category)
+
+    item1 = create(:item, categories: [category1])
+    item2 = create(:item, categories: [category1, category2])
+    item3 = create(:item)
+
+    scope_for_category1 = Item.for_category(category1)
+    scope_for_category2 = Item.for_category(category2)
+
+    assert_includes(scope_for_category1, item1)
+    assert_includes(scope_for_category1, item2)
+    assert_not_includes(scope_for_category1, item3)
+
+    assert_includes(scope_for_category2, item2)
+    assert_not_includes(scope_for_category2, item1)
+    assert_not_includes(scope_for_category2, item3)
+  end
 end
