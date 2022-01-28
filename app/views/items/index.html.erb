@@ -106,7 +106,18 @@
       <%== pagy_bootstrap_nav(@pagy) %>
 
     <% else %>
-      <%= empty_state "There are no matching items" %>
+      <%= empty_state "There are no matching items" do %>
+        <% if @filter_params[:query] && @category %>
+          You can 
+          <%= link_to items_path(@filter_params.slice(:query, :sort)) do %>
+            search for <i><%= @filter_params[:query] %></i> in all categories
+          <% end %>
+          or 
+          <%= link_to items_path(@filter_params.slice(:category, :sort)) do %>
+            view all items in <%= @category.name %>
+          <% end %>.
+        <% end %>
+      <% end %>
     <% end %>
   </div>
 
