@@ -7,6 +7,9 @@ class ItemsController < ApplicationController
     item_scope = filter_by_category(item_scope) if filter_params[:category].present?
     item_scope = filter_by_query(item_scope) if filter_params[:query].present?
 
+    # One of the filtering methods above may have already redirected
+    return if performed?
+
     item_scope = item_scope.with_attached_image.order(index_order)
 
     set_index_page_title

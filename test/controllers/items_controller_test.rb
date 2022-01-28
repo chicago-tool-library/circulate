@@ -23,6 +23,12 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "attempting to view a category that doesn't exist" do
+    get items_url(category: 999999)
+
+    assert_response :redirect
+  end
+
   test "only shows one of a given item regardless of how many categories it is in" do
     category = create(:category)
     child_category = create(:category, parent_id: category.id)
