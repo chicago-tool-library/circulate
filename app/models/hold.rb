@@ -113,6 +113,11 @@ class Hold < ApplicationRecord
     started = 0
 
     active(now).includes(item: :borrow_policy).find_each do |hold|
+      unless hold.item.holdable?
+        Rails.logger.debug "[hold #{hold.id}]: item is not holdable"
+        next
+      end
+
       if hold.started?
         Rails.logger.debug "[hold #{hold.id}]: already started"
         next

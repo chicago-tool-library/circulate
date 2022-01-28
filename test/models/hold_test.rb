@@ -242,6 +242,18 @@ class HoldTest < ActiveSupport::TestCase
     assert hold2.started?
   end
 
+  test "handles a hold on a retired item" do
+    hammer = create(:item)
+    create(:hold, item: hammer)
+    hammer.update!(status: "retired")
+
+    assert_no_difference("Hold.started.count") do
+      Hold.start_waiting_holds do |hold|
+        fail "should not be called"
+      end
+    end
+  end
+
   test "is ready for pickup if item is uncounted" do
     item = create(:uncounted_item)
 
