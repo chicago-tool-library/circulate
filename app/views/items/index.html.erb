@@ -23,7 +23,7 @@
               Searched for
               <span class="chip">
               <%= @filter_params[:query] %>
-                <%= link_to '', items_path(params: @filter_params.except(:query)), class: 'btn btn-clear',
+                <%= link_to "", items_path(params: @filter_params.except(:query)), class: "btn btn-clear",
                             'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
             </span>
             <% end %>
@@ -37,7 +37,7 @@
 
               <span class="chip">
                 <%= @category.name %>
-                <%= link_to '', items_path(params: @filter_params.except(:category)), class: 'btn btn-clear',
+                <%= link_to "", items_path(params: @filter_params.except(:category)), class: "btn btn-clear",
                             'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
               </span>
             <% end %>
@@ -50,13 +50,13 @@
       <div>
         <span>Sort by</span>
         <div class="ml-1 btn-group">
-          <%= link_to_unless_current "name", add_filter_param(:sort, 'name'), class: "btn btn-sm" do %>
+          <%= link_to_unless_current "name", add_filter_param(:sort, "name"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">name</button>
           <% end %>
-          <%= link_to_unless_current "number", add_filter_param(:sort, 'number'), class: "btn btn-sm" do %>
+          <%= link_to_unless_current "number", add_filter_param(:sort, "number"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">number</button>
           <% end %>
-          <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", add_filter_param(:sort, 'added'), class: "btn btn-sm" do %>
+          <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", add_filter_param(:sort, "added"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">date added</button>
           <% end %>
         </div>
@@ -95,7 +95,7 @@
 
           <%= tag.div class: "items-table-categories" do %>
             <% item.categories.each do |category| %>
-              <%= link_to category.name, { category: category.id } %>
+              <%= link_to category.name, {category: category.id} %>
             <% end %>
           <% end %>
           <div class="item-table-divider"></div>
@@ -108,11 +108,11 @@
     <% else %>
       <%= empty_state "There are no matching items" do %>
         <% if @filter_params[:query] && @category %>
-          You can 
+          You can
           <%= link_to items_path(@filter_params.slice(:query, :sort)) do %>
             search for <i><%= @filter_params[:query] %></i> in all categories
           <% end %>
-          or 
+          or
           <%= link_to items_path(@filter_params.slice(:category, :sort)) do %>
             view all items in <%= @category.name %>
           <% end %>.
