@@ -11,6 +11,6 @@
   <% end %>
   <div class="form-inline">
     <%= text_field_tag "#{klass}[pronouns][]", nil, value: object.pronouns.reject { |p| Member.pronoun_list.include?(p) },
-      class: "form-input", id: "member_pronouns_custom", placeholder: "Enter your own (optional)", autocomplete: "on" %>
+          class: "form-input", id: "member_pronouns_custom", placeholder: "Enter your own (optional)", autocomplete: "on" %>
   </div>
 </div>

@@ -24,7 +24,7 @@
               <span class="chip">
               <%= @filter_params[:query] %>
                 <%= link_to "", items_path(params: @filter_params.except(:query)), class: "btn btn-clear",
-                            'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
+                      'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
             </span>
             <% end %>
 
@@ -38,7 +38,7 @@
               <span class="chip">
                 <%= @category.name %>
                 <%= link_to "", items_path(params: @filter_params.except(:category)), class: "btn btn-clear",
-                            'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
+                      'aria-label': "Clear filter", role: "button", title: "Clear query filter" %>
               </span>
             <% end %>
           </div>

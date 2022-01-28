@@ -33,9 +33,7 @@ namespace :devdata do
       end
       attrs
     }
-    File.open(models_file_path(klass), "w") do |f|
-      f.write model_attributes.to_yaml
-    end
+    File.write(models_file_path(klass), model_attributes.to_yaml)
   end
 
   task dump: :environment do
