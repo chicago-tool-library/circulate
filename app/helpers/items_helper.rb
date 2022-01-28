@@ -96,7 +96,11 @@ module ItemsHelper
           )
         )
       end
-      concat(link_to((node.value.name + "&nbsp;(#{node.value.tree_categorizations_count})").html_safe, {category: node.value.id}))
+
+      # NOTE: This does not reflect current query / category selection
+      count = node.value.tree_categorizations_count
+
+      concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
       if has_children
         concat(tag.ul(class: "tree-node-children") do
           node.children.values.map do |child|
@@ -192,5 +196,9 @@ module ItemsHelper
     location << "shelf #{item.location_shelf}" unless item.location_shelf.blank?
 
     location.join(", ")
+  end
+
+  def add_filter_param(param, value)
+    (@filter_params || {}).merge(param => value).sort.to_h
   end
 end

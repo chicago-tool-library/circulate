@@ -632,6 +632,8 @@ form.membership-amount {
 
 .items-summary {
   margin-bottom: 2em;
+  display: flex;
+  justify-content: space-between;
 }
 
 .public {
