@@ -7,7 +7,8 @@
     <tr>
       <th></th>
       <th class="left-lined" colspan="2">Activity</th>
-      <th class="left-lined" colspan="3">Members</th>
+      <th class="left-lined" colspan="2">Members</th>
+      <th class="left-lined" colspan="2">Appointments</th>
     </tr>
     <tr>
       <th>Month</th>
@@ -15,6 +16,8 @@
       <th>Members</th>
       <th class="left-lined">New</th>
       <th>Pending</th>
+      <th class="left-lined">Scheduled</th>
+      <th>Completed</th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +28,8 @@
         <td class="left-lined"><%= ma.active_members_count %></td>
         <td class="left-lined"><%= ma.new_members_count %></td>
         <td class="left-lined"><%= ma.pending_members_count %></td>
+        <td class="left-lined"><%= ma.appointments_count %></td>
+        <td class="left-lined"><%= ma.completed_appointments_count %></td>
       </tr>
     <% end %>
   <tfoot>
@@ -34,6 +39,8 @@
       <td class="left-lined"><%= @monthly_activities.sum(&:active_members_count) %></td>
       <td class="left-lined"><%= @monthly_activities.sum(&:new_members_count) %></td>
       <td class="left-lined"><%= @monthly_activities.sum(&:pending_members_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:appointments_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.sum(&:completed_appointments_count) %></td>
     </tr>
   </tfoot>
 </table>

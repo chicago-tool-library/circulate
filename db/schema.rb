@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_03_200042) do
+ActiveRecord::Schema.define(version: 2022_01_28_134936) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,32 +19,32 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -51,20 +52,20 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
     "member",
-    "super_admin"
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -507,27 +508,6 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "users", "members"
 
-  create_view "monthly_activities", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
-     FROM ((months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
@@ -604,5 +584,29 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
             GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
     GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
     ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "monthly_activities", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count,
+      count(DISTINCT a.id) AS appointments_count,
+      count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
+     FROM (((months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+       LEFT JOIN appointments a ON ((date_trunc('month'::text, a.starts_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
   SQL
 end
