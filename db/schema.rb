@@ -113,9 +113,9 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.bigint "member_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.enum "payment_source", enum_name: "adjustment_source"
+    t.enum "payment_source", enum_type: "adjustment_source"
     t.string "square_transaction_id"
-    t.enum "kind", null: false, enum_name: "adjustment_kind"
+    t.enum "kind", null: false, enum_type: "adjustment_kind"
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end
@@ -279,7 +279,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
   create_table "item_attachments", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.bigint "creator_id", null: false
-    t.enum "kind", enum_name: "item_attachment_kind"
+    t.enum "kind", enum_type: "item_attachment_kind"
     t.string "other_kind"
     t.string "notes"
     t.datetime "created_at", precision: 6, null: false
@@ -306,7 +306,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.integer "holds_count", default: 0, null: false
     t.string "other_names"
     t.integer "library_id"
-    t.enum "power_source", enum_name: "power_source"
+    t.enum "power_source", enum_type: "power_source"
     t.text "location_area"
     t.text "location_shelf"
     t.text "plain_text_description"
@@ -424,7 +424,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.string "action", null: false
     t.bigint "member_id"
     t.uuid "uuid", null: false
-    t.enum "status", default: "pending", null: false, enum_name: "notification_status"
+    t.enum "status", default: "pending", null: false, enum_type: "notification_status"
     t.string "subject", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -435,7 +435,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
   end
 
   create_table "renewal_requests", force: :cascade do |t|
-    t.enum "status", default: "requested", null: false, enum_name: "renewal_request_status"
+    t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -470,7 +470,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.enum "role", default: "member", null: false, enum_name: "user_role"
+    t.enum "role", default: "member", null: false, enum_type: "user_role"
     t.bigint "member_id"
     t.integer "library_id"
     t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
