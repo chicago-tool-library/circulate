@@ -231,7 +231,7 @@ GEM
     minitest (5.15.0)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
-    mjml-rails (4.6.1)
+    mjml-rails (4.7.2)
     monetize (1.11.0)
       money (~> 6.12)
     money (6.16.0)
