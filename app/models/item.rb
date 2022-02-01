@@ -36,7 +36,12 @@ class Item < ApplicationRecord
   has_rich_text :description
   has_one_attached :image
 
-  enum status: [:pending, :active, :maintenance, :retired]
+  enum status: {
+    pending: "pending",
+    active: "active",
+    maintenance: "maintenance",
+    retired: "retired"
+  }
 
   enum power_source: {
     solar: "solar",

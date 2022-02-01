@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_03_200042) do
+ActiveRecord::Schema.define(version: 2022_02_02_191706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,13 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     "manual",
     "parts_list",
     "other"
+  ], force: :cascade
+
+  create_enum :item_status, [
+    "pending",
+    "active",
+    "maintenance",
+    "retired"
   ], force: :cascade
 
   create_enum :notification_status, [
@@ -238,8 +245,8 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "library_id"
     t.jsonb "attendees"
+    t.integer "library_id"
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
     t.index ["library_id"], name: "index_events_on_library_id"
   end
@@ -266,8 +273,8 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
-    t.integer "library_id"
     t.datetime "started_at"
+    t.integer "library_id"
     t.datetime "expires_at"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
@@ -298,17 +305,17 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "number", null: false
-    t.integer "status", default: 1, null: false
+    t.enum "status", default: "active", null: false, enum_type: "item_status"
     t.bigint "borrow_policy_id", null: false
     t.string "strength"
     t.integer "quantity"
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
     t.string "other_names"
-    t.integer "library_id"
     t.enum "power_source", enum_type: "power_source"
     t.text "location_area"
     t.text "location_shelf"
+    t.integer "library_id"
     t.text "plain_text_description"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
@@ -392,8 +399,8 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
-    t.integer "library_id"
     t.string "pronunciation"
+    t.integer "library_id"
     t.index ["library_id"], name: "index_members_on_library_id"
     t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true
@@ -507,27 +514,6 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "users", "members"
 
-  create_view "monthly_activities", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
-     FROM ((months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
@@ -585,6 +571,27 @@ ActiveRecord::Schema.define(version: 2021_12_03_200042) do
       max(loans.renewal_count) AS renewal_count
      FROM loans
     GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+  SQL
+  create_view "monthly_activities", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
+     FROM ((months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,

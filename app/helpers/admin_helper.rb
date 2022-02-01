@@ -67,7 +67,12 @@ module AdminHelper
 
     case key
     when "status"
-      value = Item.statuses.invert[value]
+      # handle old integer item statuses from before the migration to an postgres enum
+      value = if Integer === value
+        ["pending", "active", "maintenance", "retired"][value]
+      else
+        Item.statuses.invert[value]
+      end
     when "borrow_policy_id"
       value = BorrowPolicy.find(value).complete_name
     when "category_ids"
