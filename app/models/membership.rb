@@ -43,7 +43,7 @@ class Membership < ApplicationRecord
     update!(started_at: now, ended_at: now + 364.days)
   end
 
-  def self.next_start_date_for_member(member, now: Time.current.to_date)
+  def self.next_start_date_for_member(member, now: Time.current)
     # no safe start date if there is a pending membership
     return nil if member.pending_membership
 
@@ -55,7 +55,7 @@ class Membership < ApplicationRecord
     now
   end
 
-  def self.create_for_member(member, amount: 0, source: nil, start_membership: false, now: Time.current.to_date, square_transaction_id: nil)
+  def self.create_for_member(member, amount: 0, source: nil, start_membership: false, now: Time.current, square_transaction_id: nil)
     if start_membership
       start_date = next_start_date_for_member(member, now: now)
       raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
