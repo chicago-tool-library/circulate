@@ -13,7 +13,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal member, membership.member
     assert_equal now, membership.started_at
-    assert_equal now + 364.days, membership.ended_at
+    assert_equal now + 365.days, membership.ended_at
   end
 
   test "creates a pending membership for a member" do
@@ -43,7 +43,7 @@ class MembershipTest < ActiveSupport::TestCase
     }
 
     assert_equal now, membership.started_at
-    assert_equal now + 364.days, membership.ended_at
+    assert_equal now + 365.days, membership.ended_at
     membership_adjustment = membership.adjustment
     assert_equal amount * -1, membership_adjustment.amount
     assert_equal "membership", membership_adjustment.kind
@@ -98,7 +98,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal member, membership.member
     assert_equal now, membership.started_at
-    assert_equal now + 364.days, membership.ended_at
+    assert_equal now + 365.days, membership.ended_at
 
     membership_adjustment = membership.adjustment
     assert_equal amount * -1, membership_adjustment.amount
