@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_191706) do
+ActiveRecord::Schema.define(version: 2022_02_02_214711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -375,6 +375,16 @@ ActiveRecord::Schema.define(version: 2022_02_02_191706) do
     t.index ["member_id"], name: "index_loans_on_member_id"
   end
 
+  create_table "maintenance_reports", force: :cascade do |t|
+    t.integer "time_spent"
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_maintenance_reports_on_creator_id"
+    t.index ["item_id"], name: "index_maintenance_reports_on_item_id"
+  end
+
   create_table "members", force: :cascade do |t|
     t.string "full_name", null: false
     t.string "preferred_name"
@@ -508,6 +518,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_191706) do
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
+  add_foreign_key "maintenance_reports", "items"
+  add_foreign_key "maintenance_reports", "users", column: "creator_id"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
