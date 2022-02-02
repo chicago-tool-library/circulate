@@ -305,4 +305,4 @@ It's a bit early for non-developers to adopt Circulate. There are some existing 
 * [Lend Engine](https://www.lend-engine.com)
 * [Tool Librarian](http://toollibrarian.com) for those in the Portland, OR area
 
-Folks interested in helping to build Circulate should get in touch, though! I'd love to have collaborators on the project.
+Folks interested in helping to build Circulate should get in touch, though! We'd love to have more contributors to the project.
