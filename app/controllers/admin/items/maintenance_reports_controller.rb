@@ -1,26 +1,25 @@
 module Admin
   module Items
     class MaintenanceReportsController < BaseController
-      before_action :set_maintenance_report, only: %i[show edit update destroy]
+      before_action :set_maintenance_report, only: %i[edit update destroy]
 
       def index
         @maintenance_reports = @item.maintenance_reports
-      end
 
-      def show
+        @events = @maintenance_reports.to_a.concat(@item.audits).sort_by(&:created_at).reverse
       end
 
       def new
-        @maintenance_report = MaintenanceReport.new
+        @maintenance_report_form = MaintenanceReportForm.new(@item)
       end
 
       def edit
       end
 
       def create
-        @maintenance_report = @item.maintenance_reports.new(maintenance_report_params)
+        @maintenance_report_form = MaintenanceReportForm.new(@item, maintenance_report_create_params)
 
-        if @maintenance_report.save
+        if @maintenance_report_form.save
           redirect_to admin_item_maintenance_reports_url(@item), success: "Maintenance report was successfully created."
         else
           render :new, status: :unprocessable_entity
@@ -28,7 +27,7 @@ module Admin
       end
 
       def update
-        if @maintenance_report.update(maintenance_report_params)
+        if @maintenance_report.update(maintenance_report_update_params)
           redirect_to admin_item_maintenance_reports_url(@item), success: "Maintenance report was successfully updated."
         else
           render :edit, status: :unprocessable_entity
@@ -46,8 +45,12 @@ module Admin
         @maintenance_report = @item.maintenance_reports.find(params[:id])
       end
 
-      def maintenance_report_params
-        params.require(:maintenance_report).permit(:time_spent, :body).merge(creator: current_user)
+      def maintenance_report_create_params
+        params.require(:maintenance_report_form).permit(:title, :time_spent, :body, :status).merge(creator: current_user)
+      end
+
+      def maintenance_report_update_params
+        params.require(:maintenance_report).permit(:title, :time_spent, :body)
       end
     end
   end

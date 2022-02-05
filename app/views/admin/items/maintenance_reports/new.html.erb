@@ -1,5 +1,15 @@
 <%= render "admin/items/profile" do %>
     <h1>New Maintenance Report</h1>
 
-    <%= render 'form', maintenance_report: @maintenance_report %>
+    <%= form_with(model: @maintenance_report_form, url: admin_item_maintenance_reports_path(@item, @maintenance_report), builder: SpectreFormBuilder) do |form| %>
+        <%= form.errors %>
+        <%= form.text_field :title %>
+        <%= form.rich_text_area :body %>
+        <%= form.number_field :time_spent, hint: "How many minutes did you spend on this?" %>
+
+        <%= form.select :status, item_status_options, label: "Change Item Status" %>
+        <%= form.actions do %>
+            <%= form.submit %>
+        <% end %>
+    <% end %>
 <% end %>

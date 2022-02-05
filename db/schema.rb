@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_214711) do
   end
 
   create_table "maintenance_reports", force: :cascade do |t|
+    t.text "title"
     t.integer "time_spent"
     t.bigint "item_id", null: false
     t.bigint "creator_id", null: false
