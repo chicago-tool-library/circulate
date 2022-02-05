@@ -7,7 +7,7 @@
         <%= form.rich_text_area :body %>
         <%= form.number_field :time_spent, hint: "How many minutes did you spend on this?" %>
 
-        <%= form.select :status, item_status_options, label: "Change Item Status" %>
+        <%= form.select :status, options_for_select(item_status_options, @maintenance_report_form.status), label: "Change Item Status" %>
         <%= form.actions do %>
             <%= form.submit %>
         <% end %>

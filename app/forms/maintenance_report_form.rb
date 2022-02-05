@@ -13,7 +13,7 @@ class MaintenanceReportForm
   def initialize(item, params = {})
     @item = item
     @maintenance_report = @item.maintenance_reports.new(params.slice(*MAINTENANCE_REPORT_ATTRIBUTES))
-    @item.status = params[:status]
+    @item.status = params[:status] if params.present?
   end
 
   def errors
@@ -28,7 +28,7 @@ class MaintenanceReportForm
 
   def save
     ActiveRecord::Base.transaction do
-      raise ActiveRecord::Rollback unless @maintenance_report.save && @item.save
+      raise ActiveRecord::Rollback unless @item.save && @maintenance_report.save
       true
     end
   end

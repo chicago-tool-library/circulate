@@ -21,6 +21,10 @@ module AdminHelper
     member.full_name.split.first
   end
 
+  def link_to_member(member)
+    link_to preferred_or_default_name(member), admin_member_path(member)
+  end
+
   def membership_payment_source_options
     Adjustment.payment_sources.slice("cash", "square")
   end

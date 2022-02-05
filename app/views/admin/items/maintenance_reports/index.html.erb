@@ -1,7 +1,7 @@
 <%= render "admin/items/profile" do %>
   <%= link_to 'New Maintenance Report', new_admin_item_maintenance_report_path(@item), class: "btn" %>
 
-  <div class="timeline item-edit-history">
+  <div class="timeline item-edit-history mt-5">
     <% @events.each do |event| %>
       <% next if Audited::Audit === event && !event.audited_changes["status"] %>
 
@@ -14,29 +14,28 @@
           <% if MaintenanceReport === event %>
             <% maintenance_report = event %>
             <div class="tile-content">
-              <p class="tile-title">
-                <span class="text-bold"><%= display_date maintenance_report.created_at, :short_datetime %></span>
+              <h3 class="h5 mb-0"><%= maintenance_report.title %></h3>
+              <p class="mb-2"><%= display_date maintenance_report.created_at, :short_date %>
                 <% if maintenance_report.creator.present? %>
-                  by <%= maintenance_report.creator.email %>
+                  &mdash; <%= link_to_member(maintenance_report.creator.member) %>
                 <% end %>
                 <% if maintenance_report.time_spent.present? %>(<%= maintenance_report.time_spent %> minutes)<% end %>
               </p>
               <div class="trix_content mb-2"><%= maintenance_report.body %></div>
               <p>
                 <%= link_to 'Edit', edit_admin_item_maintenance_report_path(@item, maintenance_report) %>
-                <%= link_to 'Destroy', [:admin, @item, maintenance_report], method: :delete, data: { confirm: 'Are you sure? Deleting the maintenance report will not update the status of the item.' } %>
               </p>
             </div>
           <% else %>
             <% audit = event %>
             <div class="tile-content">
-              <p class="tile-title">
-                <span class="text-bold"><%= display_date event.created_at, :short_datetime %></span>
+              <h3 class="h6 mb-0">status changed to <span class="text-bold"><%= audit.audited_changes["status"][1] %></span></h3>
+              <p class="text-small">
+                <%= display_date event.created_at, :short_date %>
                 <% if audit.user.present? %>
-                  by <%= audit.user.email %>
+                  &mdash; <%= link_to_member(audit.user.member) %>
                 <% end %>
               </p>
-              <p>status changed to <span class="text-bold"><%= audit.audited_changes["status"][1] %></span></p>
             </div>
           <% end %>
         </div>
