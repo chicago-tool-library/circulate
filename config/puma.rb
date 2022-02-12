@@ -25,7 +25,7 @@ environment environment_name
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-workers ENV.fetch("WEB_CONCURRENCY", 2) unless environment_name == "development"
+workers ENV.fetch("WEB_CONCURRENCY", 2) unless environment_name.in?(%w[test development])
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code

@@ -1,0 +1,2 @@
+class MonthlyMember < ApplicationRecord
+end

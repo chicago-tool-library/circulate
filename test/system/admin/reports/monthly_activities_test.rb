@@ -14,7 +14,7 @@ module Admin
       create(:complete_member, status: :pending)
 
       # 1 existing member from November last year
-      november_member_1 = create(:verified_member_with_membership, created_at: DateTime.new(2020, 11, 1))
+      november_member_1 = create(:verified_member_with_membership, created_at: DateTime.new(2021, 11, 1))
 
       # 2 loans for the same member this month, giving us 1 active member
       january_loan_1 = create(:loan, member: january_member_1)
@@ -29,9 +29,10 @@ module Admin
       create(:appointment, member: january_member_1, starts_at: DateTime.new(2022, 1, 27),
         ends_at: DateTime.new(2022, 1, 28), completed_at: DateTime.new(2022, 1, 28), loans: [january_loan_2])
 
-      # 1 appointment which started last month and ended this month, giving us 1 for last month
+      # 1 appointment which started and was completed last month but ended this month,
+      # giving us 1 for last month
       create(:appointment, member: november_member_1, starts_at: DateTime.new(2021, 12, 25),
-        ends_at: DateTime.new(2021, 12, 26), completed_at: DateTime.new(2022, 1, 1), loans: [december_loan_1])
+        ends_at: DateTime.new(2022, 1, 1), completed_at: DateTime.new(2021, 12, 26), loans: [december_loan_1])
 
       sign_in_as_admin
     end
@@ -45,10 +46,11 @@ module Admin
     # ├───────────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
     # ║ Month         ║ Loans     ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
     # ╠═══════════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
+    # ║ November 2021 ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
     # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
     # ║ January 2022  ║ 2         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
     # ╠═══════════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ Total         ║ 3         ║ 2        ║ 2        ║ 1        ║ 3             ║ 2          ║
+    # ║ Total         ║ 3         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
     # ╚═══════════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
     test "table is populated accordingly" do
       visit admin_reports_monthly_activities_url
@@ -75,8 +77,22 @@ module Admin
           find("th:nth-child(7)").assert_text("Completed")
         end
 
-        # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
+        # ║ November 2021 ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
         within("tbody > tr:nth-child(1)") do
+          find("td:nth-child(1)").assert_text("November 2021")
+
+          find("td:nth-child(2)").assert_text("0")
+          find("td:nth-child(3)").assert_text("0")
+
+          find("td:nth-child(4)").assert_text("1")
+          find("td:nth-child(5)").assert_text("0")
+
+          find("td:nth-child(6)").assert_text("0")
+          find("td:nth-child(7)").assert_text("0")
+        end
+
+        # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
+        within("tbody > tr:nth-child(2)") do
           find("td:nth-child(1)").assert_text("December 2021")
 
           find("td:nth-child(2)").assert_text("1")
@@ -90,7 +106,7 @@ module Admin
         end
 
         # ║ January 2022  ║ 2         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
-        within("tbody > tr:nth-child(2)") do
+        within("tbody > tr:nth-child(3)") do
           find("td:nth-child(1)").assert_text("January 2022")
 
           find("td:nth-child(2)").assert_text("2")
@@ -103,14 +119,14 @@ module Admin
           find("td:nth-child(7)").assert_text("1")
         end
 
-        # ║ Total         ║ 3         ║ 2        ║ 2        ║ 1        ║ 3             ║ 2          ║
+        # ║ Total         ║ 3         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
         within("tfoot > tr") do
           find("td:nth-child(1)").assert_text("Total")
 
           find("td:nth-child(2)").assert_text("3")
           find("td:nth-child(3)").assert_text("2")
 
-          find("td:nth-child(4)").assert_text("2")
+          find("td:nth-child(4)").assert_text("3")
           find("td:nth-child(5)").assert_text("1")
 
           find("td:nth-child(6)").assert_text("3")
