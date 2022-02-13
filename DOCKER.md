@@ -92,6 +92,11 @@ $ docker-compose exec web rails test
 $ docker-compose exec web rails test:system
 ```
 
+Run one test (whether system or not) with:
+```
+$ docker-compose exec web rails test <filepath>
+```
+
 System tests will generate a screenshot upon failure. The screenshots can be
 found in the local `tmp/screenshots` directory which maps to the
 `/usr/src/app/tmp/screenshots` directory inside the container.
