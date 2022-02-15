@@ -33,13 +33,10 @@ class MaintenanceReportForm
     end
   end
 
-  # This is a little bananas, but by controlling the order that the item and maintenance are saved,
-  # it becomes a lot easier to group with and work with the data since the status changes recorded
-  # as audits will bound any maintenance reports.
   def save_all
     if @item.changed?
       return false unless @item.save
-      @maintenance_report.audit = @item.audits.last
+      @maintenance_report.audit = @item.reload.audits.last
     end
     @maintenance_report.current_item_status = @item.status
     @maintenance_report.save

@@ -1,6 +1,6 @@
 <%= render "admin/items/profile" do %>
   <div class="timeline item-edit-history">
-    <% @item.audits.reverse_each do |audit| %>
+    <% @audits.reverse_each do |audit| %>
       <div class="timeline-item" id="<%= dom_id(audit) %>">
         <div class="timeline-left">
           <a class="timeline-icon" href="#<%= dom_id(audit) %>"></a>
@@ -17,6 +17,9 @@
             <p class="tile-subtitle">
               <%= audit_description audit, key, values %>
             </p>
+          <% end %>
+          <% if audit.maintenance_report %>
+            <%= link_to "View maintenance report", admin_item_maintenance_reports_path(@item, anchor: dom_id(audit.maintenance_report)) %>
           <% end %>
         </div>
       </div>

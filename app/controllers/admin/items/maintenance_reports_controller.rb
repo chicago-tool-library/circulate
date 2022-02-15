@@ -4,9 +4,9 @@ module Admin
       before_action :set_maintenance_report, only: %i[edit update destroy]
 
       def index
-        @maintenance_reports = @item.maintenance_reports
+        @maintenance_reports = @item.maintenance_reports.includes(:audit)
 
-        @events = @maintenance_reports.to_a.concat(@item.audits).sort_by(&:created_at)
+        @events = @maintenance_reports.to_a.concat(@item.audits.includes(:maintenance_report)).sort_by(&:created_at)
       end
 
       def new
