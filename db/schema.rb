@@ -380,8 +380,11 @@ ActiveRecord::Schema.define(version: 2022_02_02_214711) do
     t.integer "time_spent"
     t.bigint "item_id", null: false
     t.bigint "creator_id", null: false
+    t.enum "current_item_status", enum_type: "item_status"
+    t.bigint "audit_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["audit_id"], name: "index_maintenance_reports_on_audit_id"
     t.index ["creator_id"], name: "index_maintenance_reports_on_creator_id"
     t.index ["item_id"], name: "index_maintenance_reports_on_item_id"
   end
@@ -519,6 +522,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_214711) do
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
+  add_foreign_key "maintenance_reports", "audits"
   add_foreign_key "maintenance_reports", "items"
   add_foreign_key "maintenance_reports", "users", column: "creator_id"
   add_foreign_key "memberships", "members"

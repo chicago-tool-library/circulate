@@ -4,6 +4,7 @@
   <div class="timeline item-edit-history mt-5">
     <% @events.each do |event| %>
       <% next if Audited::Audit === event && !event.audited_changes["status"] %>
+      <% next if @events.any? { |e| MaintenanceReport === e && e.audit == event } %>
 
       <div class="timeline-item <%= "timeline-skip" if Audited::Audit === event && event.audited_changes["status"][1] == "active" %>" id="<%= dom_id(event) %>">
 
@@ -22,6 +23,9 @@
                 <% if maintenance_report.time_spent.present? %>(<%= maintenance_report.time_spent %> minutes)<% end %>
               </p>
               <div class="trix_content mb-2"><%= maintenance_report.body %></div>
+              <% if maintenance_report.audit %>
+                <h3 class="h6 mb-0">status changed to <span class="text-bold"><%= maintenance_report.audit.audited_changes["status"][1] %></span></h3>
+              <% end %>
               <p>
                 <%= link_to 'Edit', edit_admin_item_maintenance_report_path(@item, maintenance_report) %>
               </p>

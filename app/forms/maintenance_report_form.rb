@@ -37,10 +37,11 @@ class MaintenanceReportForm
   # it becomes a lot easier to group with and work with the data since the status changes recorded
   # as audits will bound any maintenance reports.
   def save_all
-    if @item.status == Item.statuses["maintenance"]
-      @item.save && @maintenance_report.save
-    else
-      @maintenance_report.save && @item.save
+    if @item.changed?
+      return false unless @item.save
+      @maintenance_report.audit = @item.audits.last
     end
+    @maintenance_report.current_item_status = @item.status
+    @maintenance_report.save
   end
 end

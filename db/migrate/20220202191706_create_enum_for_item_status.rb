@@ -10,7 +10,7 @@ class CreateEnumForItemStatus < ActiveRecord::Migration[6.1]
       end
 
       migrate.down do
-        drop_enum :item_statuses
+        drop_enum :item_status
       end
     end
 
