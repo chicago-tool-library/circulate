@@ -77,6 +77,7 @@ module AdminHelper
       else
         Item.statuses.invert[value]
       end
+      value = item_status_name(value)
     when "borrow_policy_id"
       value = BorrowPolicy.find(value).complete_name
     when "category_ids"

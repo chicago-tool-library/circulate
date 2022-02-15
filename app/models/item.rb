@@ -1,4 +1,22 @@
 class Item < ApplicationRecord
+  STATUS_NAMES = {
+    "pending" => "Pending",
+    "active" => "Active",
+    "maintenance" => "Maintenance - Triage",
+    "maintenance_repairing" => "Maintenance - Repair in Progress",
+    "maintenance_parts" => "Maintenance - Parts on Order",
+    "retired" => "Retired"
+  }
+
+  STATUS_DESCRIPTIONS = {
+    "pending" => "just acquired; not ready to loan",
+    "active" => "available to loan",
+    "maintenance" => "needs examination; do not loan",
+    "maintenance_repairing" => nil,
+    "maintenance_parts" => nil,
+    "retired" => "no longer part of our inventory"
+  }
+
   include PgSearch::Model
   pg_search_scope :search_by_anything,
     against: {
@@ -41,6 +59,8 @@ class Item < ApplicationRecord
     pending: "pending",
     active: "active",
     maintenance: "maintenance",
+    maintenance_parts: "maintenance_parts",
+    maintenance_repairing: "maintenance_repairing",
     retired: "retired"
   }
 
