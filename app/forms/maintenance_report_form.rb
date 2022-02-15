@@ -28,8 +28,19 @@ class MaintenanceReportForm
 
   def save
     ActiveRecord::Base.transaction do
-      raise ActiveRecord::Rollback unless @item.save && @maintenance_report.save
+      raise ActiveRecord::Rollback unless save_all
       true
+    end
+  end
+
+  # This is a little bananas, but by controlling the order that the item and maintenance are saved,
+  # it becomes a lot easier to group with and work with the data since the status changes recorded
+  # as audits will bound any maintenance reports.
+  def save_all
+    if @item.status == Item.statuses["maintenance"]
+      @item.save && @maintenance_report.save
+    else
+      @maintenance_report.save && @item.save
     end
   end
 end

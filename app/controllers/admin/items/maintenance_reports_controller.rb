@@ -6,7 +6,7 @@ module Admin
       def index
         @maintenance_reports = @item.maintenance_reports
 
-        @events = @maintenance_reports.to_a.concat(@item.audits).sort_by(&:created_at).reverse
+        @events = @maintenance_reports.to_a.concat(@item.audits).sort_by(&:created_at)
       end
 
       def new

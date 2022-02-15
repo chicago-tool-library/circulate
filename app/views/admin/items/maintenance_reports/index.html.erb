@@ -5,7 +5,7 @@
     <% @events.each do |event| %>
       <% next if Audited::Audit === event && !event.audited_changes["status"] %>
 
-      <div class="timeline-item" id="<%= dom_id(event) %>">
+      <div class="timeline-item <%= "timeline-skip" if Audited::Audit === event && event.audited_changes["status"][1] == "active" %>" id="<%= dom_id(event) %>">
 
         <div class="timeline-left">
           <a class="timeline-icon" href="#<%= dom_id(event) %>"></a>
