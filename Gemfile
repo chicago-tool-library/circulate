@@ -30,7 +30,7 @@ gem "jbuilder", "~> 2.11"
 gem "acts_as_tenant"
 gem "devise"
 gem "pundit"
-gem "audited", github: "collectiveidea/audited"
+gem "audited", require: false
 gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"

@@ -1,3 +1,7 @@
+require "audited"
+
+Audited::Railtie.initializers.each(&:run)
+
 Rails.application.config.after_initialize do
   # this is gross, but I was running into issues using a custom Audit class
 
