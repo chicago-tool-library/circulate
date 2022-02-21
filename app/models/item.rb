@@ -84,7 +84,7 @@ class Item < ApplicationRecord
   scope :for_category, ->(category) { joins(:categories).where(categories: {id: category}) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
-  scope :in_maintenance, -> { where("status = ?", Item.statuses[:maintenance]) }
+  scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance, :maintenance_parts, :maintenance_repairing)) }
 
   scope :by_name, -> { order(name: :asc) }
 

@@ -1,12 +1,12 @@
 <%= render "admin/items/profile" do %>
   <%= link_to "New Maintenance Report", new_admin_item_maintenance_report_path(@item), class: "btn" %>
 
-  <div class="timeline item-edit-history mt-5">
+  <div class="timeline item-edit-history maintenance-report-index mt-5">
     <% @events.each do |event| %>
       <% next if Audited::Audit === event && !event.audited_changes["status"] %>
       <% next if @events.any? { |e| MaintenanceReport === e && e.audit == event } %>
 
-      <div class="timeline-item <%= event.current_item_status if MaintenanceReport === event %>" id="<%= dom_id(event) %>">
+      <div class="timeline-item <%= "timeline-skip" if disconnected_maintnenace_report_event?(event) %>" id="<%= dom_id(event) %>">
 
         <div class="timeline-left">
           <a class="timeline-icon" href="#<%= dom_id(event) %>"></a>
@@ -22,13 +22,15 @@
                 <% end %>
                 <% if maintenance_report.time_spent.present? %>(<%= maintenance_report.time_spent %> minutes)<% end %>
               </p>
-              <div class="trix_content mb-2"><%= maintenance_report.body %></div>
+              <div class="trix_content mb-2">
+                <%= maintenance_report.body %>
+              </div>
               <% if maintenance_report.audit %>
                 <h3 class="h6 mb-0">status changed to <span class="text-bold"><%= audit_item_status maintenance_report.audit %></span></h3>
               <% end %>
-              <p>
+              <span class="mt-2 text-small edit-maintenance-report-link">
                 <%= link_to "Edit", edit_admin_item_maintenance_report_path(@item, maintenance_report) %>
-              </p>
+              </span>
             </div>
           <% else %>
             <% audit = event %>
