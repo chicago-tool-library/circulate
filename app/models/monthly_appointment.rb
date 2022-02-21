@@ -1,0 +1,2 @@
+class MonthlyAppointment < ApplicationRecord
+end

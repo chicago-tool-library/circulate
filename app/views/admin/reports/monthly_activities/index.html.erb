@@ -7,7 +7,8 @@
     <tr>
       <th></th>
       <th class="left-lined" colspan="2">Activity</th>
-      <th class="left-lined" colspan="3">Members</th>
+      <th class="left-lined" colspan="2">Members</th>
+      <th class="left-lined" colspan="2">Appointments</th>
     </tr>
     <tr>
       <th>Month</th>
@@ -15,25 +16,32 @@
       <th>Members</th>
       <th class="left-lined">New</th>
       <th>Pending</th>
+      <th class="left-lined">Scheduled</th>
+      <th>Completed</th>
     </tr>
   </thead>
   <tbody>
-    <% @monthly_activities.each do |ma| %>
+    <% @monthly_activities.each do |date, activities| %>
       <tr>
-        <td><%= Date::MONTHNAMES[ma.month] %> <%= ma.year %></td>
-        <td class="left-lined"><%= ma.loans_count %></td>
-        <td class="left-lined"><%= ma.active_members_count %></td>
-        <td class="left-lined"><%= ma.new_members_count %></td>
-        <td class="left-lined"><%= ma.pending_members_count %></td>
+        <% year, month = date.split("-") %>
+        <td><%= Date::MONTHNAMES[month.to_i] %> <%= year %></td>
+        <td class="left-lined"><%= activities[:loans_count] %></td>
+        <td class="left-lined"><%= activities[:active_members_count] %></td>
+        <td class="left-lined"><%= activities[:new_members_count] %></td>
+        <td class="left-lined"><%= activities[:pending_members_count] %></td>
+        <td class="left-lined"><%= activities[:appointments_count] %></td>
+        <td class="left-lined"><%= activities[:completed_appointments_count] %></td>
       </tr>
     <% end %>
   <tfoot>
     <tr>
       <td>Total</td>
-      <td class="left-lined"><%= @monthly_activities.sum(&:loans_count) %></td>
-      <td class="left-lined"><%= @monthly_activities.sum(&:active_members_count) %></td>
-      <td class="left-lined"><%= @monthly_activities.sum(&:new_members_count) %></td>
-      <td class="left-lined"><%= @monthly_activities.sum(&:pending_members_count) %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:loans_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:active_members_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:new_members_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:pending_members_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:appointments_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:completed_appointments_count] } %></td>
     </tr>
   </tfoot>
 </table>

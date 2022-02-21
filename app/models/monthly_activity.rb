@@ -1,2 +1,0 @@
-class MonthlyActivity < ApplicationRecord
-end
