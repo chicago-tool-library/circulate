@@ -18,7 +18,7 @@ Dockerfile, or if gems or npm packages have been added or updated.
 9. Run `docker-compose ps` to view status of the containers. All should have
    state "Up". Check the [logs](#viewing-logs) if there are any containers that
    did not start.
-10. The web application will be available at http://chicago.circulate.local:3000
+10. The web application will be available at http://chicago.circulate.local:3000 or [localhost:3000](http://localhost:3000).
 
 ## For ongoing development:
 1. Run `docker-compose up -d` to start all services.
@@ -90,6 +90,11 @@ Run the testing suite from within the container:
 ```
 $ docker-compose exec web rails test
 $ docker-compose exec web rails test:system
+```
+
+Run one test (whether system or not) with:
+```
+$ docker-compose exec web rails test <filepath>
 ```
 
 System tests will generate a screenshot upon failure. The screenshots can be
