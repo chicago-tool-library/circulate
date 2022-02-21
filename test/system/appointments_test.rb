@@ -77,6 +77,20 @@ class AppointmentsTest < ApplicationSystemTestCase
     within(list_item_containing(@held_item2.complete_number)) { assert_text "Ready for pickup" }
   end
 
+  test "attempts to schedule an appointment with no holds" do
+    @member = create(:verified_member_with_membership)
+
+    login_as @member.user
+
+    visit account_appointments_url
+
+    click_on "Schedule an Appointment"
+
+    assert_text "You can only schedule an appointment if you have a tool on hold or that can be returned."
+
+    refute_text "Select Items to Return"
+  end
+
   test "multiple members can make an appointment for an uncounted tool" do
     create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 27.hours.since, finish: 28.hours.since)
 
