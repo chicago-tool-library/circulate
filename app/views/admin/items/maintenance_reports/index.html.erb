@@ -3,7 +3,7 @@
 
   <div class="timeline item-edit-history maintenance-report-index mt-5">
     <% @events.each do |event| %>
-      <% next if Audited::Audit === event && !event.audited_changes["status"] %>
+      <% next if ItemAudit === event && !event.audited_changes["status"] %>
       <% next if @events.any? { |e| MaintenanceReport === e && e.audit == event } %>
 
       <div class="timeline-item <%= "timeline-skip" if disconnected_maintnenace_report_event?(event) %>" id="<%= dom_id(event) %>">

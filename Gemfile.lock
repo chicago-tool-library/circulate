@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/simmerz/audited.git
+  revision: 3cf0141cc28cdad572e2e719b75d355515967dd9
+  specs:
+    audited (5.0.2)
+      activerecord (>= 5.0, < 7.1)
+
 PATH
   remote: gems/active_storage_log_suppressor
   specs:
@@ -77,8 +84,6 @@ GEM
     appsignal (3.0.20)
       rack
     ast (2.4.2)
-    audited (5.0.2)
-      activerecord (>= 5.0, < 7.1)
     aws-eventstream (1.2.0)
     aws-partitions (1.550.0)
     aws-sdk-core (3.125.5)
@@ -450,7 +455,7 @@ DEPENDENCIES
   activerecord-postgres_enum
   acts_as_tenant
   appsignal
-  audited
+  audited!
   aws-sdk-s3
   barnes
   bootsnap (>= 1.4.1)

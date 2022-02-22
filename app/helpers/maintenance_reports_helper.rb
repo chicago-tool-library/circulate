@@ -5,7 +5,7 @@ module MaintenanceReportsHelper
     status = case event
     when MaintenanceReport
       event.current_item_status
-    when Audited::Audit
+    when ItemAudit
       # TODO refactor this to use the underlying value and not the titlecased label
       audit_item_status(event).downcase
     end
