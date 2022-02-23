@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MaintenanceReportsControllerTest < ActionDispatch::IntegrationTest
+class TicketUpdatesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
@@ -20,7 +20,7 @@ class MaintenanceReportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create maintenance_report" do
-    assert_difference("MaintenanceReport.count") do
+    assert_difference("TicketUpdate.count") do
       post admin_item_maintenance_reports_url(@item), params: {maintenance_report_form: {title: "Update", body: "Did some work", time_spent: 45, status: "maintenance_parts"}}
     end
 
@@ -51,7 +51,7 @@ class MaintenanceReportsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy maintenance_report" do
     @maintenance_report = create(:maintenance_report, item: @item)
 
-    assert_difference("MaintenanceReport.count", -1) do
+    assert_difference("TicketUpdate.count", -1) do
       delete admin_item_maintenance_report_url(@item, @maintenance_report)
     end
 

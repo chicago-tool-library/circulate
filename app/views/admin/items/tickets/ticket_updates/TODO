@@ -1,0 +1,13 @@
+# TODO
+
+* Rename TicketUpdate to TicketUpdate
+* Remove title from TicketUpdate
+* Create Ticket model
+  * Attributes: title, item_id, status
+  * Has many ticketUpdates
+* Add maintenance statuses to Issue and remove from Item. Item should only have a single maintenance status again
+* Display an option on the TicketUpdate form to update the status of the item
+* When the ticket status is set to "resolved", set the item status field to "active".
+* When a TicketUpdate is saved:
+  * If the ticket is resolved, set the item to active
+  * Otherwise, set the item to active

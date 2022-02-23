@@ -1,0 +1,62 @@
+<%= render "admin/items/profile" do %>
+
+  <div class="d-flex mt-2">
+    <div>
+      <h2 class="mb-2">
+        <%= @ticket.title %>
+      </h2>
+      <p class="mb-0">Created by <%= link_to_member(@ticket.creator.member) %> on <%= display_date @ticket.created_at, :short_date %></p>
+      <p><span class="chip"><%= ticket_status_name @ticket.status %></span></p>
+
+      <div class="trix-content"> 
+        <%= @ticket.body %>
+      </div>
+    </div>
+
+    <div>
+      <div class="ticket-edit-button">
+        <%= link_to 'Edit Ticket', edit_admin_item_ticket_path(@item, @ticket), class: "btn" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <% @events.each do |event| %>
+      <% next if Audited::Audit === event && !event.audited_changes["status"] %>
+      <% next if @events.any? { |e| TicketUpdate === e && e.audit == event } %>
+
+      <div class="divider"></div>
+
+      <div id="<%= dom_id(event) %>">
+        <% if TicketUpdate === event %>
+          <% ticket_update = event %>
+          <p>
+            <% if ticket_update.creator.present? %>
+              <%= link_to_member(ticket_update.creator.member) %>
+            <% else %>
+                someone
+            <% end %>
+            added an update
+            <span class="text-small">
+              on <%= display_date ticket_update.created_at, :short_date %>
+            <% if ticket_update.time_spent.present? %>(spent <%= ticket_update.time_spent %> minutes)<% end %>
+            </span>
+          </p>
+          <div class="trix_content mb-2">
+            <%= ticket_update.body %>
+            <span class="mt-2 text-small">
+              <%= link_to "Edit", edit_admin_item_ticket_ticket_update_path(@item, ticket_update.ticket, ticket_update) %>
+            </span>
+          </div>
+          <% if ticket_update.audit %>
+            <%= render partial: "ticket_audit", locals: { audit: ticket_update.audit } %>
+          <% end %>
+        <% else %>
+          <%= render partial: "ticket_audit", locals: { audit: event } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to 'Add Update', new_admin_item_ticket_ticket_update_path(@item, @ticket), class: "btn btn-primary" %>
+<% end %>

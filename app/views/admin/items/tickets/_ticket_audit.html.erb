@@ -1,0 +1,11 @@
+<p>
+  <% if audit.user.present? %>
+    <%= link_to_member(audit.user.member) %>
+  <% else %>
+      someone
+  <% end %>
+  updated this ticket's status to <span class="text-bold"><%= audit_ticket_status audit %></span>
+  <span class="text-small">
+    on <%= display_date audit.created_at, :short_date %>
+  </span>
+</p>
