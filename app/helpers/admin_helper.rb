@@ -21,6 +21,10 @@ module AdminHelper
     member.full_name.split.first
   end
 
+  def link_to_member(member)
+    link_to preferred_or_default_name(member), admin_member_path(member)
+  end
+
   def membership_payment_source_options
     Adjustment.payment_sources.slice("cash", "square")
   end
@@ -67,7 +71,13 @@ module AdminHelper
 
     case key
     when "status"
-      value = Item.statuses.invert[value]
+      # handle old integer item statuses from before the migration to an postgres enum
+      value = if Integer === value
+        ["pending", "active", "maintenance", "retired"][value]
+      else
+        Item.statuses.invert[value]
+      end
+      value = item_status_name(value)
     when "borrow_policy_id"
       value = BorrowPolicy.find(value).complete_name
     when "category_ids"

@@ -235,5 +235,12 @@ trix-toolbar {
 }
 
 .mt-5 {
-  margin-top: 1rem;
+  margin-top: 2rem;
+}
+
+.timeline .timeline-item.timeline-skip {
+  margin-bottom: 2rem;
+  &:before {
+    display: none;
+  }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_081100) do
+ActiveRecord::Schema.define(version: 2022_02_15_035541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,15 @@ ActiveRecord::Schema.define(version: 2022_02_12_081100) do
     "manual",
     "parts_list",
     "other"
+  ], force: :cascade
+
+  create_enum :item_status, [
+    "pending",
+    "active",
+    "maintenance",
+    "retired",
+    "maintenance_repairing",
+    "maintenance_parts"
   ], force: :cascade
 
   create_enum :notification_status, [
@@ -298,7 +307,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_081100) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "number", null: false
-    t.integer "status", default: 1, null: false
+    t.enum "status", default: "active", null: false, enum_type: "item_status"
     t.bigint "borrow_policy_id", null: false
     t.string "strength"
     t.integer "quantity"
@@ -366,6 +375,20 @@ ActiveRecord::Schema.define(version: 2022_02_12_081100) do
     t.index ["library_id"], name: "index_loans_on_library_id"
     t.index ["member_id", "library_id"], name: "index_loans_on_member_id_and_library_id"
     t.index ["member_id"], name: "index_loans_on_member_id"
+  end
+
+  create_table "maintenance_reports", force: :cascade do |t|
+    t.text "title"
+    t.integer "time_spent"
+    t.bigint "item_id", null: false
+    t.bigint "creator_id", null: false
+    t.enum "current_item_status", enum_type: "item_status"
+    t.bigint "audit_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["audit_id"], name: "index_maintenance_reports_on_audit_id"
+    t.index ["creator_id"], name: "index_maintenance_reports_on_creator_id"
+    t.index ["item_id"], name: "index_maintenance_reports_on_item_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -501,6 +524,9 @@ ActiveRecord::Schema.define(version: 2022_02_12_081100) do
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
+  add_foreign_key "maintenance_reports", "audits"
+  add_foreign_key "maintenance_reports", "items"
+  add_foreign_key "maintenance_reports", "users", column: "creator_id"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
@@ -564,6 +590,27 @@ ActiveRecord::Schema.define(version: 2022_02_12_081100) do
       max(loans.renewal_count) AS renewal_count
      FROM loans
     GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+  SQL
+  create_view "monthly_activities", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
+     FROM ((months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,

@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :items do
       scope module: "items" do
         resources :attachments
+        resources :maintenance_reports
       end
 
       get :number

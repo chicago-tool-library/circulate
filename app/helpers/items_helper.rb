@@ -8,15 +8,14 @@ module ItemsHelper
       .join(", ")
   end
 
+  def item_status_name(status)
+    Item::STATUS_NAMES[status]
+  end
+
   def item_status_options
-    explainations = {
-      "pending" => "just acquired; not ready to loan",
-      "active" => "available to loan",
-      "maintenance" => "needs repair; do not loan",
-      "retired" => "no longer part of our inventory"
-    }
     Item.statuses.map do |key, value|
-      ["#{key.titleize} (#{explainations[key]})", key]
+      description = " (#{Item::STATUS_DESCRIPTIONS[key]})" if Item::STATUS_DESCRIPTIONS[key]
+      ["#{Item::STATUS_NAMES[key]}#{description}", key]
     end
   end
 
@@ -182,6 +181,16 @@ module ItemsHelper
       if count > 0
         tag.span pluralize(count, "hold"), class: "label item-hold-status"
       end
+    end
+  end
+
+  def audit_item_status(audit)
+    status_change = audit.audited_changes["status"]
+    case status_change
+    when Array
+      item_status_name(status_change[1])
+    when String
+      item_status_name(status_change)
     end
   end
 

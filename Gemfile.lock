@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/collectiveidea/audited.git
-  revision: 39d29e29c31abdb029b2941016ec411c5cea12d8
+  remote: https://github.com/simmerz/audited.git
+  revision: 3cf0141cc28cdad572e2e719b75d355515967dd9
   specs:
     audited (5.0.2)
       activerecord (>= 5.0, < 7.1)

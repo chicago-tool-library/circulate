@@ -3,9 +3,10 @@
 <% end %>
 
 <% if @items.any? %>
-  <div class="responsive-table two-columns">
+  <div class="responsive-table three-columns">
     <%= tag.div "Item", class: "responsive-table-header" %>
-    <%= tag.div "", class: "responsive-table-header" %>
+    <%= tag.div "Number", class: "responsive-table-header" %>
+    <%= tag.div "Status", class: "responsive-table-header" %>
 
     <% @items.each do |item| %>
       <%= tag.div class: "responsive-table-cell" do %>
@@ -14,6 +15,10 @@
 
       <%= tag.div class: "responsive-table-cell" do %>
         <%= item.complete_number %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= item_status_name item.status %>
       <% end %>
     <% end %>
   </div>
