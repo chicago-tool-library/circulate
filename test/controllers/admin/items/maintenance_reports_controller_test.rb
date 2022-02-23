@@ -21,7 +21,7 @@ class MaintenanceReportsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create maintenance_report" do
     assert_difference("MaintenanceReport.count") do
-      post admin_item_maintenance_reports_url(@item), params: {maintenance_report: {body: "Did some work", time_spent: 45}}
+      post admin_item_maintenance_reports_url(@item), params: {maintenance_report_form: {title: "Update", body: "Did some work", time_spent: 45, status: "maintenance_parts"}}
     end
 
     assert_redirected_to admin_item_maintenance_reports_url(@item)
