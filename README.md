@@ -1,6 +1,6 @@
 # Circulate
 
-[![CI status](https://github.com/rubyforgood/circulate/actions/workflows/ci.yml/badge.svg)
+![CI status](https://github.com/rubyforgood/circulate/actions/workflows/ci.yml/badge.svg)
 
 <!-- toc -->
 

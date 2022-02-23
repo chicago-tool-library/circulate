@@ -116,7 +116,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   def audited_as_admin(&block)
-    Audited.audit_class.as_user(@user) do
+    Audited.audit_model.as_user(@user) do
       yield
     end
   end
