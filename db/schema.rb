@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_15_035541) do
+ActiveRecord::Schema.define(version: 2022_03_03_060319) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_enum :adjustment_kind, [
@@ -202,6 +203,7 @@ ActiveRecord::Schema.define(version: 2022_02_15_035541) do
     t.integer "renewal_limit", default: 0, null: false
     t.boolean "member_renewable", default: false, null: false
     t.integer "library_id"
+    t.boolean "consumable", default: false
     t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 
@@ -591,27 +593,6 @@ ActiveRecord::Schema.define(version: 2022_02_15_035541) do
      FROM loans
     GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
-  create_view "monthly_activities", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
-     FROM ((months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
       (date_part('month'::text, adjustments.created_at))::integer AS month,
@@ -630,6 +611,24 @@ ActiveRecord::Schema.define(version: 2022_02_15_035541) do
             GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
     GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
     ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "monthly_appointments", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, appointments.starts_at)) AS startm,
+              max(date_trunc('month'::text, appointments.starts_at)) AS endm
+             FROM appointments
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT a.id) AS appointments_count,
+      count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
+     FROM (months
+       LEFT JOIN appointments a ON ((date_trunc('month'::text, a.starts_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
   SQL
   create_view "monthly_loans", sql_definition: <<-SQL
       WITH dates AS (
@@ -664,24 +663,6 @@ ActiveRecord::Schema.define(version: 2022_02_15_035541) do
       count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
      FROM (months
        LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
-  create_view "monthly_appointments", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, appointments.starts_at)) AS startm,
-              max(date_trunc('month'::text, appointments.starts_at)) AS endm
-             FROM appointments
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT a.id) AS appointments_count,
-      count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
-     FROM (months
-       LEFT JOIN appointments a ON ((date_trunc('month'::text, a.starts_at) = months.month)))
     GROUP BY months.month
     ORDER BY months.month;
   SQL
