@@ -32,7 +32,7 @@
 
       <%= tag.div class: "responsive-table-cell" do %>
         <% if item.last_active_ticket %>
-          <%= truncate(item.last_active_ticket.latest_ticket_update&.body.to_plain_text, length: 120) %>
+          <%= truncate(item.last_active_ticket.latest_ticket_update&.body&.to_plain_text, length: 120) %>
         <% end %>
       <% end %>
     <% end %>
