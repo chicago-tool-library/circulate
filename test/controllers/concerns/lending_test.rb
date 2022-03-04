@@ -207,4 +207,20 @@ class LendingTest < ActiveSupport::TestCase
 
     assert renew_loan(loan)
   end
+
+  test "automatically returns consumable items" do
+    borrow_policy = create(:consumable_borrow_policy)
+    item = create(:item, quantity: 10, borrow_policy: borrow_policy)
+    member = create(:verified_member)
+
+    loan = create_loan(item, member)
+    puts loan.errors.inspect
+    assert loan.persisted?
+
+    loan.reload
+
+    assert loan.ended_at
+    assert_equal 9, item.quantity
+    # assert that we didn't make an audit for the quantity change
+  end
 end

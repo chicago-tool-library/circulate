@@ -22,6 +22,11 @@ FactoryBot.define do
       code { "a" }
     end
 
+    factory :consumable_borrow_policy do
+      consumable { true }
+      uniquely_numbered { false }
+    end
+
     factory :default_borrow_policy do
       name { "Default" }
       duration { 7 }

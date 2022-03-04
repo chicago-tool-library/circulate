@@ -81,7 +81,7 @@ class Loan < ApplicationRecord
 
   def self.lend(item, to:, now: Time.current)
     due_at = next_open_day(now.end_of_day + item.borrow_policy.duration.days)
-    Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered)
+    Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered, created_at: now)
   end
 
   # Will another renewal exceed the maximum number of renewals?

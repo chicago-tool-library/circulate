@@ -1,6 +1,16 @@
 module Lending
   private
 
+  def create_loan(item, member, now: Time.current)
+    loan = Loan.lend(item, to: member, now: now)
+    loan.save!
+
+    if item.borrow_policy.consumable?
+      return_loan(loan, now: now)
+    end
+    loan
+  end
+
   def return_loan(loan, now: Time.current)
     success = false
     policy = loan.item.borrow_policy
