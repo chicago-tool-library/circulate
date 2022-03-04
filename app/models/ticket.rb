@@ -23,6 +23,7 @@ class Ticket < ApplicationRecord
   belongs_to :item
   belongs_to :creator, class_name: "User"
   has_many :ticket_updates, dependent: :destroy
+  has_one :latest_ticket_update, -> { newest_first }, class_name: "TicketUpdate"
 
   has_rich_text :body
 
@@ -30,6 +31,8 @@ class Ticket < ApplicationRecord
   validates :status, inclusion: {in: Ticket.statuses.keys}
 
   audited
+  acts_as_tenant :library
 
   scope :active, -> { where(status: Ticket.statuses.values_at(:assess, :parts, :repairing)) }
+  scope :newest_first, -> { order(created_at: :desc) }
 end

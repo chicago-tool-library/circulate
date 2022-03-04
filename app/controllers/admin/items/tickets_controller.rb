@@ -40,7 +40,7 @@ module Admin
 
       def destroy
         @ticket.destroy
-        redirect_to tickets_url, notice: "Ticket was successfully destroyed."
+        redirect_to admin_item_tickets_url(@item), success: "Ticket was successfully destroyed."
       end
 
       private

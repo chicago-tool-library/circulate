@@ -5,11 +5,17 @@
       <h2 class="mb-2">
         <%= @ticket.title %>
       </h2>
-      <p class="mb-0">Created by <%= link_to_member(@ticket.creator.member) %> on <%= display_date @ticket.created_at, :short_date %></p>
-      <p><span class="chip"><%= ticket_status_name @ticket.status %></span></p>
+      <p class="mb-3">
+        <span class="chip bg-primary"><%= ticket_status_name @ticket.status %></span>
+        Created by <%= link_to_member(@ticket.creator.member) %> on <%= display_date @ticket.created_at, :short_date %>
+      </p>
 
-      <div class="trix-content"> 
-        <%= @ticket.body %>
+      <div class="card">
+        <div class="card-body">
+          <div class="trix-content"> 
+            <%= @ticket.body %>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -20,7 +26,7 @@
     </div>
   </div>
 
-  <div class="mt-5">
+  <div class="mt-4">
     <% @events.each do |event| %>
       <% next if Audited::Audit === event && !event.audited_changes["status"] %>
       <% next if @events.any? { |e| TicketUpdate === e && e.audit == event } %>
@@ -30,7 +36,7 @@
       <div id="<%= dom_id(event) %>">
         <% if TicketUpdate === event %>
           <% ticket_update = event %>
-          <p>
+          <p class="mb-2">
             <% if ticket_update.creator.present? %>
               <%= link_to_member(ticket_update.creator.member) %>
             <% else %>
@@ -42,10 +48,16 @@
             <% if ticket_update.time_spent.present? %>(spent <%= ticket_update.time_spent %> minutes)<% end %>
             </span>
           </p>
-          <div class="trix_content mb-2">
-            <%= ticket_update.body %>
-            <span class="mt-2 text-small">
-              <%= link_to "Edit", edit_admin_item_ticket_ticket_update_path(@item, ticket_update.ticket, ticket_update) %>
+          <div class="d-flex">
+            <div class="trix_content mb-2">
+              <div class="card">
+                <div class="card-body">
+                  <%= ticket_update.body %>
+                </div>
+              </div>
+            </div>
+            <span class="ml-2">
+              <%= link_to "Edit", edit_admin_item_ticket_ticket_update_path(@item, ticket_update.ticket, ticket_update), class: "btn btn-sm" %>
             </span>
           </div>
           <% if ticket_update.audit %>
@@ -58,5 +70,6 @@
     <% end %>
   </div>
 
+  <div class="divider mt-5 mb-5"></div>
   <%= link_to 'Add Update', new_admin_item_ticket_ticket_update_path(@item, @ticket), class: "btn btn-primary" %>
 <% end %>

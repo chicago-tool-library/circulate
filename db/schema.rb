@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_27_204052) do
+ActiveRecord::Schema.define(version: 2022_03_04_025546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,9 +43,7 @@ ActiveRecord::Schema.define(version: 2022_02_27_204052) do
     "pending",
     "active",
     "maintenance",
-    "retired",
-    "maintenance_repairing",
-    "maintenance_parts"
+    "retired"
   ], force: :cascade
 
   create_enum :notification_status, [
@@ -477,8 +475,10 @@ ActiveRecord::Schema.define(version: 2022_02_27_204052) do
     t.bigint "audit_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "library_id"
     t.index ["audit_id"], name: "index_ticket_updates_on_audit_id"
     t.index ["creator_id"], name: "index_ticket_updates_on_creator_id"
+    t.index ["library_id"], name: "index_ticket_updates_on_library_id"
     t.index ["ticket_id"], name: "index_ticket_updates_on_ticket_id"
   end
 
@@ -489,8 +489,10 @@ ActiveRecord::Schema.define(version: 2022_02_27_204052) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "library_id"
     t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["item_id"], name: "index_tickets_on_item_id"
+    t.index ["library_id"], name: "index_tickets_on_library_id"
   end
 
   create_table "users", force: :cascade do |t|

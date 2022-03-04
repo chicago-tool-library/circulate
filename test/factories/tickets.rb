@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :ticket do
-    title { "MyString" }
-    item { nil }
-    status { "MyString" }
+    library { Library.first || create(:library) }
+    title { "Makes a terrible noise" }
+    item
+    status { "assess" }
+    association :creator, factory: :user
   end
 end

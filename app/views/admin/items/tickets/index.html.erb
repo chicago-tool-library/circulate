@@ -12,7 +12,7 @@
       <% @tickets.each do |ticket| %>
         <tr>
           <td><%= link_to ticket.title, admin_item_ticket_path(@item, ticket) %></td>
-          <td><span class="chip"><%= ticket_status_name ticket.status %></span></td>
+          <td><span class="chip bg-primary"><%= ticket_status_name ticket.status %></span></td>
           <td><%= display_date ticket.updated_at, :short_date %></td>
         </tr>
       <% end %>
