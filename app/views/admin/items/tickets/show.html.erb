@@ -12,7 +12,7 @@
 
       <div class="card">
         <div class="card-body">
-          <div class="trix-content"> 
+          <div class="trix-content">
             <%= @ticket.body %>
           </div>
         </div>
@@ -21,7 +21,7 @@
 
     <div>
       <div class="ticket-edit-button">
-        <%= link_to 'Edit Ticket', edit_admin_item_ticket_path(@item, @ticket), class: "btn" %>
+        <%= link_to "Edit Ticket", edit_admin_item_ticket_path(@item, @ticket), class: "btn" %>
       </div>
     </div>
   </div>
@@ -61,15 +61,15 @@
             </span>
           </div>
           <% if ticket_update.audit %>
-            <%= render partial: "ticket_audit", locals: { audit: ticket_update.audit } %>
+            <%= render partial: "ticket_audit", locals: {audit: ticket_update.audit} %>
           <% end %>
         <% else %>
-          <%= render partial: "ticket_audit", locals: { audit: event } %>
+          <%= render partial: "ticket_audit", locals: {audit: event} %>
         <% end %>
       </div>
     <% end %>
   </div>
 
   <div class="divider mt-5 mb-5"></div>
-  <%= link_to 'Add Update', new_admin_item_ticket_ticket_update_path(@item, @ticket), class: "btn btn-primary" %>
+  <%= link_to "Add Update", new_admin_item_ticket_ticket_update_path(@item, @ticket), class: "btn btn-primary" %>
 <% end %>
