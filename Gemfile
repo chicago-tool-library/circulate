@@ -49,7 +49,7 @@ gem "sentry-raven"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
 gem "barnes"
