@@ -113,6 +113,11 @@ class Hold < ApplicationRecord
     started = 0
 
     active(now).includes(item: :borrow_policy).find_each do |hold|
+      if hold.item.status == Item.statuses[:maintenance]
+        Rails.logger.debug "[hold #{hold.id}]: item in maintenance mode"
+        next
+      end
+
       unless hold.item.holdable?
         Rails.logger.debug "[hold #{hold.id}]: item is not holdable"
         next

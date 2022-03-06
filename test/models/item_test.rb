@@ -137,7 +137,18 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal item.active_holds.count, 1
 
     item.update!(status: Item.statuses[:maintenance])
+    assert_equal item.active_holds.count, 1
+
+    item.update!(status: Item.statuses[:retired])
     assert_equal item.active_holds.count, 0
+  end
+
+  test "clears next hold when changed to maintenance" do
+    item = create(:item)
+    hold = create(:started_hold, item: item)
+
+    item.update!(status: Item.statuses[:maintenance])
+    assert_nil hold.reload.started_at
   end
 
   test "the for_category scope returns all items for that category" do
