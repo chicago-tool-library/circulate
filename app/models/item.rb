@@ -99,7 +99,7 @@ class Item < ApplicationRecord
 
   before_save :cache_description_as_plain_text
 
-  after_update :clear_holds_if_inactive
+  after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
@@ -170,8 +170,14 @@ class Item < ApplicationRecord
   end
 
   def clear_holds_if_inactive
-    if saved_change_to_status? && [Item.statuses[:maintenance], Item.statuses[:expired]].include?(Item.statuses[status])
+    if saved_change_to_status? && status == Item.statuses[:retired]
       active_holds.update_all(ended_at: Time.current)
+    end
+  end
+
+  def pause_next_hold_if_maintenance
+    if saved_change_to_status? && status == Item.statuses[:maintenance]
+      next_hold&.update_columns(started_at: nil, expires_at: nil)
     end
   end
 
