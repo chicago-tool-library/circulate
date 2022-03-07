@@ -1,0 +1,15 @@
+<%= render "admin/items/profile" do %>
+    <h1 class="h3 mt-2">New Ticket Update</h1>
+
+    <%= form_with(model: @ticket_update_form, url: admin_item_ticket_ticket_updates_path(@item, @ticket, @ticket_update), builder: SpectreFormBuilder) do |form| %>
+        <%= form.errors %>
+        <%= form.rich_text_area :body %>
+        <%= form.number_field :time_spent, hint: "How many minutes did you spend on this?" %>
+
+        <%= form.select :status, options_for_select(ticket_status_options, @ticket_update_form.status), label: "Change Ticket Status" %>
+
+        <%= form.actions do %>
+            <%= form.submit "Save" %>
+        <% end %>
+    <% end %>
+<% end %>

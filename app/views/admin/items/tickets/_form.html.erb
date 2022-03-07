@@ -1,0 +1,11 @@
+<%= form_with(model: ticket, url: [:admin, @item, ticket], builder: SpectreFormBuilder) do |form| %>
+  <% form.errors %>
+
+  <%= form.text_field :title %>
+  <%= form.rich_text_area :body %>
+  <%= form.select :status, options_for_select(ticket_status_options, ticket.status), label: "Ticket Status" %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

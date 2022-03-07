@@ -2,18 +2,14 @@ class Item < ApplicationRecord
   STATUS_NAMES = {
     "pending" => "Pending",
     "active" => "Active",
-    "maintenance" => "Maintenance - Triage",
-    "maintenance_repairing" => "Maintenance - Repair in Progress",
-    "maintenance_parts" => "Maintenance - Parts on Order",
+    "maintenance" => "Maintenance",
     "retired" => "Retired"
   }
 
   STATUS_DESCRIPTIONS = {
     "pending" => "just acquired; not ready to loan",
     "active" => "available to loan",
-    "maintenance" => "needs examination; do not loan",
-    "maintenance_repairing" => nil,
-    "maintenance_parts" => nil,
+    "maintenance" => "undergoing maintenance; do not loan",
     "retired" => "no longer part of our inventory"
   }
 
@@ -50,7 +46,9 @@ class Item < ApplicationRecord
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
   has_many :attachments, class_name: "ItemAttachment", dependent: :destroy
-  has_many :maintenance_reports, dependent: :destroy
+
+  has_many :tickets, dependent: :destroy
+  has_one :last_active_ticket, -> { active.newest_first }, class_name: "Ticket"
 
   has_rich_text :description
   has_one_attached :image
@@ -59,8 +57,6 @@ class Item < ApplicationRecord
     pending: "pending",
     active: "active",
     maintenance: "maintenance",
-    maintenance_parts: "maintenance_parts",
-    maintenance_repairing: "maintenance_repairing",
     retired: "retired"
   }
 
@@ -84,7 +80,7 @@ class Item < ApplicationRecord
   scope :for_category, ->(category) { joins(:categories).where(categories: {id: category}) }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
-  scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance, :maintenance_parts, :maintenance_repairing)) }
+  scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
 
   scope :by_name, -> { order(name: :asc) }
 

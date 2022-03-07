@@ -77,7 +77,13 @@ Rails.application.routes.draw do
     resources :items do
       scope module: "items" do
         resources :attachments
-        resources :maintenance_reports
+        if ENV["FEATURE_MAINTENANCE_WORKFLOW"] == "on"
+          resources :tickets do
+            scope module: "tickets" do
+              resources :ticket_updates, only: [:new, :create, :edit, :update, :destroy]
+            end
+          end
+        end
       end
 
       get :number
