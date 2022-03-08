@@ -132,6 +132,38 @@ namespace :export do
     end
   end
 
+  desc "Export seeds to CSV"
+  task seeds_to_csv: :environment do
+    now = Time.current.rfc3339
+    path = Rails.root + "exports" + "all-seeds-#{now}.csv"
+    puts "writing seeds to #{path}"
+    columns = %w[
+      id name description size brand model serial strength
+      quantity checkout_notice status created_at updated_at
+    ]
+    seeds_category = CategoryNode.find(125)
+    CSV.open(path, "wb") do |csv|
+      csv << [
+        "complete_number",
+        "code",
+        "number",
+        "categories",
+        *columns
+      ]
+      seeds_category.items.includes(:borrow_policy, :category_nodes).distinct.in_batches(of: 100) do |items|
+        items.each do |item|
+          csv << [
+            item.complete_number,
+            item.borrow_policy.code,
+            item.number,
+            item.category_nodes.map { |cn| cn.path_names.join("//") }.sort.join("; "),
+            *item.attributes.values_at(*columns)
+          ]
+        end
+      end
+    end
+  end
+
   desc "Export categories to CSV"
   task categories_to_csv: :environment do
     now = Time.current.rfc3339
