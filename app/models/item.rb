@@ -77,7 +77,7 @@ class Item < ApplicationRecord
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
-  scope :for_category, ->(category) { joins(:categories).where(categories: {id: category}) }
+  scope :for_category, ->(category) { joins(:categorizations).where(categorizations: {category_id: CategoryNode.find(category.id).tree_ids}).distinct }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
