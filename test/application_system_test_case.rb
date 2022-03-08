@@ -22,33 +22,41 @@ Capybara.add_selector :rich_text_area do
 end
 
 Capybara.register_driver :headless_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new(
-    args: %w[headless disable-gpu no-sandbox disable-dev-shm-usage window-size=1400x1800]
-  )
-
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    options: options
+    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      opts.add_argument "--headless"
+      opts.add_argument "--no-sandbox"
+      opts.add_argument "--disable-gpu"
+      opts.add_argument "--disable-dev-shm-usage"
+      opts.add_argument "--window-size=1400x1800"
+    end
   )
 end
 
 Capybara.register_driver :headless_chrome_in_container do |app|
-  Capybara::Selenium::Driver.new app,
+  Capybara::Selenium::Driver.new(
+    app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: {args: %w[headless disable-gpu window-size=1400x1800]}
-    )
+    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      opts.add_argument "--headless"
+      opts.add_argument "--disable-gpu"
+      opts.add_argument "--window-size=1400x1800"
+    end
+  )
 end
 
 Capybara.register_driver :chrome_in_container do |app|
-  Capybara::Selenium::Driver.new app,
+  Capybara::Selenium::Driver.new(
+    app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: {args: %w[window-size=1400x1800]}
-    )
+    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      opts.add_argument "--window-size=1400x1800"
+    end
+  )
 end
 
 FactoryBot::SyntaxRunner.class_eval do
@@ -90,7 +98,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   teardown do
     ActsAsTenant.test_tenant = nil
 
-    errors = page.driver.browser.manage.logs.get(:browser)
+    errors = page.driver.browser.logs.get(:browser)
     fail = false
     if errors.present?
       errors.each do |error|
@@ -107,7 +115,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def ignore_js_errors(reason: "I know what I am doing")
     Rails.logger.info("Swallowed JS error because: #{reason}")
     yield if block_given?
-    page.driver.browser.manage.logs.get(:browser)
+    page.driver.browser.logs.get(:browser)
   end
 
   def sign_in_as_admin

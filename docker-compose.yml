@@ -17,6 +17,8 @@ services:
       - config/docker.env
     stdin_open: true
     tty: true
+    tmpfs:
+      - /tmp
     networks:
       default:
         aliases:
