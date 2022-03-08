@@ -73,7 +73,8 @@ class ItemsController < ApplicationController
       return item_scope
     end
 
-    item_scope.search_by_anything(@query)
+    scope = item_scope.search_by_anything(@query)
+    scope.select("#{scope.pg_search_rank_table_alias}.rank", "items.*")
   end
 
   def filter_failed(failed_param, error_message)
