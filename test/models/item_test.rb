@@ -170,4 +170,66 @@ class ItemTest < ActiveSupport::TestCase
     assert_not_includes(scope_for_category2, item1)
     assert_not_includes(scope_for_category2, item3)
   end
+
+  test "the for_category scope returns all items for child categories" do
+    parent = create(:category)
+    child = create(:category, parent: parent)
+    grandchild = create(:category, parent: child)
+
+    item1 = create(:item, categories: [parent])
+    item2 = create(:item, categories: [child])
+    item3 = create(:item, categories: [grandchild])
+    item4 = create(:item)
+
+    scope_for_parent = Item.for_category(parent)
+
+    assert_includes(scope_for_parent, item1)
+    assert_includes(scope_for_parent, item2)
+    assert_includes(scope_for_parent, item3)
+    assert_not_includes(scope_for_parent, item4)
+
+    scope_for_child = Item.for_category(child)
+
+    assert_not_includes(scope_for_child, item1)
+    assert_includes(scope_for_child, item2)
+    assert_includes(scope_for_child, item3)
+    assert_not_includes(scope_for_child, item4)
+
+    scope_for_grandchild = Item.for_category(grandchild)
+
+    assert_not_includes(scope_for_grandchild, item1)
+    assert_not_includes(scope_for_grandchild, item2)
+    assert_includes(scope_for_grandchild, item3)
+    assert_not_includes(scope_for_grandchild, item4)
+  end
+
+  test "the for_category scope returns unique items" do
+    parent = create(:category)
+    child = create(:category, parent: parent)
+    grandchild = create(:category, parent: child)
+
+    item1 = create(:item, categories: [parent, child])
+    item2 = create(:item, categories: [child, grandchild])
+    item3 = create(:item, categories: [parent, child, grandchild])
+
+    scope_for_parent = Item.for_category(parent)
+
+    assert_includes(scope_for_parent, item1)
+    assert_includes(scope_for_parent, item2)
+    assert_includes(scope_for_parent, item3)
+    assert_equal 3, scope_for_parent.count
+
+    scope_for_child = Item.for_category(child)
+
+    assert_includes(scope_for_child, item1)
+    assert_includes(scope_for_child, item2)
+    assert_includes(scope_for_child, item3)
+    assert_equal 3, scope_for_child.count
+
+    scope_for_grandchild = Item.for_category(grandchild)
+
+    assert_includes(scope_for_grandchild, item2)
+    assert_includes(scope_for_grandchild, item3)
+    assert_equal 2, scope_for_grandchild.count
+  end
 end
