@@ -18,9 +18,6 @@
               <%= audit_description audit, key, values %>
             </p>
           <% end %>
-          <% if maintenance_report = MaintenanceReport.where(audit_id: audit).first %>
-            <%= link_to "View maintenance report", admin_item_maintenance_reports_path(@item, anchor: dom_id(maintenance_report)) %>
-          <% end %>
         </div>
       </div>
     <% end %>

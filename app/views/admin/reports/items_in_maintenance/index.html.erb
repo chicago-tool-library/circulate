@@ -3,22 +3,37 @@
 <% end %>
 
 <% if @items.any? %>
-  <div class="responsive-table three-columns">
+  <div class="responsive-table five-columns">
     <%= tag.div "Item", class: "responsive-table-header" %>
-    <%= tag.div "Number", class: "responsive-table-header" %>
     <%= tag.div "Status", class: "responsive-table-header" %>
+    <%= tag.div "Open Tickets", class: "responsive-table-header" %>
+    <%= tag.div "Most Recent Ticket", class: "responsive-table-header" %>
+    <%= tag.div "Most Recent Update", class: "responsive-table-header" %>
 
     <% @items.each do |item| %>
       <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to item.name, [:admin, item] %>
-      <% end %>
-
-      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to item.name, [:admin, item] %><br>
         <%= item.complete_number %>
       <% end %>
 
       <%= tag.div class: "responsive-table-cell" do %>
         <%= item_status_name item.status %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to pluralize(item.tickets.active.count, "ticket"), admin_item_tickets_path(item) %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <% if item.last_active_ticket %>
+          <%= link_to item.last_active_ticket.title, admin_item_ticket_path(item, item.last_active_ticket) %>
+        <% end %>
+      <% end %>
+
+      <%= tag.div class: "responsive-table-cell" do %>
+        <% if item.last_active_ticket %>
+          <%= truncate(item.last_active_ticket.latest_ticket_update&.body&.to_plain_text, length: 120) %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

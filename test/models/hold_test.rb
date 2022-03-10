@@ -254,6 +254,18 @@ class HoldTest < ActiveSupport::TestCase
     end
   end
 
+  test "does not start a hold on an item in maintenance" do
+    hammer = create(:item)
+    create(:hold, item: hammer)
+    hammer.update!(status: Item.statuses[:maintenance])
+
+    assert_no_difference("Hold.started.count") do
+      Hold.start_waiting_holds do |hold|
+        fail "should not be called"
+      end
+    end
+  end
+
   test "is ready for pickup if item is uncounted" do
     item = create(:uncounted_item)
 

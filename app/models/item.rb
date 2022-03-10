@@ -2,18 +2,14 @@ class Item < ApplicationRecord
   STATUS_NAMES = {
     "pending" => "Pending",
     "active" => "Active",
-    "maintenance" => "Maintenance - Triage",
-    "maintenance_repairing" => "Maintenance - Repair in Progress",
-    "maintenance_parts" => "Maintenance - Parts on Order",
+    "maintenance" => "Maintenance",
     "retired" => "Retired"
   }
 
   STATUS_DESCRIPTIONS = {
     "pending" => "just acquired; not ready to loan",
     "active" => "available to loan",
-    "maintenance" => "needs examination; do not loan",
-    "maintenance_repairing" => nil,
-    "maintenance_parts" => nil,
+    "maintenance" => "undergoing maintenance; do not loan",
     "retired" => "no longer part of our inventory"
   }
 
@@ -50,7 +46,9 @@ class Item < ApplicationRecord
   belongs_to :borrow_policy
   has_many :notes, as: :notable, dependent: :destroy
   has_many :attachments, class_name: "ItemAttachment", dependent: :destroy
-  has_many :maintenance_reports, dependent: :destroy
+
+  has_many :tickets, dependent: :destroy
+  has_one :last_active_ticket, -> { active.newest_first }, class_name: "Ticket"
 
   has_rich_text :description
   has_one_attached :image
@@ -59,8 +57,6 @@ class Item < ApplicationRecord
     pending: "pending",
     active: "active",
     maintenance: "maintenance",
-    maintenance_parts: "maintenance_parts",
-    maintenance_repairing: "maintenance_repairing",
     retired: "retired"
   }
 
@@ -81,10 +77,10 @@ class Item < ApplicationRecord
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
-  scope :for_category, ->(category) { joins(:categories).where(categories: {id: category}) }
+  scope :for_category, ->(category) { joins(:categorizations).where(categorizations: {category_id: CategoryNode.find(category.id).tree_ids}).distinct }
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
-  scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance, :maintenance_parts, :maintenance_repairing)) }
+  scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
 
   scope :by_name, -> { order(name: :asc) }
 
@@ -99,7 +95,7 @@ class Item < ApplicationRecord
 
   before_save :cache_description_as_plain_text
 
-  after_update :clear_holds_if_inactive
+  after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
   def self.next_number(limit = nil)
     item_scope = order("number DESC NULLS LAST")
@@ -170,8 +166,14 @@ class Item < ApplicationRecord
   end
 
   def clear_holds_if_inactive
-    if saved_change_to_status? && [Item.statuses[:maintenance], Item.statuses[:expired]].include?(Item.statuses[status])
+    if saved_change_to_status? && status == Item.statuses[:retired]
       active_holds.update_all(ended_at: Time.current)
+    end
+  end
+
+  def pause_next_hold_if_maintenance
+    if saved_change_to_status? && status == Item.statuses[:maintenance]
+      next_hold&.update_columns(started_at: nil, expires_at: nil)
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_03_060319) do
+ActiveRecord::Schema.define(version: 2022_03_04_025546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -44,9 +44,7 @@ ActiveRecord::Schema.define(version: 2022_03_03_060319) do
     "pending",
     "active",
     "maintenance",
-    "retired",
-    "maintenance_repairing",
-    "maintenance_parts"
+    "retired"
   ], force: :cascade
 
   create_enum :notification_status, [
@@ -68,6 +66,13 @@ ActiveRecord::Schema.define(version: 2022_03_03_060319) do
     "requested",
     "approved",
     "rejected"
+  ], force: :cascade
+
+  create_enum :ticket_status, [
+    "assess",
+    "parts",
+    "repairing",
+    "resolved"
   ], force: :cascade
 
   create_enum :user_role, [
@@ -379,20 +384,6 @@ ActiveRecord::Schema.define(version: 2022_03_03_060319) do
     t.index ["member_id"], name: "index_loans_on_member_id"
   end
 
-  create_table "maintenance_reports", force: :cascade do |t|
-    t.text "title"
-    t.integer "time_spent"
-    t.bigint "item_id", null: false
-    t.bigint "creator_id", null: false
-    t.enum "current_item_status", enum_type: "item_status"
-    t.bigint "audit_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["audit_id"], name: "index_maintenance_reports_on_audit_id"
-    t.index ["creator_id"], name: "index_maintenance_reports_on_creator_id"
-    t.index ["item_id"], name: "index_maintenance_reports_on_item_id"
-  end
-
   create_table "members", force: :cascade do |t|
     t.string "full_name", null: false
     t.string "preferred_name"
@@ -479,6 +470,33 @@ ActiveRecord::Schema.define(version: 2022_03_03_060319) do
     t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
 
+  create_table "ticket_updates", force: :cascade do |t|
+    t.integer "time_spent"
+    t.bigint "ticket_id", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "audit_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "library_id"
+    t.index ["audit_id"], name: "index_ticket_updates_on_audit_id"
+    t.index ["creator_id"], name: "index_ticket_updates_on_creator_id"
+    t.index ["library_id"], name: "index_ticket_updates_on_library_id"
+    t.index ["ticket_id"], name: "index_ticket_updates_on_ticket_id"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "item_id", null: false
+    t.enum "status", default: "assess", null: false, enum_type: "ticket_status"
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "library_id"
+    t.index ["creator_id"], name: "index_tickets_on_creator_id"
+    t.index ["item_id"], name: "index_tickets_on_item_id"
+    t.index ["library_id"], name: "index_tickets_on_library_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -526,13 +544,15 @@ ActiveRecord::Schema.define(version: 2022_03_03_060319) do
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
-  add_foreign_key "maintenance_reports", "audits"
-  add_foreign_key "maintenance_reports", "items"
-  add_foreign_key "maintenance_reports", "users", column: "creator_id"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
   add_foreign_key "renewal_requests", "loans"
+  add_foreign_key "ticket_updates", "audits"
+  add_foreign_key "ticket_updates", "tickets"
+  add_foreign_key "ticket_updates", "users", column: "creator_id"
+  add_foreign_key "tickets", "items"
+  add_foreign_key "tickets", "users", column: "creator_id"
   add_foreign_key "users", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL

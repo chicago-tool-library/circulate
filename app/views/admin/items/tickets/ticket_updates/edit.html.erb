@@ -1,0 +1,20 @@
+<%= render "admin/items/profile" do %>
+  <h1 class="h3 mt-2">Edit Ticket Update</h1>
+
+  <%= form_with(model: @ticket_update, url: admin_item_ticket_ticket_update_path(@item, @ticket, @ticket_update), builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+    <%= form.rich_text_area :body %>
+    <%= form.number_field :time_spent, hint: "How many minutes did you spend on this?" %>
+
+    <%= tag.div class: "form-group" do %>
+      <%= form.label "Change Ticket Status" %>
+      <p class="form-input-hint">You can change the ticket status on the <%= link_to "ticket edit page", edit_admin_item_ticket_path(@item, @ticket) %> or by creating a new Ticket Update.</p>
+    <% end %>
+
+    <%= form.actions do %>
+      <%= form.submit "Save" %>
+    <% end %>
+  <% end %>
+
+  <p class="mt-5"><%= link_to "Destroy this ticket update", [:admin, @item, @ticket, @ticket_update], method: :delete, data: {confirm: "Are you sure?"} %></p>
+<% end %>

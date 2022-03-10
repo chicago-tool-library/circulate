@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.2"
+ruby "3.0.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~> 6.1.4"
@@ -49,7 +49,7 @@ gem "sentry-raven"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
 gem "barnes"
