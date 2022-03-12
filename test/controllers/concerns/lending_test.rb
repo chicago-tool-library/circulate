@@ -213,14 +213,53 @@ class LendingTest < ActiveSupport::TestCase
     item = create(:item, quantity: 10, borrow_policy: borrow_policy)
     member = create(:verified_member)
 
-    loan = create_loan(item, member)
-    puts loan.errors.inspect
+    loan = assert_no_difference "Audited::Audit.count" do
+      create_loan(item, member)
+    end
     assert loan.persisted?
-
-    loan.reload
 
     assert loan.ended_at
     assert_equal 9, item.quantity
-    # assert that we didn't make an audit for the quantity change
+  end
+
+  test "restores consumable quantity when undoing a loan" do
+    borrow_policy = create(:consumable_borrow_policy)
+    item = create(:item, quantity: 10, borrow_policy: borrow_policy)
+    member = create(:verified_member)
+
+    loan = create_loan(item, member)
+    assert undo_loan(loan)
+
+    assert_equal 10, item.quantity
+  end
+
+  test "marks the item as retired when the quantity hits 0" do
+    borrow_policy = create(:consumable_borrow_policy)
+    item = create(:item, quantity: 1, borrow_policy: borrow_policy)
+    member = create(:verified_member)
+
+    assert_difference "Audited::Audit.count" do
+      create_loan(item, member)
+    end
+
+    assert_equal 0, item.quantity
+    assert_equal Item.statuses[:retired], item.status
+    assert_equal "Quantity exhausted", item.audits.last.comment
+  end
+
+  test "restores consumable quantity and status when undoing a loan that exhausted the item" do
+    borrow_policy = create(:consumable_borrow_policy)
+    item = create(:item, quantity: 1, borrow_policy: borrow_policy)
+    member = create(:verified_member)
+
+    loan = create_loan(item, member)
+
+    assert_difference "Audited::Audit.count" do
+      assert undo_loan(loan)
+    end
+
+    assert_equal 1, item.quantity
+    assert_equal Item.statuses[:active], item.status
+    assert_equal "Quantity restored", item.audits.last.comment
   end
 end

@@ -151,6 +151,32 @@ class Item < ApplicationRecord
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy
   delegate :allow_one_holds_per_member?, to: :borrow_policy
 
+  def tracks_quantity?
+    !borrow_policy.uniquely_numbered?
+  end
+
+  def decrement_quantity
+    self.quantity -= 1
+    if quantity == 0
+      update!(status: "retired", audit_comment: "Quantity exhausted")
+    else
+      without_auditing do
+        save!
+      end
+    end
+  end
+
+  def increment_quantity
+    self.quantity += 1
+    if quantity == 1
+      update!(status: "active", audit_comment: "Quantity restored")
+    else
+      without_auditing do
+        save!
+      end
+    end
+  end
+
   private
 
   def cache_description_as_plain_text

@@ -7,6 +7,7 @@ module Lending
 
     if item.borrow_policy.consumable?
       return_loan(loan, now: now)
+      item.decrement_quantity
     end
     loan
   end
@@ -32,6 +33,16 @@ module Lending
     end
 
     success ? loan : false
+  end
+
+  def undo_loan(loan)
+    return false if loan.renewal?
+    loan.transaction do
+      loan.destroy
+      if loan.item.borrow_policy.consumable?
+        loan.item.increment_quantity
+      end
+    end
   end
 
   def restore_loan(loan)
