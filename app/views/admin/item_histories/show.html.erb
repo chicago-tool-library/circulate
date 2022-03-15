@@ -18,6 +18,10 @@
               <%= audit_description audit, key, values %>
             </p>
           <% end %>
+
+          <% if audit.comment.present? %>
+            <p><strong><%= audit.comment %></strong></p>
+          <% end %>
         </div>
       </div>
     <% end %>
