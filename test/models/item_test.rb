@@ -232,4 +232,36 @@ class ItemTest < ActiveSupport::TestCase
     assert_includes(scope_for_grandchild, item3)
     assert_equal 2, scope_for_grandchild.count
   end
+
+  test "sets itself to retired when decrementing quantity to zero" do
+    borrow_policy = create(:borrow_policy, consumable: true, uniquely_numbered: false)
+    item = create(:item, borrow_policy: borrow_policy, quantity: 1)
+
+    assert_equal "active", item.status
+
+    item.decrement_quantity
+
+    assert_equal "retired", item.status
+    assert_equal 0, item.quantity
+  end
+
+  test "sets itself to active when quantity is restored" do
+    borrow_policy = create(:borrow_policy, consumable: true, uniquely_numbered: false)
+    item = create(:item, borrow_policy: borrow_policy, quantity: 0, status: "retired")
+
+    assert_equal "retired", item.status
+
+    item.increment_quantity
+
+    assert_equal "active", item.status
+    assert_equal 1, item.quantity
+  end
+
+  test "requires a value for quantity with a consumable borrow policy" do
+    borrow_policy = create(:borrow_policy, consumable: true)
+    item = build(:item, borrow_policy: borrow_policy)
+
+    refute item.valid?
+    assert_equal ["is not a number"], item.errors[:quantity]
+  end
 end
