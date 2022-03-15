@@ -1,7 +1,11 @@
 module LoansHelper
   def undo_button(loan)
     name, method, path, params = if loan.ended?
-      ["return", :patch, admin_loan_path(loan), {loan: {ended_at: nil}}]
+      if loan.item.borrow_policy.consumable?
+        ["loan", :delete, admin_loan_path(loan)]
+      else
+        ["return", :patch, admin_loan_path(loan), {loan: {ended_at: nil}}]
+      end
     elsif loan.renewal?
       ["renewal", :delete, admin_renewal_path(loan)]
     else
