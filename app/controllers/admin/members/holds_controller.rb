@@ -1,6 +1,7 @@
 module Admin
   module Members
     class HoldsController < BaseController
+      include Lending
       include ActionView::RecordIdentifier
 
       def index
@@ -25,10 +26,11 @@ module Admin
 
       def lend
         @hold = @member.active_holds.find(params[:id])
-        Loan.lend(@hold.item, to: @member).tap do |loan|
-          @hold.lend(loan)
+        if create_loan_from_hold(@hold)
+          redirect_to admin_member_holds_path(@hold.member)
+        else
+          redirect_to admin_member_holds_path(@hold.member), error: "That hold could not be loaned"
         end
-        redirect_to admin_member_holds_path(@hold.member)
       end
 
       def destroy

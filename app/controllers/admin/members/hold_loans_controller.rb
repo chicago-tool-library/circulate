@@ -1,13 +1,11 @@
 module Admin
   module Members
     class HoldLoansController < BaseController
+      include Lending
+
       def create
         @member.transaction do
-          @member.active_holds.map { |hold|
-            Loan.lend(hold.item, to: @member).tap do |loan|
-              hold.lend(loan)
-            end
-          }
+          @member.active_holds.map { |hold| create_loan_from_hold(hold) }
         end
         redirect_to admin_member_path(@member)
       end

@@ -12,6 +12,14 @@ module Lending
     loan
   end
 
+  def create_loan_from_hold(hold, now: Time.current)
+    hold.transaction do
+      create_loan(hold.item, hold.member, now: now).tap do |loan|
+        hold.update!(loan: loan, ended_at: now)
+      end
+    end
+  end
+
   def return_loan(loan, now: Time.current)
     success = false
     policy = loan.item.borrow_policy
