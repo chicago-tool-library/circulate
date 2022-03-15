@@ -45,6 +45,9 @@
       <div class="panel-body">
         <ul class="item-stats">
           <%= icon_stat "map-pin", item_location_span(@item), title: "location", placeholder: "No location" %>
+          <% if @item.tracks_quantity? %>
+            <%= icon_stat "layers", "#{@item.quantity} in stock", title: "quantity", placeholder: "No quantity" %>
+          <% end %>
           <%= icon_stat "maximize", @item.size, title: "size", placeholder: "No size" %>
           <%= icon_stat "zap", @item.strength, title: "strength", placeholder: "No strength" %>
           <%= icon_stat "battery-charging", item_powered_by_label(@item), title: "powered by", placeholder: "Not powered" %>

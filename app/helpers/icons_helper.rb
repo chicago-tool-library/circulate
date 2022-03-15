@@ -10,7 +10,7 @@ module IconsHelper
       if content.blank?
         tag.i(data: {feather: icon_name}) + tag.span(placeholder, class: "placeholder-text")
       else
-        tag.i(data: {feather: icon_name}) + content
+        tag.i(data: {feather: icon_name}) + content.to_s
       end
     end
   end
