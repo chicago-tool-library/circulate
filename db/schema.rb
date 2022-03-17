@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2022_03_04_025546) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_enum :adjustment_kind, [
