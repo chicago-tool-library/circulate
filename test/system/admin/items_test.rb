@@ -170,7 +170,7 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_item_holds_path(@item)
     find("[data-hold-id='#{@active_hold.id}']")
 
-    click_on "Inactive"
+    click_on "Ended"
     find("[data-hold-id='#{@inactive_hold.id}']")
   end
 end

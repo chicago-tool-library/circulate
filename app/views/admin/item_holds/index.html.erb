@@ -1,10 +1,10 @@
 <%= render "admin/items/profile" do %>
 <div class="btn-group mt-2">
-  <%= link_to_unless params[:inactive].blank?, "Active", url_for, method: :get, class: "btn btn-sm" do %>
-    <button class="btn btn-sm active">Active</button>
+  <%= link_to_unless params[:inactive].blank?, "Current", url_for, method: :get, class: "btn btn-sm" do %>
+    <button class="btn btn-sm active">Current</button>
   <% end %>
-  <%= link_to_unless_current "Inactive", url_for(inactive: true), method: :get, class: "btn btn-sm" do %>
-    <button class="btn btn-sm active">Inactive</button>
+  <%= link_to_unless_current "Ended", url_for(inactive: true), method: :get, class: "btn btn-sm" do %>
+    <button class="btn btn-sm active">Ended</button>
   <% end %>
 </div>
   <table class="table">
@@ -13,7 +13,11 @@
       <th>Member</th>
       <th>Reserved</th>
       <th>Wait time</th>
-      <th>Expires on</th>
+      <% if params[:inactive].blank? %>
+        <th>Expires on</th>
+      <% else %>
+        <th>Picked up on</th>
+      <% end %>
     </thead>
     <tbody>
       <% @holds.each_with_index do |hold, index| %>
@@ -24,8 +28,12 @@
                   admin_member_holds_path(hold.member) %>
           </td>
           <td><%= date_with_time_title hold.created_at %></td>
-          <td><%= time_ago_in_words(hold.created_at) %></td>
-          <td><%= date_with_time_title(hold.expires_at) if hold.expires_at %></td>
+          <td><%= wait_time(hold) %></td>
+          <% if params[:inactive].blank? %>
+            <td><%= date_with_time_title(hold.expires_at) if hold.expires_at %></td>
+          <% else %>
+            <td><%= date_with_time_title(hold.loan.created_at) if hold.loan %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
