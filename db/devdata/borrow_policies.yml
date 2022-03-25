@@ -11,6 +11,7 @@
   code: B
   default: true
   renewal_limit: 52
+  consumable: false
 - id: 2
   name: Uncounted
   duration: 7
@@ -21,6 +22,7 @@
   updated_at: 2020-03-29 18:08:18 UTC
   code: A
   renewal_limit: 52
+  consumable: false
 - id: 3
   name: Special
   duration: 7
@@ -32,3 +34,16 @@
   uniquely_numbered: true
   code: C
   renewal_limit: 52
+  consumable: false
+- id: 4
+  name: Single Use
+  duration: 1
+  fine_cents: 0
+  fine_currency: USD
+  fine_period: 1
+  created_at: 2019-06-27 02:49:03 UTC
+  updated_at: 2020-03-29 18:08:31 UTC
+  uniquely_numbered: false
+  code: S
+  renewal_limit: 0
+  consumable: true
