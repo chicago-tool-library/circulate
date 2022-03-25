@@ -22,6 +22,11 @@ FactoryBot.define do
       borrow_policy factory: :unnumbered_borrow_policy
     end
 
+    factory :consumable_item do
+      quantity { 10 }
+      borrow_policy factory: :consumable_borrow_policy
+    end
+
     trait :with_image do
       image { Rack::Test::UploadedFile.new(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"), "image/jpg") }
     end
