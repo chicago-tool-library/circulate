@@ -258,7 +258,7 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test "requires a value for quantity with a consumable borrow policy" do
-    borrow_policy = create(:borrow_policy, consumable: true)
+    borrow_policy = create(:consumable_borrow_policy)
     item = build(:item, borrow_policy: borrow_policy)
 
     refute item.valid?
