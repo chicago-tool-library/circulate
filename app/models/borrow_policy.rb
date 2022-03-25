@@ -12,6 +12,8 @@ class BorrowPolicy < ApplicationRecord
   validates_numericality_of :renewal_limit,
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52
 
+  validate :require_consumables_to_not_be_uniquely_numbered
+
   scope :alpha_by_code, -> { order("code ASC") }
   scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
 
@@ -44,6 +46,12 @@ class BorrowPolicy < ApplicationRecord
   def make_only_default
     if default
       self.class.where("id != ?", id).update_all(default: false)
+    end
+  end
+
+  def require_consumables_to_not_be_uniquely_numbered
+    if consumable? && uniquely_numbered
+      errors.add(:uniquely_numbered, "must not be enabled for consumables")
     end
   end
 end
