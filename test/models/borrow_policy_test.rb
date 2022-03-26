@@ -21,4 +21,12 @@ class BorrowPolicyTest < ActiveSupport::TestCase
 
     assert policy.allow_one_holds_per_member?
   end
+
+  test "requires consumables to not be uniquely_numbered" do
+    policy = BorrowPolicy.new(uniquely_numbered: true, consumable: true)
+
+    refute policy.valid?
+
+    assert_equal ["must not be enabled for consumables"], policy.errors[:uniquely_numbered]
+  end
 end

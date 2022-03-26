@@ -1,5 +1,7 @@
 module Admin
   class AppointmentCheckoutsController < BaseController
+    include Lending
+
     before_action :are_appointments_enabled?
 
     def create
@@ -29,9 +31,7 @@ module Admin
     def create_loans_for_holds
       self.new_loans = member.transaction do
         holds.map do |hold|
-          Loan.lend(hold.item, to: member).tap do |loan|
-            hold.lend(loan)
-          end
+          create_loan_from_hold(hold)
         end
       end
     end

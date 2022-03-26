@@ -89,6 +89,7 @@ class Item < ApplicationRecord
   validates :status, inclusion: {in: Item.statuses.keys}
   validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
+  validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
 
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
@@ -150,6 +151,32 @@ class Item < ApplicationRecord
 
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy
   delegate :allow_one_holds_per_member?, to: :borrow_policy
+
+  def tracks_quantity?
+    !borrow_policy.uniquely_numbered?
+  end
+
+  def decrement_quantity
+    self.quantity -= 1
+    if quantity == 0
+      update!(status: "retired", audit_comment: "Quantity exhausted")
+    else
+      without_auditing do
+        save!
+      end
+    end
+  end
+
+  def increment_quantity
+    self.quantity += 1
+    if quantity == 1
+      update!(status: "active", audit_comment: "Quantity restored")
+    else
+      without_auditing do
+        save!
+      end
+    end
+  end
 
   private
 

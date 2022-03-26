@@ -16,9 +16,9 @@ module Admin
       @item = Item.find(new_loan_params[:item_id])
       @member = Member.find(new_loan_params[:member_id])
 
-      @loan = Loan.lend(@item, to: @member)
+      @loan = create_loan(@item, @member)
 
-      if @loan.save
+      if @loan.persisted?
         redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
@@ -46,10 +46,10 @@ module Admin
     def destroy
       @loan = Loan.find(params[:id])
 
-      if !@loan.renewal? && @loan.destroy
+      if undo_loan(@loan)
         redirect_to admin_member_path(@loan.member)
       else
-        redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be destroyed!"
+        redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be undone!"
       end
     end
 

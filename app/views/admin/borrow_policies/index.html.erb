@@ -3,12 +3,13 @@
 <% end %>
 
 <% if @borrow_policies.any? %>
-  <div class="responsive-table seven-columns">
+  <div class="responsive-table eight-columns">
     <%= tag.div "Name", class: "responsive-table-header" %>
     <%= tag.div "Duration", class: "responsive-table-header" %>
     <%= tag.div "Fine", class: "responsive-table-header" %>
     <%= tag.div "Fine Period", class: "responsive-table-header" %>
     <%= tag.div "Uniquely Numbered", class: "responsive-table-header" %>
+    <%= tag.div "Consumable", class: "responsive-table-header" %>
     <%= tag.div "Default", class: "responsive-table-header" %>
     <%= tag.div "", class: "responsive-table-header" %>
 
@@ -18,6 +19,7 @@
       <%= tag.div borrow_policy.fine, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.fine_period, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.uniquely_numbered, class: "responsive-table-cell" %>
+      <%= tag.div borrow_policy.consumable, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.default, class: "responsive-table-cell" %>
       <%= tag.div class: "responsive-table-cell" do %>
         <%= link_to "Edit", edit_admin_borrow_policy_path(borrow_policy) %>

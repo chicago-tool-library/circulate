@@ -86,7 +86,8 @@ namespace :devdata do
       full_name: "Member Number #{id}",
       preferred_name: "Member ##{id}",
       address1: "#{id} W. Chicago Ave",
-      postal_code: postal_code
+      postal_code: postal_code,
+      address_verified: true
     )
 
     holds.times do

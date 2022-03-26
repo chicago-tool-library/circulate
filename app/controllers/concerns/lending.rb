@@ -1,6 +1,28 @@
 module Lending
   private
 
+  def create_loan(item, member, now: Time.current)
+    loan = Loan.lend(item, to: member, now: now)
+    loan.transaction do
+      if loan.save
+        if item.borrow_policy.consumable? && return_loan(loan, now: now)
+          item.decrement_quantity
+        end
+        loan
+      else
+        false
+      end
+    end
+  end
+
+  def create_loan_from_hold(hold, now: Time.current)
+    hold.transaction do
+      create_loan(hold.item, hold.member, now: now).tap do |loan|
+        hold.update!(loan: loan, ended_at: now)
+      end
+    end
+  end
+
   def return_loan(loan, now: Time.current)
     success = false
     policy = loan.item.borrow_policy
@@ -22,6 +44,16 @@ module Lending
     end
 
     success ? loan : false
+  end
+
+  def undo_loan(loan)
+    return false if loan.renewal?
+    loan.transaction do
+      loan.destroy
+      if loan.item.borrow_policy.consumable?
+        loan.item.increment_quantity
+      end
+    end
   end
 
   def restore_loan(loan)

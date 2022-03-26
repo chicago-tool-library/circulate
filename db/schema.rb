@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2022_03_04_025546) do
     t.integer "renewal_limit", default: 0, null: false
     t.boolean "member_renewable", default: false, null: false
     t.integer "library_id"
+    t.boolean "consumable", default: false
     t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 

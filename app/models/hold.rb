@@ -38,13 +38,6 @@ class Hold < ApplicationRecord
     active.where(item: item).count
   end
 
-  def lend(loan, now: Time.current)
-    update!(
-      loan: loan,
-      ended_at: now
-    )
-  end
-
   # active and inactive are mutually exclusive
   # ended, expired, and started check for specific states
   # and should not be used as proxies for inactive.
