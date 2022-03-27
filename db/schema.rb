@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_04_025546) do
+ActiveRecord::Schema.define(version: 2022_03_27_010549) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -325,6 +325,7 @@ ActiveRecord::Schema.define(version: 2022_03_04_025546) do
     t.text "location_shelf"
     t.integer "library_id"
     t.text "plain_text_description"
+    t.string "url"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"

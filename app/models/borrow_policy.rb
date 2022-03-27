@@ -11,6 +11,7 @@ class BorrowPolicy < ApplicationRecord
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
   validates_numericality_of :renewal_limit,
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52
+  validates :code, inclusion: {in: "A".."ZZ", message: "must be 1 or 2 letters from A to ZZ"}, uniqueness: {scope: :library_id}
 
   validate :require_consumables_to_not_be_uniquely_numbered
 
@@ -18,6 +19,8 @@ class BorrowPolicy < ApplicationRecord
   scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
 
   acts_as_tenant :library
+
+  has_rich_text :rules
 
   def self.default
     where(default: true).first

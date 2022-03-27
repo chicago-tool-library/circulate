@@ -1,0 +1,30 @@
+<div class="panel item-panel">
+    <div class="panel-body">
+        <ul class="item-stats">
+            <%= icon_stat "map-pin", item_location_span(item), title: "location" %>
+            <% if item.tracks_quantity? %>
+                <%= icon_stat "layers", "#{item.quantity} in stock", title: "quantity" %>
+            <% end %>
+            <%= icon_stat "maximize", item.size, title: "size" %>
+            <%= icon_stat "zap", item.strength, title: "strength" %>
+            <%= icon_stat "battery-charging", item_powered_by_label(item), title: "powered by" %>
+            <%= icon_stat "package", item.brand, title: "brand" %>
+            <%= icon_stat "box", item.model, title: "model" %>
+            <%= icon_stat "hash", item.serial, title: "serial number" %>
+            <%= icon_stat "link", item.url, title: "URL" do %>
+                <% if item.url.present? %>
+                    <%= link_to "More info", item.url %>
+                <% end %>
+            <% end %>
+            <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
+                <% if item.categories.size > 0 %>
+                    <ul class="category-stats">
+                        <% item.categories.sort_by(&:name).each do |category| %>
+                            <li><%= link_to category.name, items_path(category: category) %></li>
+                        <% end %>
+                    </ul>
+                <% end %>
+            <% end %>
+        </ul>
+    </div>
+</div>
