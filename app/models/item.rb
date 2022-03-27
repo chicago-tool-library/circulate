@@ -90,6 +90,7 @@ class Item < ApplicationRecord
   validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
   validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
+  validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL", allow_blank: true}
 
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace

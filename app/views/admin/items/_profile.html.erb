@@ -54,6 +54,11 @@
           <%= icon_stat "package", @item.brand, title: "brand", placeholder: "No brand" %>
           <%= icon_stat "box", @item.model, title: "model", placeholder: "No model" %>
           <%= icon_stat "hash", @item.serial, title: "serial number", placeholder: "No serial number" %>
+          <%= icon_stat "link", @item.url, title: "URL", placeholder: "No URL" do %>
+            <% if @item.url.present? %>
+              <%= link_to "More info", @item.url %>
+            <% end %>
+          <% end %>
           <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
             <% if @item.categories.size > 0 %>
               <ul class="category-stats">
