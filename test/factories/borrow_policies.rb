@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :borrow_policy do
     library { Library.first || create(:library) }
-    sequence(:code, "b")
+    sequence(:code, "B")
     name { "Policy ##{code.upcase}" }
     duration { 7 }
     fine_cents { 0 }
@@ -19,7 +19,7 @@ FactoryBot.define do
 
     factory :unnumbered_borrow_policy do
       uniquely_numbered { false }
-      code { "a" }
+      code { "A" }
     end
 
     factory :consumable_borrow_policy do
