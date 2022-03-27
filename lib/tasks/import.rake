@@ -1,26 +1,39 @@
 require "csv"
 
+# BorrowPolicy.create!(library_id: 1, code: "S", consumable: true, uniquely_numbered: false, name: "Single Use")
+
 namespace :import do
   def update_item_with_row(row)
     id = row["id"]
-    item = Item.find(id)
 
-    if item.number != row["inventory number"].to_i
-      raise "wrong number for item with id #{id}"
+    item = if id.blank?
+      Item.new
+    else
+      Item.find(id).tap do |item|
+        if item.number != row["number"].to_i
+          raise "wrong number for item with id #{id}: database has #{item.number}, import has #{row["number"]}"
+        end
+      end
     end
 
-    attributes = %w[name other_names size brand model strength checkout_notice power_source description].each_with_object({}) do |field, sum|
-      sum[field] = row[field] unless row[field].blank? || row[field] == "NULL"
+    attributes = %w[name other_names size brand model strength checkout_notice power_source description quantity status url].each_with_object({}) do |field, sum|
+      sum[field] = row[field].strip unless row[field].blank? || row[field] == "NULL"
     end
 
     attributes["power_source"] = row["power_source"] == "not powered" ? nil : row["power_source"]
 
+    attributes["borrow_policy_id"] = BorrowPolicy.where(code: row["new_code"]).first.id
+    attributes["quantity"] ||= 0 if row["new_code"] == "S"
+    attributes["category_ids"] = find_or_create_categories_from_names(item.id, row["categories"])
+
     puts item.attributes.slice(*attributes.keys).inspect
-    item.update!(attributes)
+    item.attributes = attributes
+    item.save!
     puts item.attributes.slice(*attributes.keys).inspect
+
     puts "updated item #{id}"
-  rescue ActiveRecord::RecordNotFound
-    puts "Item with id #{id} not found!"
+  rescue ActiveRecord::RecordNotFound => e
+    puts e.inspect
   end
 
   desc "Loads and updates items from a CSV"
@@ -30,10 +43,34 @@ namespace :import do
 
     raise "author not found!" unless user
 
+    library = Library.find(ENV["LIBRARY_ID"])
+
     CSV.foreach(path, headers: true) do |row|
-      Audited.audit_class.as_user(user) do
-        update_item_with_row(row)
+      Audited.audit_model.as_user(user) do
+        ActsAsTenant.with_tenant(library) do
+          update_item_with_row(row)
+        end
       end
+    end
+  end
+
+  def find_or_create_categories_from_names(item_id, names)
+    path_names = names.split(";").map(&:strip).reject(&:empty?).uniq
+    category_ids = CategoryNode.where("ARRAY_TO_STRING(path_names, '//') IN (?)", path_names).pluck(:id)
+
+    if path_names.size != category_ids.size
+      puts "creating missing category"
+      create_missing_categories(path_names)
+    end
+
+    category_ids = CategoryNode.where("ARRAY_TO_STRING(path_names, '//') IN (?)", path_names).pluck(:id)
+
+    if path_names.size != category_ids.size
+      puts "wrong number of categories found for item #{item_id}: wanted #{path_names.size}, got #{category_ids.size}"
+      puts path_names
+      nil
+    else
+      category_ids
     end
   end
 
@@ -61,22 +98,9 @@ namespace :import do
           end
 
           next if row["categories"].to_s == ""
-          path_names = row["categories"].split(";").map(&:strip).reject(&:empty?).uniq
-          category_ids = CategoryNode.where("ARRAY_TO_STRING(path_names, '//') IN (?)", path_names).pluck(:id)
 
-          if path_names.size != category_ids.size
-            puts "creating missing category"
-            create_missing_categories(path_names)
-          end
-
-          category_ids = CategoryNode.where("ARRAY_TO_STRING(path_names, '//') IN (?)", path_names).pluck(:id)
-
-          if path_names.size != category_ids.size
-            puts "wrong number of categories found for item #{row["id"]}: wanted #{path_names.size}, got #{category_ids.size}"
-            puts path_names
-          else
-            item.update!(category_ids: category_ids)
-          end
+          category_ids = find_or_create_categories_from_names(item.id, row["categories"])
+          item.update!(category_ids: category_ids) if category_ids
         end
       end
     end
