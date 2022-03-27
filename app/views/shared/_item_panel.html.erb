@@ -9,12 +9,14 @@
         </div>
     <% end %>
 
-    <div class="panel-header">
-        <h6>
-            <strong><%= item.complete_number %></strong>
-            <%= item_status_label(item) %>
-        </h6>
-    </div>
+    <% if local_assigns[:admin] %>
+        <div class="panel-header">
+            <h6>
+                <strong><%= item.complete_number %></strong>
+                <%= item_status_label(item) %>
+            </h6>
+        </div>
+    <% end %>
 
     <div class="panel-body">
         <ul class="item-stats">
@@ -36,8 +38,8 @@
             <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
                 <% if item.categories.size > 0 %>
                     <ul class="category-stats">
-                        <% item.categories.map(&:name).sort.each do |name| %>
-                            <li><%= name %></li>
+                        <% item.categories.sort_by(&:name).each do |category| %>
+                            <li><%= link_to category.name, items_path(category: category) %></li>
                         <% end %>
                     </ul>
                 <% end %>
