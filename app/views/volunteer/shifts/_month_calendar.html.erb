@@ -16,7 +16,7 @@
 
     <div class="calendar-body">
       <% month_calendar.each_day do |day| %>
-        <div class="calendar-date <%= calendar_day_class(day) %>" data-test-date="<%= day.date.to_s %>">
+        <%= calendar_day(day) do %>
           <span class="date-item <%= calendar_date_item_class(day) %>" <%= "disabled" unless day.events? %>><%= day.number %></span>
           <div class="calendar-events">
             <% day.each_shift do |shift| %>
@@ -31,7 +31,7 @@
               <% end %>
             <% end %>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   </div>

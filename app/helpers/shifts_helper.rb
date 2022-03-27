@@ -20,6 +20,15 @@ module ShiftsHelper
     return "next-month" if day.next_month?
   end
 
+  def calendar_day(day, &block)
+    data = {}
+    data["test-date"] = day.date.to_s unless day.previous_month? || day.next_month?
+
+    tag.div(class: "calendar-date #{calendar_day_class(day)}", data: data) do
+      yield
+    end
+  end
+
   def calendar_date_item_class(day)
     return "date-today" if day.today?
   end
