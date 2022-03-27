@@ -8,6 +8,7 @@
       <%# <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
       <%= link_to "Add File", new_admin_item_attachment_path(item_id: @item), class: "btn btn-sm" %>
       <%= link_to "Duplicate", new_admin_item_path(item_id: @item), class: "btn btn-sm" %>
+      <%= link_to "View in Inventory", item_path(@item), class: "btn btn-sm", target: "_blank" %>
     </div>
     <div class="show-md item-btn-group">
     <%= link_to "Edit", edit_admin_item_path(@item), class: "btn btn-sm" %>
@@ -17,6 +18,7 @@
     <%# <%= link_to 'Import Manual', edit_admin_item_manual_import_path(@item), class: "btn btn-sm" %>
     <%= link_to "Add File", new_admin_item_attachment_path(item_id: @item), class: "btn btn-sm" %>
     <%= link_to "Duplicate", new_admin_item_path(item_id: @item), class: "btn btn-sm" %>
+    <%= link_to "View in Inventory", item_path(@item), class: "btn btn-sm", target: "_blank" %>
   </div>
   <% end %>
 
