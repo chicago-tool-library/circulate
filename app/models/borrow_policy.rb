@@ -19,6 +19,8 @@ class BorrowPolicy < ApplicationRecord
 
   acts_as_tenant :library
 
+  has_rich_text :rules
+
   def self.default
     where(default: true).first
   end
