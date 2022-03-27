@@ -1,22 +1,18 @@
 <div class="panel item-panel">
-    <% if local_assigns[:admin] %>
-        <div class="item-image">
-            <% if item.image.attached? %>
-                <%= link_to edit_admin_item_image_path(item) do %>
-                <%= image_tag item_image_url(item.image, resize_to_limit: [600, 600]), class: "p-centered" %>
-                <% end %>
+    <div class="item-image">
+        <% if item.image.attached? %>
+            <%= link_to edit_admin_item_image_path(item) do %>
+            <%= image_tag item_image_url(item.image, resize_to_limit: [600, 600]), class: "p-centered" %>
             <% end %>
-        </div>
-    <% end %>
+        <% end %>
+    </div>
 
-    <% if local_assigns[:admin] %>
-        <div class="panel-header">
-            <h6>
-                <strong><%= item.complete_number %></strong>
-                <%= item_status_label(item) %>
-            </h6>
-        </div>
-    <% end %>
+    <div class="panel-header">
+        <h6>
+            <strong><%= item.complete_number %></strong>
+            <%= item_status_label(item) %>
+        </h6>
+    </div>
 
     <div class="panel-body">
         <ul class="item-stats">
@@ -39,16 +35,14 @@
                 <% if item.categories.size > 0 %>
                     <ul class="category-stats">
                         <% item.categories.sort_by(&:name).each do |category| %>
-                            <li><%= link_to category.name, items_path(category: category) %></li>
+                            <li><%= link_to category.name, admin_items_path(category: category) %></li>
                         <% end %>
                     </ul>
                 <% end %>
             <% end %>
-            <% if local_assigns[:admin] %>
-                <%= icon_stat "file", title: "files", placeholder: "No files" do %>
-                    <% if (count = item.attachments.count) > 0 %>
-                        <%= link_to(pluralize(count, "files"), admin_item_attachments_path(item)) %>
-                    <% end %>
+            <%= icon_stat "file", title: "files", placeholder: "No files" do %>
+                <% if (count = item.attachments.count) > 0 %>
+                    <%= link_to(pluralize(count, "files"), admin_item_attachments_path(item)) %>
                 <% end %>
             <% end %>
         </ul>

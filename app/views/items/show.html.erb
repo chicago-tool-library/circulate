@@ -1,13 +1,15 @@
 <div class="items-show">
 
   <h1><%= @item.name %></h1>
-  <h2>            <strong><%= @item.complete_number %></strong>
-            <%= item_status_label(@item) %></h2>
+  <h2>
+    <strong><%= @item.complete_number %></strong>
+    <%= item_status_label(@item) %>
+  </h2>
 
   <div class="columns">
 
     <div class="column col-4 col-sm-12">
-      <%= render partial: "shared/item_panel", locals: {item: @item} %>
+      <%= render partial: "item_panel", locals: {item: @item} %>
       <% if user_signed_in? && current_member.staff? %>
         <%= link_to "View as Librarian", admin_item_path(@item), class: "btn" %>
       <% end %>
@@ -16,18 +18,24 @@
     <div class="column col-sm-12 col-8">
 
       <% if @item.image.attached? %>
-        <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "p-centered mb-2" %>
+        <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "mb-5" %>
       <% end %>
 
-      <div class="trix-content">
-        <%= @item.description %>
-      </div>
+      <% if @item.description.present? %>
+        <div class="mb-5">
+          <%= @item.description %>
+        </div>
+      <% end %>
+
+      <% if @item.checkout_notice.present? %>
+        <div class="toast">
+          <p><%= @item.checkout_notice %></p>
+        </div>
+      <% end %>
 
       <% if @item.borrow_policy.rules.present? %>
         <blockquote>
-          <div class="trix-content">
-            <%= @item.borrow_policy.rules %>
-          </div>
+          <%= @item.borrow_policy.rules %>
         </blockquote>
       <% end %>
 

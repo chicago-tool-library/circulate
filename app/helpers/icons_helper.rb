@@ -6,6 +6,8 @@ module IconsHelper
 
   def icon_stat(icon_name, content = nil, css_class: nil, title: nil, placeholder: nil, &block)
     content = capture(&block) if block
+    return if content.blank? && placeholder.nil?
+
     tag.li(title: title, class: css_class, placeholder: placeholder) do
       if content.blank?
         tag.i(data: {feather: icon_name}) + tag.span(placeholder, class: "placeholder-text")
