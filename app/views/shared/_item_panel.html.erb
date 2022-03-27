@@ -1,0 +1,54 @@
+<div class="panel item-panel">
+    <% if local_assigns[:admin] %>
+        <div class="item-image">
+            <% if item.image.attached? %>
+                <%= link_to edit_admin_item_image_path(item) do %>
+                <%= image_tag item_image_url(item.image, resize_to_limit: [600, 600]), class: "p-centered" %>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <div class="panel-header">
+        <h6>
+            <strong><%= item.complete_number %></strong>
+            <%= item_status_label(item) %>
+        </h6>
+    </div>
+
+    <div class="panel-body">
+        <ul class="item-stats">
+            <%= icon_stat "map-pin", item_location_span(item), title: "location", placeholder: "No location" %>
+            <% if item.tracks_quantity? %>
+                <%= icon_stat "layers", "#{item.quantity} in stock", title: "quantity", placeholder: "No quantity" %>
+            <% end %>
+            <%= icon_stat "maximize", item.size, title: "size", placeholder: "No size" %>
+            <%= icon_stat "zap", item.strength, title: "strength", placeholder: "No strength" %>
+            <%= icon_stat "battery-charging", item_powered_by_label(item), title: "powered by", placeholder: "Not powered" %>
+            <%= icon_stat "package", item.brand, title: "brand", placeholder: "No brand" %>
+            <%= icon_stat "box", item.model, title: "model", placeholder: "No model" %>
+            <%= icon_stat "hash", item.serial, title: "serial number", placeholder: "No serial number" %>
+            <%= icon_stat "link", item.url, title: "URL", placeholder: "No URL" do %>
+                <% if item.url.present? %>
+                    <%= link_to "More info", item.url %>
+                <% end %>
+            <% end %>
+            <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
+                <% if item.categories.size > 0 %>
+                    <ul class="category-stats">
+                        <% item.categories.map(&:name).sort.each do |name| %>
+                            <li><%= name %></li>
+                        <% end %>
+                    </ul>
+                <% end %>
+            <% end %>
+            <% if local_assigns[:admin] %>
+                <%= icon_stat "file", title: "files", placeholder: "No files" do %>
+                    <% if (count = item.attachments.count) > 0 %>
+                        <%= link_to(pluralize(count, "files"), admin_item_attachments_path(item)) %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </ul>
+    </div>
+</div>
