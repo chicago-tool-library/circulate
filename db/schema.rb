@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_010549) do
+ActiveRecord::Schema.define(version: 2022_03_30_165641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(version: 2022_03_27_010549) do
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
     t.integer "library_id"
+    t.jsonb "item_counts", default: {}
     t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
     t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
