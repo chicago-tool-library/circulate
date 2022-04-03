@@ -97,7 +97,7 @@ module ItemsHelper
       end
 
       # NOTE: This does not reflect current query / category selection
-      count = node.value.tree_categorizations_count
+      count = node.value.visible_items_count
 
       concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
       if has_children
