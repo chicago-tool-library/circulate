@@ -678,6 +678,7 @@ ActiveRecord::Schema.define(version: 2022_04_03_224122) do
       search_tree.parent_id,
       search_tree.path_names,
       search_tree.path_ids,
+      lower(array_to_string(search_tree.path_names, ' '::text)) AS sort_name,
       ( SELECT json_build_object('active', COALESCE(sum(((st.item_counts -> 'active'::text))::integer), (0)::bigint), 'retired', COALESCE(sum(((st.item_counts -> 'retired'::text))::integer), (0)::bigint), 'maintenance', COALESCE(sum(((st.item_counts -> 'maintenance'::text))::integer), (0)::bigint), 'pending', COALESCE(sum(((st.item_counts -> 'pending'::text))::integer), (0)::bigint)) AS json_build_object
              FROM search_tree st
             WHERE (search_tree.id = ANY (st.path_ids))) AS tree_item_counts,
@@ -685,7 +686,8 @@ ActiveRecord::Schema.define(version: 2022_04_03_224122) do
              FROM search_tree st
             WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
      FROM search_tree
-    ORDER BY search_tree.path_names;
+    ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)));
   SQL
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
+
 end

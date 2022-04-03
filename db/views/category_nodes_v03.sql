@@ -14,6 +14,7 @@ WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, p
   )
   
   SELECT *,
+    lower(array_to_string(path_names, ' ')) as sort_name,
     (SELECT json_build_object(
       'active', COALESCE(SUM((st.item_counts->'active')::int), 0),
       'retired', COALESCE(SUM((st.item_counts->'retired')::int), 0),
@@ -21,4 +22,4 @@ WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, p
       'pending', COALESCE(SUM((st.item_counts->'pending')::int), 0)
     ) FROM search_tree AS st WHERE search_tree.id = ANY(st.path_ids)) AS tree_item_counts,
     (SELECT array_agg(st.id) FROM search_tree AS st WHERE search_tree.id = ANY(st.path_ids)) AS tree_ids
-  FROM search_tree ORDER BY path_names;
+  FROM search_tree ORDER BY sort_name ASC;
