@@ -69,4 +69,27 @@ class ConsumablesTest < ApplicationSystemTestCase
       assert_text "9 in stock"
     end
   end
+
+  test "checks out the last of a consumable item from appointment page" do
+    @item = create(:consumable_item, quantity: 1)
+    @member = create(:verified_member_with_membership)
+    hold = create(:hold, item: @item, member: @member)
+    appointment = create(:appointment, holds: [hold], member: hold.member)
+
+    visit admin_appointment_path(appointment)
+
+    click_on "Check-out"
+
+    visit admin_member_url(@member)
+
+    within "#returned-loans" do
+      assert_text @item.name
+    end
+
+    visit admin_item_url(@item)
+
+    within ".item-stats" do
+      assert_text "0 in stock"
+    end
+  end
 end
