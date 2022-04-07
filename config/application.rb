@@ -29,7 +29,7 @@ module Circulate
     config.active_storage.queues.analysis = :active_storage_analysis
 
     # config.active_storage.variant_processor = :vips
-    config.active_job.queue_adapter = :sucker_punch
+    config.active_job.queue_adapter = :async
     config.active_job.skip_after_callbacks_if_terminated = true
 
     config.action_dispatch.cookies_same_site_protection = nil

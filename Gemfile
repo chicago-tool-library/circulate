@@ -53,7 +53,6 @@ gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
 gem "barnes"
-gem "sucker_punch"
 gem "dotenv-rails"
 gem "appsignal"
 
