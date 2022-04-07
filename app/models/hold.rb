@@ -23,14 +23,7 @@ class Hold < ApplicationRecord
     message: "is required when started_at is set"
   }, if: -> { started_at.present? }
 
-  validates_each :item do |record, attr, value|
-    if value
-      value.reload
-      unless value.holdable?
-        record.errors.add(attr, "can not be placed on hold")
-      end
-    end
-  end
+  validate :ensure_items_are_holdable, on: :create
 
   acts_as_tenant :library
 
@@ -135,5 +128,15 @@ class Hold < ApplicationRecord
     Rails.logger.debug "Audit active holds: started #{started}."
 
     started
+  end
+
+  private
+
+  def ensure_items_are_holdable
+    return unless item
+    item.reload
+    unless item.holdable?
+      errors.add(:item, "can not be placed on hold")
+    end
   end
 end

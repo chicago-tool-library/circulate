@@ -18,22 +18,26 @@ desc "Load production data and modify for local usage"
 task load_production_data: [:pull_production_database, :environment] do
   raise "no way buddy" if Rails.env.production?
 
-  ActiveStorage::Attachment.delete_all
-  ActiveStorage::Blob.delete_all
-  User.all.each do |user|
-    user.update!(
-      password: "password",
-      #     email: "user#{user.id}@domain.test",
-      current_sign_in_ip: "1.1.1.1",
-      last_sign_in_ip: "1.1.1.1"
-    )
-  end
+  delete_attachments
+  scrub_users
+
   Event.update_all(calendar_id: "appointmentSlots@calendar.google.com")
 end
 
 def delete_attachments
   ActiveStorage::Attachment.delete_all
   ActiveStorage::Blob.delete_all
+end
+
+def scrub_users
+  User.update_all(<<~SQL)
+    encrypted_password='$2a$11$O4hy2DQEdCZ9lMsDa.ZXHuQfd44FUAAKcdv3ddWEAvCak9Ug4K6Ae',
+    email=coalesce('member'||member_id, 'user'||id) || '@example.com',
+    current_sign_in_ip = '1.1.1.1',
+    last_sign_in_ip = '1.1.1.1',
+    reset_password_token = NULL,
+    reset_password_sent_at = NULL
+  SQL
 end
 
 def scrub_data
@@ -45,14 +49,7 @@ def scrub_data
 
   Event.update_all(calendar_id: ENV["APPOINTMENT_SLOT_CALENDAR_ID"])
 
-  User.update_all(<<~SQL)
-    encrypted_password='$2a$11$O4hy2DQEdCZ9lMsDa.ZXHuQfd44FUAAKcdv3ddWEAvCak9Ug4K6Ae',
-    email=coalesce('member'||member_id, 'user'||id) || '@example.com',
-    current_sign_in_ip = '1.1.1.1',
-    last_sign_in_ip = '1.1.1.1',
-    reset_password_token = NULL,
-    reset_password_sent_at = NULL
-  SQL
+  scrub_users
 
   Member.update_all(<<~SQL)
     full_name = 'Firstname ' || id || ' Lastname', 
