@@ -8,7 +8,8 @@ module Volunteer
         session[:name] = auth_hash["info"]["name"]
 
         if session[:event_id]
-          return event_signup(session.delete(:event_id))
+          @event = Event.volunteer_shifts.find(session.delete(:event_id))
+          return event_signup(@event.calendar_event_id)
         end
 
         redirect_to volunteer_shifts_url, success: "You are logged in."
