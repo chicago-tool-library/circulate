@@ -427,7 +427,7 @@ GEM
       rubocop (= 1.25.1)
       rubocop-performance (= 1.13.2)
     statsd-ruby (1.5.0)
-    store_model (0.12.0)
+    store_model (0.13.0)
       activerecord (>= 5.2)
     sucker_punch (3.0.1)
       concurrent-ruby (~> 1.0)
