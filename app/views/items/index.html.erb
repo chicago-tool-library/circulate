@@ -80,7 +80,7 @@
             <strong><%= full_item_number(item) %></strong>
             <%= item_status_label(item) %>
             <% if item.active_holds.any? %>
-              <span class="text-small"><%= pluralize item.active_holds.size, "hold"%></span>
+              <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
             <% end %>
             <br>
             <%= link_to item.name, item_path(item) %>
