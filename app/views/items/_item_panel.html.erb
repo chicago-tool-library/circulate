@@ -1,7 +1,16 @@
 <div class="panel item-panel">
     <div class="panel-body">
         <ul class="item-stats">
-            <%= icon_stat "map-pin", item_location_span(item), title: "location" %>
+            <%= icon_stat "map-pin", title: "location", css_class: "with-inner-stats" do %>
+                    <ul class="inner-stats">
+                        <% if item.location_area.present? %>
+                            <li><span class="text-italic">area</span> <%= item.location_area %></li>
+                        <% end %>
+                        <% if item.location_shelf.present? %>
+                            <li><span class="text-italic">shelf</span> <%= item.location_shelf %></li>
+                        <% end %>
+                    </ul>
+            <% end %>
             <% if item.tracks_quantity? %>
                 <%= icon_stat "layers", "#{item.quantity} in stock", title: "quantity" %>
             <% end %>
@@ -16,9 +25,9 @@
                     <%= link_to "More info", item.url %>
                 <% end %>
             <% end %>
-            <%= icon_stat "tag", title: "categories", css_class: "categories", placeholder: "No categories" do %>
+            <%= icon_stat "tag", title: "categories", css_class: "with-inner-stats", placeholder: "No categories" do %>
                 <% if item.categories.size > 0 %>
-                    <ul class="category-stats">
+                    <ul class="inner-stats">
                         <% item.categories.sort_by(&:name).each do |category| %>
                             <li><%= link_to category.name, items_path(category: category) %></li>
                         <% end %>

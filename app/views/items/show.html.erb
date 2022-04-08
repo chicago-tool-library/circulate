@@ -4,6 +4,9 @@
   <h2>
     <strong><%= @item.complete_number %></strong>
     <%= item_status_label(@item) %>
+    <% if @item.active_holds.any? %>
+      <span class="text-small"><%= pluralize @item.active_holds.count, "hold" %></span>
+    <% end %>
   </h2>
 
   <div class="columns">
