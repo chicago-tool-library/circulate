@@ -896,12 +896,12 @@ table.monthly-adjustments {
 }
 
 .item-stats, .member-stats {
-  li.categories {
-    svg, .category-stats {
+  li.with-inner-stats {
+    svg, .inner-stats {
       float: left;
     }
   }
-  .category-stats {
+  .inner-stats {
     list-style: none outside;
     float: left;
     margin: 0;
