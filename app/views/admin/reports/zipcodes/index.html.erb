@@ -1,0 +1,26 @@
+<%= content_for :header do %>
+  <%= index_header "Zipcodes" do %>
+    <%= link_to "Download as CSV", admin_reports_zipcodes_path(format: "csv"), class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ZIP</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @zipcodes.each do |member| %>
+        <tr>
+          <td><%= member.postal_code %></td>
+          <td><%= member.count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
