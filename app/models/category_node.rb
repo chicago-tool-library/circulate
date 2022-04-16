@@ -8,6 +8,7 @@ class CategoryNode < ApplicationRecord
   acts_as_tenant :library
 
   scope :with_items, -> { where("(tree_item_counts->>'active')::int > 0") }
+  scope :sorted, -> { order("sort_name ASC") }
 
   def full_name
     path_names.join("  ")

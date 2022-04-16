@@ -5,7 +5,7 @@ module Admin
     before_action :set_category, only: [:show, :edit, :update, :destroy]
 
     def index
-      @categories = CategoryNode.all
+      @categories = CategoryNode.all.sorted
     end
 
     def new
