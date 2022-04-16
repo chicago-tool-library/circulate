@@ -140,6 +140,8 @@ Rails.application.routes.draw do
     resources :users
     resources :renewal_requests, only: [:index, :update]
 
+    resource :map, only: :show
+
     post "search", to: "searches#create"
     get "search", to: "searches#show"
 

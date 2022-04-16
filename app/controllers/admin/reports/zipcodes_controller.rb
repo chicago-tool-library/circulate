@@ -4,8 +4,7 @@ module Admin
   module Reports
     class ZipcodesController < BaseController
       def index
-        @zipcodes = Member.open.select("postal_code, count(id)").group("postal_code").order("postal_code ASC").all
-
+        @data = Member.open.group(:postal_code).order(:postal_code).count
         respond_to do |format|
           format.html
 
@@ -13,8 +12,8 @@ module Admin
             text = CSV.generate(headers: true) { |csv|
               csv << %w[zipcode count]
 
-              @zipcodes.each do |member|
-                csv << [member.postal_code, member.count]
+              @data.each do |postal_code, count|
+                csv << [postal_code, count]
               end
             }
 

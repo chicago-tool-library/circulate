@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="columns">
-  <div class="column col-12">
+  <div class="column col-6">
     <table class="table">
       <thead>
         <tr>
@@ -14,13 +14,16 @@
         </tr>
       </thead>
       <tbody>
-      <% @zipcodes.each do |member| %>
+      <% @data.each do |postal_code, count| %>
         <tr>
-          <td><%= member.postal_code %></td>
-          <td><%= member.count %></td>
+          <td><%= postal_code %></td>
+          <td><%= count %></td>
         </tr>
       <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="column col-6">
+    <%= image_tag admin_map_path(format: "svg") %>
   </div>
 </div>
