@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_010549) do
+ActiveRecord::Schema.define(version: 2022_04_03_224122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(version: 2022_03_27_010549) do
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
     t.integer "library_id"
+    t.jsonb "item_counts", default: {}
     t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
     t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
@@ -555,48 +556,6 @@ ActiveRecord::Schema.define(version: 2022_03_27_010549) do
   add_foreign_key "tickets", "users", column: "creator_id"
   add_foreign_key "users", "members"
 
-  create_view "category_nodes", materialized: true, sql_definition: <<-SQL
-      WITH RECURSIVE search_tree(id, library_id, name, slug, categorizations_count, parent_id, path_names, path_ids) AS (
-           SELECT categories.id,
-              categories.library_id,
-              categories.name,
-              categories.slug,
-              categories.categorizations_count,
-              categories.parent_id,
-              ARRAY[categories.name] AS "array",
-              ARRAY[categories.id] AS "array"
-             FROM categories
-            WHERE (categories.parent_id IS NULL)
-          UNION ALL
-           SELECT categories.id,
-              categories.library_id,
-              categories.name,
-              categories.slug,
-              categories.categorizations_count,
-              categories.parent_id,
-              (search_tree_1.path_names || categories.name),
-              (search_tree_1.path_ids || categories.id)
-             FROM (search_tree search_tree_1
-               JOIN categories ON ((categories.parent_id = search_tree_1.id)))
-            WHERE (NOT (categories.id = ANY (search_tree_1.path_ids)))
-          )
-   SELECT search_tree.id,
-      search_tree.library_id,
-      search_tree.name,
-      search_tree.slug,
-      search_tree.categorizations_count,
-      search_tree.parent_id,
-      search_tree.path_names,
-      search_tree.path_ids,
-      ( SELECT sum(st.categorizations_count) AS sum
-             FROM search_tree st
-            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_categorizations_count,
-      ( SELECT array_agg(st.id) AS array_agg
-             FROM search_tree st
-            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
-     FROM search_tree
-    ORDER BY search_tree.path_names;
-  SQL
   create_view "loan_summaries", sql_definition: <<-SQL
       SELECT loans.library_id,
       loans.item_id,
@@ -686,4 +645,49 @@ ActiveRecord::Schema.define(version: 2022_03_27_010549) do
     GROUP BY months.month
     ORDER BY months.month;
   SQL
+  create_view "category_nodes", materialized: true, sql_definition: <<-SQL
+      WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, path_names, path_ids) AS (
+           SELECT categories.id,
+              categories.library_id,
+              categories.name,
+              categories.slug,
+              categories.item_counts,
+              categories.parent_id,
+              ARRAY[categories.name] AS "array",
+              ARRAY[categories.id] AS "array"
+             FROM categories
+            WHERE (categories.parent_id IS NULL)
+          UNION ALL
+           SELECT categories.id,
+              categories.library_id,
+              categories.name,
+              categories.slug,
+              categories.item_counts,
+              categories.parent_id,
+              (search_tree_1.path_names || categories.name),
+              (search_tree_1.path_ids || categories.id)
+             FROM (search_tree search_tree_1
+               JOIN categories ON ((categories.parent_id = search_tree_1.id)))
+            WHERE (NOT (categories.id = ANY (search_tree_1.path_ids)))
+          )
+   SELECT search_tree.id,
+      search_tree.library_id,
+      search_tree.name,
+      search_tree.slug,
+      search_tree.item_counts,
+      search_tree.parent_id,
+      search_tree.path_names,
+      search_tree.path_ids,
+      lower(array_to_string(search_tree.path_names, ' '::text)) AS sort_name,
+      ( SELECT json_build_object('active', COALESCE(sum(((st.item_counts -> 'active'::text))::integer), (0)::bigint), 'retired', COALESCE(sum(((st.item_counts -> 'retired'::text))::integer), (0)::bigint), 'maintenance', COALESCE(sum(((st.item_counts -> 'maintenance'::text))::integer), (0)::bigint), 'pending', COALESCE(sum(((st.item_counts -> 'pending'::text))::integer), (0)::bigint)) AS json_build_object
+             FROM search_tree st
+            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_item_counts,
+      ( SELECT array_agg(st.id) AS array_agg
+             FROM search_tree st
+            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
+     FROM search_tree
+    ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)));
+  SQL
+  add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
+
 end

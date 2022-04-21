@@ -96,7 +96,6 @@ class Item < ApplicationRecord
   before_validation :strip_whitespace
 
   before_save :cache_description_as_plain_text
-
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
   def self.next_number(limit = nil)

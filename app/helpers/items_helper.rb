@@ -68,14 +68,14 @@ module ItemsHelper
 
   def category_tree_nav(categories, current_category = nil)
     root = TreeNode.new(nil)
-    categories.each do |category|
+    categories.sort_by { |c| c.path_ids.size }.each do |category|
       parent = category.path_ids[0..-2].reduce(root) { |node, id| node[id] }
       parent[category.id] = TreeNode.new(category)
     end
 
     tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
       concat(tag.ul do
-        root.children.values.map do |node|
+        root.children.values.sort_by { |node| node.value.name }.map do |node|
           concat(render_tree_node(node, current_category))
         end
       end)
@@ -97,12 +97,12 @@ module ItemsHelper
       end
 
       # NOTE: This does not reflect current query / category selection
-      count = node.value.tree_categorizations_count
+      count = node.value.visible_items_count
 
       concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
       if has_children
         concat(tag.ul(class: "tree-node-children") do
-          node.children.values.map do |child|
+          node.children.values.sort_by { |node| node.value.name }.map do |child|
             concat(render_tree_node(child, current_value))
           end
         end)

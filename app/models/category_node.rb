@@ -7,10 +7,15 @@ class CategoryNode < ApplicationRecord
 
   acts_as_tenant :library
 
-  scope :with_items, -> { where("tree_categorizations_count > 0") }
+  scope :with_items, -> { where("(tree_item_counts->>'active')::int > 0") }
+  scope :sorted, -> { order("sort_name ASC") }
 
   def full_name
     path_names.join("  ")
+  end
+
+  def visible_items_count
+    tree_item_counts.values_at("active", "maintenance").sum
   end
 
   # used for dom_class and other view-level helpers
@@ -19,6 +24,6 @@ class CategoryNode < ApplicationRecord
   end
 
   def self.refresh
-    Scenic.database.refresh_materialized_view(table_name, concurrently: false, cascade: false)
+    Scenic.database.refresh_materialized_view(table_name, concurrently: true, cascade: false)
   end
 end
