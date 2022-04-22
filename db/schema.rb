@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_21_204258) do
+ActiveRecord::Schema.define(version: 2022_04_22_172531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -220,7 +220,6 @@ ActiveRecord::Schema.define(version: 2022_04_21_204258) do
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
     t.integer "library_id"
-    t.jsonb "item_counts", default: {}
     t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
     t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
@@ -647,12 +646,11 @@ ActiveRecord::Schema.define(version: 2022_04_21_204258) do
     ORDER BY months.month;
   SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
-      WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, path_names, path_ids) AS (
+      WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
               categories.library_id,
               categories.name,
               categories.slug,
-              categories.item_counts,
               categories.parent_id,
               ARRAY[categories.name] AS "array",
               ARRAY[categories.id] AS "array"
@@ -663,7 +661,6 @@ ActiveRecord::Schema.define(version: 2022_04_21_204258) do
               categories.library_id,
               categories.name,
               categories.slug,
-              categories.item_counts,
               categories.parent_id,
               (search_tree.path_names || categories.name),
               (search_tree.path_ids || categories.id)
@@ -675,7 +672,6 @@ ActiveRecord::Schema.define(version: 2022_04_21_204258) do
               search_tree.library_id,
               search_tree.name,
               search_tree.slug,
-              search_tree.item_counts,
               search_tree.parent_id,
               search_tree.path_names,
               search_tree.path_ids,
@@ -690,7 +686,6 @@ ActiveRecord::Schema.define(version: 2022_04_21_204258) do
       tree_nodes.library_id,
       tree_nodes.name,
       tree_nodes.slug,
-      tree_nodes.item_counts,
       tree_nodes.parent_id,
       tree_nodes.path_names,
       tree_nodes.path_ids,

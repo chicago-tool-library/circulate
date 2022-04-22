@@ -39,13 +39,6 @@ class Category < ApplicationRecord
     CategoryNode.refresh
   end
 
-  def update_item_counts
-    item_counts = Item.statuses.values.each_with_object({}) { |status, counts| counts[status] = 0 }
-    items.pluck(:status).each_with_object(item_counts) { |status, counts| counts[status] += 1 }
-
-    update(item_counts: item_counts)
-  end
-
   def self.recursive_all
     find_by_sql(<<~SQL)
       WITH RECURSIVE subcategories AS (

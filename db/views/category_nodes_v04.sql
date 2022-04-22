@@ -1,12 +1,12 @@
-WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, path_names, path_ids) AS (
+WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (
 
-  SELECT id, library_id, name, slug, item_counts, parent_id, ARRAY[name], ARRAY[id]
+  SELECT id, library_id, name, slug, parent_id, ARRAY[name], ARRAY[id]
     FROM categories
   WHERE parent_id IS NULL
   
   UNION ALL
   
-    SELECT categories.id, categories.library_id, categories.name, categories.slug, categories.item_counts, 
+    SELECT categories.id, categories.library_id, categories.name, categories.slug, 
             categories.parent_id, path_names || categories.name, path_ids || categories.id
     FROM search_tree
     JOIN categories ON categories.parent_id = search_tree.id
