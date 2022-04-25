@@ -6,11 +6,11 @@ class ItemFilteringTest < ApplicationSystemTestCase
     @category1_subcategory = create(:category, parent: @category1, name: "Pneumatic")
     @category2 = create(:category, name: "Drills")
 
-    CategoryNode.refresh
-
     @item1 = create(:item, categories: [@category1_subcategory], name: "Nine-Inch Nailgun")
     @item2 = create(:item, categories: [@category2], name: "Boring Borer")
     @item3 = create(:item, categories: [@category2], name: "Droll Drill")
+
+    CategoryNode.refresh
 
     login_as @user
   end
