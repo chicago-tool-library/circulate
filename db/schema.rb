@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_03_224122) do
+ActiveRecord::Schema.define(version: 2022_04_22_172531) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_enum :adjustment_kind, [
@@ -219,7 +220,6 @@ ActiveRecord::Schema.define(version: 2022_04_03_224122) do
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
     t.integer "library_id"
-    t.jsonb "item_counts", default: {}
     t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
     t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
@@ -646,12 +646,11 @@ ActiveRecord::Schema.define(version: 2022_04_03_224122) do
     ORDER BY months.month;
   SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
-      WITH RECURSIVE search_tree(id, library_id, name, slug, item_counts, parent_id, path_names, path_ids) AS (
+      WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
               categories.library_id,
               categories.name,
               categories.slug,
-              categories.item_counts,
               categories.parent_id,
               ARRAY[categories.name] AS "array",
               ARRAY[categories.id] AS "array"
@@ -662,32 +661,41 @@ ActiveRecord::Schema.define(version: 2022_04_03_224122) do
               categories.library_id,
               categories.name,
               categories.slug,
-              categories.item_counts,
               categories.parent_id,
-              (search_tree_1.path_names || categories.name),
-              (search_tree_1.path_ids || categories.id)
-             FROM (search_tree search_tree_1
-               JOIN categories ON ((categories.parent_id = search_tree_1.id)))
-            WHERE (NOT (categories.id = ANY (search_tree_1.path_ids)))
+              (search_tree.path_names || categories.name),
+              (search_tree.path_ids || categories.id)
+             FROM (search_tree
+               JOIN categories ON ((categories.parent_id = search_tree.id)))
+            WHERE (NOT (categories.id = ANY (search_tree.path_ids)))
+          ), tree_nodes AS (
+           SELECT search_tree.id,
+              search_tree.library_id,
+              search_tree.name,
+              search_tree.slug,
+              search_tree.parent_id,
+              search_tree.path_names,
+              search_tree.path_ids,
+              lower(array_to_string(search_tree.path_names, ' '::text)) AS sort_name,
+              ( SELECT array_agg(st.id) AS array_agg
+                     FROM search_tree st
+                    WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
+             FROM search_tree
+            ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)))
           )
-   SELECT search_tree.id,
-      search_tree.library_id,
-      search_tree.name,
-      search_tree.slug,
-      search_tree.item_counts,
-      search_tree.parent_id,
-      search_tree.path_names,
-      search_tree.path_ids,
-      lower(array_to_string(search_tree.path_names, ' '::text)) AS sort_name,
-      ( SELECT json_build_object('active', COALESCE(sum(((st.item_counts -> 'active'::text))::integer), (0)::bigint), 'retired', COALESCE(sum(((st.item_counts -> 'retired'::text))::integer), (0)::bigint), 'maintenance', COALESCE(sum(((st.item_counts -> 'maintenance'::text))::integer), (0)::bigint), 'pending', COALESCE(sum(((st.item_counts -> 'pending'::text))::integer), (0)::bigint)) AS json_build_object
-             FROM search_tree st
-            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_item_counts,
-      ( SELECT array_agg(st.id) AS array_agg
-             FROM search_tree st
-            WHERE (search_tree.id = ANY (st.path_ids))) AS tree_ids
-     FROM search_tree
-    ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)));
+   SELECT tree_nodes.id,
+      tree_nodes.library_id,
+      tree_nodes.name,
+      tree_nodes.slug,
+      tree_nodes.parent_id,
+      tree_nodes.path_names,
+      tree_nodes.path_ids,
+      tree_nodes.sort_name,
+      tree_nodes.tree_ids,
+      ( SELECT json_build_object('active', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
+             FROM (categorizations
+               LEFT JOIN items ON ((categorizations.item_id = items.id)))
+            WHERE (categorizations.category_id = ANY (tree_nodes.tree_ids))) AS tree_item_counts
+     FROM tree_nodes;
   SQL
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
-
 end

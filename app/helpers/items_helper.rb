@@ -75,7 +75,7 @@ module ItemsHelper
 
     tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
       concat(tag.ul do
-        root.children.values.sort_by { |node| node.value.name }.map do |node|
+        root.children.values.sort_by { |node| node.value.name.downcase }.map do |node|
           concat(render_tree_node(node, current_category))
         end
       end)
