@@ -7,7 +7,11 @@ module Admin
       @loan = Loan.find(params[:loan_id])
       @renewal = renew_loan(@loan)
 
-      redirect_to admin_member_url(@loan.member_id, anchor: dom_id(@renewal))
+      if @renewal
+        redirect_to admin_member_url(@loan.member_id, anchor: dom_id(@renewal))
+      else
+        redirect_to admin_member_url(@loan.member_id), error: "That item couldn't be renewed."
+      end
     end
 
     def destroy
