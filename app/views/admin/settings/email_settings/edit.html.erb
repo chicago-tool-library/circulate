@@ -9,8 +9,8 @@
       <%= form.errors %>
 
       <% data_attrs = {
-        action: "mouseenter->email-settings-editor#showMarquee mouseleave->email-settings-editor#hideMarquee keyup->email-settings-editor#update trix-change->email-settings-editor#update", 
-      } %>
+           action: "mouseenter->email-settings-editor#showMarquee mouseleave->email-settings-editor#hideMarquee keyup->email-settings-editor#update trix-change->email-settings-editor#update"
+         } %>
       <%= form.rich_text_area :email_banner1, data: data_attrs, label: "Info banner" %>
 
       <%= form.rich_text_area :email_banner2, data: data_attrs, label: "Warning banner" %>
