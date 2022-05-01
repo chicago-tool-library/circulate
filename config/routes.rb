@@ -133,6 +133,9 @@ Rails.application.routes.draw do
     namespace :settings do
       get "closing", to: "closing#index"
       post "closing/extend_holds", to: "closing#extend_holds"
+      resource :email_settings do
+        get :preview, on: :member
+      end
       resources :library_updates
     end
 

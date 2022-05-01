@@ -3,14 +3,3 @@ Your request to renew <%= @item.name %> (<%= @item.complete_number %>) was appro
 <% else %>
 Sorry, we aren't able to renew <%= @item.name %> (<%= @item.complete_number %>) due to demand. Please try to return it by <%= checked_out_date @renewal_request.loan.due_at %>.
 <% end %>
-
-If you have any questions, please email us at team@chicagotoollibrary.org.
-
-See you at the library!
-
----
-
-The Chicago Tool Library
-1048 W 37th Street Suite 102
-Chicago, IL 60609
-chicagotoollibrary.org

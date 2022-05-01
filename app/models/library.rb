@@ -10,6 +10,9 @@ class Library < ApplicationRecord
   has_many :users
   has_many :members
 
+  has_rich_text :email_banner1
+  has_rich_text :email_banner2
+
   after_create :create_docs
 
   def allows_postal_code?(postal_code)

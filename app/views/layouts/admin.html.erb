@@ -57,7 +57,10 @@
             <ul class="nav">
               <li class="nav-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
               <li class="nav-item"><%= link_to "Categories", admin_categories_path %></li>
-              <li class="nav-item"><%= link_to "Documents", admin_documents_path %></li>
+              <% if current_user.admin? %>
+                <li class="nav-item"><%= link_to "Documents", admin_documents_path %></li>
+              <% end %>
+              <li class="nav-item"><%= link_to "Email Settings", admin_settings_email_settings_path %></li>
               <li class="nav-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
               <% if current_user.admin? %>
                 <li class="nav-item"><%= link_to "Library Updates", admin_settings_library_updates_path %></li>
@@ -146,6 +149,9 @@
                 <li class="menu-item"><%= link_to "Borrow Policies", admin_borrow_policies_path %></li>
                 <li class="menu-item"><%= link_to "Categories", admin_categories_path %></li>
                 <li class="menu-item"><%= link_to "Documents", admin_documents_path %></li>
+                <% if current_user.has_role?(:admin) %>
+                  <li class="menu-item"><%= link_to "Email Settings", admin_settings_email_settings_path %></li>
+                <% end %>
                 <li class="menu-item"><%= link_to "Gift Memberships", admin_gift_memberships_path %></li>
                 <% if current_user.has_role?(:admin) %>
                   <li class="menu-item"><%= link_to "Library Updates", admin_settings_library_updates_path %></li>

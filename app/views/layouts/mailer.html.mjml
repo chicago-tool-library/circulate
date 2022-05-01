@@ -20,27 +20,40 @@
         margin-bottom: 0;
         font-size: 1.2em;
       }
+    </mj-style>
+    <mj-style>
       .warning {
         border: solid 3px gold;
         background: lemonchiffon;
-        padding: 0 1em;
+        padding: 1em;
+        margin-bottom: 1em;
       }
       .info {
         border: solid 3px #67C4E3;
         background: aliceblue;
-        padding: 0 1em;
+        padding: 1em;
+      }
+      .info + .warning {
+        margin-bottom: 1em;
+      }
+      .info.marquee {
+        border: none;
+        padding: 19px;
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='aliceblue' stroke='%2367C4E3' stroke-width='6' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'%3e%3canimate attributeName='stroke-dashoffset' values='0;19' dur='1s' repeatCount='indefinite' /%3e%3c/rect%3e%3c/svg%3e");
+      }
+      .warning.marquee {
+        border: none;
+        padding: 19px;
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='lemonchiffon' stroke='gold' stroke-width='6' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'%3e%3canimate attributeName='stroke-dashoffset' values='0;19' dur='1s' repeatCount='indefinite' /%3e%3c/rect%3e%3c/svg%3e");
+      }
+      .info:empty, .warning:empty {
+        opacity: 0.3;
       }
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
     <%= yield %>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          <%= render partial: "signup/confirmations/hours" %>
-        </mj-text>
-      </mj-column>
-    </mj-section>
+
     <mj-section>
       <mj-column>
         <mj-text>
@@ -49,6 +62,27 @@
         </mj-text>
       </mj-column>
     </mj-section>
+
+    <% unless @library.email_banner1.blank? %>
+      <mj-section>
+        <mj-column>
+          <mj-text>
+            <div class="info"><%= @library.email_banner1 -%></div>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    <% end %>
+
+    <% unless @library.email_banner2.blank? %>
+      <mj-section>
+        <mj-column>
+          <mj-text>
+            <div class="warning"><%= @library.email_banner2 -%></div>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    <% end %>
+
     <mj-section background-color="#F4F4F4">
       <mj-column>
         <mj-text font-size="14px" line-height="20px" align="center">

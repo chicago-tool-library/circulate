@@ -1,0 +1,35 @@
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Example message</mj-text>
+  </mj-column>
+</mj-section>
+
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <em style="color: lightgray;">main email content will be here</em>
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <div class="info library_email_banner1"><%= @library.email_banner1 -%></div>
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <div class="warning library_email_banner2"><%= @library.email_banner2 -%></div>
+    </mj-text>
+  </mj-column>
+</mj-section>

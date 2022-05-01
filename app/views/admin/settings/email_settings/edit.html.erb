@@ -1,0 +1,26 @@
+<% content_for :header do %>
+  <%= index_header "Email Settings" do %>
+  <% end %>
+<% end %>
+
+<div class="columns" data-controller="email-settings-editor">
+  <div class="column col-6">
+    <%= form_with(model: @library, url: admin_settings_email_settings_path, builder: SpectreFormBuilder, data: {target: "email-settings-editor.form"}) do |form| %>
+      <%= form.errors %>
+
+      <% data_attrs = {
+        action: "mouseenter->email-settings-editor#showMarquee mouseleave->email-settings-editor#hideMarquee keyup->email-settings-editor#update trix-change->email-settings-editor#update", 
+      } %>
+      <%= form.rich_text_area :email_banner1, data: data_attrs, label: "Info banner" %>
+
+      <%= form.rich_text_area :email_banner2, data: data_attrs, label: "Warning banner" %>
+
+      <%= form.actions do %>
+        <%= form.submit "Save" %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="column col-6">
+    <iframe id="preview" data-target="email-settings-editor.preview" width="100%" height="100%" src="<%= preview_admin_settings_email_settings_path %>">
+  </div>
+</div>

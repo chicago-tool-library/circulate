@@ -15,19 +15,3 @@
     </mj-text>
   </mj-column>
 </mj-section>
-<mj-section>
-  <mj-column>
-    <mj-text>
-      <div class="info">
-        <p><strong>
-          Need to return or pick-up tools?
-          <a href="https://app.chicagotoollibrary.org/account/appointments/new">Schedule a time here!</a>
-        </strong></p>
-        <p><strong>
-          Request a renewal for your tools or schedule a drop-off
-          <a href="https://app.chicagotoollibrary.org/account">here.</a>
-        </strong></p>
-      </div>
-    </mj-text>
-  </mj-column>
-</mj-section>
