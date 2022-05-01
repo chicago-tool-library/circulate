@@ -99,32 +99,36 @@ class ItemsTest < ApplicationSystemTestCase
   end
 
   test "accessing an item's history after deleting a category" do
-    audited_as_admin do
-      @item = create(:complete_item)
-    end
-
-    # Create some categories and add them to the item
     @category1 = create(:category)
     @category2 = create(:category)
     @category3 = create(:category)
-    @item.categories << [@category1, @category2, @category3]
+
+    audited_as_admin do
+      @item = create(:complete_item, categories: [@category1, @category2, @category3])
+    end
 
     visit edit_admin_item_url(@item)
     # Remove second category from item
-    page.all("a.remove")[1].click
+    page.find("div[data-value='#{@category2.id}'] a.remove").click
     click_on "Update Item"
+
+    visit admin_item_item_history_path(@item)
+    assert_text(@category1.name)
+    assert_text(@category2.name)
+    assert_text(@category3.name)
 
     visit admin_categories_url
     # Destroy first category record
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      find("a[href='/admin/categories/#{@category2.id}']", text: "Destroy").click
     end
-    refute_text @category1.name
+    refute_text @category2.name
 
     visit admin_item_item_history_path(@item)
     # Check than an edit event exists where item is only associated
     # with one existing category and one deleted category
-    assert_text(/Categories set to category\d, deleted category/)
+    refute_text @category2.name
+    assert_text(/deleted category/)
   end
 
   # test "importing a manual from a URL", :remote do

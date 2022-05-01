@@ -126,6 +126,7 @@ Rails.application.routes.draw do
       resources :potential_volunteers, only: :index
       resources :shifts, only: :index
       resources :items_without_image, only: :index
+      resources :zipcodes, only: :index
       get "money", to: "money#index"
     end
 
@@ -138,6 +139,8 @@ Rails.application.routes.draw do
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
+
+    resource :map, only: :show
 
     post "search", to: "searches#create"
     get "search", to: "searches#show"

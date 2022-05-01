@@ -10,6 +10,8 @@ class ItemFilteringTest < ApplicationSystemTestCase
     @item2 = create(:item, categories: [@category2], name: "Boring Borer")
     @item3 = create(:item, categories: [@category2], name: "Droll Drill")
 
+    CategoryNode.refresh
+
     login_as @user
   end
 
