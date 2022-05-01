@@ -47,7 +47,7 @@
         background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='lemonchiffon' stroke='gold' stroke-width='6' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'%3e%3canimate attributeName='stroke-dashoffset' values='0;19' dur='1s' repeatCount='indefinite' /%3e%3c/rect%3e%3c/svg%3e");
       }
       .info:empty, .warning:empty {
-        opacity: 0.3;
+        display: none;
       }
     </mj-style>
   </mj-head>
@@ -63,21 +63,21 @@
       </mj-column>
     </mj-section>
 
-    <% unless @library.email_banner1.blank? %>
+    <% if @preview || !@library.email_banner1.blank? %>
       <mj-section>
         <mj-column>
           <mj-text>
-            <div class="info"><%= @library.email_banner1 -%></div>
+            <div class="info library_email_banner1"><%= @library.email_banner1 -%></div>
           </mj-text>
         </mj-column>
       </mj-section>
     <% end %>
 
-    <% unless @library.email_banner2.blank? %>
+    <% if @preview || !@library.email_banner2.blank? %>
       <mj-section>
         <mj-column>
           <mj-text>
-            <div class="warning"><%= @library.email_banner2 -%></div>
+            <div class="warning library_email_banner2"><%= @library.email_banner2 -%></div>
           </mj-text>
         </mj-column>
       </mj-section>

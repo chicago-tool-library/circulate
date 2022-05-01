@@ -17,19 +17,3 @@
     </mj-text>
   </mj-column>
 </mj-section>
-
-<mj-section>
-  <mj-column>
-    <mj-text>
-      <div class="info library_email_banner1"><%= @library.email_banner1 -%></div>
-    </mj-text>
-  </mj-column>
-</mj-section>
-
-<mj-section>
-  <mj-column>
-    <mj-text>
-      <div class="warning library_email_banner2"><%= @library.email_banner2 -%></div>
-    </mj-text>
-  </mj-column>
-</mj-section>

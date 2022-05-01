@@ -27,7 +27,6 @@ export default class extends Controller {
 
   update(event) {
     // This works for both input elements and trix editors.
-    console.log(event.currentTarget.id);
     const div = this.previewTarget.contentWindow.document.querySelector(`.${event.currentTarget.id}`);
     if (div) {
       div.innerHTML = event.currentTarget.value;
@@ -35,6 +34,5 @@ export default class extends Controller {
   }
 
   connect() {
-    console.debug(this.formTarget, this.previewTarget);
   }
 }

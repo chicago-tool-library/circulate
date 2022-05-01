@@ -15,6 +15,7 @@ module Admin
 
       def preview
         @library = current_library
+        @preview = true
         render layout: "mailer"
       end
 
