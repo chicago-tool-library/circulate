@@ -8,7 +8,6 @@ module Admin
         .merge(Member.verified)
         .count
       @total_members = Member.open.count
-      @total_verified_members = Member.verified.count
       @total_items = Item.active.count
 
       # today
@@ -18,7 +17,6 @@ module Admin
       # this week
       @loans_past_week = Loan.where("created_at >= ?", 7.days.ago).count
       @new_members_past_week = Member.where("created_at >= ?", 7.days.ago).count
-      @new_verified_members_past_week = Member.verified.where("created_at >= ?", 7.days.ago).count
     end
   end
 end
