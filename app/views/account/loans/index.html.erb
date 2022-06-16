@@ -32,6 +32,7 @@
                 <span class="status">
                   <%= tag.span "Due #{humanize_due_date(loan)}",
                         class: ("warning text-bold" if loan.due_at - Time.now < 3.days) %>
+                  <div class="checkout-notice"><strong>Checkout notice:</strong> <%= loan.item.checkout_notice || "None" %></div>
                   <% if loan.renewal? %>(renewed <%= pluralize(loan.renewal_count, "time") %>)<% end %>
                   <% if @current_library.allow_appointments? %>
                     <span class="pickup"><%= loan_pickup_status(loan) %></span>
