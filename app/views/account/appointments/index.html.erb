@@ -70,7 +70,7 @@
                         <div class="details">
                           <span class="item">
                             <%= link_to hold.item.name, item_path(hold.item) %> (<%= hold.item.complete_number %>)
-                            <div class="text-tiny"><strong>Checkout notice:</strong> <em><%= hold.item.checkout_notice %></em></div>
+                            <div class="text-tiny"><strong>Checkout notice:</strong> <em><%= hold.item.checkout_notice || "None" %></em></div>
                           </span>
                         </div>
                       </li>
