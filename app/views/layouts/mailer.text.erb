@@ -1,8 +1,12 @@
 <%= yield %>
+<% unless @library.email_banner1.blank? %>
 
-We are open by appointment only in response to COVID-19.
+** <%= HTMLToMarkdown.new.convert(@library.email_banner1).strip -%> **
+<% end %>
+<% unless @library.email_banner2.blank? %>
 
-Please check our COVID-19 page for more information: https://chicagotoollibrary.org/covid-19
+** <%= HTMLToMarkdown.new.convert(@library.email_banner2).strip -%> **
+<% end %>
 
 ---
 

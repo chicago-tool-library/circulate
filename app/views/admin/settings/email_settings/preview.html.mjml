@@ -3,15 +3,17 @@
     <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
   </mj-column>
 </mj-section>
+
 <mj-section>
   <mj-column>
-    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Example message</mj-text>
   </mj-column>
 </mj-section>
+
 <mj-section>
   <mj-column>
     <mj-text>
-      <%= render partial: "member_mailer/summaries", locals: {summaries: @summaries, now: @now} %>
+      <em style="color: lightgray;">main email content will be here</em>
     </mj-text>
   </mj-column>
 </mj-section>

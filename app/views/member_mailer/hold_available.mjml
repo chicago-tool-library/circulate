@@ -31,15 +31,3 @@
     </mj-text>
   </mj-column>
 </mj-section>
-<mj-section>
-  <mj-column>
-    <mj-text>
-      <div class="info">
-        <p><strong>
-          Need to return or pick-up tools?
-          <%= link_to "Schedule a time here!", new_account_appointment_url %>
-        </strong></p>
-      </div>
-    </mj-text>
-  </mj-column>
-</mj-section>
