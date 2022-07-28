@@ -73,7 +73,7 @@ class MemberMailer < ApplicationMailer
     @member = params[:member]
     @amount = params[:amount] || Money.new(0)
     @library = @member.library
-    @subject = "Inviting you to renew and reconnect with the Chicago Tool Library in #{Time.current.year}!"
+    @subject = "Time to renew your Chicago Tool Library membership!"
     mail(to: @member.email, subject: @subject)
   end
 
