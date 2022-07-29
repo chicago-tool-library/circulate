@@ -57,6 +57,15 @@ class Hold < ApplicationRecord
     )
   end
 
+  def cancel!
+    if appointment.present?
+      appointment_hold.destroy!
+      appointment.cancel_if_no_items!
+    end
+
+    destroy!
+  end
+
   # A hold that timed out
   def expired?(now = Time.current)
     started? && expires_at < now
