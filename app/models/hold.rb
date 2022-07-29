@@ -1,8 +1,8 @@
 class Hold < ApplicationRecord
   HOLD_LENGTH = 7.days
 
-  has_many :appointment_holds
-  has_many :appointments, through: :appointment_holds
+  has_one :appointment_hold, dependent: :destroy
+  has_one :appointment, through: :appointment_hold
 
   belongs_to :member
   belongs_to :item, counter_cache: true
