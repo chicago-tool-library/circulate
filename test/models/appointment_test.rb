@@ -68,4 +68,13 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_equal [loan, loan2], original.loans
     assert_equal "First notes\n\nSecond notes", original.comment
   end
+
+  test "#cancel_if_no_items!" do
+    appointment = create(:appointment_with_holds)
+    appointment.holds.destroy_all
+
+    appointment.cancel_if_no_items!
+
+    assert appointment.destroyed?
+  end
 end

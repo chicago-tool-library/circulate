@@ -36,9 +36,15 @@ module HoldsHelper
   end
 
   def render_remove_link(hold)
-    unless hold.appointment.present?
-      link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: {confirm: "Are you sure you want to remove this hold?"})
+    message = "Are you sure you want to remove this hold?"
+
+    if hold.appointment.present?
+      message <<
+        " It will also be removed from your appointment."\
+        " If it's the only item in your appointment, your appointment will be canceled."
     end
+
+    link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: {confirm: message})
   end
 
   def place_in_line_for(hold)
