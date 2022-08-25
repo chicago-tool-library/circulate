@@ -5,6 +5,7 @@ module Volunteer
     roles = ["Librarian (Senior)", "Librarian"]
 
     test "views shift calendar" do
+      skip "Redirecting to teamup for volunteer signups instead"
       visit test_google_auth_url(email: "volunteer@example.com")
 
       Time.use_zone("America/Chicago") do
