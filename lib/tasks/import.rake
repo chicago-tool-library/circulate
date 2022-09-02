@@ -9,27 +9,26 @@ namespace :import do
     item = if id.blank?
       Item.new
     else
-      Item.find(id).tap do |item|
-        if item.number != row["number"].to_i
-          raise "wrong number for item with id #{id}: database has #{item.number}, import has #{row["number"]}"
-        end
-      end
+      Item.find(id)
+      # .tap do |item|
+      #   if item.number != row["number"].to_i
+      #     raise "wrong number for item with id #{id}: database has #{item.number}, import has #{row["number"]}"
+      #   end
+      # end
     end
 
-    attributes = %w[name other_names size brand model strength checkout_notice power_source description quantity status url].each_with_object({}) do |field, sum|
+    attributes = %w[name other_names size brand model strength checkout_notice power_source description quantity status url purchase_link purchase_price].each_with_object({}) do |field, sum|
       sum[field] = row[field].strip unless row[field].blank? || row[field] == "NULL"
     end
 
-    attributes["power_source"] = row["power_source"] == "not powered" ? nil : row["power_source"]
+    # attributes["power_source"] = row["power_source"] == "not powered" ? nil : row["power_source"]
 
-    attributes["borrow_policy_id"] = BorrowPolicy.where(code: row["new_code"]).first.id
-    attributes["quantity"] ||= 0 if row["new_code"] == "S"
-    attributes["category_ids"] = find_or_create_categories_from_names(item.id, row["categories"])
+    # attributes["borrow_policy_id"] = BorrowPolicy.where(code: row["new_code"]).first.id
+    # attributes["quantity"] ||= 0 if row["new_code"] == "S"
+    # attributes["category_ids"] = find_or_create_categories_from_names(item.id, row["categories"])
 
-    puts item.attributes.slice(*attributes.keys).inspect
     item.attributes = attributes
     item.save!
-    puts item.attributes.slice(*attributes.keys).inspect
 
     puts "updated item #{id}"
   rescue ActiveRecord::RecordNotFound => e

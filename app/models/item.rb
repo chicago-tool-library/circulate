@@ -71,6 +71,10 @@ class Item < ApplicationRecord
   audited except: :plain_text_description
   acts_as_tenant :library
 
+  monetize :purchase_price_cents,
+    allow_nil: true,
+    disable_validation: true
+
   scope :name_contains, ->(query) { where("name ILIKE ?", "%#{query}%").limit(10).distinct }
   scope :brand_contains, ->(query) { where("brand ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :size_contains, ->(query) { where("size ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }

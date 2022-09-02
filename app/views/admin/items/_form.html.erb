@@ -49,6 +49,15 @@
     </div>
   </div>
 
+  <div class="columns mt-2">
+    <div class="column col-4 col-sm-12">
+      <%= form.money_field :purchase_price, label: "Approximate purchase price" %>
+    </div>
+    <div class="column col-8 col-sm-12">
+      <%= form.text_field :purchase_link %>
+    </div>
+  </div>
+
   <%= form.rich_text_area :description,
         hint: "Any details about the tool. Could be notes about parts, usage, etc and will appear on the tool's public page" %>
 
