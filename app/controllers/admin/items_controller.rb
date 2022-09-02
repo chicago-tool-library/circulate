@@ -86,7 +86,8 @@ module Admin
     def all_item_params
       params.require(:item).permit(
         :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, :location_shelf, :location_area, :url, category_ids: []
+        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, :location_shelf, :location_area, :url,
+        :purchase_price, :purchase_link, category_ids: []
       )
     end
 
