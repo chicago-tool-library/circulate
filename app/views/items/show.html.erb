@@ -30,12 +30,6 @@
         </div>
       <% end %>
 
-      <% if @item.checkout_notice.present? %>
-        <div class="toast">
-          <p><%= @item.checkout_notice %></p>
-        </div>
-      <% end %>
-
       <% if @item.borrow_policy.rules.present? %>
         <blockquote>
           <%= @item.borrow_policy.rules %>
