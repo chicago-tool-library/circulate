@@ -9,6 +9,8 @@
 
   <%= form.tag_select :category_ids, @categories %>
 
+  <%= form.text_field :myturn_item_type, label: "MyTurn Item Type" %>
+
   <div class="columns">
     <div class="column col-4 col-sm-12">
       <%= form.autocomplete_text_field :size, path: admin_ui_sizes_path(format: :json),
