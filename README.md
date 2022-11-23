@@ -319,6 +319,17 @@ The `Procfile` is configured to run database migrations during the release stage
 
 `rails send_daily_loan_summaries` is set to run every evening using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler). Set this to a time _after_ any open hours to ensure that all of the day's activity has taken place.
 
+Here is the full list of scheduled tasks:
+
+```
+rails sync:calendars Every 10 minutes
+rails email:send_return_reminders Daily at 1:00 PM UTC	
+rails email:send_daily_loan_summaries Daily at 3:00 AM UTC	
+rails email:send_staff_daily_renewal_requests Daily at 12:00 AM UTC  	
+rails holds:start_waiting_holds Every 10 minutes 	
+rails email:send_overdue_notices Daily at 3:00 AM UTC 	
+rails email:send_membership_renewal_reminders Daily at 12:00 AM UTC
+```
 
 ## Alternatives
 
