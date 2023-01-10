@@ -48,3 +48,4 @@ yarn-debug.log*
 .yardoc
 .env.local
 .env.test.local
+gallery-dl
