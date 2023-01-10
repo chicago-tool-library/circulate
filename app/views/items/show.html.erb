@@ -48,47 +48,32 @@
         </ul>
       <% end %>
 
-      <% if true %>
+      <% if @item.holdable? %>
+
+        <% if user_signed_in? %>
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title">The library is moving!</h5>
+              <h5 class="card-title">You can place this item on hold</h5>
             </div>
             <div class="card-body">
-              Placing new holds has been disabled in preparation for the tool library's upcoming relocation.
-              The tool library will be closed after November 3rd until early 2023. Thanks for your understanding.
+              Placing a hold means you would like to be on the waiting list to use this tool.
+              If you are first on the waiting list you have 1 week to schedule a pick-up for the tool.
+              If the tool is currently being borrowed or if you are not first on the waiting list you will receive an email when you are first on the waiting list.
             </div>
             <div class="card-footer">
-              <a href="https://www.chicagotoollibrary.org/ctl-relocation">Learn more about the move on our website.</a>
+              <% if @item.allow_multiple_holds_per_member? %>
+                <%= render partial: "items/place_hold_on/item_that_allows_multiple_holds", locals: {item: @item, current_hold_count: @current_hold_count} %>
+              <% elsif @current_hold %>
+                <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
+              <% else %>
+                <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
+              <% end %>
             </div>
           </div>
-      <% else %>
-        <% if @item.holdable? %>
-
-          <% if user_signed_in? %>
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title">You can place this item on hold</h5>
-              </div>
-              <div class="card-body">
-                Placing a hold means you would like to be on the waiting list to use this tool.
-                If you are first on the waiting list you have 1 week to schedule a pick-up for the tool.
-                If the tool is currently being borrowed or if you are not first on the waiting list you will receive an email when you are first on the waiting list.
-              </div>
-              <div class="card-footer">
-                <% if @item.allow_multiple_holds_per_member? %>
-                  <%= render partial: "items/place_hold_on/item_that_allows_multiple_holds", locals: {item: @item, current_hold_count: @current_hold_count} %>
-                <% elsif @current_hold %>
-                  <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
-                <% else %>
-                  <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
-                <% end %>
-              </div>
-            </div>
-          <% else %>
-            <%= render partial: "items/place_hold_on/not_logged_in" %>
-          <% end %>
-
+        <% else %>
+          <%= render partial: "items/place_hold_on/not_logged_in" %>
         <% end %>
+
       <% end %>
 
     </div>
