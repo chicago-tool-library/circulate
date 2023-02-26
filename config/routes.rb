@@ -104,6 +104,7 @@ Rails.application.routes.draw do
       scope module: "members" do
         resources :holds, only: [:create, :index, :destroy] do
           post :lend, on: :member
+          get :history, on: :collection
         end
         resource :hold_loan, only: :create
         resources :lookups, only: :create
@@ -111,6 +112,7 @@ Rails.application.routes.draw do
         resources :payments, only: [:new, :create]
         resource :verification, only: [:edit, :update]
         resources :appointments, only: [:index, :create]
+        resources :notifications, only: :index
 
         resources :loan_summaries, only: :index
       end

@@ -1,0 +1,34 @@
+<%= render "admin/members/profile" do %>
+  <% if @holds.any? %>
+    <div id="current-holds" class="member-holds">
+      <% @holds.each do |hold| %>
+        <div id="<%= dom_id hold %>" class="columns mt-2 mb-2 highlightable">
+          <div class="column col-sm-6 col-4">
+            <%= tag.div class: "item-image" do %>
+              <% if hold.item.image.attached? %>
+                <%= link_to admin_item_path(hold.item) do %>
+                  <%= image_tag item_image_url(hold.item.image, resize_to_limit: [160, 112]), class: "p-right" %>
+                <% end %>
+              <% else %>
+                <div class="image-placeholder"></div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="column col-sm-6 col-8">
+            <p><%= full_item_number(hold.item) %></p>
+            <p><%= link_to hold.item.name, admin_item_path(hold.item) %></p>
+            <% if hold.loan %>
+              Picked up on <%= checked_out_date hold.loan.created_at %>
+            <% elsif hold.expires_at %>
+              <p><em>Expired on <%= checked_out_date hold.expires_at %></em></p>
+            <% end %>
+          </div>
+        </div>
+        <div class="divider"></div>
+      <% end %>
+    </div>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
+  <% end %>
+<% end %>

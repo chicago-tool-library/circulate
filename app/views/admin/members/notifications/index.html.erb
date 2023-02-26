@@ -1,0 +1,27 @@
+<%= render "admin/members/profile" do %>
+  <% if @notifications.any? %>
+
+    <table class="table table-scroll">
+      <thead>
+        <tr>
+          <th>Sent at</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @notifications.each do |notification| %>
+          <tr>
+            <td><%= date_with_time_title notification.created_at %></td>
+            <td><%= notification.subject %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
+
+  <% else %>
+    <%= empty_state "No notifications", icon: "message" %>
+  <% end %>
+<% end %>

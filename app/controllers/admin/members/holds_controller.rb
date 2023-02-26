@@ -3,6 +3,7 @@ module Admin
     class HoldsController < BaseController
       include Lending
       include ActionView::RecordIdentifier
+      include Pagy::Backend
 
       def index
         @holds = @member.active_holds.includes(:item)
@@ -38,6 +39,10 @@ module Admin
 
         @hold.destroy!
         redirect_to admin_member_holds_path(@hold.member)
+      end
+
+      def history
+        @pagy, @holds = pagy(@member.holds.inactive.includes(:item).recent_first)
       end
 
       private
