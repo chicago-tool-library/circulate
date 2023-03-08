@@ -312,7 +312,7 @@ GEM
     pundit (2.1.1)
       activesupport (>= 3.0.0)
     racc (1.6.2)
-    rack (2.2.3)
+    rack (2.2.6.3)
     rack-protection (2.2.0)
       rack
     rack-proxy (0.6.5)
