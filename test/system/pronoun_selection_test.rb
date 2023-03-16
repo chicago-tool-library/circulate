@@ -9,7 +9,7 @@ class PronounSelectionTest < ApplicationSystemTestCase
   test "select multiple pronouns" do
     visit signup_url
 
-    click_on "Signup Online Now"
+    click_on "Sign Up as an Individual"
 
     click_on "Continue"
 

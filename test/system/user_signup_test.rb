@@ -10,7 +10,7 @@ class UserSignupTest < ApplicationSystemTestCase
   def complete_first_three_steps
     visit signup_url
 
-    click_on "Signup Online Now"
+    click_on "Sign Up as an Individual"
 
     assert_selector "li.step-item.active", text: "Rules"
 

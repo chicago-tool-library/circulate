@@ -995,6 +995,18 @@ table.monthly-adjustments {
         border-color: $dark-color;
       }
     }
+    &.btn-secondary {
+      background: $secondary-color;
+      border-color: darken($secondary-color, 10%);
+      color: white;
+      &:hover {
+        background: darken($secondary-color, 10%);
+      }
+      &:active, &.active {
+        background: $dark-color;
+        border-color: $dark-color;
+      }
+    }
   }
 }
 
