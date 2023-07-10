@@ -12,7 +12,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma"
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker", ">= 4.0.0.rc.3"
+gem "webpacker", "5.4.4"
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"
@@ -83,6 +83,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
+  gem "minitest", "5.15.0"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "webdrivers", "~> 5.0"

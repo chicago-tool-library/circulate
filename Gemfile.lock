@@ -131,8 +131,9 @@ GEM
     certifi (2018.01.18)
     childprocess (4.1.0)
     chronic (0.10.2)
-    concurrent-ruby (1.1.9)
+    concurrent-ruby (1.2.2)
     crass (1.0.6)
+    date (3.3.3)
     devise (4.8.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -155,7 +156,7 @@ GEM
       rainbow
       rubocop
       smart_properties
-    erubi (1.10.0)
+    erubi (1.12.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -209,7 +210,7 @@ GEM
     http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    i18n (1.10.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
@@ -240,17 +241,20 @@ GEM
     logging (2.3.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
-    loofah (2.19.1)
+    loofah (2.21.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.5.9)
-    mail (2.7.1)
+      nokogiri (>= 1.12.0)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.1)
+    mini_portile2 (2.8.2)
     minitest (5.15.0)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
@@ -268,9 +272,18 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    net-imap (0.3.6)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     nio4r (2.5.8)
-    nokogiri (1.13.10)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.15.3)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (1.4.9)
       faraday (>= 0.17.3, < 3.0)
@@ -311,14 +324,14 @@ GEM
       nio4r (~> 2.0)
     pundit (2.1.1)
       activesupport (>= 3.0.0)
-    racc (1.6.2)
-    rack (2.2.3)
+    racc (1.7.1)
+    rack (2.2.7)
     rack-protection (2.2.0)
       rack
-    rack-proxy (0.6.5)
+    rack-proxy (0.7.6)
       rack
-    rack-test (1.1.0)
-      rack (>= 1.0, < 3)
+    rack-test (2.1.0)
+      rack (>= 1.3)
     rails (6.1.4.3)
       actioncable (= 6.1.4.3)
       actionmailbox (= 6.1.4.3)
@@ -338,11 +351,13 @@ GEM
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
       activesupport (>= 5.0.1.rc1)
-    rails-dom-testing (2.0.3)
-      activesupport (>= 4.2.0)
+    rails-dom-testing (2.1.1)
+      activesupport (>= 5.0.0)
+      minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.4)
-      loofah (~> 2.19, >= 2.19.1)
+    rails-html-sanitizer (1.6.0)
+      loofah (~> 2.21)
+      nokogiri (~> 1.14)
     railties (6.1.4.3)
       actionpack (= 6.1.4.3)
       activesupport (= 6.1.4.3)
@@ -389,7 +404,7 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    semantic_range (2.3.0)
+    semantic_range (3.0.0)
     sentry-raven (3.1.2)
       faraday (>= 1.0)
     singleton (0.1.1)
@@ -432,8 +447,9 @@ GEM
     sucker_punch (3.0.1)
       concurrent-ruby (~> 1.0)
     text (1.3.1)
-    thor (1.2.1)
+    thor (1.2.2)
     tilt (2.0.10)
+    timeout (0.4.0)
     translation (1.29)
       gettext (~> 3.2, >= 3.2.5, <= 3.4.2)
     turbolinks (5.2.1)
@@ -444,7 +460,7 @@ GEM
       activesupport (>= 5.2.0)
       railties (>= 5.2.0)
       turbolinks-source (~> 5.1)
-    tzinfo (2.0.4)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
@@ -461,7 +477,7 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (~> 4.0)
-    webpacker (5.2.1)
+    webpacker (5.4.4)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -474,7 +490,7 @@ GEM
       nokogiri (~> 1.8)
     yard (0.9.27)
       webrick (~> 1.7.0)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   ruby
@@ -502,6 +518,7 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
+  minitest (= 5.15.0)
   minitest-ci
   mjml-rails
   money-rails
@@ -529,10 +546,10 @@ DEPENDENCIES
   turbolinks_render
   web-console (>= 3.3.0)
   webdrivers (~> 5.0)
-  webpacker (>= 4.0.0.rc.3)
+  webpacker (= 5.4.4)
 
 RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.2.32
+   2.4.15
