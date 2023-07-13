@@ -101,36 +101,7 @@ namespace :export do
     end
   end
 
-  desc "Export items to CSV"
-  task items_to_csv: :environment do
-    now = Time.current.rfc3339
-    path = Rails.root + "exports" + "all-items-#{now}.csv"
-    puts "writing items to #{path}"
-    columns = %w[
-      id name description size brand model serial strength
-      quantity checkout_notice status created_at updated_at
-    ]
-    CSV.open(path, "wb") do |csv|
-      csv << [
-        "complete_number",
-        "code",
-        "number",
-        "categories",
-        *columns
-      ]
-      Item.includes(:borrow_policy, :category_nodes).in_batches(of: 100) do |items|
-        items.each do |item|
-          csv << [
-            item.complete_number,
-            item.borrow_policy.code,
-            item.number,
-            item.category_nodes.map { |cn| cn.path_names.join("//") }.sort.join("; "),
-            *item.attributes.values_at(*columns)
-          ]
-        end
-      end
-    end
-  end
+  
 
   desc "Export seeds to CSV"
   task seeds_to_csv: :environment do
@@ -174,15 +145,13 @@ namespace :export do
         "id",
         "name",
         "complete_name",
-        "items_count"
       ]
       CategoryNode.in_batches(of: 100) do |nodes|
         nodes.each do |node|
           csv << [
             node.id,
             node.name,
-            node.path_names.join("//"),
-            node.categorizations_count
+            node.path_names.join("//")
           ]
         end
       end

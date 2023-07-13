@@ -139,6 +139,7 @@ Rails.application.routes.draw do
         get :preview, on: :member
       end
       resources :library_updates
+      resources :exports, only: [:index, :create]
     end
 
     resources :holds, only: [:index]
