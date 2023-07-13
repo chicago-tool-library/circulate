@@ -101,8 +101,6 @@ namespace :export do
     end
   end
 
-  
-
   desc "Export seeds to CSV"
   task seeds_to_csv: :environment do
     now = Time.current.rfc3339
@@ -144,7 +142,7 @@ namespace :export do
       csv << [
         "id",
         "name",
-        "complete_name",
+        "complete_name"
       ]
       CategoryNode.in_batches(of: 100) do |nodes|
         nodes.each do |node|
