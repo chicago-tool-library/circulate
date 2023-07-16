@@ -91,17 +91,12 @@ jobs:
         run: |
           bundle exec rails ${{ matrix.command }}
 
-      - uses: actions/upload-artifact@v2
-        if: matrix.test == 'system'
+      - uses: actions/upload-artifact@v3
+        if: ${{ matrix.test == 'system' && failure() }}
         with:
-          path: tmp/screenshots
-          name: test-screenshots
-
-      - uses: actions/upload-artifact@v2
-        if: matrix.test == 'system'
-        with:
-          path: test/reports
-          name: test-reports
+          path: |
+            tmp/screenshots
+            test/reports
 
   run-scripts:
     name: Run bin/setup and bin/reset scripts
