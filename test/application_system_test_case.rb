@@ -3,6 +3,8 @@ require "test_helper"
 # The webdrivers gem doesn't work properly for folks using docker-compose
 require "webdrivers/chromedriver" unless ENV["DOCKER"]
 
+Capybara.default_max_wait_time = 5
+
 # Backported from Rails 6.1
 Capybara.add_selector :rich_text_area do
   label "rich-text area"
