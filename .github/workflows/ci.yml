@@ -91,6 +91,10 @@ jobs:
         run: |
           bundle exec rails ${{ matrix.command }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ matrix.test == 'system' && failure() }}
+
       - uses: actions/upload-artifact@v3
         if: ${{ matrix.test == 'system' && failure() }}
         with:
