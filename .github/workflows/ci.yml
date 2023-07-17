@@ -58,9 +58,9 @@ jobs:
           sudo apt-get install gsfonts
           sudo fc-cache -f -v
 
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16.x
 
       - uses: actions/cache@v2
         with:
