@@ -33,7 +33,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
   end
 
   def complete_square_checkout
-    assert_selector "h1", text: "Checkout", wait: 10 # cart needs a little while to fully load
+    assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
     assert_selector ".order-details-section", text: "1 × Annual Membership"
 
     fill_in "card_fullname", with: "N. K. Jemisin"
@@ -47,7 +47,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
       click_on "Place Order"
 
       # Back in the app
-      assert_selector "li.step-item.active", text: "Complete", wait: 10
+      assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
   end
 
@@ -63,7 +63,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Complete in Person"
 
-      assert_selector "li.step-item.active", text: "Complete", wait: 5
+      assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
 
     assert_emails 1
@@ -158,7 +158,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Redeem"
 
-      assert_content "See you at the library!", wait: 10
+      assert_content "See you at the library!", wait: slow_op_wait_time
     end
     refute_content "Your payment"
 

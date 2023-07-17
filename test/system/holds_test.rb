@@ -85,7 +85,7 @@ class HoldsTest < ApplicationSystemTestCase
       click_on "Return"
     end
 
-    refute_selector "#current-loans", wait: 10
+    refute_selector "#current-loans", wait: slow_op_wait_time
 
     Hold.start_waiting_holds do |hold|
       assert_equal @hold, hold
