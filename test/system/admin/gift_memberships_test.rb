@@ -1,5 +1,7 @@
 require "application_system_test_case"
 
+CERTIFICATE_GENERATION_WAIT = ENV["GITHUB_ACTIONS"] ? 30 : 10
+
 class GiftMembershipsTest < ApplicationSystemTestCase
   setup do
     ActionMailer::Base.deliveries.clear
@@ -23,7 +25,7 @@ class GiftMembershipsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Create Gift membership"
 
-      assert_text "Gift membership was successfully created", wait: 10
+      assert_text "Gift membership was successfully created", wait: CERTIFICATE_GENERATION_WAIT
     end
 
     assert_text "$23.00"
@@ -86,7 +88,7 @@ class GiftMembershipsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       find("button", text: "Create Gift membership").double_click
 
-      assert_text "Gift membership was successfully created", wait: 10
+      assert_text "Gift membership was successfully created", wait: CERTIFICATE_GENERATION_WAIT
     end
 
     assert_equal 1, GiftMembership.all.map(&:purchaser_email).count("repeat_test@place.biz")
