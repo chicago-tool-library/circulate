@@ -115,7 +115,7 @@ class AppointmentsTest < ApplicationSystemTestCase
 
       click_on "Schedule Appointment"
 
-      assert_selector "h1", text: "Appointments", wait: 10
+      assert_selector "h1", text: "Appointments", wait: slow_op_wait_time
       assert_equal account_appointments_path, current_path
       assert_text selected_date
       assert_text @held_item.complete_number

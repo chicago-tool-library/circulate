@@ -23,7 +23,7 @@ class GiftMembershipsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Create Gift membership"
 
-      assert_text "Gift membership was successfully created", wait: 10
+      assert_text "Gift membership was successfully created", wait: slow_op_wait_time
     end
 
     assert_text "$23.00"
@@ -86,7 +86,7 @@ class GiftMembershipsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       find("button", text: "Create Gift membership").double_click
 
-      assert_text "Gift membership was successfully created", wait: 10
+      assert_text "Gift membership was successfully created", wait: slow_op_wait_time
     end
 
     assert_equal 1, GiftMembership.all.map(&:purchaser_email).count("repeat_test@place.biz")

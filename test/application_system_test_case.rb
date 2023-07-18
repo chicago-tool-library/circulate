@@ -3,6 +3,8 @@ require "test_helper"
 # The webdrivers gem doesn't work properly for folks using docker-compose
 require "webdrivers/chromedriver" unless ENV["DOCKER"]
 
+Capybara.default_max_wait_time = 5
+
 # Backported from Rails 6.1
 Capybara.add_selector :rich_text_area do
   label "rich-text area"
@@ -153,5 +155,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def assert_date_displayed(datetime)
     find("time[datetime='#{datetime.utc}']")
+  end
+
+  # The GH action runners are _slow_ and things like image generation or
+  # MJML rendering will easily timeout unless given a lot of breathing room.
+  def slow_op_wait_time
+    ENV["GITHUB_ACTIONS"] ? 30 : 10
   end
 end
