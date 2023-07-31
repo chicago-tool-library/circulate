@@ -45,8 +45,12 @@ class Member < ApplicationRecord
   scope :active_on, ->(date) { joins(:loan_summaries).merge(LoanSummary.active_on(date)).distinct }
   scope :with_outstanding_items, ->(date) { joins(:loan_summaries).merge(LoanSummary.overdue_as_of(date)).distinct }
   scope :volunteer, -> { where(volunteer_interest: true) }
-
   scope :by_full_name, -> { order(full_name: :desc) }
+
+  scope :for_export, -> {
+    joins("LEFT OUTER JOIN (#{Membership.for_export.to_sql}) AS maby ON members.id = maby.member_id").select("members.*, maby.*")
+      .order("id ASC")
+  }
 
   before_validation :strip_phone_number
   before_validation :set_default_address_fields
@@ -91,6 +95,15 @@ class Member < ApplicationRecord
 
   def self.pronoun_list
     PRONOUNS
+  end
+
+  def naively_split_name
+    name_parts = member.full_name.split(" ")
+    if name_parts.size == 2
+      [name_parts[0], "", name_parts[1]]
+    else
+      [name_parts[0], name_parts[1], name_parts[2..]&.join(" ")]
+    end
   end
 
   def display_pronouns
