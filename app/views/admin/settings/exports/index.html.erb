@@ -1,10 +1,17 @@
 <%= content_for :header do %>
-  <%= index_header "Item Export" %>
+  <%= index_header "Exports" %>
 <% end %>
 
-<h2>Export all items to CSV</h2>
+<h2>Download data in CSV format</h2>
 
-<%= link_to "Download CSV", admin_settings_exports_path, method: :post, class: "btn btn-lg", data: {turbolinks: false} %>
+<ul>
+  <li>
+    <%= link_to "Items", items_admin_settings_exports_path, method: :post, class: "btn btn-lg", data: {turbolinks: false} %>
+  </li>
+  <li>
+    <%= link_to "Members and memberships", members_admin_settings_exports_path, method: :post, class: "btn btn-lg", data: {turbolinks: false} %>
+  </li>
+</ul>
 
 <div class="columns">
   <div class="column col-6">

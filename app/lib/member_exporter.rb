@@ -27,7 +27,7 @@ class MemberExporter
 
     stream.write(CSV.generate_line(headers))
 
-    @members.find_each do |member|
+    @members.find_each(batch_size: 250) do |member|
       # 16 rows
       row = [
         member.id,
@@ -57,10 +57,13 @@ class MemberExporter
   end
 
   def year_values(member)
-    @year_range.map { |year|
+    @year_range.flat_map { |year|
       started_at = member["#{year}_started_at"]
+      amount = member["#{year}_amount"].to_i
       if started_at
-        [started_at, member["#{year}_amount"]]
+        [amount / 100, started_at.to_s(:short_date)]
+      elsif amount > 0
+        [amount / 100, nil]
       else
         [nil, nil]
       end

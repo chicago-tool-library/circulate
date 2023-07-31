@@ -139,7 +139,10 @@ Rails.application.routes.draw do
         get :preview, on: :member
       end
       resources :library_updates
-      resources :exports, only: [:index, :create]
+      resources :exports, only: [:index] do
+        post :items, on: :collection
+        post :members, on: :collection
+      end
     end
 
     resources :holds, only: [:index]
