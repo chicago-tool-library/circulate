@@ -24,7 +24,7 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
       opts.add_argument "--headless"
       opts.add_argument "--no-sandbox"
       opts.add_argument "--disable-gpu"
@@ -39,7 +39,7 @@ Capybara.register_driver :headless_chrome_in_container do |app|
     app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
       opts.add_argument "--headless"
       opts.add_argument "--disable-gpu"
       opts.add_argument "--window-size=1400x1800"
@@ -52,7 +52,7 @@ Capybara.register_driver :chrome_in_container do |app|
     app,
     browser: :remote,
     url: "http://selenium_chrome:4444/wd/hub",
-    capabilities: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
       opts.add_argument "--window-size=1400x1800"
     end
   )
