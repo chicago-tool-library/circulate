@@ -4,18 +4,29 @@ class Admin::Settings::ExportsController < Admin::BaseController
   def index
   end
 
-  def create
+  def items
     now = Time.current.rfc3339
     filename = "all-items-#{now}.csv"
+    exporter = ItemExporter.new(Item.all)
+    export(filename, exporter)
+  end
 
+  def members
+    now = Time.current.rfc3339
+    filename = "all-members-and-memberships-#{now}.csv"
+    exporter = MemberExporter.new
+    export(filename, exporter)
+  end
+
+  private
+
+  def export(filename, exporter)
     send_file_headers!(
       type: "text/csv",
       disposition: "attachment",
       filename: filename
     )
     response.headers["Last-Modified"] = Time.now.httpdate
-
-    exporter = ItemExporter.new(Item.all)
     exporter.export(response.stream)
   ensure
     response.stream.close

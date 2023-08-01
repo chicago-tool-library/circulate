@@ -48,7 +48,7 @@ jobs:
         with:
           bundler-cache: true
 
-      - uses: nanasess/setup-chromedriver@v1
+      - uses: nanasess/setup-chromedriver@v2
         if: matrix.test == 'system'
 
       - name: Setup fonts

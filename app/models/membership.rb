@@ -10,8 +10,25 @@ class Membership < ApplicationRecord
   scope :ended, -> { where("ended_at <= ?", Time.current).order("ended_at ASC") }
   scope :expiring_before, ->(date) { where("ended_at <= ?", date) }
 
+  scope :for_export, -> {
+    select_clauses = year_range_for_export.flat_map { |year|
+      [
+        %{SUM(adjustments.amount_cents * -1) FILTER (WHERE date_part('year', adjustments.created_at) = #{year}) AS "#{year}_amount"},
+        %{MAX(memberships.started_at) FILTER (WHERE date_part('year', memberships.started_at) = #{year}) AS "#{year}_started_at"}
+      ]
+    }
+
+    left_joins(:adjustment).select(:member_id, *select_clauses).group(:member_id)
+  }
+
   validate :no_overlapping_dates
   validate :start_after_end
+
+  def self.year_range_for_export
+    first_year = minimum(:started_at).year
+    last_year = maximum(:started_at).year
+    (first_year..last_year)
+  end
 
   def amount
     adjustment ? adjustment.amount * -1 : Money.new(0)
