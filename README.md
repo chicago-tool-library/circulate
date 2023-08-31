@@ -1,28 +1,5 @@
 # Circulate
 
---------
-## An update on the Circulate project
-
-TLDR: The Circulate team (Jim and Richard) will be putting Circulate on hiatus over the coming months.
-
-Thank you to everyone who has been a part of this project over the last few years. This software has enabled The Chicago Tool Library to grow from just an idea into a thriving resource for the people of Chicago. We have successfully built a lending platform that provided features available nowhere else, and did it as a community of people who did good. We’ve had an incredible amount of support from people all over the world on the project, and I can’t thank each person enough for being a part of the project.
-
-For most of 2022, we have struggled to provide a good experience to volunteers as well as deal with production issues in a timely manner. This has been due to the limited time of many of the core contributors to the project, especially Jim.
-
-The only current tenant of the application, Chicago Tool Library, has made the decision to move to a SaaS solution to manage its lending early next year. There are a few reasons for this, including CTL needing some features Circulate hasn’t built yet as well as guarantees around customer support for when things go wrong. Jim is currently on the board of CTL and supports this decision.
-
-In parallel, we’ve been considering how much time we can continue to contribute to the project going forward, and we’ve made the decision to spin down our involvement with the project.
-
-We anticipate that development on Circulate will stop indefinitely, but the codebase will live on in Github and as it is open-source, it’s possible that it will be revived in the future, either through Ruby For Good or as a fork. Regardless, please know that your efforts on this project have been valuable and valued, helping many Chicago Tool Library members learn skills, build self-sufficiency, save money, reduce waste, and live more enjoyable and productive lives. We consider the project to be a success.
-
-If you are looking to write some more Ruby code to help people, Ruby for Good has many other projects to contribute to. They’d be glad to have you!
-
-Thanks for your time, your contributions, and reading this message. Cheers!
-
-Jim Benton and Richard Kim
-
---------
-
 ![CI status](https://github.com/rubyforgood/circulate/actions/workflows/ci.yml/badge.svg)
 
 <!-- toc -->
