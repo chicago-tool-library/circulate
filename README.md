@@ -27,6 +27,8 @@
 
 <!-- tocstop -->
 
+<!---
+
 ## Welcome contributors!
 
 We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contributors of all skill levels. We have plenty of tiny, small, and medium issues.
@@ -38,6 +40,8 @@ Issues on [the project board in the _Ready to be worked on_ column](https://gith
 Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make GitHub issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three.
 
 See also our [contributing guide](./CONTRIBUTING.md) 💖
+
+--->
 
 ## About
 
