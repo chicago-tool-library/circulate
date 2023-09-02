@@ -9,8 +9,8 @@
     <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
       <meta name="turbolinks-cache-control" content="no-cache">
     <% end %>
-    <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
-    <%= stylesheet_pack_tag "styles", media: "all", 'data-turbolinks-track': "reload" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track': "reload", defer: true %>
+    <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
 
     <% if Rails.env.production? %>
       <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
@@ -63,7 +63,7 @@
         <section class="navbar-section">
           <span class="navbar-brand mr-3">
             <a href="https://chicagotoollibrary.org/">
-              <%= image_pack_tag "logo_small.png", alt: "Chicago Tool Library logo" %>
+              <%= image_tag "logo_small.png", alt: "Chicago Tool Library logo" %>
             </a>
           </span>
           <ul class="navbar-links">

@@ -49,3 +49,5 @@ yarn-debug.log*
 .env.local
 .env.test.local
 gallery-dl
+/app/assets/builds/*
+!/app/assets/builds/.keep
