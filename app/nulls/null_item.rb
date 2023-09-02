@@ -44,4 +44,8 @@ class NullItem
   def next_hold
     nil
   end
+
+  def active_holds
+    []
+  end
 end

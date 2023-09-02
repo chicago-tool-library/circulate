@@ -18,4 +18,8 @@ class NullBorrowPolicy
   def member_renewable?
     false
   end
+
+  def consumable?
+    false
+  end
 end
