@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 20.x
 
       - uses: actions/cache@v2
         with:
@@ -71,7 +71,7 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - run: bin/rails webpacker:compile
+      - run: bin/rails assets:precompile
 
       - name: Setup database
         env:
