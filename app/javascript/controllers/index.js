@@ -21,7 +21,7 @@ import ConditionalFieldController from './conditional_field_controller'
 Stimulus.register('conditional-field', ConditionalFieldController)
 
 import EmailSettingsEditorController from './email_settings_editor_controller'
-Stimulus.register('email-settings_editor', EmailSettingsEditorController)
+Stimulus.register('email-settings-editor', EmailSettingsEditorController)
 
 import FindToolController from './find_tool_controller'
 Stimulus.register('find-tool', FindToolController)
@@ -42,7 +42,7 @@ import PortalController from './portal_controller'
 Stimulus.register('portal', PortalController)
 
 import RequestItemController from './request_item_controller'
-Stimulus.register('request_item', RequestItemController)
+Stimulus.register('request-item', RequestItemController)
 
 import SidebarController from './sidebar_controller'
 Stimulus.register('sidebar', SidebarController)
