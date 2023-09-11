@@ -1187,10 +1187,10 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@rails/actioncable@^6.1.4":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.1.4.tgz#c3c5a9f8302c429af9722b6c50ab48049016d2a3"
-  integrity sha512-0LmSKJTuo2dL6BQ+9xxLnS9lbkyfz2mBGeBnQ2J7o9Bn0l0q+ZC6VuoZMZZXPvABI4QT7Nfknv5WhfKYL+boew==
+"@rails/actioncable@^7.0.8":
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.0.8.tgz#f44e7517f2d1570f1eabeea457dbeb17ed3a2d12"
+  integrity sha512-GjYQv89ZOOfbFw8VMNUOG33GXzyAA/TCVoD+742Ob4svm1XXUkd+w+ewqUXd+7VHQtV35y1/O78AGIPeJDTy/g==
 
 "@rails/actiontext@^6.1.5":
   version "6.1.5"
