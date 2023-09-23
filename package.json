@@ -24,7 +24,8 @@
     "markdown-toc": "^1.2.0"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
+    "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
+    "build-dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
 }
