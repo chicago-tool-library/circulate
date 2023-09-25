@@ -1,6 +1,6 @@
 <mj-section>
   <mj-column padding-top="20px">
-    <mj-image src="<%= asset_pack_url "media/images/logo.jpg" %>" width="100px" />
+    <mj-image src="<%= image_url "logo.jpg" %>" width="100px" />
   </mj-column>
 </mj-section>
 
