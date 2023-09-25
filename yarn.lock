@@ -138,10 +138,10 @@
   dependencies:
     spark-md5 "^3.0.0"
 
-"@rails/ujs@^6.1.4":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.4.tgz#093d5341595a02089ed309dec40f3c37da7b1b10"
-  integrity sha512-O3lEzL5DYbxppMdsFSw36e4BHIlfz/xusynwXGv3l2lhSlvah41qviRpsoAlKXxl37nZAqK+UUF5cnGGK45Mfw==
+"@rails/ujs@^7.0.8":
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.0.8.tgz#59853367d0827b3955d2c4bedfd5eba4a79d3422"
+  integrity sha512-tOQQBVH8LsUpGXqDnk+kaOGVsgZ8maHAhEiw3Git3p88q+c0Slgu47HuDnL6sVxeCfz24zbq7dOjsVYDiTpDIA==
 
 "@stimulus/core@^1.1.1":
   version "1.1.1"
