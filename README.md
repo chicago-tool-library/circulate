@@ -83,14 +83,14 @@ The following third party services are used:
 * Square for payment processing
 * Gmail and Google Calendar for volunteer and appointment shift scheduling
 * Sentry for error collection
-* Skylight for app performance monitoring
+* AppSignal for monitoring and error collection
 * Imagekit for image resizing and manipulation
 
 ## Development
 
 Once you've completed the setup below, you can login to the app using `admin@example.com` and `password` to see the admin interface.
 
-See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
+We generally advise folks to avoid Docker for local development unless it is something thet are already very comfortable with. See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
 
 ### Setting up Circulate on your machine
 
@@ -105,24 +105,6 @@ Next, put the full text below and press enter:
 That will clone the Circulate repo to your machine, so you have a nice copy to work with locally! (Looking ahead, as you work you'll be pushing UP any changes you make from there to the Circulate repo on GitHub as a pull request.)
 
 In your terminal, type `cd circulate` to change the directory you are in to your freshly-cloned, locally-hosted directory, Circulate.
-
-In your terminal, type `ls` to take a look at what you'll be working with in this repo!
-
-It should look like this:
-
-```
-CODE_OF_CONDUCT.md	bin			package.json
-Gemfile			config			postcss.config.js
-Gemfile.lock		config.ru		public
-LICENSE.md		db			script
-Procfile		exports			storage
-README.md		gems			test
-Rakefile		lefthook.yml		tmp
-app			lib			vendor
-babel.config.js		log			yarn.lock
-```
-
-Close your Terminal window and open a new one so your changes take effect.
 
 Okay, at this point you've got a Ruby on Rails development environment set up and cloned the Circulate repo! Now you'll need to run the following commands one at a time in your terminal:
 
@@ -144,13 +126,13 @@ Look for the word "Finished". That output should look similar to this:
 Finished in 4.167485s, 41.0319 runs/s, 134.8535 assertions/s.
 ```
 
-For working on this app, it is great to have several terminal windows open. Run `bin/rails server` in one terminal,  `bin/webpack-dev-server` in another, and have a third terminal open for commands. The command in the second terminal kicks off a new webpack build when files change, which speeds up page load during local development considerably if you're making changes to JavaScript or SCSS.
+For working on this app, it is great to have two terminal windows open. Run `bin/dev ` in one terminal, which will start up the application, bundle CSS and compile JS all at the same time. Use a second terminal open for `git` and other commands you might need to type while working.
 
-Open an internet browser, type `localhost:3000`, and hit enter. You should see the Circulate app in your browser!
+Open an internet browser, type [`localhost:3000`](http://localhost:3000), and hit enter. You should see the Circulate app in your browser!
 
 After you have the application running, here are some places to explore:
 
-1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password. (Please note, this is very rare, and only for the purposes of building at this moment. Please do not share your password on GitHub files!)
+1. Sign in to [the admin interface](http://localhost:3000/admin/items) using `admin@example.com` as the username and `password` as the password.
 2. Complete the [new member signup flow](http://localhost:3000/signup).
 
 ### Multi-tenancy
