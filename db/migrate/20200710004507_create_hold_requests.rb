@@ -11,7 +11,7 @@ class CreateHoldRequests < ActiveRecord::Migration[6.0]
       t.string :email
       t.references :member
       t.string :notes
-      t.enum :status, enum_name: :hold_request_status, null: false, default: "new"
+      t.enum :status, enum_type: :hold_request_status, null: false, default: "new"
       t.timestamps
     end
   end

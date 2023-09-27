@@ -11,47 +11,47 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_10_30_174955) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_enum :adjustment_kind, [
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :item_status, [
     "pending",
     "active",
     "maintenance",
-    "retired"
+    "retired",
   ], force: :cascade
 
   create_enum :notification_status, [
     "pending",
     "sent",
     "bounced",
-    "error"
+    "error",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -59,27 +59,27 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
   ], force: :cascade
 
   create_enum :ticket_status, [
     "assess",
     "parts",
     "repairing",
-    "resolved"
+    "resolved",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
     "member",
-    "super_admin"
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.jsonb "attendees"
     t.integer "library_id"
+    t.jsonb "attendees"
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
     t.index ["library_id"], name: "index_events_on_library_id"
   end
@@ -282,8 +282,8 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
-    t.datetime "started_at"
     t.integer "library_id"
+    t.datetime "started_at"
     t.datetime "expires_at"
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id"], name: "index_holds_on_item_id"
@@ -321,10 +321,10 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     t.string "checkout_notice"
     t.integer "holds_count", default: 0, null: false
     t.string "other_names"
+    t.integer "library_id"
     t.enum "power_source", enum_type: "power_source"
     t.text "location_area"
     t.text "location_shelf"
-    t.integer "library_id"
     t.text "plain_text_description"
     t.string "url"
     t.string "purchase_link"
@@ -412,8 +412,8 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     t.string "region"
     t.integer "number"
     t.text "pronouns", default: [], array: true
-    t.string "pronunciation"
     t.integer "library_id"
+    t.string "pronunciation"
     t.index ["library_id"], name: "index_members_on_library_id"
     t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
     t.index ["number"], name: "index_members_on_number", unique: true
@@ -559,6 +559,95 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
   add_foreign_key "tickets", "users", column: "creator_id"
   add_foreign_key "users", "members"
 
+  create_view "loan_summaries", sql_definition: <<-SQL
+      SELECT loans.library_id,
+      loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      max(loans.id) AS latest_loan_id,
+      min(loans.created_at) AS created_at,
+      max(loans.due_at) AS due_at,
+          CASE
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              ELSE NULL::timestamp without time zone
+          END AS ended_at,
+      max(loans.renewal_count) AS renewal_count
+     FROM loans
+    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+  SQL
+  create_view "monthly_adjustments", sql_definition: <<-SQL
+      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
+      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_total_cents,
+      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_count,
+      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)), (0)::bigint) AS payment_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))), (0)::bigint) AS square_total_cents,
+      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))), (0)::bigint) AS cash_total_cents
+     FROM (adjustments
+       LEFT JOIN ( SELECT members.id AS member_id,
+              min(memberships.id) AS first_membership_id
+             FROM (members
+               LEFT JOIN memberships ON ((members.id = memberships.member_id)))
+            GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
+    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
+    ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+  SQL
+  create_view "monthly_loans", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count
+     FROM (months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
+  create_view "monthly_members", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, members.created_at)) AS startm,
+              max(date_trunc('month'::text, members.created_at)) AS endm
+             FROM members
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
+      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
+     FROM (months
+       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
+  create_view "monthly_appointments", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, appointments.starts_at)) AS startm,
+              max(date_trunc('month'::text, appointments.starts_at)) AS endm
+             FROM appointments
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (date_part('year'::text, months.month))::integer AS year,
+      (date_part('month'::text, months.month))::integer AS month,
+      count(DISTINCT a.id) AS appointments_count,
+      count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
+     FROM (months
+       LEFT JOIN appointments a ON ((date_trunc('month'::text, a.starts_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (
            SELECT categories.id,
@@ -613,93 +702,4 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
   SQL
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
 
-  create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT loans.library_id,
-      loans.item_id,
-      loans.member_id,
-      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
-      max(loans.id) AS latest_loan_id,
-      min(loans.created_at) AS created_at,
-      max(loans.due_at) AS due_at,
-          CASE
-              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
-              ELSE NULL::timestamp without time zone
-          END AS ended_at,
-      max(loans.renewal_count) AS renewal_count
-     FROM loans
-    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
-  SQL
-  create_view "monthly_adjustments", sql_definition: <<-SQL
-      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
-      (date_part('month'::text, adjustments.created_at))::integer AS month,
-      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_count,
-      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_total_cents,
-      count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_count,
-      sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_total_cents,
-      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE (adjustments.kind = 'payment'::adjustment_kind)), (0)::bigint) AS payment_total_cents,
-      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'square'::adjustment_source))), (0)::bigint) AS square_total_cents,
-      COALESCE(sum(adjustments.amount_cents) FILTER (WHERE ((adjustments.kind = 'payment'::adjustment_kind) AND (adjustments.payment_source = 'cash'::adjustment_source))), (0)::bigint) AS cash_total_cents
-     FROM (adjustments
-       LEFT JOIN ( SELECT members.id AS member_id,
-              min(memberships.id) AS first_membership_id
-             FROM (members
-               LEFT JOIN memberships ON ((members.id = memberships.member_id)))
-            GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
-    ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
-  SQL
-  create_view "monthly_appointments", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, appointments.starts_at)) AS startm,
-              max(date_trunc('month'::text, appointments.starts_at)) AS endm
-             FROM appointments
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT a.id) AS appointments_count,
-      count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
-     FROM (months
-       LEFT JOIN appointments a ON ((date_trunc('month'::text, a.starts_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
-  create_view "monthly_loans", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count
-     FROM (months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
-  create_view "monthly_members", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, members.created_at)) AS startm,
-              max(date_trunc('month'::text, members.created_at)) AS endm
-             FROM members
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
-      count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
-     FROM (months
-       LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
 end
