@@ -1,4 +1,4 @@
-FROM ruby:3.0.3-alpine3.15 AS builder
+FROM ruby:3.1.4-alpine3.18 AS builder
 
 LABEL maintainer="jeanine@littleforestconsulting.com"
 
@@ -26,13 +26,14 @@ COPY . .
 
 ### BUILD STEP DONE ###
 
-FROM ruby:3.0.3-alpine3.15
+FROM ruby:3.1.4-alpine3.18
 
 ARG RAILS_ROOT=/usr/src/app/
 ARG USER_ID
 
 RUN apk update && apk upgrade && apk add --update --no-cache \
   bash \
+  gcompat \
   imagemagick \
   nodejs \
   postgresql-client \
