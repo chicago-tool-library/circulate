@@ -3,7 +3,7 @@ class AddPowerSourceToItems < ActiveRecord::Migration[6.0]
     create_enum :power_source, ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
 
     change_table :items do |t|
-      t.enum :power_source, enum_name: :power_source
+      t.enum :power_source, enum_type: :power_source
     end
   end
 end

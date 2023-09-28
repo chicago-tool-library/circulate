@@ -7,7 +7,7 @@ class CreateNotifications < ActiveRecord::Migration[6.0]
       t.string :action, null: false
       t.references :member, null: false, foreign_key: true
       t.uuid :uuid, null: false
-      t.enum :status, enum_name: :notification_status, default: "pending", null: false
+      t.enum :status, enum_type: :notification_status, default: "pending", null: false
       t.string :subject, null: false
 
       t.timestamps

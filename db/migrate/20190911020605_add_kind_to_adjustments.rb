@@ -3,7 +3,7 @@ class AddKindToAdjustments < ActiveRecord::Migration[6.0]
     create_enum :adjustment_kind, ["fine", "membership", "donation", "payment"]
 
     change_table :adjustments do |t|
-      t.enum :kind, enum_name: :adjustment_kind
+      t.enum :kind, enum_type: :adjustment_kind
     end
 
     reversible do |dir|
