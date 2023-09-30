@@ -25,8 +25,8 @@ class MembershipsTest < ApplicationSystemTestCase
       end
 
       click_on "Membership"
-      assert_content membership.started_at.to_s(:long_date)
-      assert_content membership.ended_at.to_s(:long_date)
+      assert_content membership.started_at.to_fs(:long_date)
+      assert_content membership.ended_at.to_fs(:long_date)
     end
   end
 

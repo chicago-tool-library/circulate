@@ -61,7 +61,7 @@ class MemberExporter
       started_at = member["#{year}_started_at"]
       amount = member["#{year}_amount"].to_i
       if started_at
-        [amount / 100, started_at.to_s(:short_date)]
+        [amount / 100, started_at.to_fs(:short_date)]
       elsif amount > 0
         [amount / 100, nil]
       else

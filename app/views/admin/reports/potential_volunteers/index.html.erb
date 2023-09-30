@@ -26,7 +26,7 @@
           <%= tag.div format_phone_number(member.phone_number), class: "responsive-table-cell" %>
         </td>
         <td>
-          <%= member.created_at.to_s(:short_date) %>
+          <%= member.created_at.to_fs(:short_date) %>
         </td>
       </tr>
     <% end %>

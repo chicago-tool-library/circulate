@@ -7,7 +7,7 @@
         </div>
         <div class="timeline-content">
           <div class="tile-content">
-            <p class="tile-title"><%= audit.created_at.to_s(:short) %> by
+            <p class="tile-title"><%= audit.created_at.to_fs(:short) %> by
               <% if audit.user.present? %>
                 <%= audit.user.email %>
               <% end %>

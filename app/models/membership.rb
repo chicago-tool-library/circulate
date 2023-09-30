@@ -50,9 +50,9 @@ class Membership < ApplicationRecord
     if pending?
       "pending"
     elsif ended?
-      "ended on #{ended_at.to_s(:month_day_year)}"
+      "ended on #{ended_at.to_fs(:month_day_year)}"
     else
-      "ends on #{ended_at.to_s(:month_day_year)}"
+      "ends on #{ended_at.to_fs(:month_day_year)}"
     end
   end
 
