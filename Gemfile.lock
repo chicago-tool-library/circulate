@@ -390,9 +390,15 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.17.0)
       parser (>= 3.1.1.0)
+    rubocop-minitest (0.27.0)
+      rubocop (>= 0.90, < 2.0)
     rubocop-performance (1.13.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    rubocop-rails (2.15.2)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.7.0, < 2.0)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -526,6 +532,9 @@ DEPENDENCIES
   rails (~> 6.1.4)
   rails-controller-testing
   reverse_markdown
+  rubocop (>= 1.25.1)
+  rubocop-minitest
+  rubocop-rails
   scenic
   selenium-webdriver
   sentry-raven
