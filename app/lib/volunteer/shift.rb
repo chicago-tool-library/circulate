@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volunteer
   class Shift
     FULLY_STAFFED_COUNT = 2

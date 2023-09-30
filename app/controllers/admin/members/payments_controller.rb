@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class PaymentsController < BaseController
@@ -19,14 +21,13 @@ module Admin
       end
 
       private
+        def default_payment_value
+          Money.new([-@member.account_balance, 0].max)
+        end
 
-      def default_payment_value
-        Money.new([-@member.account_balance, 0].max)
-      end
-
-      def payment_params
-        params.require(:admin_payment).permit(:amount_dollars, :payment_source)
-      end
+        def payment_params
+          params.require(:admin_payment).permit(:amount_dollars, :payment_source)
+        end
     end
   end
 end

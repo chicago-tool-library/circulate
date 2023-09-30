@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAddressFieldsToMembers < ActiveRecord::Migration[6.0]
   def change
     add_column :members, :address1, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddKindToAdjustments < ActiveRecord::Migration[6.0]
   def change
     create_enum :adjustment_kind, ["fine", "membership", "donation", "payment"]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ResultTest < ActiveSupport::TestCase
@@ -5,7 +7,7 @@ class ResultTest < ActiveSupport::TestCase
     result = Result.success("🎉")
 
     assert result.success?
-    refute result.failure?
+    assert_not result.failure?
 
     assert_equal "🎉", result.value
   end
@@ -14,7 +16,7 @@ class ResultTest < ActiveSupport::TestCase
     result = Result.failure("something bad happened")
 
     assert result.failure?
-    refute result.success?
+    assert_not result.success?
 
     assert_equal "something bad happened", result.error
     assert_nil result.value

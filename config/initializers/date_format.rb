@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Date::DATE_FORMATS[:short_date] = "%-m/%-d/%Y"
 Time::DATE_FORMATS[:short_date] = "%-m/%-d/%Y"
 

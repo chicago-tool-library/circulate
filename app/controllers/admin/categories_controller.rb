@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class CategoriesController < BaseController
     include ActionView::RecordIdentifier
@@ -39,13 +41,12 @@ module Admin
     end
 
     private
+      def set_category
+        @category = Category.find(params[:id])
+      end
 
-    def set_category
-      @category = Category.find(params[:id])
-    end
-
-    def category_params
-      params.require(:category).permit(:name, :slug, :parent_id)
-    end
+      def category_params
+        params.require(:category).permit(:name, :slug, :parent_id)
+      end
   end
 end

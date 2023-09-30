@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ShortLinksController < ApplicationController
   def show
     @short_link = ShortLink.where(slug: params[:id]).first

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Items
     class TicketsController < BaseController
@@ -44,14 +46,13 @@ module Admin
       end
 
       private
+        def set_ticket
+          @ticket = Ticket.find(params[:id])
+        end
 
-      def set_ticket
-        @ticket = Ticket.find(params[:id])
-      end
-
-      def ticket_params
-        params.require(:ticket).permit(:title, :body, :status).merge(creator_id: current_user.id)
-      end
+        def ticket_params
+          params.require(:ticket).permit(:title, :body, :status).merge(creator_id: current_user.id)
+        end
     end
   end
 end

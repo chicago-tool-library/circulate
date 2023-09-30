@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 Capybara.default_max_wait_time = 5
@@ -106,57 +108,54 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       end
     end
 
-    refute fail, "there were JavaScript errors"
+    assert_not fail, "there were JavaScript errors"
   end
 
   private
-
-  def ignore_js_errors(reason: "I know what I am doing")
-    Rails.logger.info("Swallowed JS error because: #{reason}")
-    yield if block_given?
-    page.driver.browser.logs.get(:browser)
-  end
-
-  def sign_in_as_admin
-    @user = FactoryBot.create(:user, role: "admin")
-    login_as(@user, scope: :user)
-  end
-
-  def audited_as_admin(&block)
-    Audited.audit_model.as_user(@user) do
-      yield
+    def ignore_js_errors(reason: "I know what I am doing")
+      Rails.logger.info("Swallowed JS error because: #{reason}")
+      yield if block_given?
+      page.driver.browser.logs.get(:browser)
     end
-  end
 
-  def fill_in_rich_text_area(locator = nil, with:)
-    find(:rich_text_area, locator).execute_script("this.editor.loadHTML(arguments[0])", with.to_s)
-  end
-
-  def assert_delivered_email(to:, &block)
-    delivered_mail = ActionMailer::Base.deliveries.last
-    assert_equal [to], delivered_mail.to
-
-    assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
-
-    if delivered_mail.attachments.size > 0
-      text = delivered_mail.body.parts[0].body.parts[0].body
-      html = delivered_mail.body.parts[0].body.parts[1].body
-      attachments = delivered_mail.attachments
-    else
-      html = delivered_mail.body.parts[0].body.to_s
-      text = delivered_mail.body.parts[1].body.to_s
-      attachments = []
+    def sign_in_as_admin
+      @user = FactoryBot.create(:user, role: "admin")
+      login_as(@user, scope: :user)
     end
-    yield html, text, attachments
-  end
 
-  def assert_date_displayed(datetime)
-    find("time[datetime='#{datetime.utc}']")
-  end
+    def audited_as_admin(&block)
+      Audited.audit_model.as_user(@user, &block)
+    end
 
-  # The GH action runners are _slow_ and things like image generation or
-  # MJML rendering will easily timeout unless given a lot of breathing room.
-  def slow_op_wait_time
-    ENV["GITHUB_ACTIONS"] ? 30 : 10
-  end
+    def fill_in_rich_text_area(locator = nil, with:)
+      find(:rich_text_area, locator).execute_script("this.editor.loadHTML(arguments[0])", with.to_s)
+    end
+
+    def assert_delivered_email(to:, &block)
+      delivered_mail = ActionMailer::Base.deliveries.last
+      assert_equal [to], delivered_mail.to
+
+      assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
+
+      if delivered_mail.attachments.size > 0
+        text = delivered_mail.body.parts[0].body.parts[0].body
+        html = delivered_mail.body.parts[0].body.parts[1].body
+        attachments = delivered_mail.attachments
+      else
+        html = delivered_mail.body.parts[0].body.to_s
+        text = delivered_mail.body.parts[1].body.to_s
+        attachments = []
+      end
+      yield html, text, attachments
+    end
+
+    def assert_date_displayed(datetime)
+      find("time[datetime='#{datetime.utc}']")
+    end
+
+    # The GH action runners are _slow_ and things like image generation or
+    # MJML rendering will easily timeout unless given a lot of breathing room.
+    def slow_op_wait_time
+      ENV["GITHUB_ACTIONS"] ? 30 : 10
+    end
 end

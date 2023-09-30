@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ManualImportsController < BaseController
     def edit
@@ -17,9 +19,8 @@ module Admin
     end
 
     private
-
-    def manual_import_params
-      params.require(:manual_import).permit(:url)
-    end
+      def manual_import_params
+        params.require(:manual_import).permit(:url)
+      end
   end
 end

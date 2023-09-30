@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -45,7 +47,7 @@ module Account
       get account_home_url
 
       assert_match "some good news", response.body
-      refute_match "some old news", response.body
+      assert_no_match "some old news", response.body
     end
   end
 end

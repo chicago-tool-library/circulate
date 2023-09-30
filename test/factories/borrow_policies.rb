@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :borrow_policy do
     library { Library.first || create(:library) }

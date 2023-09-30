@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MonthlyAdjustment < ApplicationRecord
   self.primary_key = :year # to handle cases where the primary key is added to order clauses
 

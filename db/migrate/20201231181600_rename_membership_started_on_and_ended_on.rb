@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameMembershipStartedOnAndEndedOn < ActiveRecord::Migration[6.0]
   def change
     rename_column(:memberships, :started_on, :started_at)

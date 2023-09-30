@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class LookupsController < BaseController
     include PortalRendering
@@ -11,7 +13,7 @@ module Admin
         @item = @lookup.item
         render_to_portal "admin/lookups/create"
       else
-        render_to_portal "admin/lookups/form", status: 422, locals: {lookup: @lookup}
+        render_to_portal "admin/lookups/form", status: 422, locals: { lookup: @lookup }
       end
     end
 

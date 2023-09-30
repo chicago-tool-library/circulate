@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Step
   attr_accessor :id
   attr_accessor :name

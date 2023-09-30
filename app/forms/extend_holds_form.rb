@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExtendHoldsForm
   include ActiveModel::Model
   include ActiveModel::Attributes
@@ -18,10 +20,9 @@ class ExtendHoldsForm
   end
 
   private
-
-  def date_in_near_future
-    unless (earliest_valid_date..latest_valid_date).cover?(date)
-      errors.add(:date, "must be a date within the next month")
+    def date_in_near_future
+      unless (earliest_valid_date..latest_valid_date).cover?(date)
+        errors.add(:date, "must be a date within the next month")
+      end
     end
-  end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -22,7 +24,7 @@ module Admin
 
     test "should create category" do
       assert_difference("Category.count") do
-        post admin_categories_url, params: {category: {name: "New Category"}}
+        post admin_categories_url, params: { category: { name: "New Category" } }
       end
 
       assert_redirected_to admin_categories_url(anchor: "category_#{Category.last.id}")
@@ -34,7 +36,7 @@ module Admin
     end
 
     test "should update category" do
-      patch admin_category_url(@category), params: {category: {name: @category.name, slug: @category.slug}}
+      patch admin_category_url(@category), params: { category: { name: @category.name, slug: @category.slug } }
       assert_redirected_to admin_categories_url(anchor: "category_#{@category.id}")
     end
 

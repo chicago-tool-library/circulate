@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Provides convenience methods for introspecting the validations defined on a model
 class ValidationInspector
   def initialize(klass)

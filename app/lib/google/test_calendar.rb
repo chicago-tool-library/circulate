@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Google
   # This object is only used during tests to circumvent connections to the Google Calendar API.
   class TestCalendar
@@ -40,18 +42,17 @@ module Google
     end
 
     private
-
-    def event_to_gcal_event(event)
-      CalendarEvent.new(
-        id: event.calendar_event_id,
-        calendar_id: event.calendar_id,
-        summary: event.summary,
-        attendees: event.attendees,
-        start: event.start,
-        finish: event.finish,
-        status: "confirmed",
-        description: event.description
-      )
-    end
+      def event_to_gcal_event(event)
+        CalendarEvent.new(
+          id: event.calendar_event_id,
+          calendar_id: event.calendar_id,
+          summary: event.summary,
+          attendees: event.attendees,
+          start: event.start,
+          finish: event.finish,
+          status: "confirmed",
+          description: event.description
+        )
+      end
   end
 end

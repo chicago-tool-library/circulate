@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class BaseController < Admin::BaseController
@@ -10,10 +12,9 @@ module Admin
       end
 
       private
-
-      def load_member
-        @member = Member.find(params[:member_id])
-      end
+        def load_member
+          @member = Member.find(params[:member_id])
+        end
     end
   end
 end

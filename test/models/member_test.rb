@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class MemberTest < ActiveSupport::TestCase
@@ -58,8 +60,8 @@ class MemberTest < ActiveSupport::TestCase
       assert member.valid?
 
       member.postal_code = "90210"
-      refute library.allows_postal_code? "90210"
-      refute member.valid?
+      assert_not library.allows_postal_code? "90210"
+      assert_not member.valid?
       assert member.errors.messages.include?(:postal_code)
       error_message = "must be one of: 60707, 60827, 606xx"
       assert member.errors.messages[:postal_code].include?(error_message)
@@ -75,7 +77,7 @@ class MemberTest < ActiveSupport::TestCase
 
   test "member with a user has a default role of 'member'" do
     user = User.new
-    member = Member.new(user: user)
+    member = Member.new(user:)
 
     assert_equal [:member], member.roles
     assert member.member?
@@ -83,7 +85,7 @@ class MemberTest < ActiveSupport::TestCase
 
   test "a 'staff' member has the role 'staff' and 'member'" do
     user = User.new(role: "staff")
-    member = Member.new(user: user)
+    member = Member.new(user:)
 
     assert_equal [:member, :staff], member.roles
     assert member.staff?
@@ -91,7 +93,7 @@ class MemberTest < ActiveSupport::TestCase
 
   test "an 'admin' member has the role 'admin', 'staff', and 'member'" do
     user = User.new(role: "admin")
-    member = Member.new(user: user)
+    member = Member.new(user:)
 
     assert_equal [:member, :staff, :admin], member.roles
     assert member.admin?
@@ -99,21 +101,21 @@ class MemberTest < ActiveSupport::TestCase
 
   test "can find its upcoming appointment of a hold" do
     member = create(:member)
-    hold = create(:hold, member: member)
+    hold = create(:hold, member:)
 
     assert_nil member.upcoming_appointment_of(hold), "it should return nil if there is no appointment found"
 
-    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
+    appointment = create(:appointment, member:, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
     assert_equal appointment, member.upcoming_appointment_of(hold)
   end
 
   test "can find its upcoming appointment of a loan" do
     member = create(:member)
-    loan = create(:loan, member: member)
+    loan = create(:loan, member:)
 
     assert_nil member.upcoming_appointment_of(loan), "it should return nil if there is no appointment found"
 
-    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, loans: [loan])
+    appointment = create(:appointment, member:, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, loans: [loan])
     assert_equal appointment, member.upcoming_appointment_of(loan)
   end
 
@@ -133,7 +135,7 @@ class MemberTest < ActiveSupport::TestCase
     create(:member, email: "test@notunique.obv")
     dupe = build(:member, email: "test@notunique.obv")
 
-    refute dupe.valid?
+    assert_not dupe.valid?
     assert dupe.errors.messages.include?(:email)
   end
 
@@ -159,15 +161,15 @@ class MemberTest < ActiveSupport::TestCase
 
   test "last_membership finds the only membership" do
     member = create(:member)
-    membership = create(:membership, member: member)
+    membership = create(:membership, member:)
 
     assert_equal membership, member.last_membership
   end
 
   test "last_membership finds the last membership" do
     member = create(:member)
-    create(:membership, member: member, created_at: 14.months.ago, started_at: 13.months.ago, ended_at: 1.month.ago)
-    newer_membership = create(:membership, member: member, created_at: 1.month.ago, started_at: 1.month.ago, ended_at: 11.months.since)
+    create(:membership, member:, created_at: 14.months.ago, started_at: 13.months.ago, ended_at: 1.month.ago)
+    newer_membership = create(:membership, member:, created_at: 1.month.ago, started_at: 1.month.ago, ended_at: 11.months.since)
 
     assert_equal newer_membership, member.last_membership
   end

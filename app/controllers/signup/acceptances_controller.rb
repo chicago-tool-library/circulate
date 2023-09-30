@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class AcceptancesController < BaseController
     before_action :load_member
@@ -19,9 +21,8 @@ module Signup
     end
 
     private
-
-    def acceptance_params
-      params.require(:agreement_acceptance).permit(:terms)
-    end
+      def acceptance_params
+        params.require(:agreement_acceptance).permit(:terms)
+      end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "csv"
 
 # BorrowPolicy.create!(library_id: 1, code: "S", consumable: true, uniquely_numbered: false, name: "Single Use")
@@ -99,7 +101,7 @@ namespace :import do
           next if row["categories"].to_s == ""
 
           category_ids = find_or_create_categories_from_names(item.id, row["categories"])
-          item.update!(category_ids: category_ids) if category_ids
+          item.update!(category_ids:) if category_ids
         end
       end
     end

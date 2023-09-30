@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class LoanSummariesController < BaseController
     include Pagy::Backend
@@ -12,11 +14,10 @@ module Admin
     end
 
     private
-
-    def index_filter
-      allowed = %w[checked_out overdue returned]
-      return params[:filter] if allowed.include? params[:filter]
-      "checked_out"
-    end
+      def index_filter
+        allowed = %w[checked_out overdue returned]
+        return params[:filter] if allowed.include? params[:filter]
+        "checked_out"
+      end
   end
 end

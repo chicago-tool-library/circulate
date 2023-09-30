@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ItemsHelper
   include Pagy::Frontend
 
@@ -73,7 +75,7 @@ module ItemsHelper
       parent[category.id] = TreeNode.new(category)
     end
 
-    tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
+    tag.nav(class: "tree-nav", data: { controller: "tree-nav" }) do
       concat(tag.ul do
         root.children.values.sort_by { |node| node.value.name.downcase }.map do |node|
           concat(render_tree_node(node, current_category))
@@ -84,13 +86,13 @@ module ItemsHelper
 
   def render_tree_node(node, current_value)
     has_children = node.children.size > 0
-    tag.li(class: "tree-node", data: {id: node.value.id}) do
+    tag.li(class: "tree-node", data: { id: node.value.id }) do
       if has_children
         concat(
           tag.button(
             '<i class="icon icon-arrow-right">Toggle subcategories</i>'.html_safe,
             class: "tree-node-toggle",
-            data: {action: "tree-nav#toggle"},
+            data: { action: "tree-nav#toggle" },
             "aria-expanded": false
           )
         )

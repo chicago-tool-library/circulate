@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class MembersController < BaseController
     include Pagy::Backend
@@ -58,17 +60,16 @@ module Admin
     end
 
     private
+      def set_member
+        @member = Member.find(params[:id])
+      end
 
-    def set_member
-      @member = Member.find(params[:id])
-    end
-
-    def member_params
-      params.require(:member).permit(
-        :full_name, :pronunciation, :preferred_name, :email, :phone_number, :postal_code,
-        :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter, :volunteer_interest, :bio,
-        :status, :address1, :address2, pronouns: []
-      )
-    end
+      def member_params
+        params.require(:member).permit(
+          :full_name, :pronunciation, :preferred_name, :email, :phone_number, :postal_code,
+          :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter, :volunteer_interest, :bio,
+          :status, :address1, :address2, pronouns: []
+        )
+      end
   end
 end

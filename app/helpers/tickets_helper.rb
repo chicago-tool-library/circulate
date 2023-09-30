@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TicketsHelper
   def ticket_status_options
     Ticket.statuses.map do |key, value|

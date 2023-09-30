@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActivityNotifier
   def initialize(now = Time.current)
     @now = now
@@ -7,7 +9,7 @@ class ActivityNotifier
     members_active_today = Member.active_on(@now).pluck(:id)
 
     each_member(members_active_today) do |member, summaries|
-      MemberMailer.with(member: member, summaries: summaries, now: @now).loan_summaries.deliver
+      MemberMailer.with(member:, summaries:, now: @now).loan_summaries.deliver
     end
   end
 
@@ -15,7 +17,7 @@ class ActivityNotifier
     members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.checked_out.due_whole_weeks_ago).pluck(:id)
 
     each_member(members_with_overdue_items) do |member, summaries|
-      MemberMailer.with(member: member, summaries: summaries.overdue_as_of(@now.tomorrow.beginning_of_day), now: @now).overdue_notice.deliver
+      MemberMailer.with(member:, summaries: summaries.overdue_as_of(@now.tomorrow.beginning_of_day), now: @now).overdue_notice.deliver
     end
   end
 
@@ -24,14 +26,14 @@ class ActivityNotifier
     members_with_items_due_tomorrow = Member.verified.joins(:loans).merge(Loan.checked_out.due_on(tomorrow)).pluck(:id)
 
     each_member(members_with_items_due_tomorrow) do |member, summaries|
-      MemberMailer.with(member: member, summaries: summaries, now: @now).return_reminder.deliver
+      MemberMailer.with(member:, summaries:, now: @now).return_reminder.deliver
     end
   end
 
   # TODO activate this one
   def remind_pending_members
     Member.status_pending.where("created_at < ?", @now).each do |member|
-      MemberMailer.with(member: member).membership_reminder.deliver
+      MemberMailer.with(member:).membership_reminder.deliver
     end
   end
 
@@ -42,20 +44,19 @@ class ActivityNotifier
       return
     end
 
-    Member.joins(:user).where(users: {role: :admin}).each do |staff|
+    Member.joins(:user).where(users: { role: :admin }).each do |staff|
       MemberMailer.with(member: staff, renewal_requests: daily_renewal_requests).staff_daily_renewal_requests.deliver
     end
   end
 
   private
-
-  def each_member(ids, &block)
-    Member.find(ids).each do |member|
-      summaries = member.loan_summaries
-        .active_on(@now)
-        .or(member.loan_summaries.includes(:renewal_requests).checked_out)
-        .includes(item: :borrow_policy)
-      yield member, summaries
+    def each_member(ids, &block)
+      Member.find(ids).each do |member|
+        summaries = member.loan_summaries
+          .active_on(@now)
+          .or(member.loan_summaries.includes(:renewal_requests).checked_out)
+          .includes(item: :borrow_policy)
+        yield member, summaries
+      end
     end
-  end
 end

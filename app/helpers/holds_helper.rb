@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HoldsHelper
   def hold_date(event)
     event.date.strftime("%A, %B %-d, between ") + event.times.sub("-", "&")
@@ -11,8 +13,8 @@ module HoldsHelper
   end
 
   def render_hold_items(items, &block)
-    block ||= proc {}
-    render layout: "holds/items", locals: {items: items}, &block
+    block ||= proc { }
+    render layout: "holds/items", locals: { items: }, &block
   end
 
   def render_hold_status(hold)
@@ -37,7 +39,7 @@ module HoldsHelper
 
   def render_remove_link(hold)
     unless hold.appointments.present?
-      link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: {confirm: "Are you sure you want to remove this hold?"})
+      link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: { confirm: "Are you sure you want to remove this hold?" })
     end
   end
 
@@ -46,8 +48,7 @@ module HoldsHelper
   end
 
   private
-
-  def format_date(date)
-    date.strftime("%a, %-m/%-d")
-  end
+    def format_date(date)
+      date.strftime("%a, %-m/%-d")
+    end
 end

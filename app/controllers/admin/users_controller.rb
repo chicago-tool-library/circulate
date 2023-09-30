@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class UsersController < BaseController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
@@ -19,7 +21,7 @@ module Admin
 
     def create
       password = Devise.friendly_token.first(16)
-      @user = User.new(user_params.merge(password: password))
+      @user = User.new(user_params.merge(password:))
 
       if @user.save
         redirect_to admin_users_url, success: "User was successfully created."
@@ -42,15 +44,14 @@ module Admin
     end
 
     private
+      def set_user
+        @user = User.find(params[:id])
+      end
 
-    def set_user
-      @user = User.find(params[:id])
-    end
-
-    def user_params
-      parameters = params.require(:user).permit(:email, :role)
-      parameters.delete("role") unless current_user.has_role?(params.dig("user", "role"))
-      parameters
-    end
+      def user_params
+        parameters = params.require(:user).permit(:email, :role)
+        parameters.delete("role") unless current_user.has_role?(params.dig("user", "role"))
+        parameters
+      end
   end
 end

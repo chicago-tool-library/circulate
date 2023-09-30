@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Items
     module Tickets
@@ -42,22 +44,21 @@ module Admin
         end
 
         private
+          def set_ticket
+            @ticket = @item.tickets.find(params[:ticket_id])
+          end
 
-        def set_ticket
-          @ticket = @item.tickets.find(params[:ticket_id])
-        end
+          def set_ticket_update
+            @ticket_update = @ticket.ticket_updates.find(params[:id])
+          end
 
-        def set_ticket_update
-          @ticket_update = @ticket.ticket_updates.find(params[:id])
-        end
+          def ticket_update_create_params
+            params.require(:ticket_update_form).permit(:title, :time_spent, :body, :status).merge(creator: current_user)
+          end
 
-        def ticket_update_create_params
-          params.require(:ticket_update_form).permit(:title, :time_spent, :body, :status).merge(creator: current_user)
-        end
-
-        def ticket_update_update_params
-          params.require(:ticket_update).permit(:title, :time_spent, :body)
-        end
+          def ticket_update_update_params
+            params.require(:ticket_update).permit(:title, :time_spent, :body)
+          end
       end
     end
   end

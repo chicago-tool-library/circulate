@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Account
   class PasswordsController < BaseController
     def edit
@@ -15,9 +17,8 @@ module Account
     end
 
     private
-
-    def user_params
-      params.require(:user).permit(:current_password, :password, :password_confirmation)
-    end
+      def user_params
+        params.require(:user).permit(:current_password, :password, :password_confirmation)
+      end
   end
 end

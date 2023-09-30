@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SuperAdmin
   class LibrariesController < ApplicationController
     skip_before_action :set_tenant
@@ -52,15 +54,14 @@ module SuperAdmin
     end
 
     private
-
-    def require_super_admin
-      unless current_user.super_admin?
-        redirect_to items_path, warning: "You do not have access to that page."
+      def require_super_admin
+        unless current_user.super_admin?
+          redirect_to items_path, warning: "You do not have access to that page."
+        end
       end
-    end
 
-    def library_params
-      params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image)
-    end
+      def library_params
+        params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image)
+      end
   end
 end

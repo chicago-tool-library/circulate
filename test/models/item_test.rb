@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
@@ -5,7 +7,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "assigns a number" do
     borrow_policy = create(:borrow_policy)
-    item = build(:item, number: nil, borrow_policy: borrow_policy)
+    item = build(:item, number: nil, borrow_policy:)
     item.save!
 
     assert item.number
@@ -20,7 +22,7 @@ class ItemTest < ActiveSupport::TestCase
   test "it is not available" do
     loan = create(:loan)
     loan.item.reload
-    refute loan.item.available?
+    assert_not loan.item.available?
   end
 
   test "it is available" do
@@ -30,7 +32,7 @@ class ItemTest < ActiveSupport::TestCase
   test "validations" do
     item = Item.new(status: nil)
 
-    refute item.valid?
+    assert_not item.valid?
 
     assert_equal ["can't be blank"], item.errors[:name]
     assert_equal ["is not included in the list"], item.errors[:status]
@@ -85,7 +87,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "can delete an item with a renewed loan" do
     item = create(:item)
-    loan = create(:loan, item: item)
+    loan = create(:loan, item:)
     renew_loan(loan)
 
     assert item.destroy
@@ -93,45 +95,45 @@ class ItemTest < ActiveSupport::TestCase
 
   test "can delete an item with an active loan" do
     item = create(:item)
-    create(:loan, item: item)
+    create(:loan, item:)
 
     assert item.destroy
   end
 
   test "can delete an item with a hold" do
     item = create(:item)
-    create(:hold, item: item)
+    create(:hold, item:)
 
     assert item.destroy
   end
 
   test "can delete an item with an attachment" do
     item = create(:item)
-    create(:item_attachment, item: item, creator: create(:user))
-    create(:hold, item: item)
+    create(:item_attachment, item:, creator: create(:user))
+    create(:hold, item:)
 
     assert item.destroy
   end
 
   test "has a next_hold" do
     item = create(:item)
-    hold = create(:hold, item: item, created_at: 2.days.ago)
-    create(:hold, item: item, created_at: 1.day.ago)
+    hold = create(:hold, item:, created_at: 2.days.ago)
+    create(:hold, item:, created_at: 1.day.ago)
 
     assert_equal hold, item.next_hold
   end
 
   test "next_hold ignores inactive holds" do
     item = create(:item)
-    create(:ended_hold, item: item)
-    create(:expired_hold, item: item)
+    create(:ended_hold, item:)
+    create(:expired_hold, item:)
 
-    refute item.next_hold
+    assert_not item.next_hold
   end
 
   test "clears holds when changing to an inactive status" do
     item = create(:item)
-    create(:started_hold, item: item)
+    create(:started_hold, item:)
 
     item.update!(status: Item.statuses[:pending])
     assert_equal item.active_holds.count, 1
@@ -145,7 +147,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "clears next hold when changed to maintenance" do
     item = create(:item)
-    hold = create(:started_hold, item: item)
+    hold = create(:started_hold, item:)
 
     item.update!(status: Item.statuses[:maintenance])
     assert_nil hold.reload.started_at
@@ -173,7 +175,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "the for_category scope returns all items for child categories" do
     parent = create(:category)
-    child = create(:category, parent: parent)
+    child = create(:category, parent:)
     grandchild = create(:category, parent: child)
 
     item1 = create(:item, categories: [parent])
@@ -205,7 +207,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "the for_category scope returns unique items" do
     parent = create(:category)
-    child = create(:category, parent: parent)
+    child = create(:category, parent:)
     grandchild = create(:category, parent: child)
 
     item1 = create(:item, categories: [parent, child])
@@ -235,7 +237,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "sets itself to retired when decrementing quantity to zero" do
     borrow_policy = create(:borrow_policy, consumable: true, uniquely_numbered: false)
-    item = create(:item, borrow_policy: borrow_policy, quantity: 1)
+    item = create(:item, borrow_policy:, quantity: 1)
 
     assert_equal "active", item.status
 
@@ -247,7 +249,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "sets itself to active when quantity is restored" do
     borrow_policy = create(:borrow_policy, consumable: true, uniquely_numbered: false)
-    item = create(:item, borrow_policy: borrow_policy, quantity: 0, status: "retired")
+    item = create(:item, borrow_policy:, quantity: 0, status: "retired")
 
     assert_equal "retired", item.status
 
@@ -259,9 +261,9 @@ class ItemTest < ActiveSupport::TestCase
 
   test "requires a value for quantity with a consumable borrow policy" do
     borrow_policy = create(:consumable_borrow_policy)
-    item = build(:item, borrow_policy: borrow_policy)
+    item = build(:item, borrow_policy:)
 
-    refute item.valid?
+    assert_not item.valid?
     assert_equal ["is not a number"], item.errors[:quantity]
   end
 end

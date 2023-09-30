@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "uri"
 
 class ManualImport
@@ -30,7 +32,7 @@ class ManualImport
     filename = File.basename(URI.parse(url).path)
 
     item.manual.attach(
-      filename: filename,
+      filename:,
       io: tempfile,
       content_type: response.mime_type
     )

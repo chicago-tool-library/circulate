@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class RedemptionsController < BaseController
     before_action :load_member
@@ -27,9 +29,8 @@ module Signup
     end
 
     private
-
-    def form_params
-      params.require(:gift_membership_redemption_form).permit(:code)
-    end
+      def form_params
+        params.require(:gift_membership_redemption_form).permit(:code)
+      end
   end
 end

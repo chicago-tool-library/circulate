@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 task :s3_import do
   storage_folder = Rails.root.join("storage")
   storage_folder.mkpath

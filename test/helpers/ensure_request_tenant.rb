@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EnsureRequestTenant
   def self.included(base)
     base.setup do

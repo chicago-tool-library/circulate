@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Items
     class AttachmentsController < BaseController
@@ -48,10 +50,9 @@ module Admin
       end
 
       private
-
-      def attachment_params
-        params.require(:item_attachment).permit(:file, :kind, :other_kind, :notes)
-      end
+        def attachment_params
+          params.require(:item_attachment).permit(:file, :kind, :other_kind, :notes)
+        end
     end
   end
 end

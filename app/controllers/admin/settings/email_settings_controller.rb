@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Settings
     class EmailSettingsController < BaseController
@@ -20,10 +22,9 @@ module Admin
       end
 
       private
-
-      def email_settings_params
-        params.require(:library).permit(:email_banner1, :email_banner2)
-      end
+        def email_settings_params
+          params.require(:library).permit(:email_banner1, :email_banner2)
+        end
     end
   end
 end

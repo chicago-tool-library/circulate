@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class AppointmentCheckinsController < BaseController
     before_action :are_appointments_enabled?

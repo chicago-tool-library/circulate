@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :sync do
   desc "Syncronizes calendars with the events database"
   task calendars: :environment do
@@ -8,7 +10,7 @@ namespace :sync do
   end
 
   def sync_calendar(calendar_id)
-    calendar = Google::Calendar.new(calendar_id: calendar_id)
+    calendar = Google::Calendar.new(calendar_id:)
     result = calendar.upcoming_events(Time.zone.now, 3.months.since)
     if result.success?
       Event.update_events(result.value)

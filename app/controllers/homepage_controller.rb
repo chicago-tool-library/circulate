@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HomepageController < ApplicationController
   layout "homepage"
 
@@ -12,8 +14,7 @@ class HomepageController < ApplicationController
   end
 
   private
-
-  def homepage_params
-    params.permit(homepage: %i[name email city state country description inventory])
-  end
+    def homepage_params
+      params.permit(homepage: %i[name email city state country description inventory])
+    end
 end

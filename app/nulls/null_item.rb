@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NullItem
   include ActiveModel::Model
 

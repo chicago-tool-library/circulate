@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class MembershipsTest < ApplicationSystemTestCase
@@ -126,7 +128,7 @@ class MembershipsTest < ApplicationSystemTestCase
     assert_content "Membership created"
 
     @member.reload
-    refute_equal @member.last_membership, @membership
+    assert_not_equal @member.last_membership, @membership
 
     within ".account" do
       assert_date_displayed(@member.last_membership.ended_at)
@@ -157,6 +159,6 @@ end
 
 def membership_row_containing(text)
   within "table.memberships" do
-    find(:tr, text: text)
+    find(:tr, text:)
   end
 end

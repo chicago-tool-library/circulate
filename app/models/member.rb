@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   has_many :acceptances, class_name: "AgreementAcceptance", dependent: :destroy
   has_many :adjustments, dependent: :destroy
@@ -25,14 +27,14 @@ class Member < ApplicationRecord
   enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
 
   validates :email,
-    format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"},
-    uniqueness: {conditions: -> { where.not(status: "deactivated") }}
+    format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email" },
+    uniqueness: { conditions: -> { where.not(status: "deactivated") } }
   validates :full_name, presence: true
-  validates :phone_number, length: {is: 10, blank: false, message: "must be 10 digits"}
+  validates :phone_number, length: { is: 10, blank: false, message: "must be 10 digits" }
   validates :address1, presence: true
   validates :city, presence: true
   validates :region, presence: true
-  validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
+  validates :postal_code, length: { is: 5, blank: false, message: "must be 5 digits" }
   validate :postal_code_must_be_in_library_service_area
 
   scope :matching, ->(query) {
@@ -112,44 +114,43 @@ class Member < ApplicationRecord
 
   def upcoming_appointment_of(schedulable)
     if schedulable.is_a? Hold
-      appointments.upcoming.joins(:holds).where(holds: {id: schedulable.id}).first
+      appointments.upcoming.joins(:holds).where(holds: { id: schedulable.id }).first
     elsif schedulable.is_a? Loan
-      appointments.upcoming.joins(:loans).where(loans: {id: schedulable.id}).first
+      appointments.upcoming.joins(:loans).where(loans: { id: schedulable.id }).first
     end
   end
 
   private
-
-  def update_user_email
-    user.update_column(:email, email) if user && !user.new_record? # Skip validations
-  end
-
-  def update_neon_crm
-    NeonMemberJob.perform_async(id)
-  end
-
-  def can_update_neon_crm?
-    Rails.env.production? && Neon.credentials_for_library(library)
-  end
-
-  def strip_phone_number
-    self.phone_number = phone_number.gsub(/\D/, "")
-  end
-
-  def set_default_address_fields
-    self.city ||= library.city
-    self.region ||= "IL"
-  end
-
-  def downcase_email
-    self.email = email.try(:downcase)
-  end
-
-  def postal_code_must_be_in_library_service_area
-    return unless library && postal_code.present?
-
-    unless library.allows_postal_code?(postal_code)
-      errors.add :postal_code, "must be one of: #{library.admissible_postal_codes.join(", ")}"
+    def update_user_email
+      user.update_column(:email, email) if user && !user.new_record? # Skip validations
     end
-  end
+
+    def update_neon_crm
+      NeonMemberJob.perform_async(id)
+    end
+
+    def can_update_neon_crm?
+      Rails.env.production? && Neon.credentials_for_library(library)
+    end
+
+    def strip_phone_number
+      self.phone_number = phone_number.gsub(/\D/, "")
+    end
+
+    def set_default_address_fields
+      self.city ||= library.city
+      self.region ||= "IL"
+    end
+
+    def downcase_email
+      self.email = email.try(:downcase)
+    end
+
+    def postal_code_must_be_in_library_service_area
+      return unless library && postal_code.present?
+
+      unless library.allows_postal_code?(postal_code)
+        errors.add :postal_code, "must be one of: #{library.admissible_postal_codes.join(", ")}"
+      end
+    end
 end

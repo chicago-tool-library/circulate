@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class MultitenancyTest < ApplicationSystemTestCase
   test "login to library" do
     member = create(:member, full_name: "Reggie Brower")
-    user = create(:user, member: member)
+    user = create(:user, member:)
 
     visit user_session_url
 

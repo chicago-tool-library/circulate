@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShiftsHelper
   def each_shift(events, &block)
     last_date = nil
@@ -24,9 +26,7 @@ module ShiftsHelper
     data = {}
     data["test-date"] = day.date.to_s unless day.previous_month? || day.next_month?
 
-    tag.div(class: "calendar-date #{calendar_day_class(day)}", data: data) do
-      yield
-    end
+    tag.div(class: "calendar-date #{calendar_day_class(day)}", data:, &block)
   end
 
   def calendar_date_item_class(day)
@@ -38,8 +38,8 @@ module ShiftsHelper
 
     attendees
       .select { |a| a.accepted? }
-      .map { |a|
+      .filter_map { |a|
         Member.find_by(email: a.email)&.preferred_name || a.email.split("@").first
-      }.compact.sort.join(", ")
+      }.sort.join(", ")
   end
 end

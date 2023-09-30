@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPaymentInfoToAdjustments < ActiveRecord::Migration[6.0]
   def change
     create_enum :adjustment_source, ["cash", "square"]

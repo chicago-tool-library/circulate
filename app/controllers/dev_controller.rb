@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DevController < ApplicationController
   def set_time
     new_time = Time.zone.parse params[:new_time]

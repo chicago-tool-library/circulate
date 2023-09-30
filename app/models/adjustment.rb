@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Adjustment < ApplicationRecord
   monetize :amount_cents
 
@@ -34,9 +36,9 @@ class Adjustment < ApplicationRecord
     end
     adjustments << member.adjustments.create!(
       payment_source: source,
-      amount: amount,
+      amount:,
       kind: "payment",
-      square_transaction_id: square_transaction_id
+      square_transaction_id:
     )
     adjustments
   end

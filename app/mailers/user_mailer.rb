@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserMailer < Devise::Mailer
   default from: "Chicago Tool Library <team@chicagotoollibrary.org>"
   after_action :store_notification, only: [:reset_password_instructions]

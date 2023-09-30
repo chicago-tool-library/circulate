@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MembersHelper
   def member_id_kind_options
     Member.id_kinds.map do |key, value|
@@ -16,7 +18,7 @@ module MembersHelper
   end
 
   def format_phone_number(number, delimiter = " ")
-    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter: delimiter)&.strip
+    number_to_phone(number, pattern: /^(\d{0,3})(\d{0,3})(\d{0,4})/, delimiter:)&.strip
   end
 
   def member_status(member)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "csv"
 
 desc "Export member stats to CSV"

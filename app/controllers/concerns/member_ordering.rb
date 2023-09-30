@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MemberOrdering
   def index_order
     options = {

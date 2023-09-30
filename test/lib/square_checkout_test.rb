@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class SquareCheckoutTest < ActiveSupport::TestCase
@@ -116,7 +118,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         idempotency_key: "test"
       )
 
-      refute result.success?
+      assert_not result.success?
       assert_equal "ERRORS", result.error
     end
 
@@ -129,7 +131,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     member = create(:member)
 
     mock_body_transaction = Minitest::Mock.new
-    mock_body_transaction.expect :[], [{amount_money: {amount: 1200, currency: "USD"}}], [:tenders]
+    mock_body_transaction.expect :[], [{ amount_money: { amount: 1200, currency: "USD" } }], [:tenders]
 
     mock_body = Minitest::Mock.new
     mock_body.expect :transaction, mock_body_transaction
@@ -139,14 +141,14 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :body, mock_body
 
     mock_transactions = Minitest::Mock.new
-    mock_transactions.expect :retrieve_transaction, mock_response, [{location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1"}]
+    mock_transactions.expect :retrieve_transaction, mock_response, [{ location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1" }]
 
     mock_client = Minitest::Mock.new
     mock_client.expect :transactions, mock_transactions
 
     Square::Client.stub :new, mock_client do
       checkout = SquareCheckout.new(access_token: "SQ_ACCESS_TOKEN", location_id: "SQ_LOCATION_ID")
-      result = checkout.fetch_transaction(member: member, transaction_id: "transaction_1")
+      result = checkout.fetch_transaction(member:, transaction_id: "transaction_1")
 
       assert result.success?
       assert_equal Money.new(1200), result.value
@@ -167,14 +169,14 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :errors, "ERRORS"
 
     mock_transactions = Minitest::Mock.new
-    mock_transactions.expect :retrieve_transaction, mock_response, [{location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1"}]
+    mock_transactions.expect :retrieve_transaction, mock_response, [{ location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1" }]
 
     mock_client = Minitest::Mock.new
     mock_client.expect :transactions, mock_transactions
 
     Square::Client.stub :new, mock_client do
       checkout = SquareCheckout.new(access_token: "SQ_ACCESS_TOKEN", location_id: "SQ_LOCATION_ID")
-      result = checkout.fetch_transaction(member: member, transaction_id: "transaction_1")
+      result = checkout.fetch_transaction(member:, transaction_id: "transaction_1")
 
       assert result.failure?
       assert_equal "ERRORS", result.error

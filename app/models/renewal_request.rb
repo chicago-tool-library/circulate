@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenewalRequest < ApplicationRecord
   belongs_to :loan
 
@@ -7,7 +9,7 @@ class RenewalRequest < ApplicationRecord
     rejected: "rejected"
   }
 
-  validates :status, inclusion: {in: RenewalRequest.statuses.keys}
+  validates :status, inclusion: { in: RenewalRequest.statuses.keys }
 
   acts_as_tenant :library
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Google
   class Calendar
     TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
@@ -17,7 +19,7 @@ module Google
       })
 
       if events_response.status == 200
-        events = events_response.parse.fetch("items", []).map { |event| gcal_event_to_event(event) }.compact
+        events = events_response.parse.fetch("items", []).filter_map { |event| gcal_event_to_event(event) }
         Result.success(events)
       else
         Result.failure(events_response.body)
@@ -61,7 +63,7 @@ module Google
 
       # update event
       patch_response = client.patch(event_url, json: {
-        attendees: attendees
+        attendees:
       })
       if patch_response.status == 200
         event = gcal_event_to_event(patch_response.parse)
@@ -97,51 +99,50 @@ module Google
     end
 
     private
-
-    def events_endpoint
-      "https://www.googleapis.com/calendar/v3/calendars/#{@calendar_id}/events"
-    end
-
-    def client
-      @client ||= new_client
-    end
-
-    def new_client
-      http = HTTP.use(instrumentation: {instrumenter: ActiveSupport::Notifications.instrumenter})
-      token_response = http.post(TOKEN_ENDPOINT, params: {
-        client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
-        client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
-        grant_type: "refresh_token",
-        refresh_token: ENV.fetch("GOOGLE_REFRESH_TOKEN")
-      })
-      token = token_response.parse["access_token"]
-      http.auth("Bearer #{token}")
-    end
-
-    def parse_gcal_time(time)
-      zone_name = time["timeZone"]
-      datetime = time["dateTime"]
-      ActiveSupport::TimeZone[zone_name].iso8601(datetime)
-    end
-
-    def gcal_event_to_event(gcal_event)
-      # skip all day events
-      unless gcal_event["start"]["dateTime"] && gcal_event["end"]["dateTime"]
-        Rails.logger.info "skipping all-day event #{gcal_event["id"]} in calendar #{@calendar_id}"
-        return nil
+      def events_endpoint
+        "https://www.googleapis.com/calendar/v3/calendars/#{@calendar_id}/events"
       end
-      CalendarEvent.new(
-        id: gcal_event["id"],
-        calendar_id: @calendar_id,
-        summary: gcal_event["summary"],
-        description: gcal_event["description"],
-        start: parse_gcal_time(gcal_event["start"]),
-        finish: parse_gcal_time(gcal_event["end"]),
-        status: gcal_event["status"],
-        attendees: gcal_event.fetch("attendees", []).map { |attendee|
-          Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
-        }
-      )
-    end
+
+      def client
+        @client ||= new_client
+      end
+
+      def new_client
+        http = HTTP.use(instrumentation: { instrumenter: ActiveSupport::Notifications.instrumenter })
+        token_response = http.post(TOKEN_ENDPOINT, params: {
+          client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
+          client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
+          grant_type: "refresh_token",
+          refresh_token: ENV.fetch("GOOGLE_REFRESH_TOKEN")
+        })
+        token = token_response.parse["access_token"]
+        http.auth("Bearer #{token}")
+      end
+
+      def parse_gcal_time(time)
+        zone_name = time["timeZone"]
+        datetime = time["dateTime"]
+        ActiveSupport::TimeZone[zone_name].iso8601(datetime)
+      end
+
+      def gcal_event_to_event(gcal_event)
+        # skip all day events
+        unless gcal_event["start"]["dateTime"] && gcal_event["end"]["dateTime"]
+          Rails.logger.info "skipping all-day event #{gcal_event["id"]} in calendar #{@calendar_id}"
+          return nil
+        end
+        CalendarEvent.new(
+          id: gcal_event["id"],
+          calendar_id: @calendar_id,
+          summary: gcal_event["summary"],
+          description: gcal_event["description"],
+          start: parse_gcal_time(gcal_event["start"]),
+          finish: parse_gcal_time(gcal_event["end"]),
+          status: gcal_event["status"],
+          attendees: gcal_event.fetch("attendees", []).map { |attendee|
+            Attendee.new(email: attendee["email"], name: attendee["displayName"], status: attendee["responseStatus"])
+          }
+        )
+      end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AppointmentsHelper
   def format_appointment_times(start, stop)
     date_format = "%l:%M%P"

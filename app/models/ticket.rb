@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ticket < ApplicationRecord
   STATUS_NAMES = {
     "assess" => "Assess",
@@ -28,7 +30,7 @@ class Ticket < ApplicationRecord
   has_rich_text :body
 
   validates :title, presence: true
-  validates :status, inclusion: {in: Ticket.statuses.keys}
+  validates :status, inclusion: { in: Ticket.statuses.keys }
 
   audited
   acts_as_tenant :library

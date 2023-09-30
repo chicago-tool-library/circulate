@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class EventTest < ActiveSupport::TestCase
@@ -98,7 +100,7 @@ class EventTest < ActiveSupport::TestCase
       calendar_event_id: "ev1"
     ).first
 
-    refute updated_event
+    assert_not updated_event
   end
 
   test "handles cancelled events that have already been deleted" do

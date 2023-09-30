@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LendingTest < ActiveSupport::TestCase
@@ -5,10 +7,10 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a loan" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     renewal = Loan.stub(:open_days, [0, 4]) {
       assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
@@ -24,10 +26,10 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a loan for a full period starting today" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: sunday)
     }
@@ -37,11 +39,11 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a loan for a full period starting at due date" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
     thursday = Time.utc(2020, 1, 30).end_of_day
 
-    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: sunday)
     }
@@ -51,11 +53,11 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a loan due tomorrow" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     wednesday = Time.utc(2020, 1, 29).end_of_day
     thursday = Time.utc(2020, 1, 30).end_of_day
 
-    loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday)
+    loan = create(:loan, item:, created_at: (thursday - 7.days), due_at: thursday)
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: wednesday)
     }
@@ -68,11 +70,11 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
     monday = Time.utc(2020, 1, 27).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     assert loan.renewable?
     renewal = Loan.stub(:open_days, [0, 4]) {
@@ -91,23 +93,23 @@ class LendingTest < ActiveSupport::TestCase
 
   test "can't renew past limit" do
     borrow_policy = create(:borrow_policy, duration: 7, renewal_limit: 1)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: sunday)
     }
 
-    refute renewal.renewable?
+    assert_not renewal.renewable?
   end
 
   test "updates appointment loans to point to the renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
@@ -125,10 +127,10 @@ class LendingTest < ActiveSupport::TestCase
 
   test "restores appointment loan to previous loan when reverted" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
@@ -148,10 +150,10 @@ class LendingTest < ActiveSupport::TestCase
 
   test "reverts a renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: sunday)
     }
@@ -161,17 +163,17 @@ class LendingTest < ActiveSupport::TestCase
     end
 
     loan.reload
-    refute loan.ended_at
+    assert_not loan.ended_at
 
-    refute Loan.exists?(renewal.id)
+    assert_not Loan.exists?(renewal.id)
   end
 
   test "reverts a renewed renewal" do
     borrow_policy = create(:borrow_policy, duration: 7)
-    item = create(:item, borrow_policy: borrow_policy)
+    item = create(:item, borrow_policy:)
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
+    loan = create(:loan, item:, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
     renewal = Loan.stub(:open_days, [0, 4]) { renew_loan(loan, now: sunday) }
     second_renewal = Loan.stub(:open_days, [0, 4]) { renew_loan(renewal, now: sunday) }
 
@@ -180,15 +182,15 @@ class LendingTest < ActiveSupport::TestCase
     end
 
     renewal.reload
-    refute renewal.ended_at
+    assert_not renewal.ended_at
     assert loan.ended_at
 
-    refute Loan.exists?(second_renewal.id)
+    assert_not Loan.exists?(second_renewal.id)
   end
 
   test "returns a loan with a deleted item" do
     item = create(:item)
-    loan = create(:loan, item: item)
+    loan = create(:loan, item:)
 
     assert item.destroy
 
@@ -199,7 +201,7 @@ class LendingTest < ActiveSupport::TestCase
 
   test "renews a loan with a deleted item" do
     item = create(:item)
-    loan = create(:loan, item: item)
+    loan = create(:loan, item:)
 
     assert item.destroy
 
@@ -210,7 +212,7 @@ class LendingTest < ActiveSupport::TestCase
 
   test "automatically returns consumable items" do
     borrow_policy = create(:consumable_borrow_policy)
-    item = create(:item, quantity: 10, borrow_policy: borrow_policy)
+    item = create(:item, quantity: 10, borrow_policy:)
     member = create(:verified_member)
 
     loan = assert_no_difference "Audited::Audit.count" do
@@ -224,7 +226,7 @@ class LendingTest < ActiveSupport::TestCase
 
   test "restores consumable quantity when undoing a loan" do
     borrow_policy = create(:consumable_borrow_policy)
-    item = create(:item, quantity: 10, borrow_policy: borrow_policy)
+    item = create(:item, quantity: 10, borrow_policy:)
     member = create(:verified_member)
 
     loan = create_loan(item, member)
@@ -235,7 +237,7 @@ class LendingTest < ActiveSupport::TestCase
 
   test "marks the item as retired when the quantity hits 0" do
     borrow_policy = create(:consumable_borrow_policy)
-    item = create(:item, quantity: 1, borrow_policy: borrow_policy)
+    item = create(:item, quantity: 1, borrow_policy:)
     member = create(:verified_member)
 
     assert_difference "Audited::Audit.count" do
@@ -249,7 +251,7 @@ class LendingTest < ActiveSupport::TestCase
 
   test "restores consumable quantity and status when undoing a loan that exhausted the item" do
     borrow_policy = create(:consumable_borrow_policy)
-    item = create(:item, quantity: 1, borrow_policy: borrow_policy)
+    item = create(:item, quantity: 1, borrow_policy:)
     member = create(:verified_member)
 
     loan = create_loan(item, member)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admin::Settings::ClosingController < Admin::BaseController
   before_action :require_admin
 
@@ -21,8 +23,7 @@ class Admin::Settings::ClosingController < Admin::BaseController
   end
 
   private
-
-  def form_params
-    params.require(:extend_holds_form).permit(:date)
-  end
+    def form_params
+      params.require(:extend_holds_form).permit(:date)
+    end
 end

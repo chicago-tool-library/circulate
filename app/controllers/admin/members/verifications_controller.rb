@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class VerificationsController < BaseController
@@ -26,17 +28,16 @@ module Admin
       end
 
       private
-
-      def load_member
-        super
-        if @member.status_verified?
-          redirect_to admin_members_path, warning: "Member is already verified."
+        def load_member
+          super
+          if @member.status_verified?
+            redirect_to admin_members_path, warning: "Member is already verified."
+          end
         end
-      end
 
-      def verification_params
-        params.require(:admin_verification).permit(:id_kind, :other_id_kind, :address_verified)
-      end
+        def verification_params
+          params.require(:admin_verification).permit(:id_kind, :other_id_kind, :address_verified)
+        end
     end
   end
 end

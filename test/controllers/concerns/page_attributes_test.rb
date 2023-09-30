@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class PageAttributesTest < ActiveSupport::TestCase
@@ -15,6 +17,6 @@ class PageAttributesTest < ActiveSupport::TestCase
 
   test "handles attributes that aren't set" do
     assert_nil page_attr(:title)
-    refute page_attr?(:title)
+    assert_not page_attr?(:title)
   end
 end

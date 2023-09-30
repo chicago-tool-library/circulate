@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class NotesController < BaseController
     include ActionView::RecordIdentifier
@@ -11,7 +13,7 @@ module Admin
       if @note.save
         redirect_to [:admin, @parent, anchor: dom_id(@note)]
       else
-        render_to_portal "form", locals: {parent: @parent, note: @note}, status: 422
+        render_to_portal "form", locals: { parent: @parent, note: @note }, status: 422
       end
     end
 
@@ -21,7 +23,7 @@ module Admin
       if @note.update(note_params)
         redirect_to [:admin, @parent, anchor: dom_id(@note)]
       else
-        render_to_portal "form", locals: {parent: @parent, note: @note}, status: 422
+        render_to_portal "form", locals: { parent: @parent, note: @note }, status: 422
       end
     end
 
@@ -33,35 +35,34 @@ module Admin
       @note = @parent.notes.find(params[:id])
 
       if @parent.is_a?(Member)
-        render "_form", locals: {parent: @parent, note: @note}
+        render "_form", locals: { parent: @parent, note: @note }
       else
-        render_to_portal "form", locals: {parent: @parent, note: @note}
+        render_to_portal "form", locals: { parent: @parent, note: @note }
       end
     end
 
     def show
       @note = @parent.notes.find(params[:id])
-      render_to_portal "show", locals: {parent: @parent, note: @note}
+      render_to_portal "show", locals: { parent: @parent, note: @note }
     end
 
     def destroy
       @parent.notes.find(params[:id]).destroy!
-      redirect_to [:admin, @parent], flash: {success: "Note has been deleted."}
+      redirect_to [:admin, @parent], flash: { success: "Note has been deleted." }
     end
 
     private
-
-    def note_params
-      params.require(:note).permit(:body)
-    end
-
-    def load_parent
-      if params[:item_id]
-        @parent = Item.find(params[:item_id])
-      elsif params[:member_id]
-        @parent = Member.find(params[:member_id])
+      def note_params
+        params.require(:note).permit(:body)
       end
-      raise ActiveRecord::RecordNotFound unless @parent
-    end
+
+      def load_parent
+        if params[:item_id]
+          @parent = Item.find(params[:item_id])
+        elsif params[:member_id]
+          @parent = Member.find(params[:member_id])
+        end
+        raise ActiveRecord::RecordNotFound unless @parent
+      end
   end
 end

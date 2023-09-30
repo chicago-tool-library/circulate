@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEnumForItemStatus < ActiveRecord::Migration[6.1]
   class Item < ActiveRecord::Base
     enum status: [:pending, :active, :maintenance, :retired]

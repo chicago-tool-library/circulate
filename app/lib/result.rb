@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Result
   attr_reader :error
   attr_reader :value

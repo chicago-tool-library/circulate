@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDefaultDocuments < ActiveRecord::Migration[6.0]
   class MigrationDocument < ActiveRecord::Base
     self.table_name = :documents

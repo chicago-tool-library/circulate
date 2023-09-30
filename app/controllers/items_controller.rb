@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemsController < ApplicationController
   include Pagy::Backend
 
@@ -30,70 +32,69 @@ class ItemsController < ApplicationController
   end
 
   private
+    def filter_params
+      @filter_params ||= params.permit(:sort, :category, :query).to_h.each_with_object({}) do |(k, v), filtered|
+        value = v&.to_s&.strip&.presence
 
-  def filter_params
-    @filter_params ||= params.permit(:sort, :category, :query).to_h.each_with_object({}) do |(k, v), filtered|
-      value = v&.to_s&.strip&.presence
+        next unless value
 
-      next unless value
-
-      filtered[k.to_sym] = value
-    end
-  end
-
-  def set_index_page_title
-    return unless @query || @category
-
-    if @query
-      title = "Search results for #{@query}"
-      title << "in #{@category.name}" if @category
-    else
-      title = @category.name
+        filtered[k.to_sym] = value
+      end
     end
 
-    set_page_attr(:title, title)
-  end
+    def set_index_page_title
+      return unless @query || @category
 
-  def filter_by_category(item_scope)
-    @category = CategoryNode.find_by(id: params[:category])
+      if @query
+        title = "Search results for #{@query}"
+        title << "in #{@category.name}" if @category
+      else
+        title = @category.name
+      end
 
-    return filter_failed(:category, "Category not found") unless @category
-
-    item_scope.for_category(@category)
-  end
-
-  def filter_by_query(item_scope)
-    @query = filter_params[:query].to_s.strip.presence
-
-    return item_scope unless @query
-
-    if @query.size < 3
-      flash.now[:warning] = "You must provide at least three numbers or letters to search by."
-      filter_params.delete(:query)
-      return item_scope
+      set_page_attr(:title, title)
     end
 
-    scope = item_scope.search_by_anything(@query)
-    scope.select("#{scope.pg_search_rank_table_alias}.rank", "items.*")
-  end
+    def filter_by_category(item_scope)
+      @category = CategoryNode.find_by(id: params[:category])
 
-  def filter_failed(failed_param, error_message)
-    filter_params = %i[sort category query].each_with_object({}) do |filter_param, accepted_params|
-      next if filter_param == failed_param
-      next if params[:filter_param].blank?
+      return filter_failed(:category, "Category not found") unless @category
 
-      accepted_params[filter_param] = params[filter_param]
+      item_scope.for_category(@category)
     end
 
-    redirect_to(items_path(filter_params), error: error_message)
-  end
+    def filter_by_query(item_scope)
+      @query = filter_params[:query].to_s.strip.presence
 
-  def index_order
-    options = {
-      "name" => "items.name ASC",
-      "number" => "items.number ASC",
-      "added" => "items.created_at DESC"
-    }
-    options.fetch(params[:sort]) { options["added"] }
-  end
+      return item_scope unless @query
+
+      if @query.size < 3
+        flash.now[:warning] = "You must provide at least three numbers or letters to search by."
+        filter_params.delete(:query)
+        return item_scope
+      end
+
+      scope = item_scope.search_by_anything(@query)
+      scope.select("#{scope.pg_search_rank_table_alias}.rank", "items.*")
+    end
+
+    def filter_failed(failed_param, error_message)
+      filter_params = %i[sort category query].each_with_object({}) do |filter_param, accepted_params|
+        next if filter_param == failed_param
+        next if params[:filter_param].blank?
+
+        accepted_params[filter_param] = params[filter_param]
+      end
+
+      redirect_to(items_path(filter_params), error: error_message)
+    end
+
+    def index_order
+      options = {
+        "name" => "items.name ASC",
+        "number" => "items.number ASC",
+        "added" => "items.created_at DESC"
+      }
+      options.fetch(params[:sort]) { options["added"] }
+    end
 end

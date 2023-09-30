@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 unless ENV["HTTP_BASIC_USERS"].blank?
   Rails.application.config.middleware.use ::Rack::Auth::Basic do |username, password|
     ENV["HTTP_BASIC_USERS"].split(";").any? do |pair|

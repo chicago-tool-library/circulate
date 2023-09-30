@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "fileutils"
 
 DEVDATA_DIR = File.expand_path("db/devdata", Rails.root)
@@ -65,9 +67,9 @@ namespace :devdata do
       Library.all.each_with_index do |library, index|
         postal_code = postal_codes[index]
         ActsAsTenant.with_tenant(library) do
-          create_member(holds: 2, waiting_holds: 2, loans: 2, postal_code: postal_code)
-          create_member(loans: 5, postal_code: postal_code)
-          create_member(postal_code: postal_code)
+          create_member(holds: 2, waiting_holds: 2, loans: 2, postal_code:)
+          create_member(loans: 5, postal_code:)
+          create_member(postal_code:)
         end
       end
     end
@@ -79,33 +81,33 @@ namespace :devdata do
     email = "member#{id}@example.com"
 
     member = Member.create!(
-      status: status,
-      email: email,
-      user: User.create!(email: email, password: "password"),
+      status:,
+      email:,
+      user: User.create!(email:, password: "password"),
       phone_number: "3121234567",
       full_name: "Member Number #{id}",
       preferred_name: "Member ##{id}",
       address1: "#{id} W. Chicago Ave",
-      postal_code: postal_code,
+      postal_code:,
       address_verified: true
     )
 
     holds.times do
       item = random_model(Item.active.available)
-      Hold.create!(member: member, item: item, creator: member.user)
+      Hold.create!(member:, item:, creator: member.user)
     end
 
     # holds where this person is in line behind someone else
     waiting_holds.times do
       item = random_model(Item.active.available)
       member_in_front = random_model(Member)
-      Hold.create!(member: member_in_front, item: item, creator: member_in_front.user)
-      Hold.create!(member: member, item: item, creator: member.user)
+      Hold.create!(member: member_in_front, item:, creator: member_in_front.user)
+      Hold.create!(member:, item:, creator: member.user)
     end
 
     loans.times do
       item = random_model(Item.active.includes(:borrow_policy).available)
-      Loan.create!(item: item, member: member, due_at: 1.week.since, uniquely_numbered: item.borrow_policy.uniquely_numbered)
+      Loan.create!(item:, member:, due_at: 1.week.since, uniquely_numbered: item.borrow_policy.uniquely_numbered)
     end
   end
 

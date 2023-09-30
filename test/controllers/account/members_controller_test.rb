@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -21,13 +23,13 @@ module Account
     end
 
     test "member updates profile" do
-      patch account_member_url, params: {member: {full_name: "Updated Name"}}
+      patch account_member_url, params: { member: { full_name: "Updated Name" } }
       assert_redirected_to account_member_url
       assert_equal "Updated Name", @member.full_name
     end
 
     test "member update redirects to edit when provided invalid params" do
-      patch account_member_url, params: {member: {full_name: nil}}
+      patch account_member_url, params: { member: { full_name: nil } }
       assert_template :edit
     end
   end

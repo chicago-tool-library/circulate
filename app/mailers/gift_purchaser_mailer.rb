@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GiftPurchaserMailer < ApplicationMailer
   before_action :generate_uuid
   after_action :set_uuid_header
@@ -16,20 +18,19 @@ class GiftPurchaserMailer < ApplicationMailer
   end
 
   private
+    def generate_uuid
+      @uuid = SecureRandom.uuid
+    end
 
-  def generate_uuid
-    @uuid = SecureRandom.uuid
-  end
+    def set_uuid_header
+      headers["X-SMTPAPI"] = {
+        unique_args: {
+          uuid: @uuid
+        }
+      }.to_json
+    end
 
-  def set_uuid_header
-    headers["X-SMTPAPI"] = {
-      unique_args: {
-        uuid: @uuid
-      }
-    }.to_json
-  end
-
-  def store_notification
-    Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject, library: @library)
-  end
+    def store_notification
+      Notification.create!(uuid: @uuid, action: action_name, address: @gift_membership.purchaser_email, subject: @subject, library: @library)
+    end
 end

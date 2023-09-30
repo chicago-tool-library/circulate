@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
 
@@ -38,21 +40,21 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   def tag_select(method, tags)
     namer = ->(c) { c.path_names.map { |n| h(n) }.join(" &rBarr; ").html_safe }
-    @template.tag.div(data: {controller: "tag-editor"}) do
+    @template.tag.div(data: { controller: "tag-editor" }) do
       sequence_layout(method, options) do
-        parent_collection_select method, tags, :id, namer, {}, data: {target: "tag-editor.input"}, multiple: true
+        parent_collection_select method, tags, :id, namer, {}, data: { target: "tag-editor.input" }, multiple: true
       end
     end
   end
 
   def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    options[:wrapper_options] = {data: {controller: "multi-select"}}
-    html_options[:data] = {target: "multi-select.control", action: "multi-select#change"}
+    options[:wrapper_options] = { data: { controller: "multi-select" } }
+    html_options[:data] = { target: "multi-select.control", action: "multi-select#change" }
     html_options[:class] = "form-sele5"
 
     sequence_layout(method, options) do
       parent_collection_select(method, collection, value_method, text_method, options, html_options) +
-        @template.tag.div(data: {target: "multi-select.summary"}, class: "multi-select-summary")
+        @template.tag.div(data: { target: "multi-select.summary" }, class: "multi-select-summary")
     end
   end
 
@@ -124,9 +126,9 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def autocomplete_text_field(method, options = {})
     text_field(method, options.merge(
       wrapper_options: {
-        data: {controller: "autocomplete", action: "input->autocomplete#input", autocomplete_path: options.delete(:path)}
+        data: { controller: "autocomplete", action: "input->autocomplete#input", autocomplete_path: options.delete(:path) }
       },
-      data: {target: "autocomplete.input"}
+      data: { target: "autocomplete.input" }
     ))
   end
 
@@ -138,9 +140,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def actions(&block)
-    @template.content_tag :div, class: "form-buttons" do
-      yield
-    end
+    @template.content_tag :div, class: "form-buttons", &block
   end
 
   def button(label = nil, options = {})
@@ -148,7 +148,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit(label = nil, options = {}, &block)
-    parent_button(label, options.deep_merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true}), &block)
+    parent_button(label, options.deep_merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: { disable: true }), &block)
   end
 
   def errors
@@ -158,72 +158,71 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   private
+    # Use this method for inputs where the label has to preceed the input as a sibling
+    def sequence_layout(method, options = {})
+      label_text = label_or_default(options[:label], method)
+      has_error = @object.errors.include?(method)
+      display_required = options.delete(:required)
+      messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
-  # Use this method for inputs where the label has to preceed the input as a sibling
-  def sequence_layout(method, options = {})
-    label_text = label_or_default(options[:label], method)
-    has_error = @object.errors.include?(method)
-    display_required = options.delete(:required)
-    messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
+      hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 
-    hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
+      wrapper_options = options.delete(:wrapper_options) || {}
+      wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
+      wrapper_options[:class].strip!
 
-    wrapper_options = options.delete(:wrapper_options) || {}
-    wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
-    wrapper_options[:class].strip!
+      content_label = options[:label] == false ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), { class: "form-label #{options[:label_class]}" })
 
-    content_label = options[:label] == false ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
-
-    @template.content_tag :div, wrapper_options do
-      content_label.html_safe +
-        yield +
-        hint_content
+      @template.content_tag :div, wrapper_options do
+        content_label.html_safe +
+          yield +
+          hint_content
+      end
     end
-  end
 
-  def required_label(method, show_label)
-    if validation_inspector.attribute_required?(method) && show_label.nil?
-      @template.tag.span("required", class: "label label-warning label-required-field").html_safe
-    elsif show_label
-      @template.tag.span("required", class: "label label-warning label-required-field").html_safe
-    else
-      ""
+    def required_label(method, show_label)
+      if validation_inspector.attribute_required?(method) && show_label.nil?
+        @template.tag.span("required", class: "label label-warning label-required-field").html_safe
+      elsif show_label
+        @template.tag.span("required", class: "label label-warning label-required-field").html_safe
+      else
+        ""
+      end
     end
-  end
 
-  # Use this method for inputs where the label has to wrap the input
-  def wrapped_layout(method, options = {})
-    label_text = label_or_default(options.delete(:label), method)
-    has_error = @object.errors.include?(method)
-    display_required = options.fetch(:required, true)
-    messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
+    # Use this method for inputs where the label has to wrap the input
+    def wrapped_layout(method, options = {})
+      label_text = label_or_default(options.delete(:label), method)
+      has_error = @object.errors.include?(method)
+      display_required = options.fetch(:required, true)
+      messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
 
-    hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
+      hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 
-    wrapper_options = options.delete(:wrapper_options) || {}
-    wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
-    wrapper_options[:class].strip!
+      wrapper_options = options.delete(:wrapper_options) || {}
+      wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
+      wrapper_options[:class].strip!
 
-    @template.content_tag :div, wrapper_options do
-      label_options = {class: "form-label #{options.delete(:label_class)}"}
-      label_options[:for] = options.delete(:label_for) if options.key?(:label_for)
-      label(method, **label_options) {
-        yield +
-          label_text +
-          required_label(method, display_required)
-      } +
-        hint_content
+      @template.content_tag :div, wrapper_options do
+        label_options = { class: "form-label #{options.delete(:label_class)}" }
+        label_options[:for] = options.delete(:label_for) if options.key?(:label_for)
+        label(method, **label_options) {
+          yield +
+            label_text +
+            required_label(method, display_required)
+        } +
+          hint_content
+      end
     end
-  end
 
-  def label_or_default(label, method)
-    return label if label
+    def label_or_default(label, method)
+      return label if label
 
-    method_string = method.to_s
-    if method_string.ends_with?("_ids")
-      method_string.sub("_ids", "").pluralize.titleize
-    else
-      method_string.humanize
+      method_string = method.to_s
+      if method_string.ends_with?("_ids")
+        method_string.sub("_ids", "").pluralize.titleize
+      else
+        method_string.humanize
+      end
     end
-  end
 end

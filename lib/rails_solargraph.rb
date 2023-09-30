@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # https://gist.github.com/castwide/28b349566a223dfb439a337aea29713e
 #
 # The following comments fill some of the gaps in Solargraph's understanding of

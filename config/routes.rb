@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  devise_for :users, controllers: {sessions: "users/sessions"}
+  devise_for :users, controllers: { sessions: "users/sessions" }
 
   namespace :signup do
     resources :members, only: [:new, :create]
@@ -186,6 +188,6 @@ Rails.application.routes.draw do
   end
 
   %w[404 422 500 503].each do |code|
-    match code, to: "errors#show", via: :all, code: code, as: "error_#{code}"
+    match code, to: "errors#show", via: :all, code:, as: "error_#{code}"
   end
 end

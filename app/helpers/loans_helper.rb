@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module LoansHelper
   def undo_button(loan)
     name, method, path, params = if loan.ended?
       if loan.item.borrow_policy.consumable?
         ["loan", :delete, admin_loan_path(loan)]
       else
-        ["return", :patch, admin_loan_path(loan), {loan: {ended_at: nil}}]
+        ["return", :patch, admin_loan_path(loan), { loan: { ended_at: nil } }]
       end
     elsif loan.renewal?
       ["renewal", :delete, admin_renewal_path(loan)]
@@ -55,12 +57,11 @@ module LoansHelper
   end
 
   private
+    def format_date(date)
+      date.strftime("%a, %-m/%-d")
+    end
 
-  def format_date(date)
-    date.strftime("%a, %-m/%-d")
-  end
-
-  def format_time_range(starts_at, ends_at)
-    "#{starts_at.strftime("%l%P")}–#{ends_at.strftime("%l%P")}"
-  end
+    def format_time_range(starts_at, ends_at)
+      "#{starts_at.strftime("%l%P")}–#{ends_at.strftime("%l%P")}"
+    end
 end

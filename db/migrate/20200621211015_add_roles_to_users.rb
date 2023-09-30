@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddRolesToUsers < ActiveRecord::Migration[6.0]
   def change
     create_enum :user_role, ["staff", "admin"]

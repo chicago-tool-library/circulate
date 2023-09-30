@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class GiftMembershipsController < BaseController
     include Pagy::Backend
@@ -55,13 +57,12 @@ module Admin
     end
 
     private
+      def set_gift_membership
+        @gift_membership = GiftMembership.find(params[:id])
+      end
 
-    def set_gift_membership
-      @gift_membership = GiftMembership.find(params[:id])
-    end
-
-    def gift_membership_params
-      params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount, :recipient_name)
-    end
+      def gift_membership_params
+        params.require(:gift_membership).permit(:purchaser_email, :purchaser_name, :amount, :recipient_name)
+      end
   end
 end

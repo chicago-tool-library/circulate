@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class MembersController < BaseController
     before_action :is_membership_enabled?
@@ -30,13 +32,12 @@ module Signup
     end
 
     private
-
-    def member_signup_form_params
-      params.require(:member_signup_form).permit(
-        :full_name, :preferred_name, :email, :phone_number, :postal_code,
-        :address1, :address2, :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter,
-        :volunteer_interest, :password, :password_confirmation, pronouns: []
-      )
-    end
+      def member_signup_form_params
+        params.require(:member_signup_form).permit(
+          :full_name, :preferred_name, :email, :phone_number, :postal_code,
+          :address1, :address2, :desires, :reminders_via_email, :reminders_via_text, :receive_newsletter,
+          :volunteer_interest, :password, :password_confirmation, pronouns: []
+        )
+      end
   end
 end

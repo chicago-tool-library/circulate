@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Loan < ApplicationRecord
   belongs_to :item, optional: true
   belongs_to :member
@@ -9,7 +11,7 @@ class Loan < ApplicationRecord
 
   validates :due_at, presence: true
   validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
-  validates :initial_loan_id, uniqueness: {scope: :renewal_count}, if: ->(l) { l.initial_loan_id.present? }
+  validates :initial_loan_id, uniqueness: { scope: :renewal_count }, if: ->(l) { l.initial_loan_id.present? }
 
   validates_each :item_id do |record, attr, value|
     if value
@@ -81,7 +83,7 @@ class Loan < ApplicationRecord
 
   def self.lend(item, to:, now: Time.current)
     due_at = next_open_day(now.end_of_day + item.borrow_policy.duration.days)
-    Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered, created_at: now)
+    Loan.new(member: to, item:, due_at:, uniquely_numbered: item&.borrow_policy&.uniquely_numbered, created_at: now)
   end
 
   # Will another renewal exceed the maximum number of renewals?

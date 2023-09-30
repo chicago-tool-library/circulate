@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "csv"
 
 module Admin
@@ -20,7 +22,7 @@ module Admin
             }
 
             filename = Time.current.strftime("potential_volunteers_%-m/%-d/%Y.csv")
-            send_data text, filename: filename
+            send_data text, filename:
           end
         end
       end

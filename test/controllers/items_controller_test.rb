@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ItemsControllerTest < ActionDispatch::IntegrationTest
@@ -42,7 +44,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   [:retired, :pending].each do |status|
     test "doesn't display the show page for a #{status} item" do
-      hidden_item = create(:item, status: status)
+      hidden_item = create(:item, status:)
 
       assert_raises ActiveRecord::RecordNotFound do
         get item_url(hidden_item)
@@ -51,21 +53,21 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
     test "hides #{status} items from the item index" do
       available_item = create(:item)
-      hidden_item = create(:item, status: status)
+      hidden_item = create(:item, status:)
 
       get items_url
 
       assert_match available_item.complete_number, @response.body
-      refute_match hidden_item.complete_number, @response.body
+      assert_no_match hidden_item.complete_number, @response.body
     end
 
     test "hides #{status} items from the item index for a category" do
       category = create(:category)
-      hidden_item = create(:item, status: status, categories: [category])
+      hidden_item = create(:item, status:, categories: [category])
 
-      get items_url(category: category)
+      get items_url(category:)
 
-      refute_match hidden_item.complete_number, @response.body
+      assert_no_match hidden_item.complete_number, @response.body
     end
   end
 end

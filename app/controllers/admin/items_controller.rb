@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ItemsController < BaseController
     include Pagy::Backend
@@ -70,34 +72,33 @@ module Admin
     end
 
     private
+      def set_item
+        @item = Item.find(params[:id])
+      end
 
-    def set_item
-      @item = Item.find(params[:id])
-    end
+      def set_categories
+        @categories = CategoryNode.all
+      end
 
-    def set_categories
-      @categories = CategoryNode.all
-    end
+      def item_params
+        all_item_params.except(:delete_image)
+      end
 
-    def item_params
-      all_item_params.except(:delete_image)
-    end
+      def all_item_params
+        params.require(:item).permit(
+          :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
+          :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, :location_shelf, :location_area, :url,
+          :purchase_price, :purchase_link, :myturn_item_type, category_ids: []
+        )
+      end
 
-    def all_item_params
-      params.require(:item).permit(
-        :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
-        :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, :location_shelf, :location_area, :url,
-        :purchase_price, :purchase_link, :myturn_item_type, category_ids: []
-      )
-    end
-
-    def index_order
-      options = {
-        "name" => "items.name ASC",
-        "number" => "items.number ASC",
-        "added" => "items.created_at DESC"
-      }
-      options.fetch(params[:sort]) { options["name"] }
-    end
+      def index_order
+        options = {
+          "name" => "items.name ASC",
+          "number" => "items.number ASC",
+          "added" => "items.created_at DESC"
+        }
+        options.fetch(params[:sort]) { options["name"] }
+      end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AssignMemberNumbers < ActiveRecord::Migration[6.0]
   class Member < ActiveRecord::Base
     enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true

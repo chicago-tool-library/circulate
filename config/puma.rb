@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "barnes"
 
 # Puma can serve each request in a thread from an internal thread pool.

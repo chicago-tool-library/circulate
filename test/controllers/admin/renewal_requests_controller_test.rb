@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -26,7 +28,7 @@ module Admin
       assert_response :redirect
 
       assert @renewal_request.reload.approved?
-      refute @renewal_request.loan.checked_out?
+      assert_not @renewal_request.loan.checked_out?
     end
 
     test "rejects a renewal" do
@@ -53,7 +55,7 @@ class RenewalRequestsControllerAdditionalTest < ActionDispatch::IntegrationTest
 
   test "renews an already renewed loan on approval" do
     item = create(:item)
-    loan = create(:loan, item: item)
+    loan = create(:loan, item:)
     renewed_loan = renew_loan(loan)
 
     renewal_request = create(:renewal_request, loan: renewed_loan)
@@ -66,14 +68,14 @@ class RenewalRequestsControllerAdditionalTest < ActionDispatch::IntegrationTest
     assert_response :redirect
 
     assert renewal_request.reload.approved?
-    refute renewal_request.loan.checked_out?
+    assert_not renewal_request.loan.checked_out?
   end
 
   test "does not renew an item that has been checked in" do
     item = create(:item)
-    loan = create(:loan, item: item)
+    loan = create(:loan, item:)
 
-    renewal_request = create(:renewal_request, loan: loan)
+    renewal_request = create(:renewal_request, loan:)
     return_loan(loan)
     assert item.reload.available?
 
@@ -86,7 +88,7 @@ class RenewalRequestsControllerAdditionalTest < ActionDispatch::IntegrationTest
       assert_response :redirect
     end
 
-    refute renewal_request.reload.approved?
+    assert_not renewal_request.reload.approved?
     assert item.reload.available?
   end
 end

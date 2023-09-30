@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :calendar_event_id do |n|
     "CALEVENTID#{n}"

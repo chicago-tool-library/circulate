@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 TranslationIO.configure do |config|
   config.api_key = ENV.fetch("TRANSLATION_IO_API_KEY", "not a real key")
   config.source_locale = "en"

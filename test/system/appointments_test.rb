@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class AppointmentsTest < ApplicationSystemTestCase
@@ -8,7 +10,7 @@ class AppointmentsTest < ApplicationSystemTestCase
   end
 
   def list_item_containing(text)
-    find("li", text: text)
+    find("li", text:)
   end
 
   def select_first_available_date

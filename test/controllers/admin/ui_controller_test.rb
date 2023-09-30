@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -12,7 +14,7 @@ module Admin
 
     test "autocompletes item names" do
       ["impact hammer", "Impact hammer", "Impact wrench", "hammer drill"].each do |name|
-        Item.create!(name: name, borrow_policy: @borrow_policy)
+        Item.create!(name:, borrow_policy: @borrow_policy)
       end
 
       get admin_ui_names_url(q: "im")
@@ -23,7 +25,7 @@ module Admin
 
     test "autocompletes item brands" do
       ["Dewalt", "Delta", "ACDelco", "Dremel"].each do |brand|
-        Item.create!(name: "Tool name", brand: brand, borrow_policy: @borrow_policy)
+        Item.create!(name: "Tool name", brand:, borrow_policy: @borrow_policy)
       end
 
       get admin_ui_brands_url(q: "de")

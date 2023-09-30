@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volunteer
   class ShiftsController < BaseController
     include ShiftsHelper
@@ -32,9 +34,8 @@ module Volunteer
     end
 
     private
-
-    def google_calendar_id
-      ::Event.volunteer_shift_calendar_id
-    end
+      def google_calendar_id
+        ::Event.volunteer_shift_calendar_id
+      end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRenewalRequests < ActiveRecord::Migration[6.0]
   def change
     create_enum :renewal_request_status, ["requested", "approved", "rejected"]
