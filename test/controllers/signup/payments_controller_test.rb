@@ -23,7 +23,7 @@ module Signup
         mock_checkout.expect :checkout_url, mock_result, [{
           amount: Money.new(1200),
           email: @member.email,
-          return_to: "http://www.example.com/signup/payments/callback",
+          return_to: "http://example.com/signup/payments/callback",
           member_id: @member.id,
           date: Date.current
         }]
@@ -51,7 +51,7 @@ module Signup
         post signup_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
       end
 
-      assert_redirected_to "http://www.example.com/signup/payments/new"
+      assert_redirected_to "http://example.com/signup/payments/new"
       follow_redirect!
 
       assert_select ".toast-error", /There was a problem connecting to our payment processor/
@@ -99,7 +99,7 @@ module Signup
         end
       end
 
-      assert_redirected_to "http://www.example.com/signup/confirmation"
+      assert_redirected_to "http://example.com/signup/confirmation"
 
       follow_redirect!
       assert_select ".toast-error", /There was an error processing your payment/
@@ -151,7 +151,7 @@ module Signup
           assert_equal 200, response.status
           assert_equal i + 1, session[:attempts]
         else
-          assert_redirected_to "http://www.example.com/signup/confirmation"
+          assert_redirected_to "http://example.com/signup/confirmation"
           assert_match(/There was an error processing your payment/, flash[:error])
           refute session[:attempts]
         end
