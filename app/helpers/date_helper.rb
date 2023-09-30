@@ -1,10 +1,10 @@
 module DateHelper
   def date_with_time_title(time)
-    tag.span(time.to_s(:short_date), title: time.to_s(:short_datetime))
+    tag.span(time.to_fs(:short_date), title: time.to_fs(:short_datetime))
   end
 
   def time_ago_with_time_title(time)
-    tag.span(time_ago_in_words(time) + " ago", title: time.to_s(:short_datetime))
+    tag.span(time_ago_in_words(time) + " ago", title: time.to_fs(:short_datetime))
   end
 
   def checked_out_date(datetime, day_of_week: false)
@@ -21,6 +21,6 @@ module DateHelper
 
   def display_date(datetime, format)
     return unless datetime
-    tag.time(datetime.to_s(format), datetime: datetime.utc)
+    tag.time(datetime.to_fs(format), datetime: datetime.utc)
   end
 end
