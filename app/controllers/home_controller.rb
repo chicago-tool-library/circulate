@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HomeController < ApplicationController
   before_action :index do
     redirect_to account_home_url if user_signed_in?

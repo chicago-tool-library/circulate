@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class ConfirmationsController < BaseController
     def show

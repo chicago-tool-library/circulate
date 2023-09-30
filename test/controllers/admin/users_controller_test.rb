@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -23,7 +25,7 @@ module Admin
 
     test "should create user" do
       assert_difference("User.count") do
-        post admin_users_url, params: {user: {email: "new.user@example.com", role: "staff"}}
+        post admin_users_url, params: { user: { email: "new.user@example.com", role: "staff" } }
       end
 
       assert_redirected_to admin_users_url
@@ -50,7 +52,7 @@ module Admin
     test "should update user" do
       user = create(:user)
 
-      patch admin_user_url(user), params: {user: {email: "modified@example.com", role: "admin"}}
+      patch admin_user_url(user), params: { user: { email: "modified@example.com", role: "admin" } }
       assert_redirected_to admin_users_url
 
       user.reload
@@ -62,7 +64,7 @@ module Admin
     test "should not allow escalating to super_admin" do
       user = create(:user)
 
-      patch admin_user_url(user), params: {user: {email: "modified@example.com", role: "super_admin"}}
+      patch admin_user_url(user), params: { user: { email: "modified@example.com", role: "super_admin" } }
       assert_redirected_to admin_users_url
 
       user.reload
@@ -77,7 +79,7 @@ module Admin
 
       user = create(:user)
 
-      patch admin_user_url(user), params: {user: {email: "modified@example.com", role: "super_admin"}}
+      patch admin_user_url(user), params: { user: { email: "modified@example.com", role: "super_admin" } }
       assert_redirected_to admin_users_url
 
       user.reload

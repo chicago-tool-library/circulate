@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ItemsHelperTest < ActionView::TestCase
@@ -41,7 +43,7 @@ class ItemsHelperTest < ActionView::TestCase
         "#{filename}?#{options.to_query}"
       end
 
-      assert_equal "tool-image.jpg?#{{resize_to_limit: [80, 90], rotate: 90}.to_query}",
+      assert_equal "tool-image.jpg?#{{ resize_to_limit: [80, 90], rotate: 90 }.to_query}",
         item_image_url(@image, resize_to_limit: [80, 90])
     end
 
@@ -88,7 +90,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     test "item status for a checked out uniquely numbered item" do
       item = create(:item)
-      create(:loan, item: item)
+      create(:loan, item:)
       item.reload
 
       assert_equal ["label-warning", "Checked Out"], css_class_and_status_label(item)
@@ -96,7 +98,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     test "item status for an overdue uniquely numbered item" do
       item = create(:item)
-      create(:overdue_loan, item: item)
+      create(:overdue_loan, item:)
       item.reload
 
       assert_equal ["label-error", "Overdue"], css_class_and_status_label(item)
@@ -104,7 +106,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     test "item status for a uniquely numbered item with a hold" do
       item = create(:item)
-      create(:hold, item: item)
+      create(:hold, item:)
       item.reload
 
       assert_equal ["label-warning", "On Hold"], css_class_and_status_label(item)
@@ -117,7 +119,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     [:pending, :retired].each do |status|
       test "item status for an uniquely numbered item with status #{status}" do
-        item = create(:item, status: status)
+        item = create(:item, status:)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
       end
     end
@@ -130,7 +132,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     test "item status for a checked out unnumbered item" do
       item = create(:uncounted_item)
-      create(:nonexclusive_loan, item: item)
+      create(:nonexclusive_loan, item:)
       item.reload
 
       assert_equal ["label-success", "Available"], css_class_and_status_label(item)
@@ -138,7 +140,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     test "item status for an unnumbered item with a hold" do
       item = create(:uncounted_item)
-      create(:hold, item: item)
+      create(:hold, item:)
       item.reload
 
       assert_equal ["label-success", "Available"], css_class_and_status_label(item)
@@ -151,7 +153,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     [:pending, :retired].each do |status|
       test "item status for an unnumbered item with status #{status}" do
-        item = create(:uncounted_item, status: status)
+        item = create(:uncounted_item, status:)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Google
   class CalendarEvent
     attr_reader :id, :summary, :description, :start, :finish, :attendees, :calendar_id

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -13,7 +15,7 @@ module Account
 
     test "creates hold for an item and starts hold" do
       assert_difference("@item.holds.count") do
-        post account_holds_url, params: {item_id: @item.id}
+        post account_holds_url, params: { item_id: @item.id }
       end
 
       assert_redirected_to item_url(@item.id)
@@ -26,13 +28,13 @@ module Account
       create(:hold, item: @item)
 
       assert_difference("@item.holds.count") do
-        post account_holds_url, params: {item_id: @item.id}
+        post account_holds_url, params: { item_id: @item.id }
       end
 
       assert_redirected_to item_url(@item.id)
 
       hold = @item.holds.last
-      refute hold.started?
+      assert_not hold.started?
     end
   end
 end

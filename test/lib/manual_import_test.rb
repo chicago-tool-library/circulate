@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ManualImportTest < ActiveSupport::TestCase
@@ -21,13 +23,13 @@ class ManualImportTest < ActiveSupport::TestCase
 
   test "is invalid without a URL" do
     manual_import = ManualImport.new(url: "not a real url")
-    refute manual_import.valid?
+    assert_not manual_import.valid?
     assert_equal ["must be a valid URL"], manual_import.errors[:url]
   end
 
   test "is invalid when a file isn't found at the URL", :remote do
     manual_import = ManualImport.new(url: "http://not.a.real.website/some/file.pdf")
-    refute manual_import.valid?
+    assert_not manual_import.valid?
     assert_equal ["could not be loaded"], manual_import.errors[:url]
   end
 end

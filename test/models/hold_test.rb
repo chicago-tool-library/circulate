@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class HoldTest < ActiveSupport::TestCase
@@ -14,47 +16,47 @@ class HoldTest < ActiveSupport::TestCase
     hold = create(:hold, ended_at: nil, started_at: nil)
 
     assert hold.active?
-    refute hold.inactive?
-    refute hold.ended?
-    refute hold.expired?
-    refute hold.started?
+    assert_not hold.inactive?
+    assert_not hold.ended?
+    assert_not hold.expired?
+    assert_not hold.started?
 
     assert Hold.active.find_by(id: hold)
-    refute Hold.inactive.find_by(id: hold)
-    refute Hold.ended.find_by(id: hold)
-    refute Hold.expired.find_by(id: hold)
-    refute Hold.started.find_by(id: hold)
+    assert_not Hold.inactive.find_by(id: hold)
+    assert_not Hold.ended.find_by(id: hold)
+    assert_not Hold.expired.find_by(id: hold)
+    assert_not Hold.started.find_by(id: hold)
   end
 
   test "started hold" do
     hold = create(:started_hold)
 
     assert hold.active?
-    refute hold.inactive?
-    refute hold.ended?
-    refute hold.expired?
+    assert_not hold.inactive?
+    assert_not hold.ended?
+    assert_not hold.expired?
     assert hold.started?
 
     assert Hold.active.find_by(id: hold)
-    refute Hold.inactive.find_by(id: hold)
-    refute Hold.ended.find_by(id: hold)
-    refute Hold.expired.find_by(id: hold)
+    assert_not Hold.inactive.find_by(id: hold)
+    assert_not Hold.ended.find_by(id: hold)
+    assert_not Hold.expired.find_by(id: hold)
     assert Hold.started.find_by(id: hold)
   end
 
   test "ended hold" do
     hold = create(:hold, ended_at: 2.days.ago, started_at: 5.days.ago, expires_at: 3.days.since)
 
-    refute hold.active?
+    assert_not hold.active?
     assert hold.inactive?
     assert hold.ended?
-    refute hold.expired?
+    assert_not hold.expired?
     assert hold.started?
 
-    refute Hold.active.find_by(id: hold)
+    assert_not Hold.active.find_by(id: hold)
     assert Hold.inactive.find_by(id: hold)
     assert Hold.ended.find_by(id: hold)
-    refute Hold.expired.find_by(id: hold)
+    assert_not Hold.expired.find_by(id: hold)
     assert Hold.started.find_by(id: hold)
   end
 
@@ -62,15 +64,15 @@ class HoldTest < ActiveSupport::TestCase
     hold = create(:hold, ended_at: nil)
     hold.start!(15.days.ago)
 
-    refute hold.active?
+    assert_not hold.active?
     assert hold.inactive?
-    refute hold.ended?
+    assert_not hold.ended?
     assert hold.expired?
     assert hold.started?
 
-    refute Hold.active.find_by(id: hold)
+    assert_not Hold.active.find_by(id: hold)
     assert Hold.inactive.find_by(id: hold)
-    refute Hold.ended.find_by(id: hold)
+    assert_not Hold.ended.find_by(id: hold)
     assert Hold.expired.find_by(id: hold)
     assert Hold.started.find_by(id: hold)
   end
@@ -82,23 +84,23 @@ class HoldTest < ActiveSupport::TestCase
 
     travel_to (hold_started + Hold::HOLD_LENGTH).end_of_day do
       assert hold.active?
-      refute hold.inactive?
-      refute hold.ended?
-      refute hold.expired?
+      assert_not hold.inactive?
+      assert_not hold.ended?
+      assert_not hold.expired?
       assert hold.started?
 
       assert Hold.active.find_by(id: hold)
-      refute Hold.inactive.find_by(id: hold)
-      refute Hold.ended.find_by(id: hold)
-      refute Hold.expired.find_by(id: hold)
+      assert_not Hold.inactive.find_by(id: hold)
+      assert_not Hold.ended.find_by(id: hold)
+      assert_not Hold.expired.find_by(id: hold)
       assert Hold.started.find_by(id: hold)
     end
   end
 
   test "#start!" do
     hold = create(:hold)
-    refute hold.started_at
-    refute hold.expires_at
+    assert_not hold.started_at
+    assert_not hold.expires_at
 
     hold.start!
     assert hold.started_at
@@ -116,21 +118,21 @@ class HoldTest < ActiveSupport::TestCase
     create(:loan, item: hold.item)
 
     hold.reload
-    refute hold.ready_for_pickup?
+    assert_not hold.ready_for_pickup?
   end
 
   test "#ready_for_pickup? is false when there is an earlier hold" do
     hold = create(:hold)
     second_hold = create(:hold, item: hold.item)
 
-    refute second_hold.ready_for_pickup?
+    assert_not second_hold.ready_for_pickup?
   end
 
   test "#ready_for_pickup? is true for uncounted items despite active loans" do
     item = create(:uncounted_item)
 
-    hold = create(:hold, item: item)
-    create(:loan, item: item)
+    hold = create(:hold, item:)
+    create(:loan, item:)
 
     hold.reload
     assert hold.ready_for_pickup?
@@ -207,7 +209,7 @@ class HoldTest < ActiveSupport::TestCase
   test "starts all of the holds for an uncounted item" do
     item = create(:uncounted_item)
     3.times do
-      create(:hold, item: item)
+      create(:hold, item:)
     end
 
     started = assert_difference("Hold.started.count", 3) {
@@ -230,7 +232,7 @@ class HoldTest < ActiveSupport::TestCase
     hold1.reload
     hold2.reload
     assert hold1.started?
-    refute hold2.started?
+    assert_not hold2.started?
 
     assert_difference("Hold.started.count") do
       Hold.start_waiting_holds(15.days.since) do |hold|
@@ -269,10 +271,10 @@ class HoldTest < ActiveSupport::TestCase
   test "is ready for pickup if item is uncounted" do
     item = create(:uncounted_item)
 
-    hold = create(:hold, item: item)
+    hold = create(:hold, item:)
     assert hold.ready_for_pickup?
 
-    second_hold = create(:hold, item: item)
+    second_hold = create(:hold, item:)
     assert second_hold.ready_for_pickup?
   end
 
@@ -280,17 +282,17 @@ class HoldTest < ActiveSupport::TestCase
     item = create(:item, status: :active)
     member = create(:verified_member_with_membership)
 
-    hold = Hold.new(item: item, member: member, creator: member.user)
+    hold = Hold.new(item:, member:, creator: member.user)
     assert hold.valid?
   end
 
   %i[pending retired maintenance].each do |status|
     test "can't be put on hold if the item is #{status}" do
-      item = create(:item, status: status)
+      item = create(:item, status:)
       member = create(:verified_member_with_membership)
 
-      hold = Hold.new(item: item, member: member, creator: member.user)
-      refute hold.valid?
+      hold = Hold.new(item:, member:, creator: member.user)
+      assert_not hold.valid?
       assert_equal ["can not be placed on hold"], hold.errors[:item]
     end
   end

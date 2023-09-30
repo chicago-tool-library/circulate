@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class MembershipTest < ActiveSupport::TestCase
@@ -7,7 +9,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 0) {
-        Membership.create_for_member(member, now: now, start_membership: true)
+        Membership.create_for_member(member, now:, start_membership: true)
       }
     }
 
@@ -22,7 +24,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 0) {
-        Membership.create_for_member(member, now: now)
+        Membership.create_for_member(member, now:)
       }
     }
 
@@ -38,7 +40,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 2) {
-        Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+        Membership.create_for_member(member, now:, amount:, source: "cash", start_membership: true)
       }
     }
 
@@ -65,7 +67,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 2) {
-        Membership.create_for_member(member, now: now, amount: amount, source: "cash")
+        Membership.create_for_member(member, now:, amount:, source: "cash")
       }
     }
 
@@ -92,7 +94,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 2) {
-        Membership.create_for_member(member, now: now, amount: amount, start_membership: true, source: "square", square_transaction_id: "sq_abcd")
+        Membership.create_for_member(member, now:, amount:, start_membership: true, source: "square", square_transaction_id: "sq_abcd")
       }
     }
 
@@ -121,7 +123,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     membership = assert_difference("Membership.count", 1) {
       assert_difference("Adjustment.count", 2) {
-        Membership.create_for_member(member, now: now, amount: amount, source: "square", square_transaction_id: "sq_abcd")
+        Membership.create_for_member(member, now:, amount:, source: "square", square_transaction_id: "sq_abcd")
       }
     }
 
@@ -154,25 +156,25 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "prevents a member from having an overlapping later membership" do
     member = create(:member)
-    membership = create(:membership, member: member)
+    membership = create(:membership, member:)
 
-    later_membership = build(:membership, member: member, started_at: membership.ended_at)
-    refute later_membership.valid?
+    later_membership = build(:membership, member:, started_at: membership.ended_at)
+    assert_not later_membership.valid?
     assert_equal ["can't overlap with another membership"], later_membership.errors[:base]
   end
 
   test "prevents a member from having an overlapping earlier membership" do
     member = create(:member)
-    membership = create(:membership, member: member)
+    membership = create(:membership, member:)
 
-    earlier_membership = build(:membership, member: member, ended_at: membership.started_at)
-    refute earlier_membership.valid?
+    earlier_membership = build(:membership, member:, ended_at: membership.started_at)
+    assert_not earlier_membership.valid?
     assert_equal ["can't overlap with another membership"], earlier_membership.errors[:base]
   end
 
   test "allows different members to have overlapping memberships" do
     member = create(:member)
-    membership = create(:membership, member: member)
+    membership = create(:membership, member:)
 
     member2 = create(:member)
     create(:membership, member: member2, started_at: membership.started_at)

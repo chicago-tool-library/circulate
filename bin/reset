@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
-require 'fileutils'
+# frozen_string_literal: true
+
+require "fileutils"
 
 # path to your application root.
-APP_ROOT = File.expand_path('..', __dir__)
+APP_ROOT = File.expand_path("..", __dir__)
 
 def system!(*args)
   system(*args) || abort("\n== Command #{args} failed ==")
@@ -11,21 +13,21 @@ end
 FileUtils.chdir APP_ROOT do
   # This script resets the application to a stable state for development
 
-  puts '== Drop db connections =='
-  system! 'bin/rails db:close_connections'
+  puts "== Drop db connections =="
+  system! "bin/rails db:close_connections"
 
-  puts '== Database reset =='
-  system! 'bin/rails db:reset'
+  puts "== Database reset =="
+  system! "bin/rails db:reset"
 
   puts "\n== Loading dev data =="
-  system! 'bin/rails devdata:load'
+  system! "bin/rails devdata:load"
 
   puts "\n== Creating loans and holds =="
-  system! 'bin/rails devdata:create_loans_and_holds'
+  system! "bin/rails devdata:create_loans_and_holds"
 
   puts "\n== Removing old logs and tempfiles =="
-  system! 'bin/rails log:clear tmp:clear'
+  system! "bin/rails log:clear tmp:clear"
 
   puts "\n== Restarting application server =="
-  system! 'bin/rails restart'
+  system! "bin/rails restart"
 end

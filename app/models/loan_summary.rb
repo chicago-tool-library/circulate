@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LoanSummary < ApplicationRecord
   self.primary_key = :initial_loan_id
 
@@ -10,7 +12,7 @@ class LoanSummary < ApplicationRecord
   scope :active_on, ->(date) {
     morning = date.beginning_of_day.utc
     night = date.end_of_day.utc
-    where("loan_summaries.created_at BETWEEN :morning AND :night OR loan_summaries.ended_at BETWEEN :morning AND :night OR renewal_requests.updated_at BETWEEN :morning AND :night", morning: morning, night: night).includes(:renewal_requests).references(:renewal_requests)
+    where("loan_summaries.created_at BETWEEN :morning AND :night OR loan_summaries.ended_at BETWEEN :morning AND :night OR renewal_requests.updated_at BETWEEN :morning AND :night", morning:, night:).includes(:renewal_requests).references(:renewal_requests)
   }
 
   scope :checked_out, -> { where(ended_at: nil) }

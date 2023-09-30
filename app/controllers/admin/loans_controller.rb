@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class LoansController < BaseController
     include ActionView::RecordIdentifier
@@ -54,13 +56,12 @@ module Admin
     end
 
     private
+      def new_loan_params
+        params.require(:loan).permit(:item_id, :member_id)
+      end
 
-    def new_loan_params
-      params.require(:loan).permit(:item_id, :member_id)
-    end
-
-    def update_loan_params
-      params.require(:loan).permit(:ended)
-    end
+      def update_loan_params
+        params.require(:loan).permit(:ended)
+      end
   end
 end

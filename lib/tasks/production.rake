@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "open3"
 
 def run_and_print(command)
@@ -52,7 +54,7 @@ def scrub_data
   scrub_users
 
   Member.update_all(<<~SQL)
-    full_name = 'Firstname ' || id || ' Lastname', 
+    full_name = 'Firstname ' || id || ' Lastname',#{' '}
     preferred_name = 'Member ' || id,
     email = 'member' || id || '@example.com',
     phone_number = '7732420923',

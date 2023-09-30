@@ -17,12 +17,11 @@ module ActiveStorageLogSuppressor
 
   module ActiveStorageLoggingFilters
     private
+      def info(event, colored_message)
+      end
 
-    def info(event, colored_message)
-    end
-
-    def debug(event, colored_message)
-    end
+      def debug(event, colored_message)
+      end
   end
 
   module ActiveRecordLoggingFilters

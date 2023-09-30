@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LoanPolicy
   attr_reader :user, :loan
 

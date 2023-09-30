@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This class encapsulates creating both a Member and User record from a single form,
 # as is done by the new member signup flow.
 class MemberSignupForm

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Renewal
   class DocumentsController < BaseController
     def rules

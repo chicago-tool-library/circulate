@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Document < ApplicationRecord
   has_rich_text :body
 
   validates_presence_of :name, :summary
 
-  scope :coded, ->(code) { where(code: code) }
+  scope :coded, ->(code) { where(code:) }
 
   acts_as_tenant :library
 

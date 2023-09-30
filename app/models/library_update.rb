@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibraryUpdate < ApplicationRecord
   acts_as_tenant :library
 

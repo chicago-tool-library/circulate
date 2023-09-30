@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPowerSourceToItems < ActiveRecord::Migration[6.0]
   def change
     create_enum :power_source, ["solar", "gas", "air", "electric (corded)", "electric (battery)"]

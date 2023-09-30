@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class HoldsController < BaseController
     include Pagy::Backend
@@ -6,7 +8,5 @@ module Admin
       holds_scope = Hold.active.includes(:member, item: :borrow_policy).order("expires_at ASC NULLS LAST, created_at ASC")
       @pagy, @holds = pagy(holds_scope, items: 100)
     end
-
-    private
   end
 end

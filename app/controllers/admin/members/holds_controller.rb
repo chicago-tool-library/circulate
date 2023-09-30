@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class HoldsController < BaseController
@@ -46,10 +48,9 @@ module Admin
       end
 
       private
-
-      def new_hold_params
-        params.require(:hold).permit(:item_id)
-      end
+        def new_hold_params
+          params.require(:hold).permit(:item_id)
+        end
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volunteer
   class Day
     def initialize(date, today, events, state = nil)

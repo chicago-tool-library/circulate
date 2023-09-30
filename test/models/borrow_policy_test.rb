@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class BorrowPolicyTest < ActiveSupport::TestCase
@@ -7,7 +9,7 @@ class BorrowPolicyTest < ActiveSupport::TestCase
 
     new_policy = BorrowPolicy.create!(name: "New", code: "N", default: true)
     assert new_policy.reload.default
-    refute old_policy.reload.default
+    assert_not old_policy.reload.default
   end
 
   test "allow_multiple_holds_per_member? is true when uniquely_numbered is false" do
@@ -25,7 +27,7 @@ class BorrowPolicyTest < ActiveSupport::TestCase
   test "requires consumables to not be uniquely_numbered" do
     policy = BorrowPolicy.new(uniquely_numbered: true, consumable: true)
 
-    refute policy.valid?
+    assert_not policy.valid?
 
     assert_equal ["must not be enabled for consumables"], policy.errors[:uniquely_numbered]
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -12,7 +14,7 @@ module Admin
 
       test "should lend a hold to a member" do
         member = create(:member)
-        hold = create(:hold, member: member, creator: @admin_user)
+        hold = create(:hold, member:, creator: @admin_user)
 
         assert_difference("member.holds.active.count", -1) do
           post lend_admin_member_hold_url(member, hold)
@@ -25,7 +27,7 @@ module Admin
         item = create(:item)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
+          post admin_member_holds_url(member), params: { hold: { item_id: item.id } }
         end
 
         hold = member.holds.last
@@ -35,27 +37,27 @@ module Admin
       test "places a hold and does not start when item is unavailable" do
         member = create(:verified_member)
         item = create(:item)
-        create(:loan, item: item)
+        create(:loan, item:)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
+          post admin_member_holds_url(member), params: { hold: { item_id: item.id } }
         end
 
         hold = member.holds.last
-        refute hold.started?
+        assert_not hold.started?
       end
 
       test "places a hold and does not start when item has other holds" do
         member = create(:verified_member)
         item = create(:item)
-        create(:hold, item: item)
+        create(:hold, item:)
 
         assert_difference("member.holds.active.count") do
-          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
+          post admin_member_holds_url(member), params: { hold: { item_id: item.id } }
         end
 
         hold = member.holds.last
-        refute hold.started?
+        assert_not hold.started?
       end
     end
   end

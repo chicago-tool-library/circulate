@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketUpdate < ApplicationRecord
   belongs_to :ticket, touch: true
   belongs_to :creator, class_name: "User"
@@ -5,7 +7,7 @@ class TicketUpdate < ApplicationRecord
 
   has_rich_text :body
   validates :body, presence: true
-  validates :time_spent, numericality: {allow_blank: true}
+  validates :time_spent, numericality: { allow_blank: true }
 
   acts_as_tenant :library
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -18,7 +20,7 @@ module Account
       assert_response :success
 
       assert_match @loan.item.complete_number, response.body
-      refute_match @others_loan.item.complete_number, response.body
+      assert_no_match @others_loan.item.complete_number, response.body
     end
 
     test "displays a member's current loans" do
@@ -30,8 +32,8 @@ module Account
       assert_response :success
 
       assert_match @loan.item.complete_number, response.body
-      refute_match @others_loan.item.complete_number, response.body
-      refute_match @ended_loan.item.complete_number, response.body
+      assert_no_match @others_loan.item.complete_number, response.body
+      assert_no_match @ended_loan.item.complete_number, response.body
     end
   end
 end

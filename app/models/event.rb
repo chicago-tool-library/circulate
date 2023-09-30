@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Event < ApplicationRecord
   attribute :attendees, Attendee.to_array_type, default: []
 

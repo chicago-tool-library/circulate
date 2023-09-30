@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Account
   class MembersController < ApplicationController
     def show
@@ -20,21 +22,20 @@ module Account
     end
 
     private
-
-    def member_params
-      params.require(:member).permit(:full_name,
-        :preferred_name,
-        :email,
-        :phone_number,
-        :address1,
-        :address2,
-        :postal_code,
-        :desires,
-        :reminders_via_email,
-        :reminders_via_text,
-        :receive_newsletter,
-        :volunteer_interest,
-        pronouns: [])
-    end
+      def member_params
+        params.require(:member).permit(:full_name,
+          :preferred_name,
+          :email,
+          :phone_number,
+          :address1,
+          :address2,
+          :postal_code,
+          :desires,
+          :reminders_via_email,
+          :reminders_via_text,
+          :receive_newsletter,
+          :volunteer_interest,
+          pronouns: [])
+      end
   end
 end

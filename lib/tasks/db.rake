@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc "Closes all other connections to the database"
   task close_connections: :environment do

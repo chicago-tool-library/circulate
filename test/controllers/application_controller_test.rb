@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
@@ -20,24 +22,24 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect to previous page for admin after login if there is a referer" do
-    get new_user_session_path, headers: {referer: "http://www.example.com/original-page"}
-    post user_session_path, params: {user: {email: @admin_user.email, password: "password"}}
+    get new_user_session_path, headers: { referer: "http://www.example.com/original-page" }
+    post user_session_path, params: { user: { email: @admin_user.email, password: "password" } }
     assert_redirected_to "http://www.example.com/original-page"
   end
 
   test "should redirect to previous page for member after login if there is a referer" do
-    get new_user_session_path, headers: {referer: "http://www.example.com/items/1"}
-    post user_session_path, params: {user: {email: @user.email, password: "password"}}
+    get new_user_session_path, headers: { referer: "http://www.example.com/items/1" }
+    post user_session_path, params: { user: { email: @user.email, password: "password" } }
     assert_redirected_to "http://www.example.com/items/1"
   end
 
   test "should not redirect to previous page for member after login if referer is not of the same domain" do
-    get new_user_session_path, headers: {referer: "http://www.foreigndomain.com/circulate"}
-    post user_session_path, params: {user: {email: @user.email, password: "password"}}
+    get new_user_session_path, headers: { referer: "http://www.foreigndomain.com/circulate" }
+    post user_session_path, params: { user: { email: @user.email, password: "password" } }
     assert_redirected_to account_home_path
   end
 
   test "ignores a poorly formed referer" do
-    get new_user_session_path, headers: {referer: "not a valid referer"}
+    get new_user_session_path, headers: { referer: "not a valid referer" }
   end
 end

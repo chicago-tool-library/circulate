@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -26,7 +28,7 @@ module Admin
     end
 
     test "should update document" do
-      patch admin_document_url(@document), params: {document: {body: @document.body, name: @document.name, summary: @document.summary}}
+      patch admin_document_url(@document), params: { document: { body: @document.body, name: @document.name, summary: @document.summary } }
       assert_redirected_to admin_document_url(@document)
     end
   end

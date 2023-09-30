@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Membership < ApplicationRecord
   class PendingMembership < StandardError; end
 
@@ -74,7 +76,7 @@ class Membership < ApplicationRecord
 
   def self.create_for_member(member, amount: 0, source: nil, start_membership: false, now: Time.current, square_transaction_id: nil)
     if start_membership
-      start_date = next_start_date_for_member(member, now: now)
+      start_date = next_start_date_for_member(member, now:)
       raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
 
       membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library)
@@ -90,22 +92,21 @@ class Membership < ApplicationRecord
   end
 
   private
+    def no_overlapping_dates
+      overlapping = member.memberships.where(
+        "started_at BETWEEN ? AND ? OR ended_at BETWEEN ? AND ?",
+        started_at, ended_at, started_at, ended_at
+      ).count
 
-  def no_overlapping_dates
-    overlapping = member.memberships.where(
-      "started_at BETWEEN ? AND ? OR ended_at BETWEEN ? AND ?",
-      started_at, ended_at, started_at, ended_at
-    ).count
-
-    errors.add(:base, "can't overlap with another membership") if overlapping > 0
-  end
-
-  def start_after_end
-    return true unless started_at && ended_at
-
-    if started_at > ended_at
-      errors.add(:started_at, "must start before end")
-      errors.add(:ended_at, "must end after start")
+      errors.add(:base, "can't overlap with another membership") if overlapping > 0
     end
-  end
+
+    def start_after_end
+      return true unless started_at && ended_at
+
+      if started_at > ended_at
+        errors.add(:started_at, "must start before end")
+        errors.add(:ended_at, "must end after start")
+      end
+    end
 end

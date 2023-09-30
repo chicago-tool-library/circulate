@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hold < ApplicationRecord
   HOLD_LENGTH = 7.days
 
@@ -28,7 +30,7 @@ class Hold < ApplicationRecord
   acts_as_tenant :library
 
   def self.active_hold_count_for_item(item)
-    active.where(item: item).count
+    active.where(item:).count
   end
 
   # active and inactive are mutually exclusive
@@ -68,7 +70,7 @@ class Hold < ApplicationRecord
   end
 
   def previous_active_holds(now = Time.current)
-    Hold.active(now).where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
+    Hold.active(now).where("created_at < ?", created_at).where(item:).where.not(member:).order(:ended_at).to_a
   end
 
   def ready_for_pickup?(now = Time.current)
@@ -131,12 +133,11 @@ class Hold < ApplicationRecord
   end
 
   private
-
-  def ensure_items_are_holdable
-    return unless item
-    item.reload
-    unless item.holdable?
-      errors.add(:item, "can not be placed on hold")
+    def ensure_items_are_holdable
+      return unless item
+      item.reload
+      unless item.holdable?
+        errors.add(:item, "can not be placed on hold")
+      end
     end
-  end
 end

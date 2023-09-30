@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OpenDays
   TIME_SLOTS = [
     OpenStruct.new(day: "Thursday", from: 18, to: 20),
@@ -21,7 +23,7 @@ class OpenDays
   end
 
   def self.next_slots_for_select(weeks: 2, time_slots: TIME_SLOTS)
-    next_slots(weeks: weeks, time_slots: time_slots).each_with_object({}) do |date, memo|
+    next_slots(weeks:, time_slots:).each_with_object({}) do |date, memo|
       key = date.strftime("%A, %B %-d, %Y")
       memo[key] ||= []
       memo[key] << [

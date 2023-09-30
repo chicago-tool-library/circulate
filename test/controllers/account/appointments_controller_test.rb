@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -33,7 +35,7 @@ module Account
       assert_equal 1, @appointment.holds.count
 
       @hold2 = FactoryBot.create(:hold, member: @member)
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [@hold.id, @hold2.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+      put account_appointment_path(@appointment), params: { appointment: { hold_ids: [@hold.id, @hold2.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment } }
       @appointment.reload
 
       assert_equal 2, @appointment.holds.count
@@ -41,7 +43,7 @@ module Account
     end
 
     test "should not update appointment with invalid params" do
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+      put account_appointment_path(@appointment), params: { appointment: { hold_ids: [], time_range_string: @appointment.time_range_string, comment: @appointment.comment } }
 
       assert_template :edit
       assert_select "ul.error", /Please select an item to pick-up or return for your appointment/
@@ -53,7 +55,7 @@ module Account
     test "should not update appointment scheduled after any holds expire" do
       @expired_hold = create(:hold, member: @member)
       @expired_hold.start!(@appointment.starts_at - Hold::HOLD_LENGTH - 1.days)
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [@hold.id, @expired_hold.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+      put account_appointment_path(@appointment), params: { appointment: { hold_ids: [@hold.id, @expired_hold.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment } }
 
       assert_template :edit
       assert_select "ul.error", /on or before hold expires on/

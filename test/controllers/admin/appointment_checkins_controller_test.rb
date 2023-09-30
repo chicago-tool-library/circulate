@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 module Admin
@@ -16,7 +18,7 @@ module Admin
     end
 
     test "returns a single item" do
-      post admin_appointment_checkins_path(@appointment), params: {loan_ids: [@loan.id]}
+      post admin_appointment_checkins_path(@appointment), params: { loan_ids: [@loan.id] }
       assert_enqueued_emails 0
     end
   end

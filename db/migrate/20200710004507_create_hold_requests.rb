@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateHoldRequests < ActiveRecord::Migration[6.0]
   def change
     create_enum :hold_request_status, [

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 module Admin
@@ -23,7 +25,7 @@ module Admin
 
     test "index page includes links to item and member" do
       day = @appointment.starts_at.strftime("%F")
-      get admin_appointments_path(day: day)
+      get admin_appointments_path(day:)
 
       assert_select "a[href=?]", admin_item_path(@hold.item)
       assert_select "a[href=?]", admin_member_path(@appointment.member)
@@ -33,7 +35,7 @@ module Admin
       starts_at = Time.current
       ends_at = starts_at + 2.hours
 
-      put admin_appointment_path(@appointment), params: {appointment: {time_range_string: "#{starts_at}..#{ends_at}"}}
+      put admin_appointment_path(@appointment), params: { appointment: { time_range_string: "#{starts_at}..#{ends_at}" } }
       assert_redirected_to admin_appointments_url
 
       @appointment.reload

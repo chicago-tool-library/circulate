@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admin::Settings::LibraryUpdatesController < Admin::BaseController
   before_action :require_admin
   include ActionView::RecordIdentifier
@@ -39,12 +41,11 @@ class Admin::Settings::LibraryUpdatesController < Admin::BaseController
   end
 
   private
+    def set_library_update
+      @library_update = LibraryUpdate.find(params[:id])
+    end
 
-  def set_library_update
-    @library_update = LibraryUpdate.find(params[:id])
-  end
-
-  def library_update_params
-    params.require(:library_update).permit(:title, :body, :published)
-  end
+    def library_update_params
+      params.require(:library_update).permit(:title, :body, :published)
+    end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemAttachment < ApplicationRecord
   belongs_to :item
   belongs_to :creator, class_name: "User"
@@ -10,12 +12,11 @@ class ItemAttachment < ApplicationRecord
     "other" => "other"
   }
 
-  validates :kind, inclusion: {in: ItemAttachment.kinds.keys}
+  validates :kind, inclusion: { in: ItemAttachment.kinds.keys }
   validate :file_is_attached
 
   private
-
-  def file_is_attached
-    errors.add(:file, "is required") unless file.attached?
-  end
+    def file_is_attached
+      errors.add(:file, "is required") unless file.attached?
+    end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class AppointmentsController < BaseController
@@ -14,7 +16,7 @@ module Admin
         @appointment = Appointment.new
 
         if update_appointment
-          redirect_to admin_appointment_path(@appointment), flash: {success: "Appointment created"}
+          redirect_to admin_appointment_path(@appointment), flash: { success: "Appointment created" }
         else
           flash[:alert] = @appointment.errors.full_messages
           redirect_to admin_member_appointments_path(@member)
@@ -22,14 +24,13 @@ module Admin
       end
 
       private
+        def appointment_params
+          params.require(:appointment).permit(:time_range_string)
+        end
 
-      def appointment_params
-        params.require(:appointment).permit(:time_range_string)
-      end
-
-      def update_appointment
-        @appointment.update(member: @member, time_range_string: appointment_params[:time_range_string], staff_updating: true)
-      end
+        def update_appointment
+          @appointment.update(member: @member, time_range_string: appointment_params[:time_range_string], staff_updating: true)
+        end
     end
   end
 end

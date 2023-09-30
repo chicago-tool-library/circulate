@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateHoldRequestItems < ActiveRecord::Migration[6.0]
   def change
     create_table :hold_request_items do |t|

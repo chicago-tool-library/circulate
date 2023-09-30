@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class DocumentsController < BaseController
     before_action :load_member, only: :agreement

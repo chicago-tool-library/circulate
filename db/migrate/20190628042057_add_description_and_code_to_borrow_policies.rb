@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDescriptionAndCodeToBorrowPolicies < ActiveRecord::Migration[6.0]
   def change
     add_column :borrow_policies, :code, :string, unique: true

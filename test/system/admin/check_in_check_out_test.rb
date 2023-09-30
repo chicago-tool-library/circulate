@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class CheckInCheckOutTest < ApplicationSystemTestCase
@@ -197,7 +199,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     Time.use_zone "America/Chicago" do
       sunday = Time.new(2020, 1, 26).end_of_day
       borrow_policy = create(:borrow_policy, renewal_limit: 0)
-      @item = create(:item, borrow_policy: borrow_policy)
+      @item = create(:item, borrow_policy:)
       @member = create(:verified_member_with_membership)
       create(:loan, item: @item, member: @member, due_at: sunday, created_at: sunday - 7.days)
 

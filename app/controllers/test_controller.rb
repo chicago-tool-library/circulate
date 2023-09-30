@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestController < ApplicationController
   def google_auth
     session[:email] = params[:email]

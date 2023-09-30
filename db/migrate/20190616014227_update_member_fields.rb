@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateMemberFields < ActiveRecord::Migration[6.0]
   def change
     remove_column :members, :id_number, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :appointment do
     starts_at { "2020-09-23 11:14:27" }

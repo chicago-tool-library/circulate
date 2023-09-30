@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SearchesController < BaseController
     def create
@@ -9,7 +11,7 @@ module Admin
       # member = Member.matching(query).first
       # redirect_to(admin_member_path(member)) && return if member
 
-      redirect_to admin_search_path(query: query)
+      redirect_to admin_search_path(query:)
     end
 
     def show

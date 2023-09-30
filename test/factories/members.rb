@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :email do |n|
     "person#{n}@example.com"
@@ -34,7 +36,7 @@ FactoryBot.define do
 
         factory :verified_member_with_membership do
           after(:create) do |member, evaluator|
-            create_list(:membership, 1, member: member)
+            create_list(:membership, 1, member:)
           end
         end
       end

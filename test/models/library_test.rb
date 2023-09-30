@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LibraryTest < ActiveSupport::TestCase
@@ -25,8 +27,8 @@ class LibraryTest < ActiveSupport::TestCase
 
     assert library.allows_postal_code?("90215")
     assert library.allows_postal_code?("19013")
-    refute library.allows_postal_code?("19011")
-    refute library.allows_postal_code?("90310")
+    assert_not library.allows_postal_code?("19011")
+    assert_not library.allows_postal_code?("90310")
   end
 
   test "allows any postal code when pattern is not set" do

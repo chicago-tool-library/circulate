@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Map
@@ -19,7 +21,7 @@ module Map
         101 => 22,
         103 => 30
       }
-      map = Chicago.new(values, svg: svg, fill: "red")
+      map = Chicago.new(values, svg:, fill: "red")
       assert_equal <<~XML, map.to_xml
         <?xml version="1.0"?>
         <svg xmlns="http://www.w3.org/2000/svg">

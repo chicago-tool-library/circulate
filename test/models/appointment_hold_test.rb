@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class AppointmentHoldTest < ActiveSupport::TestCase
   test "creates an appointment hold for member appointment" do
     appointment = FactoryBot.build(:appointment)
     user = FactoryBot.create(:user)
-    member = FactoryBot.create(:member, user: user)
+    member = FactoryBot.create(:member, user:)
     hold = FactoryBot.create(:hold, creator: member.user)
     hold_two = FactoryBot.create(:hold, creator: member.user)
     appointment.holds << hold

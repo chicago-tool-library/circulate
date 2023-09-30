@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LayoutHelper
   def section_header(title, level: "h1", &block)
     right_content = block ? capture(&block) : ""

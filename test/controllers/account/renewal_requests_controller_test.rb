@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -15,8 +17,8 @@ module Account
 
     test "member can request renewal for loans" do
       borrow_policy = create(:default_borrow_policy)
-      item = create(:item, borrow_policy: borrow_policy)
-      loan = create(:loan, member: @member, item: item)
+      item = create(:item, borrow_policy:)
+      loan = create(:loan, member: @member, item:)
 
       post account_renewal_requests_url(loan_id: loan)
       assert_redirected_to account_loans_url

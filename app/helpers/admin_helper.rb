@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 module AdminHelper
   def index_header(title, icon: nil, &block)
-    render "shared/index_header", title: title, icon: icon, &block
+    render "shared/index_header", title:, icon:, &block
   end
 
   def flash_message(key, classname = key)
     if flash.key?(key)
-      tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do
-        tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key]
+      tag.div(class: "toast toast-#{classname}", data: { controller: "alert" }) do
+        tag.button(class: "btn btn-clear float-right", data: { action: "alert#remove" }) + flash[key]
       end
     end
   end
 
   def empty_state(title, subtitle: nil, icon: nil, &block)
-    render "shared/empty_state", title: title, subtitle: subtitle, icon: icon, &block
+    render "shared/empty_state", title:, subtitle:, icon:, &block
   end
 
   def preferred_or_default_name(member)
@@ -34,7 +36,7 @@ module AdminHelper
   end
 
   def tab_link(label, path, badge: nil)
-    opts = badge.present? && badge != 0 ? {class: "badge", data: {badge: badge}} : {}
+    opts = badge.present? && badge != 0 ? { class: "badge", data: { badge: } } : {}
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
       link_to label, path, **opts
     end
@@ -51,7 +53,7 @@ module AdminHelper
       end
       tag.span(
         class: "tooltip tooltip-bottom",
-        data: {tooltip: message},
+        data: { tooltip: message },
         &block
       )
     end
@@ -101,7 +103,7 @@ module AdminHelper
   end
 
   def modal(title:, body:, &block)
-    render "shared/modal", title: title, body: body, &block
+    render "shared/modal", title:, body:, &block
   end
 
   def appointment_in_schedule_path(appointment)

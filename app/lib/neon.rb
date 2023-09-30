@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Neon
   # Until we are storing per-library credentials somewhere other than environment variables,
   # we will prefix the variable names with the library ID to scope credentials to
@@ -26,16 +28,16 @@ module Neon
           "email1" => member.email
         },
         "accountCustomFields" => [
-          {"id" => "77", "name" => "Member number", "value" => member.number.to_s},
-          {"id" => "76", "name" => "Pronouns", "value" => member.display_pronouns},
-          {"id" => "75", "name" => "Volunteer Interest", "value" => boolean_to_yes_no(member.volunteer_interest)}
+          { "id" => "77", "name" => "Member number", "value" => member.number.to_s },
+          { "id" => "76", "name" => "Pronouns", "value" => member.display_pronouns },
+          { "id" => "75", "name" => "Volunteer Interest", "value" => boolean_to_yes_no(member.volunteer_interest) }
         ]
       }
     }
   end
 
   def self.member_to_address(member)
-    {"addressLine1" => member.address1,
+    { "addressLine1" => member.address1,
      "addressLine2" => member.address2,
      "city" => member.city,
      "stateProvince" => {
@@ -45,7 +47,7 @@ module Neon
      "type" => {
        "id" => "0",
        "name" => "Home"
-     }}
+     } }
   end
 
   def self.boolean_to_yes_no(value)
@@ -63,7 +65,7 @@ module Neon
       @api_key = api_key
 
       logger = Logger.new($stdout)
-      @http = HTTP.use(logging: {logger: logger})
+      @http = HTTP.use(logging: { logger: })
     end
 
     def new_request

@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class BorrowPolicy < ApplicationRecord
   monetize :fine_cents, numericality: {
     greater_than_or_equal_to: 0, less_than_or_equal_to: 10
   }
 
   validates :name,
-    presence: true, uniqueness: {scope: :library_id, case_sensitive: false}
+    presence: true, uniqueness: { scope: :library_id, case_sensitive: false }
   validates_numericality_of :duration,
     only_integer: true, greater_than_or_equal_to: 1, less_than: 365
   validates_numericality_of :fine_period,
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
   validates_numericality_of :renewal_limit,
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52
-  validates :code, inclusion: {in: "A".."ZZ", message: "must be 1 or 2 letters from A to ZZ"}, uniqueness: {scope: :library_id}
+  validates :code, inclusion: { in: "A".."ZZ", message: "must be 1 or 2 letters from A to ZZ" }, uniqueness: { scope: :library_id }
 
   validate :require_consumables_to_not_be_uniquely_numbered
 
@@ -45,16 +47,15 @@ class BorrowPolicy < ApplicationRecord
   after_save :make_only_default
 
   private
-
-  def make_only_default
-    if default
-      self.class.where("id != ?", id).update_all(default: false)
+    def make_only_default
+      if default
+        self.class.where("id != ?", id).update_all(default: false)
+      end
     end
-  end
 
-  def require_consumables_to_not_be_uniquely_numbered
-    if consumable? && uniquely_numbered
-      errors.add(:uniquely_numbered, "must not be enabled for consumables")
+    def require_consumables_to_not_be_uniquely_numbered
+      if consumable? && uniquely_numbered
+        errors.add(:uniquely_numbered, "must not be enabled for consumables")
+      end
     end
-  end
 end

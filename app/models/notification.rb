@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notification < ApplicationRecord
   enum status: {
     pending: "pending",
@@ -11,7 +13,7 @@ class Notification < ApplicationRecord
   validates :address, presence: true
   validates :action, presence: true
   validates :uuid, presence: true
-  validates :status, inclusion: {in: Notification.statuses.keys}
+  validates :status, inclusion: { in: Notification.statuses.keys }
 
   acts_as_tenant :library
 end

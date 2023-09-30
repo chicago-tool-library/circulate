@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -29,7 +31,7 @@ module Admin
 
       test "should create ticket" do
         assert_difference("Ticket.count") do
-          post admin_item_tickets_url(@item), params: {ticket: {status: "assess", title: "A ticket title", body: "A ticket body"}}
+          post admin_item_tickets_url(@item), params: { ticket: { status: "assess", title: "A ticket title", body: "A ticket body" } }
         end
 
         assert_redirected_to admin_item_ticket_url(@item, Ticket.last)
@@ -55,7 +57,7 @@ module Admin
       test "should update ticket" do
         @ticket = create(:ticket, item: @item)
 
-        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status: "parts", time_spent: "15", body: "Waiting on parts"}}
+        patch admin_item_ticket_url(@item, @ticket), params: { ticket: { status: "parts", time_spent: "15", body: "Waiting on parts" } }
 
         assert_redirected_to admin_item_ticket_url(@item, @ticket)
       end

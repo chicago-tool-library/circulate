@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Signup
   class PaymentsController < BaseController
     before_action :load_member
@@ -38,12 +40,12 @@ module Signup
 
     def callback
       transaction_id = params[:transactionId]
-      result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+      result = checkout.fetch_transaction(member: @member, transaction_id:)
       session[:attempts] ||= 0
 
       if result.success?
         amount = result.value
-        Membership.create_for_member(@member, amount: amount, square_transaction_id: transaction_id, source: "square")
+        Membership.create_for_member(@member, amount:, square_transaction_id: transaction_id, source: "square")
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
 
         reset_session
@@ -72,27 +74,26 @@ module Signup
     end
 
     private
-
-    def form_params
-      params.require(:membership_payment_form).permit(:amount_dollars)
-    end
-
-    def checkout
-      SquareCheckout.new(
-        access_token: ENV.fetch("SQUARE_ACCESS_TOKEN"),
-        location_id: ENV.fetch("SQUARE_LOCATION_ID"),
-        environment: ENV.fetch("SQUARE_ENVIRONMENT")
-      )
-    end
-
-    def set_raven_context
-      Raven.extra_context(session)
-    end
-
-    def are_payments_enabled?
-      if !@current_library.allow_payments?
-        render_not_found
+      def form_params
+        params.require(:membership_payment_form).permit(:amount_dollars)
       end
-    end
+
+      def checkout
+        SquareCheckout.new(
+          access_token: ENV.fetch("SQUARE_ACCESS_TOKEN"),
+          location_id: ENV.fetch("SQUARE_LOCATION_ID"),
+          environment: ENV.fetch("SQUARE_ENVIRONMENT")
+        )
+      end
+
+      def set_raven_context
+        Raven.extra_context(session)
+      end
+
+      def are_payments_enabled?
+        if !@current_library.allow_payments?
+          render_not_found
+        end
+      end
   end
 end

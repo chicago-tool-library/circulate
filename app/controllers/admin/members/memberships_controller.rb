@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module Members
     class MembershipsController < BaseController
@@ -32,10 +34,9 @@ module Admin
       end
 
       private
-
-      def membership_form_params
-        params.require(:membership_form).permit(:amount_dollars, :payment_source, :with_payment, :start_membership)
-      end
+        def membership_form_params
+          params.require(:membership_form).permit(:amount_dollars, :payment_source, :with_payment, :start_membership)
+        end
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FineCalculator
   def self.for_overdue_loan(loan, now)
     borrow_policy = loan.item.borrow_policy

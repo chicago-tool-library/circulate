@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volunteer
   class MonthCalendar
     attr_reader :first_date

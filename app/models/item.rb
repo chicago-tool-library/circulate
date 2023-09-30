@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Item < ApplicationRecord
   STATUS_NAMES = {
     "pending" => "Pending",
@@ -24,7 +26,7 @@ class Item < ApplicationRecord
       size: "D",
       strength: "D"
     },
-    using: {tsearch: {prefix: true, dictionary: "english"}}
+    using: { tsearch: { prefix: true, dictionary: "english" } }
 
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations,
@@ -81,20 +83,20 @@ class Item < ApplicationRecord
   scope :strength_contains, ->(query) { where("strength ILIKE ?", "#{"%" if query.size > 1}#{query}%").limit(10).distinct }
   scope :listed_publicly, -> { where("status = ? OR status = ?", Item.statuses[:active], Item.statuses[:maintenance]) }
   scope :with_category, ->(category) { joins(:categories).merge(category.items) }
-  scope :for_category, ->(category) { joins(:categorizations).where(categorizations: {category_id: CategoryNode.find(category.id).tree_ids}).distinct }
-  scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
-  scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
+  scope :for_category, ->(category) { joins(:categorizations).where(categorizations: { category_id: CategoryNode.find(category.id).tree_ids }).distinct }
+  scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: { id: nil }) }
+  scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: { record_id: nil }) }
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
 
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
-  validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
-  validates :status, inclusion: {in: Item.statuses.keys}
-  validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
-  validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
-  validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
-  validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL", allow_blank: true}
+  validates :number, numericality: { only_integer: true }, uniqueness: { scope: :library }
+  validates :status, inclusion: { in: Item.statuses.keys }
+  validates :power_source, inclusion: { in: Item.power_sources.keys }, allow_blank: true
+  validates :borrow_policy_id, inclusion: { in: ->(item) { BorrowPolicy.pluck(:id) } }
+  validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
+  validates :url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL", allow_blank: true }
 
   before_validation :assign_number, on: :create
   before_validation :strip_whitespace
@@ -114,7 +116,7 @@ class Item < ApplicationRecord
 
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
-    joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
+    joins(:borrow_policy).find_by(borrow_policies: { code: }, number: number.to_i)
   end
 
   def assign_number
@@ -183,49 +185,48 @@ class Item < ApplicationRecord
   end
 
   private
-
-  def cache_description_as_plain_text
-    self.plain_text_description = description.to_plain_text
-  end
-
-  def strip_whitespace
-    %w[name brand size model serial strength].each do |attr_name|
-      value = attributes[attr_name]
-      next unless value.present?
-      write_attribute attr_name, value.strip
+    def cache_description_as_plain_text
+      self.plain_text_description = description.to_plain_text
     end
-  end
 
-  def clear_holds_if_inactive
-    if saved_change_to_status? && status == Item.statuses[:retired]
-      active_holds.update_all(ended_at: Time.current)
+    def strip_whitespace
+      %w[name brand size model serial strength].each do |attr_name|
+        value = attributes[attr_name]
+        next unless value.present?
+        write_attribute attr_name, value.strip
+      end
     end
-  end
 
-  def pause_next_hold_if_maintenance
-    if saved_change_to_status? && status == Item.statuses[:maintenance]
-      next_hold&.update_columns(started_at: nil, expires_at: nil)
+    def clear_holds_if_inactive
+      if saved_change_to_status? && status == Item.statuses[:retired]
+        active_holds.update_all(ended_at: Time.current)
+      end
     end
-  end
 
-  def cache_category_ids(category)
-    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
-  end
-
-  # called when item is created
-  def audited_attributes
-    super.merge("category_ids" => category_ids.sort)
-  end
-
-  # called when item is updated
-  def audited_changes
-    unless @current_category_ids.present?
-      cache_category_ids(nil)
+    def pause_next_hold_if_maintenance
+      if saved_change_to_status? && status == Item.statuses[:maintenance]
+        next_hold&.update_columns(started_at: nil, expires_at: nil)
+      end
     end
-    if (@current_category_ids.present? || category_ids.present?) && @current_category_ids != category_ids.sort
-      super.merge("category_ids" => [@current_category_ids, category_ids.sort])
-    else
-      super
+
+    def cache_category_ids(category)
+      @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
     end
-  end
+
+    # called when item is created
+    def audited_attributes
+      super.merge("category_ids" => category_ids.sort)
+    end
+
+    # called when item is updated
+    def audited_changes
+      unless @current_category_ids.present?
+        cache_category_ids(nil)
+      end
+      if (@current_category_ids.present? || category_ids.present?) && @current_category_ids != category_ids.sort
+        super.merge("category_ids" => [@current_category_ids, category_ids.sort])
+      else
+        super
+      end
+    end
 end

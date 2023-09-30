@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GiftMembership < ApplicationRecord
   monetize :amount_cents, numericality: {
     greater_than_or_equal_to: 0
@@ -6,9 +8,9 @@ class GiftMembership < ApplicationRecord
   composed_of :code, class_name: "GiftMembershipCode", mapping: %w[code value], allow_nil: true
 
   belongs_to :membership, required: false
-  validates :purchaser_email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
+  validates :purchaser_email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email" }
   validates :purchaser_name, presence: true
-  validates :code, presence: true, uniqueness: {scope: :library_id}
+  validates :code, presence: true, uniqueness: { scope: :library_id }
 
   before_validation :set_code, if: ->(gm) { gm.code.blank? }
 
@@ -33,16 +35,15 @@ class GiftMembership < ApplicationRecord
   end
 
   private
-
-  def set_code
-    self.code = find_random_unique_code
-  end
-
-  def find_random_unique_code
-    5.times do |n|
-      code = GiftMembershipCode.random
-      return code if self.class.unique_code?(code)
+    def set_code
+      self.code = find_random_unique_code
     end
-    raise "could not find a unique code"
-  end
+
+    def find_random_unique_code
+      5.times do |n|
+        code = GiftMembershipCode.random
+        return code if self.class.unique_code?(code)
+      end
+      raise "could not find a unique code"
+    end
 end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class HoldsTest < ApplicationSystemTestCase
   def list_item_containing(text)
-    find("li", text: text)
+    find("li", text:)
   end
 
   setup do

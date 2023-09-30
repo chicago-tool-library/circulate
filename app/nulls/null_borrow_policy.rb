@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NullBorrowPolicy
   def renewal_limit
     0

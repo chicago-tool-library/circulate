@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volunteer
   class AttendeesController < BaseController
     include ShiftsHelper
@@ -24,20 +26,19 @@ module Volunteer
     end
 
     private
-
-    def post_redirect(path)
-      <<~HTML.html_safe
+      def post_redirect(path)
+        <<~HTML.html_safe
         <form id="redirect" action="#{helpers.send(:h, path)}" method="post">
           <input name="authenticity_token" value="#{form_authenticity_token}" type="hidden">
         </form>
         <script>
           document.getElementById("redirect").submit();
         </script>
-      HTML
-    end
+        HTML
+      end
 
-    def google_calendar_id
-      ::Event.volunteer_shift_calendar_id
-    end
+      def google_calendar_id
+        ::Event.volunteer_shift_calendar_id
+      end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Certificate
   class Generator
     def initialize(code:)

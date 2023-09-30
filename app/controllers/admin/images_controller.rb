@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ImagesController < BaseController
     before_action :load_image
@@ -13,17 +15,16 @@ module Admin
     end
 
     private
-
-    def image_params
-      params.require(:image).permit(:rotation)
-    end
-
-    def load_image
-      @item = Item.find(params[:item_id])
-      unless @item.image.attached?
-        redirect_to admin_item_path(@item), error: "Image not found"
+      def image_params
+        params.require(:image).permit(:rotation)
       end
-      @image = @item.image
-    end
+
+      def load_image
+        @item = Item.find(params[:item_id])
+        unless @item.image.attached?
+          redirect_to admin_item_path(@item), error: "Image not found"
+        end
+        @image = @item.image
+      end
   end
 end

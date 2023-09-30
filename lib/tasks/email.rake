@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def send_emails(mails, date)
   Time.use_zone("America/Chicago") do
     now = date ? Date.iso8601(date) : Time.current.to_date
@@ -32,7 +34,7 @@ namespace :email do
     Membership.where(ended_at: (Date.today + 30.days).all_day).each do |membership|
       member = membership.member
       amount = member.last_membership&.amount || Money.new(0)
-      MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
+      MemberMailer.with(member:, amount:).membership_renewal_reminder.deliver_now
     end
   end
 

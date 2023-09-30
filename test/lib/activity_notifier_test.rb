@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
@@ -18,15 +20,15 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       end
     end
 
-    refute ActionMailer::Base.deliveries.empty?
+    assert_not ActionMailer::Base.deliveries.empty?
 
     mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
-    refute mail.nil?
+    assert_not mail.nil?
 
     assert_equal "Today's loan summary", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
     assert_includes mail.encoded, loan2.item.complete_number
-    refute_includes mail.encoded, "return all overdue items as soon as possible"
+    assert_not_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
   test "sends emails to folks who have items due on the following day" do
@@ -152,7 +154,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     loans = Time.use_zone("America/Chicago") {
       days.times.map do |i|
-        create(:nonexclusive_loan, item: item, due_at: Time.current.end_of_day - i.days, created_at: 1.week.ago)
+        create(:nonexclusive_loan, item:, due_at: Time.current.end_of_day - i.days, created_at: 1.week.ago)
       end
     }
 
@@ -177,7 +179,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       if i % 7 == 0
         assert mailer_call
       else
-        refute mailer_call
+        assert_not mailer_call
       end
     end
   end
@@ -185,20 +187,20 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   test "only mentions items that are checked out or returned that day" do
     returned_today = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago, ended_at: Time.current)
     member = returned_today.member
-    checked_out_today = create(:loan, member: member, due_at: 7.days.since)
-    previous_loan = create(:ended_loan, member: member)
+    checked_out_today = create(:loan, member:, due_at: 7.days.since)
+    previous_loan = create(:ended_loan, member:)
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
       notifier.send_daily_loan_summaries
     end
 
-    refute ActionMailer::Base.deliveries.empty?
+    assert_not ActionMailer::Base.deliveries.empty?
 
     mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [member.email] }
     assert_includes mail.encoded, returned_today.item.complete_number
     assert_includes mail.encoded, checked_out_today.item.complete_number
-    refute_includes mail.encoded, previous_loan.item.complete_number
+    assert_not_includes mail.encoded, previous_loan.item.complete_number
   end
 
   test "sends emails to folks with rejected renewal requests" do
@@ -213,19 +215,19 @@ class ActivityNotifierTest < ActiveSupport::TestCase
         assert return_loan(loan)
       end
 
-      create(:renewal_request, loan: loan, status: :rejected)
+      create(:renewal_request, loan:, status: :rejected)
 
       notifier = ActivityNotifier.new
       notifier.send_daily_loan_summaries
     end
 
-    refute ActionMailer::Base.deliveries.empty?
+    assert_not ActionMailer::Base.deliveries.empty?
 
     mail = ActionMailer::Base.deliveries.find { |delivery| delivery.to == [loan.member.email] }
-    refute mail.nil?
+    assert_not mail.nil?
 
     assert_equal "Today's loan summary", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
-    refute_includes mail.encoded, "rejected"
+    assert_not_includes mail.encoded, "rejected"
   end
 end

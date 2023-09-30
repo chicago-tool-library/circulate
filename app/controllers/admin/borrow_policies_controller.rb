@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class BorrowPoliciesController < BaseController
     before_action :set_borrow_policy, only: [:edit, :update, :destroy]
@@ -18,13 +20,12 @@ module Admin
     end
 
     private
+      def set_borrow_policy
+        @borrow_policy = BorrowPolicy.find(params[:id])
+      end
 
-    def set_borrow_policy
-      @borrow_policy = BorrowPolicy.find(params[:id])
-    end
-
-    def borrow_policy_params
-      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default, :renewal_limit, :member_renewable, :consumable, :rules)
-    end
+      def borrow_policy_params
+        params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default, :renewal_limit, :member_renewable, :consumable, :rules)
+      end
   end
 end

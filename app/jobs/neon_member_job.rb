@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NeonMemberJob < ApplicationJob
   include SuckerPunch::Job
 

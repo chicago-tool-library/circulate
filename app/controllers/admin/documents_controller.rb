@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class DocumentsController < BaseController
     before_action :set_document, only: [:show, :edit, :update]
@@ -32,15 +34,14 @@ module Admin
     end
 
     private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_document
+        @document = Document.coded(params[:id]).first!
+      end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_document
-      @document = Document.coded(params[:id]).first!
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def document_params
-      params.require(:document).permit(:name, :summary, :body)
-    end
+      # Never trust parameters from the scary internet, only allow the white list through.
+      def document_params
+        params.require(:document).permit(:name, :summary, :body)
+      end
   end
 end

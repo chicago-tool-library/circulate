@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -16,7 +18,7 @@ module Admin
         ends_at = starts_at + 2.hours
 
         assert_difference("member.appointments.count", 1) do
-          post admin_member_appointments_path(member), params: {appointment: {time_range_string: "#{starts_at}..#{ends_at}"}}
+          post admin_member_appointments_path(member), params: { appointment: { time_range_string: "#{starts_at}..#{ends_at}" } }
         end
         assert_redirected_to admin_appointment_path(member.reload.appointments.last)
       end

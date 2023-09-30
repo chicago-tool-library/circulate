@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipForm
   include ActiveModel::Model
 
@@ -29,12 +31,11 @@ class MembershipForm
   end
 
   private
+    def save_with_payment
+      @payment.valid? && Membership.create_for_member(@member, amount: @payment.amount, source: @payment.payment_source, start_membership:)
+    end
 
-  def save_with_payment
-    @payment.valid? && Membership.create_for_member(@member, amount: @payment.amount, source: @payment.payment_source, start_membership: start_membership)
-  end
-
-  def save_without_payment
-    Membership.create_for_member(@member, start_membership: start_membership)
-  end
+    def save_without_payment
+      Membership.create_for_member(@member, start_membership:)
+    end
 end

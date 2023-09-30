@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MigrateManualsToAttachments < ActiveRecord::Migration[6.0]
   class TemporaryItem < ActiveRecord::Base
     self.table_name = "items"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateCategoryNodesToVersion3 < ActiveRecord::Migration[6.1]
   def change
     update_view :category_nodes,

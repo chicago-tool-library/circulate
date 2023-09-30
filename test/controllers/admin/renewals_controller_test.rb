@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -30,7 +32,7 @@ module Admin
       assert_equal @loan.item_id, @renewal.item_id
       assert_equal @loan.member_id, @renewal.member_id
       assert_equal @loan.ended_at, @renewal.created_at
-      refute @renewal.ended_at
+      assert_not @renewal.ended_at
     end
 
     test "should delete renewal" do
@@ -45,7 +47,7 @@ module Admin
 
       @loan.reload
 
-      refute @loan.ended_at
+      assert_not @loan.ended_at
       assert_equal 0, @loan.renewals.count
     end
   end

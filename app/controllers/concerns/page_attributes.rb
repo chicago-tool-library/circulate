@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # PageAttributes provides a consise API for declaring bits of page metadata
 # within controller methods, stored as a Hash on the controller instance.
 #
@@ -9,19 +11,18 @@ module PageAttributes
   end
 
   private
+    def set_page_attr(key, value)
+      @page_attributes ||= {}
+      @page_attributes[key] = value
+      value
+    end
 
-  def set_page_attr(key, value)
-    @page_attributes ||= {}
-    @page_attributes[key] = value
-    value
-  end
+    def page_attr(key)
+      @page_attributes ||= {}
+      @page_attributes[key]
+    end
 
-  def page_attr(key)
-    @page_attributes ||= {}
-    @page_attributes[key]
-  end
-
-  def page_attr?(key)
-    @page_attributes&.has_key?(key)
-  end
+    def page_attr?(key)
+      @page_attributes&.has_key?(key)
+    end
 end

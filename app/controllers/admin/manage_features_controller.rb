@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ManageFeaturesController < BaseController
     def index
@@ -14,17 +16,16 @@ module Admin
     end
 
     private
+      def check_for_edit
+        checked_value = { "0": false, "1": true }
 
-    def check_for_edit
-      checked_value = {"0": false, "1": true}
-
-      library_feature_params.keys.each do |feature|
-        return true if checked_value[library_feature_params[feature].to_sym] != @current_library[feature]
+        library_feature_params.keys.each do |feature|
+          return true if checked_value[library_feature_params[feature].to_sym] != @current_library[feature]
+        end
       end
-    end
 
-    def library_feature_params
-      params.require(:library).permit(:allow_members, :allow_appointments, :allow_payments, :allow_volunteers)
-    end
+      def library_feature_params
+        params.require(:library).permit(:allow_members, :allow_appointments, :allow_payments, :allow_volunteers)
+      end
   end
 end

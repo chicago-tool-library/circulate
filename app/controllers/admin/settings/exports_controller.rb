@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admin::Settings::ExportsController < Admin::BaseController
   include ActionController::Live
 
@@ -19,16 +21,15 @@ class Admin::Settings::ExportsController < Admin::BaseController
   end
 
   private
-
-  def export(filename, exporter)
-    send_file_headers!(
-      type: "text/csv",
-      disposition: "attachment",
-      filename: filename
-    )
-    response.headers["Last-Modified"] = Time.now.httpdate
-    exporter.export(response.stream)
-  ensure
-    response.stream.close
-  end
+    def export(filename, exporter)
+      send_file_headers!(
+        type: "text/csv",
+        disposition: "attachment",
+        filename:
+      )
+      response.headers["Last-Modified"] = Time.now.httpdate
+      exporter.export(response.stream)
+    ensure
+      response.stream.close
+    end
 end

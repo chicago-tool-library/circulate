@@ -1,23 +1,25 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class GiftMembershipRedemptionFormTest < ActiveSupport::TestCase
   test "invalid when a code doesn't exist" do
     redemption = GiftMembershipRedemptionForm.new(code: "ABCD1234")
-    refute redemption.valid?
+    assert_not redemption.valid?
     assert_equal ["is not a valid code"], redemption.errors[:code]
   end
 
   test "invalid without a code" do
     redemption = GiftMembershipRedemptionForm.new
-    refute redemption.valid?
+    assert_not redemption.valid?
     assert_equal ["is not a valid code"], redemption.errors[:code]
   end
 
   test "invalid when a code has already been used" do
     membership = create(:membership)
-    gift_membership = create(:gift_membership, membership: membership)
+    gift_membership = create(:gift_membership, membership:)
     redemption = GiftMembershipRedemptionForm.new(code: gift_membership.code.value)
-    refute redemption.valid?
+    assert_not redemption.valid?
     assert_equal ["has already been redeemed"], redemption.errors[:code]
   end
 

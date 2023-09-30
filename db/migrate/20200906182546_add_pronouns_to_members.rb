@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPronounsToMembers < ActiveRecord::Migration[6.0]
   class TemporaryMember < ActiveRecord::Base
     self.table_name = "members"

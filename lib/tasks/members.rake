@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "securerandom"
 
 namespace :members do
@@ -11,7 +13,7 @@ namespace :members do
         puts "found match for #{user.email}"
       else
         puts "creating member for #{user.email}"
-        Member.create!(user: user, email: user.email, full_name: user.email, phone_number: "7732420923", address1: "1048 W. 37th St.", postal_code: "60609")
+        Member.create!(user:, email: user.email, full_name: user.email, phone_number: "7732420923", address1: "1048 W. 37th St.", postal_code: "60609")
       end
     end
   end
@@ -26,7 +28,7 @@ namespace :members do
 
       password = SecureRandom.hex
       begin
-        new_user = User.create!(email: member.email, password: password)
+        new_user = User.create!(email: member.email, password:)
         member.user = new_user
         member.save(validate: false)
       rescue ActiveRecord::RecordInvalid => e

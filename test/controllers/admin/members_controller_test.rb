@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Admin
@@ -53,7 +55,7 @@ module Admin
     end
 
     test "should update member" do
-      patch admin_member_url(@member), params: {member: {address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, postal_code: "60606"}}
+      patch admin_member_url(@member), params: { member: { address_verified: @member.address_verified, other_id_kind: @member.other_id_kind, email: @member.email, full_name: @member.full_name, id_kind: @member.id_kind, notes: @member.notes, phone_number: @member.phone_number, preferred_name: @member.preferred_name, postal_code: "60606" } }
       assert_redirected_to admin_member_url(@member)
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ShortLinkTest < ActiveSupport::TestCase
@@ -16,7 +18,7 @@ class ShortLinkTest < ActiveSupport::TestCase
   test "generates a unique slug when created" do
     link = ShortLink.create!(url: "http://example.com")
 
-    refute_nil link.slug
+    assert_not_nil link.slug
     assert_size 6, link.slug
   end
 
@@ -41,20 +43,20 @@ class ShortLinkTest < ActiveSupport::TestCase
 
   test "requires url" do
     link = ShortLink.new
-    refute link.valid?
+    assert_not link.valid?
     assert_size 1, link.errors[:url]
   end
 
   test "requires valid url" do
     link = ShortLink.new(url: "notAvalidURL")
-    refute link.valid?
+    assert_not link.valid?
     assert_size 1, link.errors[:url]
   end
 
   test "requires unique url" do
     link = create(:short_link)
     dupe_link = ShortLink.new(url: link.url)
-    refute dupe_link.valid?
+    assert_not dupe_link.valid?
     assert_size 1, dupe_link.errors[:url]
   end
 

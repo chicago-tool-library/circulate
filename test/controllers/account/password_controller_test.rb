@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Account
@@ -23,13 +25,13 @@ module Account
     end
 
     test "member updates password" do
-      put account_password_url, params: {user: @user_password_edit}
+      put account_password_url, params: { user: @user_password_edit }
       assert_redirected_to account_member_url
     end
 
     test "member enters mismatched password" do
       @user_password_edit[:password_confirmation] = "mismatched"
-      put account_password_url, params: {user: @user_password_edit}
+      put account_password_url, params: { user: @user_password_edit }
       assert_redirected_to edit_account_password_url
       assert @user.errors.full_messages.include?("Password confirmation doesn't match Password")
     end
@@ -37,14 +39,14 @@ module Account
     test "member enters short password" do
       @user_password_edit[:password] = "short"
       @user_password_edit[:password_confirmation] = "short"
-      put account_password_url, params: {user: @user_password_edit}
+      put account_password_url, params: { user: @user_password_edit }
       assert_redirected_to edit_account_password_url
       assert @user.errors.full_messages.include?("Password is too short (minimum is 6 characters)")
     end
 
     test "member enters incorrect current password" do
       @user_password_edit[:current_password] = "wrong_password"
-      put account_password_url, params: {user: @user_password_edit}
+      put account_password_url, params: { user: @user_password_edit }
       assert_redirected_to edit_account_password_url
       assert @user.errors.full_messages.include?("Current password is invalid")
     end

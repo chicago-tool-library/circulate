@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class MembershipRenewalTest < ApplicationSystemTestCase
@@ -69,7 +71,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     assert_emails 1
     assert_delivered_email(to: @member.email) do |html, text|
       assert_includes html, "Thank you for renewing"
-      refute_includes html, "Your payment of"
+      assert_not_includes html, "Your payment of"
     end
   end
 
@@ -167,7 +169,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     assert_emails 1
     assert_delivered_email(to: @member.email) do |html, text|
       assert_includes html, "Thank you for renewing"
-      refute_includes html, "Your payment"
+      assert_not_includes html, "Your payment"
     end
 
     assert_equal 0, @member.adjustments.count

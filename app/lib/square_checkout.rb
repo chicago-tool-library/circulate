@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class SquareCheckout
   def initialize(access_token:, location_id:, environment: "production", now: Time.current)
-    @client = Square::Client.new(access_token: access_token, environment: environment)
+    @client = Square::Client.new(access_token:, environment:)
     @location_id = location_id
     @now = now
   end
@@ -9,7 +11,7 @@ class SquareCheckout
     checkout_response = @client.checkout.create_checkout(
       location_id: @location_id,
       body: {
-        idempotency_key: idempotency_key,
+        idempotency_key:,
         redirect_url: return_to,
         pre_populate_buyer_email: email,
         order: {
@@ -39,7 +41,7 @@ class SquareCheckout
   def fetch_transaction(member:, transaction_id:)
     transaction_response = @client.transactions.retrieve_transaction(
       location_id: @location_id,
-      transaction_id: transaction_id
+      transaction_id:
     )
 
     if transaction_response.success?
@@ -56,8 +58,7 @@ class SquareCheckout
   end
 
   private
-
-  def random_idempotency_key
-    rand(1_000_000_000).to_s
-  end
+    def random_idempotency_key
+      rand(1_000_000_000).to_s
+    end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class UserSignupTest < ApplicationSystemTestCase
@@ -52,7 +54,7 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_emails 1
     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
       assert_includes html, "Thank you for signing up"
-      refute_includes html, "Your payment of"
+      assert_not_includes html, "Your payment of"
     end
   end
 
@@ -143,7 +145,7 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_emails 1
     assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
       assert_includes html, "Thank you for signing up"
-      refute_includes html, "Your payment"
+      assert_not_includes html, "Your payment"
     end
 
     assert_equal 0, Member.last.adjustments.count
