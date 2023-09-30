@@ -57,6 +57,8 @@ WORKDIR $RAILS_ROOT
 COPY --from=builder $RAILS_ROOT $RAILS_ROOT
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
+RUN rails assets:precompile
+
 EXPOSE 3000
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
