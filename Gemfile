@@ -66,6 +66,9 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "spy"
   gem "letter_opener"
+  gem "rubocop", ">= 1.25.1", require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-minitest', require: false
 end
 
 group :development do
