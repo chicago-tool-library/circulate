@@ -29,7 +29,6 @@ COPY . .
 FROM ruby:3.1.4-alpine3.18
 
 ARG RAILS_ROOT=/usr/src/app/
-ARG USER_ID
 
 RUN apk update && apk upgrade && apk add --update --no-cache \
   bash \
@@ -53,13 +52,10 @@ RUN apk add --update --no-cache --virtual .ms-fonts msttcorefonts-installer && \
 RUN yarn global add node-gyp
 RUN yarn global add heroku
 
-RUN adduser --disabled-password --gecos '' --uid $USER_ID user
-USER user
-
 WORKDIR $RAILS_ROOT
 
-COPY --from=builder --chown=user:user $RAILS_ROOT $RAILS_ROOT
-COPY --from=builder --chown=user:user /usr/local/bundle/ /usr/local/bundle/
+COPY --from=builder $RAILS_ROOT $RAILS_ROOT
+COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
 EXPOSE 3000
 
