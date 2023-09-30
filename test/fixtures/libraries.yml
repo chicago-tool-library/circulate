@@ -1,6 +1,6 @@
 chicago_tool_library:
   name: "Chicago Tool Library"
-  hostname: "www.example.com"
+  hostname: "example.com"
   city: Chicago
   email: team@chicagotoollibrary.org
   address: |-
