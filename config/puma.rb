@@ -36,12 +36,3 @@ preload_app!
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
-
-before_fork do
-  Barnes.start
-end
-
-on_worker_boot do
-  # Valid on Rails 4.1+ using the `config/database.yml` method of setting `pool` size
-  ActiveRecord::Base.establish_connection
-end
