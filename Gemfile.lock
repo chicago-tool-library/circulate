@@ -81,7 +81,7 @@ GEM
       request_store (>= 1.0.5)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    appsignal (3.0.26)
+    appsignal (3.4.12)
       rack
     ast (2.4.2)
     aws-eventstream (1.2.0)
@@ -244,6 +244,11 @@ GEM
     logging (2.3.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
+    lograge (0.13.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -511,6 +516,7 @@ DEPENDENCIES
   lefthook
   letter_opener
   listen
+  lograge
   mini_magick
   minitest (= 5.15.0)
   minitest-ci

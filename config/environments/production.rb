@@ -49,11 +49,9 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -101,6 +99,21 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+
+  config.lograge.enabled = true
+  config.lograge.keep_original_rails_log = true
+
+  config.lograge.logger = Appsignal::Logger.new(
+    "rails",
+    format: Appsignal::Logger::LOGFMT
+  )
+
+  config.lograge.custom_payload do |controller|
+    {
+      user_id: controller.current_user.try(:id),
+      request_id: controller.request.request_id,
+    }
   end
 
   # Do not dump schema after migrations.
