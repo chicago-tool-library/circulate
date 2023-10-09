@@ -13,6 +13,7 @@ module Renewal
     def create
       @form = MembershipPaymentForm.new(form_params)
       unless @form.valid?
+        @amount = @member.last_membership&.amount || Money.new(0)
         activate_step(:payment)
         render :new, status: :unprocessable_entity
         return
