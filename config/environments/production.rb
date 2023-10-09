@@ -112,7 +112,7 @@ Rails.application.configure do
   config.lograge.custom_payload do |controller|
     {
       user_id: controller.current_user.try(:id),
-      request_id: controller.request.request_id,
+      request_id: controller.request.request_id
     }
   end
 
