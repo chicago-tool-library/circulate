@@ -228,8 +228,9 @@ class LendingTest < ActiveSupport::TestCase
     member = create(:verified_member)
 
     loan = create_loan(item, member)
-    assert undo_loan(loan)
+    assert_equal 9, item.quantity
 
+    assert undo_loan(loan)
     assert_equal 10, item.quantity
   end
 
