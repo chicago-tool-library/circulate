@@ -20,6 +20,15 @@ module Account
       @appointment.save
     end
 
+    private def assert_enqueued_email(mailer, method, params: {})
+      assert_enqueued_with(job: ActionMailer::MailDeliveryJob, args: ->(job_arguments) {
+        job_mailer, job_method, _delivery, rest = *job_arguments
+        assert_equal mailer.to_s, job_mailer
+        assert_equal method.to_s, job_method
+        assert_equal(params, rest[:params])
+      })
+    end
+
     test "creates a new appointment to pickup items on hold" do
       @hold = FactoryBot.create(:started_hold, member: @member)
       @event = FactoryBot.create(:appointment_slot_event)
@@ -29,6 +38,26 @@ module Account
         comment: "Excited to start on my project!",
         time_range_string: "#{@event.start}..#{@event.finish}"
       }}
+
+      @appointment = @member.appointments.last
+      assert_enqueued_email(MemberMailer, :appointment_confirmation, params: {member: @member, appointment: @appointment})
+
+      assert_redirected_to account_appointments_path
+      assert_equal 1, @member.appointments.count
+    end
+
+    test "adds additional items to an existing appointment via creation form" do
+      create_appointment
+      @hold = FactoryBot.create(:started_hold, member: @member)
+
+      post account_appointments_path, params: {appointment: {
+        hold_ids: [@hold.id],
+        comment: "Excited to start on my project!",
+        time_range_string: "#{@appointment.starts_at}..#{@appointment.ends_at}"
+      }}
+
+      @appointment = @member.appointments.last
+      assert_enqueued_email(MemberMailer, :appointment_confirmation, params: {member: @member, appointment: @appointment})
 
       assert_redirected_to account_appointments_path
       assert_equal 1, @member.appointments.count
