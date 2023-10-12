@@ -22,13 +22,7 @@ module Account
       @appointment = @member.appointments.new
 
       if @appointment.update(appointment_params)
-        message = if merge_simultaneous_appointments
-          "Your existing appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} has been updated."
-        else
-          "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
-        end
-        MemberMailer.with(member: @member, appointment: @appointment).appointment_confirmation.deliver_later
-        redirect_to account_appointments_path, success: message
+        merge_and_complete_appointment_update
       else
         load_holds_and_loans
         load_appointment_slots
@@ -47,12 +41,7 @@ module Account
       @member = current_user.member
 
       if @appointment.update(appointment_params)
-        message = if merge_simultaneous_appointments
-          "Your existing appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} has been updated."
-        else
-          "Your appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} was updated."
-        end
-        redirect_to account_appointments_path, success: message
+        merge_and_complete_appointment_update
       else
         load_holds_and_loans
         load_appointment_slots
@@ -84,12 +73,19 @@ module Account
       @loans = @member.loans.includes(:item, member: {appointments: :loans}).checked_out
     end
 
-    def merge_simultaneous_appointments
+    # In cases where a member already has an appointment during the selected time slot for the current appointment,
+    # merge those appointments together to avoid confusion for members or staff.
+    def merge_and_complete_appointment_update
       simultaneous_appointment = @member.appointments.simultaneous(@appointment).first
       if simultaneous_appointment
         simultaneous_appointment.merge!(@appointment)
-        true
+        message = "Your existing appointment scheduled for #{helpers.appointment_date_and_time(simultaneous_appointmentt)} has been updated."
+        MemberMailer.with(member: @member, appointment: simultaneous_appointment).appointment_confirmation.deliver_later
+      else
+        message = "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
+        MemberMailer.with(member: @member, appointment: @appointment).appointment_confirmation.deliver_later
       end
+      redirect_to account_appointments_path, success: message
     end
 
     def load_appointment_for_editing
