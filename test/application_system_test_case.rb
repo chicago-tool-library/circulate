@@ -30,6 +30,12 @@ Capybara.register_driver :headless_chrome do |app|
       opts.add_argument "--disable-gpu"
       opts.add_argument "--disable-dev-shm-usage"
       opts.add_argument "--window-size=1400x1800"
+
+      # This configurable is used in the Nix development set up, see NIX.md.
+      # It's safe to remove if the Nix pieces are ever ripped out.
+      if ENV.has_key?("SELENIUM_CHROME_BINARY")
+        opts.binary = ENV["SELENIUM_CHROME_BINARY"]
+      end
     end
   )
 end
