@@ -90,8 +90,6 @@ The following third party services are used:
 
 Once you've completed the setup below, you can login to the app using `admin@example.com` and `password` to see the admin interface.
 
-We generally advise folks to avoid Docker for local development unless it is something thet are already very comfortable with. See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker. For non-Docker installations, follow the instructions below.
-
 ### Setting up Circulate on your machine
 
 If you're new to Ruby or Rails applications, a recommended way to get set up is to use the [GoRails setup guide](https://gorails.com/setup). On that page you can select your operating system and the versions of Ruby and Rails you want to setup. It's worth going through the entire tutorial if you haven't worked on a Ruby on Rails application on your computer already as it is easier to sort through possible issues before getting into a large project like Circulate. It will take about 30 minutes to complete this tutorial.
@@ -234,6 +232,13 @@ These users are associated with the first seed library, Chicago Tool Library. A 
 the second seed library, Denver Tool Library, by appending `.denver` to the username portion of the email address (for example, `admin.denver@example.com`).
 
 All of the seed user passwords are the word "password".
+
+### Alternative Development Setups
+
+We generally advise you to _avoid_ these alternative development setups unless you are already very comfortable with them. The above development instructions should be better for most users.
+
+* **Docker:**: See [DOCKER.md](DOCKER.md) for instructions on setting up your environment using Docker.
+* **Nix:** See [NIX.md](NIX.md) for details on installing dependencies with Nix.
 
 ## Deployment
 
