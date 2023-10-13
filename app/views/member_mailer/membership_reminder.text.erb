@@ -3,7 +3,7 @@ We'd love to see you!
 <%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/reminder")) %>
 ---------------------
 
-<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions.html")) %>
+<%= HTMLToMarkdown.new.convert(render(partial: "signup/confirmations/instructions", formats: ["html"])) %>
 
 ---
 
