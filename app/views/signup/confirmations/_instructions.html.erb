@@ -1,11 +1,16 @@
+<%# Library can come from local or instance variable. %>
+<% library ||= @library %>
+
 <% if @amount %>
   <p><strong>Your payment of <%= @amount.format %> has been processed and applied to your account.</strong></p>
 <% end %>
 <p>To activate your membership, please bring the following with you to the library the first time you visit:</p>
 <ul>
-  <li><strong>Proof of your address</strong><br>This needs to include your name and current address in <%= @library ? @library.city : library.city %>. Utility bills, leases, and other official mail work well for this.</li>
+  <li><strong>Proof of your address</strong><br>This needs to include your name and current address in <%= library.city %>. Utility bills, leases, and other official mail work well for this.</li>
   <li><strong>A photo ID</strong><br>This needs to show your name and a photo and can be from the state, your job, school, etc.</li>
 </ul>
 <p>We're located at:<br>
 4015 W. Carroll Ave, Suite 101<br>
 Chicago, IL 60624</p>
+
+<p>Please consider adding <strong><%= library.email %></strong> to your contacts to ensure our emails make it to your inbox!</p>
