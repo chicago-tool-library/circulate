@@ -27,11 +27,8 @@
 
 <!-- tocstop -->
 
-{% note %}
-
-** Welcome contributors! ** Please see [our guide for how to contribute to the project](./CONTRIBUTING.md). 💖
-
-{% endnote %}
+> [!NOTE]
+> ** Welcome contributors! ** Please see [our guide for how to contribute to the project](./CONTRIBUTING.md). 💖
 
 ## About
 

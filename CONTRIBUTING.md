@@ -1,10 +1,7 @@
 # HOWTO Contribute to Circulate
 
-{% note %}
-
-We ♥ contributors! By participating in this project, you agree to abide by our [code of conduct](./CODE_OF_CONDUCT.md).
-
-{% endnote %}
+> [!IMPORTANT]
+> We ♥ contributors! By participating in this project, you agree to abide by our [code of conduct](./CODE_OF_CONDUCT.md).
 
 Thanks for wanting to help out with this project! Circulate helps hundreds of people borrow all kinds of items from The Chicago Tool Library every month.
 
