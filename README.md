@@ -28,7 +28,7 @@
 <!-- tocstop -->
 
 > [!NOTE]
-> ** Welcome contributors! ** Please see [our guide for how to contribute to the project](./CONTRIBUTING.md). 💖
+> Welcome, contributors! Please see [our guide for how to contribute to the project](./CONTRIBUTING.md). 💖
 
 ## About
 
