@@ -9,7 +9,9 @@
       <ul>
         <li>Read and agree to our updated terms.</li>
         <li>Update your address and contact information if necessary.</li>
-        <li>Pay your annual membership fee.</li>
+        <% if @current_library.allow_payments? %>
+          <li>Pay your annual membership fee.</li>
+        <% end %>
       </ul>
     </div>
 
