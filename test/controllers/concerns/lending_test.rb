@@ -234,6 +234,18 @@ class LendingTest < ActiveSupport::TestCase
     assert_equal 10, item.quantity
   end
 
+  test "destroy loan after undoing" do
+    borrow_policy = create(:default_borrow_policy)
+    item = create(:item, quantity: 1, borrow_policy: borrow_policy)
+    member = create(:verified_member)
+
+    loan = create_loan(item, member)
+    assert !member.checked_out_loans.empty?
+
+    assert undo_loan(loan)
+    assert member.checked_out_loans.empty?
+  end
+
   test "marks the item as retired when the quantity hits 0" do
     borrow_policy = create(:consumable_borrow_policy)
     item = create(:item, quantity: 1, borrow_policy: borrow_policy)
