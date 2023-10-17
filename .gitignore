@@ -51,3 +51,7 @@ yarn-debug.log*
 gallery-dl
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+
+# The nix development setup puts gems here
+/vendor/bundle

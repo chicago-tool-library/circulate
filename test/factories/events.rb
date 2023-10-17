@@ -22,4 +22,14 @@ FactoryBot.define do
     summary { "Librarian" }
     description { "More information about the event" }
   end
+
+  factory :appointment_slot_event, class: Event do
+    library { Library.first || create(:library) }
+    calendar_id { Event.appointment_slot_calendar_id }
+    calendar_event_id
+    start { 3.days.since }
+    finish { 3.days.since + 2.hours }
+    summary { "Appointment slot" }
+    description { "Pick up or drop off items" }
+  end
 end

@@ -1,8 +1,8 @@
 class Hold < ApplicationRecord
   HOLD_LENGTH = 7.days
 
-  has_many :appointment_holds
-  has_many :appointments, through: :appointment_holds
+  has_one :appointment_hold, dependent: :destroy
+  has_one :appointment, through: :appointment_hold
 
   belongs_to :member
   belongs_to :item, counter_cache: true
@@ -55,6 +55,15 @@ class Hold < ApplicationRecord
       started_at: now,
       expires_at: (now + HOLD_LENGTH).end_of_day
     )
+  end
+
+  def cancel!
+    if appointment.present?
+      appointment_hold.destroy!
+      appointment.cancel_if_no_items!
+    end
+
+    destroy!
   end
 
   # A hold that timed out

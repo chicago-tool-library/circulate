@@ -19,7 +19,9 @@ module Account
     end
 
     def destroy
-      current_member.active_holds.find(params[:id]).destroy!
+      hold = current_member.active_holds.find(params[:id])
+      hold.cancel!
+
       redirect_to account_holds_path
     end
 

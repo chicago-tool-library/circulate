@@ -44,10 +44,18 @@ class Appointment < ApplicationRecord
     end
   end
 
+  def cancel_if_no_items!
+    destroy! if no_items?
+  end
+
   private
 
+  def no_items?
+    holds.empty? && loans.empty?
+  end
+
   def item_present
-    if holds.empty? && loans.empty?
+    if no_items?
       errors.add(:base, "Please select an item to pick-up or return for your appointment")
     end
   end

@@ -1,5 +1,10 @@
 # Development setup using Docker
 
+> [!WARNING]
+> This is meant for advanced users already familiar with Docker. If you're
+> looking for general development instructions, please see
+> [README.md](README.md).
+
 ## Initial setup
 The following commands should just be run for the initial setup only. Rebuilding
 the docker images is only necessary when upgrading, if there are changes to the

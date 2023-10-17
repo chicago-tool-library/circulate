@@ -4,5 +4,9 @@ FactoryBot.define do
     ends_at { "2020-09-23 12:14:27" }
     comment { "My Comment" }
     member
+
+    factory :appointment_with_holds do
+      holds { [association(:hold, creator: member.user)] }
+    end
   end
 end
