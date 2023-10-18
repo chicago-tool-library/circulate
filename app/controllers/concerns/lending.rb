@@ -54,6 +54,7 @@ module Lending
         loan.item.increment_quantity
       end
     end
+    true
   end
 
   def restore_loan(loan)
