@@ -87,3 +87,13 @@ $ bin/rails test:system
 The Selenium tests are run by having Nix install Chromium and ChromeDriver and
 set a `SELENIUM_CHROME_BINARY` environment variable to point Selenium at
 Chromium in `test/application_system_test_case.rb`.
+
+## Precommit Hooks
+ 
+Precommit hooks are managed by `lefthook`, which is automatically installed
+into the Nix development shell. Install the hooks to get them to run on every
+commit:
+
+```shell-session
+$ lefthook install
+```
