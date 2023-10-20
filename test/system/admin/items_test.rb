@@ -171,10 +171,34 @@ class ItemsTest < ApplicationSystemTestCase
     @active_hold = create(:hold, item: @item)
     @inactive_hold = create(:ended_hold, item: @item)
 
-    visit admin_item_item_holds_path(@item)
-    find("[data-hold-id='#{@active_hold.id}']")
+    visit admin_item_holds_path(@item)
+    find("[data-id='#{@active_hold.id}']")
 
     click_on "Ended"
-    find("[data-hold-id='#{@inactive_hold.id}']")
+    find("[data-id='#{@inactive_hold.id}']")
+  end
+
+  test "reordering holds" do
+    @item = create(:item)
+    @holds = 4.times.map { create(:hold, item: @item) }
+
+    visit admin_item_holds_path(@item)
+
+    @handles = all(".drag-handle")
+    assert_equal 4, @handles.size
+    hold_ids = all(".item-holds-table tr[data-id]").map { |row| row["data-id"] }
+
+    # Make the first hold the last
+    @handles.first.drag_to @handles.last
+    reordered_hold_ids = all(".item-holds-table tr[data-id]").map { |row| row["data-id"] }
+
+    # make sure it worked
+    expected_hold_ids = hold_ids[1..] + [hold_ids[0]]
+    assert_equal expected_hold_ids, reordered_hold_ids
+
+    # reload the page and make sure it was persisted
+    visit admin_item_holds_path(@item)
+    reloaded_hold_ids = all(".item-holds-table tr[data-id]").map { |row| row["data-id"] }
+    assert_equal expected_hold_ids, reloaded_hold_ids
   end
 end
