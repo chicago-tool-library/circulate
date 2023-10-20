@@ -40,6 +40,7 @@ gem "http"
 gem "translation"
 gem "store_model"
 gem "lograge"
+gem "acts_as_list"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false

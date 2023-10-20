@@ -91,7 +91,9 @@ Rails.application.routes.draw do
       resource :item_history, only: :show
       resource :loan_history, only: :show
       # resource :manual_import, only: [:edit, :update]
-      resources :item_holds, only: :index
+      resources :holds, controller: "item_holds", only: :index do
+        resource :position, controller: "item_holds_position", only: :update
+      end
 
       resources :notes
     end

@@ -42,7 +42,7 @@ module Admin
       end
 
       def history
-        @pagy, @holds = pagy(@member.holds.inactive.includes(:item).recent_first)
+        @pagy, @holds = pagy(@member.holds.inactive.includes(:item).ordered_by_position)
       end
 
       private

@@ -2,7 +2,7 @@ module Admin
   class ItemHoldsController < BaseController
     def index
       @item = Item.find(params[:item_id])
-      holds_scope = @item.holds.order(created_at: :asc)
+      holds_scope = @item.holds.ordered_by_position.includes(:member)
       @holds =
         if params[:inactive]
           holds_scope.inactive
@@ -10,17 +10,5 @@ module Admin
           holds_scope.active
         end
     end
-
-    def wait_time(hold)
-      if hold.active?
-        helpers.time_ago_in_words(hold.created_at)
-      elsif hold.ended_at.present?
-        helpers.distance_of_time_in_words(hold.created_at, hold.ended_at)
-      else
-        helpers.distance_of_time_in_words(hold.created_at, hold.expires_at)
-      end
-    end
-
-    helper_method :wait_time
   end
 end

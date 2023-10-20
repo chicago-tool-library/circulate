@@ -9,6 +9,10 @@ class Hold < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :loan, required: false
 
+  # sequential_updates moves items one at a time to deal with having a uniqueness constraint on [item_id, position]
+  # if/when that becomes a performance issue, we can consider making the constraint deferred
+  acts_as_list scope: :item, sequential_updates: true
+
   scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR expires_at >= ?)", now) }
   scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
@@ -17,6 +21,7 @@ class Hold < ApplicationRecord
   scope :waiting, -> { where("started_at IS NULL") }
 
   scope :recent_first, -> { order("created_at desc") }
+  scope :ordered_by_position, -> { order("position asc") }
 
   validates :item, presence: true
   validates :expires_at, presence: {
@@ -77,7 +82,7 @@ class Hold < ApplicationRecord
   end
 
   def previous_active_holds(now = Time.current)
-    Hold.active(now).where("created_at < ?", created_at).where(item: item).where.not(member: member).order(:ended_at).to_a
+    Hold.active(now).where("position < ?", position).where(item: item).where.not(member: member).ordered_by_position.to_a
   end
 
   def ready_for_pickup?(now = Time.current)
