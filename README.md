@@ -4,44 +4,31 @@
 
 <!-- toc -->
 
-- [Circulate](#circulate)
-  - [About](#about)
-    - [Project Considerations](#project-considerations)
-  - [Requirements](#requirements)
-  - [Integrations](#integrations)
-  - [Development](#development)
-    - [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
-    - [Multi-tenancy](#multi-tenancy)
-    - [Configuring your database](#configuring-your-database)
-    - [Resetting the application](#resetting-the-application)
-    - [Running tests](#running-tests)
-    - [Code formatting and linting](#code-formatting-and-linting)
-    - [Setup pre-commit checks](#setup-pre-commit-checks)
-    - [Documentation](#documentation)
-    - [Who to log in as](#who-to-log-in-as)
-  - [Deployment](#deployment)
-    - [Buildpacks](#buildpacks)
-    - [Release Command](#release-command)
-    - [Daily Summary Emails](#daily-summary-emails)
-  - [Alternatives](#alternatives)
+- [About](#about)
+  - [Project Considerations](#project-considerations)
+- [Requirements](#requirements)
+- [Integrations](#integrations)
+- [Development](#development)
+  - [Setting up Circulate on your machine](#setting-up-circulate-on-your-machine)
+  - [Multi-tenancy](#multi-tenancy)
+  - [Configuring your database](#configuring-your-database)
+  - [Resetting the application](#resetting-the-application)
+  - [Running tests](#running-tests)
+  - [Code formatting and linting](#code-formatting-and-linting)
+  - [Setup pre-commit checks](#setup-pre-commit-checks)
+  - [Documentation](#documentation)
+  - [Who to log in as](#who-to-log-in-as)
+  - [Alternative Development Setups](#alternative-development-setups)
+- [Deployment](#deployment)
+  - [Buildpacks](#buildpacks)
+  - [Release Command](#release-command)
+  - [Daily Summary Emails](#daily-summary-emails)
+- [Alternatives](#alternatives)
 
 <!-- tocstop -->
 
-<!---
-
-## Welcome contributors!
-
-We are very happy to have you! Circulate and Ruby for Good are committed to welcoming new contributors of all skill levels. We have plenty of tiny, small, and medium issues.
-
-We highly recommend that you join us in [the Ruby For Good Slack](https://rubyforgood.herokuapp.com/) in the #circulate channel to ask questions, coordinate on work, hear about office hours (on hold for the moment, but occasionally on Tuesdays at 7pm CT), stakeholder news, and upcoming new issues.
-
-Issues on [the project board in the _Ready to be worked on_ column](https://github.com/rubyforgood/circulate/projects/4#column-10622874) are fair game. To claim an issue, comment on it with something like "I am working on this issue." Feel free to assign to yourself and move the Issue to the "In Progress" column if you have Project permissions.
-
-Pull requests which are not for an issue but which improve the codebase by adding a test or improving the code are also welcome! Feel free to make GitHub issues when you notice issues. A maintainer will be keeping an eye on issues and PRs every day or three.
-
-See also our [contributing guide](./CONTRIBUTING.md) 💖
-
---->
+> [!NOTE]
+> Welcome, contributors! Please see [our guide for how to contribute to the project](./CONTRIBUTING.md). 💖
 
 ## About
 
