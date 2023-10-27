@@ -1,0 +1,13 @@
+<div data-controller="item-filter">
+  <%= form_with url: url, method: :get, local: true, html: {"data-target": "item-filter.form"} do |form| %>
+    <label class="form-switch">
+      <%= check_box_tag :available, "1", params[:available], data: {
+            action: "click->item-filter#toggleAvailable"
+          } %>
+      <i class="form-icon"></i> Only show items available now
+    </label>
+    <%= hidden_field_tag :category, params[:category] if params&.[](:category) %>
+    <%= hidden_field_tag :query, params[:query] if params&.[](:query) %>
+    <%= hidden_field_tag :sort, params[:sort] if params&.[](:sort) %>
+  <% end %>
+</div>

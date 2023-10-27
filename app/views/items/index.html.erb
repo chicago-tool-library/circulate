@@ -44,6 +44,8 @@
           </div>
         <% end %>
 
+        <%= render partial: "available_now_filter", locals: {url: items_path, params: @filter_params} %>
+
         Found <strong><%= pluralize @pagy.count, "item" %></strong>.
       </div>
 

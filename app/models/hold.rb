@@ -9,7 +9,11 @@ class Hold < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :loan, required: false
 
-  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR expires_at >= ?)", now) }
+  scope :active, ->(now = Time.current) {
+    where(ended_at: nil).and(
+      where(started_at: nil).or(where(expires_at: now..))
+    )
+  }
   scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
   scope :expired, ->(now = Time.current) { where("expires_at < ?", now) }
