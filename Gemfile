@@ -74,6 +74,7 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen"
   gem "solargraph"
+  gem "solargraph-standardrb"
   gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
   gem "lefthook"
   gem "erb_lint", "~> 0.1.1"
