@@ -77,6 +77,12 @@ Rails.application.routes.draw do
     resources :items do
       scope module: "items" do
         resources :attachments
+        resource :history, only: :show
+        resources :holds, only: :index do
+          scope module: "holds" do
+            resource :position, only: :update
+          end
+        end
         if ENV["FEATURE_MAINTENANCE_WORKFLOW"] == "on"
           resources :tickets do
             scope module: "tickets" do
@@ -88,12 +94,8 @@ Rails.application.routes.draw do
 
       get :number
       resource :image, only: [:edit, :update]
-      resource :item_history, only: :show
       resource :loan_history, only: :show
       # resource :manual_import, only: [:edit, :update]
-      resources :holds, controller: "item_holds", only: :index do
-        resource :position, controller: "item_holds_position", only: :update
-      end
 
       resources :notes
     end
