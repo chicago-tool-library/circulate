@@ -26,6 +26,7 @@
           mkShell {
             buildInputs = [
               ruby
+              nodejs
               yarn
               foreman
 
@@ -38,6 +39,9 @@
               # for selenium tests
               chromium
               chromedriver
+
+              # for linters and git hooks
+              lefthook
             ];
 
             # Keep gems installed in a subdirectory
