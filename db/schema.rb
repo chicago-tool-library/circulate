@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_30_174955) do
+ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -283,8 +283,8 @@ ActiveRecord::Schema.define(version: 2022_10_30_174955) do
     t.bigint "loan_id"
     t.integer "library_id"
     t.datetime "started_at"
-    t.integer "position", null: false
     t.datetime "expires_at"
+    t.integer "position", null: false
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id", "position"], name: "index_holds_on_item_id_and_position", unique: true
     t.index ["item_id"], name: "index_holds_on_item_id"
