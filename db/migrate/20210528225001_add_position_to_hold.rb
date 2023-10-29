@@ -1,6 +1,11 @@
 class AddPositionToHold < ActiveRecord::Migration[6.1]
+  class MigrationHold < ActiveRecord::Base
+    self.table_name = "holds"
+  end
+
   class MigrationItem < ActiveRecord::Base
-    set_table_name :items
+    self.table_name = "items"
+    has_many :holds, class_name: "MigrationHold", foreign_key: "item_id"
   end
 
   def change
