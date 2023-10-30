@@ -26,7 +26,7 @@ module Circulate
     config.active_record.has_many_inversing = false
     config.active_record.legacy_connection_handling = true
 
-    config.active_storage.track_variants = true
+    config.active_storage.track_variants = false
     config.active_storage.queues.analysis = :active_storage_analysis
 
     # config.active_storage.variant_processor = :vips
