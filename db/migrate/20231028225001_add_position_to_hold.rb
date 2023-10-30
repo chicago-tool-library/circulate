@@ -8,7 +8,7 @@ class AddPositionToHold < ActiveRecord::Migration[6.1]
     has_many :holds, class_name: "MigrationHold", foreign_key: "item_id"
   end
 
-  def change
+  def up
     add_column :holds, :position, :integer
 
     MigrationItem.find_each do |item|
@@ -20,5 +20,9 @@ class AddPositionToHold < ActiveRecord::Migration[6.1]
     change_column_null :holds, :position, false
 
     add_index :holds, [:item_id, :position], unique: true
+  end
+
+  def down
+    remove_column :holds, :position
   end
 end
