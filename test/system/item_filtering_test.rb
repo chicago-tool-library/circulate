@@ -10,6 +10,10 @@ class ItemFilteringTest < ApplicationSystemTestCase
     @item2 = create(:item, categories: [@category2], name: "Boring Borer")
     @item3 = create(:item, categories: [@category2], name: "Droll Drill")
 
+    @member = create(:verified_member_with_membership)
+    @user = @member.user
+    @hold = create(:hold, member: @member, item: @item3, creator: @user)
+
     CategoryNode.refresh
 
     login_as @user
@@ -63,6 +67,64 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Boring Borer"
       refute_content "Droll Drill"
       refute_content "Nine-Inch Nailgun"
+    end
+  end
+
+  test "filters to items available now" do
+    visit items_url
+    find("label", text: "Only show items available now").click
+
+    within(".items-summary") do
+      assert_content "Found 2 items."
+    end
+
+    within(".items-table") do
+      assert_content "Boring Borer"
+      refute_content "Droll Drill"
+      assert_content "Nine-Inch Nailgun"
+    end
+  end
+
+  test "filters items available now with a category" do
+    visit items_url
+
+    find("a", text: "Drills (2)").click
+    within(".items-summary") do
+      assert_content "Searched in category Drills", normalize_ws: true
+      assert_content "Found 2 items."
+    end
+
+    find("label", text: "Only show items available now").click
+    within(".items-summary") do
+      assert_content "Found 1 item."
+    end
+
+    within(".items-table") do
+      assert_content "Boring Borer"
+      refute_content "Droll Drill"
+      refute_content "Nine-Inch Nailgun"
+    end
+  end
+
+  test "filters items available now with a search query" do
+    visit items_url
+
+    fill_in "search items", with: "Droll\n"
+    within(".items-summary") do
+      assert_content "Searched for Droll", normalize_ws: true
+      assert_content "Found 1 item."
+    end
+
+    find("a", text: "Drills (2)").click
+    within(".items-summary") do
+      assert_content "Searched for Droll in category Drills", normalize_ws: true
+      assert_content "Found 1 item."
+    end
+
+    find("label", text: "Only show items available now").click
+    within(".items-summary") do
+      assert_content "Searched for Droll in category Drills", normalize_ws: true
+      assert_content "Found 0 items."
     end
   end
 end

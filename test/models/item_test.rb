@@ -264,4 +264,25 @@ class ItemTest < ActiveSupport::TestCase
     refute item.valid?
     assert_equal ["is not a number"], item.errors[:quantity]
   end
+
+  test "the available_now scope returns items without active loans or holds" do
+    item_with_hold = create(:item)
+    create(:hold, item: item_with_hold)
+
+    assert_not_includes(Item.available_now, item_with_hold)
+
+    item_with_expired_hold = create(:item)
+    create(:expired_hold, item: item_with_expired_hold)
+
+    assert_includes(Item.available_now, item_with_expired_hold)
+
+    item_with_loan = create(:item)
+    create(:loan, item: item_with_loan)
+
+    assert_not_includes(Item.available_now, item_with_loan)
+
+    item_in_maintenance = create(:item, status: Item.statuses[:maintenance])
+
+    assert_not_includes(Item.available_now, item_in_maintenance)
+  end
 end

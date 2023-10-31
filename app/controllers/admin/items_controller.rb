@@ -14,6 +14,10 @@ module Admin
         item_scope = @category.items
       end
 
+      if params[:available]
+        item_scope = item_scope.available_now
+      end
+
       item_scope = item_scope.includes(:categories, :borrow_policy, :active_holds).with_attached_image.order(index_order)
 
       @pagy, @items = pagy(item_scope)
