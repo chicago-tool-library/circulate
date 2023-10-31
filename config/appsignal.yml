@@ -1,0 +1,24 @@
+default: &defaults
+  push_api_key: "<%= ENV["APPSIGNAL_PUSH_API_KEY"] %>"
+  name: "Circulate"
+
+  # Errors that should not be recorded by AppSignal
+  # For more information see our docs:
+  # https://docs.appsignal.com/ruby/configuration/ignore-errors.html
+  ignore_errors:
+    # We do error page rendering via Rails config.exceptions_app, which means
+    # that RecordNotFound exceptions coming from controller actions are ok.
+    - ActiveRecord::RecordNotFound
+
+  # See https://docs.appsignal.com/ruby/configuration/options.html for
+  # all configuration options.
+
+# Configuration per environment, leave out an environment or set active
+# to false to not push metrics for that environment.
+development:
+  <<: *defaults
+  active: false
+
+production:
+  <<: *defaults
+  active: true
