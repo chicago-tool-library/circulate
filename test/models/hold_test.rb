@@ -242,6 +242,26 @@ class HoldTest < ActiveSupport::TestCase
     assert hold2.started?
   end
 
+  test "starts the next hold after being reordered" do
+    hammer = create(:item)
+    hold1 = create(:hold, item: hammer)
+    create(:hold, item: hammer) # hold 2
+    hold3 = create(:hold, item: hammer)
+
+    hold3.insert_at(hold1.position)
+
+    assert_difference("Hold.started.count") do
+      Hold.start_waiting_holds do |hold|
+        assert_equal hold3, hold
+      end
+    end
+
+    hold1.reload
+    hold3.reload
+    assert hold3.started?
+    refute hold1.started?
+  end
+
   test "handles a hold on a retired item" do
     hammer = create(:item)
     create(:hold, item: hammer)
