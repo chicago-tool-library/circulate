@@ -15,7 +15,7 @@ module Admin
 
         test "updates positions of holds" do
           item = create(:item)
-          10.times.map { create(:hold, item: item) }
+          10.times { create(:hold, item: item) }
           holds = item.holds.ordered_by_position
           hold_ids = holds.map(&:id)
 
