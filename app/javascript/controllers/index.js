@@ -32,6 +32,9 @@ Stimulus.register('hold-order', HoldOrderController)
 import ImageEditorController from './image_editor_controller'
 Stimulus.register('image-editor', ImageEditorController)
 
+import ItemFilterController from './item_filter_controller'
+Stimulus.register('item-filter', ItemFilterController)
+
 import ModalController from './modal_controller'
 Stimulus.register('modal', ModalController)
 

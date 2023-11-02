@@ -13,7 +13,11 @@ class Hold < ApplicationRecord
   # if/when that becomes a performance issue, we can consider making the constraint deferred
   acts_as_list scope: :item, sequential_updates: true
 
-  scope :active, ->(now = Time.current) { where("ended_at IS NULL AND (started_at IS NULL OR expires_at >= ?)", now) }
+  scope :active, ->(now = Time.current) {
+    where(ended_at: nil).and(
+      where(started_at: nil).or(where(expires_at: now..))
+    )
+  }
   scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
   scope :ended, -> { where("ended_at IS NOT NULL") }
   scope :expired, ->(now = Time.current) { where("expires_at < ?", now) }

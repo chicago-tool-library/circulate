@@ -165,4 +165,45 @@ class ItemsTest < ApplicationSystemTestCase
     assert_text "Item was successfully created"
     assert_equal 1, Item.all.map(&:name).count(@item.name)
   end
+
+  test "viewing an item's holds" do
+    @item = create(:item)
+    @active_hold = create(:hold, item: @item)
+    @inactive_hold = create(:ended_hold, item: @item)
+
+    visit admin_item_item_holds_path(@item)
+    find("[data-hold-id='#{@active_hold.id}']")
+
+    click_on "Ended"
+    find("[data-hold-id='#{@inactive_hold.id}']")
+  end
+
+  test "listing items" do
+    @category1 = create(:category, name: "Nailguns")
+    @category1_subcategory = create(:category, parent: @category1, name: "Pneumatic")
+    @category2 = create(:category, name: "Drills")
+
+    @item1 = create(:item, categories: [@category1_subcategory], name: "Nine-Inch Nailgun")
+    @item2 = create(:item, categories: [@category2], name: "Boring Borer")
+    @item3 = create(:item, categories: [@category2], name: "Droll Drill")
+
+    @member = create(:verified_member_with_membership)
+    @user = @member.user
+    @hold = create(:hold, member: @member, item: @item3, creator: @user)
+
+    visit admin_items_url
+    within(".items-summary") do
+      assert_text "Viewing all 3 items"
+    end
+
+    click_on "Drills"
+    within(".items-summary") do
+      assert_text "Viewing 2 items assigned to Drills", normalize_ws: true
+    end
+
+    find("label", text: "Only show items available now").click
+    within(".items-summary") do
+      assert_text "Viewing 1 item assigned to Drills", normalize_ws: true
+    end
+  end
 end

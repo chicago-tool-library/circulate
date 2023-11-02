@@ -431,6 +431,9 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
+    solargraph-standardrb (0.0.4)
+      solargraph (>= 0.39.1)
+      standard (>= 0.4.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -539,6 +542,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-raven
   solargraph
+  solargraph-standardrb
   spy
   square.rb
   standard
