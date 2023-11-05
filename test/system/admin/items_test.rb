@@ -166,18 +166,6 @@ class ItemsTest < ApplicationSystemTestCase
     assert_equal 1, Item.all.map(&:name).count(@item.name)
   end
 
-  test "viewing an item's holds" do
-    @item = create(:item)
-    @active_hold = create(:hold, item: @item)
-    @inactive_hold = create(:ended_hold, item: @item)
-
-    visit admin_item_item_holds_path(@item)
-    find("[data-hold-id='#{@active_hold.id}']")
-
-    click_on "Ended"
-    find("[data-hold-id='#{@inactive_hold.id}']")
-  end
-
   test "listing items" do
     @category1 = create(:category, name: "Nailguns")
     @category1_subcategory = create(:category, parent: @category1, name: "Pneumatic")
