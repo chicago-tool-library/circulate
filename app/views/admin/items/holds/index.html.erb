@@ -34,7 +34,7 @@
       </thead>
       <tbody data-target="hold-order.tbody">
         <% @holds.each do |hold| %>
-          <tr data-id="<%= hold.id %>">
+          <tr data-hold-id="<%= hold.id %>">
               <td>
                 <%= link_to preferred_or_default_name(hold.member), admin_member_holds_path(hold.member) %>
               </td>

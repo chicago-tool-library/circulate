@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   end(event) {
-    const id = event.item.dataset.id
+    const id = event.item.dataset.holdId
     const index = event.newIndex;
     const previousItem = this.element.querySelector(`*[data-initial-index="${index}"]`);
     const position = previousItem.dataset.position;

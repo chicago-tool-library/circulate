@@ -1,5 +1,5 @@
 <% @holds.each_with_index do |hold, index| %>
-  <tr data-initial-index="<%= index %>" data-position="<%= hold.position %>" data-id="<%= hold.id %>" class="<%= "notified" if hold.started? %>">
+  <tr data-initial-index="<%= index %>" data-position="<%= hold.position %>" data-hold-id="<%= hold.id %>" class="<%= "notified" if hold.started? %>">
     <td class="drag-handle text-center" title="drag to reorder holds"><%= feather_icon("code") unless hold.started? %></td>
     <td><%= index + 1 %></td>
     <td>
