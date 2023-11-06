@@ -25,6 +25,9 @@ module Circulate
     config.active_record.has_many_inversing = false
     config.active_storage.track_variants = false
     config.active_storage.queues.analysis = :active_storage_analysis
+    # Rails 7 changed the default image processor to :vips; we will have to
+    # get it installed in our Heroku environment before we can switch.
+    config.active_storage.variant_processor = :mini_magick
     config.active_job.queue_adapter = :sucker_punch
     config.action_dispatch.cookies_same_site_protection = nil
     config.action_view.form_with_generates_remote_forms = true
