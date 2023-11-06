@@ -42,6 +42,9 @@
 
               # for linters and git hooks
               lefthook
+
+              # for deployment
+              heroku
             ];
 
             # Keep gems installed in a subdirectory
