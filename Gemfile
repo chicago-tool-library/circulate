@@ -6,6 +6,10 @@ ruby "3.1.4"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "~> 7.0.0"
 
+# Since Rails 7 sprockets is optional; we still use it so we need to depend on
+# the gem explicitly
+gem "sprockets-rails"
+
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
 # Use Puma as the app server
