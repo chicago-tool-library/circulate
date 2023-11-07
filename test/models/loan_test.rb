@@ -81,7 +81,7 @@ class LoanTest < ActiveSupport::TestCase
   test "creates loans that end on an open day" do
     puts "HELLO DEBUGGING TIMEZONES HERE"
     sql = %{select current_setting('TIMEZONE')}
-    p ActiveRecord::Base.connection.execute(sql)
+    puts ActiveRecord::Base.connection.execute(sql)
 
     borrow_policy = create(:borrow_policy, duration: 7)
     item = create(:item, borrow_policy: borrow_policy)
