@@ -74,7 +74,8 @@ class HoldsTest < ApplicationSystemTestCase
 
     @item = create(:item)
     @loan = create(:loan, item: @item)
-    @hold = create(:hold, item: @item, member: @member)
+    @second_hold = create(:hold, item: @item, member: @member, position: 30)
+    @first_hold = create(:hold, item: @item, position: 29)
 
     login_as @admin
 
@@ -88,11 +89,11 @@ class HoldsTest < ApplicationSystemTestCase
     refute_selector "#current-loans", wait: slow_op_wait_time
 
     Hold.start_waiting_holds do |hold|
-      assert_equal @hold, hold
+      assert_equal @first_hold, hold
     end
 
-    @hold.reload
-    assert @hold.started?
+    @first_hold.reload
+    assert @first_hold.started?
   end
 
   test "holds are shown only in hold history after two weeks" do

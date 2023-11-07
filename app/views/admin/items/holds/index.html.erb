@@ -1,0 +1,48 @@
+<%= render "admin/items/profile" do %>
+  <div class="btn-group mt-2">
+    <%= link_to_unless params[:inactive].blank?, "Current", url_for, class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">Current</button>
+    <% end %>
+    <%= link_to_unless_current "Ended", url_for(inactive: true), class: "btn btn-sm" do %>
+      <button class="btn btn-sm active">Ended</button>
+    <% end %>
+  </div>
+
+  <% if params[:inactive].blank? %>
+    <div data-controller="hold-order" data-hold-order-url="<%= admin_item_holds_path(@item) %>/:id/position">
+      <table class="table item-holds-table">
+        <thead>
+            <th></th>
+            <th>#</th>
+            <th>Member</th>
+            <th>Reserved</th>
+            <th>Wait time</th>
+              <th>Expires on</th>
+            <th class="text-center">Notified?</th>
+        </thead>
+        <tbody data-target="hold-order.tbody">
+          <%= render partial: "admin/items/holds/holds_rows" %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <table class="table item-holds-table">
+      <thead>
+          <th>Member</th>
+          <th>Reserved</th>
+          <th>Picked up on</th>
+      </thead>
+      <tbody data-target="hold-order.tbody">
+        <% @holds.each do |hold| %>
+          <tr data-hold-id="<%= hold.id %>">
+              <td>
+                <%= link_to preferred_or_default_name(hold.member), admin_member_holds_path(hold.member) %>
+              </td>
+              <td><%= date_with_time_title hold.created_at %></td>
+              <td><%= date_with_time_title(hold.loan.created_at) if hold.loan %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

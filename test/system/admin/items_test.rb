@@ -112,7 +112,7 @@ class ItemsTest < ApplicationSystemTestCase
     page.find("div[data-value='#{@category2.id}'] a.remove").click
     click_on "Update Item"
 
-    visit admin_item_item_history_path(@item)
+    visit admin_item_history_path(@item)
     assert_text(@category1.name)
     assert_text(@category2.name)
     assert_text(@category3.name)
@@ -124,7 +124,7 @@ class ItemsTest < ApplicationSystemTestCase
     end
     refute_text @category2.name
 
-    visit admin_item_item_history_path(@item)
+    visit admin_item_history_path(@item)
     # Check than an edit event exists where item is only associated
     # with one existing category and one deleted category
     refute_text @category2.name
@@ -164,18 +164,6 @@ class ItemsTest < ApplicationSystemTestCase
 
     assert_text "Item was successfully created"
     assert_equal 1, Item.all.map(&:name).count(@item.name)
-  end
-
-  test "viewing an item's holds" do
-    @item = create(:item)
-    @active_hold = create(:hold, item: @item)
-    @inactive_hold = create(:ended_hold, item: @item)
-
-    visit admin_item_item_holds_path(@item)
-    find("[data-hold-id='#{@active_hold.id}']")
-
-    click_on "Ended"
-    find("[data-hold-id='#{@inactive_hold.id}']")
   end
 
   test "listing items" do

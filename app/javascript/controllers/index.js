@@ -26,6 +26,9 @@ Stimulus.register('email-settings-editor', EmailSettingsEditorController)
 import FindToolController from './find_tool_controller'
 Stimulus.register('find-tool', FindToolController)
 
+import HoldOrderController from './hold_order_controller'
+Stimulus.register('hold-order', HoldOrderController)
+
 import ImageEditorController from './image_editor_controller'
 Stimulus.register('image-editor', ImageEditorController)
 

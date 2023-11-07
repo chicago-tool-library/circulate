@@ -40,9 +40,9 @@
     <ul class="tab">
       <%= tab_link "Description", admin_item_path(@item) %>
       <%= tab_link "Files", admin_item_attachments_path(@item) %>
-      <%= tab_link "Holds", admin_item_item_holds_path(@item), badge: @item.active_holds.count %>
+      <%= tab_link "Holds", admin_item_holds_path(@item), badge: @item.active_holds.count %>
       <%= tab_link "Loan History", admin_item_loan_history_path(@item) %>
-      <%= tab_link "Edit History", admin_item_item_history_path(@item) %>
+      <%= tab_link "Edit History", admin_item_history_path(@item) %>
       <% if ENV["FEATURE_MAINTENANCE_WORKFLOW"] %>
         <%= tab_link "Maintenance Tickets", admin_item_tickets_path(@item), badge: @item.tickets.active.count %>
       <% end %>
