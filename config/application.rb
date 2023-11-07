@@ -7,7 +7,6 @@ require "action_controller/railtie"
 require "action_view/railtie"
 require "action_mailer/railtie"
 require "active_job/railtie"
-require "sprockets/railtie"
 # require 'action_cable/engine'
 # require 'action_mailbox/engine'
 require "action_text/engine"
@@ -20,7 +19,7 @@ Bundler.require(*Rails.groups)
 module Circulate
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
     # config.autoloader = :classic
 
     config.active_record.has_many_inversing = false
