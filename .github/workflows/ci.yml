@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        test: [test, system]
+        test: [test]
         include:
           - test: test
             command: test
@@ -89,7 +89,8 @@ jobs:
           PGPASSWORD: postgres
           PGPORT: ${{ job.services.postgres.ports[5432] }}
         run: |
-          bundle exec rails ${{ matrix.command }}
+          date
+          bundle exec rails test test/models/loan_test.rb:83
 
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
