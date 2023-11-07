@@ -1,0 +1,37 @@
+<% content_for :header do %>
+  <%= index_header "Items with holds" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+
+    <% if @items_with_active_holds.any? %>
+
+      <table class="table table-scroll">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Number</th>
+            <th>Holds</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @items_with_active_holds.each do |item| %>
+            <tr data-item-id="<%= item.id %>">
+              <td><%= link_to item.name, [:admin, item] %></td>
+              <td><%= link_to full_item_number(item), [:admin, item] %></td>
+              <td><%= item.active_holds_count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%== pagy_bootstrap_nav(@pagy) %>
+
+    <% else %>
+      <%= empty_state "No matching items" %>
+    <% end %>
+
+  </div>
+</div>
