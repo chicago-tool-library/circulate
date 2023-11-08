@@ -132,6 +132,7 @@ Rails.application.routes.draw do
       resources :potential_volunteers, only: :index
       resources :shifts, only: :index
       resources :items_without_image, only: :index
+      resources :items_with_holds, only: :index
       resources :zipcodes, only: :index
       get "money", to: "money#index"
     end
