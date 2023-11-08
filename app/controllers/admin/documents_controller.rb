@@ -22,10 +22,10 @@ module Admin
     def update
       respond_to do |format|
         if @document.update(document_params)
-          format.html { redirect_to [:admin, @document], notice: "Document was successfully updated." }
+          format.html { redirect_to [:admin, @document], notice: "Document was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: [:admin, @document] }
         else
-          format.html { render :edit }
+          format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @document.errors, status: :unprocessable_entity }
         end
       end

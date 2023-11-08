@@ -9,7 +9,7 @@ module Admin
       @image.metadata["rotation"] = image_params[:rotation]
       @image.attachment.blob.save!
 
-      redirect_to admin_item_url(@item)
+      redirect_to admin_item_url(@item), status: :see_other
     end
 
     private
@@ -21,7 +21,7 @@ module Admin
     def load_image
       @item = Item.find(params[:item_id])
       unless @item.image.attached?
-        redirect_to admin_item_path(@item), error: "Image not found"
+        redirect_to admin_item_path(@item), error: "Image not found", status: :see_other
       end
       @image = @item.image
     end

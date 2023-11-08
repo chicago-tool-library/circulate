@@ -10,10 +10,10 @@ module Account
     def update
       respond_to do |format|
         if current_member.update(member_params)
-          format.html { redirect_to account_member_url, success: "Profile was successfully updated." }
+          format.html { redirect_to account_member_url, success: "Profile was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: current_member }
         else
-          format.html { render :edit }
+          format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @member.errors, status: :unprocessable_entity }
         end
       end

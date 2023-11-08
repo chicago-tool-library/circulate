@@ -14,10 +14,10 @@ module Admin
         @appointment = Appointment.new
 
         if update_appointment
-          redirect_to admin_appointment_path(@appointment), flash: {success: "Appointment created"}
+          redirect_to admin_appointment_path(@appointment), flash: {success: "Appointment created"}, status: :see_other
         else
           flash[:alert] = @appointment.errors.full_messages
-          redirect_to admin_member_appointments_path(@member)
+          redirect_to admin_member_appointments_path(@member), status: :see_other
         end
       end
 

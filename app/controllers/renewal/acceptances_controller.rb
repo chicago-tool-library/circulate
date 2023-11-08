@@ -5,13 +5,13 @@ module Renewal
     def create
       @acceptance = @member.acceptances.new(terms: acceptance_params[:terms])
       if @acceptance.save && @current_library.allow_payments?
-        redirect_to new_renewal_payment_url
+        redirect_to new_renewal_payment_url, status: :see_other
       elsif @acceptance.save
-        redirect_to renewal_confirmation_url
+        redirect_to renewal_confirmation_url, status: :see_other
       else
         activate_step(:agreement)
         @document = Document.agreement
-        render "renewal/documents/agreement"
+        render "renewal/documents/agreement", status: :unprocessable_entity
       end
     end
 

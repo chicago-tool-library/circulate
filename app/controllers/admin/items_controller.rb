@@ -50,7 +50,7 @@ module Admin
       @item = Item.new(item_params)
 
       if @item.save
-        redirect_to admin_item_number_path(@item), success: "Item was successfully created."
+        redirect_to admin_item_number_path(@item), success: "Item was successfully created.", status: :see_other
       else
         set_categories
         render :new, status: :unprocessable_entity
@@ -61,16 +61,16 @@ module Admin
       if @item.update(item_params)
         @item.image.purge_later if all_item_params[:delete_image] == "1"
 
-        redirect_to [:admin, @item], success: "Item was successfully updated."
+        redirect_to [:admin, @item], success: "Item was successfully updated.", status: :see_other
       else
         set_categories
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       @item.destroy
-      redirect_to [:admin, @item], warning: "Item was successfully destroyed."
+      redirect_to [:admin, @item], warning: "Item was successfully destroyed.", status: :see_other
     end
 
     private

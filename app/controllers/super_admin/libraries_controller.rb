@@ -17,10 +17,10 @@ module SuperAdmin
       @library = Library.new(library_params)
 
       if @library.save
-        redirect_to super_admin_libraries_path, success: "Library successfully created."
+        redirect_to super_admin_libraries_path, success: "Library successfully created.", status: :see_other
       else
         respond_to do |format|
-          format.html { render :new }
+          format.html { render :new, status: unprocessable_entity }
         end
       end
     end
@@ -37,10 +37,10 @@ module SuperAdmin
       @library = Library.find(params[:id])
 
       if @library.update(library_params)
-        redirect_to super_admin_library_path(@library), success: "Library successfully updated."
+        redirect_to super_admin_library_path(@library), success: "Library successfully updated.", status: :see_other
       else
         respond_to do |format|
-          format.html { render :edit }
+          format.html { render :edit, status: :unprocessable_entity }
         end
       end
     end
@@ -48,7 +48,7 @@ module SuperAdmin
     def destroy
       @library = Library.find(params[:id])
       @library.destroy
-      redirect_to super_admin_libraries_path, success: "Library successfully deleted."
+      redirect_to super_admin_libraries_path, success: "Library successfully deleted.", status: :see_other
     end
 
     private

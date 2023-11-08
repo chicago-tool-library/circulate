@@ -9,7 +9,7 @@ module Admin
       # member = Member.matching(query).first
       # redirect_to(admin_member_path(member)) && return if member
 
-      redirect_to admin_search_path(query: query)
+      redirect_to admin_search_path(query: query), status: :see_other
     end
 
     def show

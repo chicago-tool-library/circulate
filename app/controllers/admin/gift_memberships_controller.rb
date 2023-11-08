@@ -25,10 +25,10 @@ module Admin
         if @gift_membership.save
           GiftPurchaserMailer.with(gift_membership: @gift_membership).confirmation.deliver_later
 
-          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully created." }
+          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully created.", status: :see_other }
           format.json { render :show, status: :created, location: [:admin, @gift_membership] }
         else
-          format.html { render :new }
+          format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @gift_membership.errors, status: :unprocessable_entity }
         end
       end
@@ -37,10 +37,10 @@ module Admin
     def update
       respond_to do |format|
         if @gift_membership.update(gift_membership_params)
-          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully updated." }
+          format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: [:admin, @gift_membership] }
         else
-          format.html { render :edit }
+          format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @gift_membership.errors, status: :unprocessable_entity }
         end
       end
@@ -49,7 +49,7 @@ module Admin
     def destroy
       @gift_membership.destroy
       respond_to do |format|
-        format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully destroyed." }
+        format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully destroyed.", status: :see_other }
         format.json { head :no_content }
       end
     end

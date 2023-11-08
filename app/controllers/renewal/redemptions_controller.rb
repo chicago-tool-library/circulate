@@ -21,7 +21,7 @@ module Renewal
         redirect_to renewal_confirmation_url
       else
         activate_step(:payment)
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 

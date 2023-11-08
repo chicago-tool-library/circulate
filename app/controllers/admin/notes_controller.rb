@@ -9,7 +9,7 @@ module Admin
       @note = @parent.notes.create(note_params.merge(creator: current_user))
 
       if @note.save
-        redirect_to [:admin, @parent, anchor: dom_id(@note)]
+        redirect_to [:admin, @parent, anchor: dom_id(@note)], status: :see_other
       else
         render_to_portal "form", locals: {parent: @parent, note: @note}, status: 422
       end
@@ -19,7 +19,7 @@ module Admin
       @note = @parent.notes.find(params[:id])
 
       if @note.update(note_params)
-        redirect_to [:admin, @parent, anchor: dom_id(@note)]
+        redirect_to [:admin, @parent, anchor: dom_id(@note)], status: :see_other
       else
         render_to_portal "form", locals: {parent: @parent, note: @note}, status: 422
       end
@@ -33,7 +33,7 @@ module Admin
       @note = @parent.notes.find(params[:id])
 
       if @parent.is_a?(Member)
-        render "_form", locals: {parent: @parent, note: @note}
+        render "_form", locals: {parent: @parent, note: @note}, status: :see_other
       else
         render_to_portal "form", locals: {parent: @parent, note: @note}
       end
@@ -46,7 +46,7 @@ module Admin
 
     def destroy
       @parent.notes.find(params[:id]).destroy!
-      redirect_to [:admin, @parent], flash: {success: "Note has been deleted."}
+      redirect_to [:admin, @parent], flash: {success: "Note has been deleted."}, status: :see_other
     end
 
     private

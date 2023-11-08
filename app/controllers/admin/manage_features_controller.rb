@@ -7,9 +7,9 @@ module Admin
     def update
       if check_for_edit == true
         Library.find(@current_library.id).update(library_feature_params)
-        redirect_to admin_manage_features_url, success: "You have successfully updated the library"
+        redirect_to admin_manage_features_url, success: "You have successfully updated the library", status: :see_other
       else
-        redirect_to admin_manage_features_url, warning: "You didn't make any changes"
+        redirect_to admin_manage_features_url, warning: "You didn't make any changes", status: :see_other
       end
     end
 
