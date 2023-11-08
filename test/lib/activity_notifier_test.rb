@@ -1,10 +1,17 @@
 require "test_helper"
+require "test_helpers/twilio_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
   include Lending
 
   setup do
     ActionMailer::Base.deliveries.clear
+    BaseTexter.client = TwilioHelper::FakeSMS.new
+    TwilioHelper::FakeSMS.messages.clear
+  end
+
+  teardown do
+    BaseTexter.client = nil
   end
 
   test "send emails to folks who have checked items out in the last 24 hours" do
@@ -86,12 +93,12 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  test "sends overdue notice emails only to folks with overdue items" do
+  test "sends overdue notice emails and texts only to folks with overdue items" do
     Time.use_zone("America/Chicago") do
       @overdue_loan = create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
       @not_overdue_loan = create(:loan, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
 
-      assert_difference "Notification.count" do
+      assert_difference "Notification.count", 2 do
         ActivityNotifier.new.send_overdue_notices
       end
     end
@@ -106,6 +113,13 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_equal "You have overdue items!", mail.subject
     assert_includes mail.encoded, "return all overdue items as soon as possible"
     assert_includes mail.encoded, @overdue_loan.item.complete_number
+
+    texts = TwilioHelper::FakeSMS.messages
+    assert_equal 1, texts.count
+
+    text = texts.first
+    assert_includes text.to, @overdue_loan.member.phone_number
+    assert_includes text.body, "1 overdue item"
   end
 
   test "sends overdue notice emails that only contain overdue items" do
@@ -114,7 +128,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       @overdue_loan = create(:loan, member: @member, due_at: Time.current.end_of_day, created_at: 1.week.ago)
       @not_overdue_loan = create(:loan, member: @member, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
 
-      assert_difference "Notification.count" do
+      assert_difference "Notification.count", 2 do
         ActivityNotifier.new.send_overdue_notices
       end
     end
@@ -144,9 +158,10 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     end
 
     assert ActionMailer::Base.deliveries.empty?
+    assert TwilioHelper::FakeSMS.messages.empty?
   end
 
-  test "only sends emails to folks with items that were due whole weeks ago" do
+  test "only sends notices to folks with items that were due whole weeks ago" do
     days = 60
     item = create(:uncounted_item)
 
@@ -166,6 +181,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     end
 
     mailer_spy = Spy.on(MemberMailer, :with).and_return(black_hole)
+    texter_spy = Spy.on(MemberTexter, :new).and_return(black_hole)
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -174,10 +190,13 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     days.times do |i|
       mailer_call = mailer_spy.calls.find { |c| c.args[0][:member].email == loans[i].member.email }
+      texter_call = texter_spy.calls.find { |c| c.args[0].email == loans[i].member.email }
       if i % 7 == 0
         assert mailer_call
+        assert texter_call
       else
         refute mailer_call
+        refute texter_call
       end
     end
   end

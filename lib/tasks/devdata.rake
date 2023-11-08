@@ -101,14 +101,16 @@ namespace :devdata do
       status: status,
       email: email,
       user: User.create!(email: email, password: "password"),
-      phone_number: "3121234567",
+      phone_number: "5005550006",
       full_name: full_name,
       preferred_name: preferred_name,
       pronouns: ["they/them"],
       address1: "123 W. Chicago Ave",
       postal_code: postal_code,
       address_verified: true,
-      number: number
+      number: number,
+      reminders_via_email: true,
+      reminders_via_text: true
     )
 
     membership = member.memberships.create!
