@@ -6,7 +6,7 @@
                 <label class="form-label" for="time_range_string">Select an appointment time to create an appointment for this member</label>
                 <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, nil), {include_blank: "Select a Date"},
                       class: "form-select", data: {action: "appointment-date#sync", target: "appointment-date.select"}) %>
-                <span data-target="appointment-date.display"></span>
+                <span data-appointment-data-target="display"></span>
             </div>
             <div class="form-buttons">
                 <%= form.submit "Create Appointment", class: "btn btn-primary" %>
