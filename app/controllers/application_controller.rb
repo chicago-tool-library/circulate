@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   def render_not_found
     render "errors/show", status: :not_found
   end
