@@ -44,7 +44,6 @@ gem "acts_as_list"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
-gem "sentry-raven"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
