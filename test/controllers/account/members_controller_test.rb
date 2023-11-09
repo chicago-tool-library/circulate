@@ -10,6 +10,12 @@ module Account
       sign_in @user
     end
 
+    test "redirects logged out users to sign in page" do
+      sign_out @user
+      get account_member_url
+      assert_redirected_to new_user_session_path
+    end
+
     test "member views profile" do
       get account_member_url
       assert_response :success

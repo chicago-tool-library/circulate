@@ -1,5 +1,5 @@
 module Account
-  class MembersController < ApplicationController
+  class MembersController < BaseController
     def show
       @member = current_member
     end
