@@ -1,7 +1,6 @@
 module Renewal
   class PaymentsController < BaseController
     before_action :load_member
-    before_action :set_raven_context
     before_action :are_payments_enabled?
 
     def new
@@ -25,7 +24,6 @@ module Renewal
       else
         errors = result.error
         Rails.logger.error(errors)
-        Raven.capture_message(errors.inspect)
         flash[:error] = "There was a problem connecting to our payment processor."
         redirect_to new_renewal_payment_url
       end
@@ -65,7 +63,6 @@ module Renewal
       end
 
       Rails.logger.error(errors)
-      Raven.capture_message(errors.inspect)
       reset_session
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
       redirect_to renewal_confirmation_url
@@ -83,10 +80,6 @@ module Renewal
         location_id: ENV.fetch("SQUARE_LOCATION_ID"),
         environment: ENV.fetch("SQUARE_ENVIRONMENT")
       )
-    end
-
-    def set_raven_context
-      Raven.extra_context(session)
     end
 
     def are_payments_enabled?
