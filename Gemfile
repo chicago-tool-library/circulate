@@ -3,8 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.4"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 6.1.4"
+# Bundle edge Rails instead: gem "rails", github: "rails/rails"
+gem "rails", "~> 7.0.0"
+
+# Since Rails 7 sprockets is optional; we still use it so we need to depend on
+# the gem explicitly
+gem "sprockets-rails"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
@@ -76,7 +80,6 @@ group :development do
   gem "listen"
   gem "solargraph"
   gem "solargraph-standardrb"
-  gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
   gem "lefthook"
   gem "erb_lint", "~> 0.1.1"
 end

@@ -17,7 +17,7 @@ class LendingTest < ActiveSupport::TestCase
     assert_equal item.id, renewal.item_id
     assert_equal loan.member_id, renewal.member_id
     assert_equal loan.id, renewal.initial_loan_id
-    assert_equal sunday + 7.days, renewal.due_at
+    assert_timestamp_equal sunday + 7.days, renewal.due_at
     assert_equal 1, renewal.renewal_count
     assert renewal.uniquely_numbered
   end
@@ -32,7 +32,7 @@ class LendingTest < ActiveSupport::TestCase
       renew_loan(loan, now: sunday)
     }
 
-    assert_equal sunday + 7.days, renewal.due_at
+    assert_timestamp_equal sunday + 7.days, renewal.due_at
   end
 
   test "renews a loan for a full period starting at due date" do
@@ -46,7 +46,7 @@ class LendingTest < ActiveSupport::TestCase
       renew_loan(loan, now: sunday)
     }
 
-    assert_equal thursday + 7.days, renewal.due_at
+    assert_timestamp_equal thursday + 7.days, renewal.due_at
   end
 
   test "renews a loan due tomorrow" do
@@ -63,7 +63,7 @@ class LendingTest < ActiveSupport::TestCase
     next_day = Loan.stub(:open_days, [0, 4]) {
       Loan.next_open_day(thursday + 7.days)
     }
-    assert_equal next_day, renewal.due_at
+    assert_timestamp_equal next_day, renewal.due_at
   end
 
   test "renews a renewal" do
@@ -85,7 +85,7 @@ class LendingTest < ActiveSupport::TestCase
     }
 
     assert_equal loan.id, second_renewal.initial_loan_id
-    assert_equal sunday + 14.days, second_renewal.due_at
+    assert_timestamp_equal sunday + 14.days, second_renewal.due_at
     assert_equal 2, second_renewal.renewal_count
   end
 

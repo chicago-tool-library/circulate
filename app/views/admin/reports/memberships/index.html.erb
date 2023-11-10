@@ -24,7 +24,7 @@
           </td>
           <td><%= member.status %></td>
           <td><%= member.loans_count %></td>
-          <td><%= member.expires_on.to_date.to_s(:long) if member.expires_on %></td>
+          <td><%= member.expires_on&.to_date&.to_fs(:long) %></td>
           <td><%= member.amounts.map { |a| Money.new(a&.abs).format }.join(", ") %></td>
           <td><%= member.memberships_count %></td>
         </tr>
