@@ -5,12 +5,6 @@ GIT
     audited (5.0.2)
       activerecord (>= 5.0, < 7.1)
 
-PATH
-  remote: gems/active_storage_log_suppressor
-  specs:
-    active_storage_log_suppressor (0.1.1)
-      rails (>= 6.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -504,7 +498,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_storage_log_suppressor!
   activerecord-postgres_enum
   acts_as_list
   acts_as_tenant

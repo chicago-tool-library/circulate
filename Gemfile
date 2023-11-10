@@ -80,7 +80,6 @@ group :development do
   gem "listen"
   gem "solargraph"
   gem "solargraph-standardrb"
-  gem "active_storage_log_suppressor", path: "gems/active_storage_log_suppressor"
   gem "lefthook"
   gem "erb_lint", "~> 0.1.1"
 end
