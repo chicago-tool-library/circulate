@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.1.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1.0"
 
 # Since Rails 7 sprockets is optional; we still use it so we need to depend on
 # the gem explicitly
@@ -31,7 +31,7 @@ gem "jbuilder", "~> 2.11"
 gem "acts_as_tenant"
 gem "devise"
 gem "pundit"
-gem "audited", github: "simmerz/audited"
+gem "audited"
 gem "turbolinks_render"
 gem "money-rails"
 gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"

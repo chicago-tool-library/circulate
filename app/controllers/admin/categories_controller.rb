@@ -2,7 +2,7 @@ module Admin
   class CategoriesController < BaseController
     include ActionView::RecordIdentifier
 
-    before_action :set_category, only: [:show, :edit, :update, :destroy]
+    before_action :set_category, only: [:edit, :update, :destroy]
 
     def index
       @categories = CategoryNode.all.sorted

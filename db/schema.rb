@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_28_225001) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,8 +86,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.text "body"
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
+    t.string "checksum"
     t.datetime "created_at", null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
@@ -125,8 +125,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.bigint "member_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.enum "payment_source", enum_type: "adjustment_source"
     t.string "square_transaction_id"
     t.enum "kind", null: false, enum_type: "adjustment_kind"
@@ -136,16 +136,16 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
 
   create_table "agreement_acceptances", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_agreement_acceptances_on_member_id"
   end
 
   create_table "appointment_holds", force: :cascade do |t|
     t.bigint "appointment_id"
     t.bigint "hold_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["appointment_id"], name: "index_appointment_holds_on_appointment_id"
     t.index ["hold_id"], name: "index_appointment_holds_on_hold_id"
   end
@@ -153,8 +153,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   create_table "appointment_loans", force: :cascade do |t|
     t.bigint "appointment_id"
     t.bigint "loan_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["appointment_id"], name: "index_appointment_loans_on_appointment_id"
     t.index ["loan_id"], name: "index_appointment_loans_on_loan_id"
   end
@@ -164,8 +164,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.datetime "ends_at", null: false
     t.text "comment", default: "", null: false
     t.bigint "member_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "completed_at"
     t.index ["member_id"], name: "index_appointments_on_member_id"
   end
@@ -198,8 +198,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.integer "fine_cents", default: 0, null: false
     t.string "fine_currency", default: "USD", null: false
     t.integer "fine_period", default: 1, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "uniquely_numbered", default: true, null: false
     t.string "code", null: false
     t.string "description"
@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "categorizations_count", default: 0, null: false
     t.bigint "parent_id"
     t.integer "library_id"
@@ -227,8 +227,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   create_table "categorizations", force: :cascade do |t|
     t.bigint "item_id", null: false
     t.bigint "category_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_categorizations_on_category_id"
     t.index ["item_id", "category_id"], name: "index_categorizations_on_item_id_and_category_id"
     t.index ["item_id"], name: "index_categorizations_on_item_id"
@@ -237,8 +237,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   create_table "documents", force: :cascade do |t|
     t.string "name", null: false
     t.string "summary"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "code"
     t.integer "library_id"
     t.index ["library_id", "code"], name: "index_documents_on_library_id_and_code"
@@ -251,8 +251,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.datetime "finish", null: false
     t.string "summary"
     t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "library_id"
     t.jsonb "attendees"
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
@@ -265,8 +265,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.integer "amount_cents", null: false
     t.string "code", null: false
     t.bigint "membership_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "recipient_name"
     t.integer "library_id"
     t.index ["library_id", "code"], name: "index_gift_memberships_on_library_id_and_code", unique: true
@@ -277,8 +277,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.bigint "member_id", null: false
     t.bigint "item_id", null: false
     t.bigint "creator_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "ended_at"
     t.bigint "loan_id"
     t.integer "library_id"
@@ -299,8 +299,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.enum "kind", enum_type: "item_attachment_kind"
     t.string "other_kind"
     t.string "notes"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
     t.index ["item_id"], name: "index_item_attachments_on_item_id"
   end
@@ -312,8 +312,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "brand"
     t.string "model"
     t.string "serial"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "number", null: false
     t.enum "status", default: "active", null: false, enum_type: "item_status"
     t.bigint "borrow_policy_id", null: false
@@ -344,8 +344,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "city", null: false
     t.string "email", null: false
     t.text "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "allow_members", default: true, null: false
     t.boolean "allow_payments", default: true, null: false
     t.boolean "allow_volunteers", default: true, null: false
@@ -357,8 +357,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "title"
     t.boolean "published"
     t.bigint "library_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["library_id", "published"], name: "index_library_updates_on_library_id_and_published"
     t.index ["library_id"], name: "index_library_updates_on_library_id"
   end
@@ -368,8 +368,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.bigint "member_id"
     t.datetime "due_at"
     t.datetime "ended_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "uniquely_numbered", null: false
     t.integer "renewal_count", default: 0, null: false
     t.bigint "initial_loan_id"
@@ -398,8 +398,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.integer "id_kind"
     t.string "other_id_kind"
     t.boolean "address_verified"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
     t.string "postal_code"
     t.boolean "reminders_via_email", default: false, null: false
@@ -422,10 +422,10 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
 
   create_table "memberships", force: :cascade do |t|
     t.bigint "member_id", null: false
-    t.datetime "started_at", precision: 6
-    t.datetime "ended_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "library_id"
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
@@ -434,8 +434,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "notable_type", null: false
     t.bigint "notable_id", null: false
     t.bigint "creator_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_notes_on_creator_id"
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
   end
@@ -447,8 +447,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.uuid "uuid", null: false
     t.enum "status", default: "pending", null: false, enum_type: "notification_status"
     t.string "subject", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "library_id"
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
@@ -458,8 +458,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
   create_table "renewal_requests", force: :cascade do |t|
     t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "library_id"
     t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
@@ -469,8 +469,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.string "url", null: false
     t.string "slug", null: false
     t.integer "views_count", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "library_id"
     t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
@@ -480,8 +480,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.bigint "ticket_id", null: false
     t.bigint "creator_id", null: false
     t.bigint "audit_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "library_id"
     t.index ["audit_id"], name: "index_ticket_updates_on_audit_id"
     t.index ["creator_id"], name: "index_ticket_updates_on_creator_id"
@@ -494,8 +494,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.bigint "item_id", null: false
     t.enum "status", default: "assess", null: false, enum_type: "ticket_status"
     t.bigint "creator_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "library_id"
     t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["item_id"], name: "index_tickets_on_item_id"
@@ -516,8 +516,8 @@ ActiveRecord::Schema.define(version: 2023_10_28_225001) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.enum "role", default: "member", null: false, enum_type: "user_role"
     t.bigint "member_id"
     t.integer "library_id"

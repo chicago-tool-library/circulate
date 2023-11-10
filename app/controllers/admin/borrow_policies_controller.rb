@@ -1,6 +1,6 @@
 module Admin
   class BorrowPoliciesController < BaseController
-    before_action :set_borrow_policy, only: [:edit, :update, :destroy]
+    before_action :set_borrow_policy, only: [:edit, :update]
 
     def index
       @borrow_policies = BorrowPolicy.alpha_by_code

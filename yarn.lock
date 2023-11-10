@@ -119,29 +119,29 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.19.3.tgz#e5036be529f757e58d9a7771f2f1b14782986a74"
   integrity sha512-FbUN+0ZRXsypPyWE2IwIkVjDkDnJoMJARWOcFZn4KPPli+QnKqF0z1anvfaYe3ev5HFCpRDLLBDHyOALLppWHw==
 
-"@rails/actioncable@^6.1.4":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.1.4.tgz#c3c5a9f8302c429af9722b6c50ab48049016d2a3"
-  integrity sha512-0LmSKJTuo2dL6BQ+9xxLnS9lbkyfz2mBGeBnQ2J7o9Bn0l0q+ZC6VuoZMZZXPvABI4QT7Nfknv5WhfKYL+boew==
+"@rails/actioncable@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.1.2.tgz#d261ff4b72844f5af496671346ec478798f4ac2c"
+  integrity sha512-KGziTZfbmGm8/fHOpj515xupbYU+49hsp4etfdpoDJ/CEY2bRZR0cyFcJkpK6n0t/sxOHNWY6bo9vSgXZvT7Mg==
 
-"@rails/actiontext@^6.1.5":
-  version "6.1.5"
-  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-6.1.5.tgz#29006cff520b72c6845f474540a9ea142eae6380"
-  integrity sha512-V88uyueaL4VeU0u0P3GiuM0vSBYW3pluYyI7jMmZKWfGZKCspmRLDaJE+30Bx4h3ZQJcRrOCFoTU8hK0cFmCsw==
+"@rails/actiontext@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-7.1.2.tgz#2f7772b33951f76a07e9ff83d54519c362d99fd5"
+  integrity sha512-qiSUtop7rIb9BlwvgU98u+y8erlWhOiV0AveoHQ4EzN11VAWj3Euao9O+Q1iEJfIPcgXRvnsVLIJPrz3ldizFg==
   dependencies:
-    "@rails/activestorage" "^6.0.0"
+    "@rails/activestorage" ">= 7.1.0-alpha"
 
-"@rails/activestorage@^6.0.0", "@rails/activestorage@^6.1.3":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-6.1.4.tgz#7772f539cc846df5f4364fc57ccb48860f9e966e"
-  integrity sha512-1Tm8uaVBhLTDEG4YaFPvqguhjbUGSPVItm0CfkRpIFZIkybWzFAxatIrk4YVOOxB8ZdXS7GdeYa1qVwjdiDkgQ==
+"@rails/activestorage@>= 7.1.0-alpha", "@rails/activestorage@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.1.2.tgz#088dce680fa1e0a4f8e0c5ac91073f729204ed06"
+  integrity sha512-evC/xGlpq5XGpcNJina3oNVVB8pUp1GpnN3a84SVA+UNuB6O91OdNRl9BGHNAOo6/jxmFtLb73PIjWqQyVE14w==
   dependencies:
-    spark-md5 "^3.0.0"
+    spark-md5 "^3.0.1"
 
-"@rails/ujs@^6.1.4":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.4.tgz#093d5341595a02089ed309dec40f3c37da7b1b10"
-  integrity sha512-O3lEzL5DYbxppMdsFSw36e4BHIlfz/xusynwXGv3l2lhSlvah41qviRpsoAlKXxl37nZAqK+UUF5cnGGK45Mfw==
+"@rails/ujs@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.1.2.tgz#ea903bcc0224e17156015d995b6f1b83e27d64b2"
+  integrity sha512-c5x02djEKEVVE4qfN4XgElJS4biM0xxtIVpcJ0ZHLK116U19rowTtmD0AJ/RCb3Xaewa4GPIWLlwgeC0dCQqzw==
 
 "@stimulus/core@^1.1.1":
   version "1.1.1"
@@ -1630,6 +1630,11 @@ safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
+sass-migrator@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/sass-migrator/-/sass-migrator-1.7.3.tgz#0ac232b530d78a1b84dfaf24aaccdfd03159acf6"
+  integrity sha512-8JMZ15HMvjE8X3i1NhPu2GQzEIT74xrGACq6J9RzdbJ49N1Fl0lFvfX03+hAQN0MKNYKASq6fx1VZLa5NuwBWw==
+
 sass@^1.67.0:
   version "1.67.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.67.0.tgz#fed84d74b9cd708db603b1380d6dc1f71bb24f6f"
@@ -1709,10 +1714,10 @@ source-map@^0.6.1, source-map@~0.6.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-spark-md5@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.1.tgz#83a0e255734f2ab4e5c466e5a2cfc9ba2aa2124d"
-  integrity sha512-0tF3AGSD1ppQeuffsLDIOWlKUd3lS92tFxcsrh5Pe3ZphhnoK+oXIBTzOAThZCiuINZLvpiLH/1VS1/ANEJVig==
+spark-md5@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 spectre.css@^0.5.8:
   version "0.5.9"

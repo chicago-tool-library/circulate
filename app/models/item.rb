@@ -220,7 +220,7 @@ class Item < ApplicationRecord
   end
 
   # called when item is updated
-  def audited_changes
+  def audited_changes(**args)
     unless @current_category_ids.present?
       cache_category_ids(nil)
     end

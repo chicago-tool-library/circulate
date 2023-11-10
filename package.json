@@ -2,10 +2,10 @@
   "name": "circulate",
   "private": true,
   "dependencies": {
-    "@rails/actioncable": "^6.1.4",
-    "@rails/actiontext": "^6.1.5",
-    "@rails/activestorage": "^6.1.3",
-    "@rails/ujs": "^6.1.4",
+    "@rails/actioncable": "^7.1.2",
+    "@rails/actiontext": "^7.1.2",
+    "@rails/activestorage": "^7.1.2",
+    "@rails/ujs": "^7.1.2",
     "awesomplete": "^1.1.4",
     "esbuild": "^0.19.3",
     "feather-icons": "^4.25.0",
@@ -22,11 +22,13 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "markdown-toc": "^1.2.0"
+    "markdown-toc": "^1.2.0",
+    "sass-migrator": "^1.7.3"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
     "build-dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "postinstall": "sass-migrator -d division node_modules/spectre.css/**/*.scss"
   }
 }
