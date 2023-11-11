@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :error, :warning
 
-  before_action :set_raven_context
   around_action :set_time_zone
   around_action :override_time_in_development, if: -> { Rails.env.development? }
 
@@ -57,12 +56,6 @@ class ApplicationController < ActionController::Base
     Time.use_zone "America/Chicago" do
       Chronic.time_class = Time.zone
       block.call
-    end
-  end
-
-  def set_raven_context
-    if user_signed_in?
-      Raven.user_context(id: current_user.id, member_id: current_member.try(:id))
     end
   end
 
