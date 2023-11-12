@@ -455,6 +455,9 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
+    solargraph-rails (1.1.0)
+      activesupport
+      solargraph
     solargraph-standardrb (0.0.4)
       solargraph (>= 0.39.1)
       standard (>= 0.4.1)
@@ -565,6 +568,7 @@ DEPENDENCIES
   scenic
   selenium-webdriver
   solargraph
+  solargraph-rails
   solargraph-standardrb
   sprockets-rails
   spy
