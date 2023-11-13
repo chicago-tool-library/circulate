@@ -19,7 +19,7 @@ module Google
 
     def times
       format = "%l:%M%P"
-      "#{start.strftime(format).strip} - #{finish.strftime(format).strip}".gsub(/:00/, "").strip
+      "#{start.strftime(format).strip} - #{finish.strftime(format).strip}".gsub(":00", "").strip
     end
 
     def date

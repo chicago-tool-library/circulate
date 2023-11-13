@@ -7,7 +7,7 @@ module Admin
     before_action :set_member, only: [:show, :edit, :update, :destroy]
 
     def index
-      member_scope = params[:filter] == "closed" ? Member.closed : Member.open
+      member_scope = (params[:filter] == "closed") ? Member.closed : Member.open
       @pagy, @members = pagy(
         member_scope.order(index_order).includes(:active_membership, :last_membership, :checked_out_loans, :active_holds),
         items: 100

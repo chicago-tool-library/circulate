@@ -172,7 +172,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     wrapper_options[:class] ||= "" << " form-group #{"has-error" if has_error}"
     wrapper_options[:class].strip!
 
-    content_label = options[:label] == false ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
+    content_label = (options[:label] == false) ? "" : label(method, (h(label_text).html_safe + required_label(method, display_required)), {class: "form-label #{options[:label_class]}"})
 
     @template.content_tag :div, wrapper_options do
       content_label.html_safe +

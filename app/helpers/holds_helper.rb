@@ -40,7 +40,7 @@ module HoldsHelper
 
     if hold.appointment.present?
       message <<
-        " It will also be removed from your appointment."\
+        " It will also be removed from your appointment." \
         " If it's the only item in your appointment, your appointment will be canceled."
     end
 

@@ -76,9 +76,9 @@ end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driver = if ENV["DOCKER"]
-    ENV["HEADLESS"] == "true" ? :headless_chrome_in_container : :chrome_in_container
+    (ENV["HEADLESS"] == "true") ? :headless_chrome_in_container : :chrome_in_container
   else
-    ENV["HEADLESS"] == "true" ? :headless_chrome : nil
+    (ENV["HEADLESS"] == "true") ? :headless_chrome : nil
   end
 
   if driver
