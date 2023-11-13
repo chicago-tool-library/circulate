@@ -45,6 +45,9 @@
 
               # for deployment
               heroku
+
+              # needed to build psych gem, which is in the dependency tree as of rails 7.1
+              libyaml
             ];
 
             # Keep gems installed in a subdirectory

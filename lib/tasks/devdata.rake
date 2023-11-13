@@ -49,7 +49,7 @@ namespace :devdata do
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
       ActsAsTenant.with_tenant(library) do
-        Audited.audit_model.as_user(admin) do
+        Audited.audit_class.as_user(admin) do
           load_models Document, id_offset: offset
           load_models BorrowPolicy, id_offset: offset
           load_models Category, id_offset: offset

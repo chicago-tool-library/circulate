@@ -44,9 +44,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     test "doesn't display the show page for a #{status} item" do
       hidden_item = create(:item, status: status)
 
-      assert_raises ActiveRecord::RecordNotFound do
-        get item_url(hidden_item)
-      end
+      get item_url(hidden_item)
+      assert_response :not_found
     end
 
     test "hides #{status} items from the item index" do

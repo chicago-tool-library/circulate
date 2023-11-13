@@ -9,6 +9,7 @@ exclude:
 require: []
 domains: []
 plugins:
+- solargraph-rails
 - solargraph-standardrb
 reporters:
 - require_not_found
