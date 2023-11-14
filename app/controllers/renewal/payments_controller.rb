@@ -20,7 +20,7 @@ module Renewal
 
       result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_renewal_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
-        redirect_to result.value
+        redirect_to result.value, allow_other_host: true
       else
         errors = result.error
         Rails.logger.error(errors)
