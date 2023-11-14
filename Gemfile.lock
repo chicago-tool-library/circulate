@@ -85,7 +85,7 @@ GEM
       request_store (>= 1.0.5)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
-    appsignal (3.4.12)
+    appsignal (3.4.14)
       rack
     ast (2.4.2)
     audited (5.4.2)
