@@ -9,7 +9,7 @@
           <tr>
               <td>
                 <%= link_to rails_blob_url(attachment.file), title: attachment.file.filename do %>
-                  <%= attachment.kind == "other" ? attachment.other_kind : attachment.kind.titleize %>
+                  <%= (attachment.kind == "other") ? attachment.other_kind : attachment.kind.titleize %>
                 <% end %>
               </td>
               <td><%= attachment.notes %></td>
