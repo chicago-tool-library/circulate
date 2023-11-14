@@ -28,6 +28,6 @@ module MembersHelper
   end
 
   def format_stats_counter(number)
-    number > 0 ? number : "-"
+    (number > 0) ? number : "-"
   end
 end

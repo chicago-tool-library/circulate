@@ -17,7 +17,7 @@ module ShiftsHelper
 
   def calendar_day_class(day)
     return "prev-month" if day.previous_month?
-    return "next-month" if day.next_month?
+    "next-month" if day.next_month?
   end
 
   def calendar_day(day, &block)
@@ -30,7 +30,7 @@ module ShiftsHelper
   end
 
   def calendar_date_item_class(day)
-    return "date-today" if day.today?
+    "date-today" if day.today?
   end
 
   def event_attendees(attendees)

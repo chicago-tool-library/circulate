@@ -34,7 +34,7 @@ module AdminHelper
   end
 
   def tab_link(label, path, badge: nil)
-    opts = badge.present? && badge != 0 ? {class: "badge", data: {badge: badge}} : {}
+    opts = (badge.present? && badge != 0) ? {class: "badge", data: {badge: badge}} : {}
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
       link_to label, path, **opts
     end
@@ -67,7 +67,7 @@ module AdminHelper
   end
 
   def audit_description(audit, key, values)
-    value = audit.action == "create" ? values : values.last
+    value = (audit.action == "create") ? values : values.last
 
     case key
     when "status"

@@ -1,6 +1,6 @@
 class EstablishTenantZero < ActiveRecord::Migration[6.0]
   def up
-    execute "INSERT INTO libraries (#{LIBRARY.keys.join(", ")}, created_at, updated_at)"\
+    execute "INSERT INTO libraries (#{LIBRARY.keys.join(", ")}, created_at, updated_at)" \
             " VALUES (#{LIBRARY.values.map(&connection.method(:quote)).join(", ")}, NOW(), NOW())"
 
     TABLES.each do |table|

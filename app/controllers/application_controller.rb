@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
     return super_admin_libraries_path if user.super_admin?
 
     referer = stored_location_for(user)
-    default_path = user.admin? || user.staff? ? admin_dashboard_path : account_home_path
+    default_path = (user.admin? || user.staff?) ? admin_dashboard_path : account_home_path
     if referer.eql? root_path
       default_path
     else
