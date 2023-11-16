@@ -83,6 +83,7 @@ Rails.application.routes.draw do
             resource :position, only: :update
           end
         end
+        resources :notes
         if ENV["FEATURE_MAINTENANCE_WORKFLOW"] == "on"
           resources :tickets do
             scope module: "tickets" do
@@ -97,7 +98,6 @@ Rails.application.routes.draw do
       resource :loan_history, only: :show
       # resource :manual_import, only: [:edit, :update]
 
-      resources :notes
     end
     resources :loan_summaries, only: :index
     resources :loans, only: [:index, :create, :update, :destroy]
@@ -119,8 +119,8 @@ Rails.application.routes.draw do
         resources :notifications, only: :index
 
         resources :loan_summaries, only: :index
+        resources :notes
       end
-      resources :notes
     end
 
     namespace :reports do

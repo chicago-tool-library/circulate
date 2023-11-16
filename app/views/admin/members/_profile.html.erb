@@ -1,7 +1,7 @@
 <% content_for :header do %>
   <%= index_header preferred_or_default_name(@member) do %>
     <%= link_to "Edit Member", edit_admin_member_path(@member), class: "btn" %>
-    <%= link_to "Add Note to Member", new_admin_member_note_path(@member), class: "btn" %>
+    <%= link_to "Add Note to Member", new_admin_member_note_path(@member), class: "btn", data: {turbo_frame: 'new-note'} %>
     <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
   <% end %>
 <% end %>
@@ -22,18 +22,9 @@
       </div>
     <% end %>
 
+
     <div class="member-notes">
-      <% @member.notes.newest_first.each do |note| %>
-        <div class="toast note">
-          <%= link_to "Edit Note", [:edit, :admin, @member, note], method: :get, class: "btn btn-sm edit-button" %>
-          <div class="trix-content">
-            <%= note.body -%>
-          </div>
-          <p class="text-italic">
-            - <%= note.creator.member.preferred_name %>, <%= time_ago_in_words(note.created_at) %> ago
-          </p>
-        </div>
-      <% end %>
+      <%= render partial: "admin/members/notes/list", locals: { member: @member } %>
     </div>
 
     <ul class="tab member-tabs">

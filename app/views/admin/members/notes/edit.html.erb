@@ -1,0 +1,3 @@
+<%= turbo_frame_tag @note do %>
+  <%= render partial: "form", locals: {note: @note, member: @member} %>
+<% end %>

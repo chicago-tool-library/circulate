@@ -25,6 +25,7 @@ module Admin
     end
 
     def show
+      @notes = @item.notes.with_all_rich_text
     end
 
     def number
