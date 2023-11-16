@@ -63,7 +63,7 @@ module Renewal
       end
 
       Rails.logger.error(errors)
-      reset_session
+      session.delete(:attempts)
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
       redirect_to renewal_confirmation_url
     end
