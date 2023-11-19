@@ -111,7 +111,7 @@ Rails.application.routes.draw do
           get :history, on: :collection
         end
         resource :hold_loan, only: :create
-        resources :lookups, only: :create
+        resource :lookup, only: :show
         resources :memberships, only: [:index, :new, :create, :update]
         resources :payments, only: [:new, :create]
         resource :verification, only: [:edit, :update]

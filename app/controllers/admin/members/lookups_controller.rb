@@ -3,16 +3,15 @@ module Admin
     class LookupsController < BaseController
       include PortalRendering
 
-      def create
+      def show
         @member = Member.find(params[:member_id])
         @lookup = Lookup.new(lookup_params)
 
         if @lookup.valid?
           @loan = Loan.lend(@lookup.item, to: @member)
           @item = @lookup.item
-          render_to_portal "admin/members/lookups/create"
         else
-          render_to_portal "admin/members/lookups/form", status: 422, locals: {lookup: @lookup}
+          render partial: "admin/members/lookups/form", status: :unprocessable_entity, locals: {lookup: @lookup}
         end
       end
 
