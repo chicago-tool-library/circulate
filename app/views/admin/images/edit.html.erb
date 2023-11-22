@@ -3,11 +3,11 @@
     <div class="image-editor">
       <div class="image-editor-row">
         <a href="#" class="rotation-control left" data-action="image-editor#left">⟲</a>
-        <%= image_tag url_for(@image.variant(resize_to_limit: [400, 280])), data: {target: "image-editor.image"} %>
+        <%= image_tag url_for(@image.variant(resize_to_limit: [400, 280])), data: {'image-editor-target': "image"} %>
         <a href="#" class="rotation-control right" data-action="image-editor#right">⟳</a>
       </div>
     </div>
     <%= f.submit "Save" %>
-    <%= f.hidden_field :rotation, value: @image.metadata["rotation"], data: {target: "image-editor.field"} %>
+    <%= f.hidden_field :rotation, value: @image.metadata["rotation"], data: {'image-editor-target': "field"} %>
   <% end %>
 <% end %>

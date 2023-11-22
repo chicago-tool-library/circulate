@@ -5,11 +5,11 @@
 <% end %>
 
 <div data-controller="toggle">
-  <button data-target="toggle.button" data-action="click->toggle#toggle" class="btn">
+  <button data-toggle-target="button" data-action="click->toggle#toggle" class="btn">
     <%= feather_icon "message-square" %>Add a Note
   </button>
 
-  <div data-target="toggle.toggled">
+  <div data-toggle-target="toggled">
     <%= portal do %>
       <%= render partial: "admin/notes/form", locals: {parent: parent} %>
     <% end %>

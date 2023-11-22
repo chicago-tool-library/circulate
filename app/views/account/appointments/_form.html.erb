@@ -82,8 +82,8 @@
           <div class="form-group" data-controller="appointment-date">
             <label class="form-label h3" for="time_range_string">Select a time for the appointment</label>
             <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), {include_blank: "Select a Date"},
-                  class: "form-select", data: {action: "appointment-date#sync", target: "appointment-date.select"}, disabled: !can_schedule_appointment) %>
-              <span data-target="appointment-date.display"></span>
+                  class: "form-select", data: {action: "appointment-date#sync", 'appointment-date-target': "select"}, disabled: !can_schedule_appointment) %>
+              <span data-appointment-date-target="display"></span>
               <p>Don't worry if you arrive a little bit early or late, as long as it's within the library's open hours.</p>
           </div>
 

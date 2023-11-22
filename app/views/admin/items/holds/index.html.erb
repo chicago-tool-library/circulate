@@ -20,7 +20,7 @@
               <th>Expires on</th>
             <th class="text-center">Notified?</th>
         </thead>
-        <tbody data-target="hold-order.tbody">
+        <tbody data-hold-order-target="tbody">
           <%= render partial: "admin/items/holds/holds_rows" %>
         </tbody>
       </table>
@@ -32,7 +32,7 @@
           <th>Reserved</th>
           <th>Picked up on</th>
       </thead>
-      <tbody data-target="hold-order.tbody">
+      <tbody data-hold-order-target="tbody">
         <% @holds.each do |hold| %>
           <tr data-hold-id="<%= hold.id %>">
               <td>

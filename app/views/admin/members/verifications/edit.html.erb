@@ -16,8 +16,8 @@
   <fieldset>
     <legend>Activate <%= @member.preferred_name %>'s Membership</legend>
     <div data-controller="conditional-field" data-conditional-field-trigger="other_id_kind">
-      <%= form.select :id_kind, options_for_select(member_id_kind_options, form.object.id_kind), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
-      <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child nested" do %>
+      <%= form.select :id_kind, options_for_select(member_id_kind_options, form.object.id_kind), {prompt: true, label: "Photo ID"}, data: {action: "conditional-field#change", 'conditional-field-target': "parent"} %>
+      <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child nested" do %>
         <%= form.text_field :other_id_kind, label: "Other ID Type", placeholder: "Please specify" %>
       <% end %>
     </div>

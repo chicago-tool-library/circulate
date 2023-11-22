@@ -40,19 +40,19 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     namer = ->(c) { c.path_names.map { |n| h(n) }.join(" &rBarr; ").html_safe }
     @template.tag.div(data: {controller: "tag-editor"}) do
       sequence_layout(method, options) do
-        parent_collection_select method, tags, :id, namer, {}, data: {target: "tag-editor.input"}, multiple: true
+        parent_collection_select method, tags, :id, namer, {}, data: {"tag-editor-target": "input"}, multiple: true
       end
     end
   end
 
   def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     options[:wrapper_options] = {data: {controller: "multi-select"}}
-    html_options[:data] = {target: "multi-select.control", action: "multi-select#change"}
+    html_options[:data] = {"multi-select-target": "control", action: "multi-select#change"}
     html_options[:class] = "form-sele5"
 
     sequence_layout(method, options) do
       parent_collection_select(method, collection, value_method, text_method, options, html_options) +
-        @template.tag.div(data: {target: "multi-select.summary"}, class: "multi-select-summary")
+        @template.tag.div(data: {"multi-select-target": "summary"}, class: "multi-select-summary")
     end
   end
 
@@ -126,7 +126,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
       wrapper_options: {
         data: {controller: "autocomplete", action: "input->autocomplete#input", autocomplete_path: options.delete(:path)}
       },
-      data: {target: "autocomplete.input"}
+      data: {"autocomplete-target": "input"}
     ))
   end
 
