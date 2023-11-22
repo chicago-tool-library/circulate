@@ -46,9 +46,6 @@ application.register("multi-select", MultiSelectController)
 import NotesController from "./notes_controller"
 application.register("notes", NotesController)
 
-import PortalController from "./portal_controller"
-application.register("portal", PortalController)
-
 import RequestItemController from "./request_item_controller"
 application.register("request-item", RequestItemController)
 

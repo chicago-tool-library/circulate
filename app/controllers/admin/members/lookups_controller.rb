@@ -1,8 +1,6 @@
 module Admin
   module Members
     class LookupsController < BaseController
-      include PortalRendering
-
       def show
         @member = Member.find(params[:member_id])
         @lookup = Lookup.new(lookup_params)

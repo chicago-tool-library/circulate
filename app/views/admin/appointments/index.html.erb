@@ -37,9 +37,7 @@
         </thead>
 
         <% @pending_appointments.each do |appointment, index| %>
-          <%= portal tag_name: "tbody", attributes: {data: {index: index}} do %>
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
-          <% end %>
+          <%= render partial: "appointment", locals: {appointment: appointment} %>
         <% end %>
       </table>
 
@@ -57,9 +55,7 @@
         </thead>
 
         <% @completed_appointments.each do |appointment, index| %>
-          <%= portal tag_name: "tbody", attributes: {data: {index: index}} do %>
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
-          <% end %>
+          <%= render partial: "appointment", locals: {appointment: appointment} %>
         <% end %>
       </table>
 

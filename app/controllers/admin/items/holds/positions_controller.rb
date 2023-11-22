@@ -2,8 +2,6 @@ module Admin
   module Items
     module Holds
       class PositionsController < BaseController
-        include PortalRendering
-
         def update
           @hold = @item.active_holds.find(params[:hold_id])
           @hold.insert_at(params[:position].to_i)
