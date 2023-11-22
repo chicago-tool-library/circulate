@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Sortable from "sortablejs"
-import Rails from "@rails/ujs";
+import { setupFeatherIcons } from "../lib/feather"
 
 export default class extends Controller {
   static targets = [ "tbody" ]
@@ -17,6 +17,12 @@ export default class extends Controller {
       chosenClass: "sorting",
       ghostClass: "ghost",
     })
+
+    this.token = document.querySelector(
+      'meta[name="csrf-token"]'
+    ).content;
+
+    setupFeatherIcons();
   }
 
   end(event) {
@@ -25,36 +31,22 @@ export default class extends Controller {
     const previousItem = this.element.querySelector(`*[data-initial-index="${index}"]`);
     const position = previousItem.dataset.position;
 
-    let data = new FormData()
-    data.append("position", position)
+    let url = this.data.get("url").replace(":id", id);
 
-    Rails.ajax({
-      url: this.data.get("url").replace(":id", id),
-      type: 'PUT',
-      data: data,
-      success: (response, statusText, xhr) => {
-        this.replaceHoldRows(response)
-      }
-    })
-  }
-
-  replaceHoldRows(response) {
-    while (this.tbodyTarget.firstChild) {
-      this.tbodyTarget.removeChild(this.tbodyTarget.firstChild);
-    }
-
-    // Table rows need to be wrapped in a table tag so the browser doesn't
-    // discard some of the elements for being invalid. In that case, we
-    // want to ignore that wrapper element.
-    let source = response.body;
-    while (source.firstElementChild.dataset.portalIgnore === "true") {
-      source = source.firstElementChild;
-    }
-
-    while (source.firstChild) {
-      this.tbodyTarget.appendChild(source.firstChild);
-    }
-
-    document.dispatchEvent(new Event("turbolinks:load"));
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'X-CSRF-Token': this.token,
+        'Content-Type': 'application/json',
+        'Accept': "text/vnd.turbo-stream.html",
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        position: position,
+      })
+    }).then(response => response.text())
+    .then(html => {
+      Turbo.renderStreamMessage(html);
+    });
   }
 }

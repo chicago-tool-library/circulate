@@ -19,7 +19,7 @@ module Admin
           holds = item.holds.ordered_by_position
           hold_ids = holds.map(&:id)
 
-          patch admin_item_hold_position_path(item.id, hold_ids[7]), params: {position: holds[2].position}
+          patch admin_item_hold_position_path(item.id, hold_ids[7]), params: {position: holds[2].position}, as: :turbo_stream
 
           assert_response :success
 

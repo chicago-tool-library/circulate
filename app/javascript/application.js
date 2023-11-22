@@ -1,6 +1,3 @@
-// import Rails from "@rails/ujs"
-// Rails.start()
-
 import "@hotwired/turbo-rails"
 
 import * as ActiveStorage from "@rails/activestorage"
@@ -11,14 +8,10 @@ import "./controllers"
 import "trix"
 import "@rails/actiontext"
 
-import feather from "feather-icons/dist/feather"
-document.addEventListener("turbolinks:load", function() {
-  feather.replace({
-    width: 20,
-    height: 20,
-    class: "feather-icon",
-  });
-})
+import { setupFeatherIcons } from "./lib/feather"
+
+document.documentElement.addEventListener("turbo:load", setupFeatherIcons);
+document.documentElement.addEventListener("turbo:frame-render", setupFeatherIcons);
 
 // import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 // 

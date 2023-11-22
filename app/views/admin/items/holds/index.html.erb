@@ -9,22 +9,7 @@
   </div>
 
   <% if params[:inactive].blank? %>
-    <div data-controller="hold-order" data-hold-order-url="<%= admin_item_holds_path(@item) %>/:id/position">
-      <table class="table item-holds-table">
-        <thead>
-            <th></th>
-            <th>#</th>
-            <th>Member</th>
-            <th>Reserved</th>
-            <th>Wait time</th>
-              <th>Expires on</th>
-            <th class="text-center">Notified?</th>
-        </thead>
-        <tbody data-hold-order-target="tbody">
-          <%= render partial: "admin/items/holds/holds_rows" %>
-        </tbody>
-      </table>
-    </div>
+    <%= render "list", locals: { holds: @holds } %>
   <% else %>
     <table class="table item-holds-table">
       <thead>
@@ -39,7 +24,6 @@
                 <%= link_to preferred_or_default_name(hold.member), admin_member_holds_path(hold.member) %>
               </td>
               <td><%= date_with_time_title hold.created_at %></td>
-              <td><%= date_with_time_title(hold.loan.created_at) if hold.loan %></td>
           </tr>
         <% end %>
       </tbody>
