@@ -80,7 +80,7 @@
         <ul class="nav">
           <% if user_signed_in? %>
             <li class="nav-item">
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+              <%= link_to "Sign out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-link" %>
             </li>
           <% end %>
         </ul>
@@ -183,7 +183,7 @@
           </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+              <%= link_to "Sign out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-link" %>
             <% end %>
           </section>
         </header>
