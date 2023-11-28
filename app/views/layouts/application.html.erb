@@ -11,17 +11,6 @@
     <% end %>
     <%= javascript_include_tag "application", "data-turbolinks-track": "reload", defer: true %>
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
-
-    <% if Rails.env.production? %>
-      <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
-      <script>
-          document.addEventListener("turbolinks:load", function() {
-              Weglot.initialize({
-                  api_key: '<%= ENV.fetch("WEGLOT_API_KEY", "weglot key").to_json %>'
-              });
-          });
-      </script>
-    <% end %>
   </head>
 
   <%= tag.body class: "public #{@body_class}" do %>
