@@ -7,8 +7,8 @@
 <div class="items-index">
   <div class="columns">
     <div class="column col-sm-12 col-3 category-nav" data-controller="collapse">
-      <button class="btn toggle-categories" data-collapse-target="button" data-action="collapse#toggle" class="btn">Show Categories</button>
-      <div class="categories" data-collapse-target="content">
+      <button class="btn toggle-categories" data-target="collapse.button" data-action="collapse#toggle" class="btn">Show Categories</button>
+      <div class="categories" data-target="collapse.content">
         <h5>Categories</h5>
         <%= category_tree_nav(@categories, @category) %>
       </div>

@@ -11,8 +11,8 @@
   <div class="form-group" data-controller="appointment-date">
     <label class="form-label" for="time_range_string">Select an appointment time</label>
     <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), {include_blank: "Select a Date"},
-          class: "form-select", data: {action: "appointment-date#sync", 'appointment-data-target': "select"}) %>
-      <span data-appointment-date-target="display"></span>
+          class: "form-select", data: {action: "appointment-date#sync", target: "appointment-date.select"}) %>
+      <span data-target="appointment-date.display"></span>
   </div>
 
   <div>
