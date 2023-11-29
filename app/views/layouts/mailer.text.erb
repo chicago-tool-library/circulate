@@ -1,4 +1,7 @@
 <%= yield %>
+
+<%= HTMLToMarkdown.new.convert(render partial: "member_mailer/donation", formats: [:html]) -%> 
+
 <% unless @library.email_banner1.blank? %>
 
 ** <%= HTMLToMarkdown.new.convert(@library.email_banner1).strip -%> **
