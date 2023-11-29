@@ -20,6 +20,8 @@
   - [Who to log in as](#who-to-log-in-as)
   - [Alternative Development Setups](#alternative-development-setups)
 - [Deployment](#deployment)
+  - [Configuring git remotes for Heroku](#configuring-git-remotes-for-heroku)
+  - [Promoting a build](#promoting-a-build)
   - [Buildpacks](#buildpacks)
   - [Release Command](#release-command)
   - [Daily Summary Emails](#daily-summary-emails)
@@ -255,15 +257,29 @@ scheduler (scheduler-round-xxxxx)                standard   free      created
 
 Using a different way of configuring the file storage or email services should require trivial code changes.
 
+### Configuring git remotes for Heroku
+
+If you'll be working with the Heroku apps, it's good to setup git remotes for both staging and production:
+
+```
+$ heroku git:remote --remote production -a chicagotoollibrary
+$ heroku git:remote --remote staging -a chicagotoollibrary-staging
+```
+
+### Promoting a build
+
+To deploy the current staging build to production, use `heroku pipelines:promote -r staging`.
+
 ### Buildpacks
 
 The following buildpacks are currently used in production:
 
 ```
-1. https://github.com/mojodna/heroku-buildpack-jemalloc.git
-2. heroku/metrics
-3. https://github.com/heroku/heroku-buildpack-activestorage-preview
-4. heroku/ruby
+1. heroku-community/apt
+2. https://github.com/mojodna/heroku-buildpack-jemalloc.git
+3. heroku/metrics
+4. https://github.com/heroku/heroku-buildpack-activestorage-preview
+5. heroku/ruby
 ```
 
 ### Release Command
