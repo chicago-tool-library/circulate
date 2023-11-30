@@ -122,7 +122,7 @@ namespace :devdata do
         holds: [hold],
         loans: [loan],
         starts_at: next_appointment_slot.start,
-        ends_at: next_appointment_slot.finish,
+        ends_at: next_appointment_slot.finish
       )
     end
 
