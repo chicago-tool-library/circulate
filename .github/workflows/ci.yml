@@ -143,6 +143,10 @@ jobs:
         PGPORT: ${{ job.services.postgres.ports[5432] }}
       run: ./bin/reset
 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ failure() }}
+
   StandardRB:
     runs-on: ubuntu-latest
 
