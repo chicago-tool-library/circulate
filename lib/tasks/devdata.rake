@@ -65,39 +65,70 @@ namespace :devdata do
       Library.all.each_with_index do |library, index|
         postal_code = postal_codes[index]
         ActsAsTenant.with_tenant(library) do
-          create_member(holds: 2, waiting_holds: 2, loans: 2, postal_code: postal_code)
-          create_member(loans: 5, postal_code: postal_code)
-          create_member(postal_code: postal_code)
+          create_member("member_with_holds_and_loans", holds: 2, waiting_holds: 2, loans: 2, city: library.city, postal_code: postal_code)
+          create_member("member_with_loans", loans: 5, city: library.city, postal_code: postal_code)
+          create_member("member", city: library.city, postal_code: postal_code)
+          if library.city == "Chicago"
+            # The appointments system isn't fully multitenant yet and some of the views will
+            # break if there are appointments for more than the first library.
+            create_member("member_with_appointment", appointments: 1, city: library.city, postal_code: postal_code)
+          end
         end
       end
     end
   end
 
-  def create_member(holds: 0, waiting_holds: 0, loans: 0, status: :verified, postal_code: "60609")
-    @members ||= 0
-    id = @members += 1
-    email = "member#{id}@example.com"
+  def create_member(username, city:, holds: 0, waiting_holds: 0, loans: 0, appointments: 0, status: :verified, postal_code: "60609")
+    email_prefix = (city == "Chicago") ? "" : "#{city.downcase}."
+    email = "#{username}@#{email_prefix}example.com"
+    full_name = username.titleize
+    preferred_name = username.titleize.sub("Member ", "")
+
+    @member_count ||= 100
+    number = @member_count += 1
 
     member = Member.create!(
       status: status,
       email: email,
       user: User.create!(email: email, password: "password"),
       phone_number: "3121234567",
-      full_name: "Member Number #{id}",
-      preferred_name: "Member ##{id}",
-      address1: "#{id} W. Chicago Ave",
+      full_name: full_name,
+      preferred_name: preferred_name,
+      pronouns: ["they/them"],
+      address1: "123 W. Chicago Ave",
       postal_code: postal_code,
-      address_verified: true
+      address_verified: true,
+      number: number
     )
 
+    membership = member.memberships.create!
+    membership.start!
+
     holds.times do
-      item = random_model(Item.active.available)
+      item = random_model(Item.active.available.without_active_holds)
       Hold.create!(member: member, item: item, creator: member.user)
+    end
+
+    appointments.times do
+      hold_item = random_model(Item.active.available.without_active_holds)
+      hold = Hold.create!(member: member, item: hold_item, creator: member.user)
+
+      loan_item = random_model(Item.active.includes(:borrow_policy).available)
+      loan = Loan.create!(item: loan_item, member: member, due_at: 1.week.since, uniquely_numbered: loan_item.borrow_policy.uniquely_numbered)
+
+      next_appointment_slot = Event.appointment_slots.first
+      Appointment.create!(
+        member: member,
+        holds: [hold],
+        loans: [loan],
+        starts_at: next_appointment_slot.start,
+        ends_at: next_appointment_slot.finish,
+      )
     end
 
     # holds where this person is in line behind someone else
     waiting_holds.times do
-      item = random_model(Item.active.available)
+      item = random_model(Item.active.available.without_active_holds)
       member_in_front = random_model(Member)
       Hold.create!(member: member_in_front, item: item, creator: member_in_front.user)
       Hold.create!(member: member, item: item, creator: member.user)
