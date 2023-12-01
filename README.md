@@ -214,6 +214,9 @@ During development, you will probably want to log into the app as various users 
 - Member for 18 months `member_for_18_months@example.com`
 - Expired Member `expired_member@example.com`
 - Membership expiring in one week `expires_soon@example.com`
+- Member with loans `member_with_loans@example.com`
+- Member with holds and loans `member_with_holds_and_loans@example.com`
+- Member with an upcoming appointment `member_with_appointment@example.com`
 
 These users are associated with the first seed library, Chicago Tool Library. A similar set of users can be used to log in to
 the second seed library, Denver Tool Library, by appending `.denver` to the username portion of the email address (for example, `admin.denver@example.com`).
