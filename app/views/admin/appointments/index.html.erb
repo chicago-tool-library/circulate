@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="columns">
-  <div class="col-12 admin-appointments" data-controller="appointments-index" data-action="turbo:load@document->appointments-index#arrange">
+  <div class="col-12 admin-appointments">
     <ul class="pagination">
       <li class="page-item page-prev appointments-date-nav">
         <%= link_to admin_appointments_path(day: previous_day) do %>
@@ -25,7 +25,7 @@
 
     <% if @appointments.exists? %>
 
-      <table class="table pending-appointments" data-appointments-index-target="pending">
+      <table class="table pending-appointments">
         <thead>
           <tr>
             <th class="time">Time</th>
@@ -43,7 +43,7 @@
 
       <h2>Completed Appointments</h2>
 
-      <table class="table completed-appointments" data-appointments-index-target="completed">
+      <table class="table completed-appointments">
         <thead>
           <tr>
             <th class="time">Time</th>

@@ -10,9 +10,6 @@ application.register("alert", AlertController)
 import AppointmentDateController from "./appointment_date_controller"
 application.register("appointment-date", AppointmentDateController)
 
-import AppointmentsIndexController from "./appointments_index_controller"
-application.register("appointments-index", AppointmentsIndexController)
-
 import AutocompleteController from "./autocomplete_controller"
 application.register("autocomplete", AutocompleteController)
 
