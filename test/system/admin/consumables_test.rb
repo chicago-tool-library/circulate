@@ -56,6 +56,7 @@ class ConsumablesTest < ApplicationSystemTestCase
     visit admin_appointment_path(appointment)
 
     click_on "Check-out"
+    assert_content "Item checked-out"
 
     visit admin_member_url(@member)
 
@@ -79,6 +80,7 @@ class ConsumablesTest < ApplicationSystemTestCase
     visit admin_appointment_path(appointment)
 
     click_on "Check-out"
+    assert_content "Item checked-out"
 
     visit admin_member_url(@member)
 

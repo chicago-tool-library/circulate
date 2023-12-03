@@ -29,6 +29,7 @@ export default class extends Controller {
     const position = previousItem.dataset.position;
 
     let url = this.data.get("url").replace(":id", id);
+    this.element.ariaBusy = true
 
     turboFetch(url, 'PUT', { position: position })
       .then(response => response.text())
