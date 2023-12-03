@@ -17,6 +17,7 @@ class MemberCheckedOutItemsTest < ApplicationSystemTestCase
     end
 
     click_on @loan.item.name
+    assert_selector "h1", text: @loan.item.name
     assert_equal item_path(@loan.item), current_path
   end
 end

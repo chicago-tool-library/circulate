@@ -40,6 +40,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
     fill_in "Size", with: @item.size
+
     click_on "Update Item"
 
     assert_text "Item was successfully updated"
@@ -112,6 +113,8 @@ class ItemsTest < ApplicationSystemTestCase
     page.find("div[data-value='#{@category2.id}'] a.remove").click
     click_on "Update Item"
 
+    assert_selector "h1", text: @item.name
+
     visit admin_item_history_path(@item)
     assert_text(@category1.name)
     assert_text(@category2.name)
@@ -120,7 +123,7 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_categories_url
     # Destroy first category record
     page.accept_confirm do
-      find("a[href='/admin/categories/#{@category2.id}']", text: "Destroy").click
+      find("form[action='/admin/categories/#{@category2.id}'] button", text: "Destroy").click
     end
     refute_text @category2.name
 

@@ -23,7 +23,7 @@
         <%= link_to edit_admin_category_path(category), class: "btn btn-sm" do %>
           Edit
         <% end %>
-        <%= link_to admin_category_path(category), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" do %>
+        <%= button_to admin_category_path(category), method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" do %>
           Destroy
         <% end %>
       <% end %>

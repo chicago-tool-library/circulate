@@ -5,13 +5,13 @@ module Signup
     def create
       @acceptance = @member.acceptances.new(member: @member, terms: acceptance_params[:terms])
       if @acceptance.save && @current_library.allow_payments?
-        redirect_to new_signup_payment_url
+        redirect_to new_signup_payment_url, status: :see_other
       elsif @acceptance.save
-        redirect_to signup_confirmation_url
+        redirect_to signup_confirmation_url, status: :see_other
       else
         activate_step(:agreement)
         @document = Document.agreement
-        render "signup/documents/agreement"
+        render "signup/documents/agreement", status: :unprocessable_entity
       end
     end
 

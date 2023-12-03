@@ -125,6 +125,10 @@ trix-toolbar {
   }
 }
 
+// These forms exist only to wrap a button
+form.button_to {
+  display: inline;
+}
 
 // Improve contrast on labels
 .label {

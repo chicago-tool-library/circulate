@@ -82,7 +82,7 @@
           <div class="form-group" data-controller="appointment-date">
             <label class="form-label h3" for="time_range_string">Select a time for the appointment</label>
             <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), {include_blank: "Select a Date"},
-                  class: "form-select", data: {action: "appointment-date#sync", target: "appointment-date.select"}, disabled: !can_schedule_appointment) %>
+                  class: "form-select", data: {action: "appointment-date#sync", "appointment-date-target": "select"}, disabled: !can_schedule_appointment) %>
               <span data-appointment-date-target="display"></span>
               <p>Don't worry if you arrive a little bit early or late, as long as it's within the library's open hours.</p>
           </div>
@@ -105,7 +105,7 @@
         <div class="column col-8 col-sm-12 col-mr-auto">
           <h4 class="h5">Need to cancel?</h4>
           <p>You can make a new appointment to pick up or return items at a later time.</p>
-          <%= button_to "Cancel Appointment", account_appointment_path(@appointment), class: "btn", method: :delete, data: {disabled_with: "Canceling appointment...", confirm: "Are you sure to cancel this appointment?"} %>
+          <%= button_to "Cancel Appointment", account_appointment_path(@appointment), class: "btn", method: :delete, data: {turbo_submits_with: "Canceling appointment...", turbo_confirm: "Are you sure to cancel this appointment?"} %>
         </div>
       </div>
     <% end %>
