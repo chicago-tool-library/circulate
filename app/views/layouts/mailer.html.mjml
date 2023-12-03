@@ -22,14 +22,16 @@
       }
     </mj-style>
     <mj-style>
+      .donation {
+        background: #FFEADE;
+        padding: 1em;
+      }
       .warning {
-        border: solid 3px gold;
         background: lemonchiffon;
         padding: 1em;
         margin-bottom: 1em;
       }
       .info {
-        border: solid 3px #67C4E3;
         background: aliceblue;
         padding: 1em;
       }
@@ -59,6 +61,16 @@
         <mj-text>
           <p>If you have any questions, please email us at <%= mail_to @library.email %>.</p>
           <p>See you at the library!</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <div class="donation">
+            <%= render partial: "member_mailer/donation" -%> 
+          </div>
         </mj-text>
       </mj-column>
     </mj-section>

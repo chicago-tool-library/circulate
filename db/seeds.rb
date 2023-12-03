@@ -66,7 +66,7 @@ seed_library(chicago_tool_library)
 denver_tool_library = Library.create!(
   name: "Denver Tool Library",
   hostname: "denver.circulate.local",
-  city: "DEnver",
+  city: "Denver",
   email: "team@denvertoollibrary.org",
   address: <<~ADDRESS.strip,
     Denver Tool Library
