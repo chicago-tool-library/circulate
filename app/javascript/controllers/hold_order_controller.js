@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import Sortable from "sortablejs"
 import { setupFeatherIcons } from "../lib/feather"
+import { turboFetch } from "../lib/request"
 
 export default class extends Controller {
   static targets = [ "tbody" ]
@@ -18,10 +19,6 @@ export default class extends Controller {
       ghostClass: "ghost",
     })
 
-    this.token = document.querySelector(
-      'meta[name="csrf-token"]'
-    ).content;
-
     setupFeatherIcons();
   }
 
@@ -33,20 +30,10 @@ export default class extends Controller {
 
     let url = this.data.get("url").replace(":id", id);
 
-    fetch(url, {
-      method: 'PUT',
-      headers: {
-        'X-CSRF-Token': this.token,
-        'Content-Type': 'application/json',
-        'Accept': "text/vnd.turbo-stream.html",
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        position: position,
-      })
-    }).then(response => response.text())
-    .then(html => {
-      Turbo.renderStreamMessage(html);
-    });
+    turboFetch(url, 'PUT', { position: position })
+      .then(response => response.text())
+      .then(html => {
+        Turbo.renderStreamMessage(html);
+      });
   }
 }

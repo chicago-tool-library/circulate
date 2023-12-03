@@ -17,7 +17,7 @@
           <p>
             This item has been
             <%= link_to "placed on hold by #{pluralize(@item.holds.active.count, "person")}",
-                  admin_item_holds_path(@item) %>.
+                  admin_item_holds_path(@item), data: {turbo_frame: "_top"} %>.
           </p>
         </div>
       <% end %>
@@ -40,7 +40,7 @@
         <div class="image-placeholder"></div>
       <% end %>
 
-      <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn" %>
+      <%= link_to "Cancel", admin_member_path(@member, anchor: "checkout"), class: "btn", data: {turbo_frame: "_top"} %>
     </div>
   </div>
 <% end %>
