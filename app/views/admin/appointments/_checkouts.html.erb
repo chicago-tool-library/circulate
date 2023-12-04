@@ -11,16 +11,27 @@
       <div class="column col-sm-6 col-4">
         <%= tag.div class: "item-image" do %>
           <% if pickup_item.item.image.attached? %>
-            <%= image_tag item_image_url(pickup_item.item.image, resize_to_limit: [160, 112]) %>
+          <%= image_tag item_image_url(pickup_item.item.image, resize_to_limit: [160, 112]) %>
           <% else %>
-            <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
           <% end %>
-        <% end %>
+          <% end %>
         <div class="divider"></div>
       </div>
       <div class="column col-sm-6 col-4">
         <p><%= pickup_item.item.name %></p>
         <p><%= link_to full_item_number(pickup_item.item), admin_item_path(pickup_item.item) %></p>
+        
+        <!-- here are your changes -->
+        <% if pickup_item.item.checkout_notice? %>
+          <div class="info-box">
+            <p>
+              <strong>Checkout Notice:</strong><br>
+              <%= pickup_item.item.checkout_notice %>
+            </p>
+          </div>
+        <% end %>
+
       </div>
       <div class="column col-sm-12 col-4 text-right checkout-button-column">
         <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary btn-sm", data: {disable_with: "Checking-out..."}, disabled: !pickup_item.active? || !member.borrow? %>
