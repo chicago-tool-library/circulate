@@ -15,6 +15,16 @@
             <div class="image-placeholder"></div>
           <% end %>
         <% end %>
+
+        <% if return_item.item.checkout_notice? %>
+        <div class="info-box">
+          <p>
+            <strong>Checkout Notice:</strong><br>
+            <%= return_item.item.checkout_notice %>
+          </p>
+        </div>
+      <% end %>
+
         <% if return_item.checked_out? %>
           <%= link_to "remove item", admin_appointment_loan_path(@appointment, return_item), method: :delete, data: {disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?"} %>
         <% end %>
