@@ -16,6 +16,22 @@
           <% end %>
         <% end %>
 
+        
+        <% if return_item.checked_out? %>
+        <%= link_to "remove item", admin_appointment_loan_path(@appointment, return_item), method: :delete, data: {disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?"} %>
+        <% end %>
+        </div>
+        <div class="column col-sm-6 col-4">
+        <p><%= return_item.item.name %></p>
+        <p><%= link_to full_item_number(return_item.item), admin_item_path(return_item.item) %></p>
+        </div>
+        <div class="column col-sm-12 col-4 text-right">
+        <%= button_to "Check-in", admin_appointment_checkins_path(@appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: {disable_with: "Checking-in..."}, disabled: !return_item.checked_out? %>
+        <% if !return_item.checked_out? %>
+        <em>Item checked-in</em>
+        <% end %>
+        </div>
+        </div>
         <% if return_item.item.checkout_notice? %>
         <div class="info-box">
           <p>
@@ -24,22 +40,6 @@
           </p>
         </div>
       <% end %>
-
-        <% if return_item.checked_out? %>
-          <%= link_to "remove item", admin_appointment_loan_path(@appointment, return_item), method: :delete, data: {disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?"} %>
-        <% end %>
-      </div>
-      <div class="column col-sm-6 col-4">
-        <p><%= return_item.item.name %></p>
-        <p><%= link_to full_item_number(return_item.item), admin_item_path(return_item.item) %></p>
-      </div>
-      <div class="column col-sm-12 col-4 text-right">
-        <%= button_to "Check-in", admin_appointment_checkins_path(@appointment, loan_ids: [return_item.id]), class: "btn btn-primary", data: {disable_with: "Checking-in..."}, disabled: !return_item.checked_out? %>
-        <% if !return_item.checked_out? %>
-          <em>Item checked-in</em>
-        <% end %>
-      </div>
-    </div>
   <% end %>
 
   <% unless items_available_to_add_to_dropoff.empty? %>
