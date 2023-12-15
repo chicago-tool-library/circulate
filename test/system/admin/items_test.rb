@@ -33,8 +33,8 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_url(@item)
     click_on "Edit"
 
-    fill_in "Name", with: @item.name
-    fill_in "Brand", with: @item.brand
+    fill_in "Name", with: "Modified Name"
+    fill_in "Brand", with: "Modified Brand"
     fill_in_rich_text_area "item_description", with: @item.description
     select "Solar", from: "Power source"
     fill_in "Model", with: @item.model
@@ -43,6 +43,8 @@ class ItemsTest < ApplicationSystemTestCase
 
     click_on "Update Item"
 
+    assert_text "Modified Name"
+    assert_text "Modified Brand"
     assert_text "Item was successfully updated"
   end
 

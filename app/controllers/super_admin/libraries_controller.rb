@@ -3,7 +3,7 @@ module SuperAdmin
     skip_before_action :set_tenant
     before_action :require_super_admin
 
-    layout "admin"
+    layout :custom_layout
 
     def index
       @libraries = Library.all
@@ -52,6 +52,12 @@ module SuperAdmin
     end
 
     private
+
+    def custom_layout
+      return "turbo_rails/frame" if turbo_frame_request?
+
+      "admin"
+    end
 
     def require_super_admin
       unless current_user.super_admin?
