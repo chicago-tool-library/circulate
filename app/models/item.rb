@@ -123,11 +123,7 @@ class Item < ApplicationRecord
     if number.blank?
       return unless borrow_policy
 
-      self.number = if borrow_policy.code == "A"
-        self.class.next_number(999)
-      else
-        self.class.next_number
-      end
+      self.number = self.class.next_number
     end
   end
 

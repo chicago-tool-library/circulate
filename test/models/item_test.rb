@@ -11,6 +11,16 @@ class ItemTest < ActiveSupport::TestCase
     assert item.number
   end
 
+  test "assigns a number, with an existing item" do
+    create(:item, number: 999)
+
+    borrow_policy = create(:borrow_policy)
+    item = build(:item, number: nil, borrow_policy: borrow_policy)
+    item.save!
+
+    assert_equal 1000, item.number
+  end
+
   test "it has a due_on date" do
     loan = create(:loan, due_at: Date.tomorrow.end_of_day)
     loan.item.reload
