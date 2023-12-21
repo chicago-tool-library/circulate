@@ -7,7 +7,7 @@
       <p class="text-center">Login to view your loans and holds.</p>
     <% end %>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {turbo: false}) do |f| %>
 
       <div class="field text mb-2">
         <%= f.label :email %><br>

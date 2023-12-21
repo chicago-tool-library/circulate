@@ -1,7 +1,7 @@
 <div id="notes">
   <% @notes.by_creation_date.each do |note| %>
-    <%= render partial: "admin/items/notes/note", locals: { note: note, item: @item } %>
+    <%= render partial: "admin/items/notes/note", locals: {note: note, item: @item} %>
   <% end %>
 </div>
 
-<%= render partial: "admin/items/notes/new_button", locals: { item: @item } %>
+<%= render partial: "admin/items/notes/new_button", locals: {item: @item} %>

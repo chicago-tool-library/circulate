@@ -1,7 +1,7 @@
 <% content_for :header do %>
   <%= index_header preferred_or_default_name(@member) do %>
     <%= link_to "Edit Member", edit_admin_member_path(@member), class: "btn" %>
-    <%= link_to "Add Note to Member", new_admin_member_note_path(@member), class: "btn", data: {turbo_frame: 'new-note'} %>
+    <%= link_to "Add Note to Member", new_admin_member_note_path(@member), class: "btn", data: {turbo_frame: "new-note"} %>
     <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
   <% end %>
 <% end %>
@@ -22,9 +22,8 @@
       </div>
     <% end %>
 
-
     <div class="member-notes">
-      <%= render partial: "admin/members/notes/list", locals: { member: @member } %>
+      <%= render partial: "admin/members/notes/list", locals: {member: @member} %>
     </div>
 
     <ul class="tab member-tabs">

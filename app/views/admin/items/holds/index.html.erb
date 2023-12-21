@@ -9,7 +9,7 @@
   </div>
 
   <% if params[:inactive].blank? %>
-    <%= render "list", locals: { holds: @holds } %>
+    <%= render "list", locals: {holds: @holds} %>
   <% else %>
     <table class="table item-holds-table">
       <thead>

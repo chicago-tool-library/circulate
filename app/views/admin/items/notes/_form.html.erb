@@ -19,7 +19,7 @@
   <% unless note.new_record? %>
     <br>
     <%= tag.div class: "notes-actions" do %>
-      <%= button_to "Delete Note", [:admin, item, note], method: :delete, class: "btn btn-link", data: { 'turbo-confirm': 'Are you sute you want to delete this note?'}  %>
+      <%= button_to "Delete Note", [:admin, item, note], method: :delete, class: "btn btn-link", data: {"turbo-confirm": "Are you sute you want to delete this note?"} %>
     <% end %>
   <% end %>
 </div>

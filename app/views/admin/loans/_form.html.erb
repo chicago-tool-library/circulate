@@ -1,4 +1,9 @@
-<%= form_with(model: [:admin, @member.loans.new], builder: SpectreFormBuilder, data: { turbo_frame: "_top" }) do |form| %>
+<%= form_with(
+      model: [:admin, @member.loans.new],
+      builder: SpectreFormBuilder,
+      data: {turbo_frame: "_top"}
+    ) do |form| %>
+
   <% if flash.key? :checkout_error %>
     <div class="toast toast-error"><%= flash[:checkout_error] %></div>
   <% end %>

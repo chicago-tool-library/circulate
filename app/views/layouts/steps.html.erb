@@ -9,8 +9,8 @@
     <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
       <meta name="turbo-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_include_tag "application", 'data-turbo-track': "reload" %>
-    <%= stylesheet_link_tag "application", media: "all", 'data-turbo-track': "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
   </head>
 
   <body>
