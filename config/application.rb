@@ -10,9 +10,12 @@ require "action_mailer/railtie"
 # require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
-# require "action_cable/engine"
 require "rails/test_unit/railtie"
 require "sprockets/railtie"
+
+# We're not using actioncable, but there's a bug that prevents the app from loading when eagerloading is on
+# https://github.com/hotwired/turbo-rails/issues/512
+require "action_cable/engine"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
