@@ -104,11 +104,8 @@ class Item < ApplicationRecord
   before_save :cache_description_as_plain_text
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
-  def self.next_number(limit = nil)
+  def self.next_number
     item_scope = order("number DESC NULLS LAST")
-    if limit
-      item_scope = item_scope.where("number <= ?", limit)
-    end
     last_item = item_scope.limit(1).first
     return 1 unless last_item
     last_item.number.to_i + 1
