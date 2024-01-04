@@ -65,9 +65,9 @@ module Admin
     end
 
     helper_method def current_day_label
-      if @current_day == Date.today
+      if @current_day == Date.current
         "Today"
-      elsif @current_day == Date.tomorrow
+      elsif @current_day == 1.day.from_now.to_date
         "Tomorrow"
       else
         l @current_day, format: :with_weekday

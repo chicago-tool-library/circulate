@@ -26,7 +26,7 @@ class Admin::Settings::ExportsController < Admin::BaseController
       disposition: "attachment",
       filename: filename
     )
-    response.headers["Last-Modified"] = Time.now.httpdate
+    response.headers["Last-Modified"] = Time.current.httpdate
     exporter.export(response.stream)
   ensure
     response.stream.close
