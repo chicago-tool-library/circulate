@@ -16,7 +16,6 @@
           <% end %>
         <% end %>
 
-        
         <% if return_item.checked_out? %>
         <%= link_to "remove item", admin_appointment_loan_path(@appointment, return_item), method: :delete, data: {disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?"} %>
         <% end %>

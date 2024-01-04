@@ -18,9 +18,8 @@
           <% end %>
         <div class="divider"></div>
 
-        
         </div>
-        
+
         <div class="column col-sm-6 col-4">
         <p><%= pickup_item.item.name %></p>
         <p><%= link_to full_item_number(pickup_item.item), admin_item_path(pickup_item.item) %></p>
@@ -38,7 +37,7 @@
         </div>
         </div>
         </div>
-        
+
         <% if pickup_item.item.checkout_notice? %>
         <div>
           <div class="info-box">
