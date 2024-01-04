@@ -8,7 +8,7 @@ FactoryBot.define do
     status { Item.statuses[:active] }
     before :create, &:assign_number
     borrow_policy
-    checkout_notice { "Make sure all five removable pieces are returned." }
+    checkout_notice { "Example Notice: Make sure all five removable pieces are returned." }
 
     factory :complete_item do
       brand { "Dewalt" }
