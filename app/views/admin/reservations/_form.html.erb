@@ -4,12 +4,14 @@
   <%= form.date_field :ended_at, label: "End" %>
 
   <% @reservable_items.each do |item| %>
-
     <div class="form-group">
       <label class="form-checkbox checkbox-lg">
         <%= check_box_tag("reservation[reservable_item_ids][]", item.id, @reservation.reservable_items.include?(item)) %>
         <i class="form-icon"></i>
         <%= item.name %>
+        <% reservation.errors["reservable_item_ids_#{item.id}"].each do |error| %>
+          <span class="bg-error"><%= error %></span>
+        <% end %>
       </label>
     </div>
   <% end %>

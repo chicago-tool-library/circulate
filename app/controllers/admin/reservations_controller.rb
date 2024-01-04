@@ -41,9 +41,7 @@ module Admin
     def destroy
       @reservation.destroy!
 
-      respond_to do |format|
-        redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
-      end
+      redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
     end
 
     private
