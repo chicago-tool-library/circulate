@@ -11,10 +11,20 @@ class ItemTest < ActiveSupport::TestCase
     assert item.number
   end
 
-  test "assigns a number, with an existing item" do
+  test "assigns the next available for B tools" do
     create(:item, number: 999)
 
-    borrow_policy = create(:borrow_policy)
+    borrow_policy = create(:borrow_policy, code: "B")
+    item = build(:item, number: nil, borrow_policy: borrow_policy)
+    item.save!
+
+    assert_equal 1000, item.number
+  end
+
+  test "assigns the next available number for A tools" do
+    create(:item, number: 999)
+
+    borrow_policy = create(:borrow_policy, code: "A")
     item = build(:item, number: nil, borrow_policy: borrow_policy)
     item.save!
 
