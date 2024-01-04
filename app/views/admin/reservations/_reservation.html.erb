@@ -1,0 +1,26 @@
+<div id="<%= dom_id reservation %>">
+  <p>
+    <strong>Name:</strong>
+    <%= reservation.name %>
+  </p>
+
+  <p>
+    <strong>Start:</strong>
+    <%= reservation.started_at %>
+  </p>
+
+  <p>
+    <strong>End:</strong>
+    <%= reservation.ended_at %>
+  </p>
+
+  <p>
+    <strong>Items:</strong>
+    <ul>
+      <% reservation.reservable_items.each do |item| %>
+        <li><%= item.name %></li>
+      <% end %>
+    </ul>
+  </p>
+
+</div>

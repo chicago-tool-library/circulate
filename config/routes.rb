@@ -167,6 +167,7 @@ Rails.application.routes.draw do
     if ENV["FEATURE_GROUP_LENDING"] == "on"
       # Group Lending
       resources :reservable_items
+      resources :reservations
     end
 
     get "/", to: "dashboard#index", as: "dashboard"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_04_165049) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_04_184509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -232,6 +232,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_04_165049) do
     t.index ["category_id"], name: "index_categorizations_on_category_id"
     t.index ["item_id", "category_id"], name: "index_categorizations_on_item_id_and_category_id"
     t.index ["item_id"], name: "index_categorizations_on_item_id"
+  end
+
+  create_table "date_holds", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.bigint "reservable_item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservable_item_id"], name: "index_date_holds_on_reservable_item_id"
+    t.index ["reservation_id"], name: "index_date_holds_on_reservation_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -467,6 +476,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_04_165049) do
 
   create_table "reservable_items", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

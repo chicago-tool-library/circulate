@@ -1,0 +1,12 @@
+<h1>Reservations</h1>
+
+<div id="reservations">
+  <% @reservations.each do |reservation| %>
+    <%= render reservation %>
+    <p>
+      <%= link_to "Show this reservation", admin_reservation_path(reservation) %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New reservation", new_admin_reservation_path, class: "btn" %>
