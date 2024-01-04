@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @reservable_item %>
+
+<div>
+  <%= link_to "Edit this reservable item", edit_admin_reservable_item_path(@reservable_item) %> |
+  <%= link_to "Back to reservable items", admin_reservable_items_path %>
+
+  <%= button_to "Destroy this reservable item", admin_reservable_item_path(@reservable_item), method: :delete %>
+</div>
