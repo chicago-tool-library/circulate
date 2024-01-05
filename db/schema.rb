@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_04_184509) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_05_191621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_04_184509) do
   ], force: :cascade
 
   create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected"
+  ], force: :cascade
+
+  create_enum :reservation_status, [
+    "pending",
     "requested",
     "approved",
     "rejected"
@@ -486,6 +493,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_04_184509) do
     t.datetime "ended_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "status", default: "pending", enum_type: "reservation_status"
+    t.string "notes"
+    t.datetime "reviewed_at"
+    t.bigint "reviewer_id"
+    t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
   end
 
   create_table "short_links", force: :cascade do |t|
@@ -576,6 +588,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_04_184509) do
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
   add_foreign_key "renewal_requests", "loans"
+  add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"

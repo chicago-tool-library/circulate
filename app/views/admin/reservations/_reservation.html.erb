@@ -15,6 +15,18 @@
   </p>
 
   <p>
+    <strong>Status:</strong>
+    <%= reservation.status %>
+  </p>
+
+  <% if reservation.notes.present? %>
+    <p>
+      <strong>Notes:</strong>
+      <%= reservation.notes %>
+    </p>
+  <% end %>
+
+  <p>
     <strong>Items:</strong>
     <ul>
       <% reservation.reservable_items.each do |item| %>
