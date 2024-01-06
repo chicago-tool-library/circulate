@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @pickup %>
+
+<div>
+  <%= link_to "Edit this pickup", edit_admin_pickup_path(@pickup) %>
+  <%= button_to "Destroy this pickup", [:admin, @pickup], method: :delete, class: "btn" %>
+</div>

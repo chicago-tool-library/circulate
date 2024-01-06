@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Pickups</h1>
+
+<div id="pickups">
+  <% @pickups.each do |pickup| %>
+    <%= render pickup %>
+    <p>
+      <%= link_to "Show this pickup", [:admin, pickup] %>
+    </p>
+  <% end %>
+</div>

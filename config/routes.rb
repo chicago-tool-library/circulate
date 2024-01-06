@@ -172,6 +172,7 @@ Rails.application.routes.draw do
           resource :review, only: [:edit, :update]
         end
       end
+      resources :pickups
     end
 
     get "/", to: "dashboard#index", as: "dashboard"

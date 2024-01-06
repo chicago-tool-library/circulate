@@ -1,9 +1,7 @@
 <%= render @reservation %>
 
 <div>
-  <%= link_to "Edit this reservation", edit_admin_reservation_path(@reservation) %> |
-  <%= link_to "Review this reservation", edit_admin_reservation_review_path(@reservation) %> |
-  <%= link_to "Back to reservations", admin_reservations_path %>
-
-  <%= button_to "Destroy this reservation", admin_reservation_path(@reservation), method: :delete %>
+  <%= link_to "Edit this reservation", edit_admin_reservation_path(@reservation) %><br>
+  <%= link_to "Review this reservation", edit_admin_reservation_review_path(@reservation) %><br>
+  <%= button_to "Destroy this reservation", admin_reservation_path(@reservation), method: :delete, class: "btn" %>
 </div>

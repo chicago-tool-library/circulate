@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_05_191621) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_06_201843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_05_191621) do
     "sent",
     "bounced",
     "error"
+  ], force: :cascade
+
+  create_enum :pickup_status, [
+    "building",
+    "ready_for_pickup",
+    "picked_up",
+    "cancelled"
   ], force: :cascade
 
   create_enum :power_source, [
@@ -471,6 +478,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_05_191621) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "pickups", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.enum "status", default: "building", null: false, enum_type: "pickup_status"
+    t.bigint "reservation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_pickups_on_creator_id"
+    t.index ["reservation_id"], name: "index_pickups_on_reservation_id"
+  end
+
   create_table "renewal_requests", force: :cascade do |t|
     t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
@@ -587,6 +604,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_05_191621) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "pickups", "reservations"
+  add_foreign_key "pickups", "users", column: "creator_id"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"

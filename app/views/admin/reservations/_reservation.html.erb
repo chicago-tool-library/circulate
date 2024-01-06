@@ -35,4 +35,9 @@
     </ul>
   </p>
 
+  <% if reservation.pickup %>
+    <%= link_to "View Pickup", admin_pickups_path(reservation.pickup) %>
+  <% else %>
+    <%= button_to "Create Pickup from this reservation", admin_pickups_path(reservation_id: reservation), method: :create, remote: true, class: "btn" %>
+  <% end %>
 </div>

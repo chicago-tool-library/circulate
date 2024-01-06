@@ -15,6 +15,7 @@ class Reservation < ApplicationRecord
   has_many :date_holds
   has_many :reservable_items, through: :date_holds
   belongs_to :reviewer, class_name: "User", required: false
+  has_one :pickup
 
   private
 

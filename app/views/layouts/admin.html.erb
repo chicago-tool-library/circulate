@@ -33,6 +33,7 @@
               <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
                 <li class="nav-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>
                 <li class="nav-item"><%= link_to "Reservations", admin_reservations_path %></li>
+                <li class="nav-item"><%= link_to "Pickups", admin_pickups_path %></li>
               <% end %>
             </ul>
           </li>
@@ -128,6 +129,7 @@
                   <li class="menu-item"><div class="divider"></div></li>
                   <li class="menu-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>
                   <li class="menu-item"><%= link_to "Reservations", admin_reservations_path %></li>
+                  <li class="menu-item"><%= link_to "Pickups", admin_pickups_path %></li>
                 <% end %>
               </ul>
             </div>

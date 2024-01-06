@@ -1,0 +1,7 @@
+<%= form_with(model: pickup, url: [:admin, pickup], builder: SpectreFormBuilder) do |form| %>
+  <%= form.text_field :status %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
