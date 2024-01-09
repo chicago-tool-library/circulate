@@ -41,8 +41,19 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
     User.create!(email: expires_in_one_week_member.email, password: "password", member: expires_in_one_week_member)
     Membership.create!(member: expires_in_one_week_member, started_at: 351.days.ago, ended_at: 14.days.since)
 
-    3.upto(7).each do |number|
-      Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "event#{number}#{email_suffix}", start: number.days.since, finish: number.days.since + 2.hours)
+    Time.use_zone "America/Chicago" do
+      monday_morning_at_midnight = Time.current.at_beginning_of_week
+
+      52.times do |week| # for each day in the next year
+        3.upto(5).each do |day| # on Thursday, Friday, and Saturday
+          ten_am = monday_morning_at_midnight + week.weeks + day.days + 10.hours
+          noon = ten_am + 2.hours
+          two_pm = ten_am + 4.hours
+
+          Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "morning#{week}#{day}#{email_suffix}", start: ten_am, finish: noon)
+          Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "afternoon#{week}#{day}#{email_suffix}", start: noon, finish: two_pm)
+        end
+      end
     end
 
     LibraryUpdate.create(title: "December updates", body: "<h1>Library Closures!</h1><div>The tool library will be closed for a bit.</div>", published: true)
