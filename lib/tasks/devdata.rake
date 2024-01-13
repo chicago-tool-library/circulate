@@ -45,6 +45,7 @@ namespace :devdata do
   end
 
   task load: :environment do
+    Document.delete_all # There are some documents created in old migrations that we can safely blow away.
     Library.all.each_with_index do |library, index|
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
@@ -54,6 +55,7 @@ namespace :devdata do
           load_models BorrowPolicy, id_offset: offset
           load_models Category, id_offset: offset
           load_models Item, id_offset: offset
+          load_models ActionText::RichText, id_offset: offset
         end
       end
     end
