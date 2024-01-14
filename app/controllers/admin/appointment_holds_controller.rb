@@ -17,7 +17,7 @@ module Admin
     def remove_appointment_hold
       @remove_appointment_hold ||= appointment.appointment_holds.find_by(hold_id: params[:id]).destroy
 
-      if params[:cancel_hold]
+      if params[:cancel_hold].to_s.downcase == 'true'
         Hold.find(params[:id]).destroy
       end
     end
