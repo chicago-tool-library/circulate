@@ -29,27 +29,25 @@
         <div class="checkout-button-group">
           <% if pickup_item.active? %>
             <%= button_to "Cancel Hold",
-              admin_appointment_hold_path(@appointment, pickup_item),
-              { params: {cancel_hold: true},
-                method: :delete,
-                class: "btn btn-sm mt-2 float-right",
-                data: {
-                  disable_with: "Canceling...",
-                  turbo_confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?"
-                }
-              } 
-            %>
+                  admin_appointment_hold_path(@appointment, pickup_item), {
+                    params: {cancel_hold: true},
+                    method: :delete,
+                    class: "btn btn-sm mt-2 float-right",
+                    data: {
+                      disable_with: "Canceling...",
+                      turbo_confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?"
+                    }
+                  } %>
             <%= button_to "Remove Item",
-              admin_appointment_hold_path(@appointment, pickup_item),
-              { params: {cancel_hold: false},
-                method: :delete,
-                class: "btn btn-sm mt-2 float-right",
-                data: {
-                  disable_with: "Removing...",
-                  turbo_confirm: "Are you sure you want to remove this item from the appointment?"
-                }
-              }
-            %>
+                  admin_appointment_hold_path(@appointment, pickup_item), {
+                    params: {cancel_hold: false},
+                    method: :delete,
+                    class: "btn btn-sm mt-2 float-right",
+                    data: {
+                      disable_with: "Removing...",
+                      turbo_confirm: "Are you sure you want to remove this item from the appointment?"
+                    }
+                  } %>
           <% end %>
           <% if !pickup_item.active? %>
             <em>Item checked-out</em>
