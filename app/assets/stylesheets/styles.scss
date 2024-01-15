@@ -697,7 +697,7 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items, .member-appointment-form {
+  .member-lookup-items, .member-appointment-form, .member-panel, .checkout-notice {
     background: white;
     padding: .7rem .5rem;
     .info-box {
@@ -766,6 +766,10 @@ form.membership-amount {
     p:last-of-type {
       margin-bottom: 0;
     }
+  }
+
+  .checkout-notice {
+    padding: 0;
   }
 }
 

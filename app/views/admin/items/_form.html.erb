@@ -94,7 +94,7 @@
   <% unless item.new_record? %>
     <details>
       <summary>Number: <strong><%= item.number %></strong></summary>
-      <%= form.text_field :number, hint: "Only change this with good reason! Next available A number is #{Item.next_number(999)}." %>
+      <%= form.text_field :number, hint: "Only change this with good reason! Next available A number is #{Item.next_number}." %>
     </details>
   <% end %>
 

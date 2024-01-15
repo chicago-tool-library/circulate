@@ -4,11 +4,13 @@
   </div>
 
   <% if @item.checkout_notice.present? %>
-    <div class="info-box">
-      <p>
-        <strong>Checkout Notice:</strong><br>
-        <%= @item.checkout_notice %>
-      </p>
+    <div class="checkout-notice">
+      <div class="info-box">
+        <p>
+          <strong>Checkout Notice:</strong><br>
+          <%= @item.checkout_notice %>
+        </p>
+      </div>
     </div>
   <% end %>
 

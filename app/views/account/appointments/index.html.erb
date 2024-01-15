@@ -43,7 +43,7 @@
                             <%= link_to loan.item.name, item_path(loan.item) %> (<%= loan.item.complete_number %>)
                           </span>
                           <span class="status">
-                            <%= tag.span "Due #{humanize_due_date(loan)}", class: ("warning" if loan.due_at - Time.now < 3.days) %>
+                            <%= tag.span "Due #{humanize_due_date(loan)}", class: ("warning" if loan.due_at - Time.current < 3.days) %>
                             <br>
                           </span>
                         </div>
