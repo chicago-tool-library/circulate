@@ -10,7 +10,7 @@ module Admin
         renew_loan(loan) if loan.renewable?
       end
 
-      redirect_to admin_member_url(@member.id)
+      redirect_to admin_member_url(@member.id), status: :see_other
     end
 
     private

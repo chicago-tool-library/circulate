@@ -19,10 +19,10 @@ module Signup
         MemberMailer.with(member: @member).welcome_message.deliver_later
 
         reset_session
-        redirect_to signup_confirmation_url
+        redirect_to signup_confirmation_url, status: :see_other
       else
         activate_step(:payment)
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 

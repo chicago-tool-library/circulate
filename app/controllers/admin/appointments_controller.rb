@@ -30,16 +30,16 @@ module Admin
 
     def update
       if @appointment.update(appointment_params)
-        redirect_to admin_appointments_path, flash: {success: "Appointment updated."}
+        redirect_to admin_appointments_path, flash: {success: "Appointment updated."}, status: :see_other
       else
         load_appointment_slots
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       @appointment.destroy
-      redirect_to admin_appointments_path, flash: {success: "Appointment cancelled."}
+      redirect_to admin_appointments_path, flash: {success: "Appointment cancelled."}, status: :see_other
     end
 
     private

@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
@@ -27,7 +27,7 @@ export default class extends Controller {
   // Send data to server
   submit(method) {
     const itemID = this.data.get("id");
-    
+
     let url = new URL("/holds/items", document.location);
     if (method ==="POST") {
       url.searchParams.set("item_id", itemID);
@@ -36,7 +36,7 @@ export default class extends Controller {
     }
 
     // this.toggleLoader(true);
-    
+
     const crsfMeta = document.querySelector("meta[name=csrf-token]");
     const headers = crsfMeta ? { "X-CSRF-Token": crsfMeta.content } : {};
 
@@ -60,7 +60,7 @@ export default class extends Controller {
       if (existingCard) {
         existingCard.replaceWith(newCard);
       }
-      document.dispatchEvent(new Event("turbolinks:load"));
+      document.dispatchEvent(new Event("turbo:load"));
     }).catch((e) => {
       // this.toggleLoader(false);
       console.error(e);

@@ -119,6 +119,29 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.19.3.tgz#e5036be529f757e58d9a7771f2f1b14782986a74"
   integrity sha512-FbUN+0ZRXsypPyWE2IwIkVjDkDnJoMJARWOcFZn4KPPli+QnKqF0z1anvfaYe3ev5HFCpRDLLBDHyOALLppWHw==
 
+"@hotwired/stimulus@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.2.2.tgz#071aab59c600fed95b97939e605ff261a4251608"
+  integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
+
+"@hotwired/turbo-rails@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-7.3.0.tgz#422c21752509f3edcd6c7b2725bbe9e157815f51"
+  integrity sha512-fvhO64vp/a2UVQ3jue9WTc2JisMv9XilIC7ViZmXAREVwiQ2S4UC7Go8f9A1j4Xu7DBI6SbFdqILk5ImqVoqyA==
+  dependencies:
+    "@hotwired/turbo" "^7.3.0"
+    "@rails/actioncable" "^7.0"
+
+"@hotwired/turbo@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@hotwired/turbo/-/turbo-7.3.0.tgz#2226000fff1aabda9fd9587474565c9929dbf15d"
+  integrity sha512-Dcu+NaSvHLT7EjrDrkEmH4qET2ZJZ5IcCWmNXxNQTBwlnE5tBZfN6WxZ842n5cHV52DH/AKNirbPBtcEXDLW4g==
+
+"@rails/actioncable@^7.0":
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.1.1.tgz#e8c49769d41f35a4473133c259cc98adc04dddf8"
+  integrity sha512-ZRJ9rdwFQQjRbtgJnweY0/4UQyxN6ojEGRdib0JkjnuIciv+4ok/aAeZmBJqNreTMaBqS0eHyA9hCArwN58opg==
+
 "@rails/actioncable@^7.1.2":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.1.2.tgz#d261ff4b72844f5af496671346ec478798f4ac2c"
@@ -142,30 +165,6 @@
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.1.2.tgz#ea903bcc0224e17156015d995b6f1b83e27d64b2"
   integrity sha512-c5x02djEKEVVE4qfN4XgElJS4biM0xxtIVpcJ0ZHLK116U19rowTtmD0AJ/RCb3Xaewa4GPIWLlwgeC0dCQqzw==
-
-"@stimulus/core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@stimulus/core/-/core-1.1.1.tgz#42b0cfe5b73ca492f41de64b77a03980bae92c82"
-  integrity sha512-PVJv7IpuQx0MVPCBblXc6O2zbCmU8dlxXNH4bC9KK6LsvGaE+PCXXrXQfXUwAsse1/CmRu/iQG7Ov58himjiGg==
-  dependencies:
-    "@stimulus/mutation-observers" "^1.1.1"
-
-"@stimulus/multimap@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@stimulus/multimap/-/multimap-1.1.1.tgz#b95e3fd607345ab36e5d5b55486ee1a12d56b331"
-  integrity sha512-26R1fI3a8uUj0WlMmta4qcfIQGlagegdP4PTz6lz852q/dXlG6r+uPS/bx+H8GtfyS+OOXVr3SkZ0Zg0iRqRfQ==
-
-"@stimulus/mutation-observers@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@stimulus/mutation-observers/-/mutation-observers-1.1.1.tgz#0f6c6f081308427fed2a26360dda0c173b79cfc0"
-  integrity sha512-/zCnnw1KJlWO2mrx0yxYaRFZWMGnDMdOgSnI4hxDLxdWVuL2HMROU8FpHWVBLjKY3T9A+lGkcrmPGDHF3pfS9w==
-  dependencies:
-    "@stimulus/multimap" "^1.1.1"
-
-"@stimulus/webpack-helpers@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@stimulus/webpack-helpers/-/webpack-helpers-1.1.1.tgz#eff60cd4e58b921d1a2764dc5215f5141510f2c2"
-  integrity sha512-XOkqSw53N9072FLHvpLM25PIwy+ndkSSbnTtjKuyzsv8K5yfkFB2rv68jU1pzqYa9FZLcvZWP4yazC0V38dx9A==
 
 "@types/node@*":
   version "14.11.5"
@@ -1729,14 +1728,6 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-stimulus@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/stimulus/-/stimulus-1.1.1.tgz#53c2fded6849e7b85eed3ed8dd76e33abd74bec5"
-  integrity sha512-R0mBqKp48YnRDZOxZ8hiOH4Ilph3Yj78CIFTBkCwyHs4iGCpe7xlEdQ7cjIxb+7qVCSxFKgxO+mAQbsNgt/5XQ==
-  dependencies:
-    "@stimulus/core" "^1.1.1"
-    "@stimulus/webpack-helpers" "^1.1.1"
-
 string-width@^4.1.0, string-width@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.0.tgz#952182c46cc7b2c313d1596e623992bd163b72b5"
@@ -1813,11 +1804,6 @@ tslib@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
-
-turbolinks@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/turbolinks/-/turbolinks-5.2.0.tgz#e6877a55ea5c1cb3bb225f0a4ae303d6d32ff77c"
-  integrity sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==
 
 typedarray@^0.0.6:
   version "0.0.6"

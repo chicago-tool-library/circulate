@@ -90,7 +90,7 @@ class ItemsController < ApplicationController
       accepted_params[filter_param] = params[filter_param]
     end
 
-    redirect_to(items_path(filter_params), error: error_message)
+    redirect_to items_path(filter_params), error: error_message, status: :see_other
   end
 
   def index_order

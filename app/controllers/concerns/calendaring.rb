@@ -27,11 +27,11 @@ module Calendaring
     result = google_calendar.add_attendee_to_event(@attendee, event_id)
     if result.success?
       Event.update_event(result.value)
-      redirect_to volunteer_shifts_url, success: "You have signed up for the shift."
+      redirect_to volunteer_shifts_url, success: "You have signed up for the shift.", status: :see_other
     else
       Rails.logger.error(result.error)
       Raven.capture_message(result.error.inspect)
-      redirect_to volunteer_event_url(event_ids: [event_id]), error: result.error
+      redirect_to volunteer_event_url(event_ids: [event_id]), error: result.error, status: :see_other
     end
   end
 
@@ -40,11 +40,11 @@ module Calendaring
     result = google_calendar.remove_attendee_from_event(@attendee, event_id)
     if result.success?
       Event.update_event(result.value)
-      redirect_to volunteer_shifts_url, success: "Your signup was cancelled."
+      redirect_to volunteer_shifts_url, success: "Your signup was cancelled.", status: :see_other
     else
       Rails.logger.error(result.error)
       Raven.capture_message(result.error.inspect)
-      redirect_to volunteer_event_url(event_ids: [event_id]), error: result.error
+      redirect_to volunteer_event_url(event_ids: [event_id]), error: result.error, status: :see_other
     end
   end
 

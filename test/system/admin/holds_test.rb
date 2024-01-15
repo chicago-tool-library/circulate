@@ -177,9 +177,11 @@ class HoldsTest < ApplicationSystemTestCase
 
     # Make the first hold the last
     @handles.first.drag_to @handles.last
-    reordered_hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
+    # Wait for the update to complete
+    assert_no_selector "div[data-controller='hold-order'][aria-busy='true']"
 
     # make sure it worked
+    reordered_hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
     expected_hold_ids = hold_ids[1..] + [hold_ids[0]]
     assert_equal expected_hold_ids, reordered_hold_ids
 

@@ -2,7 +2,7 @@
   <div class="columns col-oneline">
     <div class="column col-8"><h4>Items to be checked-out (<%= checkout_items_quantity_for_appointment %>)</h4></div>
     <div class="column col-sm-12 col-4 text-right">
-      <%#= button_to "Check-out All", admin_appointment_checkouts_path(@appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? || !member.borrow? %>
+      <%#= button_to "Check-out All", admin_appointment_checkouts_path(@appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", turbo_confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? || !member.borrow? %>
     </div>
   </div>
 
@@ -25,15 +25,33 @@
         <p><%= link_to full_item_number(pickup_item.item), admin_item_path(pickup_item.item) %></p>
         </div>
         <div class="column col-sm-12 col-4 text-right checkout-button-column">
-        <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [pickup_item.id]), class: "btn btn-primary btn-sm", data: {disable_with: "Checking-out..."}, disabled: !pickup_item.active? || !member.borrow? %>
+        <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [pickup_item.id]), {class: "btn btn-primary btn-sm", data: {disable_with: "Checking-out..."}, disabled: !pickup_item.active? || !member.borrow?} %>
         <div class="checkout-button-group">
-        <% if pickup_item.active? %>
-        <%= button_to "Cancel Hold", admin_appointment_hold_path(@appointment, pickup_item, cancel_hold: true), class: "btn btn-sm mt-2 float-right", method: :delete, data: {disable_with: "Canceling...", confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?"} %>
-        <%= button_to "Remove Item", admin_appointment_hold_path(@appointment, pickup_item, cancel_hold: false), class: "btn btn-sm mt-2 float-right", method: :delete, data: {disable_with: "Removing...", confirm: "Are you sure you want to remove this item from the appointment?"} %>
-        <% end %>
-        <% if !pickup_item.active? %>
-        <em>Item checked-out</em>
-        <% end %>
+          <% if pickup_item.active? %>
+            <%= button_to "Cancel Hold",
+                  admin_appointment_hold_path(@appointment, pickup_item), {
+                    params: {cancel_hold: true},
+                    method: :delete,
+                    class: "btn btn-sm mt-2 float-right",
+                    data: {
+                      disable_with: "Canceling...",
+                      turbo_confirm: "Are you sure you want to remove this item from the appointment and cancel the member's hold?"
+                    }
+                  } %>
+            <%= button_to "Remove Item",
+                  admin_appointment_hold_path(@appointment, pickup_item), {
+                    params: {cancel_hold: false},
+                    method: :delete,
+                    class: "btn btn-sm mt-2 float-right",
+                    data: {
+                      disable_with: "Removing...",
+                      turbo_confirm: "Are you sure you want to remove this item from the appointment?"
+                    }
+                  } %>
+          <% end %>
+          <% if !pickup_item.active? %>
+            <em>Item checked-out</em>
+          <% end %>
         </div>
         </div>
         </div>

@@ -17,10 +17,10 @@ module Admin
         @hold.transaction do
           if @hold.save
             @hold.start! if @hold.ready_for_pickup?
-            redirect_to admin_member_holds_path(@member, anchor: dom_id(@hold))
+            redirect_to admin_member_holds_path(@member, anchor: dom_id(@hold)), status: :see_other
           else
             flash[:checkout_error] = @hold.errors.full_messages_for(:item_id).join
-            redirect_to admin_member_holds_path(@member, anchor: "checkout")
+            redirect_to admin_member_holds_path(@member, anchor: "checkout"), status: :see_other
           end
         end
       end
@@ -28,9 +28,9 @@ module Admin
       def lend
         @hold = @member.active_holds.find(params[:id])
         if create_loan_from_hold(@hold)
-          redirect_to admin_member_holds_path(@hold.member)
+          redirect_to admin_member_holds_path(@hold.member), status: :see_other
         else
-          redirect_to admin_member_holds_path(@hold.member), error: "That hold could not be loaned"
+          redirect_to admin_member_holds_path(@hold.member), error: "That hold could not be loaned", status: :see_other
         end
       end
 
@@ -38,7 +38,7 @@ module Admin
         @hold = @member.active_holds.find(params[:id])
 
         @hold.destroy!
-        redirect_to admin_member_holds_path(@hold.member)
+        redirect_to admin_member_holds_path(@hold.member), status: :see_other
       end
 
       def history

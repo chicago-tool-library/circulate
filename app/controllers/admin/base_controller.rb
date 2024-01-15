@@ -4,9 +4,15 @@ module Admin
     before_action :require_staff
     before_action :load_requested_renewal_request_count
 
-    layout "admin"
+    layout :custom_layout
 
     private
+
+    def custom_layout
+      return "turbo_rails/frame" if turbo_frame_request?
+
+      "admin"
+    end
 
     def require_staff
       unless current_user.roles.include?(:staff)

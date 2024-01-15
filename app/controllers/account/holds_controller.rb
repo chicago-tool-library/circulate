@@ -11,9 +11,9 @@ module Account
       @new_hold.transaction do
         if @new_hold.save
           @new_hold.start! if @new_hold.ready_for_pickup?
-          redirect_to item_path(@item), success: "Hold placed."
+          redirect_to item_path(@item), success: "Hold placed.", status: :see_other
         else
-          redirect_to item_path(@item), error: "Something went wrong!"
+          redirect_to item_path(@item), error: "Something went wrong!", status: :see_other
         end
       end
     end
@@ -22,7 +22,7 @@ module Account
       hold = current_member.active_holds.find(params[:id])
       hold.cancel!
 
-      redirect_to account_holds_path
+      redirect_to account_holds_path, status: :see_other
     end
 
     def history

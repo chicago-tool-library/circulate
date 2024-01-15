@@ -18,12 +18,12 @@ module Signup
 
       result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
-        redirect_to result.value, allow_other_host: true
+        redirect_to result.value, allow_other_host: true, status: :see_other
       else
         errors = result.error
         Rails.logger.error(errors)
         flash[:error] = "There was a problem connecting to our payment processor."
-        redirect_to new_signup_payment_url
+        redirect_to new_signup_payment_url, status: :see_other
       end
     end
 
@@ -31,7 +31,7 @@ module Signup
       # completing in person
       MemberMailer.with(member: @member).welcome_message.deliver_later
       reset_session
-      redirect_to signup_confirmation_url
+      redirect_to signup_confirmation_url, status: :see_other
     end
 
     def callback
@@ -47,7 +47,7 @@ module Signup
         reset_session
         session[:amount] = amount.cents
 
-        redirect_to signup_confirmation_url
+        redirect_to signup_confirmation_url, status: :see_other
         return
       end
 
@@ -65,7 +65,7 @@ module Signup
       Rails.logger.error(errors)
       reset_session
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
-      redirect_to signup_confirmation_url
+      redirect_to signup_confirmation_url, status: :see_other
     end
 
     private

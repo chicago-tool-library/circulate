@@ -20,19 +20,19 @@ module Renewal
 
       result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_renewal_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
-        redirect_to result.value, allow_other_host: true
+        redirect_to result.value, status: :see_other, allow_other_host: true
       else
         errors = result.error
         Rails.logger.error(errors)
         flash[:error] = "There was a problem connecting to our payment processor."
-        redirect_to new_renewal_payment_url
+        redirect_to new_renewal_payment_url, status: :see_other
       end
     end
 
     def skip
       # completing in person
       MemberMailer.with(member: @member).renewal_message.deliver_later
-      redirect_to renewal_confirmation_url
+      redirect_to renewal_confirmation_url, status: :see_other
     end
 
     def callback
@@ -47,7 +47,7 @@ module Renewal
 
         session[:amount] = amount.cents
 
-        redirect_to renewal_confirmation_url
+        redirect_to renewal_confirmation_url, status: :see_other
         return
       end
 
@@ -65,7 +65,7 @@ module Renewal
       Rails.logger.error(errors)
       session.delete(:attempts)
       flash[:error] = "There was an error processing your payment. Please come into the library to complete signup."
-      redirect_to renewal_confirmation_url
+      redirect_to renewal_confirmation_url, status: :see_other
     end
 
     private

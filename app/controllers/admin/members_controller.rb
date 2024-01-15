@@ -35,25 +35,25 @@ module Admin
       @member = Member.new(member_params)
 
       if @member.save
-        redirect_to [:admin, @member], success: "Member was successfully created."
+        redirect_to [:admin, @member], success: "Member was successfully created.", status: :see_other
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 
     def update
       if @member.update(member_params)
-        redirect_to [:admin, @member], success: "Member was successfully updated."
+        redirect_to [:admin, @member], success: "Member was successfully updated.", status: :see_other
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       if @member.destroy
-        redirect_to admin_members_url, success: "Member was successfully destroyed."
+        redirect_to admin_members_url, success: "Member was successfully destroyed.", status: :see_other
       else
-        redirect_to admin_member_url(@member), error: "Member could not be destroyed."
+        redirect_to admin_member_url(@member), error: "Member could not be destroyed.", status: :see_other
       end
     end
 

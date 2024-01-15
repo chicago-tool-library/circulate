@@ -22,7 +22,7 @@ module Admin
           @ticket_update_form = TicketUpdateForm.new(@ticket, ticket_update_create_params)
 
           if @ticket_update_form.save
-            redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully created."
+            redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully created.", status: :see_other
           else
             render :new, status: :unprocessable_entity
           end
@@ -30,7 +30,7 @@ module Admin
 
         def update
           if @ticket_update.update(ticket_update_update_params)
-            redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully saved."
+            redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully saved.", status: :see_other
           else
             render :edit, status: :unprocessable_entity
           end
@@ -38,7 +38,7 @@ module Admin
 
         def destroy
           @ticket_update.destroy
-          redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully destroyed."
+          redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully destroyed.", status: :see_other
         end
 
         private

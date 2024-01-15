@@ -209,6 +209,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     select_first_available_date
     fill_in_optional_field("First appointment")
     click_on "Schedule Appointment"
+    assert_content "Your appointment was scheduled"
 
     visit new_account_appointment_path(@appointment)
     check_list_item_with_name(@held_item2.complete_number)

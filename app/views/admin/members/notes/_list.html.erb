@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "new-note" do %><% end %>
+
+<div id="notes">
+  <% @member.notes.with_all_rich_text.by_creation_date.each do |note| %>
+    <%= render partial: "admin/members/notes/note", locals: {note: note, member: @member} %>
+  <% end %>
+</div>

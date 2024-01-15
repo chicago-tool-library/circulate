@@ -16,7 +16,7 @@ module Admin
       @renewal_request = RenewalRequest.find(params[:id])
 
       if @renewal_request.loan.ended?
-        redirect_to admin_renewal_requests_url, error: "That item is not on loan"
+        redirect_to admin_renewal_requests_url, error: "That item is not on loan", status: :see_other
         return
       end
 
@@ -28,7 +28,7 @@ module Admin
         {error: "Something went wrong!"}
       end
 
-      redirect_to admin_renewal_requests_url, flash: flash_message
+      redirect_to admin_renewal_requests_url, flash: flash_message, status: :see_other
     end
 
     private

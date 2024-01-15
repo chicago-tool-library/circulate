@@ -8,7 +8,7 @@
   <details>
     <summary>Destroy this item?</summary>
     <%= action_bar "If you destroy this item, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
-      <%= button_to "Destroy Item", [:admin, @item], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+      <%= button_to "Destroy Item", [:admin, @item], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
     <% end %>
   </details>
 </div>

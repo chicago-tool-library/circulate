@@ -13,9 +13,9 @@ module Admin
       def create
         @form = MembershipForm.new(@member, membership_form_params)
         if @form.save
-          redirect_to admin_member_memberships_path(@member), success: "Membership created."
+          redirect_to admin_member_memberships_path(@member), success: "Membership created.", status: :see_other
         else
-          render :new
+          render :new, status: :unprocessable_entity
         end
       end
 
@@ -25,9 +25,9 @@ module Admin
 
         if @membership
           @membership.start!
-          redirect_to admin_member_memberships_path(@member), success: "Membership started."
+          redirect_to admin_member_memberships_path(@member), success: "Membership started.", status: :see_other
         else
-          redirect_to admin_member_path(@member), error: "Could not start membership"
+          redirect_to admin_member_path(@member), error: "Could not start membership", status: :see_other
         end
       end
 

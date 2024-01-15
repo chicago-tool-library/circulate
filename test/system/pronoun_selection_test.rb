@@ -10,8 +10,10 @@ class PronounSelectionTest < ApplicationSystemTestCase
     visit signup_url
 
     click_on "Sign Up as an Individual"
+    assert_selector "li.step-item.active", text: "Rules"
 
     click_on "Continue"
+    assert_selector "li.step-item.active", text: "Profile"
 
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
@@ -28,8 +30,11 @@ class PronounSelectionTest < ApplicationSystemTestCase
     fill_in "Password confirmation", with: "password", match: :prefer_exact
     click_on "Save and Continue"
 
+    assert_selector "li.step-item.active", text: "Agreement"
     first("label", text: "I have read, understand, and agree to these terms.").click
     click_on "Continue"
+
+    assert_selector "li.step-item.active", text: "Payment"
 
     # Ideally this would be verified through the UI, but this will do.
     assert_equal Member.last.pronouns, ["he/him", "she/her", "they/them", "custom"]

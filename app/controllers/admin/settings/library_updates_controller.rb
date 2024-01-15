@@ -19,23 +19,23 @@ class Admin::Settings::LibraryUpdatesController < Admin::BaseController
     @library_update = LibraryUpdate.new(library_update_params)
 
     if @library_update.save
-      redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update))
+      redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update)), status: :see_other
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     if @library_update.update(library_update_params)
-      redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update))
+      redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update)), status: :see_other
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @library_update.destroy
-    redirect_to admin_settings_library_updates_url, success: "Library Update was successfully destroyed."
+    redirect_to admin_settings_library_updates_url, success: "Library Update was successfully destroyed.", status: :see_other
   end
 
   private

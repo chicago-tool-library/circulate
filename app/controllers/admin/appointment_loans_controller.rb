@@ -4,12 +4,12 @@ module Admin
 
     def create
       add_new_appointment_loan
-      redirect_to admin_appointment_path(appointment), flash: create_flash_message
+      redirect_to admin_appointment_path(appointment), flash: create_flash_message, status: :see_other
     end
 
     def destroy
       remove_appointment_loan
-      redirect_to admin_appointment_path(appointment), flash: {success: "Item removed from appointment."}
+      redirect_to admin_appointment_path(appointment), flash: {success: "Item removed from appointment."}, status: :see_other
     end
 
     private

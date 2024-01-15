@@ -10,7 +10,7 @@ module Admin
       @manual_import = ManualImport.new(manual_import_params)
       if @manual_import.valid?
         @manual_import.update_item!(@item)
-        redirect_to admin_item_path(@item), success: "The manual was imported."
+        redirect_to admin_item_path(@item), success: "The manual was imported.", status: :see_other
       else
         render :edit, status: :unprocessable_entity
       end

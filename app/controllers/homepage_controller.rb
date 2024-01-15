@@ -8,7 +8,7 @@ class HomepageController < ApplicationController
     HomepageMailer.with(homepage_params: homepage_params[:homepage]).inquiry.deliver_later
 
     # TO DO: render flash message on redirection
-    redirect_to homepage_index_path
+    redirect_to homepage_index_path, status: :see_other
   end
 
   private
