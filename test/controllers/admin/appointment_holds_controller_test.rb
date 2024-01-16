@@ -32,7 +32,7 @@ module Admin
 
     test "remove item with cancel_hold false" do
       # Test that when `cancel_hold` is false, the hold is deleted from the appointment
-      # but the member still has the hold. This test emulates the behavior of the 
+      # but the member still has the hold. This test emulates the behavior of the
       # "Remove Item" button on the librarian view of an appointment.
       assert_difference("@appointment.holds.count", -1) do
         assert_no_difference("@member.holds.count") do
