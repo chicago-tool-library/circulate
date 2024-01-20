@@ -17,7 +17,7 @@ module Admin
 
       redirect_to admin_appointment_path(@appointment), flash: {
         success: "#{helpers.pluralize(returned_item_count, "Item")} checked-in."
-      }
+      }, status: :see_other
     end
   end
 end

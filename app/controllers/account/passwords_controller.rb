@@ -8,9 +8,9 @@ module Account
       @user = current_user
       if @user.update_with_password(user_params)
         bypass_sign_in(@user)
-        redirect_to account_member_url, success: "Your password has been updated."
+        redirect_to account_member_url, success: "Your password has been updated.", status: :see_other
       else
-        redirect_to edit_account_password_url, warning: @user.errors.full_messages.join(". ").to_s
+        redirect_to edit_account_password_url, warning: @user.errors.full_messages.join(". ").to_s, status: :see_other
       end
     end
 

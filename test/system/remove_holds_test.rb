@@ -11,7 +11,7 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     @hold = create(:hold, item: @held_item, member: @member)
 
     visit account_holds_path
-    accept_confirm { click_link "Remove Hold" }
+    accept_confirm { click_on "Remove Hold" }
 
     assert_text "You have no items on hold"
   end
@@ -27,7 +27,7 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     @appointment = create(:appointment, member: @member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [@hold], loans: [@loan])
 
     visit account_holds_path
-    accept_confirm { click_link "Remove Hold" }
+    accept_confirm { click_on "Remove Hold" }
     click_on "Appointments"
 
     appointment_card = find("li.appointment")
@@ -43,7 +43,7 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     create(:appointment, member: @member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
 
     visit account_holds_path
-    accept_confirm { click_link "Remove Hold" }
+    accept_confirm { click_on "Remove Hold" }
     click_on "Appointments"
 
     assert_text "You have no scheduled appointments"

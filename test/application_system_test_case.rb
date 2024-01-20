@@ -107,8 +107,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fail = false
     if errors.present?
       errors.each do |error|
-        warn "JS console (#{error.level.downcase}): #{error.message}"
-        fail = true if fail_on_js_error(error)
+        if fail_on_js_error(error)
+          warn "JS console (#{error.level.downcase}): #{error.message}"
+          fail = true
+        end
       end
     end
 
@@ -118,7 +120,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   private
 
   def ignore_js_errors(reason: "I know what I am doing")
-    Rails.logger.info("Swallowed JS error because: #{reason}")
+    Rails.logger.info("Ignored JS error because: #{reason}")
     yield if block_given?
     page.driver.browser.logs.get(:browser)
   end

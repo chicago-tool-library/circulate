@@ -8,10 +8,10 @@ module Renewal
 
     def update
       if @member.update(member_params)
-        redirect_to renewal_agreement_url
+        redirect_to renewal_agreement_url, status: :see_other
       else
         activate_step(:profile)
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 

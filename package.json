@@ -2,6 +2,10 @@
   "name": "circulate",
   "private": true,
   "dependencies": {
+    "@appsignal/javascript": "^1.3.28",
+    "@appsignal/stimulus": "^1.0.18",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^7.3.0",
     "@rails/actioncable": "^7.1.2",
     "@rails/actiontext": "^7.1.2",
     "@rails/activestorage": "^7.1.2",
@@ -16,9 +20,7 @@
     "smooth-scroll-into-view-if-needed": "^1.1.33",
     "sortablejs": "^1.15.0",
     "spectre.css": "^0.5.8",
-    "stimulus": "^1.1.1",
-    "trix": "^1.3.1",
-    "turbolinks": "^5.2.0"
+    "trix": "^1.3.1"
   },
   "version": "0.1.0",
   "devDependencies": {
@@ -26,8 +28,8 @@
     "sass-migrator": "^1.7.3"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
-    "build-dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11",
+    "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
+    "build-dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11  --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
     "postinstall": "sass-migrator -d division node_modules/spectre.css/**/*.scss"
   }

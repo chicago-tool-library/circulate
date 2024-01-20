@@ -6,7 +6,9 @@ module Admin
 
     def create
       create_loans_for_holds
-      redirect_to admin_appointment_path(appointment), flash: {success: "#{pluralize(checked_out_item_count, "Item")} checked-out."}
+      redirect_to admin_appointment_path(appointment), flash: {
+        success: "#{pluralize(checked_out_item_count, "Item")} checked-out."
+      }, status: :see_other
     end
 
     private

@@ -4,16 +4,6 @@ module ApplicationHelper
     %w[new edit].include? params[:action]
   end
 
-  def portal(tag_name: "div", attributes: {}, &block)
-    attrs = attributes.deep_merge({
-      data: {
-        controller: "portal",
-        action: "ajax:error->portal#replaceContent ajax:success->portal#replaceContent"
-      }
-    })
-    tag.send(tag_name, **attrs, &block)
-  end
-
   def logo(library: current_library, small: false, classes: "")
     if library.image.attached?
       image_tag url_for(library.image.variant(resize_to_limit: [100, 89])), class: classes

@@ -1,0 +1,11 @@
+<turbo-stream action="append" target="notes">
+  <template>
+      <%= render partial: "admin/items/notes/note", formats: [:html], locals: { note: @note, item: @item } %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="new-note">
+  <template>
+    <%= render partial: "admin/items/notes/new_button", formats: [:html], locals: { item: @item } %>
+  </template>
+</turbo-stream>

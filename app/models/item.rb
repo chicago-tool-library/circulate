@@ -104,11 +104,8 @@ class Item < ApplicationRecord
   before_save :cache_description_as_plain_text
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
-  def self.next_number(limit = nil)
+  def self.next_number
     item_scope = order("number DESC NULLS LAST")
-    if limit
-      item_scope = item_scope.where("number <= ?", limit)
-    end
     last_item = item_scope.limit(1).first
     return 1 unless last_item
     last_item.number.to_i + 1
@@ -119,15 +116,15 @@ class Item < ApplicationRecord
     joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
+  def hello
+    10
+  end
+
   def assign_number
     if number.blank?
       return unless borrow_policy
 
-      self.number = if borrow_policy.code == "A"
-        self.class.next_number(999)
-      else
-        self.class.next_number
-      end
+      self.number = self.class.next_number
     end
   end
 

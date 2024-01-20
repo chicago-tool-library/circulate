@@ -1,17 +1,19 @@
-<% lookup ||= Admin::Lookup.new %>
-<%= form_with(model: lookup, url: admin_member_lookups_path(@member), builder: SpectreFormBuilder) do |form| %>
-  <%= form.errors %>
+<%= turbo_frame_tag "item-lookup" do %>
+  <% lookup ||= Admin::Lookup.new %>
+  <%= form_with(model: lookup, url: admin_member_lookup_path(@member), method: :get, builder: SpectreFormBuilder, data: {turbo_frame: "item-lookup"}) do |form| %>
+    <%= form.errors %>
 
-  <div>
-    <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member",
-          placeholder: "1-4 digit item number",
-          autocomplete: "off",
-          hint: "Please enter only the 1-4 digit number; no need for letters, dashes, spaces, etc." %>
-  </div>
+    <div>
+      <%= form.text_field :item_number, label: "Enter an item's number to loan it to this member",
+            placeholder: "1-4 digit item number",
+            autocomplete: "off",
+            hint: "Please enter only the 1-4 digit number; no need for letters, dashes, spaces, etc." %>
+    </div>
 
-  <%= form.actions do %>
-    <%= button_tag class: "btn btn-primary" do %>
-      <%= feather_icon "book-open" %>Lookup
+    <%= form.actions do %>
+      <%= button_tag class: "btn btn-primary" do %>
+        <%= feather_icon "book-open" %>Lookup
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

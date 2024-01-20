@@ -19,7 +19,7 @@ module Admin
             @member.preferred_name
           end
           flash[:success] = "#{name}'s membership has been activated."
-          redirect_to admin_member_url(@member)
+          redirect_to admin_member_url(@member), status: :see_other
         else
           render :edit, status: :unprocessable_entity
         end
@@ -30,7 +30,7 @@ module Admin
       def load_member
         super
         if @member.status_verified?
-          redirect_to admin_members_path, warning: "Member is already verified."
+          redirect_to admin_members_path, warning: "Member is already verified.", status: :see_other
         end
       end
 

@@ -13,9 +13,9 @@ module Admin
         @attachment = @item.attachments.create(attachment_params.merge(creator: current_user))
 
         if @attachment.save
-          redirect_to admin_item_attachments_path(@item)
+          redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          render :new, status: 422
+          render :new, status: :unprocessable_entity
         end
       end
 
@@ -23,9 +23,9 @@ module Admin
         @attachment = @item.attachments.find(params[:id])
 
         if @attachment.update(attachment_params)
-          redirect_to admin_item_attachments_path(@item)
+          redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          render :edit, status: 422
+          render :edit, status: :unprocessable_entity
         end
       end
 
@@ -33,9 +33,9 @@ module Admin
         @attachment = @item.attachments.find(params[:id])
 
         if @attachment.delete
-          redirect_to admin_item_attachments_path(@item)
+          redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          redirect_to admin_item_attachments_path(@item), status: 422, error: "Could delete that attachment"
+          redirect_to admin_item_attachments_path(@item), status: :unprocessable_entity, error: "Could delete that attachment"
         end
       end
 

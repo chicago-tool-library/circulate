@@ -2,6 +2,7 @@
   tbody tr {
     .drag-handle {
       cursor: grab;
+      width: 36px;
     }
     &.notified {
       background: $gray-color-light;

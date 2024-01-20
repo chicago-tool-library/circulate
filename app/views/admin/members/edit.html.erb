@@ -11,7 +11,7 @@
     <details>
       <summary>Destroy this member record?</summary>
       <%= action_bar "If you destroy this member record, it can not be recovered. All member information, including loan history, will be removed from the system.", icon: "alert-octagon", type: :warning do %>
-        <%= button_to "Destroy Member", [:admin, @member], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+        <%= button_to "Destroy Member", [:admin, @member], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
       <% end %>
     </details>
   </div>

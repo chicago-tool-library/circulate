@@ -16,7 +16,7 @@ module Admin
     end
 
     test "completes an appointment" do
-      post admin_appointment_completion_path(@appointment)
+      post admin_appointment_completion_path(@appointment), as: :turbo_stream
       assert_response :success
 
       assert @appointment.reload.completed_at
@@ -25,7 +25,7 @@ module Admin
     test "completes an empty appointment" do
       @appointment.appointment_loans.delete_all
 
-      post admin_appointment_completion_path(@appointment)
+      post admin_appointment_completion_path(@appointment), as: :turbo_stream
       assert_response :success
 
       assert @appointment.reload.completed_at
@@ -34,7 +34,7 @@ module Admin
     test "un-completes an appointment" do
       @appointment.update!(completed_at: Time.current)
 
-      delete admin_appointment_completion_path(@appointment)
+      delete admin_appointment_completion_path(@appointment), as: :turbo_stream
       assert_response :success
 
       assert_nil @appointment.reload.completed_at

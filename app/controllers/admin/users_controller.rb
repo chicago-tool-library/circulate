@@ -22,23 +22,23 @@ module Admin
       @user = User.new(user_params.merge(password: password))
 
       if @user.save
-        redirect_to admin_users_url, success: "User was successfully created."
+        redirect_to admin_users_url, success: "User was successfully created.", status: :see_other
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 
     def update
       if @user.update(user_params)
-        redirect_to admin_users_url, success: "User was successfully updated."
+        redirect_to admin_users_url, success: "User was successfully updated.", status: :see_other
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       @user.destroy
-      redirect_to admin_users_url, success: "User was successfully destroyed."
+      redirect_to admin_users_url, success: "User was successfully destroyed.", status: :see_other
     end
 
     private

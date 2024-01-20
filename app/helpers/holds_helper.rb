@@ -44,7 +44,7 @@ module HoldsHelper
         " If it's the only item in your appointment, your appointment will be canceled."
     end
 
-    link_to("Remove Hold", account_hold_path(hold), class: "btn", method: :delete, data: {confirm: message})
+    button_to("Remove Hold", account_hold_path(hold), {class: "btn", method: :delete, data: {turbo_confirm: message}})
   end
 
   def place_in_line_for(hold)
