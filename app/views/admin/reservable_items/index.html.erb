@@ -1,12 +1,14 @@
-<h1>Reservable items</h1>
+<% content_for :header do %>
+  <%= index_header "Reservable Items" do %>
+    <%= link_to "New Reservable Item", new_admin_reservable_item_path, class: "btn" %>
+  <% end %>
+<% end %>
 
 <div id="reservable_items">
   <% @reservable_items.each do |reservable_item| %>
     <%= render reservable_item %>
     <p>
-      <%= link_to "Show this reservable item", admin_reservable_item_path(reservable_item) %>
+      <%= link_to "Edit", edit_admin_reservable_item_path(reservable_item), class: "btn" %>
     </p>
   <% end %>
 </div>
-
-<%= link_to "New reservable item", new_admin_reservable_item_path, class: "btn" %>

@@ -36,6 +36,23 @@ body.admin {
     .container {
       padding-bottom: 0;
     }
+    ul.breadcrumb {
+      margin: -.3rem 0 0 0;
+      padding: 0;
+      a {
+        color: white;
+      }
+      .breadcrumb-item {
+        padding-right: 0.2rem;
+      }
+      .breadcrumb-item:not(:first-child)::before, .breadcrumb-item {
+        color: white;
+      }
+      .breadcrumb-item:last-child::after {
+        padding-left: 0.2rem;
+        content: "›";
+      }
+    }
   }
 
   .app-banner {

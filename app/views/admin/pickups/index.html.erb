@@ -1,6 +1,6 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Pickups</h1>
+<% content_for :header do %>
+  <%= index_header "Pickups"%>
+<% end %>
 
 <div id="pickups">
   <% @pickups.each do |pickup| %>

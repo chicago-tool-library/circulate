@@ -1,4 +1,7 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :header do %>
+  <%= breadcrumbs "Pickups", admin_pickups_path %>
+  <%= index_header "Pickup ##{@pickup.id}" %>
+<% end %>
 
 <%= render @pickup %>
 

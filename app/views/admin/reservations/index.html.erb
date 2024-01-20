@@ -1,12 +1,10 @@
-<h1>Reservations</h1>
+<% content_for :header do %>
+  <%= index_header "Reservations" do %>
+    <%= link_to "New reservation", new_admin_reservation_path, class: "btn" %>
+  <% end %>
+<% end %>
 
 <div id="reservations">
-  <% @reservations.each do |reservation| %>
-    <%= render reservation %>
-    <p>
-      <%= link_to "Show this reservation", admin_reservation_path(reservation) %>
-    </p>
-  <% end %>
+  <%= render @reservations %>
 </div>
 
-<%= link_to "New reservation", new_admin_reservation_path, class: "btn" %>

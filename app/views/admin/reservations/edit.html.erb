@@ -1,3 +1,14 @@
-<h1>Editing reservation</h1>
+<% content_for :header do %>
+  <%= index_header "Editing Reservation" %>
+<% end %>
 
 <%= render "form", reservation: @reservation %>
+
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this reservation?</summary>
+    <%= action_bar "If you destroy this reservation, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy Reservation", [:admin, @reservation], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
+</div>

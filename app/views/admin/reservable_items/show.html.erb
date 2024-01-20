@@ -1,10 +1,8 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :header do %>
+  <%= breadcrumbs "Reservable Items", admin_reservable_items_path %>
+  <%= index_header @reservable_item.name do %>
+    <%= link_to "Edit", edit_admin_reservable_item_path(@reservable_item), class: "btn" %>
+  <% end %>
+<% end %>
 
 <%= render @reservable_item %>
-
-<div>
-  <%= link_to "Edit this reservable item", edit_admin_reservable_item_path(@reservable_item) %> |
-  <%= link_to "Back to reservable items", admin_reservable_items_path %>
-
-  <%= button_to "Destroy this reservable item", admin_reservable_item_path(@reservable_item), method: :delete %>
-</div>

@@ -3,6 +3,18 @@ module AdminHelper
     render "shared/index_header", title: title, icon: icon, &block
   end
 
+  def breadcrumbs(*args)
+    tag.ul(class: "breadcrumb") do
+      args.each_slice(2) do |title, link|
+        concat(
+          tag.li(class: "breadcrumb-item") do
+            link_to title, link
+          end
+        )
+      end
+    end
+  end
+
   def flash_message(key, classname = key)
     if flash.key?(key)
       tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do

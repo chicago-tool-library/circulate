@@ -1,3 +1,5 @@
-<h1>New reservable item</h1>
+<% content_for :header do %>
+  <%= index_header "New Reservable Item" %>
+<% end %>
 
 <%= render "form", reservable_item: @reservable_item %>

@@ -1,10 +1,14 @@
-<h1>Editing reservable item</h1>
+<% content_for :header do %>
+  <%= index_header "Editing Reservable Item" %>
+<% end %>
 
 <%= render "form", reservable_item: @reservable_item %>
 
-<br>
-
-<div>
-  <%= link_to "Show this reservable item", @reservable_item %> |
-  <%= link_to "Back to reservable items", admin_reservable_items_path %>
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this reservable item?</summary>
+    <%= action_bar "If you destroy this reservable item, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy Reservable Item", [:admin, @reservable_item], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
 </div>
