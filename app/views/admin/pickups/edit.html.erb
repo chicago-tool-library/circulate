@@ -8,7 +8,7 @@
   <details>
     <summary>Destroy this pickup?</summary>
     <%= action_bar "If you destroy this pickup, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
-      <%= button_to "Destroy Pickup", [:admin, @pickup], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+      <%= button_to "Destroy Pickup", [:admin, @pickup], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
     <% end %>
   </details>
 </div>

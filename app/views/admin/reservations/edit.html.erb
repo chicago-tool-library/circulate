@@ -6,9 +6,9 @@
 
 <div class="destroy-area">
   <details>
-    <summary>Destroy this reservation?</summary>
-    <%= action_bar "If you destroy this reservation, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
-      <%= button_to "Destroy Reservation", [:admin, @reservation], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <summary>destroy this reservation?</summary>
+    <%= action_bar "if you destroy this reservation, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "destroy reservation", [:admin, @reservation], method: :delete, data: {turbo_confirm: "are you sure?"}, class: "btn btn-sm" %>
     <% end %>
   </details>
 </div>
