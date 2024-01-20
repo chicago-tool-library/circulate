@@ -2,6 +2,36 @@
 # yarn lockfile v1
 
 
+"@appsignal/core@=1.1.20":
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/@appsignal/core/-/core-1.1.20.tgz#62d4d7ba52cb3b7866811eeedbb555923c468cb0"
+  integrity sha512-Y1N/n5f5rruKxQVSNT4aqctqomZZEwL5g+CXocA8LIdufoI5wyQVCxX8XWeLEQj8H+weIPckaq5jtQE8siQsnA==
+  dependencies:
+    "@appsignal/types" "=3.0.1"
+    isomorphic-unfetch "^3.1.0"
+    tslib "^2.3.0"
+
+"@appsignal/javascript@^1.3.28":
+  version "1.3.28"
+  resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.3.28.tgz#b60d673ab3a61ef88f36535db5839bd3d8b8f897"
+  integrity sha512-XsMITXEMnSYX8Hk+T60WtRz438gKKUzS6v18a7jUBDtD0M0cU3tFLCPOfaCPcK3vXnpd/t2wskw1LbITR/QuUg==
+  dependencies:
+    "@appsignal/core" "=1.1.20"
+    "@appsignal/types" "=3.0.1"
+    tslib "^2.3.0"
+
+"@appsignal/stimulus@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.18.tgz#0a1ffccdc4800e87b3eaa37d7e2d7f27ab3399b9"
+  integrity sha512-V5OUHA/qQkQiyiglNysiN4VjlO/mhgzbt9QupezEQ3skEgUamEBWxv8sjR4XmNDGJ+D9GAC3/UV0FeuWlSRmzw==
+  dependencies:
+    "@appsignal/types" "=3.0.1"
+
+"@appsignal/types@=3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@appsignal/types/-/types-3.0.1.tgz#b3a7848f43c8f175476dccbf02a0958b3d2ef801"
+  integrity sha512-vCAKUohJkhN9jk3v2hTOdUDV5FYPr63dBOnmFdPINVUye8HnkpYZD5wrLaRNNKO5UlyhIt8jTkoKkmjkIlkiuQ==
+
 "@babel/runtime@^7.14.6":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.0.tgz#e27b977f2e2088ba24748bf99b5e1dece64e4f0b"
@@ -921,6 +951,14 @@ isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
+isomorphic-unfetch@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-3.1.0.tgz#87341d5f4f7b63843d468438128cb087b7c3e98f"
+  integrity sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==
+  dependencies:
+    node-fetch "^2.6.1"
+    unfetch "^4.2.0"
+
 jquery@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
@@ -1442,6 +1480,13 @@ node-fetch@^2.6.0:
   dependencies:
     whatwg-url "^5.0.0"
 
+node-fetch@^2.6.1:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
+  dependencies:
+    whatwg-url "^5.0.0"
+
 nopt@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-5.0.0.tgz#530942bb58a512fccafe53fe210f13a25355dc88"
@@ -1805,6 +1850,11 @@ tslib@^2.2.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
+tslib@^2.3.0:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
@@ -1814,6 +1864,11 @@ uglify-js@^3.5.1:
   version "3.14.3"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.14.3.tgz#c0f25dfea1e8e5323eccf59610be08b6043c15cf"
   integrity sha512-mic3aOdiq01DuSVx0TseaEzMIVqebMZ0Z3vaeDhFEh9bsc24hV1TFvN74reA2vs08D0ZWfNjAcJ3UbVLaBss+g==
+
+unfetch@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.2.0.tgz#7e21b0ef7d363d8d9af0fb929a5555f6ef97a3be"
+  integrity sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==
 
 upper-case@^1.1.1:
   version "1.1.3"
