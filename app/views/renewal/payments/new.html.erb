@@ -29,7 +29,7 @@
         <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
       </fieldset>
       <%= form.actions do %>
-        <%= form.submit "Pay Online Now" %>
+        <%= form.submit "Pay Online Now", data: {turbo: false} %>
       <% end %>
     <% end %>
   </div>
