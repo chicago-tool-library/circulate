@@ -11,7 +11,7 @@
     isomorphic-unfetch "^3.1.0"
     tslib "^2.3.0"
 
-"@appsignal/javascript@^1.3.28":
+"@appsignal/javascript@=1.3.28", "@appsignal/javascript@^1.3.28":
   version "1.3.28"
   resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.3.28.tgz#b60d673ab3a61ef88f36535db5839bd3d8b8f897"
   integrity sha512-XsMITXEMnSYX8Hk+T60WtRz438gKKUzS6v18a7jUBDtD0M0cU3tFLCPOfaCPcK3vXnpd/t2wskw1LbITR/QuUg==
@@ -19,6 +19,27 @@
     "@appsignal/core" "=1.1.20"
     "@appsignal/types" "=3.0.1"
     tslib "^2.3.0"
+
+"@appsignal/plugin-breadcrumbs-console@^1.1.29":
+  version "1.1.29"
+  resolved "https://registry.yarnpkg.com/@appsignal/plugin-breadcrumbs-console/-/plugin-breadcrumbs-console-1.1.29.tgz#e2f94342b2db9b9b0a6024ffd69287f05cb7282a"
+  integrity sha512-U3HsyHgrtfryN4TXE61zgEejgIYZVcoXV0KjsOZxbScgttkgwjvol0B0aMlc38h/zD2Qq4NLqXk9l9p9RHuukg==
+  dependencies:
+    "@appsignal/javascript" "=1.3.28"
+
+"@appsignal/plugin-breadcrumbs-network@^1.1.22":
+  version "1.1.22"
+  resolved "https://registry.yarnpkg.com/@appsignal/plugin-breadcrumbs-network/-/plugin-breadcrumbs-network-1.1.22.tgz#6dcdf68173ec517651957abf43d406653c795c25"
+  integrity sha512-5eCSluhMbe9qQAhDE55wG5nrRbWUJZFqqrCnrrpRarPOTLMZkF0/o08G7m7AAVTOScybQa7hV8xr+mj2FhQb+g==
+  dependencies:
+    "@appsignal/types" "=3.0.1"
+
+"@appsignal/plugin-path-decorator@^1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@appsignal/plugin-path-decorator/-/plugin-path-decorator-1.0.16.tgz#2c079ea6ebd9dba8f4a2ad378fabcd9b88904c79"
+  integrity sha512-hyRyWs0L2WdFdI8h05jh2DOBqNZLSAhVJWu5EPWtNSjX4DygDnfzX7mzYhAb+gliNj1zlKeGSvsTutqKUULNOg==
+  dependencies:
+    "@appsignal/types" "=3.0.1"
 
 "@appsignal/stimulus@^1.0.18":
   version "1.0.18"
