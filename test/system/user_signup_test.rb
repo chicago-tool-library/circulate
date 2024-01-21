@@ -86,21 +86,28 @@ class UserSignupTest < ApplicationSystemTestCase
 
     # On Square site
 
-    assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
-    assert_selector ".order-details-section", text: "1 × Annual Membership"
+    ignore_js_errors reason: "square site has a couple issues" do
+      assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
+      assert_selector ".order-details-section", text: "1 × Annual Membership"
 
-    fill_in "card_fullname", with: "N. K. Jemisin"
+      fill_in "card_fullname", with: "N. K. Jemisin"
 
-    page.within_frame("sq-card-number") { page.first("input").fill_in with: "4111111111111111" }
-    page.within_frame("sq-expiration-date") { page.find("input").fill_in with: "1221" }
-    page.within_frame("sq-cvv") { page.find("input").fill_in with: "123" }
-    page.within_frame("sq-postal-code") { page.first("input").fill_in with: "60647" }
+      iframe = page.find(".sq-card-iframe-container iframe")
+      name = iframe["name"]
 
-    perform_enqueued_jobs do
-      click_on "Place Order"
+      page.within_frame(name) {
+        page.find("input#cardNumber").fill_in with: "4111111111111111"
+        page.find("input#expirationDate").fill_in with: "1226"
+        page.find("input#cvv").fill_in with: "123"
+        page.find("input#postalCode").fill_in with: "60647"
+      }
 
-      # Back in the app
-      assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
+      perform_enqueued_jobs do
+        click_on "Place Order"
+
+        # Back in the app
+        assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
+      end
     end
 
     assert_content "Your payment of $42.00"
@@ -120,9 +127,7 @@ class UserSignupTest < ApplicationSystemTestCase
     fill_in :user_password, with: "password"
     click_on "Login"
 
-    within ".navbar" do
-      assert_text "N. K. Jemisin"
-    end
+    assert_text "Account Summary"
   end
 
   test "signup and redeem a gift membership" do
