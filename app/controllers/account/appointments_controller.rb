@@ -80,7 +80,7 @@ module Account
       if simultaneous_appointment
         simultaneous_appointment.merge!(@appointment)
         message = "Your existing appointment scheduled for #{helpers.appointment_date_and_time(simultaneous_appointment)} has been updated."
-        MemberMailer.with(member: @member, appointment: simultaneous_appointment).appointment_confirmation.deliver_later
+        MemberMailer.with(member: @member, appointment: simultaneous_appointment).appointment_updated.deliver_later
       else
         message = "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
         MemberMailer.with(member: @member, appointment: @appointment).appointment_confirmation.deliver_later
