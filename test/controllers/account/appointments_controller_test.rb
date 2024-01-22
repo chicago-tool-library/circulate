@@ -57,7 +57,7 @@ module Account
       }}
 
       @appointment = @member.appointments.last
-      assert_enqueued_email(MemberMailer, :appointment_confirmation, params: {member: @member, appointment: @appointment})
+      assert_enqueued_email(MemberMailer, :appointment_updated, params: {member: @member, appointment: @appointment})
 
       assert_redirected_to account_appointments_path
       assert_equal 1, @member.appointments.count
