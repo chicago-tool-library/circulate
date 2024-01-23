@@ -101,7 +101,7 @@ class MemberMailer < ApplicationMailer
     @subject = "An appointment was updated for #{appointment_date_and_time(@appointment, include_time: false)}"
     mail(to: @member.email, subject: @subject)
   end
-  
+
   private
 
   def summary_mail(template_name: "summary")
