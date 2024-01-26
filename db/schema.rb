@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_06_201843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     "error"
   ], force: :cascade
 
+  create_enum :pickup_status, [
+    "building",
+    "ready_for_pickup",
+    "picked_up",
+    "cancelled"
+  ], force: :cascade
+
   create_enum :power_source, [
     "solar",
     "gas",
@@ -62,6 +69,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   ], force: :cascade
 
   create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected"
+  ], force: :cascade
+
+  create_enum :reservation_status, [
+    "pending",
     "requested",
     "approved",
     "rejected"
@@ -232,6 +246,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.index ["category_id"], name: "index_categorizations_on_category_id"
     t.index ["item_id", "category_id"], name: "index_categorizations_on_item_id_and_category_id"
     t.index ["item_id"], name: "index_categorizations_on_item_id"
+  end
+
+  create_table "date_holds", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.bigint "reservable_item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservable_item_id"], name: "index_date_holds_on_reservable_item_id"
+    t.index ["reservation_id"], name: "index_date_holds_on_reservation_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -455,6 +478,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "pickups", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.enum "status", default: "building", null: false, enum_type: "pickup_status"
+    t.bigint "reservation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_pickups_on_creator_id"
+    t.index ["reservation_id"], name: "index_pickups_on_reservation_id"
+  end
+
   create_table "renewal_requests", force: :cascade do |t|
     t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
@@ -463,6 +496,25 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.integer "library_id"
     t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
+  end
+
+  create_table "reservable_items", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "status", default: "pending", enum_type: "reservation_status"
+    t.string "notes"
+    t.datetime "reviewed_at"
+    t.bigint "reviewer_id"
+    t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
   end
 
   create_table "short_links", force: :cascade do |t|
@@ -552,7 +604,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "pickups", "reservations"
+  add_foreign_key "pickups", "users", column: "creator_id"
   add_foreign_key "renewal_requests", "loans"
+  add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"

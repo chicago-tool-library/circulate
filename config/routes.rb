@@ -163,6 +163,17 @@ Rails.application.routes.draw do
     get "/ui/sizes", to: "ui#sizes"
     get "/ui/strengths", to: "ui#strengths"
 
+    if ENV["FEATURE_GROUP_LENDING"] == "on"
+      # Group Lending
+      resources :reservable_items
+      resources :reservations do
+        scope module: "reservations" do
+          resource :review, only: [:edit, :update]
+        end
+      end
+      resources :pickups
+    end
+
     get "/", to: "dashboard#index", as: "dashboard"
   end
 

@@ -1,0 +1,7 @@
+<%= form_with(model: reservable_item, url: [:admin, reservable_item], builder: SpectreFormBuilder) do |form| %>
+  <%= form.text_field :name %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,12 @@
+<% content_for :header do %>
+  <%= index_header "Pickups" %>
+<% end %>
+
+<div id="pickups">
+  <% @pickups.each do |pickup| %>
+    <%= render pickup %>
+    <p>
+      <%= link_to "Show this pickup", [:admin, pickup] %>
+    </p>
+  <% end %>
+</div>
