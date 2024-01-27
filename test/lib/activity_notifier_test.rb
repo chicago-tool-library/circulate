@@ -201,6 +201,34 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     end
   end
 
+  test "rescues exceptions in overdue notices, sends to appsignal, and continues" do
+    Time.use_zone("America/Chicago") do
+      3.times { create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago) }
+
+      # Make MemberTexter.new explode one time then work
+      error = RuntimeError.new("oh no")
+      orig_method = MemberTexter.method(:new)
+      call_count = 0
+      explode_once = ->(klass, member) {
+        if call_count > 0
+          orig_method.call(member)
+        else
+          call_count += 1
+          raise error
+        end
+      }
+      Spy.on(MemberTexter, :new).and_return(&explode_once)
+      appsignal_spy = Spy.on(Appsignal, :send_error)
+
+      # Blowing up 1 SMS, so should have 3 successful emails + 2 texts
+      assert_difference "Notification.count", 5 do
+        ActivityNotifier.new.send_overdue_notices
+      end
+
+      assert appsignal_spy.has_been_called_with?(error)
+    end
+  end
+
   test "only mentions items that are checked out or returned that day" do
     returned_today = create(:loan, due_at: 1.day.ago, created_at: 8.days.ago, ended_at: Time.current)
     member = returned_today.member

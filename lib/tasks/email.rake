@@ -10,21 +10,25 @@ namespace :email do
   desc "Send daily loan summary emails"
   task :send_daily_loan_summaries, [:date] => :environment do |task, args|
     send_emails :send_daily_loan_summaries, args[:date]
+    appsignal_flush
   end
 
   desc "Send overdue notice emails"
   task :send_overdue_notices, [:date] => :environment do |task, args|
     send_emails :send_overdue_notices, args[:date]
+    appsignal_flush
   end
 
   desc "Send return reminder emails"
   task :send_return_reminders, [:date] => :environment do |task, args|
     send_emails :send_return_reminders, args[:date]
+    appsignal_flush
   end
 
   desc "Send reminders to pending members older than 1 month"
   task :send_pending_member_reminders, [:date] => :environment do |task, args|
     send_emails :remind_pending_members, args[:date]
+    appsignal_flush
   end
 
   desc "Send membership renewal reminder emails"
@@ -34,10 +38,20 @@ namespace :email do
       amount = member.last_membership&.amount || Money.new(0)
       MemberMailer.with(member: member, amount: amount).membership_renewal_reminder.deliver_now
     end
+    appsignal_flush
   end
 
   desc "Send staff renewal request summary emails"
   task :send_staff_daily_renewal_requests, [:date] => :environment do |task, args|
     send_emails :send_staff_daily_renewal_requests, args[:date]
+    appsignal_flush
   end
+end
+
+# Close process allowing Appsignal to flush any exceptions that were rescued
+# and manually sent along, per recommendations here:
+# https://docs.appsignal.com/ruby/integrations/rake.html#rake-tasks-and-containers
+def appsignal_flush
+  Appsignal.stop "rake"
+  sleep 5
 end

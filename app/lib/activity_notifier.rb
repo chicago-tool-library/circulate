@@ -60,6 +60,9 @@ class ActivityNotifier
         .or(member.loan_summaries.includes(:renewal_requests).checked_out)
         .includes(item: :borrow_policy)
       yield member, summaries
+    rescue => e
+      Rails.logger.error("Error notifying member #{member.id}: #{e}")
+      Appsignal.send_error(e)
     end
   end
 
