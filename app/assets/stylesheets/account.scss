@@ -75,14 +75,14 @@
   .appointment {
     margin-top: 1rem;
     list-style: none outside;
-    h2 {
+    h3 {
       line-height: 1.2rem;
     }
     .schedule {
       display: flex;
       justify-content: space-between;
       .time {
-        font-size: 1rem;
+        font-size: 0.9rem;
         color: $gray-color;
       }
       .actions {
