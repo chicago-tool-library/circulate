@@ -19,7 +19,7 @@
                   <% unless appointment.completed? %>
                     <%= button_to "Modify Appointment", edit_account_appointment_path(appointment), class: "btn btn-primary", method: :get, data: {turbo_submits_with: "Editing appointment..."} %>
                   <% end %>
-                <div>
+                </div>
               </div>
 
               <div class="card-body">
