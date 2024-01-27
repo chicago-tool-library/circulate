@@ -20,7 +20,7 @@ pre-commit:
     standard:
       tags: style
       glob: "*.rb"
-      exclude: "application.rb|routes.rb"
+      exclude: "application.rb|routes.rb|schema.rb"
       run: bundle exec standardrb --parallel --fix {staged_files} && git add {staged_files}
     readme:
       tags: lint
