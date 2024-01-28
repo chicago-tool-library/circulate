@@ -11,15 +11,15 @@
           <% @appointments.each do |appointment| %>
             <li class="appointment card">
               <div class="card-header schedule">
-                <h2>
+                <h3>
                   <%= appointment.starts_at.strftime("%A, %b %-d, %Y") %><br>
                   <span class="time">between <%= appointment_time(appointment) %></span>
-                </h2>
+                </h3>
                 <div class="actions">
                   <% unless appointment.completed? %>
                     <%= button_to "Modify Appointment", edit_account_appointment_path(appointment), class: "btn btn-primary", method: :get, data: {turbo_submits_with: "Editing appointment..."} %>
                   <% end %>
-                <div>
+                </div>
               </div>
 
               <div class="card-body">

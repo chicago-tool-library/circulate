@@ -6,6 +6,9 @@
     @media all and (min-width: 841px) {      
       margin-left: 2rem;
     }
+    @media all and (max-width: 840px) {
+      margin-top: 2rem;
+    }
     ul {
       list-style: outside;
     }
@@ -20,15 +23,11 @@
     margin: 0;
     list-style: none outside;
     li {
-      margin-bottom: 1.5rem;
-      border-bottom: solid 2px $gray-color-light;
+      margin-bottom: 1rem;
       padding-bottom: 1rem;
-      &:last-of-type {
-        border: none;
-      }
     }
     .image {
-      float: right;
+      float: left;
       width: 8rem;
       height: 100%;
       padding-right: .8rem;
@@ -67,20 +66,23 @@
 
 
 .account-appointments-index {
+  .section-header {
+    align-items: center;
+  }
   .appointment-list {
     margin: 0;
   }
   .appointment {
     margin-top: 1rem;
     list-style: none outside;
-    h2 {
+    h3 {
       line-height: 1.2rem;
     }
     .schedule {
       display: flex;
       justify-content: space-between;
       .time {
-        font-size: 1rem;
+        font-size: 0.9rem;
         color: $gray-color;
       }
       .actions {

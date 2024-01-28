@@ -49,12 +49,20 @@ namespace :devdata do
     Library.all.each_with_index do |library, index|
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
+
+      image = File.open(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"))
+
       ActsAsTenant.with_tenant(library) do
         Audited.audit_class.as_user(admin) do
           load_models Document, id_offset: offset
           load_models BorrowPolicy, id_offset: offset
           load_models Category, id_offset: offset
           load_models Item, id_offset: offset
+          Item.find_each do |item|
+            # create attachment
+            item.image.attach(io: image, filename: "tool-image.jpg")
+            image.rewind
+          end
           load_models ActionText::RichText, id_offset: offset
         end
       end
