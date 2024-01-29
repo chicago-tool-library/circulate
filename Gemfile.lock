@@ -508,7 +508,7 @@ GEM
     store_model (0.13.0)
       activerecord (>= 5.2)
     stringio (3.1.0)
-    sucker_punch (3.0.1)
+    sucker_punch (3.2.0)
       concurrent-ruby (~> 1.0)
     text (1.3.1)
     thor (1.3.0)
