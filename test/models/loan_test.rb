@@ -90,7 +90,7 @@ class LoanTest < ActiveSupport::TestCase
 
     sunday = Time.utc(2020, 1, 26).end_of_day
 
-    assert_timestamp_equal sunday, loan.due_at
+    assert_equal sunday, loan.due_at
   end
 
   test "returns the same day as the next open day" do
