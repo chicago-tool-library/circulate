@@ -83,7 +83,7 @@ module Account
         MemberMailer.with(member: @member, appointment: simultaneous_appointment).appointment_updated.deliver_later
       elsif update_only
         message = "Your existing appointment scheduled for #{helpers.appointment_date_and_time(@appointment)} has been updated."
-        MemberMailer.with(member: @member, appointment: simultaneous_appointment).appointment_updated.deliver_later
+        MemberMailer.with(member: @member, appointment: @appointment).appointment_updated.deliver_later
       else
         message = "Your appointment was scheduled for #{helpers.appointment_date_and_time(@appointment)}."
         MemberMailer.with(member: @member, appointment: @appointment).appointment_confirmation.deliver_later
