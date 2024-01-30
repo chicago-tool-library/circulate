@@ -25,7 +25,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "markdown-toc": "^1.2.0",
-    "sass-migrator": "^1.7.3"
+    "sass-migrator": "^2.0.2"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",

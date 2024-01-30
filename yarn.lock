@@ -1700,10 +1700,10 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
-sass-migrator@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/sass-migrator/-/sass-migrator-1.7.3.tgz#0ac232b530d78a1b84dfaf24aaccdfd03159acf6"
-  integrity sha512-8JMZ15HMvjE8X3i1NhPu2GQzEIT74xrGACq6J9RzdbJ49N1Fl0lFvfX03+hAQN0MKNYKASq6fx1VZLa5NuwBWw==
+sass-migrator@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/sass-migrator/-/sass-migrator-2.0.2.tgz#e40adb308e7086fd1ef48ee0f6b7e143f2138c86"
+  integrity sha512-+uQjxYL+wuU9nw2IKnZk1hz8MlONp6yQPYb+fJLkekPjMUvNip1Sd2arZdPdhXwVzGFyrGq7AkskQohC2wc1kQ==
 
 sass@^1.67.0:
   version "1.67.0"
