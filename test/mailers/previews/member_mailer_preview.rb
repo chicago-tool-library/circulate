@@ -108,4 +108,14 @@ class MemberMailerPreview < ActionMailer::Preview
     appointment.save!
     MemberMailer.with(member: member, appointment: appointment).appointment_confirmation
   end
+
+  def appointment_updated
+    member = Member.verified.first
+    tomorrow = Time.current + 1.day
+    loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, due_at: tomorrow, uniquely_numbered: false, library: member.library)
+    appointment = Appointment.new(starts_at: tomorrow, ends_at: tomorrow + 1.hour, member: member)
+    appointment.loans << loan
+    appointment.save!
+    MemberMailer.with(member: member, appointment: appointment).appointment_updated
+  end
 end
