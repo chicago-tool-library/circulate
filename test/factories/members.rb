@@ -8,10 +8,12 @@ FactoryBot.define do
 
     full_name { "Ida B. Wells" }
     email
-    phone_number { "3121234567" }
+    phone_number { "5005550006" }
     postal_code { "60609" }
     address1 { "1 N. Michigan Ave" }
     user
+    reminders_via_email { true }
+    reminders_via_text { true }
 
     trait :with_bio do
       bio { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }

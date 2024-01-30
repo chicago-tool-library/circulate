@@ -1,7 +1,7 @@
 def seed_library(library, email_suffix = "", postal_code = "60609")
   ActsAsTenant.with_tenant(library) do
     member_attrs = {
-      phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
+      phone_number: "5005550006", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
       address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: postal_code,
       reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
     }

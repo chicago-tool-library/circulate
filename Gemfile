@@ -98,3 +98,5 @@ end
 gem "jsbundling-rails", "~> 1.2"
 
 gem "cssbundling-rails", "~> 1.4"
+
+gem "twilio-ruby", "~> 6.8"

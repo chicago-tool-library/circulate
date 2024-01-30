@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_06_201843) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,13 +44,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_06_201843) do
     "active",
     "maintenance",
     "retired",
-  ], force: :cascade
-
-  create_enum :notification_status, [
-    "pending",
-    "sent",
-    "bounced",
-    "error",
   ], force: :cascade
 
   create_enum :pickup_status, [
@@ -467,8 +460,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_06_201843) do
     t.string "address", null: false
     t.string "action", null: false
     t.bigint "member_id"
-    t.uuid "uuid", null: false
-    t.enum "status", default: "pending", null: false, enum_type: "notification_status"
+    t.string "uuid", null: false
+    t.string "status", default: "pending", null: false
     t.string "subject", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

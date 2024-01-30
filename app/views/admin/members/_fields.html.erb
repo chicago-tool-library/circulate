@@ -38,8 +38,8 @@
 
 <fieldset>
   <legend>Loan Reminders</legend>
-  <%= form.check_box :reminders_via_email, label: "Send me loan reminders via email", required: false %>
-  <%= form.check_box :reminders_via_text, label: "Send me loan reminders via text (coming soon)", required: false %>
+  <%= form.check_box :reminders_via_email, label: "Send me loan reminders via email (required)", checked: true, disabled: true %>
+  <%= form.check_box :reminders_via_text, label: "Send me loan reminders via text", required: false %>
 </fieldset>
 
 <fieldset>

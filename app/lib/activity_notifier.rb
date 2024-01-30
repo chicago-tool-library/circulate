@@ -12,10 +12,14 @@ class ActivityNotifier
   end
 
   def send_overdue_notices
-    members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.checked_out.due_whole_weeks_ago).pluck(:id)
+    members_with_overdue_items = Member.verified.joins(:loans).merge(Loan.checked_out.due_whole_weeks_ago(@now)).pluck(:id)
 
     each_member(members_with_overdue_items) do |member, summaries|
-      MemberMailer.with(member: member, summaries: summaries.overdue_as_of(@now.tomorrow.beginning_of_day), now: @now).overdue_notice.deliver
+      summaries = summaries.overdue_as_of(@now.tomorrow.beginning_of_day)
+      MemberMailer.with(member: member, summaries: summaries, now: @now).overdue_notice.deliver
+      if sms_reminders_enabled?
+        MemberTexter.new(member).overdue_notice(summaries)
+      end
     end
   end
 
@@ -56,6 +60,13 @@ class ActivityNotifier
         .or(member.loan_summaries.includes(:renewal_requests).checked_out)
         .includes(item: :borrow_policy)
       yield member, summaries
+    rescue => e
+      Rails.logger.error("Error notifying member #{member.id}: #{e}")
+      Appsignal.send_error(e)
     end
+  end
+
+  def sms_reminders_enabled?
+    ENV["FEATURE_SMS_REMINDERS"] == "on"
   end
 end
