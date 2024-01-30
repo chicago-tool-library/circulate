@@ -283,7 +283,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.5)
-    minitest (5.15.0)
+    minitest (5.21.2)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
     mjml-rails (4.7.2)
@@ -573,7 +573,7 @@ DEPENDENCIES
   listen
   lograge
   mini_magick
-  minitest (= 5.15.0)
+  minitest (= 5.21.2)
   minitest-ci
   mjml-rails
   money-rails
