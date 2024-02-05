@@ -28,7 +28,14 @@ class RemoveHoldsTest < ApplicationSystemTestCase
 
     visit account_holds_path
     accept_confirm { click_on "Remove Hold" }
-    click_on "Appointments"
+
+    # This sleep seems to quell a flaky failure with Capybara clicking on the
+    # Appointments link after the accept_confirm above
+    sleep 1
+    within("header.navbar") do
+      click_on "Appointments"
+    end
+    assert_current_path account_appointments_path
 
     appointment_card = find("li.appointment")
     within(appointment_card) do
@@ -44,7 +51,14 @@ class RemoveHoldsTest < ApplicationSystemTestCase
 
     visit account_holds_path
     accept_confirm { click_on "Remove Hold" }
-    click_on "Appointments"
+
+    # This sleep seems to quell a flaky failure with Capybara clicking on the
+    # Appointments link after the accept_confirm above
+    sleep 1
+    within("header.navbar") do
+      click_on "Appointments"
+    end
+    assert_current_path account_appointments_path
 
     assert_text "You have no scheduled appointments"
   end
