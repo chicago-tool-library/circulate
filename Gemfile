@@ -80,7 +80,7 @@ group :development do
   gem "solargraph-rails"
   gem "solargraph-standardrb"
   gem "lefthook"
-  gem "erb_lint", "~> 0.1.1"
+  gem "erb_lint", "~> 0.5.0"
 end
 
 group :test do
