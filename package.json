@@ -13,7 +13,7 @@
     "awesomplete": "^1.1.4",
     "esbuild": "^0.19.3",
     "feather-icons": "^4.25.0",
-    "jquery": "^3.6.0",
+    "jquery": "^3.7.1",
     "mjml": "^4.15.2",
     "sass": "^1.70.0",
     "selectize": "^0.12.6",
