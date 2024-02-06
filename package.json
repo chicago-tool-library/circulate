@@ -17,7 +17,7 @@
     "mjml": "^4.15.2",
     "sass": "^1.70.0",
     "selectize": "^0.12.6",
-    "smooth-scroll-into-view-if-needed": "^1.1.33",
+    "smooth-scroll-into-view-if-needed": "^2.0.2",
     "sortablejs": "^1.15.0",
     "spectre.css": "^0.5.8",
     "trix": "^2.0.10"
