@@ -19,7 +19,7 @@ module Volunteer
         @event = Event.volunteer_shifts.find(params[:id])
         event_remove_signup(@event.calendar_event_id)
       else
-        redirect_to volunteer_shifts_url, error: "You must be logged in"
+        redirect_to volunteer_shifts_url, error: "You must be logged in", status: :see_other
       end
     end
 

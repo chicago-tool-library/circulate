@@ -10,7 +10,7 @@
     <% if signed_in_via_google? %>
       <p>
         Signed in as <strong><%= @attendee.email %></strong> &ndash;
-        <%= link_to "Sign out", volunteer_session_path, method: :delete %>
+        <%= link_to "Sign out", volunteer_session_path, data: {turbo_method: :delete} %>
       </p>
       <p>If you can no longer attend a shift you signed up for, please decline the invitation in your calendar.</p>
     <% end %>

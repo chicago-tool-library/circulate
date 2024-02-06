@@ -19,23 +19,23 @@ module Admin
       @category = Category.new(category_params)
 
       if @category.save
-        redirect_to admin_categories_url(anchor: dom_id(@category))
+        redirect_to admin_categories_url(anchor: dom_id(@category)), status: :see_other
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 
     def update
       if @category.update(category_params)
-        redirect_to admin_categories_url(anchor: dom_id(@category))
+        redirect_to admin_categories_url(anchor: dom_id(@category)), status: :see_other
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       @category.destroy
-      redirect_to admin_categories_url, success: "Category was successfully destroyed."
+      redirect_to admin_categories_url, success: "Category was successfully destroyed.", status: :see_other
     end
 
     private

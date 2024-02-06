@@ -1,0 +1,10 @@
+<%= turbo_frame_tag note do %>
+  <%= tag.blockquote class: "note" do %>
+    <%= note.body %>
+    <br>
+
+    <%= tag.div class: "notes-actions" do %>
+      <%= link_to "Edit Note", [:edit, :admin, item, note], method: :get, remote: true, class: "btn btn-sm" %>
+    <% end %>
+  <% end %>
+<% end %>

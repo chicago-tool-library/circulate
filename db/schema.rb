@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,39 +18,39 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     "fine",
     "membership",
     "donation",
-    "payment"
+    "payment",
   ], force: :cascade
 
   create_enum :adjustment_source, [
     "cash",
     "square",
-    "forgiveness"
+    "forgiveness",
   ], force: :cascade
 
   create_enum :hold_request_status, [
     "new",
     "completed",
-    "denied"
+    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
-    "other"
+    "other",
   ], force: :cascade
 
   create_enum :item_status, [
     "pending",
     "active",
     "maintenance",
-    "retired"
+    "retired",
   ], force: :cascade
 
-  create_enum :notification_status, [
-    "pending",
-    "sent",
-    "bounced",
-    "error"
+  create_enum :pickup_status, [
+    "building",
+    "ready_for_pickup",
+    "picked_up",
+    "cancelled",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -58,27 +58,34 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     "gas",
     "air",
     "electric (corded)",
-    "electric (battery)"
+    "electric (battery)",
   ], force: :cascade
 
   create_enum :renewal_request_status, [
     "requested",
     "approved",
-    "rejected"
+    "rejected",
+  ], force: :cascade
+
+  create_enum :reservation_status, [
+    "pending",
+    "requested",
+    "approved",
+    "rejected",
   ], force: :cascade
 
   create_enum :ticket_status, [
     "assess",
     "parts",
     "repairing",
-    "resolved"
+    "resolved",
   ], force: :cascade
 
   create_enum :user_role, [
     "staff",
     "admin",
     "member",
-    "super_admin"
+    "super_admin",
   ], force: :cascade
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -96,7 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -108,7 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -160,13 +167,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   end
 
   create_table "appointments", force: :cascade do |t|
-    t.datetime "starts_at", null: false
-    t.datetime "ends_at", null: false
+    t.datetime "starts_at", precision: nil, null: false
+    t.datetime "ends_at", precision: nil, null: false
     t.text "comment", default: "", null: false
     t.bigint "member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "completed_at"
+    t.datetime "completed_at", precision: nil
     t.index ["member_id"], name: "index_appointments_on_member_id"
   end
 
@@ -184,7 +191,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -234,6 +241,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.index ["item_id"], name: "index_categorizations_on_item_id"
   end
 
+  create_table "date_holds", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.bigint "reservable_item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservable_item_id"], name: "index_date_holds_on_reservable_item_id"
+    t.index ["reservation_id"], name: "index_date_holds_on_reservation_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.string "name", null: false
     t.string "summary"
@@ -247,8 +263,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   create_table "events", force: :cascade do |t|
     t.string "calendar_id", null: false
     t.string "calendar_event_id", null: false
-    t.datetime "start", null: false
-    t.datetime "finish", null: false
+    t.datetime "start", precision: nil, null: false
+    t.datetime "finish", precision: nil, null: false
     t.string "summary"
     t.string "description"
     t.datetime "created_at", null: false
@@ -279,11 +295,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "ended_at"
+    t.datetime "ended_at", precision: nil
     t.bigint "loan_id"
     t.integer "library_id"
-    t.datetime "started_at"
-    t.datetime "expires_at"
+    t.datetime "started_at", precision: nil
+    t.datetime "expires_at", precision: nil
     t.integer "position", null: false
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id", "position"], name: "index_holds_on_item_id_and_position", unique: true
@@ -366,8 +382,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   create_table "loans", force: :cascade do |t|
     t.bigint "item_id"
     t.bigint "member_id"
-    t.datetime "due_at"
-    t.datetime "ended_at"
+    t.datetime "due_at", precision: nil
+    t.datetime "ended_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "uniquely_numbered", null: false
@@ -444,8 +460,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.string "address", null: false
     t.string "action", null: false
     t.bigint "member_id"
-    t.uuid "uuid", null: false
-    t.enum "status", default: "pending", null: false, enum_type: "notification_status"
+    t.string "uuid", null: false
+    t.string "status", default: "pending", null: false
     t.string "subject", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -453,6 +469,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "pickups", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.enum "status", default: "building", null: false, enum_type: "pickup_status"
+    t.bigint "reservation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_pickups_on_creator_id"
+    t.index ["reservation_id"], name: "index_pickups_on_reservation_id"
   end
 
   create_table "renewal_requests", force: :cascade do |t|
@@ -463,6 +489,25 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.integer "library_id"
     t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
+  end
+
+  create_table "reservable_items", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "status", default: "pending", enum_type: "reservation_status"
+    t.string "notes"
+    t.datetime "reviewed_at"
+    t.bigint "reviewer_id"
+    t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
   end
 
   create_table "short_links", force: :cascade do |t|
@@ -506,16 +551,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "role", default: "member", null: false, enum_type: "user_role"
@@ -552,7 +597,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "pickups", "reservations"
+  add_foreign_key "pickups", "users", column: "creator_id"
   add_foreign_key "renewal_requests", "loans"
+  add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"
@@ -577,8 +625,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
     GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
-      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
-      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      SELECT (EXTRACT(year FROM adjustments.created_at))::integer AS year,
+      (EXTRACT(month FROM adjustments.created_at))::integer AS month,
       count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_count,
       sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_total_cents,
       count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_count,
@@ -592,8 +640,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
              FROM (members
                LEFT JOIN memberships ON ((members.id = memberships.member_id)))
             GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
-    ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+    GROUP BY ((EXTRACT(year FROM adjustments.created_at))::integer), ((EXTRACT(month FROM adjustments.created_at))::integer)
+    ORDER BY ((EXTRACT(year FROM adjustments.created_at))::integer), ((EXTRACT(month FROM adjustments.created_at))::integer);
   SQL
   create_view "monthly_loans", sql_definition: <<-SQL
       WITH dates AS (
@@ -604,8 +652,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
            SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
              FROM dates
           )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
       count(DISTINCT l.id) AS loans_count,
       count(DISTINCT l.member_id) AS active_members_count
      FROM (months
@@ -622,8 +670,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
            SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
              FROM dates
           )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
       count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
       count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
      FROM (months
@@ -640,8 +688,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
            SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
              FROM dates
           )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
       count(DISTINCT a.id) AS appointments_count,
       count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
      FROM (months
@@ -702,4 +750,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_12_014456) do
      FROM tree_nodes;
   SQL
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
+
 end

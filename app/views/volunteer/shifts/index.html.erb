@@ -10,7 +10,7 @@
     <% if signed_in_via_google? %>
       <p>
         Signed in as <strong><%= @attendee.email %></strong> &ndash;
-        <%= link_to "Sign out", volunteer_session_path, method: :delete %>
+        <%= link_to "Sign out", volunteer_session_path, data: {turbo_method: :delete} %>
       </p>
       <ul>
         <li>Shifts you are signed up for are <span class="bg-primary p-1">shown with a blue background</span>.

@@ -56,8 +56,12 @@ class ItemFilteringTest < ApplicationSystemTestCase
     visit items_url
 
     fill_in "search items", with: "Boring\n"
-    find("a", text: "Drills (2)").click
+    within(".items-summary") do
+      assert_content "Searched for Boring", normalize_ws: true
+      assert_content "Found 1 item."
+    end
 
+    find("a", text: "Drills (2)").click
     within(".items-summary") do
       assert_content "Searched for Boring in category Drills", normalize_ws: true
       assert_content "Found 1 item."

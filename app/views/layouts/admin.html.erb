@@ -6,11 +6,11 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <% unless request.get? && !form_request? # prevent turbolinks for caching form redisplays, which will often contain validation messages %>
-      <meta name="turbolinks-cache-control" content="no-preview">
+    <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
+      <meta name="turbo-cache-control" content="no-preview">
     <% end %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
-    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
   </head>
 
   <body class="admin">
@@ -19,7 +19,7 @@
         <i class="icon icon-menu"></i>
       </a>
 
-      <div id="sidebar-id" class="off-canvas-sidebar" data-target="sidebar.menu">
+      <div id="sidebar-id" class="off-canvas-sidebar" data-sidebar-target="menu">
         <ul class="nav">
           <li class="nav-item">
             <span class="nav-category">Lending</span>
@@ -29,6 +29,12 @@
               <li class="nav-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
               <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
+
+              <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
+                <li class="nav-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>
+                <li class="nav-item"><%= link_to "Reservations", admin_reservations_path %></li>
+                <li class="nav-item"><%= link_to "Pickups", admin_pickups_path %></li>
+              <% end %>
             </ul>
           </li>
           <% if current_library.allow_appointments? %>
@@ -80,7 +86,7 @@
         <ul class="nav">
           <% if user_signed_in? %>
             <li class="nav-item">
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+              <%= link_to "Sign out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-link" %>
             </li>
           <% end %>
         </ul>
@@ -110,7 +116,7 @@
             <span class="navbar-brand mr-2"><%= link_to "Circulate", admin_dashboard_path %></span>
 
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Lending <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -119,6 +125,12 @@
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
                 <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
+                <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
+                  <li class="menu-item"><div class="divider"></div></li>
+                  <li class="menu-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>
+                  <li class="menu-item"><%= link_to "Reservations", admin_reservations_path %></li>
+                  <li class="menu-item"><%= link_to "Pickups", admin_pickups_path %></li>
+                <% end %>
               </ul>
             </div>
             <% if current_library.allow_appointments? %>
@@ -127,7 +139,7 @@
               </div>
             <% end %>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Reports <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -145,7 +157,7 @@
               </ul>
             </div>
             <div class="dropdown">
-              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbolinks="false">
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Settings <i class="icon icon-caret"></i>
               </a>
               <ul class="menu">
@@ -183,7 +195,7 @@
           </div>
           <section class="navbar-section">
             <% if user_signed_in? %>
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-link" %>
+              <%= link_to "Sign out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-link" %>
             <% end %>
           </section>
         </header>

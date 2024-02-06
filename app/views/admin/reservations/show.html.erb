@@ -1,0 +1,14 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Reservations", admin_reservations_path %>
+  <%= index_header @reservation.name do %>
+    <%= link_to "Edit", edit_admin_reservation_path(@reservation), class: "btn" %>
+    <%= link_to "Review", edit_admin_reservation_review_path(@reservation), class: "btn" %>
+    <% if @reservation.pickup %>
+      <%= link_to "View Pickup", admin_pickup_path(@reservation.pickup), class: "btn" %>
+    <% else %>
+      <%= button_to "Create Pickup", admin_pickups_path(reservation_id: @reservation), method: :create, remote: true, class: "btn" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render @reservation %>

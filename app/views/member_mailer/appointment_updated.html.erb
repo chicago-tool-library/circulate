@@ -1,0 +1,46 @@
+
+
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= image_url "logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">An appointment was updated!</mj-text>
+  </mj-column>
+</mj-section>
+
+<mj-section>
+  <mj-column>
+    <mj-text>
+
+<p>Your appointment is scheduled for <%= appointment_date_and_time(@appointment) %></p>
+
+<% if @appointment.holds.present? %>
+  <p>The following items will be ready to pickup:</p>
+  <ul>
+    <% @appointment.holds.each do |hold| %>
+      <li>
+        <%= hold.item.complete_number %> <%= hold.item.name %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @appointment.loans.any? %>
+  <p>These are the items to be returned at your appointment:</p>
+  <ul>
+    <% @appointment.loans.each do |loan| %>
+      <li>
+        <%= loan.item.complete_number %> <%= loan.item.name %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<p>You can make changes to this appointment <%= link_to "on your account page", account_appointments_url(@appointment) %>.</p>
+
+    </mj-text>
+  </mj-column>
+</mj-section>

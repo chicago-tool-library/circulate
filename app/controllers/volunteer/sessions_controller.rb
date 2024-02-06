@@ -12,15 +12,15 @@ module Volunteer
           return event_signup(@event.calendar_event_id)
         end
 
-        redirect_to volunteer_shifts_url, success: "You are logged in."
+        redirect_to volunteer_shifts_url, success: "You are logged in.", status: :see_other
       else
-        redirect_to volunteer_shifts_url, error: "Please try again."
+        redirect_to volunteer_shifts_url, error: "Please try again.", status: :see_other
       end
     end
 
     def destroy
       reset_session
-      redirect_to volunteer_shifts_url
+      redirect_to volunteer_shifts_url, status: :see_other
     end
 
     def failure

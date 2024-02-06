@@ -1,0 +1,21 @@
+- id: 3
+  name: body
+  body: <div>This is the waiver of indemnification. It is editable, and usually says that folks will only check out items they are confident they can use safely.</div>
+  record_type: Document
+  record_id: 3
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2019-07-26 04:06:08 UTC
+- id: 5
+  name: body
+  body: <div>This is the code of conduct. It is editable and says to be cool.</div>
+  record_type: Document
+  record_id: 5
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2019-07-26 04:06:08 UTC
+- id: 4
+  name: body
+  body: <div>This is the borrowing policy. It is editable and described the lending rules to members.</div>
+  record_type: Document
+  record_id: 4
+  created_at: 2019-07-19 14:25:59 UTC
+  updated_at: 2019-07-26 04:06:08 UTC

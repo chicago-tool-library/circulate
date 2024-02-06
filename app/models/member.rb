@@ -118,6 +118,10 @@ class Member < ApplicationRecord
     end
   end
 
+  def canonical_phone_number
+    "+1#{phone_number}"
+  end
+
   private
 
   def update_user_email

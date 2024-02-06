@@ -1,7 +1,7 @@
 require "active_support/testing/time_helpers"
 
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   include ActiveSupport::Testing::TimeHelpers
   include PageAttributes
 

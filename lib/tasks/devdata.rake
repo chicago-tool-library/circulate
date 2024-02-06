@@ -45,15 +45,25 @@ namespace :devdata do
   end
 
   task load: :environment do
+    Document.delete_all # There are some documents created in old migrations that we can safely blow away.
     Library.all.each_with_index do |library, index|
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
+
+      image = File.open(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"))
+
       ActsAsTenant.with_tenant(library) do
         Audited.audit_class.as_user(admin) do
           load_models Document, id_offset: offset
           load_models BorrowPolicy, id_offset: offset
           load_models Category, id_offset: offset
           load_models Item, id_offset: offset
+          Item.find_each do |item|
+            # create attachment
+            item.image.attach(io: image, filename: "tool-image.jpg")
+            image.rewind
+          end
+          load_models ActionText::RichText, id_offset: offset
         end
       end
     end
@@ -91,14 +101,16 @@ namespace :devdata do
       status: status,
       email: email,
       user: User.create!(email: email, password: "password"),
-      phone_number: "3121234567",
+      phone_number: "5005550006",
       full_name: full_name,
       preferred_name: preferred_name,
       pronouns: ["they/them"],
       address1: "123 W. Chicago Ave",
       postal_code: postal_code,
       address_verified: true,
-      number: number
+      number: number,
+      reminders_via_email: true,
+      reminders_via_text: true
     )
 
     membership = member.memberships.create!

@@ -34,7 +34,10 @@
               postgresql
 
               # lib/certificate/generator.rb shells out to convert
-              imagemagick
+              # ghostscript override fixes issue with with convert being unable
+              # to find a font, workaround copied from
+              # https://github.com/NixOS/nixpkgs/pull/246444
+              (imagemagick.override { ghostscriptSupport = true; })
 
               # for selenium tests
               chromium

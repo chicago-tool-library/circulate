@@ -1,0 +1,9 @@
+<% content_for :header do %>
+  <%= index_header "Reservations" do %>
+    <%= link_to "New reservation", new_admin_reservation_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<div id="reservations">
+  <%= render @reservations %>
+</div>

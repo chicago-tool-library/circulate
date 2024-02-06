@@ -1,0 +1,25 @@
+<div class="note-form">
+  <%= form_with(model: note, url: [:admin, member, note], builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+
+    <%= form.rich_text_area :body, label: (note.new_record? ? "Add a note" : "Edit note") %>
+
+    <%= form.actions do %>
+      <%= form.submit class: "btn btn-primary" %>
+
+      or
+      <% if note.new_record? %>
+        <%= link_to "Cancel", [:admin, member], data: {"turbo-frame" => "_top"} %>
+      <% else %>
+        <%= link_to "Cancel", [:admin, member, note] %>
+      <% end %>
+
+    <% end %>
+  <% end %>
+  <% unless note.new_record? %>
+    <br>
+    <%= tag.div class: "notes-actions" do %>
+      <%= button_to "Delete Note", [:admin, member, note], method: :delete, class: "btn btn-link", data: {"turbo-confirm": "Are you sute you want to delete this note?"} %>
+    <% end %>
+  <% end %>
+</div>

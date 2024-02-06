@@ -19,10 +19,10 @@ module Admin
       @loan = create_loan(@item, @member)
 
       if @loan.persisted?
-        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
+        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan)), status: :see_other
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
-        redirect_to admin_member_path(@loan.member, anchor: "checkout")
+        redirect_to admin_member_path(@loan.member, anchor: "checkout"), status: :see_other
       end
     end
 
@@ -36,10 +36,10 @@ module Admin
       end
 
       if success
-        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan))
+        redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan)), status: :see_other
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
-        redirect_to admin_member_path(@loan.member, anchor: "checkout")
+        redirect_to admin_member_path(@loan.member, anchor: "checkout"), status: :see_other
       end
     end
 
@@ -47,9 +47,9 @@ module Admin
       @loan = Loan.find(params[:id])
 
       if undo_loan(@loan)
-        redirect_to admin_member_path(@loan.member)
+        redirect_to admin_member_path(@loan.member), status: :see_other
       else
-        redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be undone!"
+        redirect_to admin_member_path(@loan.member, anchor: "checkout"), error: "Loan could not be undone!", status: :see_other
       end
     end
 

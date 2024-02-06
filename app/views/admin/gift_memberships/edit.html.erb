@@ -5,5 +5,5 @@
 <%= render "form", gift_membership: @gift_membership %>
 
 <div class="destroy-button">
-  <%= link_to "Destroy Gift Membership", [:admin, @gift_membership], method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-error btn-block btn-sm" %>
+  <%= button_to "Destroy Gift Membership", [:admin, @gift_membership], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-error btn-block btn-sm" %>
 </div

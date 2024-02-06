@@ -10,7 +10,7 @@ module Admin
 
       def update
         current_library.update(email_settings_params)
-        redirect_to admin_settings_email_settings_url, success: "Email settings updated"
+        redirect_to admin_settings_email_settings_url, success: "Email settings updated", status: :see_other
       end
 
       def preview

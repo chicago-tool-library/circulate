@@ -10,9 +10,12 @@ require "action_mailer/railtie"
 # require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
-# require "action_cable/engine"
 require "rails/test_unit/railtie"
 require "sprockets/railtie"
+
+# We're not using actioncable, but there's a bug that prevents the app from loading when eagerloading is on
+# https://github.com/hotwired/turbo-rails/issues/512
+require "action_cable/engine"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -28,6 +31,9 @@ module Circulate
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # We use Texters that act like Mailers for SMS communication
+    config.autoload_paths << "#{root}/app/texters"
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -41,7 +47,7 @@ module Circulate
     config.active_storage.variant_processor = :mini_magick
     config.active_job.queue_adapter = :sucker_punch
     config.action_dispatch.cookies_same_site_protection = nil
-    config.action_view.form_with_generates_remote_forms = true
+    config.action_view.form_with_generates_remote_forms = false
     ActiveSupport.utc_to_local_returns_utc_offset_times = false
 
     # Delegates exception handling to the routes

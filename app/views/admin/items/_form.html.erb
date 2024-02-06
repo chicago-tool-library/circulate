@@ -42,10 +42,10 @@
       <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
     </div>
     <div class="column col-4 col-sm-12">
-      <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default&.id), {hint: "Borrowing rules used for this item"}, data: {action: "conditional-field#change", target: "conditional-field.parent"} %>
+      <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default&.id), {hint: "Borrowing rules used for this item"}, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
     </div>
     <div class="column col-4 col-sm-12">
-      <%= tag.div data: {target: "conditional-field.child"}, class: "conditional-field-child" do %>
+      <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child" do %>
         <%= form.text_field :quantity, label: "Approximate quantity", hint: "Just an estimate for planning purposes" %>
       <% end %>
     </div>
@@ -83,7 +83,7 @@
     <legend>Item Image</legend>
     <div class="columns">
       <div class="column col-4 col-sm-12">
-        <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbolinks-permanent": true} %>
+        <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbo-permanent": true} %>
       </div>
       <div class="column col-4 col-sm-12">
         <%= form.check_box :delete_image, label: "Delete current image", required: false %>

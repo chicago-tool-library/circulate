@@ -1,0 +1,8 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Pickups", admin_pickups_path %>
+  <%= index_header "Pickup ##{@pickup.id}" do %>
+    <%= link_to "Edit", edit_admin_pickup_path(@pickup), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= render @pickup %>

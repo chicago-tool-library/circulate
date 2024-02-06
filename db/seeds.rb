@@ -1,7 +1,7 @@
 def seed_library(library, email_suffix = "", postal_code = "60609")
   ActsAsTenant.with_tenant(library) do
     member_attrs = {
-      phone_number: "3124567890", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
+      phone_number: "5005550006", pronouns: ["she/her"], id_kind: 0, address_verified: false, desires: "saws, hammers",
       address1: "123 S. Streetname St.", address2: "Apt. 4", city: "Chicago", region: "IL", postal_code: postal_code,
       reminders_via_email: true, reminders_via_text: true, receive_newsletter: true, volunteer_interest: true
     }
@@ -41,8 +41,24 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
     User.create!(email: expires_in_one_week_member.email, password: "password", member: expires_in_one_week_member)
     Membership.create!(member: expires_in_one_week_member, started_at: 351.days.ago, ended_at: 14.days.since)
 
-    3.upto(7).each do |number|
-      Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "event#{number}#{email_suffix}", start: number.days.since, finish: number.days.since + 2.hours)
+    # Hardcoding this value (the value of which is "password") means that user sessions aren't invalidated when running
+    # bin/reset and you won't have to log in again.
+    User.update_all(encrypted_password: "$2a$11$7iZBpCm6HGkC0B4fSbJCCen2IalyVwtDraM249IArh36CSQyqXuOa")
+
+    Time.use_zone "America/Chicago" do
+      monday_morning_at_midnight = Time.current.at_beginning_of_week
+
+      52.times do |week| # for each week in the next year
+        3.upto(5).each do |day| # on Thursday, Friday, and Saturday
+          ten_am = monday_morning_at_midnight + week.weeks + day.days + 10.hours
+          noon = ten_am + 2.hours
+          two_pm = ten_am + 4.hours
+
+          # Create morning and afternoon appointment slots
+          Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "morning#{week}#{day}#{email_suffix}", start: ten_am, finish: noon)
+          Event.create!(calendar_id: "appointmentSlots@calendar.google.com", calendar_event_id: "afternoon#{week}#{day}#{email_suffix}", start: noon, finish: two_pm)
+        end
+      end
     end
 
     LibraryUpdate.create(title: "December updates", body: "<h1>Library Closures!</h1><div>The tool library will be closed for a bit.</div>", published: true)

@@ -116,6 +116,10 @@ class Item < ApplicationRecord
     joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
   end
 
+  def hello
+    10
+  end
+
   def assign_number
     if number.blank?
       return unless borrow_policy

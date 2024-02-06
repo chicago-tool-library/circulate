@@ -1,0 +1,7 @@
+<%= form_with(model: pickup, url: [:admin, pickup], builder: SpectreFormBuilder) do |form| %>
+  <%= form.select :status, options_for_select(pickup_status_options, pickup.status), prompt: true %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

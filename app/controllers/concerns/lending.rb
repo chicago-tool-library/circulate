@@ -4,14 +4,10 @@ module Lending
   def create_loan(item, member, now: Time.current)
     loan = Loan.lend(item, to: member, now: now)
     loan.transaction do
-      if loan.save
-        if item.borrow_policy.consumable? && return_loan(loan, now: now)
-          item.decrement_quantity
-        end
-        loan
-      else
-        false
+      if loan.save && item.borrow_policy.consumable? && return_loan(loan, now: now)
+        item.decrement_quantity
       end
+      loan
     end
   end
 

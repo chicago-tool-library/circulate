@@ -13,10 +13,10 @@ class Admin::Settings::ClosingController < Admin::BaseController
       end_of_day = @form.date.in_time_zone(Time.zone).end_of_day
       Hold.extend_started_holds_until(end_of_day)
 
-      redirect_to admin_settings_closing_path, success: "Started holds have been updated."
+      redirect_to admin_settings_closing_path, success: "Started holds have been updated.", status: :see_other
     else
       @dates = Hold.next_waiting_hold_dates
-      render :index
+      render :index, status: :unprocessable_entity
     end
   end
 

@@ -16,5 +16,5 @@
     <% end %>
   <% end %>
 
-  <p class="mt-5"><%= link_to "Destroy this ticket update", [:admin, @item, @ticket, @ticket_update], method: :delete, data: {confirm: "Are you sure?"} %></p>
+  <p class="mt-5"><%= button_to "Destroy this ticket update", [:admin, @item, @ticket, @ticket_update], method: :delete, data: {turbo_confirm: "Are you sure?"} %></p>
 <% end %>

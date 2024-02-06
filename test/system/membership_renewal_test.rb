@@ -33,21 +33,30 @@ class MembershipRenewalTest < ApplicationSystemTestCase
   end
 
   def complete_square_checkout
-    assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
-    assert_selector ".order-details-section", text: "1 × Annual Membership"
+    ignore_js_errors reason: "square site has a couple issues" do
+      click_on "Pay Online Now"
 
-    fill_in "card_fullname", with: "N. K. Jemisin"
+      assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
+      assert_selector ".order-details-section", text: "1 × Annual Membership"
 
-    page.within_frame("sq-card-number") { page.first("input").fill_in with: "4111111111111111" }
-    page.within_frame("sq-expiration-date") { page.find("input").fill_in with: "1224" }
-    page.within_frame("sq-cvv") { page.find("input").fill_in with: "123" }
-    page.within_frame("sq-postal-code") { page.first("input").fill_in with: "60609" }
+      fill_in "card_fullname", with: "N. K. Jemisin"
 
-    perform_enqueued_jobs do
-      click_on "Place Order"
+      iframe = page.find(".sq-card-iframe-container iframe")
+      name = iframe["name"]
 
-      # Back in the app
-      assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
+      page.within_frame(name) {
+        page.find("input#cardNumber").fill_in with: "4111111111111111"
+        page.find("input#expirationDate").fill_in with: "1226"
+        page.find("input#cvv").fill_in with: "123"
+        page.find("input#postalCode").fill_in with: "60647"
+      }
+
+      perform_enqueued_jobs do
+        click_on "Place Order"
+
+        # Back in the app
+        assert_content "Renewal Complete", wait: slow_op_wait_time
+      end
     end
   end
 
@@ -85,7 +94,6 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     complete_first_three_steps
 
     fill_in "Your membership fee:", with: "42"
-    click_on "Pay Online Now"
 
     complete_square_checkout
 
@@ -117,7 +125,6 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     complete_first_three_steps
 
     fill_in "Your membership fee:", with: "42"
-    click_on "Pay Online Now"
 
     complete_square_checkout
 

@@ -33,14 +33,14 @@ class MemberTest < ActiveSupport::TestCase
     member = FactoryBot.build(:member)
     member.save
 
-    assert_equal [member], Member.matching("4567")
+    assert_equal [member], Member.matching("0006")
   end
 
   test "finds member by formatted phone number" do
     member = FactoryBot.build(:member)
     member.save
 
-    assert_equal [member], Member.matching("(312) 123-4567")
+    assert_equal [member], Member.matching("(500) 555-0006")
   end
 
   test "checks postal codes against the library's pattern" do
