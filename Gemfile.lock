@@ -114,12 +114,11 @@ GEM
     base64 (0.2.0)
     bcrypt (3.1.19)
     benchmark (0.3.0)
-    better_html (1.0.16)
-      actionview (>= 4.0)
-      activesupport (>= 4.0)
+    better_html (2.0.2)
+      actionview (>= 6.0)
+      activesupport (>= 6.0)
       ast (~> 2.0)
       erubi (~> 1.4)
-      html_tokenizer (~> 0.0.6)
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.6)
@@ -161,10 +160,9 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     e2mmap (0.1.0)
-    erb_lint (0.1.1)
+    erb_lint (0.5.0)
       activesupport
-      better_html (~> 1.0.7)
-      html_tokenizer
+      better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
       rainbow
       rubocop
@@ -216,7 +214,6 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
-    html_tokenizer (0.0.7)
     http (5.0.4)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -567,7 +564,7 @@ DEPENDENCIES
   cssbundling-rails (~> 1.4)
   devise
   dotenv-rails
-  erb_lint (~> 0.1.1)
+  erb_lint (~> 0.5.0)
   factory_bot_rails
   http
   image_processing (~> 1.12)
