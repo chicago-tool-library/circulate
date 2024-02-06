@@ -25,14 +25,14 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def text_area(method, options = {})
     options[:class] = "form-input"
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     html_options[:class] = "form-select"
     sequence_layout(method, options) do
-      super method, collection, value_method, text_method, options, html_options
+      super(method, collection, value_method, text_method, options, html_options)
     end
   end
 
@@ -59,7 +59,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] = "form-select"
     sequence_layout(method, options) do
-      super method, choices, options, html_options, &block
+      super(method, choices, options, html_options, &block)
     end
   end
 
@@ -73,20 +73,20 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
               @template.link_to(attachment.filename, @template.url_for(attachment))).html_safe
           }
       else
-        super method, options
+        super(method, options)
       end
     end
   end
 
   def number_field(method, options = {})
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
   def rich_text_area(method, options = {})
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
@@ -110,14 +110,14 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def text_field(method, options = {})
     options[:class] = "form-input"
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
   def password_field(method, options = {})
     options[:class] = "form-input"
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
@@ -133,7 +133,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   def date_field(method, options = {})
     options[:class] = "form-input"
     sequence_layout(method, options) do
-      super method, options
+      super(method, options)
     end
   end
 
