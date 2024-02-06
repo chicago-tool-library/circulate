@@ -1908,10 +1908,10 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-trix@^2.0.9:
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/trix/-/trix-2.0.9.tgz#26fd49fe17a5556d8f2fea632d194e7ee8f943d3"
-  integrity sha512-ukYIuICcO1mxz0c1BNKauV5gSVpXwLgAXXM69OkIEWzb4NU6WdGGePQ5DoP/Z19yUN7I27i1EVl4Z94IAmQZZA==
+trix@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/trix/-/trix-2.0.10.tgz#43f1ff7a94c42f708bd2bad3a2783147c0583698"
+  integrity sha512-a24w8rNVL+g9nDDdiDZwQVQ9AEWiXAmk9r0ZbwimczJi/xlaM+m0d6upAi0vysDNu0HsiYDFS1/VrR7HbX0Aig==
 
 tslib@^2.3.0:
   version "2.6.2"
