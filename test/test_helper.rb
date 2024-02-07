@@ -7,6 +7,10 @@ require "minitest/mock"
 require "helpers/return_values"
 require "helpers/ensure_request_tenant"
 
+# Explicit require means the plugin is available when tests are evaluated;
+# otherwise, the plugin isn't loaded until later.
+require "minitest/tags_plugin"
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
@@ -19,22 +23,6 @@ class ActiveSupport::TestCase
 
   def assert_size(expected, subject)
     assert_equal expected, subject.size, "wrong size; got #{subject.size} instead of #{expected}"
-  end
-
-  class << self
-    def env_tags
-      @env_tags ||= ENV.fetch("TAGS", "").split
-    end
-
-    def test(subject, *tags, &block)
-      if tags.include?(:remote) && !env_tags.include?("remote")
-        super(subject) do
-          skip "Skipping remote test"
-        end
-      else
-        super(subject, &block)
-      end
-    end
   end
 
   setup do
