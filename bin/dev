@@ -5,6 +5,18 @@ if ! gem list foreman -i --silent; then
   gem install foreman
 fi
 
+# Install missing yarn dependencies
+if ! yarn install -s; then
+  echo "Yarn dependencies could not be installed!"
+  exit
+fi
+
+# Install missing Ruby dependencies
+if ! bundle install --quiet; then
+  echo "Ruby dependencies could not be installed!"
+  exit
+fi
+
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
