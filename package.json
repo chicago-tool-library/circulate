@@ -14,7 +14,7 @@
     "esbuild": "^0.19.3",
     "feather-icons": "^4.29.1",
     "jquery": "^3.7.1",
-    "mjml": "^4.15.2",
+    "mjml": "^4.15.3",
     "sass": "^1.70.0",
     "selectize": "^0.12.6",
     "sortablejs": "^1.15.0",
