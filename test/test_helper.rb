@@ -28,7 +28,7 @@ class ActiveSupport::TestCase
 
     def test(subject, *tags, &block)
       if tags.include?(:remote) && !env_tags.include?("remote")
-        super subject do
+        super(subject) do
           skip "Skipping remote test"
         end
       else
