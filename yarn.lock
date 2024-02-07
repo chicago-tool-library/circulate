@@ -686,10 +686,10 @@ extend-shallow@^2.0.1:
   dependencies:
     is-extendable "^0.1.0"
 
-feather-icons@^4.25.0:
-  version "4.28.0"
-  resolved "https://registry.yarnpkg.com/feather-icons/-/feather-icons-4.28.0.tgz#e1892a401fe12c4559291770ff6e68b0168e760f"
-  integrity sha512-gRdqKESXRBUZn6Nl0VBq2wPHKRJgZz7yblrrc2lYsS6odkNFDnA4bqvrlEVRUPjE1tFax+0TdbJKZ31ziJuzjg==
+feather-icons@^4.29.1:
+  version "4.29.1"
+  resolved "https://registry.yarnpkg.com/feather-icons/-/feather-icons-4.29.1.tgz#f222aaa4cc6fca499356660c9de6c009ee2cb117"
+  integrity sha512-P1we61haGTds6lKWe6CCVPsNULb8tHr1y6S9gXEpU+lNR1Ja7GdV0A1l2hTNmzXv+0Stix/3YMWMAn7n1Qtd6A==
   dependencies:
     classnames "^2.2.5"
     core-js "^3.1.3"
