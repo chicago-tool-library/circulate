@@ -26,13 +26,12 @@ module Renewal
 
       mock_checkout = Minitest::Mock.new
       Time.use_zone "America/Chicago" do
-        mock_checkout.expect :checkout_url, mock_result, [{
+        mock_checkout.expect(:checkout_url, mock_result,
           amount: Money.new(1200),
           email: @member.email,
           return_to: "http://example.com/renewal/payments/callback",
           member_id: @member.id,
-          date: Date.current
-        }]
+          date: Date.current)
 
         SquareCheckout.stub :new, mock_checkout do
           post renewal_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
@@ -51,7 +50,12 @@ module Renewal
       mock_result.expect :error, [{code: "SOMETHING_WENT_WRONG"}]
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :checkout_url, mock_result, [Hash]
+      mock_checkout.expect(:checkout_url, mock_result,
+        amount: Money,
+        email: String,
+        return_to: String,
+        member_id: Integer,
+        date: Date)
 
       SquareCheckout.stub :new, mock_checkout do
         post renewal_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
@@ -72,10 +76,9 @@ module Renewal
       mock_result.expect :value, Money.new(1234)
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :fetch_transaction, mock_result, [{
+      mock_checkout.expect(:fetch_transaction, mock_result,
         member: @member,
-        transaction_id: "abcd1234"
-      }]
+        transaction_id: "abcd1234")
 
       SquareCheckout.stub :new, mock_checkout do
         assert_difference "Membership.count" => 1, "Adjustment.count" => 2 do
@@ -97,7 +100,7 @@ module Renewal
       mock_result.expect :error, [{code: "ERROR_CODE"}]
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :fetch_transaction, mock_result, [Hash]
+      mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
@@ -120,7 +123,7 @@ module Renewal
       mock_result.expect :error, [{code: "NOT_FOUND"}]
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :fetch_transaction, mock_result, [Hash]
+      mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
@@ -143,7 +146,7 @@ module Renewal
         mock_result.expect :error, [{code: "NOT_FOUND"}]
 
         mock_checkout = Minitest::Mock.new
-        mock_checkout.expect :fetch_transaction, mock_result, [Hash]
+        mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
 
         SquareCheckout.stub :new, mock_checkout do
           get callback_renewal_payments_url, params: {transactionId: "abcd1234"}

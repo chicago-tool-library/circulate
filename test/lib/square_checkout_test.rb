@@ -16,31 +16,28 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :body, mock_body
 
     mock_checkout = Minitest::Mock.new
-    mock_checkout.expect :create_checkout, mock_response, [
-      {
-        location_id: "SQ_LOCATION_ID",
-        body: {
-          idempotency_key: "test",
-          redirect_url: "http://example.com/callback",
-          pre_populate_buyer_email: member.email,
+    mock_checkout.expect(:create_checkout, mock_response,
+      location_id: "SQ_LOCATION_ID",
+      body: {
+        idempotency_key: "test",
+        redirect_url: "http://example.com/callback",
+        pre_populate_buyer_email: member.email,
+        order: {
           order: {
-            order: {
-              location_id: "SQ_LOCATION_ID",
-              reference_id: "20210101-#{member.id}",
-              line_items: [{
-                name: "Annual Membership",
-                quantity: "1",
-                base_price_money: {
-                  amount: form.amount.cents,
-                  currency: "USD"
-                }
-              }]
-            }
-          },
-          note: "Circulate signup payment"
-        }
-      }
-    ]
+            location_id: "SQ_LOCATION_ID",
+            reference_id: "20210101-#{member.id}",
+            line_items: [{
+              name: "Annual Membership",
+              quantity: "1",
+              base_price_money: {
+                amount: form.amount.cents,
+                currency: "USD"
+              }
+            }]
+          }
+        },
+        note: "Circulate signup payment"
+      })
 
     mock_client = Minitest::Mock.new
     mock_client.expect :checkout, mock_checkout
@@ -76,31 +73,28 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :errors, "ERRORS"
 
     mock_checkout = Minitest::Mock.new
-    mock_checkout.expect :create_checkout, mock_response, [
-      {
-        location_id: "SQ_LOCATION_ID",
-        body: {
-          idempotency_key: "test",
-          redirect_url: "http://example.com/callback",
-          pre_populate_buyer_email: member.email,
+    mock_checkout.expect(:create_checkout, mock_response,
+      location_id: "SQ_LOCATION_ID",
+      body: {
+        idempotency_key: "test",
+        redirect_url: "http://example.com/callback",
+        pre_populate_buyer_email: member.email,
+        order: {
           order: {
-            order: {
-              location_id: "SQ_LOCATION_ID",
-              reference_id: "20210101-#{member.id}",
-              line_items: [{
-                name: "Annual Membership",
-                quantity: "1",
-                base_price_money: {
-                  amount: form.amount.cents,
-                  currency: "USD"
-                }
-              }]
-            }
-          },
-          note: "Circulate signup payment"
-        }
-      }
-    ]
+            location_id: "SQ_LOCATION_ID",
+            reference_id: "20210101-#{member.id}",
+            line_items: [{
+              name: "Annual Membership",
+              quantity: "1",
+              base_price_money: {
+                amount: form.amount.cents,
+                currency: "USD"
+              }
+            }]
+          }
+        },
+        note: "Circulate signup payment"
+      })
 
     mock_client = Minitest::Mock.new
     mock_client.expect :checkout, mock_checkout
@@ -139,7 +133,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :body, mock_body
 
     mock_transactions = Minitest::Mock.new
-    mock_transactions.expect :retrieve_transaction, mock_response, [{location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1"}]
+    mock_transactions.expect(:retrieve_transaction, mock_response, location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1")
 
     mock_client = Minitest::Mock.new
     mock_client.expect :transactions, mock_transactions
@@ -167,7 +161,7 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :errors, "ERRORS"
 
     mock_transactions = Minitest::Mock.new
-    mock_transactions.expect :retrieve_transaction, mock_response, [{location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1"}]
+    mock_transactions.expect(:retrieve_transaction, mock_response, location_id: "SQ_LOCATION_ID", transaction_id: "transaction_1")
 
     mock_client = Minitest::Mock.new
     mock_client.expect :transactions, mock_transactions
