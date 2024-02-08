@@ -14,6 +14,7 @@
   - [Configuring your database](#configuring-your-database)
   - [Resetting the application](#resetting-the-application)
   - [Running tests](#running-tests)
+    - [Remote tests and test tagging](#remote-tests-and-test-tagging)
   - [Code formatting and linting](#code-formatting-and-linting)
   - [Setup pre-commit checks](#setup-pre-commit-checks)
   - [Documentation](#documentation)
@@ -176,6 +177,42 @@ $ rails test:system # to run system tests
 ```
 
 Note, in order to get system tests to run, you will need `chromedriver` installed. See [Requirements section](#requirements) above.
+
+#### Remote tests and test tagging
+
+Tests tagged as `remote` are not run by default. They are defined by passing additional arguments to `test` when defining the test methods:
+
+```ruby
+test "do something with a remote server", :remote do
+  # interact with a remote machine
+end
+```
+
+This kind of test are useful to ensure that some code in the repository actually works with an external server properly, but since that test has a dependency on that server (and often on having access to credentials), we don't want to automatically run those tests all the time.
+
+If you'd like to run all the tests (regardless of whether they are remote or not), you can do that:
+
+```console
+$ bin/rails test -t :remote
+```
+
+This works for running the tests in a file as well:
+
+```console
+$ bin/rails test path/to/file -t :remote
+```
+
+The `:` prefix clears the default setting that negates tests with the `remote` flag. You can also run only tests tagged with `remote` (or any other tag):
+
+```console
+$ bin/rails test path/to/file -t remote
+```
+
+It's also possible to filter out tests with other tags (should we add them) using the `~` prefix. The following would cause the test runner to ignore any tests tagged with `slow`:
+
+```console
+$ bin/rails test -t ~slow
+```
 
 ### Code formatting and linting
 
