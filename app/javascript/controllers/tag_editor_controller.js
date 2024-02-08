@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 const jquery = require("jquery");
-const Selectize = require("selectize");
+const Selectize = require("@selectize/selectize");
 
 export default class extends Controller {
   static targets = [ "input" ]
