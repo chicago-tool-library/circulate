@@ -115,4 +115,4 @@ module TestCasePatch
   end
 end
 
-ActiveSupport::TestCase.send :extend, TestCasePatch
+ActiveSupport::TestCase.extend TestCasePatch
