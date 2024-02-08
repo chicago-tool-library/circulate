@@ -36,26 +36,34 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     ignore_js_errors reason: "square site has a couple issues" do
       click_on "Pay Online Now"
 
-      assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
-      assert_selector ".order-details-section", text: "1 × Annual Membership"
+      wait_for_square_sandbox_to_load
 
-      fill_in "card_fullname", with: "N. K. Jemisin"
+      # Checkout API Sandbox Testing Panel
+      # extract order id from page
+      # p.text will be something like "order_id: xyu3Gv1KQic4q93xISrJusrHXa4F\nurl: https://sandbox.square.link/u/xUTx9ykD"
+      p = page.find("p", text: "order_id")
+      data = p.text.split.in_groups_of(2).to_h
+      order_id = data["order_id:"]
 
-      iframe = page.find(".sq-card-iframe-container iframe")
-      name = iframe["name"]
+      # advance through and complete the payment
+      click_on "Next"
 
-      page.within_frame(name) {
-        page.find("input#cardNumber").fill_in with: "4111111111111111"
-        page.find("input#expirationDate").fill_in with: "1226"
-        page.find("input#cvv").fill_in with: "123"
-        page.find("input#postalCode").fill_in with: "60647"
-      }
+      # complete the payment so we can verify the callback
+      click_on "Test Payment"
+      assert_content "Checkout Complete"
+
+      # grab redirect URL
+      td = page.find("td", text: /redirected/)
+      url = td.text.sub("Customer redirected to:", "").strip
+
+      # build redirect URL from url and order id
+      redirect_url = "#{url}?orderId=#{order_id}"
 
       perform_enqueued_jobs do
-        click_on "Place Order"
+        visit redirect_url
 
         # Back in the app
-        assert_content "Renewal Complete", wait: slow_op_wait_time
+        assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
       end
     end
   end

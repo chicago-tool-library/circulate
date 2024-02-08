@@ -162,6 +162,25 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     find("time[datetime='#{datetime.utc}']")
   end
 
+  # Sometimes the Square sandbox site returns a 404 for a little while after being created.
+  # This method will check to see if the sandbox page has successfully loaded, and if not,
+  # it will reload the page after a short wait.
+  def wait_for_square_sandbox_to_load
+    attempt = 0
+    loop do
+      page.find("p", text: "order_id")
+      return
+    rescue Capybara::ElementNotFound
+      attempt = 1
+      if attempt > 2
+        raise
+      end
+      puts "sandbox page didn't load, trying again"
+      sleep 1
+      refresh
+    end
+  end
+
   # The GH action runners are _slow_ and things like image generation or
   # MJML rendering will easily timeout unless given a lot of breathing room.
   def slow_op_wait_time
