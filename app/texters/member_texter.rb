@@ -11,7 +11,7 @@ class MemberTexter < BaseTexter
     return unless member.reminders_via_text?
 
     message = <<~EOM
-      Chicago Tool Library Reminder: You have #{pluralize(summaries.length, "overdue item")}! Please schedule a return appointment at #{account_member_url}
+      Chicago Tool Library Reminder: You have #{pluralize(summaries.length, "overdue item")}! Please schedule a return appointment at #{new_account_appointment_url}
     EOM
     result = text(to: @member.canonical_phone_number, body: message)
     store_notification("overdue_notice", message, result)
