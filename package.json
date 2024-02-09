@@ -5,7 +5,7 @@
     "@appsignal/javascript": "^1.3.28",
     "@appsignal/stimulus": "^1.0.18",
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^7.3.0",
+    "@hotwired/turbo-rails": "^8.0.1",
     "@rails/actioncable": "^7.1.3",
     "@rails/actiontext": "^7.1.3",
     "@rails/activestorage": "^7.1.3",
