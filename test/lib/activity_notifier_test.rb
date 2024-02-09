@@ -189,7 +189,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     end
 
     days.times do |i|
-      mailer_call = mailer_spy.calls.find { |c| c.args[0][:member].email == loans[i].member.email }
+      mailer_call = mailer_spy.calls.find { |c| c.kwargs[:member].email == loans[i].member.email }
       texter_call = texter_spy.calls.find { |c| c.args[0].email == loans[i].member.email }
       if i % 7 == 0
         assert mailer_call
@@ -209,7 +209,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       error = RuntimeError.new("oh no")
       orig_method = MemberTexter.method(:new)
       call_count = 0
-      explode_once = ->(klass, member) {
+      explode_once = ->(member) {
         if call_count > 0
           orig_method.call(member)
         else
