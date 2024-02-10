@@ -76,13 +76,12 @@ module Renewal
       mock_result.expect :value, Money.new(1234)
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect(:fetch_transaction, mock_result,
-        member: @member,
-        transaction_id: "abcd1234")
+      mock_checkout.expect(:fetch_order, mock_result,
+        order_id: "abcd1234")
 
       SquareCheckout.stub :new, mock_checkout do
         assert_difference "Membership.count" => 1, "Adjustment.count" => 2 do
-          get callback_renewal_payments_url, params: {transactionId: "abcd1234"}
+          get callback_renewal_payments_url, params: {orderId: "abcd1234"}
         end
       end
 
@@ -100,11 +99,11 @@ module Renewal
       mock_result.expect :error, [{code: "ERROR_CODE"}]
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
+      mock_checkout.expect :fetch_order, mock_result, order_id: String
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
-          get callback_renewal_payments_url, params: {transactionId: "abcd1234"}
+          get callback_renewal_payments_url, params: {orderId: "abcd1234"}
         end
       end
 
@@ -123,11 +122,11 @@ module Renewal
       mock_result.expect :error, [{code: "NOT_FOUND"}]
 
       mock_checkout = Minitest::Mock.new
-      mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
+      mock_checkout.expect :fetch_order, mock_result, order_id: String
 
       SquareCheckout.stub :new, mock_checkout do
         assert_no_difference ["Membership.count", "Adjustment.count"] do
-          get callback_renewal_payments_url, params: {transactionId: "abcd1234"}
+          get callback_renewal_payments_url, params: {orderId: "abcd1234"}
         end
       end
 
@@ -146,10 +145,10 @@ module Renewal
         mock_result.expect :error, [{code: "NOT_FOUND"}]
 
         mock_checkout = Minitest::Mock.new
-        mock_checkout.expect :fetch_transaction, mock_result, member: Member, transaction_id: String
+        mock_checkout.expect :fetch_order, mock_result, order_id: String
 
         SquareCheckout.stub :new, mock_checkout do
-          get callback_renewal_payments_url, params: {transactionId: "abcd1234"}
+          get callback_renewal_payments_url, params: {orderId: "abcd1234"}
         end
 
         assert_mock mock_result
