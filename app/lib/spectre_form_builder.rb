@@ -1,5 +1,6 @@
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
+  include ActionView::Helpers::TagHelper
 
   alias_method :parent_text_field, :text_field
   alias_method :parent_collection_select, :collection_select
@@ -135,6 +136,24 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     sequence_layout(method, options) do
       super(method, options)
     end
+  end
+
+  # Render a set of fields for every object in an association, along with a
+  # button to create new instances of the join model.
+  #
+  # Based on the "Stimulus" example from this absolute legend:
+  # https://stackoverflow.com/a/71715794
+  def dynamic_fields_for(association, label: "Add")
+    tag.div(data: {controller: "dynamic-fields"}) {
+      safe_join([
+        fields_for(association) { |ff| yield ff },
+        tag.button(label, data: {action: "dynamic-fields#add"}),
+        tag.template(data: {dynamic_fields_target: "template"}) {
+          fields_for(association, association.to_s.classify.constantize.new,
+            child_index: "__CHILD_INDEX__") { |ff| yield ff }
+        }
+      ])
+    }
   end
 
   def actions(&block)

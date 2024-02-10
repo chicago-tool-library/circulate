@@ -4,22 +4,15 @@
   <%= form.date_field :ended_at, label: "End" %>
 
   <fieldset>
-    <legend>Reservable Items</legend>
-    <% @reservable_items.each do |item| %>
-      <div class="form-group">
-        <label class="form-checkbox checkbox-lg">
-          <%= check_box_tag("reservation[reservable_item_ids][]", item.id, @reservation.reservable_items.include?(item)) %>
-          <i class="form-icon"></i>
-          <%= item.name %>
-          <% reservation.errors["reservable_item_ids_#{item.id}"].each do |error| %>
-            <span class="bg-error"><%= error %></span>
-          <% end %>
-        </label>
-      </div>
+    <legend>Items on this reservation</legend>
+    <%= form.dynamic_fields_for :date_holds do |dynamic_form| %>
+      <%= dynamic_form.select :item_pool_id, item_pool_options %>
+      <%= dynamic_form.number_field :quantity %>
+      <%= dynamic_form.check_box :_destroy, label: "Remove?" %>
     <% end %>
   </fieldset>
 
-  <div>
+  <%= form.actions do %>
     <%= form.submit %>
-  </div>
+  <% end %>
 <% end %>

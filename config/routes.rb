@@ -165,6 +165,7 @@ Rails.application.routes.draw do
 
     if ENV["FEATURE_GROUP_LENDING"] == "on"
       # Group Lending
+      resources :item_pools
       resources :reservable_items
       resources :reservations do
         scope module: "reservations" do

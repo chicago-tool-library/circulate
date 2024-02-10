@@ -1,0 +1,8 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Item Pools", admin_item_pools_path %>
+  <%= index_header @item_pool.name do %>
+    <%= link_to "Edit", edit_admin_item_pool_path(@item_pool), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= render @item_pool %>

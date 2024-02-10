@@ -1,0 +1,8 @@
+<%= form_with(model: item_pool, url: [:admin, item_pool], builder: SpectreFormBuilder) do |form| %>
+  <%= form.text_field :name %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+

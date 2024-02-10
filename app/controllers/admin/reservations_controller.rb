@@ -11,11 +11,11 @@ module Admin
 
     def new
       @reservation = Reservation.new
-      @reservable_items = ReservableItem.all
+      @item_pools = ItemPool.all
     end
 
     def edit
-      @reservable_items = ReservableItem.all
+      @item_pools = ItemPool.all
     end
 
     def create
@@ -24,7 +24,7 @@ module Admin
       if @reservation.save
         redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully created."
       else
-        @reservable_items = ReservableItem.all
+        @item_pools = ItemPool.all
         render :new, status: :unprocessable_entity
       end
     end
@@ -33,7 +33,7 @@ module Admin
       if @reservation.update(reservation_params)
         redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
       else
-        @reservable_items = ReservableItem.all
+        @item_pools = ItemPool.all
         render :edit, status: :unprocessable_entity
       end
     end
@@ -44,16 +44,18 @@ module Admin
       redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
     end
 
+    def append_date_hold
+      @item_pool = ItemPool.find(params[:item_pool_id])
+    end
+
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_reservation
       @reservation = Reservation.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def reservation_params
-      params.require(:reservation).permit(:name, :started_at, :ended_at, reservable_item_ids: [])
+      params.require(:reservation).permit(:name, :started_at, :ended_at, date_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
     end
   end
 end

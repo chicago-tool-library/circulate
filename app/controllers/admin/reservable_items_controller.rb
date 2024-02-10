@@ -43,14 +43,12 @@ module Admin
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_reservable_item
       @reservable_item = ReservableItem.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def reservable_item_params
-      params.require(:reservable_item).permit(:name)
+      params.require(:reservable_item).permit(:name, :item_pool_id)
     end
   end
 end
