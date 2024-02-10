@@ -88,7 +88,6 @@ group :test do
   gem "minitest", "5.22.1"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
-  gem "minitest-ci"
   gem "rails-controller-testing"
 end
 
