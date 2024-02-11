@@ -1,0 +1,12 @@
+<div id="<%= dom_id(appointment) %>-complete">
+  <% if appointment.completed? %>
+    <%= button_to "Restore", admin_appointment_detail_path(appointment),
+          method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
+  <% else %>
+    <%= button_to "Complete", admin_appointment_path(appointment),
+          method: :put, class: "btn btn-primary", data: {disable_with: "saving"} %>
+  <% end %>
+
+  <%= button_to "Cancel", admin_appointment_path(appointment), class: "btn mt-2 btn-danger", method: :delete, data: {turbo_submits_with: "Cancelling appointment...", turbo_confirm: "Are you sure to cancel this appointment?"} %>
+</div>
+
