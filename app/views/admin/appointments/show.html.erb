@@ -23,7 +23,7 @@
           <%= link_to "Edit date and time", edit_admin_appointment_path(@appointment), class: "btn btn-sm mt-2" %>
         </div>
         <div class="column col-3">
-          <%= button_to "Cancel", admin_appointment_path(@appointment), class: "btn btn-primary", method: :delete, data: {turbo_submits_with: "Cancelling appointment...", turbo_confirm: "Are you sure to cancel this appointment?"} %>
+          <%= render partial: "complete", locals: {appointment: @appointment} %>
         </div>
       </div>
   </div>
