@@ -517,7 +517,7 @@ GEM
     thor (1.3.0)
     tilt (2.3.0)
     timeout (0.4.1)
-    translation (1.38)
+    translation (1.40)
       gettext (~> 3.2, >= 3.2.5, <= 3.4.9)
     turbo-rails (2.0.2)
       actionpack (>= 6.0.0)
