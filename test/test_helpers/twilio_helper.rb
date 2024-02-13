@@ -4,6 +4,9 @@ module TwilioHelper
     SUCCESSFUL_FROM = "+15005550006"
   end
 
+  # See https://www.twilio.com/docs/glossary/what-sms-character-limit
+  SEGMENT_LENGTH = 160
+
   # Via https://thoughtbot.com/blog/testing-sms-interactions
   class FakeSMS
     Message = Struct.new(:from, :to, :body, :sid, :status, keyword_init: true)

@@ -36,20 +36,23 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     refute_includes mail.encoded, "return all overdue items as soon as possible"
   end
 
-  test "sends emails to folks who have items due on the following day" do
+  test "sends emails and texts to folks who have items due on the following day" do
     loan = Time.use_zone("America/Chicago") {
       create(:loan, due_at: (Time.current.end_of_day + 1.day), created_at: 6.days.ago)
     }
 
     Time.use_zone("America/Chicago") do
+      # Loans not due tomorrow for other members shouldn't generate notifications
       create(:loan, due_at: Time.current.end_of_day, created_at: 6.days.ago)
       create(:loan, due_at: (Time.current.end_of_day - 1.day), created_at: 6.days.ago)
       create(:loan, due_at: (Time.current.end_of_day + 2.days), created_at: 6.days.ago)
+      # Non-due loan for notified member shouldn't show up in SMS due count
+      create(:loan, member: loan.member, due_at: (Time.current.end_of_day + 2.days), created_at: 6.days.ago)
     end
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
-      assert_difference "Notification.count" do
+      assert_difference "Notification.count", 2 do
         notifier.send_return_reminders
       end
     end
@@ -58,9 +61,16 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
     assert_equal "Your items are due soon", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
+
+    texts = TwilioHelper::FakeSMS.messages
+    assert_equal 1, texts.count
+
+    text = texts.first
+    assert_includes text.to, loan.member.phone_number
+    assert_includes text.body, "1 item due tomorrow"
   end
 
-  test "doesn't send reminder emails to folks who have returned their items" do
+  test "doesn't send reminder emails or texts to folks who have returned their items" do
     Time.use_zone("America/Chicago") do
       create(:ended_loan, due_at: (Time.current.end_of_day + 1.day))
     end
@@ -73,6 +83,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     end
 
     assert ActionMailer::Base.deliveries.empty?
+    assert TwilioHelper::FakeSMS.messages.empty?
   end
 
   test "doesn't send emails with old activity" do
