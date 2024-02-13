@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 module Admin
-  class AppointmentDetailsControllerTest < ActionDispatch::IntegrationTest
+  class AppointmentDetailCompletionsControllerTest < ActionDispatch::IntegrationTest
     include Devise::Test::IntegrationHelpers
 
     setup do
@@ -16,16 +16,16 @@ module Admin
     end
 
     test "completes an appointment" do
-      post admin_appointment_detail_path(@appointment), as: :turbo_stream
+      post admin_appointment_detail_completion_path(@appointment), as: :turbo_stream
 
-      assert @appointment.reload.completed_at
       assert_redirected_to admin_appointments_path
+      assert @appointment.reload.completed_at
     end
 
     test "un-completes an appointment" do
       @appointment.update!(completed_at: Time.current)
 
-      delete admin_appointment_detail_path(@appointment), as: :turbo_stream
+      delete admin_appointment_detail_completion_path(@appointment), as: :turbo_stream
       assert_response :success
 
       assert_nil @appointment.reload.completed_at

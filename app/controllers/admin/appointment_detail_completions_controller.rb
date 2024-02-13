@@ -1,5 +1,5 @@
 module Admin
-  class AppointmentDetailController < BaseController
+  class AppointmentDetailCompletionsController < BaseController
     include ActionView::RecordIdentifier
 
     before_action :are_appointments_enabled?
