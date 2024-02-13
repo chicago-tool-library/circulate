@@ -17,7 +17,7 @@ class ActivityNotifier
     each_member(members_with_overdue_items) do |member, summaries|
       summaries = summaries.overdue_as_of(@now.tomorrow.beginning_of_day)
       MemberMailer.with(member: member, summaries: summaries, now: @now).overdue_notice.deliver
-      if sms_reminders_enabled?
+      if FeatureFlags.sms_reminders_enabled?
         MemberTexter.new(member).overdue_notice(summaries)
       end
     end
@@ -64,9 +64,5 @@ class ActivityNotifier
       Rails.logger.error("Error notifying member #{member.id}: #{e}")
       Appsignal.send_error(e)
     end
-  end
-
-  def sms_reminders_enabled?
-    ENV["FEATURE_SMS_REMINDERS"] == "on"
   end
 end

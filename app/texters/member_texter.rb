@@ -18,6 +18,17 @@ class MemberTexter < BaseTexter
     result
   end
 
+  def hold_available(hold)
+    return unless member.reminders_via_text?
+
+    message = <<~EOM
+      Chicago Tool Library Reminder: Your hold for #{hold.item.complete_number} is available! Schedule a pick-up at #{new_account_appointment_url}
+    EOM
+    result = text(to: @member.canonical_phone_number, body: message)
+    store_notification("hold_available", message, result)
+    result
+  end
+
   def store_notification(action_name, message, result)
     Notification.create!(
       member: member,
