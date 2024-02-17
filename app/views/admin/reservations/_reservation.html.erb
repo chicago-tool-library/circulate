@@ -30,7 +30,7 @@
     <strong>Items:</strong>
     <ul>
       <% reservation.date_holds.each do |date_hold| %>
-        <li><%= date_hold.item_pool.name %> (<%= date_hold.quantity %>)</li>
+        <li><%= link_to date_hold.item_pool.name, admin_item_pool_path(date_hold.item_pool)  %> (<%= date_hold.quantity %>)</li>
       <% end %>
     </ul>
   </p>

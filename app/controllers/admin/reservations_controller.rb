@@ -3,7 +3,7 @@ module Admin
     before_action :set_reservation, only: %i[show edit update destroy]
 
     def index
-      @reservations = Reservation.all
+      @reservations = Reservation.includes(date_holds: :item_pool)
     end
 
     def show

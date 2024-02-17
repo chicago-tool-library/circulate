@@ -49,7 +49,7 @@ module Admin
     end
 
     def item_pool_params
-      params.require(:item_pool).permit(:name)
+      params.require(:item_pool).permit(:name, :uniquely_numbered, :unnumbered_count)
     end
   end
 end
