@@ -64,7 +64,7 @@ module AdminHelper
       tag.span(
         class: "tooltip tooltip-bottom",
         data: {tooltip: message},
-        &block
+        &
       )
     end
   end
