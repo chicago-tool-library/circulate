@@ -46,8 +46,8 @@ module Volunteer
       end
     end
 
-    def within_day(date, &block)
-      within(find(".calendar-date[data-test-date='#{date.to_date}']"), &block)
+    def within_day(date, &)
+      within(find(".calendar-date[data-test-date='#{date.to_date}']"), &)
     end
   end
 end
