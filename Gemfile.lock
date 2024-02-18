@@ -80,9 +80,8 @@ GEM
       tzinfo (~> 2.0)
     acts_as_list (1.1.0)
       activerecord (>= 4.2)
-    acts_as_tenant (0.5.1)
-      rails (>= 5.2)
-      request_store (>= 1.0.5)
+    acts_as_tenant (1.0.1)
+      rails (>= 6.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     apimatic_core (0.3.4)
@@ -263,7 +262,6 @@ GEM
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    little-plugger (1.1.4)
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -285,7 +283,6 @@ GEM
     matrix (0.4.2)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
     minitest (5.22.1)
     mjml-rails (4.10.1)
     monetize (1.11.0)
@@ -306,14 +303,14 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.4)
+    net-imap (0.4.10)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0)
+    net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.0)
     nokogiri (1.16.2-arm64-darwin)
@@ -419,7 +416,7 @@ GEM
     regexp_parser (2.9.0)
     reline (0.4.2)
       io-console (~> 0.5)
-    request_store (1.5.1)
+    request_store (1.6.0)
       rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
