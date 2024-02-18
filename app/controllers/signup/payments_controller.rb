@@ -18,7 +18,7 @@ module Signup
 
       result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_signup_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
-        redirect_to result.value, allow_other_host: true, status: :see_other
+        redirect_to result.value, status: :see_other, allow_other_host: true
       else
         errors = result.error
         Rails.logger.error(errors)
@@ -35,13 +35,13 @@ module Signup
     end
 
     def callback
-      transaction_id = params[:transactionId]
-      result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+      order_id = params[:orderId]
+      result = checkout.fetch_order(order_id: order_id)
       session[:attempts] ||= 0
 
       if result.success?
         amount = result.value
-        Membership.create_for_member(@member, amount: amount, square_transaction_id: transaction_id, source: "square")
+        Membership.create_for_member(@member, amount: amount, square_transaction_id: order_id, source: "square")
         MemberMailer.with(member: @member, amount: amount.cents).welcome_message.deliver_later
 
         reset_session

@@ -1,4 +1,5 @@
 require "application_system_test_case"
+require "securerandom"
 
 class UserSignupTest < ApplicationSystemTestCase
   def setup
@@ -8,6 +9,8 @@ class UserSignupTest < ApplicationSystemTestCase
   end
 
   def complete_first_three_steps
+    email = "#{SecureRandom.alphanumeric}@test.com".downcase
+
     visit signup_url
 
     click_on "Sign Up as an Individual"
@@ -21,7 +24,7 @@ class UserSignupTest < ApplicationSystemTestCase
     fill_in "Full name", with: "N. K. Jemisin"
     fill_in "Preferred name", with: "Nora"
     find("label", text: "she/her").click # Styled checkboxes can't be toggled using #check
-    fill_in "Email", with: "nkjemisin@test.com"
+    fill_in "Email", with: email
     fill_in "Phone number", with: "312-123-4567"
     fill_in "Address", with: "23 N. Street"
     fill_in "Apt or unit", with: "390"
@@ -38,10 +41,48 @@ class UserSignupTest < ApplicationSystemTestCase
     click_on "Continue"
 
     assert_selector "li.step-item.active", text: "Payment"
+
+    email
+  end
+
+  def complete_square_checkout
+    ignore_js_errors reason: "square site has a couple issues" do
+      click_on "Pay Online Now"
+
+      wait_for_square_sandbox_to_load
+
+      # Checkout API Sandbox Testing Panel
+      # extract order id from page
+      # p.text will be something like "order_id: xyu3Gv1KQic4q93xISrJusrHXa4F\nurl: https://sandbox.square.link/u/xUTx9ykD"
+      p = page.find("p", text: "order_id")
+      data = p.text.split.in_groups_of(2).to_h
+      order_id = data["order_id:"]
+
+      # advance through and complete the payment
+      click_on "Next"
+
+      # complete the payment so we can verify the callback
+      click_on "Test Payment"
+      assert_content "Checkout Complete"
+
+      # grab redirect URL
+      td = page.find("td", text: /redirected/)
+      url = td.text.sub("Customer redirected to:", "").strip
+
+      # build redirect URL from url and order id
+      redirect_url = "#{url}?orderId=#{order_id}"
+
+      perform_enqueued_jobs do
+        visit redirect_url
+
+        # Back in the app
+        assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
+      end
+    end
   end
 
   test "signup and complete in person" do
-    complete_first_three_steps
+    email = complete_first_three_steps
 
     perform_enqueued_jobs do
       click_on "Complete in Person"
@@ -50,14 +91,14 @@ class UserSignupTest < ApplicationSystemTestCase
     end
 
     assert_emails 1
-    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+    assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment of"
     end
   end
 
   test "signs in after signup" do
-    complete_first_three_steps
+    email = complete_first_three_steps
 
     perform_enqueued_jobs do
       click_on "Complete in Person"
@@ -69,7 +110,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Member Login"
 
-    fill_in "Email", with: "nkjemisin@test.com"
+    fill_in "Email", with: email
     fill_in "Password", with: "password"
 
     click_on "Login"
@@ -79,36 +120,11 @@ class UserSignupTest < ApplicationSystemTestCase
   end
 
   test "signup and pay through square", :remote do
-    complete_first_three_steps
+    email = complete_first_three_steps
 
     fill_in "Your membership fee:", with: "42"
-    click_on "Pay Online Now"
 
-    # On Square site
-
-    ignore_js_errors reason: "square site has a couple issues" do
-      assert_selector "h1", text: "Checkout", wait: slow_op_wait_time # cart needs a little while to fully load
-      assert_selector ".order-details-section", text: "1 × Annual Membership"
-
-      fill_in "card_fullname", with: "N. K. Jemisin"
-
-      iframe = page.find(".sq-card-iframe-container iframe")
-      name = iframe["name"]
-
-      page.within_frame(name) {
-        page.find("input#cardNumber").fill_in with: "4111111111111111"
-        page.find("input#expirationDate").fill_in with: "1226"
-        page.find("input#cvv").fill_in with: "123"
-        page.find("input#postalCode").fill_in with: "60647"
-      }
-
-      perform_enqueued_jobs do
-        click_on "Place Order"
-
-        # Back in the app
-        assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
-      end
-    end
+    complete_square_checkout
 
     assert_content "Your payment of $42.00"
     assert_content "See you at the library!"
@@ -116,14 +132,14 @@ class UserSignupTest < ApplicationSystemTestCase
     assert Membership.last.pending?
 
     assert_emails 1
-    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+    assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
     end
 
     visit user_session_url
 
-    fill_in :user_email, with: "nkjemisin@test.com"
+    fill_in :user_email, with: email
     fill_in :user_password, with: "password"
     click_on "Login"
 
@@ -131,7 +147,7 @@ class UserSignupTest < ApplicationSystemTestCase
   end
 
   test "signup and redeem a gift membership" do
-    complete_first_three_steps
+    email = complete_first_three_steps
     gift_membership = create(:gift_membership)
 
     click_on "Redeem Gift Membership"
@@ -146,7 +162,7 @@ class UserSignupTest < ApplicationSystemTestCase
     refute_content "Your payment"
 
     assert_emails 1
-    assert_delivered_email(to: "nkjemisin@test.com") do |html, text|
+    assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment"
     end
