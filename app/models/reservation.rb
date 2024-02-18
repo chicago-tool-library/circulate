@@ -21,6 +21,8 @@ class Reservation < ApplicationRecord
 
   before_validation :move_ended_at_to_end_of_day
 
+  acts_as_tenant :library
+
   private
 
   def move_ended_at_to_end_of_day

@@ -9,6 +9,8 @@ class DateHold < ApplicationRecord
 
   scope :overlapping, ->(starts, ends) { joins(:reservation).where("tsrange(?, ?) && tsrange(reservations.started_at, reservations.ended_at)", starts, ends) }
 
+  acts_as_tenant :library
+
   private
 
   def ensure_quantity_is_available

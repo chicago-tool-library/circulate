@@ -8,6 +8,8 @@ class ItemPool < ApplicationRecord
 
   scope :uniquely_numbered, -> { where(uniquely_numbered: true) }
 
+  acts_as_tenant :library
+
   def max_reservable_quantity
     if uniquely_numbered
       reservable_items_count

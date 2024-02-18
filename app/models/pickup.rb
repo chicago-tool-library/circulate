@@ -5,6 +5,9 @@ class Pickup < ApplicationRecord
     picked_up: "picked_up",
     cancelled: "cancelled"
   }
+
   belongs_to :creator, class_name: "User"
   belongs_to :reservation
+
+  acts_as_tenant :library
 end
