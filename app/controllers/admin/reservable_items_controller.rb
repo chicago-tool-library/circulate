@@ -17,7 +17,7 @@ module Admin
     end
 
     def create
-      @reservable_item = ReservableItem.new(reservable_item_params)
+      @reservable_item = ReservableItem.new(reservable_item_params.merge(creator: current_user))
 
       if @reservable_item.save
         redirect_to admin_reservable_item_url(@reservable_item), success: "Reservable item was successfully created."

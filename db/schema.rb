@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_14_191129) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_013247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -508,6 +508,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_191129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "item_pool_id", null: false
+    t.bigint "creator_id", null: false
+    t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
   end
 
@@ -617,6 +619,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_191129) do
   add_foreign_key "pickups", "users", column: "creator_id"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservable_items", "item_pools"
+  add_foreign_key "reservable_items", "users", column: "creator_id"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
