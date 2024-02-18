@@ -81,13 +81,10 @@ class SquareCheckoutTest < ActiveSupport::TestCase
     mock_response.expect :success?, false
     mock_response.expect :errors, "ERRORS"
 
-    # No need to assert anything about what params are passed to
-    # this method since we do that in the successful case. There doesn't seem to
-    # be a way to assert that a mocked method is called with _any_ kwargs.
-    mock_checkout = Object.new
-    mock_checkout.define_singleton_method :create_payment_link do |args|
-      mock_response
-    end
+    # No need to assert the specifics of what params create_payment_link is called with
+    # as we do that in the successful case above.
+    mock_checkout = Minitest::Mock.new
+    mock_checkout.expect :create_payment_link, mock_response, body: Hash
 
     mock_client = Minitest::Mock.new
     mock_client.expect :checkout, mock_checkout
