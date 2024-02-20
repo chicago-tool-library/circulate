@@ -1,6 +1,6 @@
 require "fileutils"
 
-DEVDATA_DIR = File.expand_path("db/devdata", Rails.root)
+DEVDATA_DIR = File.expand_path("db/devdata", Rails.root) unless defined? DEVDATA_DIR
 
 namespace :devdata do
   def models_file_path(klass)
