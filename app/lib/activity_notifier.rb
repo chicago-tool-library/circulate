@@ -29,7 +29,7 @@ class ActivityNotifier
 
     each_member(members_with_items_due_tomorrow) do |member, summaries|
       MemberMailer.with(member: member, summaries: summaries, now: @now).return_reminder.deliver
-      if sms_reminders_enabled?
+      if FeatureFlag.sms_reminders_enabled?
         due_tomorrow_summaries = summaries.checked_out.due_on(tomorrow)
         MemberTexter.new(member).return_reminder(due_tomorrow_summaries)
       end
