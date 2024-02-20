@@ -28,6 +28,17 @@ class MemberTexter < BaseTexter
     store_notification("hold_available", message, result)
     result
   end
+  
+  def return_reminder(summaries)
+    return unless member.reminders_via_text?
+
+    message = <<~EOM
+      Chicago Tool Library Reminder: You have #{pluralize(summaries.length, "item")} due tomorrow. Review your loans at #{account_loans_url}
+    EOM
+    result = text(to: @member.canonical_phone_number, body: message)
+    store_notification("return_reminder", message, result)
+    result
+  end
 
   def store_notification(action_name, message, result)
     Notification.create!(

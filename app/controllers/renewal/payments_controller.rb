@@ -36,13 +36,13 @@ module Renewal
     end
 
     def callback
-      transaction_id = params[:transactionId]
-      result = checkout.fetch_transaction(member: @member, transaction_id: transaction_id)
+      order_id = params[:orderId]
+      result = checkout.fetch_order(order_id: order_id)
       session[:attempts] ||= 0
 
       if result.success?
         amount = result.value
-        Membership.create_for_member(@member, amount: amount, start_membership: true, square_transaction_id: transaction_id, source: "square")
+        Membership.create_for_member(@member, amount: amount, start_membership: true, square_transaction_id: order_id, source: "square")
         MemberMailer.with(member: @member, amount: amount.cents).renewal_message.deliver_later
 
         session[:amount] = amount.cents
