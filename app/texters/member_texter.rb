@@ -28,7 +28,7 @@ class MemberTexter < BaseTexter
     store_notification("hold_available", message, result)
     result
   end
-  
+
   def return_reminder(summaries)
     return unless member.reminders_via_text?
 
