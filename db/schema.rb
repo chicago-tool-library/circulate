@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_17_223619) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -469,6 +469,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.bigint "library_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
+    t.index ["library_id"], name: "index_organizations_on_library_id"
   end
 
   create_table "pickups", force: :cascade do |t|

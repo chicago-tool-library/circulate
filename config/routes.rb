@@ -17,6 +17,10 @@ Rails.application.routes.draw do
 
     get "confirmation", to: "confirmations#show"
     get "/", to: "home#index"
+
+    if ENV["FEATURE_GROUP_LENDING"] == "on"
+      resources :organizations, only: [:new, :create]
+    end
   end
 
   namespace :account do

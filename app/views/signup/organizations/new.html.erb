@@ -1,0 +1,24 @@
+<h1>New organization</h1>
+
+<%= form_with(model: @organization, url: signup_organizations_url) do |form| %>
+  <% if @organization.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+
+      <ul>
+        <% @organization.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

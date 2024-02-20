@@ -25,7 +25,11 @@
         We offer memberships for groups like nonprofits, block clubs, schools, and more!
       </p>
       <p class="mr-2">
-        <%= link_to "Sign Up as an Organization", "https://www.chicagotoollibrary.org/org-membership-cost", class: "btn btn-secondary btn-block btn-lg" %>
+        <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
+          <%= link_to "Sign Up as an Organization", new_signup_organization_url, class: "btn btn-secondary btn-block btn-lg" %>
+        <% else %>
+          <%= link_to "Sign Up as an Organization", "https://www.chicagotoollibrary.org/org-membership-cost", class: "btn btn-secondary btn-block btn-lg" %>
+        <% end %>
       </p>
     </div>
   </div>
