@@ -1,6 +1,11 @@
 class Membership < ApplicationRecord
   class PendingMembership < StandardError; end
 
+  enum membership_type: {
+    initial: "initial",
+    renewal: "renewal"
+  }
+
   belongs_to :member
   has_one :adjustment, as: "adjustable"
   acts_as_tenant :library
@@ -21,6 +26,7 @@ class Membership < ApplicationRecord
     left_joins(:adjustment).select(:member_id, *select_clauses).group(:member_id)
   }
 
+  validates :membership_type, inclusion: {in: membership_types.keys}
   validate :no_overlapping_dates
   validate :start_after_end
 
@@ -73,13 +79,16 @@ class Membership < ApplicationRecord
   end
 
   def self.create_for_member(member, amount: 0, source: nil, start_membership: false, now: Time.current, square_transaction_id: nil)
+    # Is this the first membership for this member?
+    membership_type = member.memberships.present? ? "renewal" : "initial"
+
     if start_membership
       start_date = next_start_date_for_member(member, now: now)
       raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
 
-      membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library)
+      membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
     else
-      membership = member.memberships.create!(library: member.library)
+      membership = member.memberships.create!(library: member.library, membership_type:)
     end
 
     if amount > 0

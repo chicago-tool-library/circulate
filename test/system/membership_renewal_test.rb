@@ -117,6 +117,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     assert_equal 2, @member.memberships.count
     last_membership = @member.last_membership
 
+    assert_equal "renewal", last_membership.membership_type
     assert last_membership.started_at
     assert last_membership.ended_at
   end
@@ -150,6 +151,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     assert_equal 2, @member.memberships.count
     last_membership = @member.last_membership
 
+    assert_equal "renewal", last_membership.membership_type
     assert_in_delta Time.current, last_membership.started_at, 1.day
     assert_in_delta last_membership.ended_at, last_membership.started_at + 364.days, 1.day
   end
@@ -190,6 +192,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     assert_equal 2, @member.memberships.count
     last_membership = @member.last_membership
 
+    assert_equal "renewal", last_membership.membership_type
     assert_in_delta Time.current, last_membership.started_at, 1.day
     assert_in_delta last_membership.ended_at, last_membership.started_at + 364.days, 1.day
   end

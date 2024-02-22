@@ -14,6 +14,22 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal member, membership.member
     assert_equal now, membership.started_at
     assert_equal now + 365.days, membership.ended_at
+    assert_equal "initial", membership.membership_type
+  end
+
+  test "creates a second membership for a member who already has one" do
+    member = create(:member)
+    Membership.create_for_member(member, now: 13.months.ago, start_membership: true)
+
+    now = Time.current.beginning_of_day
+
+    membership = assert_difference("Membership.count", 1) {
+      assert_difference("Adjustment.count", 0) {
+        Membership.create_for_member(member, now: now, start_membership: true)
+      }
+    }
+
+    assert_equal "renewal", membership.membership_type
   end
 
   test "creates a pending membership for a member" do
@@ -29,6 +45,7 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal member, membership.member
     assert_nil membership.started_at
     assert_nil membership.ended_at
+    assert_equal "initial", membership.membership_type
   end
 
   test "creates a membership for a member with a cash payment" do
@@ -76,6 +93,7 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "membership", membership_adjustment.kind
     assert_nil membership_adjustment.payment_source
     assert_equal membership, membership_adjustment.adjustable
+    assert_equal "initial", membership.membership_type
 
     payment_adjustment = member.adjustments.where.not(id: membership_adjustment.id).first
     assert_equal amount, payment_adjustment.amount

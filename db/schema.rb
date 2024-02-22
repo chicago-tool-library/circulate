@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_22_034916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     "active",
     "maintenance",
     "retired",
+  ], force: :cascade
+
+  create_enum :membership_type, [
+    "initial",
+    "renewal",
   ], force: :cascade
 
   create_enum :pickup_status, [
@@ -319,6 +324,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
     t.index ["item_id"], name: "index_item_attachments_on_item_id"
+  end
+
+  create_table "item_pools", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "uniquely_numbered", default: true, null: false
+    t.integer "reservable_items_count", default: 0, null: false
+    t.integer "unnumbered_count"
+    t.bigint "library_id", null: false
+    t.index ["creator_id"], name: "index_item_pools_on_creator_id"
+    t.index ["library_id"], name: "index_item_pools_on_library_id"
   end
 
   create_table "items", force: :cascade do |t|
