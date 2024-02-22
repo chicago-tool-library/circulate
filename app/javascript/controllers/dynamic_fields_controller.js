@@ -1,11 +1,9 @@
 import { Controller } from "@hotwired/stimulus";
 
+// This controller will create a clone of the template for use in forms
+// where there is a button to add a new instance of an associated record.
 export default class extends Controller {
   static targets = ["template"];
-
-  connect() {
-    console.debug(this)
-  }
 
   add(event) {
     event.preventDefault();

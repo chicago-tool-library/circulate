@@ -6,7 +6,7 @@ class ItemPoolTest < ActiveSupport::TestCase
     @ends = Time.zone.parse("2024-02-22")
   end
 
-  test "no items available with no reserbale items" do
+  test "no items available with no reservable items" do
     item_pool = create(:item_pool)
 
     assert_equal 0, item_pool.max_available_between(@starts, @ends)
