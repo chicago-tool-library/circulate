@@ -283,7 +283,7 @@ GEM
     matrix (0.4.2)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    minitest (5.22.1)
+    minitest (5.22.2)
     mjml-rails (4.10.1)
     monetize (1.11.0)
       money (~> 6.12)
@@ -586,7 +586,7 @@ DEPENDENCIES
   listen
   lograge
   mini_magick
-  minitest (= 5.22.1)
+  minitest (= 5.22.2)
   mjml-rails
   money-rails
   omniauth-google-oauth2
