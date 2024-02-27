@@ -1,4 +1,4 @@
-<div class="card">
+<div id="<%= dom_id(appointment) %>" class="card">
   <div class="card-header">
     <div class="card-title h5">
       <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
@@ -12,8 +12,8 @@
       <div class="columns">
         <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em">
           <div class="columns">
-            <div class="column col-12">
-              Pickup Items
+            <div class="column col-12 p-0">
+              <h2>Pickup Items</h2>
               <% appointment.holds.take(10).each do |hold| %>
                 <div class="columns">
                   <div class="column col-4">
@@ -36,8 +36,8 @@
         </div>
         <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em">
           <div class="columns">
-            <div class="column col-12">
-              Dropoff Items
+            <div class="column col-12 p-0">
+              <h2>Dropoff Items</h2>
               <% appointment.loans.take(10).each do |loan| %>
                 <div class="columns">
                   <div class="column col-4">
@@ -60,5 +60,16 @@
         </div>
       </div>
     </div> 
+  <div class="card-footer">
+    <div class="float-right">
+      <%= button_to "View / Edit", admin_appointment_path(appointment), method: :get, class: "btn btn-primary", data: {disable_with: "saving"} %>
+      <% if appointment.completed? %>
+        <%= button_to "Restore", admin_appointment_completion_path(appointment),
+              method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
+      <% else %>
+        <%= button_to "Complete", admin_appointment_completion_path(appointment),
+              method: :post, class: "btn btn-primary", data: {disable_with: "saving"} %>
+      <% end %>
+    </div>
   </div>
 </div>
