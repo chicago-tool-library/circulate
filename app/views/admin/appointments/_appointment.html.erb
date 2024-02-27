@@ -1,4 +1,4 @@
-<div id="<%= dom_id(appointment) %>" class="card" style="<%= 'opacity:0.6' if appointment.completed? %>">
+<div id="<%= dom_id(appointment) %>" class="card <%= "completed" if appointment.completed? %>">
   <div class="card-header">
     <div class="card-title h5">
       <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
@@ -9,15 +9,15 @@
   </div>
   <div class="card-body">
       <div class="columns">
-        <% if !appointment.holds.empty? =%>
-          <div class="column col-md-6 col-sm-12" style="margin-bottom:16px">
+        <% if !appointment.holds.empty? %>
+          <div class="column col-md-6 col-sm-12 appointment-section">
             <div class="columns">
               <div class="column col-12">
                 <h2>Pickup Items</h2>
-                <div class="columns">
-                  <div class="column col-4"><b>Item Name</b></div>
-                  <div class="column col-4"><b>Item ID</b></div>           
-                  <div class="column col-4"><b>Category</b></div>
+                <div class="columns table-header">
+                  <div class="column col-4">Item Name</div>
+                  <div class="column col-4">Item ID</div>
+                  <div class="column col-4">Category</div>
                 </div>
                 <% appointment.holds.take(10).each do |hold| %>
                   <div class="columns">
@@ -40,15 +40,15 @@
             </div>
           </div>
         <% end %>
-        <% if !appointment.loans.empty? =%>
+        <% if !appointment.loans.empty? %>
           <div class="column col-md-6 col-sm-12">
             <div class="columns">
               <div class="column col-12">
                 <h2>Dropoff Items</h2>
-                <div class="columns">
-                  <div class="column col-4"><b>Item Name</b></div>
-                  <div class="column col-4"><b>Item ID</b></div>           
-                  <div class="column col-4"><b>Category</b></div>
+                <div class="columns table-header">
+                  <div class="column col-4">Item Name</div>
+                  <div class="column col-4">Item ID</div>
+                  <div class="column col-4">Category</div>
                 </div>
                 <% appointment.loans.take(10).each do |loan| %>
                   <div class="columns">
@@ -72,7 +72,7 @@
           </div>
         <% end %>
       </div>
-    </div> 
+    </div>
   <div class="card-footer">
     <div class="float-right">
       <%= button_to "View / Edit", admin_appointment_path(appointment), method: :get, class: "btn btn-primary", data: {disable_with: "saving"} %>
