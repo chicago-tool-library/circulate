@@ -17,7 +17,7 @@ module Admin
 
       id = "#" + dom_id(appointment)
       within id do
-        click_on "complete"
+        click_on "Complete"
       end
 
       assert_selector("#{id}.completed")
