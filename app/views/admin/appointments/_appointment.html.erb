@@ -8,11 +8,10 @@
     </div>
   </div>
   <div class="card-body">
-    <div class="container">
-      <div class="columns">
-        <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em">
+      <div class="columns" style="padding:0em 0.4em 0em .4em">
+        <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em;padding:0">
           <div class="columns">
-            <div class="column col-12 p-0">
+            <div class="column col-12">
               <h2>Pickup Items</h2>
               <% appointment.holds.take(10).each do |hold| %>
                 <div class="columns">
@@ -34,9 +33,9 @@
             </div>
           </div>
         </div>
-        <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em">
+        <div class="column col-md-6 col-sm-12" style="border-bottom-style:solid;margin:0em 0em 2em 0em;padding:0">
           <div class="columns">
-            <div class="column col-12 p-0">
+            <div class="column col-12">
               <h2>Dropoff Items</h2>
               <% appointment.loans.take(10).each do |loan| %>
                 <div class="columns">
@@ -57,7 +56,6 @@
               <% end %>
             </div>
           </div>
-        </div>
       </div>
     </div> 
   <div class="card-footer">
