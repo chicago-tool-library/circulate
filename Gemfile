@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.1.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 7.1.0"
+gem "rails", "~> 7.1.3"
 
 # Since Rails 7 sprockets is optional; we still use it so we need to depend on
 # the gem explicitly
@@ -85,7 +85,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "minitest", "5.22.1"
+  gem "minitest", "5.22.2"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "rails-controller-testing"
