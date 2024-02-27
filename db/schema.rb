@@ -326,19 +326,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_034916) do
     t.index ["item_id"], name: "index_item_attachments_on_item_id"
   end
 
-  create_table "item_pools", force: :cascade do |t|
-    t.bigint "creator_id", null: false
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "uniquely_numbered", default: true, null: false
-    t.integer "reservable_items_count", default: 0, null: false
-    t.integer "unnumbered_count"
-    t.bigint "library_id", null: false
-    t.index ["creator_id"], name: "index_item_pools_on_creator_id"
-    t.index ["library_id"], name: "index_item_pools_on_library_id"
-  end
-
   create_table "items", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -461,6 +448,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_034916) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "library_id"
+    t.enum "membership_type", default: "initial", null: false, enum_type: "membership_type"
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
