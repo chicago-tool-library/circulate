@@ -25,7 +25,7 @@ module Admin
       assert appointment.reload.completed_at.present?
 
       within id do
-        click_on "restore"
+        click_on "Restore"
       end
 
       refute_selector("#{id}.completed")
