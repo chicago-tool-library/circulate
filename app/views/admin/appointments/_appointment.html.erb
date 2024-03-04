@@ -13,7 +13,7 @@
           <div class="column col-md-6 col-sm-12 appointment-section">
             <div class="columns">
               <div class="column col-12">
-                <h2>Pickup Items</h2>
+                <h5>Pickup Items</h5>
                 <div class="columns table-header">
                   <div class="column col-4">Item Name</div>
                   <div class="column col-4">Item ID</div>
@@ -30,7 +30,7 @@
                     <div class="column col-4">
                       <% if hold.item.categories.size > 0 %>
                           <% hold.item.categories.sort_by(&:name).each do |category| %>
-                              <p><%= category.name %></p>
+                              <span><%= category.name %></span>
                           <% end %>
                       <% end %>
                     </div>
@@ -44,7 +44,7 @@
           <div class="column col-md-6 col-sm-12">
             <div class="columns">
               <div class="column col-12">
-                <h2>Dropoff Items</h2>
+                <h5>Dropoff Items</h5>
                 <div class="columns table-header">
                   <div class="column col-4">Item Name</div>
                   <div class="column col-4">Item ID</div>
@@ -61,7 +61,7 @@
                     <div class="column col-4">
                       <% if loan.item.categories.size > 0 %>
                           <% loan.item.categories.sort_by(&:name).each do |category| %>
-                              <p><%= category.name %></p>
+                              <span><%= category.name %></span>
                           <% end %>
                       <% end %>
                     </div>
