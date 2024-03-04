@@ -50,7 +50,7 @@
                   <div class="column col-4">Item ID</div>
                   <div class="column col-4">Category</div>
                 </div>
-                <% appointment.loans.take(10).each do |loan| %>
+                <% appointment.loans.each do |loan| %>
                   <div class="columns">
                     <div class="column col-4">
                       <%= link_to loan.item.name, admin_item_path(loan.item), title: loan.item.complete_number %>
