@@ -19,7 +19,7 @@
                   <div class="column col-4">Item ID</div>
                   <div class="column col-4">Category</div>
                 </div>
-                <% appointment.holds.take(10).each do |hold| %>
+                <% appointment.holds.each do |hold| %>
                   <div class="columns">
                     <div class="column col-4">
                       <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %>
