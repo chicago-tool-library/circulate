@@ -8,6 +8,9 @@
     </div>
   </div>
   <div class="card-body">
+      <% if !appointment.comment.to_s.strip.empty? %>
+        <p class="appointment-comment"><%= appointment.comment %></p>
+      <% end %>
       <div class="columns">
         <% if !appointment.holds.empty? %>
           <div class="column col-md-6 col-sm-12 appointment-section">
