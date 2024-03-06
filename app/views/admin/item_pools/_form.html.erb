@@ -1,0 +1,18 @@
+<%= form_with(model: item_pool, url: [:admin, item_pool], builder: SpectreFormBuilder) do |form| %>
+  <%= form.text_field :name %>
+
+  <div class="columns" data-controller="conditional-field" data-conditional-field-accessor-value="checked" data-conditional-field-trigger-value="false">
+    <div class="column col-4 col-sm-12">
+      <%= form.check_box :uniquely_numbered, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child" do %>
+        <%= form.number_field :unnumbered_count, label: "Count" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

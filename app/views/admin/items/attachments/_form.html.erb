@@ -4,7 +4,7 @@
 
     <%= form.file_field :file %>
 
-    <div data-controller="conditional-field" data-conditional-field-trigger="other">
+    <div data-controller="conditional-field" data-conditional-field-trigger-value="other">
       <%= form.select :kind, options_for_select(item_attachment_kind_options, attachment.kind), {}, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
       <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child nested" do %>
         <%= form.text_field :other_kind, placeholder: "Please specify" %>

@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div class="columns" data-controller="conditional-field" data-conditional-field-trigger="<%= BorrowPolicy.not_uniquely_numbered_ids.join(",") %>">
+  <div class="columns" data-controller="conditional-field" data-conditional-field-trigger-value="<%= BorrowPolicy.not_uniquely_numbered_ids.join(",") %>">
     <div class="column col-4 col-sm-12">
       <%= form.select :status, options_for_select(item_status_options, item.status || Item.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
     </div>

@@ -1,0 +1,14 @@
+<% content_for :header do %>
+  <%= index_header "Item Pools" do %>
+    <%= link_to "New Item Pool", new_admin_item_pool_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<div id="item_pools">
+  <% @item_pools.each do |item_pool| %>
+    <%= render item_pool %>
+    <p>
+      <%= link_to "Show this item pool", [:admin, item_pool] %>
+    </p>
+  <% end %>
+</div>

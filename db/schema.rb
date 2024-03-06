@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -243,10 +243,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
 
   create_table "date_holds", force: :cascade do |t|
     t.bigint "reservation_id", null: false
-    t.bigint "reservable_item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["reservable_item_id"], name: "index_date_holds_on_reservable_item_id"
+    t.bigint "item_pool_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.bigint "library_id", null: false
+    t.index ["item_pool_id"], name: "index_date_holds_on_item_pool_id"
+    t.index ["library_id"], name: "index_date_holds_on_library_id"
     t.index ["reservation_id"], name: "index_date_holds_on_reservation_id"
   end
 
@@ -319,6 +322,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
     t.index ["item_id"], name: "index_item_attachments_on_item_id"
+  end
+
+  create_table "item_pools", force: :cascade do |t|
+    t.bigint "creator_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "uniquely_numbered", default: true, null: false
+    t.integer "reservable_items_count", default: 0, null: false
+    t.integer "unnumbered_count"
+    t.bigint "library_id", null: false
+    t.index ["creator_id"], name: "index_item_pools_on_creator_id"
+    t.index ["library_id"], name: "index_item_pools_on_library_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -477,7 +493,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.bigint "reservation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "library_id", null: false
     t.index ["creator_id"], name: "index_pickups_on_creator_id"
+    t.index ["library_id"], name: "index_pickups_on_library_id"
     t.index ["reservation_id"], name: "index_pickups_on_reservation_id"
   end
 
@@ -495,6 +513,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "item_pool_id", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "library_id", null: false
+    t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
+    t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
+    t.index ["library_id"], name: "index_reservable_items_on_library_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -507,6 +531,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
     t.string "notes"
     t.datetime "reviewed_at"
     t.bigint "reviewer_id"
+    t.bigint "library_id", null: false
+    t.index ["library_id"], name: "index_reservations_on_library_id"
     t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
   end
 
@@ -584,6 +610,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "items"
+  add_foreign_key "date_holds", "item_pools"
+  add_foreign_key "date_holds", "libraries"
   add_foreign_key "gift_memberships", "memberships"
   add_foreign_key "holds", "items"
   add_foreign_key "holds", "loans"
@@ -591,15 +619,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_202020) do
   add_foreign_key "holds", "users", column: "creator_id"
   add_foreign_key "item_attachments", "items"
   add_foreign_key "item_attachments", "users", column: "creator_id"
+  add_foreign_key "item_pools", "libraries"
+  add_foreign_key "item_pools", "users", column: "creator_id"
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "pickups", "libraries"
   add_foreign_key "pickups", "reservations"
   add_foreign_key "pickups", "users", column: "creator_id"
   add_foreign_key "renewal_requests", "loans"
+  add_foreign_key "reservable_items", "item_pools"
+  add_foreign_key "reservable_items", "libraries"
+  add_foreign_key "reservable_items", "users", column: "creator_id"
+  add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
