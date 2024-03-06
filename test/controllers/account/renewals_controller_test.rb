@@ -19,7 +19,7 @@ module Account
       loan = create(:loan, member: @member, item: item)
 
       post account_renewals_url(loan_id: loan)
-      assert_redirected_to account_home_url
+      assert_redirected_to account_loans_url
     end
 
     test "member cannot renew a non-renewable loan" do
