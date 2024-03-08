@@ -5,6 +5,8 @@ class ReservationLoan < ApplicationRecord
   validate :date_hold_quantity_not_exceeded
   validates :reservable_item_id, uniqueness: {scope: :date_hold_id, message: "has already been added"}
 
+  acts_as_tenant :library
+
   private
 
   def date_hold_quantity_not_exceeded

@@ -526,9 +526,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
     t.bigint "date_hold_id", null: false
     t.bigint "reservable_item_id"
     t.integer "quantity", comment: "For item pools without uniquely numbered items"
+    t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["date_hold_id"], name: "index_reservation_loans_on_date_hold_id"
+    t.index ["library_id"], name: "index_reservation_loans_on_library_id"
     t.index ["pickup_id"], name: "index_reservation_loans_on_pickup_id"
     t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
   end
@@ -647,6 +649,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
   add_foreign_key "reservable_items", "libraries"
   add_foreign_key "reservable_items", "users", column: "creator_id"
   add_foreign_key "reservation_loans", "date_holds"
+  add_foreign_key "reservation_loans", "libraries"
   add_foreign_key "reservation_loans", "pickups"
   add_foreign_key "reservation_loans", "reservable_items"
   add_foreign_key "reservations", "libraries"
