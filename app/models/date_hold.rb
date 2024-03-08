@@ -1,6 +1,7 @@
 class DateHold < ApplicationRecord
   belongs_to :reservation
   belongs_to :item_pool
+  has_many :reservation_loans
 
   validate :ensure_quantity_is_available
 

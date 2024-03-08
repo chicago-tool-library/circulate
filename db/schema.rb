@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -521,6 +521,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
   end
 
+  create_table "reservation_loans", force: :cascade do |t|
+    t.bigint "pickup_id", null: false
+    t.bigint "date_hold_id", null: false
+    t.bigint "reservable_item_id"
+    t.integer "quantity", comment: "For item pools without uniquely numbered items"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date_hold_id"], name: "index_reservation_loans_on_date_hold_id"
+    t.index ["pickup_id"], name: "index_reservation_loans_on_pickup_id"
+    t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
+  end
+
   create_table "reservations", force: :cascade do |t|
     t.string "name"
     t.datetime "started_at"
@@ -634,6 +646,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
   add_foreign_key "reservable_items", "item_pools"
   add_foreign_key "reservable_items", "libraries"
   add_foreign_key "reservable_items", "users", column: "creator_id"
+  add_foreign_key "reservation_loans", "date_holds"
+  add_foreign_key "reservation_loans", "pickups"
+  add_foreign_key "reservation_loans", "reservable_items"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"
