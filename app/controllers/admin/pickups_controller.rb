@@ -1,12 +1,13 @@
 module Admin
   class PickupsController < BaseController
-    before_action :set_pickup, only: %i[show edit update destroy]
+    before_action :set_pickup, only: %i[edit update destroy]
 
     def index
       @pickups = Pickup.all
     end
 
     def show
+      @pickup = Pickup.includes(reservation: {date_holds: [:item_pool, reservation_loans: :reservable_item]}).find(params[:id])
     end
 
     def edit
