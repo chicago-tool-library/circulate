@@ -15,9 +15,9 @@ class DateHold < ApplicationRecord
   # Total number of items that were reserved
   def loaned_quantity
     if item_pool.uniquely_numbered?
-      reservation_loans.count
+      reservation_loans.size
     else
-      reservation_loans.sum(:quantity)
+      reservation_loans.pluck(:quantity).sum
     end
   end
 
