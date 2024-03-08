@@ -19,6 +19,9 @@ application.register("collapse", CollapseController)
 import ConditionalFieldController from "./conditional_field_controller"
 application.register("conditional-field", ConditionalFieldController)
 
+import DynamicFieldsController from "./dynamic_fields_controller"
+application.register("dynamic-fields", DynamicFieldsController)
+
 import EmailSettingsEditorController from "./email_settings_editor_controller"
 application.register("email-settings-editor", EmailSettingsEditorController)
 

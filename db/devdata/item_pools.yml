@@ -1,0 +1,23 @@
+---
+- id: 100
+  name: Pails
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: false
+  unnumbered_count: 24
+- id: 101
+  name: Work gloves
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: false
+  unnumbered_count: 100
+- id: 200
+  name: Cordless Drills
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true
+- id: 201
+  name: Ladders
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true

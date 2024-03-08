@@ -1,0 +1,14 @@
+<% content_for :header do %>
+  <%= index_header "Editing Item Pool" %>
+<% end %>
+
+<%= render "form", item_pool: @item_pool %>
+
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this item pool?</summary>
+    <%= action_bar "If you destroy this item pool, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy Item Pool", [:admin, @item_pool], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
+</div>

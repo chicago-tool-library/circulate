@@ -7,7 +7,7 @@ namespace :devdata do
     "#{DEVDATA_DIR}/#{klass.to_s.underscore.pluralize}.yml"
   end
 
-  def load_models(klass, id_offset: 0)
+  def load_models(klass, id_offset: 0, creator: nil)
     YAML.load_file(models_file_path(klass)).each do |attributes|
       attributes.each do |key, value|
         if /ids?$/.match?(key)
@@ -19,6 +19,7 @@ namespace :devdata do
           end
         end
       end
+      attributes["creator_id"] = creator.id unless creator.nil?
       klass.create!(**attributes)
     end
   end
@@ -64,6 +65,8 @@ namespace :devdata do
             image.rewind
           end
           load_models ActionText::RichText, id_offset: offset
+          load_models ItemPool, id_offset: offset, creator: admin
+          load_models ReservableItem, id_offset: offset, creator: admin
         end
       end
     end

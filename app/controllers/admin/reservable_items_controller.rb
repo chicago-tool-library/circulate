@@ -17,7 +17,7 @@ module Admin
     end
 
     def create
-      @reservable_item = ReservableItem.new(reservable_item_params)
+      @reservable_item = ReservableItem.new(reservable_item_params.merge(creator: current_user))
 
       if @reservable_item.save
         redirect_to admin_reservable_item_url(@reservable_item), success: "Reservable item was successfully created."
@@ -43,14 +43,12 @@ module Admin
 
     private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_reservable_item
       @reservable_item = ReservableItem.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def reservable_item_params
-      params.require(:reservable_item).permit(:name)
+      params.require(:reservable_item).permit(:name, :item_pool_id)
     end
   end
 end

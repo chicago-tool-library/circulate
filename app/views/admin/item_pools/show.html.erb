@@ -1,0 +1,39 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Item Pools", admin_item_pools_path %>
+  <%= index_header @item_pool.name do %>
+    <%= link_to "Edit", edit_admin_item_pool_path(@item_pool), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= render @item_pool %>
+
+<div class="item-pool-show">
+  <div class="calendar calendar-lg">
+    <div class="calendar-nav navbar">
+      <div class="navbar-primary">Number of reserved items by day - <%= @month_calendar.title %></div>
+    </div>
+
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <div class="calendar-date">Sun</div>
+        <div class="calendar-date">Mon</div>
+        <div class="calendar-date">Tue</div>
+        <div class="calendar-date">Wed</div>
+        <div class="calendar-date">Thu</div>
+        <div class="calendar-date">Fri</div>
+        <div class="calendar-date">Sat</div>
+      </div>
+
+      <div class="calendar-body">
+        <% @month_calendar.each_day do |day| %>
+          <%= calendar_day(day) do %>
+            <span class="date-item <%= calendar_date_item_class(day) %>" <%= "disabled" unless day.data %>><%= day.number %></span>
+            <div class="calendar-events">
+              <div class="calendar-event text-center"><%= day.data unless day.data == 0 %></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
