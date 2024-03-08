@@ -1,3 +1,9 @@
+# This class provides a subclass of FormBuilder that outputs the HTML expected
+# by the Spectre CSS framework. It also automatically wraps common inputs to
+# minimize the amount of boilerplate in templates.
+#
+# This generally works well for standard forms, but might be more trouble than
+# it's worth for complicated UIs.
 class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
   include ActionView::Helpers::TagHelper
