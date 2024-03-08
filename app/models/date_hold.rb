@@ -12,6 +12,20 @@ class DateHold < ApplicationRecord
 
   acts_as_tenant :library
 
+  # Total number of items that were reserved
+  def loaned_quantity
+    if item_pool.uniquely_numbered?
+      reservation_loans.count
+    else
+      reservation_loans.sum(:quantity)
+    end
+  end
+
+  # Do all held items have an associated loaned item?
+  def satisfied?
+    loaned_quantity == quantity
+  end
+
   private
 
   def ensure_quantity_is_available

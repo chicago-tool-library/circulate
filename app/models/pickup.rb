@@ -11,4 +11,8 @@ class Pickup < ApplicationRecord
   has_many :reservation_loans
 
   acts_as_tenant :library
+
+  def reservation_satisfied?
+    reservation.date_holds.all? { |dh| dh.satisfied? }
+  end
 end
