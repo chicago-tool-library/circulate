@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "reservation-loan" do %>
+  <%= form_with(model: reservation_loan, url: [:admin, pickup, reservation_loan], builder: SpectreFormBuilder) do |form| %>
+    <%= form.text_field :reservable_item_id, label: "Item ID", autocomplete: "off" %>
+    <%= form.submit "Add Item" %>
+  <% end %>
+<% end %>

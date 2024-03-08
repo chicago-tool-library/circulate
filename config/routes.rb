@@ -173,7 +173,11 @@ Rails.application.routes.draw do
           resource :review, only: [:edit, :update]
         end
       end
-      resources :pickups
+      resources :pickups do
+        scope module: "pickups" do
+          resources :reservation_loans, only: [:create, :destroy]
+        end
+      end
     end
 
     get "/", to: "dashboard#index", as: "dashboard"
