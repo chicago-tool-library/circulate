@@ -129,7 +129,9 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_content "Your payment of $42.00"
     assert_content "See you at the library!"
 
-    assert Membership.last.pending?
+    membership = Member.find_by(email: email).last_membership
+    assert membership.pending?
+    assert_equal "initial", membership.membership_type
 
     assert_emails 1
     assert_delivered_email(to: email) do |html, text|
@@ -167,7 +169,11 @@ class UserSignupTest < ApplicationSystemTestCase
       refute_includes html, "Your payment"
     end
 
-    assert_equal 0, Member.last.adjustments.count
-    assert Membership.last.pending?
+    member = Member.find_by(email: email)
+    membership = member.last_membership
+
+    assert_equal 0, member.adjustments.count
+    assert membership.pending?
+    assert_equal "initial", membership.membership_type
   end
 end

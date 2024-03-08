@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_22_034916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
     "active",
     "maintenance",
     "retired",
+  ], force: :cascade
+
+  create_enum :membership_type, [
+    "initial",
+    "renewal",
   ], force: :cascade
 
   create_enum :pickup_status, [
@@ -459,6 +464,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_013803) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "library_id"
+    t.enum "membership_type", default: "initial", null: false, enum_type: "membership_type"
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
