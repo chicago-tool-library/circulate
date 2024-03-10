@@ -1,0 +1,5 @@
+<turbo-stream action="replace" target="<%= dom_id(@date_hold) %>">
+  <template>
+    <%= render partial: "admin/pickups/date_hold", locals: {date_hold: @date_hold, pickup: @pickup} %>
+  </template>
+</turbo-stream>

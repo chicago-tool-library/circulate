@@ -39,9 +39,7 @@ module Admin
 
         if @reservation_loan.save
           respond_to do |format|
-            format.turbo_stream do
-              render turbo_stream: turbo_stream.action(:redirect, admin_pickup_url(@pickup))
-            end
+            format.turbo_stream
           end
         else
           render_form
@@ -51,7 +49,14 @@ module Admin
       def destroy
         @reservation_loan.destroy!
 
-        redirect_to admin_pickup_url(@pickup)
+        @pickup = @reservation_loan.pickup
+        @date_hold = @reservation_loan.date_hold
+
+        respond_to do |format|
+          format.turbo_stream do
+            render :create
+          end
+        end
       end
 
       private
