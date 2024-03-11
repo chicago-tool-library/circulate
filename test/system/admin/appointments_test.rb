@@ -17,7 +17,7 @@ module Admin
 
       id = "#" + dom_id(appointment)
       within id do
-        click_on "complete"
+        click_on "Complete"
       end
 
       assert_selector("#{id}.completed")
@@ -25,7 +25,7 @@ module Admin
       assert appointment.reload.completed_at.present?
 
       within id do
-        click_on "restore"
+        click_on "Restore"
       end
 
       refute_selector("#{id}.completed")

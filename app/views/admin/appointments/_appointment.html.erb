@@ -1,37 +1,91 @@
-<tr id="<%= dom_id(appointment) %>" class="appointment <%= appointment.completed? ? "completed" : "pending" %>">
-  <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
-  <td class="member">
-    <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
-    <%= appointment.member.display_pronouns %>
-  </td>
-  <td class="items">
-    <% appointment.holds.take(10).each do |hold| %>
-      <span class="label label-primary">pick-up</span>
-      <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %> <br>
-    <% end %>
-    <% if appointment.holds.count > 10 %>
-      <details>
-        <summary>and <%= appointment.holds.count - 10 %> more</summary>
-        <% appointment.holds[10..].each do |hold| %>
-          <span class="label label-primary">pick-up</span>
-          <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %> <br>
+<div id="<%= dom_id(appointment) %>" class="card <%= "completed" if appointment.completed? %>">
+  <div class="card-header">
+    <div class="card-title h5">
+      <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
+    </div>
+    <div class="card-subtitle text-gray">
+      <%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %>
+    </div>
+  </div>
+  <div class="card-body">
+      <% if !appointment.comment.to_s.strip.empty? %>
+        <p class="appointment-comment"><%= appointment.comment %></p>
+      <% end %>
+      <div class="columns">
+        <% if !appointment.holds.empty? %>
+          <div class="column col-md-6 col-sm-12 appointment-section">
+            <div class="columns">
+              <div class="column col-12">
+                <h5>Pickup Items</h5>
+                <div class="columns table-header">
+                  <div class="column col-4">Item Name</div>
+                  <div class="column col-4">Item ID</div>
+                  <div class="column col-4">Category</div>
+                </div>
+                <% appointment.holds.each do |hold| %>
+                  <div class="columns">
+                    <div class="column col-4">
+                      <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %>
+                    </div>
+                    <div class="column col-4">
+                      <%= hold.item.complete_number %>
+                    </div>
+                    <div class="column col-4">
+                      <% if hold.item.categories.size > 0 %>
+                          <% hold.item.categories.sort_by(&:name).each do |category| %>
+                              <span><%= category.name %></span>
+                          <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         <% end %>
-      </details>
-    <% end %>
-    <% appointment.loans.each do |loan| %>
-      <span class="label label-seondary">drop-off</span>
-      <%= link_to loan.item.name, admin_item_path(loan.item) %> <br>
-    <% end %>
-  </td>
-  <td class="notes"><%= appointment.comment %></td>
-  <td>
-    <%= link_to "view/edit", admin_appointment_path(appointment), class: "mb-2 view-appointment" %><br>
-    <% if appointment.completed? %>
-      <%= button_to "restore", admin_appointment_completion_path(appointment),
-            method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
-    <% else %>
-      <%= button_to "complete", admin_appointment_completion_path(appointment),
-            method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
-    <% end %>
-  </td>
-</tr>
+        <% if !appointment.loans.empty? %>
+          <div class="column col-md-6 col-sm-12">
+            <div class="columns">
+              <div class="column col-12">
+                <h5>Dropoff Items</h5>
+                <div class="columns table-header">
+                  <div class="column col-4">Item Name</div>
+                  <div class="column col-4">Item ID</div>
+                  <div class="column col-4">Category</div>
+                </div>
+                <% appointment.loans.each do |loan| %>
+                  <div class="columns">
+                    <div class="column col-4">
+                      <%= link_to loan.item.name, admin_item_path(loan.item), title: loan.item.complete_number %>
+                    </div>
+                    <div class="column col-4">
+                      <%= loan.item.complete_number %>
+                    </div>
+                    <div class="column col-4">
+                      <% if loan.item.categories.size > 0 %>
+                          <% loan.item.categories.sort_by(&:name).each do |category| %>
+                              <span><%= category.name %></span>
+                          <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <div class="card-footer">
+    <div class="float-right">
+      <%= button_to "View / Edit", admin_appointment_path(appointment), method: :get, class: "btn btn-primary", data: {disable_with: "saving"} %>
+      <% if appointment.completed? %>
+        <%= button_to "Restore", admin_appointment_completion_path(appointment),
+              method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
+      <% else %>
+        <%= button_to "Complete", admin_appointment_completion_path(appointment),
+              method: :post, class: "btn btn-primary", data: {disable_with: "saving"} %>
+      <% end %>
+    </div>
+  </div>
+</div>
