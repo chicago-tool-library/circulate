@@ -1,15 +1,14 @@
 <% content_for :header do %>
   <%= breadcrumbs(
-    "Reservations", admin_reservations_path,
-    "Reservation", admin_reservation_path(@pickup.reservation)
-  ) %>
+        "Reservations", admin_reservations_path,
+        "Reservation", admin_reservation_path(@pickup.reservation)
+      ) %>
   <%= index_header "Pickup ##{@pickup.id}" do %>
     <%= link_to "Edit", edit_admin_pickup_path(@pickup), class: "btn" %>
   <% end %>
 <% end %>
 
 <%= render partial: "admin/pickups/status", locals: {pickup: @pickup} %>
-
 
 <%= render @pickup %>
 
@@ -23,4 +22,3 @@
     <%= render partial: "admin/pickups/date_hold", locals: {date_hold: date_hold, pickup: @pickup} %>
   <% end %>
 </div>
-
