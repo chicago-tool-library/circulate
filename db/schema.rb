@@ -46,6 +46,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
     "retired",
   ], force: :cascade
 
+  create_enum :membership_type, [
+    "initial",
+    "renewal",
+  ], force: :cascade
+
   create_enum :pickup_status, [
     "building",
     "ready_for_pickup",
@@ -459,6 +464,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "library_id"
+    t.enum "membership_type", default: "initial", null: false, enum_type: "membership_type"
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
