@@ -52,7 +52,7 @@ gem "mini_magick"
 
 gem "barnes"
 gem "sucker_punch"
-gem "dotenv-rails"
+gem "dotenv"
 gem "appsignal"
 
 gem "chronic"
