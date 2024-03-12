@@ -5,7 +5,7 @@
 #
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-ruby.url = "github:bobvanderlinden/nixpkgs-ruby";
     nixpkgs-ruby.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
@@ -31,7 +31,7 @@
               foreman
 
               # needed to build pg gem, even though we'll run the db from Docker
-              postgresql
+              postgresql_15
 
               # lib/certificate/generator.rb shells out to convert
               # ghostscript override fixes issue with with convert being unable
