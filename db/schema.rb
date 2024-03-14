@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_14_004211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -452,9 +452,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_164619) do
     t.text "pronouns", default: [], array: true
     t.integer "library_id"
     t.string "pronunciation"
+    t.index ["library_id", "number"], name: "index_members_on_library_id_and_number", unique: true
     t.index ["library_id"], name: "index_members_on_library_id"
-    t.index ["number", "library_id"], name: "index_members_on_number_and_library_id"
-    t.index ["number"], name: "index_members_on_number", unique: true
   end
 
   create_table "memberships", force: :cascade do |t|
