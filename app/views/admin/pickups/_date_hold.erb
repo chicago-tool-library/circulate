@@ -1,0 +1,28 @@
+<div id="<%= dom_id(date_hold) %>">
+    <h3 id="item-pool-<%= date_hold.item_pool_id %>">
+        <%= date_hold.item_pool.name %>
+        (<%= date_hold.loaned_quantity %>/<%= date_hold.quantity %>)
+
+        <% unless date_hold.item_pool.uniquely_numbered? || date_hold.satisfied? %>
+        <%= button_to "Add all",
+            admin_pickup_reservation_loans_path(pickup),
+            method: :post,
+            params: { reservation_loan: {date_hold_id: date_hold.id }},
+            class: "btn btn-sm" %>
+        <% end %>
+    </h3>
+    <ul>
+        <% date_hold.reservation_loans.each do |reservation_loan| %>
+        <li>
+            <% if reservation_loan.quantity %>
+            <%= date_hold.item_pool.name %> -
+            <%= reservation_loan.quantity %>
+            <% else %>
+            <%= reservation_loan.reservable_item.id %> -
+            <%= reservation_loan.reservable_item.name %>
+            <% end %>
+            <%= button_to "Remove", admin_pickup_reservation_loan_path(pickup, reservation_loan), method: :delete, class: "btn btn-sm" %>
+        </li>
+        <% end %>
+    </ul>
+</div>

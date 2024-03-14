@@ -1,8 +1,24 @@
 <% content_for :header do %>
-  <%= breadcrumbs "Pickups", admin_pickups_path %>
+  <%= breadcrumbs(
+        "Reservations", admin_reservations_path,
+        "Reservation", admin_reservation_path(@pickup.reservation)
+      ) %>
   <%= index_header "Pickup ##{@pickup.id}" do %>
     <%= link_to "Edit", edit_admin_pickup_path(@pickup), class: "btn" %>
   <% end %>
 <% end %>
 
+<%= render partial: "admin/pickups/status", locals: {pickup: @pickup} %>
+
 <%= render @pickup %>
+
+<div class="divider"></div>
+
+<%= render partial: "admin/pickups/reservation_loans/form", locals: {pickup: @pickup, reservation_loan: ReservationLoan.new} %>
+<br>
+
+<div id="date-holds">
+  <% @pickup.reservation.date_holds.each do |date_hold| %>
+    <%= render partial: "admin/pickups/date_hold", locals: {date_hold: date_hold, pickup: @pickup} %>
+  <% end %>
+</div>

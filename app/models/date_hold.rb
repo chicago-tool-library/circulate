@@ -1,6 +1,7 @@
 class DateHold < ApplicationRecord
   belongs_to :reservation
   belongs_to :item_pool
+  has_many :reservation_loans
 
   validate :ensure_quantity_is_available
 
@@ -10,6 +11,20 @@ class DateHold < ApplicationRecord
   scope :overlapping, ->(starts, ends) { joins(:reservation).where("tsrange(?, ?) && tsrange(reservations.started_at, reservations.ended_at)", starts, ends) }
 
   acts_as_tenant :library
+
+  # Total number of items that were reserved
+  def loaned_quantity
+    if item_pool.uniquely_numbered?
+      reservation_loans.size
+    else
+      reservation_loans.pluck(:quantity).sum
+    end
+  end
+
+  # Do all held items have an associated loaned item?
+  def satisfied?
+    loaned_quantity == quantity
+  end
 
   private
 
