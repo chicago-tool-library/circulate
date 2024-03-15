@@ -8,8 +8,36 @@ updates:
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      deps:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "rails"
+          - "standard"
+          - "standard-rails"
+          - "erb_lint"
+      rails:
+        patterns:
+          - "rails"
+      linters:
+        patterns:
+          - "standard"
+          - "standard-rails"
+          - "erb_lint"
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      deps:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@rails*"
+      rails:
+        patterns:
+          - "@rails*"
+
