@@ -18,24 +18,16 @@
               <div class="column col-12">
                 <h5>Pickup Items</h5>
                 <div class="columns table-header">
-                  <div class="column col-4">Item Name</div>
-                  <div class="column col-4">Item ID</div>
-                  <div class="column col-4">Category</div>
+                  <div class="column col-6">Item Name</div>
+                  <div class="column col-6">Item ID</div>
                 </div>
                 <% appointment.holds.each do |hold| %>
                   <div class="columns">
-                    <div class="column col-4">
+                    <div class="column col-6">
                       <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %>
                     </div>
-                    <div class="column col-4">
+                    <div class="column col-6">
                       <%= hold.item.complete_number %>
-                    </div>
-                    <div class="column col-4">
-                      <% if hold.item.categories.size > 0 %>
-                          <% hold.item.categories.sort_by(&:name).each do |category| %>
-                              <span><%= category.name %></span>
-                          <% end %>
-                      <% end %>
                     </div>
                   </div>
                 <% end %>
@@ -49,24 +41,16 @@
               <div class="column col-12">
                 <h5>Dropoff Items</h5>
                 <div class="columns table-header">
-                  <div class="column col-4">Item Name</div>
-                  <div class="column col-4">Item ID</div>
-                  <div class="column col-4">Category</div>
+                  <div class="column col-6">Item Name</div>
+                  <div class="column col-6">Item ID</div>
                 </div>
                 <% appointment.loans.each do |loan| %>
                   <div class="columns">
-                    <div class="column col-4">
+                    <div class="column col-6">
                       <%= link_to loan.item.name, admin_item_path(loan.item), title: loan.item.complete_number %>
                     </div>
-                    <div class="column col-4">
+                    <div class="column col-6">
                       <%= loan.item.complete_number %>
-                    </div>
-                    <div class="column col-4">
-                      <% if loan.item.categories.size > 0 %>
-                          <% loan.item.categories.sort_by(&:name).each do |category| %>
-                              <span><%= category.name %></span>
-                          <% end %>
-                      <% end %>
                     </div>
                   </div>
                 <% end %>
