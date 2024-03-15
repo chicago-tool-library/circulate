@@ -20,6 +20,7 @@ class MemberTexterTest < ActionMailer::TestCase
     text = TwilioHelper::FakeSMS.messages.first
     assert_equal text.to, member.canonical_phone_number
     assert_includes text.body, "4 overdue items"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
     assert_operator text.body.length, :<=, TwilioHelper::SEGMENT_LENGTH, "fits in a single SMS segment"
   end
 
@@ -57,6 +58,7 @@ class MemberTexterTest < ActionMailer::TestCase
     text = TwilioHelper::FakeSMS.messages.first
     assert_equal text.to, member.canonical_phone_number
     assert_includes text.body, "5 items due tomorrow"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
     assert_operator text.body.length, :<=, TwilioHelper::SEGMENT_LENGTH, "fits in a single SMS segment"
   end
 
@@ -94,6 +96,7 @@ class MemberTexterTest < ActionMailer::TestCase
     text = TwilioHelper::FakeSMS.messages.first
     assert_equal text.to, member.canonical_phone_number
     assert_includes text.body, "Your hold for #{hold.item.complete_number} is available"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
     assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
   end
 
@@ -120,5 +123,32 @@ class MemberTexterTest < ActionMailer::TestCase
     assert_equal member.id, notification.member_id
     assert_equal "accepted", notification.status
     assert_equal "hold_available", notification.action
+  end
+
+  test "sends a welcome message to the member" do
+    member = build(:member)
+
+    MemberTexter.new(member).welcome_info
+
+    text = TwilioHelper::FakeSMS.messages.first
+    assert_equal text.to, member.canonical_phone_number
+    assert_includes text.body, "Hello!"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
+    assert_operator text.body.length, :<=, TwilioHelper::SEGMENT_LENGTH, "fits in a single SMS segment"
+  end
+
+  test "stores a notification record of the welcome message" do
+    member = create(:member)
+
+    MemberTexter.new(member).welcome_info
+
+    notification = Notification.last
+    text = TwilioHelper::FakeSMS.messages.first
+
+    assert_equal text.to, notification.address
+    assert_equal text.body, notification.subject
+    assert_equal member.id, notification.member_id
+    assert_equal "accepted", notification.status
+    assert_equal "welcome_info", notification.action
   end
 end
