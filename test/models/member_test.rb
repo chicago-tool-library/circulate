@@ -1,16 +1,6 @@
 require "test_helper"
-require "test_helpers/twilio_helper"
 
 class MemberTest < ActiveSupport::TestCase
-  setup do
-    BaseTexter.client = TwilioHelper::FakeSMS.new
-    TwilioHelper::FakeSMS.messages.clear
-  end
-
-  teardown do
-    BaseTexter.client = nil
-  end
-
   test "strips no digits from phone number" do
     member = Member.new(phone_number: "(123) 456-7890")
     member.valid?
@@ -243,5 +233,18 @@ class MemberTest < ActiveSupport::TestCase
     text = TwilioHelper::FakeSMS.messages.last
     assert_includes text.to, member.phone_number
     assert_includes text.body, "Hello!"
+  end
+
+  test "welcome text does not explode if it fails" do
+    error = RuntimeError.new("oh no")
+    Spy.on(MemberTexter, :new).and_raise(error)
+    appsignal_spy = Spy.on(Appsignal, :send_error)
+
+    create(
+      :member,
+      reminders_via_text: true
+    )
+
+    assert appsignal_spy.has_been_called_with?(error)
   end
 end

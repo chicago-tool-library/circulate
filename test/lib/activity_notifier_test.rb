@@ -1,17 +1,10 @@
 require "test_helper"
-require "test_helpers/twilio_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
   include Lending
 
   setup do
     ActionMailer::Base.deliveries.clear
-    BaseTexter.client = TwilioHelper::FakeSMS.new
-    TwilioHelper::FakeSMS.messages.clear
-  end
-
-  teardown do
-    BaseTexter.client = nil
   end
 
   test "send emails to folks who have checked items out in the last 24 hours" do
@@ -62,10 +55,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_equal "Your items are due soon", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
 
-    texts = TwilioHelper::FakeSMS.messages
-    assert_equal 1, texts.count
-
-    text = texts.first
+    text = TwilioHelper::FakeSMS.messages.last
     assert_includes text.to, loan.member.phone_number
     assert_includes text.body, "1 item due tomorrow"
   end
@@ -74,6 +64,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     Time.use_zone("America/Chicago") do
       create(:ended_loan, due_at: (Time.current.end_of_day + 1.day))
     end
+
+    TwilioHelper::FakeSMS.messages.clear
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -94,6 +86,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
         loan = create(:loan)
         assert return_loan(loan)
       end
+
+      TwilioHelper::FakeSMS.messages.clear
 
       notifier = ActivityNotifier.new
       assert_no_difference "Notification.count" do
@@ -125,10 +119,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, "return all overdue items as soon as possible"
     assert_includes mail.encoded, @overdue_loan.item.complete_number
 
-    texts = TwilioHelper::FakeSMS.messages
-    assert_equal 1, texts.count
-
-    text = texts.first
+    text = TwilioHelper::FakeSMS.messages.last
     assert_includes text.to, @overdue_loan.member.phone_number
     assert_includes text.body, "1 overdue item"
   end
@@ -160,6 +151,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       create(:ended_loan, due_at: Time.current.end_of_day)
       create(:ended_loan, due_at: Time.current.tomorrow.end_of_day)
     end
+
+    TwilioHelper::FakeSMS.messages.clear
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new

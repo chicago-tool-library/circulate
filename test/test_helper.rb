@@ -6,6 +6,7 @@ require "minitest/mock"
 
 require "helpers/return_values"
 require "helpers/ensure_request_tenant"
+require "test_helpers/twilio_helper"
 
 # Explicit require means the plugin is available when tests are evaluated;
 # otherwise, the plugin isn't loaded until later.
@@ -27,10 +28,15 @@ class ActiveSupport::TestCase
 
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
+
+    BaseTexter.client = TwilioHelper::FakeSMS.new
+    TwilioHelper::FakeSMS.messages.clear
   end
 
   teardown do
     ActsAsTenant.test_tenant = nil
+
+    BaseTexter.client = nil
   end
 end
 
