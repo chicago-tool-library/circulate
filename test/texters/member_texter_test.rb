@@ -2,7 +2,7 @@ require "test_helper"
 
 class MemberTexterTest < ActionMailer::TestCase
   test "sends an overdue notice to the member" do
-    member = create(:member)
+    member = create(:verified_member, reminders_via_text: true)
     summaries = [:list, :of, :overdue, :summaries]
 
     MemberTexter.new(member).overdue_notice(summaries)
@@ -15,7 +15,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "skips overdue notice if the member has not opted into text reminders" do
-    member = build(:member, reminders_via_text: false)
+    member = build(:verified_member, reminders_via_text: false)
     summaries = [:list, :of, :overdue, :summaries]
 
     MemberTexter.new(member).overdue_notice(summaries)
@@ -24,7 +24,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "stores a notification record of a successful overdue notice" do
-    member = create(:member)
+    member = create(:verified_member, reminders_via_text: true)
     summaries = [:list, :of, :overdue, :summaries]
 
     MemberTexter.new(member).overdue_notice(summaries)
@@ -40,7 +40,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "sends a return reminder to the member" do
-    member = create(:member)
+    member = create(:verified_member, reminders_via_text: true)
     summaries = [:list, :of, :summaries, :due, :tomorrow]
 
     MemberTexter.new(member).return_reminder(summaries)
@@ -53,7 +53,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "skips return reminder if the member has not opted into text reminders" do
-    member = build(:member, reminders_via_text: false)
+    member = build(:verified_member, reminders_via_text: false)
     summaries = [:list, :of, :summaries, :due, :tomorrow]
 
     TwilioHelper::FakeSMS.messages.clear
@@ -64,7 +64,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "stores a notification record of a successful return reminder" do
-    member = create(:member)
+    member = create(:verified_member, reminders_via_text: true)
     summaries = [:list, :of, :summaries, :due, :tomorrow]
 
     MemberTexter.new(member).return_reminder(summaries)
@@ -80,8 +80,8 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "sends a hold available message to the member" do
-    member = create(:member)
-    hold = create(:hold)
+    member = create(:verified_member, reminders_via_text: true)
+    hold = create(:hold, member: member)
 
     MemberTexter.new(member).hold_available(hold)
 
@@ -93,7 +93,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "skips hold available message if the member has not opted into text reminders" do
-    member = create(:member, reminders_via_text: false)
+    member = create(:verified_member, reminders_via_text: false)
     hold = create(:hold)
 
     TwilioHelper::FakeSMS.messages.clear
@@ -104,8 +104,8 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "stores a notification record of the hold available message" do
-    member = create(:member)
-    hold = create(:hold)
+    member = create(:verified_member, reminders_via_text: true)
+    hold = create(:hold, member: member)
 
     MemberTexter.new(member).hold_available(hold)
 
@@ -120,7 +120,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "sends a welcome message to the member" do
-    member = build(:member)
+    member = build(:verified_member, reminders_via_text: true)
 
     MemberTexter.new(member).welcome_info
 
@@ -132,7 +132,7 @@ class MemberTexterTest < ActionMailer::TestCase
   end
 
   test "stores a notification record of the welcome message" do
-    member = create(:member)
+    member = create(:verified_member, reminders_via_text: true)
 
     MemberTexter.new(member).welcome_info
 

@@ -8,7 +8,7 @@ class HoldsTest < ActiveSupport::TestCase
   end
 
   test "notifies members of holds available via email and text" do
-    hold = create(:hold)
+    hold = create(:hold, member: create(:verified_member, reminders_via_text: true))
 
     Rake::Task["holds:start_waiting_holds"].invoke
 

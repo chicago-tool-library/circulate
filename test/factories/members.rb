@@ -13,7 +13,7 @@ FactoryBot.define do
     address1 { "1 N. Michigan Ave" }
     user
     reminders_via_email { true }
-    reminders_via_text { true }
+    reminders_via_text { false }
 
     trait :with_bio do
       bio { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }
