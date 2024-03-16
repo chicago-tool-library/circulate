@@ -113,7 +113,7 @@ namespace :devdata do
       address_verified: true,
       number: number,
       reminders_via_email: true,
-      reminders_via_text: true
+      reminders_via_text: false
     )
 
     membership = member.memberships.create!
