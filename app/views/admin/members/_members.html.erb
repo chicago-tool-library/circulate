@@ -3,7 +3,7 @@
   <%= tag.div "Name", class: "members-table-name members-table-header" %>
   <%= tag.div "Email", class: "members-table-email members-table-header" %>
   <%= tag.div "Phone", class: "members-table-phone members-table-header" %>
-  <%= tag.div "Status", class: "members-table-status members-table-header" %>
+  <%= tag.div "Membership Status", class: "members-table-status members-table-header" %>
   <%= tag.div "Loans", class: "members-table-number members-table-header" %>
   <%= tag.div "Holds", class: "members-table-number members-table-header" %>
 
@@ -15,11 +15,7 @@
     <%= tag.div member.email, class: "members-table-email" %>
     <%= tag.div format_phone_number(member.phone_number), class: "members-table-phone" %>
     <%= tag.div class: "members-table-status" do %>
-      <% if member.active_membership %>
-        <span class="chip">membership</span>
-      <% elsif member.last_membership %>
-        <span class="chip">ended</span>
-      <% end %>
+      <span class="chip"><%= member.membership_status %></span>
       <% if member.status_verified? %>
         <span class="chip">verified</span>
       <% end %>
