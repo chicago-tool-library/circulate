@@ -1,17 +1,10 @@
 require "test_helper"
-require "test_helpers/twilio_helper"
 
 class ActivityNotifierTest < ActiveSupport::TestCase
   include Lending
 
   setup do
     ActionMailer::Base.deliveries.clear
-    BaseTexter.client = TwilioHelper::FakeSMS.new
-    TwilioHelper::FakeSMS.messages.clear
-  end
-
-  teardown do
-    BaseTexter.client = nil
   end
 
   test "send emails to folks who have checked items out in the last 24 hours" do
@@ -37,8 +30,9 @@ class ActivityNotifierTest < ActiveSupport::TestCase
   end
 
   test "sends emails and texts to folks who have items due on the following day" do
+    member = create(:verified_member, reminders_via_text: true)
     loan = Time.use_zone("America/Chicago") {
-      create(:loan, due_at: (Time.current.end_of_day + 1.day), created_at: 6.days.ago)
+      create(:loan, member: member, due_at: (Time.current.end_of_day + 1.day), created_at: 6.days.ago)
     }
 
     Time.use_zone("America/Chicago") do
@@ -62,18 +56,18 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_equal "Your items are due soon", mail.subject
     assert_includes mail.encoded, loan.item.complete_number
 
-    texts = TwilioHelper::FakeSMS.messages
-    assert_equal 1, texts.count
-
-    text = texts.first
+    text = TwilioHelper::FakeSMS.messages.last
     assert_includes text.to, loan.member.phone_number
     assert_includes text.body, "1 item due tomorrow"
   end
 
   test "doesn't send reminder emails or texts to folks who have returned their items" do
+    member = create(:verified_member, reminders_via_text: true)
     Time.use_zone("America/Chicago") do
-      create(:ended_loan, due_at: (Time.current.end_of_day + 1.day))
+      create(:ended_loan, member: member, due_at: (Time.current.end_of_day + 1.day))
     end
+
+    TwilioHelper::FakeSMS.messages.clear
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -95,6 +89,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
         assert return_loan(loan)
       end
 
+      TwilioHelper::FakeSMS.messages.clear
+
       notifier = ActivityNotifier.new
       assert_no_difference "Notification.count" do
         notifier.send_daily_loan_summaries
@@ -106,7 +102,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
   test "sends overdue notice emails and texts only to folks with overdue items" do
     Time.use_zone("America/Chicago") do
-      @overdue_loan = create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago)
+      member = create(:verified_member, reminders_via_text: true)
+      @overdue_loan = create(:loan, member: member, due_at: Time.current.end_of_day, created_at: 1.week.ago)
       @not_overdue_loan = create(:loan, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
 
       assert_difference "Notification.count", 2 do
@@ -125,17 +122,14 @@ class ActivityNotifierTest < ActiveSupport::TestCase
     assert_includes mail.encoded, "return all overdue items as soon as possible"
     assert_includes mail.encoded, @overdue_loan.item.complete_number
 
-    texts = TwilioHelper::FakeSMS.messages
-    assert_equal 1, texts.count
-
-    text = texts.first
+    text = TwilioHelper::FakeSMS.messages.last
     assert_includes text.to, @overdue_loan.member.phone_number
     assert_includes text.body, "1 overdue item"
   end
 
   test "sends overdue notice emails that only contain overdue items" do
     Time.use_zone("America/Chicago") do
-      @member = create(:verified_member)
+      @member = create(:verified_member, reminders_via_text: true)
       @overdue_loan = create(:loan, member: @member, due_at: Time.current.end_of_day, created_at: 1.week.ago)
       @not_overdue_loan = create(:loan, member: @member, due_at: Time.current.tomorrow.end_of_day, created_at: 6.days.ago)
 
@@ -160,6 +154,8 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       create(:ended_loan, due_at: Time.current.end_of_day)
       create(:ended_loan, due_at: Time.current.tomorrow.end_of_day)
     end
+
+    TwilioHelper::FakeSMS.messages.clear
 
     Time.use_zone("America/Chicago") do
       notifier = ActivityNotifier.new
@@ -214,7 +210,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
 
   test "rescues exceptions in overdue notices, sends to appsignal, and continues" do
     Time.use_zone("America/Chicago") do
-      3.times { create(:loan, due_at: Time.current.end_of_day, created_at: 1.week.ago) }
+      3.times { create(:loan, member: create(:verified_member, reminders_via_text: true), due_at: Time.current.end_of_day, created_at: 1.week.ago) }
 
       # Make MemberTexter.new explode one time then work
       error = RuntimeError.new("oh no")

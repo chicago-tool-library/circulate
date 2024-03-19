@@ -191,4 +191,60 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_mock mock
   end
+
+  test "sends welcome text when phone number is set or updated" do
+    original_number = "5551234567"
+    member = create(
+      :member,
+      phone_number: original_number,
+      reminders_via_text: true
+    )
+
+    # Create of member sends welcome
+    assert_equal 1, TwilioHelper::FakeSMS.messages.length
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_includes text.to, member.phone_number
+    assert_includes text.body, "Hello!"
+
+    # Update to phone-number re-sends welcome
+    updated_number = "5557654321"
+    member.phone_number = updated_number
+    member.save!
+
+    assert_equal 2, TwilioHelper::FakeSMS.messages.length
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_includes text.to, updated_number
+    assert_includes text.body, "Hello!"
+
+    # Update to non-phone-number does not send another text
+    member.preferred_name = "Ishmael"
+    member.save!
+    assert_equal 2, TwilioHelper::FakeSMS.messages.length
+
+    # Uncheck of reminders_via_text does not send another text
+    member.reminders_via_text = false
+    member.save!
+    assert_equal 2, TwilioHelper::FakeSMS.messages.length
+
+    # Recheck of reminders_via_text does send another text
+    member.reminders_via_text = true
+    member.save!
+    assert_equal 3, TwilioHelper::FakeSMS.messages.length
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_includes text.to, member.phone_number
+    assert_includes text.body, "Hello!"
+  end
+
+  test "welcome text does not explode if it fails" do
+    error = RuntimeError.new("oh no")
+    Spy.on(MemberTexter, :new).and_raise(error)
+    appsignal_spy = Spy.on(Appsignal, :send_error)
+
+    create(
+      :member,
+      reminders_via_text: true
+    )
+
+    assert appsignal_spy.has_been_called_with?(error)
+  end
 end

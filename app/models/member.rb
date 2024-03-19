@@ -56,6 +56,9 @@ class Member < ApplicationRecord
   before_validation :set_default_address_fields
   before_validation :downcase_email
 
+  after_save :send_welcome_text, if: -> {
+    reminders_via_text? && (saved_change_to_phone_number? || saved_change_to_reminders_via_text?)
+  }
   after_save :update_user_email
   after_update :update_neon_crm, if: :can_update_neon_crm?
 
@@ -123,6 +126,13 @@ class Member < ApplicationRecord
   end
 
   private
+
+  def send_welcome_text
+    MemberTexter.new(self).welcome_info
+  rescue RuntimeError => e
+    Rails.logger.error("Error notifying member #{id}: #{e}")
+    Appsignal.send_error(e)
+  end
 
   def update_user_email
     user.update_column(:email, email) if user && !user.new_record? # Skip validations
