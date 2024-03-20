@@ -125,6 +125,18 @@ class Member < ApplicationRecord
     "+1#{phone_number}"
   end
 
+  def membership_status
+    if active_membership
+      "active"
+    elsif pending_membership
+      "pending"
+    elsif last_membership
+      "ended"
+    else
+      "no membership"
+    end
+  end
+
   private
 
   def send_welcome_text
