@@ -8,6 +8,8 @@ class MemberTexter < BaseTexter
   end
 
   def welcome_info
+    return unless should_text?
+
     message = <<~EOM.chomp
       Hello! You will get Chicago Tool Library reminders from this number
 
@@ -19,7 +21,7 @@ class MemberTexter < BaseTexter
   end
 
   def overdue_notice(summaries)
-    return unless member.reminders_via_text?
+    return unless should_text?
 
     message = <<~EOM.chomp
       Chicago Tool Library Reminder: You have #{pluralize(summaries.length, "overdue item")}! Please schedule a return appointment at #{new_account_appointment_url}
@@ -30,7 +32,7 @@ class MemberTexter < BaseTexter
   end
 
   def hold_available(hold)
-    return unless member.reminders_via_text?
+    return unless should_text?
 
     message = <<~EOM.chomp
       Chicago Tool Library Reminder: Your hold for #{hold.item.complete_number} is available! Schedule a pick-up at #{new_account_appointment_url}
@@ -41,7 +43,7 @@ class MemberTexter < BaseTexter
   end
 
   def return_reminder(summaries)
-    return unless member.reminders_via_text?
+    return unless should_text?
 
     message = <<~EOM.chomp
       Chicago Tool Library Reminder: You have #{pluralize(summaries.length, "item")} due tomorrow. Review your loans at #{account_loans_url}
@@ -50,6 +52,8 @@ class MemberTexter < BaseTexter
     store_notification("return_reminder", message, result)
     result
   end
+
+  private
 
   def store_notification(action_name, message, result)
     Notification.create!(
@@ -61,5 +65,9 @@ class MemberTexter < BaseTexter
       status: result.status,
       library: member.library
     )
+  end
+
+  def should_text?
+    FeatureFlags.sms_reminders_enabled? && member.reminders_via_text?
   end
 end

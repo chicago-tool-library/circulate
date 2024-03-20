@@ -4,10 +4,7 @@ namespace :holds do
     Time.use_zone("America/Chicago") do
       Hold.start_waiting_holds do |hold|
         MemberMailer.with(member: hold.member, hold: hold).hold_available.deliver_now
-
-        if FeatureFlags.sms_reminders_enabled?
-          MemberTexter.new(hold.member).hold_available(hold)
-        end
+        MemberTexter.new(hold.member).hold_available(hold)
       end
     end
   end
