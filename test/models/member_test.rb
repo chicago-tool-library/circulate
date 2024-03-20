@@ -235,6 +235,13 @@ class MemberTest < ActiveSupport::TestCase
     assert_includes text.body, "Hello!"
   end
 
+  test "welcome text is skipped if feature flag is off" do
+    FeatureFlags.stub :sms_reminders_enabled?, false do
+      create(:member, reminders_via_text: true)
+      assert_equal 0, TwilioHelper::FakeSMS.messages.length
+    end
+  end
+
   test "welcome text does not explode if it fails" do
     error = RuntimeError.new("oh no")
     Spy.on(MemberTexter, :new).and_raise(error)

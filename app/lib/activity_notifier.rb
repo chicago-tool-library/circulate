@@ -17,9 +17,7 @@ class ActivityNotifier
     each_member(members_with_overdue_items) do |member, summaries|
       summaries = summaries.overdue_as_of(@now.tomorrow.beginning_of_day)
       MemberMailer.with(member: member, summaries: summaries, now: @now).overdue_notice.deliver
-      if FeatureFlags.sms_reminders_enabled?
-        MemberTexter.new(member).overdue_notice(summaries)
-      end
+      MemberTexter.new(member).overdue_notice(summaries)
     end
   end
 
@@ -29,10 +27,8 @@ class ActivityNotifier
 
     each_member(members_with_items_due_tomorrow) do |member, summaries|
       MemberMailer.with(member: member, summaries: summaries, now: @now).return_reminder.deliver
-      if FeatureFlags.sms_reminders_enabled?
-        due_tomorrow_summaries = summaries.checked_out.due_on(tomorrow)
-        MemberTexter.new(member).return_reminder(due_tomorrow_summaries)
-      end
+      due_tomorrow_summaries = summaries.checked_out.due_on(tomorrow)
+      MemberTexter.new(member).return_reminder(due_tomorrow_summaries)
     end
   end
 

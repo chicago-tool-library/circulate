@@ -131,6 +131,14 @@ class MemberTexterTest < ActionMailer::TestCase
     assert_operator text.body.length, :<=, TwilioHelper::SEGMENT_LENGTH, "fits in a single SMS segment"
   end
 
+  test "skips welcome message if member has not opted in" do
+    member = build(:verified_member, reminders_via_text: false)
+
+    MemberTexter.new(member).welcome_info
+
+    assert_equal 0, TwilioHelper::FakeSMS.messages.length, "no text was sent"
+  end
+
   test "stores a notification record of the welcome message" do
     member = create(:verified_member, reminders_via_text: true)
 
