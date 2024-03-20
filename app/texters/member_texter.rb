@@ -8,6 +8,8 @@ class MemberTexter < BaseTexter
   end
 
   def welcome_info
+    return unless member.reminders_via_text?
+
     message = <<~EOM.chomp
       Hello! You will get Chicago Tool Library reminders from this number
 
