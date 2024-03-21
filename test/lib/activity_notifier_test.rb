@@ -213,7 +213,7 @@ class ActivityNotifierTest < ActiveSupport::TestCase
       3.times { create(:loan, member: create(:verified_member, reminders_via_text: true), due_at: Time.current.end_of_day, created_at: 1.week.ago) }
 
       # Make MemberTexter.new explode one time then work
-      error = RuntimeError.new("oh no")
+      error = Twilio::REST::TwilioError.new
       orig_method = MemberTexter.method(:new)
       call_count = 0
       explode_once = ->(member) {
