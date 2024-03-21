@@ -141,7 +141,7 @@ class Member < ApplicationRecord
 
   def send_welcome_text
     MemberTexter.new(self).welcome_info
-  rescue RuntimeError => e
+  rescue => e
     Rails.logger.error("Error notifying member #{id}: #{e}")
     Appsignal.send_error(e)
   end
