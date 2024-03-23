@@ -7,14 +7,14 @@
     <div class="items-summary">
       Viewing
       <div class="btn-group">
-        <%= link_to_unless params[:filter] == "all" || params[:filter].blank?, "all", {}, class: "btn btn-sm" do %>
-          <button class="btn btn-sm active">all</button>
-        <% end %>
-        <%= link_to_unless_current "requested", {filter: "requested"}, class: "btn btn-sm" do %>
+        <%= link_to_unless params[:filter] == "requested" || params[:filter].blank?, "requested", {}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">requested</button>
         <% end %>
         <%= link_to_unless_current "rejected", {filter: "rejected"}, class: "btn btn-sm" do %>
           <button class="btn btn-sm active">rejected</button>
+        <% end %>
+        <%= link_to_unless_current "all", {filter: "all"}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">all</button>
         <% end %>
       </div>
     </div>
