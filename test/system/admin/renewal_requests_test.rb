@@ -23,9 +23,8 @@ class AdminRenewalRequestsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Renew"
 
-      within ".table" do
-        assert_text "approved, due"
-        refute_text "Renew"
+      within ".empty" do
+        assert_text "No matching renewal requests"
       end
     end
 
@@ -41,9 +40,8 @@ class AdminRenewalRequestsTest < ApplicationSystemTestCase
     perform_enqueued_jobs do
       click_on "Reject"
 
-      within ".table" do
-        assert_text "rejected"
-        refute_text "Reject"
+      within ".empty" do
+        assert_text "No matching renewal requests"
       end
     end
 

@@ -34,9 +34,9 @@ module Admin
     private
 
     def index_filter
-      allowed = %w[all requested rejected]
+      allowed = %w[requested rejected all]
       return params[:filter] if allowed.include? params[:filter]
-      "all"
+      "requested"
     end
 
     def renewal_request_params
