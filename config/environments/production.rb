@@ -149,4 +149,8 @@ Rails.application.configure do
     config.action_mailer.preview_path = Rails.root.join("test/mailers/previews")
     config.action_mailer.show_previews = true
   end
+
+  # Verify Twilio callbacks
+  # Per recommendations at https://www.twilio.com/docs/usage/webhooks/webhooks-security#validating-signatures-from-twilio
+  config.middleware.use Rack::TwilioWebhookAuthentication, ENV["TWILIO_AUTH_TOKEN"], "/twilio/callback"
 end

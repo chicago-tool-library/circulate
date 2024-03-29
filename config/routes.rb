@@ -200,6 +200,8 @@ Rails.application.routes.draw do
   resources :documents, only: :show
   resources :homepage, only: [:index, :create]
 
+  post "/twilio/callback", to: "twilio#callback"
+
   root to: "home#index"
 
   if Rails.env.test?
