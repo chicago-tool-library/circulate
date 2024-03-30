@@ -22,6 +22,24 @@ module Admin
       assert @appointment.reload.completed_at
     end
 
+    test "renders the new template when the new appointments feature flag is on" do
+      FeatureFlags.stub(:new_appointments_page_enabled?, true) do
+        post admin_appointment_completion_path(@appointment), as: :turbo_stream
+        assert_response :success
+
+        assert_select "div.card-header"
+      end
+    end
+
+    test "renders the original template when the new appointments feature flag is off" do
+      FeatureFlags.stub(:new_appointments_page_enabled?, false) do
+        post admin_appointment_completion_path(@appointment), as: :turbo_stream
+        assert_response :success
+
+        assert_select "td.member"
+      end
+    end
+
     test "completes an empty appointment" do
       @appointment.appointment_loans.delete_all
 
