@@ -21,12 +21,13 @@ module Admin
     private
 
     def render_appointment_to_turbo_stream
+      partial = FeatureFlags.new_appointments_page_enabled?(params[:new]) ? "appointment" : "appointment_orig"
       respond_to do |format|
         format.turbo_stream {
           render turbo_stream:
             turbo_stream.replace(
               dom_id(@appointment),
-              render_to_string(partial: "admin/appointments/appointment", locals: {appointment: @appointment})
+              render_to_string(partial: "admin/appointments/#{partial}", locals: {appointment: @appointment})
             )
         }
       end
