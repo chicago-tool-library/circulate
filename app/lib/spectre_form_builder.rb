@@ -153,7 +153,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     tag.div(data: {controller: "dynamic-fields"}) {
       safe_join([
         fields_for(association) { |ff| yield ff },
-        tag.button(label, data: {action: "dynamic-fields#add"}),
+        tag.button(label, type: "button", data: {action: "dynamic-fields#add"}),
         tag.template(data: {dynamic_fields_target: "template"}) {
           fields_for(association, association.to_s.classify.constantize.new,
             child_index: "__CHILD_INDEX__") { |ff| yield ff }
