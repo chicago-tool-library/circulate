@@ -1,6 +1,10 @@
 {
   "name": "circulate",
   "private": true,
+  "engines": {
+    "node": "20.6.1",
+    "yarn": "1.22.4"
+  },
   "dependencies": {
     "@appsignal/javascript": "^1.3.28",
     "@appsignal/stimulus": "^1.0.18",
