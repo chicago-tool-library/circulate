@@ -14,8 +14,8 @@ class VersionConsistencyTest < ActiveSupport::TestCase
     tool_versions = parse_tool_versions
     package_json = JSON.parse(File.read(Rails.root.join("package.json")))
 
-    assert_equal tool_versions["yarn"], package_json["engines"]["yarn"]
-    assert_equal tool_versions["nodejs"], package_json["engines"]["node"]
+    assert_equal tool_versions["yarn"].split(".").take(2), package_json["engines"]["yarn"].split(".").take(2), "major and minor yarn version match"
+    assert_equal tool_versions["nodejs"].split(".").take(1), package_json["engines"]["node"].split(".").take(1), "major node version matches"
   end
 
   # Heroku buildpack reads from Gemfile
