@@ -14,53 +14,57 @@ def run_and_print(command)
   end
 end
 
+# This is useful when trying to reproduce a production issue, but it's best to
+# avoid doing it live.
 desc "Load production data and modify for local usage"
 task load_production_data: [:pull_production_database, :environment] do
   raise "no way buddy" if Rails.env.production?
-
   delete_attachments
-  scrub_users
+  exorcise_production_remnants
+end
 
-  Event.update_all(calendar_id: "appointmentSlots@calendar.google.com")
+# Anonymize or delete data for use in development, staging, or wider distribution.
+desc "Load production data and modify for export"
+task load_production_data_for_export: [:pull_production_database, :environment] do
+  raise "no way buddy" if Rails.env.production?
+  delete_attachments
+  scrub_data
+  exorcise_production_remnants
+end
+
+desc "Export data for eventual import using pg_restore"
+task :create_database_dump do
+  path = "exports/#{Time.now.to_date}.pgdump"
+  `pg_dump --no-acl --no-owner --clean --format=custom circulate_development > #{path}`
 end
 
 def delete_attachments
+  ActiveStorage::VariantRecord.delete_all
   ActiveStorage::Attachment.delete_all
   ActiveStorage::Blob.delete_all
 end
 
-def scrub_users
-  User.update_all(<<~SQL)
-    encrypted_password='$2a$11$O4hy2DQEdCZ9lMsDa.ZXHuQfd44FUAAKcdv3ddWEAvCak9Ug4K6Ae',
-    email=coalesce('member'||member_id, 'user'||id) || '@example.com',
-    current_sign_in_ip = '1.1.1.1',
-    last_sign_in_ip = '1.1.1.1',
-    reset_password_token = NULL,
-    reset_password_sent_at = NULL
+def exorcise_production_remnants
+  # This prevents being annoyed when you decide you're done working with the data export
+  # and want to drop or otherwise mangle your local database.
+  ActiveRecord::Base.connection.execute(<<~SQL)
+    UPDATE ar_internal_metadata SET value='development' WHERE key='environment';
+  SQL
+
+  # This extension is used on Heroku and likes to leak into schema.rb after importing production data.
+  ActiveRecord::Base.connection.execute(<<~SQL)
+    DROP EXTENSION IF EXISTS pg_stat_statements;
+    DROP SCHEMA IF EXISTS heroku_ext;
   SQL
 end
 
 def scrub_data
-  Notification.delete_all
-
-  # this could be scoped down to just those that are on members in the future
-  ActionText::RichText.delete_all
   Note.delete_all
 
-  Event.update_all(calendar_id: ENV["APPOINTMENT_SLOT_CALENDAR_ID"])
+  # Contains emails and phone numbers
+  Notification.delete_all
 
-  scrub_users
-
-  Member.update_all(<<~SQL)
-    full_name = 'Firstname ' || id || ' Lastname', 
-    preferred_name = 'Member ' || id,
-    email = 'member' || id || '@example.com',
-    phone_number = '7732420923',
-    pronouns = '{"she/her", "they/their"}',
-    address1 = '1048 W 37th St',
-    address2 = 'Suite 102',
-    postal_code = '60609'
-  SQL
+  Appointment.update_all(comment: "")
 
   GiftMembership.update_all(<<-SQL)
     purchaser_email = 'purchaser' || id || '@example.com',
@@ -68,6 +72,41 @@ def scrub_data
     recipient_name = 'Recipient ' || id,
     code = 'ABCD' || id
   SQL
+
+  Member.connection.execute(<<~SQL)
+    UPDATE members
+    SET
+      full_name = 'Firstname Lastname',
+      preferred_name = coalesce('Member '||members.number, 'User '||users.id),
+      email=coalesce('member'||members.number, 'user'||users.id) || '@example.com',
+      phone_number = '7732420923',
+      pronouns = '{"she/her", "they/their"}',
+      address1 = '1048 W 37th St',
+      address2 = 'Suite 102',
+      postal_code = '60609',
+      desires = NULL
+    FROM users
+    WHERE users.member_id = members.id
+  SQL
+
+  # There are some members in the database without associated users that the above query doesn't update.
+  Member.left_joins(:user).where(user: { id: nil }).each { |m| m.destroy }
+
+  User.connection.execute(<<~SQL)
+    UPDATE users
+    SET
+      encrypted_password='$2a$11$O4hy2DQEdCZ9lMsDa.ZXHuQfd44FUAAKcdv3ddWEAvCak9Ug4K6Ae',
+      email=coalesce('member'||members.number, 'user'||users.id) || '@example.com',
+      current_sign_in_ip = '1.1.1.1',
+      last_sign_in_ip = '1.1.1.1',
+      reset_password_token = NULL,
+      reset_password_sent_at = NULL
+    FROM members
+    WHERE users.member_id = members.id
+  SQL
+
+  Adjustment.where.not(square_transaction_id: nil).update_all(square_transaction_id: "sqtrxnid")
+
 end
 
 namespace :staging do

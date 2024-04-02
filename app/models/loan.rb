@@ -2,7 +2,7 @@ class Loan < ApplicationRecord
   belongs_to :item, optional: true
   belongs_to :member
   has_one :adjustment, as: :adjustable
-  has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id", dependent: :destroy
   has_many :renewal_requests, dependent: :destroy
   belongs_to :initial_loan, class_name: "Loan", optional: true
   has_one :hold, dependent: :nullify
