@@ -1,6 +1,8 @@
 require "test_helper"
 
 class MemberTest < ActiveSupport::TestCase
+  include Lending
+
   test "strips no digits from phone number" do
     member = Member.new(phone_number: "(123) 456-7890")
     member.valid?
@@ -253,5 +255,11 @@ class MemberTest < ActiveSupport::TestCase
     )
 
     assert appsignal_spy.has_been_called_with?(error)
+  end
+
+  test "can destroy member with renewals" do
+    loan = create(:overdue_loan)
+    renew_loan(loan)
+    loan.member.destroy
   end
 end
