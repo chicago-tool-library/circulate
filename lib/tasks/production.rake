@@ -90,7 +90,7 @@ def scrub_data
   SQL
 
   # There are some members in the database without associated users that the above query doesn't update.
-  Member.left_joins(:user).where(user: { id: nil }).each { |m| m.destroy }
+  Member.left_joins(:user).where(user: {id: nil}).each { |m| m.destroy }
 
   User.connection.execute(<<~SQL)
     UPDATE users
@@ -106,7 +106,6 @@ def scrub_data
   SQL
 
   Adjustment.where.not(square_transaction_id: nil).update_all(square_transaction_id: "sqtrxnid")
-
 end
 
 namespace :staging do
