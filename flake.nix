@@ -26,11 +26,11 @@
           mkShell {
             buildInputs = [
               ruby
-              nodejs_20
               foreman
+              nodejs_20
 
-              # Remove built-in node from yarn package so it picks up pinned
-              # node v20 above
+              # Make sure yarn uses the version-specific node package specified
+              # above
               (yarn.override { nodejs = nodejs_20; })
 
               # needed to build pg gem, even though we'll run the db from Docker
