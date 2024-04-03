@@ -21,15 +21,31 @@ module Admin
     private
 
     def render_appointment_to_turbo_stream
-      partial = FeatureFlags.new_appointments_page_enabled?(params[:new]) ? "appointment" : "appointment_orig"
-      respond_to do |format|
-        format.turbo_stream {
-          render turbo_stream:
-            turbo_stream.replace(
-              dom_id(@appointment),
-              render_to_string(partial: "admin/appointments/#{partial}", locals: {appointment: @appointment})
-            )
-        }
+      if FeatureFlags.new_appointments_page_enabled?(params[:new])
+        respond_to do |format|
+          format.turbo_stream {
+            render turbo_stream: [
+              turbo_stream.replace(
+                "#{dom_id(@appointment)}-mobile",
+                render_to_string(partial: "admin/appointments/appointment_mobile", locals: {appointment: @appointment})
+              ),
+              turbo_stream.replace(
+                "#{dom_id(@appointment)}-desktop",
+                render_to_string(partial: "admin/appointments/appointment", locals: {appointment: @appointment})
+              )
+            ]
+          }
+        end
+      else
+        respond_to do |format|
+          format.turbo_stream {
+            render turbo_stream:
+              turbo_stream.replace(
+                dom_id(@appointment),
+                render_to_string(partial: "admin/appointments/appointment_orig", locals: {appointment: @appointment})
+              )
+          }
+        end
       end
     end
   end

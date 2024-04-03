@@ -27,10 +27,10 @@
   <td>
     <%= link_to "view/edit", admin_appointment_path(appointment), class: "mb-2 view-appointment" %><br>
     <% if appointment.completed? %>
-      <%= button_to "restore", admin_appointment_completion_path(appointment),
+      <%= button_to "restore", admin_appointment_completion_path(appointment, new: false),
             method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
     <% else %>
-      <%= button_to "complete", admin_appointment_completion_path(appointment),
+      <%= button_to "complete", admin_appointment_completion_path(appointment, new: false),
             method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
     <% end %>
   </td>

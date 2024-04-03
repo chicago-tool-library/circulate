@@ -23,10 +23,6 @@
       </li>
     </ul>
 
-
-      
-
-
     <% if @appointments.exists? %>
       <div class="hide-xs">
         <table class="table pending-appointments">
@@ -68,12 +64,12 @@
       <div class="show-xs">
         <% @pending_appointments.each do |appointment, index| %>
           <div class="mt-2">
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
+            <%= render partial: "appointment_mobile", locals: {appointment: appointment} %>
           </div>
         <% end %>
         <% @completed_appointments.each do |appointment, index| %>
           <div class="mt-2">
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
+            <%= render partial: "appointment_mobile", locals: {appointment: appointment} %>
           </div>
         <% end %>
       </div>
