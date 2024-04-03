@@ -23,17 +23,60 @@
       </li>
     </ul>
 
+
+      
+
+
     <% if @appointments.exists? %>
-      <% @pending_appointments.each do |appointment, index| %>
-        <div class="mt-2">
-          <%= render partial: "appointment", locals: {appointment: appointment} %>
-        </div>
-      <% end %>
-      <% @completed_appointments.each do |appointment, index| %>
-        <div class="mt-2">
-          <%= render partial: "appointment", locals: {appointment: appointment} %>
-        </div>
-      <% end %>
+      <div class="hide-xs">
+        <table class="table pending-appointments">
+          <thead>
+            <tr>
+              <th class="time">Time</th>
+              <th class="member">Member</th>
+              <th class="items">Pickup Items</th>
+              <th class="items">Dropoff Items</th>
+              <th class="notes">Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <% @pending_appointments.each do |appointment, index| %>
+            <%= render partial: "appointment", locals: {appointment: appointment} %>
+          <% end %>
+        </table>
+
+        <h2>Completed Appointments</h2>
+
+        <table class="table completed-appointments">
+          <thead>
+            <tr>
+              <th class="time">Time</th>
+              <th class="member">Member</th>
+              <th class="items">Pickup Items</th>
+              <th class="items">Dropoff Items</th>
+              <th class="notes">Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <% @completed_appointments.each do |appointment, index| %>
+            <%= render partial: "appointment", locals: {appointment: appointment} %>
+          <% end %>
+        </table>
+      </div>
+      <div class="show-xs">
+        <% @pending_appointments.each do |appointment, index| %>
+          <div class="mt-2">
+            <%= render partial: "appointment", locals: {appointment: appointment} %>
+          </div>
+        <% end %>
+        <% @completed_appointments.each do |appointment, index| %>
+          <div class="mt-2">
+            <%= render partial: "appointment", locals: {appointment: appointment} %>
+          </div>
+        <% end %>
+      </div>
     <% else %>
         <%= empty_state "No appointments scheduled for this day." %>
     <% end %>
