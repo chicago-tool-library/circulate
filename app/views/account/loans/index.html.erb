@@ -49,6 +49,8 @@
                   <span class="message">You can renew this loan without librarian approval if you need it for more time.</span> <%= button_to "Renew Loan", account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
                 <% elsif loan.member_renewal_requestable? %>
                   <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to "Request Loan Renewal", account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
+                <% else %>
+                  <span class="message">Renewal unavailable for this item.</span>
                 <% end %>
               </div>
             </li>
