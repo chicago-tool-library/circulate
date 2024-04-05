@@ -89,6 +89,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
+    # System tests submit real forms so we can exercise CSRF protection
+    ActionController::Base.allow_forgery_protection = true
   end
 
   include Warden::Test::Helpers
@@ -102,6 +104,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   teardown do
     ActsAsTenant.test_tenant = nil
+    ActionController::Base.allow_forgery_protection = false
 
     errors = page.driver.browser.logs.get(:browser)
     fail = false
