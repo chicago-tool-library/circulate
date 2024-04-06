@@ -10,7 +10,7 @@ module Volunteer
     end
 
     def redirect_to_teamup
-      redirect_to "https://teamup.com/ksnp8rrsst1ow8nvwn", status: :see_other
+      redirect_to "https://teamup.com/ksnp8rrsst1ow8nvwn", status: :see_other, allow_other_host: true
       false
     end
   end
