@@ -26,6 +26,9 @@
   - [Buildpacks](#buildpacks)
   - [Release Command](#release-command)
   - [Daily Summary Emails](#daily-summary-emails)
+  - [Google Calendar](#google-calendar)
+    - [Local development](#local-development)
+    - [Production](#production)
 - [Alternatives](#alternatives)
 
 <!-- tocstop -->
@@ -341,6 +344,50 @@ rails holds:start_waiting_holds Every 10 minutes
 rails email:send_overdue_notices Daily at 3:00 AM UTC 	
 rails email:send_membership_renewal_reminders Daily at 12:00 AM UTC
 ```
+
+### Google Calendar
+
+The application uses the Google Calendar API for several calendar-based features, most importantly, appointment scheduling. There are two ways to handle setting up the calendars and credentials needed for the system to work.
+
+#### Local development
+
+To setup calendars for local development:
+
+1. Log into Google Calendar
+2. Create two calendars, one for Appointment slots and one for volunteer shifts.
+3. In `.env.local`, set the IDs of these calendars (which can be found on the Settings & Sharing screen) as the values of `APPOINTMENT_SLOT_CALENDAR_ID` and `VOLUNTEER_SLOT_CALENDAR_ID`.
+
+To get credentials to work with these on your local machine:
+
+1. Go to [APIs & Credendials](https://console.cloud.google.com/apis/credentials) and click "Create Credentials".
+2. Select "OAuth client ID".
+3. Choose "Web application" as the Application type.
+4. Use whatever name you'd like, maybe something like "Circulate Development".
+5. Under "Authorized redirect URIs", click "ADD URI" and enter `https://developers.google.com/oauthplayground`.
+6. Click "Create".
+7. Go to the [Google OAuth Playground](https://developers.google.com/oauthplayground).
+8. Click on the gear icon to open the "OAuth 2.0 configuration" menu.
+9. Select the "Use your own OAuth credentials" checkbox.
+10. Enter the values for "OAuth Client ID" and "OAuth Client secret" from step 6.
+11. Close the menu.
+12. In the left pane, scroll down to "Google Calendar API v3". Under that heading, select "https://www.googleapis.com/auth/calendar" as the scope.
+13. Click "Authorize APIs". You'll go through the OAuth flow, be sure to select a Google account that has access to the calendars (like the one that created them).
+14. Then click "Exchange authorization code for tokens".
+15. Copy the value for "Refresh token" and keep it somewhere safe.
+16. In `.env.local`, set the value of `GOOGLE_REFRESH_TOKEN` to the value from step 15 and the value of `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to the values from step 6.
+
+If everything is setup properly, you should be able to run `bin/rails sync:calendars` without it displaying an error. The output of that command is written to the Rails log, so you can check `log/development.log` to see if it worked.
+
+#### Production
+
+In production, the application authenticates using a service account. This requires two environment variables be set:
+
+* `GOOGLE_APPLICATION_CREDENTIALS_JSON`: The JSON content of the credentials JSON file downloaded from the GCP console.
+* `GOOGLE_APPLICATION_CREDENTIALS`: The path on the Heroku ephemeral filesystem where the credentials can be written for the Google client libraries to find them.
+
+At dyno start time, Heroku executes the `.profile` script, which writes the credential JSON into a file that is then read by the `googleauth` library.
+
+The two calendars are both shared with the service account's email using the Google Calendar UI. Their IDs are stored in `APPOINTMENT_SLOT_CALENDAR_ID` and `VOLUNTEER_SLOT_CALENDAR_ID` in the Heroku config.
 
 ## Alternatives
 
