@@ -1,7 +1,7 @@
+require "googleauth"
+
 module Google
   class Calendar
-    TOKEN_ENDPOINT = "https://www.googleapis.com/oauth2/v4/token"
-
     def initialize(calendar_id:)
       @calendar_id = calendar_id
     end
@@ -108,13 +108,21 @@ module Google
 
     def new_client
       http = HTTP.use(instrumentation: {instrumenter: ActiveSupport::Notifications.instrumenter})
-      token_response = http.post(TOKEN_ENDPOINT, params: {
-        client_id: ENV.fetch("GOOGLE_CLIENT_ID"),
-        client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET"),
-        grant_type: "refresh_token",
-        refresh_token: ENV.fetch("GOOGLE_REFRESH_TOKEN")
-      })
-      token = token_response.parse["access_token"]
+
+      scope = "https://www.googleapis.com/auth/calendar"
+
+      # Load service account credentials from the path set in GOOGLE_APPLICATION_CREDENTIALS
+      auth = if ENV.key?("GOOGLE_APPLICATION_CREDENTIALS")
+        Rails.logger.info "using ADC credentials"
+        Google::Auth::ServiceAccountCredentials.from_env(scope: scope)
+      else
+        # Use GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN.
+        Rails.logger.info "using user refresh credentials"
+        Google::Auth::UserRefreshCredentials.from_env(scope: scope)
+      end
+
+      token_data = auth.fetch_access_token!
+      token = token_data["access_token"]
       http.auth("Bearer #{token}")
     end
 

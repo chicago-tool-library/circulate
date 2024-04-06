@@ -47,6 +47,9 @@ gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+# Calendar syncing
+gem "googleauth"
+
 gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
