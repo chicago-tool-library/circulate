@@ -83,13 +83,39 @@ class MemberTexterTest < ActionMailer::TestCase
     member = create(:verified_member, reminders_via_text: true)
     hold = create(:hold, member: member)
 
-    MemberTexter.new(member).hold_available(hold)
+    reasonable_hour = Time.current.change(hour: 9, min: 0)
+    travel_to reasonable_hour do
+      MemberTexter.new(member).hold_available(hold)
+    end
 
     text = TwilioHelper::FakeSMS.messages.last
     assert_equal text.to, member.canonical_phone_number
+    assert_nil text.schedule_type
+    assert_nil text.send_at
+    assert_equal "accepted", text.status
     assert_includes text.body, "Your hold for #{hold.item.complete_number} is available"
     refute_match %r{\n\z}, text.body, "does not end in newline"
     assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
+  end
+
+  test "schedules a hold available message for tomorrow morning if it's after 8pm" do
+    member = create(:verified_member, reminders_via_text: true)
+    hold = create(:hold, member: member)
+
+    Time.use_zone("America/Chicago") do
+      late = Time.current.change(hour: 20, min: 1) # 8:01PM local time
+      travel_to late do
+        MemberTexter.new(member).hold_available(hold)
+      end
+
+      text = TwilioHelper::FakeSMS.messages.last
+      tomorrow_morning = late.tomorrow.change(hour: 9, min: 0, sec: 0)
+      assert_equal "fixed", text.schedule_type
+      assert_equal tomorrow_morning, text.send_at
+
+      notification = Notification.last
+      assert_equal "scheduled", notification.status
+    end
   end
 
   test "skips hold available message if the member has not opted into text reminders" do
@@ -107,7 +133,10 @@ class MemberTexterTest < ActionMailer::TestCase
     member = create(:verified_member, reminders_via_text: true)
     hold = create(:hold, member: member)
 
-    MemberTexter.new(member).hold_available(hold)
+    reasonable_hour = Time.current.change(hour: 9, min: 0)
+    travel_to reasonable_hour do
+      MemberTexter.new(member).hold_available(hold)
+    end
 
     notification = Notification.last
     text = TwilioHelper::FakeSMS.messages.last

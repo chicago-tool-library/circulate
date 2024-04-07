@@ -9,7 +9,7 @@ module TwilioHelper
 
   # Via https://thoughtbot.com/blog/testing-sms-interactions
   class FakeSMS
-    Message = Struct.new(:from, :to, :body, :sid, :status, keyword_init: true)
+    Message = Struct.new(:from, :to, :body, :sid, :status, :send_at, :schedule_type, keyword_init: true)
 
     cattr_accessor :messages
     self.messages = []
@@ -18,13 +18,16 @@ module TwilioHelper
       self
     end
 
-    def create(from:, to:, body:, messaging_service_sid:)
+    def create(from:, to:, body:, messaging_service_sid:, **optional_args)
+      send_at = optional_args[:send_at]
       self.class.messages << Message.new(
         from: from,
         to: to,
         body: body,
         sid: fake_sid,
-        status: "accepted"
+        schedule_type: optional_args[:schedule_type],
+        send_at: send_at,
+        status: send_at.nil? ? "accepted" : "scheduled"
       )
       self.class.messages.last
     end
