@@ -51,14 +51,6 @@ module Admin
 
     private
 
-    def sort_by_member_and_time(appointments)
-      appointments
-        .group_by { |a| a.member }
-        .map { |member, appointments| [appointments.map(&:starts_at).min, appointments] }
-        .sort_by { |first_time, appointments| [first_time, helpers.preferred_or_default_name(appointments.first.member)] }
-        .flat_map { |_, appointments| appointments.sort_by(&:created_at) }
-    end
-
     def load_appointment
       @appointment = Appointment.find(params[:id])
     end
