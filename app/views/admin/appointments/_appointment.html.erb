@@ -1,7 +1,6 @@
 <%= tag.div(id: dom_id(appointment),
-  class: "card mb-2 #{"completed" if appointment.completed? }",
-  data: { sort_key: appointment_sort_key(appointment), appointment_id: appointment.id }
-  ) do %>
+      class: "card mb-2 #{"completed" if appointment.completed?}",
+      data: {sort_key: appointment_sort_key(appointment), appointment_id: appointment.id}) do %>
   <div class="card-header">
     <div class="card-title h5">
       <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %><br>
