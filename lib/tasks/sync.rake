@@ -6,7 +6,7 @@ namespace :sync do
       sync_calendar Event.volunteer_shift_calendar_id
     end
 
-    wait_for_logs_to_flush
+    flush_logs_to_appsignal
   end
 
   def sync_calendar(calendar_id)
