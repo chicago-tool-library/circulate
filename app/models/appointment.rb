@@ -12,8 +12,15 @@ class Appointment < ApplicationRecord
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
   scope :chronologically, -> { order("starts_at ASC") }
-
   scope :simultaneous, ->(appointment) { where(starts_at: appointment.starts_at, ends_at: appointment.ends_at).where.not(id: appointment.id) }
+  scope :same_day_as, ->(appointment) {
+    where("starts_at > ? AND ends_at < ?", appointment.starts_at.beginning_of_day, appointment.ends_at.end_of_day)
+      .chronologically
+  }
+  has_many :same_day_and_member, ->(appointment) { same_day_as(appointment) },
+    class_name: "Appointment",
+    foreign_key: "member_id",
+    primary_key: "member_id"
 
   attr_accessor :member_updating, :staff_updating
 
