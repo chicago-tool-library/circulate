@@ -24,12 +24,12 @@
     </ul>
 
     <% if @appointments.exists? %>
-      <% @pending_appointments.each do |appointment, index| %>
+      <% @pending_appointments.each do |appointment| %>
         <div class="mt-2">
           <%= render partial: "appointment", locals: {appointment: appointment} %>
         </div>
       <% end %>
-      <% @completed_appointments.each do |appointment, index| %>
+      <% @completed_appointments.each do |appointment| %>
         <div class="mt-2">
           <%= render partial: "appointment", locals: {appointment: appointment} %>
         </div>

@@ -12,11 +12,12 @@ module Admin
 
       @pending_appointments = []
       @completed_appointments = []
-      sort_by_member_and_time(@appointments).each_with_index do |appointment, index|
+
+      @appointments.sort_by { |a| helpers.appointment_sort_key(a) }.each do |appointment|
         if appointment.completed?
-          @completed_appointments << [appointment, index]
+          @completed_appointments << appointment
         else
-          @pending_appointments << [appointment, index]
+          @pending_appointments << appointment
         end
       end
 

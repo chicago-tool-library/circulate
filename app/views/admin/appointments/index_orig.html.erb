@@ -37,7 +37,7 @@
         </thead>
 
         <tbody>
-          <% @pending_appointments.each do |appointment, index| %>
+          <% @pending_appointments.each do |appointment| %>
             <%= render partial: "appointment_orig", locals: {appointment: appointment} %>
           <% end %>
         </tbody>
@@ -57,7 +57,7 @@
         </thead>
 
         <tbody>
-          <% @completed_appointments.each do |appointment, index| %>
+          <% @completed_appointments.each do |appointment| %>
             <%= render partial: "appointment_orig", locals: {appointment: appointment} %>
           <% end %>
         <tbody>
