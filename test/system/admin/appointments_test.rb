@@ -40,10 +40,10 @@ module Admin
     end
 
     def assert_appointments_in_page(pending: [], completed: [])
-      pending_appointment_ids = all("table.pending-appointments tbody tr").map { |row| row["data-appointment-id"].to_i }
+      pending_appointment_ids = all(".pending-appointments .appointment").map { |row| row["data-appointment-id"].to_i }
       assert_equal pending.map(&:id), pending_appointment_ids
 
-      completed_appointment_ids = all("table.completed-appointments tbody tr").map { |row| row["data-appointment-id"].to_i }
+      completed_appointment_ids = all(".completed-appointments .appointment").map { |row| row["data-appointment-id"].to_i }
       assert_equal completed.map(&:id), completed_appointment_ids
     end
 
@@ -64,13 +64,13 @@ module Admin
     def assert_appointment_completed(appointment)
       id = dom_id(appointment)
       assert_selector("##{id}.completed")
-      assert_selector("table.completed-appointments ##{id}")
+      assert_selector(".completed-appointments ##{id}")
     end
 
     def assert_appointment_pending(appointment)
       id = dom_id(appointment)
       refute_selector("##{id}.completed")
-      assert_selector("table.pending-appointments ##{id}")
+      assert_selector(".pending-appointments ##{id}")
     end
 
     test "groups appointments for the same member together" do

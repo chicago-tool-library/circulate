@@ -3,7 +3,7 @@
 export function arrangeAppointment(id) {
   const element = document.getElementById(id);
   const isCompleted = element.classList.contains("completed");
-  const newParentSelector = isCompleted ? ".completed-appointments tbody" : ".pending-appointments tbody";
+  const newParentSelector = isCompleted ? ".completed-appointments" : ".pending-appointments";
   const newParent = document.querySelector(newParentSelector);
 
   // Insert before an element with a higher sort key
