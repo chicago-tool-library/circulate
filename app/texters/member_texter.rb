@@ -37,7 +37,7 @@ class MemberTexter < BaseTexter
     message = <<~EOM.chomp
       Chicago Tool Library Reminder: Your hold for #{hold.item.complete_number} is available! Schedule a pick-up at #{new_account_appointment_url}
     EOM
-    result = text(to: @member.canonical_phone_number, body: message)
+    result = text_at_reasonable_hour(to: @member.canonical_phone_number, body: message)
     store_notification("hold_available", message, result)
     result
   end
