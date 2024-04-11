@@ -41,7 +41,7 @@
               <div class="actions">
                 <% if loan.renewal_requests.any? %>
                   <% if loan.latest_renewal_request.rejected? %>
-                    Renewal denied! There are others waiting to borrow this tool.
+                    Renewal unavailable. Please return this item soon.
                   <% else %>
                     Renewal requested
                   <% end %>
@@ -50,9 +50,9 @@
                 <% elsif loan.member_renewal_requestable? %>
                   <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to "Request Loan Renewal", account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
                 <% elsif loan.any_active_holds? %>
-                  <span class="message">This loan cannot be renewed because it's on hold by another member.</span>
+                  <span class="message">Renewal unavailable. Another borrower is waiting on this item.</span>
                 <% elsif !loan.within_renewal_limit? %>
-                  <span class="message">This loan cannot be renewed because our policy limits it to <%= loan.item.borrow_policy.renewal_limit %> renewals.</span>
+                  <span class="message">No renewals remaining. This item is limited to <%= loan.item.borrow_policy.renewal_limit %> renewals.</span>
                 <% else %>
                   <span class="message">This loan cannot be renewed.</span>
                 <% end %>
