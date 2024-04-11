@@ -8,7 +8,7 @@ module Admin
       @appointments = Appointment
         .where(starts_at: @current_day.beginning_of_day..@current_day.end_of_day)
         .chronologically
-        .includes(:member, :same_day_and_member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
+        .includes(:member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
 
       @pending_appointments = []
       @completed_appointments = []

@@ -8,33 +8,20 @@ module Admin
     setup do
       starts_at = Time.current.beginning_of_day + 8.hours
 
-      @member_1 = create(:member, preferred_name: "Member 1")
-      @member_2 = create(:member, preferred_name: "Member 2")
-      @member_3 = create(:member, preferred_name: "Member 3")
-      @member_4 = create(:member, preferred_name: "Member 4")
+      @member1 = create(:member, preferred_name: "Member 1")
+      @member2 = create(:member, preferred_name: "Member 2")
+      @member3 = create(:member, preferred_name: "Member 3")
+      @member4 = create(:member, preferred_name: "Member 4")
 
-      @hold_1_1 = create(:hold, member: @member_1)
-      @hold_2_1 = create(:hold, member: @member_2)
-      @hold_2_2 = create(:hold, member: @member_2)
-      @hold_2_3 = create(:hold, member: @member_2)
-      @hold_3_1 = create(:hold, member: @member_3)
-      @hold_4_1 = create(:hold, member: @member_4)
+      @hold1 = create(:hold, member: @member1)
+      @hold2 = create(:hold, member: @member2)
+      @hold3 = create(:hold, member: @member3)
+      @hold4 = create(:hold, member: @member4)
 
-      @appointment_1_1 = create(:appointment, member: @member_1, holds: [@hold_1_1], starts_at: starts_at, ends_at: starts_at + 2.hours)
-      @appointment_2_1 = create(:appointment, member: @member_2, holds: [@hold_2_1], starts_at: starts_at, ends_at: starts_at + 2.hours)
-      @appointment_2_2 = create(:appointment, member: @member_2, holds: [@hold_2_2], starts_at: starts_at + 2.hours, ends_at: starts_at + 4.hours)
-      @appointment_2_3 = create(:appointment, member: @member_2, holds: [@hold_2_3], starts_at: starts_at + 6.hours, ends_at: starts_at + 8.hours)
-      @appointment_3_1 = create(:appointment, member: @member_3, holds: [@hold_3_1], starts_at: starts_at + 4.hours, ends_at: starts_at + 6.hours)
-      @appointment_4_1 = create(:appointment, member: @member_4, holds: [@hold_4_1], starts_at: starts_at, ends_at: starts_at + 2.hours)
-
-      @appointments = [
-        @appointment_1_1,
-        @appointment_2_1,
-        @appointment_2_2,
-        @appointment_2_3,
-        @appointment_3_1,
-        @appointment_4_1
-      ]
+      @appointment1 = create(:appointment, member: @member1, holds: [@hold1], starts_at: starts_at + 2.hours, ends_at: starts_at + 4.hours)
+      @appointment2 = create(:appointment, member: @member2, holds: [@hold2], starts_at: starts_at, ends_at: starts_at + 2.hours)
+      @appointment3 = create(:appointment, member: @member3, holds: [@hold3], starts_at: starts_at + 4.hours, ends_at: starts_at + 6.hours)
+      @appointment4 = create(:appointment, member: @member4, holds: [@hold4], starts_at: starts_at, ends_at: starts_at + 2.hours)
 
       sign_in_as_admin
     end
@@ -73,90 +60,82 @@ module Admin
       assert_selector(".pending-appointments ##{id}")
     end
 
-    test "groups appointments for the same member together" do
-      visit appointment_in_schedule_path(@appointment_1_1)
-
-      assert_appointments_in_page pending: [
-        @appointment_1_1,
-        @appointment_2_1,
-        @appointment_2_2,
-        @appointment_2_3,
-        @appointment_4_1,
-        @appointment_3_1
-      ]
-    end
-
     test "moves appointments between lists" do
-      visit appointment_in_schedule_path(@appointment_2_2)
-
-      complete_appointment(@appointment_2_2)
-      assert_appointment_completed(@appointment_2_2)
+      visit appointment_in_schedule_path(@appointment2)
 
       assert_appointments_in_page pending: [
-        @appointment_1_1,
-        @appointment_2_1,
-        @appointment_2_3,
-        @appointment_4_1,
-        @appointment_3_1
-      ], completed: [
-        @appointment_2_2
+        @appointment2,
+        @appointment4,
+        @appointment1,
+        @appointment3
       ]
 
-      visit appointment_in_schedule_path(@appointment_1_1)
+      complete_appointment(@appointment2)
+      assert_appointment_completed(@appointment2)
 
       assert_appointments_in_page pending: [
-        @appointment_1_1,
-        @appointment_2_1,
-        @appointment_2_3,
-        @appointment_4_1,
-        @appointment_3_1
+        @appointment4,
+        @appointment1,
+        @appointment3
       ], completed: [
-        @appointment_2_2
+        @appointment2
+      ]
+
+      restore_appointment(@appointment2)
+      assert_appointment_pending(@appointment2)
+
+      assert_appointments_in_page pending: [
+        @appointment2,
+        @appointment4,
+        @appointment1,
+        @appointment3
       ]
     end
 
-    test "restores appointments to the top of a member group" do
-      @appointment_2_1.update(completed_at: Time.current)
+    test "keeps appointments in order when changing lists" do
+      visit appointment_in_schedule_path(@appointment1)
 
-      visit appointment_in_schedule_path(@appointment_2_1)
+      complete_appointment(@appointment3)
+      assert_appointment_completed(@appointment3)
+
+      complete_appointment(@appointment2)
+      assert_appointment_completed(@appointment2)
+
+      complete_appointment(@appointment1)
+      assert_appointment_completed(@appointment1)
 
       assert_appointments_in_page pending: [
-        @appointment_1_1,
-        @appointment_2_2,
-        @appointment_2_3,
-        @appointment_4_1,
-        @appointment_3_1
+        @appointment4
       ], completed: [
-        @appointment_2_1
+        @appointment2,
+        @appointment1,
+        @appointment3
       ]
 
-      restore_appointment(@appointment_2_1)
-      assert_appointment_pending(@appointment_2_1)
-
-      visit appointment_in_schedule_path(@appointment_2_1)
+      restore_appointment(@appointment2)
+      assert_appointment_pending(@appointment2)
 
       assert_appointments_in_page pending: [
-        @appointment_1_1,
-        @appointment_2_1,
-        @appointment_2_2,
-        @appointment_2_3,
-        @appointment_4_1,
-        @appointment_3_1
+        @appointment2,
+        @appointment4
+      ], completed: [
+        @appointment1,
+        @appointment3
       ]
     end
 
     test "marks an appointment as completed" do
-      visit appointment_in_schedule_path(@appointment_2_2)
+      visit appointment_in_schedule_path(@appointment2)
 
-      complete_appointment(@appointment_2_2)
-      assert_appointment_completed(@appointment_2_2)
+      complete_appointment(@appointment2)
+      assert_appointment_completed(@appointment2)
 
-      assert @appointment_2_2.reload.completed_at.present?
+      assert @appointment2.reload.completed_at.present?
 
-      restore_appointment(@appointment_2_2)
+      restore_appointment(@appointment2)
 
-      assert_appointment_pending(@appointment_2_2)
-      assert @appointment_2_2.reload.completed_at.nil?
+      assert_appointment_pending(@appointment2)
+      assert @appointment2.reload.completed_at.nil?
     end
   end
 end
