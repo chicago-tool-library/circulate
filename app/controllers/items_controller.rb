@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
 
     # Track that a search was performed if we are on the first page
     if @query && @pagy.page == 1
-      Ahoy.track "Searched", query: @query
+      ahoy.track "Searched", query: @query
     end
   end
 
@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
       @current_hold_count = current_member.active_holds.active_hold_count_for_item(@item).to_i
     end
 
-    Ahoy.track "Item viewed", item_id: @item.id
+    ahoy.track "Item viewed", item_id: @item.id
   end
 
   private
