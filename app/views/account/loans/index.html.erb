@@ -51,7 +51,7 @@
                   <span class="message">If you need more time, you can request a renewal but we may not be able to grant it due to demand.</span> <%= button_to "Request Loan Renewal", account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
                 <% elsif loan.any_active_holds? %>
                   <span class="message">This loan cannot be renewed because it's on hold by another member.</span>
-                <% elsif !loan.renewable? %>
+                <% elsif !loan.within_renewal_limit? %>
                   <span class="message">This loan cannot be renewed because our policy limits it to <%= loan.item.borrow_policy.renewal_limit %> renewals.</span>
                 <% else %>
                   <span class="message">This loan cannot be renewed.</span>

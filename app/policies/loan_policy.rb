@@ -36,7 +36,7 @@ class LoanPolicy
 
   def renew?
     if user.admin?
-      loan.renewable?
+      loan.within_renewal_limit?
     else
       user.member == loan.member && loan.member_renewable?
     end

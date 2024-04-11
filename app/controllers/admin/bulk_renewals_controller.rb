@@ -7,7 +7,7 @@ module Admin
 
     def update
       @member.loans.checked_out.each do |loan|
-        renew_loan(loan) if loan.renewable?
+        renew_loan(loan) if loan.within_renewal_limit?
       end
 
       redirect_to admin_member_url(@member.id), status: :see_other
