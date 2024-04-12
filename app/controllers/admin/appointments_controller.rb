@@ -12,11 +12,12 @@ module Admin
 
       @pending_appointments = []
       @completed_appointments = []
-      sort_by_member_and_time(@appointments).each_with_index do |appointment, index|
+
+      @appointments.sort_by { |a| helpers.appointment_sort_key(a) }.each do |appointment|
         if appointment.completed?
-          @completed_appointments << [appointment, index]
+          @completed_appointments << appointment
         else
-          @pending_appointments << [appointment, index]
+          @pending_appointments << appointment
         end
       end
 
@@ -49,14 +50,6 @@ module Admin
     end
 
     private
-
-    def sort_by_member_and_time(appointments)
-      appointments
-        .group_by { |a| a.member }
-        .map { |member, appointments| [appointments.map(&:starts_at).min, appointments] }
-        .sort_by { |first_time, appointments| [first_time, helpers.preferred_or_default_name(appointments.first.member)] }
-        .flat_map { |_, appointments| appointments.sort_by(&:created_at) }
-    end
 
     def load_appointment
       @appointment = Appointment.find(params[:id])
