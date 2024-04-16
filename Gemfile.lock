@@ -84,6 +84,10 @@ GEM
       rails (>= 6.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    ahoy_matey (5.1.0)
+      activesupport (>= 6.1)
+      device_detector (>= 1)
+      safely_block (>= 0.4)
     apimatic_core (0.3.5)
       apimatic_core_interfaces (~> 0.2.0)
       certifi (~> 2018.1, >= 2018.01.18)
@@ -160,6 +164,7 @@ GEM
     cssbundling-rails (1.4.0)
       railties (>= 6.0.0)
     date (3.3.4)
+    device_detector (1.1.2)
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -455,6 +460,7 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     rubyzip (2.3.2)
+    safely_block (0.4.0)
     scenic (1.8.0)
       activerecord (>= 4.0.0)
       railties (>= 4.0.0)
@@ -575,6 +581,7 @@ DEPENDENCIES
   activerecord-postgres_enum
   acts_as_list
   acts_as_tenant
+  ahoy_matey (~> 5.1)
   appsignal
   audited
   aws-sdk-s3
