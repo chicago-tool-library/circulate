@@ -3,7 +3,7 @@
         <%= date_hold.item_pool.name %>
         (<%= date_hold.loaned_quantity %>/<%= date_hold.quantity %>)
 
-        <% unless date_hold.item_pool.uniquely_numbered? || date_hold.satisfied? %>
+        <% if pickup.editable? && !date_hold.item_pool.uniquely_numbered? && !date_hold.satisfied? %>
         <%= button_to "Add all",
             admin_pickup_reservation_loans_path(pickup),
             method: :post,
@@ -21,7 +21,9 @@
             <%= reservation_loan.reservable_item.id %> -
             <%= reservation_loan.reservable_item.name %>
             <% end %>
-            <%= button_to "Remove", admin_pickup_reservation_loan_path(pickup, reservation_loan), method: :delete, class: "btn btn-sm" %>
+            <% if reservation_loan.editable? %>
+                <%= button_to "Remove", admin_pickup_reservation_loan_path(pickup, reservation_loan), method: :delete, class: "btn btn-sm" %>
+            <% end %>
         </li>
         <% end %>
     </ul>

@@ -176,6 +176,8 @@ Rails.application.routes.draw do
       resources :pickups do
         scope module: "pickups" do
           resources :reservation_loans, only: [:create, :destroy]
+          resource :checkout, only: :create
+          resource :checkin, only: :create
         end
       end
     end
