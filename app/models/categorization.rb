@@ -1,8 +1,8 @@
 class Categorization < ApplicationRecord
-  belongs_to :item
+  belongs_to :categorized, polymorphic: true
   belongs_to :category, counter_cache: true
   belongs_to :category_node, foreign_key: "category_id"
-  validates :category_id, uniqueness: {scope: :item_id}
+  validates :category_id, uniqueness: {scope: :categorized_id}
 
   after_save :refresh_category_nodes
   after_destroy :refresh_category_nodes

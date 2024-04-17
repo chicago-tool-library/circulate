@@ -3,5 +3,6 @@ FactoryBot.define do
     name { "A reservable item" }
     item_pool
     creator { create(:user) }
+    status { "active" }
   end
 end
