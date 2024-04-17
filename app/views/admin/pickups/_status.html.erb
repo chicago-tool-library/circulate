@@ -2,7 +2,7 @@
     <% if pickup.reservation_satisfied? && pickup.status == Pickup.statuses[:building] %>
     <div class="toast toast-success">
         All requirements satisfied.
-        <%= button_to "Mark Ready for Pickup", admin_pickup_path(@pickup), method: :put, params: {pickup: { status: "ready_for_pickup"} }%>
+        <%= button_to "Mark Ready for Pickup", admin_pickup_path(@pickup), method: :put, params: {pickup: {status: "ready_for_pickup"}} %>
     </div>
     <% end %>
 </div>
