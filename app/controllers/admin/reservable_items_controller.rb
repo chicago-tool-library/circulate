@@ -48,7 +48,7 @@ module Admin
     end
 
     def reservable_item_params
-      params.require(:reservable_item).permit(:name, :item_pool_id)
+      params.require(:reservable_item).permit(:name, :item_pool_id, :status)
     end
   end
 end
