@@ -9,6 +9,30 @@
 
   <%= form.tag_select :category_ids, @categories %>
 
+
+    <div class="columns">
+    <div class="column col-4 col-sm-12">
+      <%= form.autocomplete_text_field :size, path: admin_ui_sizes_path(format: :json),
+            hint: "Blade or bit diameter, width or height; e.g. 3/8\"" %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= form.autocomplete_text_field :strength, path: admin_ui_strengths_path(format: :json),
+            hint: "i.e. voltage or amps; e.g. 18v, heavy duty" %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= form.select :power_source, options_for_select(item_power_source_options, item_pool.power_source), include_blank: "Not powered", hint: "Specify how the item is powered, if it is powered" %>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column col-4 col-sm-12">
+      <%= form.autocomplete_text_field :brand, path: admin_ui_brands_path(format: :json), hint: "e.g. Dewalt, Craftsman, Singer" %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= form.text_field :model, hint: "e.g. ABC-123; usually found on the back or bottom" %>
+    </div>
+  </div>
+
   <div class="columns" data-controller="conditional-field" data-conditional-field-accessor-value="checked" data-conditional-field-trigger-value="false">
     <div class="column col-4 col-sm-12">
       <%= form.check_box :uniquely_numbered, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
@@ -19,6 +43,31 @@
       <% end %>
     </div>
   </div>
+
+  <div class="columns mt-2">
+    <div class="column col-8 col-sm-12">
+      <%= form.text_field :purchase_link %>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>Item Location</legend>
+    <div class="columns">
+      <div class="column col-4 col-sm-12">
+        <%= form.text_field :location_area, label: "Area", hint: "General location of the item" %>
+      </div>
+      <div class="column col-4 col-sm-12">
+        <%= form.text_field :location_shelf, label: "Shelf", hint: "Location within the area" %>
+      </div>
+    </div>
+  </fieldset>
+
+  <%= form.rich_text_area :description,
+        hint: "Any details about the tool. Could be notes about parts, usage, etc and will appear on the tool's public page" %>
+
+  <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
+
+  <%= form.text_field :url, label: "URL", hint: "Link to more info, e.g. a manufacturer website" %>
 
   <div>
     <%= form.submit %>

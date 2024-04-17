@@ -21,8 +21,6 @@ module Admin
     end
 
     def show
-      reserved_by_date = @item_pool.reserved_by_date(Time.current.beginning_of_month, Time.current.end_of_month)
-      @month_calendar = GroupLending::MonthCalendar.new(reserved_by_date)
     end
 
     def new
@@ -67,7 +65,12 @@ module Admin
     end
 
     def item_pool_params
-      params.require(:item_pool).permit(:name, :other_names, :uniquely_numbered, :unnumbered_count, category_ids: [])
+      params.require(:item_pool).permit(
+        :name, :other_names, :description, :size, :brand, :model, :strength,
+        :power_source, :uniquely_numbered, :unnumbered_count,
+        :location_shelf, :location_area, :url,
+        :purchase_link, category_ids: []
+      )
     end
 
     def set_categories
