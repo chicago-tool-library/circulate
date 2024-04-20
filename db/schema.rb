@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
     "ready_for_pickup",
     "picked_up",
     "cancelled",
+    "returned",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -577,6 +578,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "checked_out_at", precision: nil
+    t.datetime "checked_in_at", precision: nil
     t.index ["date_hold_id"], name: "index_reservation_loans_on_date_hold_id"
     t.index ["library_id"], name: "index_reservation_loans_on_library_id"
     t.index ["pickup_id"], name: "index_reservation_loans_on_pickup_id"
