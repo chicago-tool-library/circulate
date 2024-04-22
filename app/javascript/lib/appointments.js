@@ -1,6 +1,7 @@
 // Given an appointment container, moves it into the appropriate list (either
 // pending or completed).
 export function arrangeAppointment(id) {
+  console.log(id)
   const element = document.getElementById(id);
   const isCompleted = element.classList.contains("completed");
   const newParentSelector = isCompleted ? ".completed-appointments" : ".pending-appointments";
@@ -13,9 +14,9 @@ export function arrangeAppointment(id) {
       return true;
     }
   })
-  
+
   // If none is found, append to end of list. This also handled empty lists.
-  if (!inserted ) {
+  if (!inserted) {
     newParent.appendChild(element);
   }
 }

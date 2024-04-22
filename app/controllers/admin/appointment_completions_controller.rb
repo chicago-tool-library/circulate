@@ -32,7 +32,8 @@ module Admin
               turbo_stream.replace(
                 "#{dom_id(@appointment)}-desktop",
                 render_to_string(partial: "admin/appointments/appointment", locals: {appointment: @appointment})
-              )
+              ),
+              turbo_stream.action("arrangeAppointment", "#{dom_id(@appointment)}-desktop")
             ]
           }
         end

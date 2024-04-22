@@ -25,7 +25,7 @@
 
     <% if @appointments.exists? %>
       <div class="hide-xs">
-        <table class="table pending-appointments">
+        <table class="table">
           <thead>
             <tr>
               <th class="time">Time</th>
@@ -37,14 +37,16 @@
             </tr>
           </thead>
 
-          <% @pending_appointments.each do |appointment, index| %>
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
-          <% end %>
+          <tbody class="pending-appointments">
+            <% @pending_appointments.each do |appointment, index| %>
+              <%= render partial: "appointment", locals: {appointment: appointment} %>
+            <% end %>
+          </tbody>
         </table>
 
         <h2>Completed Appointments</h2>
 
-        <table class="table completed-appointments">
+        <table class="table">
           <thead>
             <tr>
               <th class="time">Time</th>
@@ -56,9 +58,11 @@
             </tr>
           </thead>
 
-          <% @completed_appointments.each do |appointment, index| %>
-            <%= render partial: "appointment", locals: {appointment: appointment} %>
-          <% end %>
+          <tbody class="completed-appointments">
+            <% @completed_appointments.each do |appointment, index| %>
+              <%= render partial: "appointment", locals: {appointment: appointment} %>
+            <% end %>
+          </tbody>
         </table>
       </div>
       <div class="show-xs">

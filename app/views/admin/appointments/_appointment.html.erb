@@ -1,4 +1,8 @@
-<tr id="<%= dom_id(appointment) %>-desktop" class="appointment <%= appointment.completed? ? "completed" : "pending" %>">
+<%= tag.tr(
+      id: "#{dom_id(appointment)}-desktop",
+      class: "appointment #{appointment.completed? ? "completed" : "pending"}",
+      data: {sort_key: appointment_sort_key(appointment), appointment_id: appointment.id}
+    ) do %>
   <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
   <td class="member">
     <%= link_to appointment.member.full_name, admin_member_path(appointment.member) %><br>
@@ -27,4 +31,4 @@
             method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
     <% end %>
   </td>
-</tr>
+<% end %>
