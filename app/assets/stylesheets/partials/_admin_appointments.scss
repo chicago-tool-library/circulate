@@ -7,6 +7,60 @@
   .table-header > .column {
     font-weight: bold;
   }
+
+  .card-footer {
+    button {
+      margin-left: 0.5em;
+    }
+
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  table {
+    td,
+    th {
+      vertical-align: top;
+      &.time {
+        width: 10%;
+      }
+      &.member {
+        width: 15%;
+      }
+      &.items {
+        width: 25%;
+      }
+      &.notes {
+        width: 25%;
+      }
+    }
+
+    &.pending-appointments {
+      margin-bottom: 2rem;
+    }
+  }
+
+  tr.completed {
+    background-color: $background-color-dark;
+    td {
+      opacity: 0.7;
+    }
+  }
+
+  tr.pending {
+    td.member a {
+      font-weight: bold;
+    }
+  }
+
+  span.label {
+    margin-right: 0.25rem;
+    margin-bottom: 0.125rem;
+  }
+
+  a.view-appointment {
+    display: inline-block;
+  }
 }
 
 p.appointment-comment {
@@ -29,39 +83,48 @@ p.appointment-comment {
 }
 
 .admin-appointments-orig {
-	table {
-		td, th {
+  table {
+    td,
+    th {
       vertical-align: top;
-			&.time { width: 15%; }
-			&.member { width: 20%; }
-			&.items { width: 30%; }
-			&.notes { width: 30%; }
-		}
+      &.time {
+        width: 15%;
+      }
+      &.member {
+        width: 20%;
+      }
+      &.items {
+        width: 30%;
+      }
+      &.notes {
+        width: 30%;
+      }
+    }
 
-		&.pending-appointments {
-			margin-bottom: 2rem;
-		}
-	}
+    &.pending-appointments {
+      margin-bottom: 2rem;
+    }
+  }
 
-	tr.completed {
-		background-color: $background-color-dark;
-		td {
-			opacity: 0.7;
-		}
-	}
+  tr.completed {
+    background-color: $background-color-dark;
+    td {
+      opacity: 0.7;
+    }
+  }
 
-	tr.pending  {
-		td.member a {
-			font-weight: bold;
-		}
-	}
+  tr.pending {
+    td.member a {
+      font-weight: bold;
+    }
+  }
 
   span.label {
     margin-right: 0.25rem;
     margin-bottom: 0.125rem;
   }
 
-	a.view-appointment {
-		display: inline-block;
-	}
+  a.view-appointment {
+    display: inline-block;
+  }
 }

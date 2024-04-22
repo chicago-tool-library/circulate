@@ -13,9 +13,9 @@ export function arrangeAppointment(id) {
       return true;
     }
   })
-  
+
   // If none is found, append to end of list. This also handled empty lists.
-  if (!inserted ) {
+  if (!inserted) {
     newParent.appendChild(element);
   }
 }
