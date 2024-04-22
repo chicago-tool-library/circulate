@@ -2,7 +2,7 @@ class Loan < ApplicationRecord
   belongs_to :item, optional: true
   belongs_to :member
   has_one :adjustment, as: :adjustable
-  has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id"
+  has_many :renewals, class_name: "Loan", foreign_key: "initial_loan_id", dependent: :destroy
   has_many :renewal_requests, dependent: :destroy
   belongs_to :initial_loan, class_name: "Loan", optional: true
   has_one :hold, dependent: :nullify
@@ -84,19 +84,18 @@ class Loan < ApplicationRecord
   end
 
   # Will another renewal exceed the maximum number of renewals?
-  # TODO rename this within_renewal_limit?
-  def renewable?
+  def within_renewal_limit?
     renewal_count < item.borrow_policy.renewal_limit
   end
 
   # Can a member renew this loan themselves without approval?
   def member_renewable?
-    renewable? && item.borrow_policy.member_renewable? && ended_at.nil?
+    within_renewal_limit? && item.borrow_policy.member_renewable? && ended_at.nil?
   end
 
   # Can a member request this loan be renewed?
   def member_renewal_requestable?
-    renewable? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
+    within_renewal_limit? && ended_at.nil? && !any_active_holds? && !renewal_requests.any?
   end
 
   # Does the item have any active holds?

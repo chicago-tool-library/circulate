@@ -29,10 +29,10 @@ module Admin
 
           format.csv do
             text = CSV.generate(headers: true) { |csv|
-              csv << %w[name email status loans expires_on count amount1 amount2 amount3]
+              csv << %w[preferred_name full_name email status loans expires_on count amount1 amount2 amount3]
 
               @members.find_each do |member|
-                values = [helpers.preferred_or_default_name(member)]
+                values = [member.preferred_name, member.full_name]
                 values.concat member.attributes.values_at("email", "status", "loans_count")
                 values << member.expires_on&.to_date
                 values << member.memberships_count

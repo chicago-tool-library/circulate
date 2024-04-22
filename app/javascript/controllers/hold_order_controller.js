@@ -17,6 +17,7 @@ export default class extends Controller {
     },
       chosenClass: "sorting",
       ghostClass: "ghost",
+      preventOnFilter: false, // we still want links and inputs to work on non-reorderable rows
     })
 
     setupFeatherIcons();

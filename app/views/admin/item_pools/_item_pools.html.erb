@@ -1,0 +1,27 @@
+<div class="items-table">
+  <% item_pools.each do |item_pool| %>
+    <%= tag.div class: "items-table-name" do %>
+      <strong>
+        <%= link_to item_pool.name, admin_item_pool_path(item_pool) %>
+      </strong>
+      <% if item_pool.size.present? %>
+        <span class="label"><%= item_pool.size %></span>
+      <% end %>
+      <% if item_pool.strength.present? %>
+        <span class="label"><%= item_pool.strength %></span>
+      <% end %>
+      <br>
+
+      <div class="items-index-buttons">
+        <%= link_to "Edit", edit_admin_item_pool_path(item_pool), class: "btn btn-sm" %>
+      </div>
+    <% end %>
+
+    <%= tag.div class: "items-table-categories" do %>
+      <% item_pool.categories.each do |category| %>
+        <%= link_to tag.name, admin_item_pools_path(category: category.id) %>
+      <% end %>
+    <% end %>
+    <div class="item-table-divider"></div>
+  <% end %>
+</div>

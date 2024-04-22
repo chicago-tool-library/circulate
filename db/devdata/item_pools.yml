@@ -16,6 +16,9 @@
   created_at: 2024-02-15 15:42:35 UTC
   updated_at: 2024-02-15 15:42:35 UTC
   uniquely_numbered: true
+  category_ids:
+  - 18
+  - 17
 - id: 201
   name: Ladders
   created_at: 2024-02-15 15:42:35 UTC

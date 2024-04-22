@@ -9,7 +9,8 @@
 
     <table class="table">
       <tr>
-        <th>Name & Email</th>
+        <th>Name</th>
+        <th>Email</th>
         <th>Status</th>
         <th>Loans</th>
         <th>Expires</th>
@@ -19,9 +20,9 @@
       <% @members.each do |member| %>
         <tr>
           <td>
-            <%= link_to preferred_or_default_name(member), [:admin, member] %> -
-            <%= link_to member.email, [:admin, member] %>
+            <%= link_to member.full_name, [:admin, member] %>
           </td>
+          <td><%= member.email %></td>
           <td><%= member.status %></td>
           <td><%= member.loans_count %></td>
           <td><%= member.expires_on&.to_date&.to_fs(:long) %></td>

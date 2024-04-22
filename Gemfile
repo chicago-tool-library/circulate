@@ -47,6 +47,9 @@ gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+# Calendar syncing
+gem "googleauth"
+
 gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
@@ -98,4 +101,6 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "twilio-ruby", "~> 6.12"
+gem "twilio-ruby", "~> 7.0"
+
+gem "ahoy_matey", "~> 5.1"

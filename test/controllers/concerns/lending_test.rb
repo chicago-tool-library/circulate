@@ -74,12 +74,12 @@ class LendingTest < ActiveSupport::TestCase
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
-    assert loan.renewable?
+    assert loan.within_renewal_limit?
     renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(loan, now: sunday)
     }
 
-    assert renewal.renewable?
+    assert renewal.within_renewal_limit?
     second_renewal = Loan.stub(:open_days, [0, 4]) {
       renew_loan(renewal, now: monday)
     }
@@ -99,7 +99,7 @@ class LendingTest < ActiveSupport::TestCase
       renew_loan(loan, now: sunday)
     }
 
-    refute renewal.renewable?
+    refute renewal.within_renewal_limit?
   end
 
   test "updates appointment loans to point to the renewal" do

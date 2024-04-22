@@ -8,7 +8,7 @@ export function turboFetch(url, method, body) {
     );
 
     if (token) {
-        headers['X-CSRF-Token'] = token.textContent;
+        headers['X-CSRF-Token'] = token.getAttribute("content");
     }
 
     return fetch(url, {

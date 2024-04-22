@@ -39,11 +39,13 @@ module Admin
       else
         respond_to do |format|
           format.turbo_stream {
-            render turbo_stream:
+            render turbo_stream: [
               turbo_stream.replace(
                 dom_id(@appointment),
                 render_to_string(partial: "admin/appointments/appointment_orig", locals: {appointment: @appointment})
-              )
+              ),
+              turbo_stream.action("arrangeAppointment", dom_id(@appointment))
+            ]
           }
         end
       end

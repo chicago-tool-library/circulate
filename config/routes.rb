@@ -166,7 +166,11 @@ Rails.application.routes.draw do
 
     if ENV["FEATURE_GROUP_LENDING"] == "on"
       # Group Lending
-      resources :item_pools
+      resources :item_pools do
+        scope module: "item_pools" do
+          resource :availability, only: :show
+        end
+      end
       resources :reservable_items
       resources :reservations do
         scope module: "reservations" do
@@ -176,6 +180,8 @@ Rails.application.routes.draw do
       resources :pickups do
         scope module: "pickups" do
           resources :reservation_loans, only: [:create, :destroy]
+          resource :checkout, only: :create
+          resource :checkin, only: :create
         end
       end
     end

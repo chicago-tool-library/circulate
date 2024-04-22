@@ -17,6 +17,11 @@ class ItemsController < ApplicationController
 
     @categories = CategoryNode.with_items
     @pagy, @items = pagy(item_scope)
+
+    # Track that a search was performed if we are on the first page
+    if @query && @pagy.page == 1
+      ahoy.track "Searched", query: @query
+    end
   end
 
   def show
@@ -28,6 +33,8 @@ class ItemsController < ApplicationController
       @current_hold = current_member.active_holds.active.where(item_id: @item.id).first
       @current_hold_count = current_member.active_holds.active_hold_count_for_item(@item).to_i
     end
+
+    ahoy.track "Item viewed", item_id: @item.id
   end
 
   private

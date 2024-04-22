@@ -3,6 +3,7 @@ class Pickup < ApplicationRecord
     building: "building",
     ready_for_pickup: "ready_for_pickup",
     picked_up: "picked_up",
+    returned: "returned",
     cancelled: "cancelled"
   }
 
@@ -14,5 +15,9 @@ class Pickup < ApplicationRecord
 
   def reservation_satisfied?
     reservation.date_holds.all? { |dh| dh.satisfied? }
+  end
+
+  def editable?
+    status == Pickup.statuses[:building]
   end
 end

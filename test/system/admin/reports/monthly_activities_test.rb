@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 module Admin
-  class AppointmentsTest < ApplicationSystemTestCase
+  class MonthlyActivitiesTest < ApplicationSystemTestCase
     include AdminHelper
 
     def setup

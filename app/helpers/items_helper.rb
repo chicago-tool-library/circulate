@@ -66,7 +66,7 @@ module ItemsHelper
     end
   end
 
-  def category_tree_nav(categories, current_category = nil)
+  def category_tree_nav(categories, current_category = nil, count_method = :visible_items_count)
     root = TreeNode.new(nil)
     categories.sort_by { |c| c.path_ids.size }.each do |category|
       parent = category.path_ids[0..-2].reduce(root) { |node, id| node[id] }
@@ -76,13 +76,13 @@ module ItemsHelper
     tag.nav(class: "tree-nav", data: {controller: "tree-nav"}) do
       concat(tag.ul do
         root.children.values.sort_by { |node| node.value.name.downcase }.map do |node|
-          concat(render_tree_node(node, current_category))
+          concat(render_tree_node(node, current_category, count_method))
         end
       end)
     end
   end
 
-  def render_tree_node(node, current_value)
+  def render_tree_node(node, current_value, count_method)
     has_children = node.children.size > 0
     tag.li(class: "tree-node", data: {id: node.value.id}) do
       if has_children
@@ -97,13 +97,13 @@ module ItemsHelper
       end
 
       # NOTE: This does not reflect current query / category selection
-      count = node.value.visible_items_count
+      count = node.value.send(count_method)
 
       concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
       if has_children
         concat(tag.ul(class: "tree-node-children") do
           node.children.values.sort_by { |node| node.value.name }.map do |child|
-            concat(render_tree_node(child, current_value))
+            concat(render_tree_node(child, current_value, count_method))
           end
         end)
       end
