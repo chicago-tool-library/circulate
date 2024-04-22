@@ -1,7 +1,6 @@
 // Given an appointment container, moves it into the appropriate list (either
 // pending or completed).
 export function arrangeAppointment(id) {
-  console.log(id)
   const element = document.getElementById(id);
   const isCompleted = element.classList.contains("completed");
   const newParentSelector = isCompleted ? ".completed-appointments" : ".pending-appointments";
