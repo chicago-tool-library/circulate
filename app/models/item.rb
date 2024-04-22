@@ -1,19 +1,10 @@
 class Item < ApplicationRecord
-  STATUS_NAMES = {
-    "pending" => "Pending",
-    "active" => "Active",
-    "maintenance" => "Maintenance",
-    "retired" => "Retired"
-  }
-
-  STATUS_DESCRIPTIONS = {
-    "pending" => "just acquired; not ready to loan",
-    "active" => "available to loan",
-    "maintenance" => "undergoing maintenance; do not loan",
-    "retired" => "no longer part of our inventory"
-  }
+  include ItemAttributes
+  include ItemStatuses
+  include ItemNumbering
 
   include PgSearch::Model
+
   pg_search_scope :search_by_anything,
     against: {
       name: "A",
@@ -25,12 +16,6 @@ class Item < ApplicationRecord
       strength: "D"
     },
     using: {tsearch: {prefix: true, dictionary: "english"}}
-
-  has_many :categorizations, dependent: :destroy
-  has_many :categories, through: :categorizations,
-    before_add: :cache_category_ids,
-    before_remove: :cache_category_ids
-  has_many :category_nodes, through: :categorizations
 
   has_many :loans, dependent: :nullify
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"
@@ -50,23 +35,7 @@ class Item < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_one :last_active_ticket, -> { active.newest_first }, class_name: "Ticket"
 
-  has_rich_text :description
   has_one_attached :image
-
-  enum status: {
-    pending: "pending",
-    active: "active",
-    maintenance: "maintenance",
-    retired: "retired"
-  }
-
-  enum power_source: {
-    solar: "solar",
-    gas: "gas",
-    air: "air",
-    electric_corded: "electric (corded)",
-    electric_battery: "electric (battery)"
-  }
 
   audited except: :plain_text_description
   acts_as_tenant :library
@@ -91,41 +60,18 @@ class Item < ApplicationRecord
   scope :by_name, -> { order(name: :asc) }
 
   validates :name, presence: true
-  validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
-  validates :status, inclusion: {in: Item.statuses.keys}
-  validates :power_source, inclusion: {in: Item.power_sources.keys}, allow_blank: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
-  validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
   validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL", allow_blank: true}
+  validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, if: ->(item) { item.borrow_policy && item.borrow_policy.consumable? }
 
-  before_validation :assign_number, on: :create
   before_validation :strip_whitespace
 
   before_save :cache_description_as_plain_text
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
-  def self.next_number
-    item_scope = order("number DESC NULLS LAST")
-    last_item = item_scope.limit(1).first
-    return 1 unless last_item
-    last_item.number.to_i + 1
-  end
-
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
     joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)
-  end
-
-  def hello
-    10
-  end
-
-  def assign_number
-    if number.blank?
-      return unless borrow_policy
-
-      self.number = self.class.next_number
-    end
   end
 
   def due_on
@@ -208,7 +154,7 @@ class Item < ApplicationRecord
   end
 
   def cache_category_ids(category)
-    @current_category_ids ||= Categorization.where(item_id: id).pluck(:category_id).sort
+    @current_category_ids ||= Categorization.where(categorized_id: id).pluck(:category_id).sort
   end
 
   # called when item is created

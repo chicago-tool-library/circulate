@@ -1,0 +1,22 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Item Pools", admin_item_pools_path %>
+  <%= index_header @item_pool.name do %>
+    <%= link_to "Edit", edit_admin_item_pool_path(@item_pool), class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-4 col-sm-12">
+    <%= render partial: "admin/item_pools/item_pool_panel", locals: {item_pool: @item_pool, admin: true} %>
+  </div>
+
+  <div class="column col-sm-12 col-8">
+
+    <ul class="tab">
+      <%= tab_link "Reservable Items", admin_item_pool_path(@item_pool) %>
+      <%= tab_link "Availability", admin_item_pool_availability_path(@item_pool) %>
+    </ul>
+
+    <%= yield %>
+  </div>
+</div>

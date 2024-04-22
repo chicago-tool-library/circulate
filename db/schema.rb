@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -281,13 +281,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
   end
 
   create_table "categorizations", force: :cascade do |t|
-    t.bigint "item_id", null: false
+    t.bigint "categorized_id", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "categorized_type", null: false
+    t.index ["categorized_id", "category_id"], name: "index_categorizations_on_categorized_id_and_category_id"
+    t.index ["categorized_id"], name: "index_categorizations_on_categorized_id"
     t.index ["category_id"], name: "index_categorizations_on_category_id"
-    t.index ["item_id", "category_id"], name: "index_categorizations_on_item_id_and_category_id"
-    t.index ["item_id"], name: "index_categorizations_on_item_id"
   end
 
   create_table "date_holds", force: :cascade do |t|
@@ -382,6 +383,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
     t.integer "reservable_items_count", default: 0, null: false
     t.integer "unnumbered_count"
     t.bigint "library_id", null: false
+    t.text "description"
+    t.text "size"
+    t.text "brand"
+    t.text "model"
+    t.text "strength"
+    t.text "other_names"
+    t.enum "power_source", enum_type: "power_source"
+    t.text "location_area"
+    t.text "location_shelf"
+    t.text "plain_text_description"
+    t.text "url"
+    t.text "purchase_link"
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
   end
@@ -565,9 +578,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
     t.bigint "item_pool_id", null: false
     t.bigint "creator_id", null: false
     t.bigint "library_id", null: false
+    t.enum "status", enum_type: "item_status"
+    t.string "brand"
+    t.string "model"
+    t.string "serial"
+    t.integer "number", null: false
+    t.integer "purchase_price_cents"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
+    t.index ["number", "library_id"], name: "index_reservable_items_on_number_and_library_id", unique: true
   end
 
   create_table "reservation_loans", force: :cascade do |t|
@@ -674,7 +694,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
-  add_foreign_key "categorizations", "items"
   add_foreign_key "date_holds", "item_pools"
   add_foreign_key "date_holds", "libraries"
   add_foreign_key "gift_memberships", "memberships"
@@ -847,10 +866,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_11_151214) do
       tree_nodes.path_ids,
       tree_nodes.sort_name,
       tree_nodes.tree_ids,
-      ( SELECT json_build_object('active', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.item_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
+      ( SELECT json_build_object('active', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
              FROM (categorizations
-               LEFT JOIN items ON ((categorizations.item_id = items.id)))
-            WHERE (categorizations.category_id = ANY (tree_nodes.tree_ids))) AS tree_item_counts
+               LEFT JOIN items ON ((categorizations.categorized_id = items.id)))
+            WHERE (categorizations.category_id = ANY (tree_nodes.tree_ids))) AS tree_item_counts,
+      ( SELECT json_build_object('active', count(DISTINCT reservable_items.id) FILTER (WHERE (reservable_items.status = 'active'::item_status)), 'retired', count(DISTINCT reservable_items.id) FILTER (WHERE (reservable_items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT reservable_items.id) FILTER (WHERE (reservable_items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT reservable_items.id) FILTER (WHERE (reservable_items.status = 'retired'::item_status))) AS json_build_object
+             FROM ((categorizations
+               LEFT JOIN item_pools ON (((categorizations.categorized_id = item_pools.id) AND (categorizations.categorized_type = 'ItemPool'::text))))
+               LEFT JOIN reservable_items ON ((reservable_items.item_pool_id = item_pools.id)))
+            WHERE (categorizations.category_id = ANY (tree_nodes.tree_ids))) AS tree_reservable_item_counts
      FROM tree_nodes;
   SQL
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true

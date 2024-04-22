@@ -1,0 +1,36 @@
+<div class="panel item-panel">
+  <div class="panel-body">
+    <ul class="item-stats">
+      <%= icon_stat "map-pin", title: "location", css_class: "with-inner-stats" do %>
+        <ul class="inner-stats">
+          <% if item_pool.location_area.present? %>
+            <li><span class="text-italic">area</span> <%= item_pool.location_area %></li>
+          <% end %>
+          <% if item_pool.location_shelf.present? %>
+            <li><span class="text-italic">shelf</span> <%= item_pool.location_shelf %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <%= icon_stat "layers", "#{item_pool.reservable_items.count} items", title: "quantity", placeholder: "No quantity" %>
+      <%= icon_stat "maximize", item_pool.size, title: "size", placeholder: "No size" %>
+      <%= icon_stat "zap", item_pool.strength, title: "strength", placeholder: "No strength" %>
+      <%= icon_stat "battery-charging", item_powered_by_label(item_pool), title: "powered by", placeholder: "Not powered" %>
+      <%= icon_stat "package", item_pool.brand, title: "brand", placeholder: "No brand" %>
+      <%= icon_stat "box", item_pool.model, title: "model", placeholder: "No model" %>
+      <%= icon_stat "link", item_pool.url, title: "URL", placeholder: "No URL" do %>
+        <% if item_pool.url.present? %>
+          <%= link_to "More info", item_pool.url %>
+        <% end %>
+      <% end %>
+      <%= icon_stat "tag", title: "categories", css_class: "with-inner-stats", placeholder: "No categories" do %>
+        <% if item_pool.categories.size > 0 %>
+          <ul class="inner-stats">
+            <% item_pool.categories.sort_by(&:name).each do |category| %>
+              <li><%= link_to category.name, admin_item_pools_path(category: category) %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

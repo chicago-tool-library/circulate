@@ -1,4 +1,6 @@
 class ItemPool < ApplicationRecord
+  include ItemAttributes
+
   belongs_to :creator, class_name: "User"
   has_many :reservable_items
   has_many :date_holds

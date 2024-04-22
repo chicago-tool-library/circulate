@@ -4,48 +4,68 @@
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 10
+  status: active
 - id: 11
   name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 11
+  status: active
 - id: 12
   name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 12
+  status: active
 - id: 13
   name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 13
+  status: active
 - id: 14
   name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 14
+  status: active
 - id: 15
   name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
+  number: 15
+  status: active
 - id: 20
   name: Little Giant Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
+  number: 20
+  status: active
 - id: 21
   name: Werner Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
+  number: 21
+  status: active
 - id: 22
   name: Little Giant Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
+  number: 22
+  status: active
 - id: 23
   name: Werner Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
+  number: 23
+  status: active
