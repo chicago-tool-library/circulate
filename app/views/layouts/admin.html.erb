@@ -30,7 +30,7 @@
               <li class="nav-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
               <li class="nav-item"><%= link_to "Holds", admin_holds_path %></li>
 
-              <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
+              <% if FeatureFlags.group_lending_enabled? %>
                 <li class="nav-item"><%= link_to "Item Pools", admin_item_pools_path %></li>
                 <li class="nav-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>
                 <li class="nav-item"><%= link_to "Reservations", admin_reservations_path %></li>
@@ -126,7 +126,7 @@
                 <li class="menu-item"><%= link_to "Loans", admin_loan_summaries_path %></li>
                 <li class="menu-item"><%= link_to "Renewals", admin_renewal_requests_path %></li>
                 <li class="menu-item"><%= link_to "Holds", admin_holds_path %></li>
-                <% if ENV["FEATURE_GROUP_LENDING"] == "on" %>
+                <% if FeatureFlags.group_lending_enabled? %>
                   <li class="menu-item"><div class="divider"></div></li>
                   <li class="menu-item"><%= link_to "Item Pools", admin_item_pools_path %></li>
                   <li class="menu-item"><%= link_to "Reservable Items", admin_reservable_items_path %></li>

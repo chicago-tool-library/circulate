@@ -164,7 +164,7 @@ Rails.application.routes.draw do
     get "/ui/sizes", to: "ui#sizes"
     get "/ui/strengths", to: "ui#strengths"
 
-    if ENV["FEATURE_GROUP_LENDING"] == "on"
+    if FeatureFlags.group_lending_enabled?
       # Group Lending
       resources :item_pools do
         scope module: "item_pools" do
