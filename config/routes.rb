@@ -17,6 +17,12 @@ Rails.application.routes.draw do
 
     get "confirmation", to: "confirmations#show"
     get "/", to: "home#index"
+
+    if FeatureFlags.group_lending_enabled?
+      namespace :organization do
+        get "/", to: "home#cost"
+      end
+    end
   end
 
   namespace :account do
