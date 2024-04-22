@@ -10,4 +10,8 @@ class FeatureFlags
       ActiveModel::Type::Boolean.new.cast(override)
     end
   end
+
+  def self.group_lending_enabled?
+    ENV["FEATURE_GROUP_LENDING"] == "on"
+  end
 end
