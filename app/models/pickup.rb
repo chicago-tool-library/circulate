@@ -14,7 +14,7 @@ class Pickup < ApplicationRecord
   acts_as_tenant :library
 
   def reservation_satisfied?
-    reservation.date_holds.all? { |dh| dh.satisfied? }
+    reservation.reservation_holds.all? { |dh| dh.satisfied? }
   end
 
   def editable?

@@ -28,7 +28,7 @@ class ItemPoolTest < ActiveSupport::TestCase
     2.times { create(:reservable_item, item_pool: item_pool) }
 
     reservation = create(:reservation, started_at: @starts, ended_at: @ends)
-    create(:date_hold, reservation: reservation, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation, item_pool: item_pool, quantity: 1)
 
     assert_equal 2, reservable_item.item_pool.max_available_between(@starts, @ends)
   end
@@ -43,10 +43,10 @@ class ItemPoolTest < ActiveSupport::TestCase
     2.times { create(:reservable_item, item_pool: item_pool) }
 
     reservation1 = create(:reservation, started_at: @starts - 4.days, ended_at: @ends - 4.days)
-    create(:date_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
     reservation2 = create(:reservation, started_at: @starts + 4.days, ended_at: @ends + 4.days)
-    create(:date_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
     assert_equal 2, reservable_item.item_pool.max_available_between(@starts, @ends)
   end
@@ -61,10 +61,10 @@ class ItemPoolTest < ActiveSupport::TestCase
     2.times { create(:reservable_item, item_pool: item_pool) }
 
     reservation1 = create(:reservation, started_at: @starts - 2.days, ended_at: @ends - 2.days)
-    create(:date_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
     reservation2 = create(:reservation, started_at: @starts + 2.days, ended_at: @ends + 2.days)
-    create(:date_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
     assert_equal 1, reservable_item.item_pool.max_available_between(@starts, @ends)
   end
@@ -80,13 +80,13 @@ class ItemPoolTest < ActiveSupport::TestCase
     2.times { create(:reservable_item, item_pool: item_pool) }
 
     reservation1 = create(:reservation, started_at: @starts, ended_at: @starts + 2.days)
-    create(:date_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
     reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts + 4.days)
-    create(:date_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
     reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts + 6.days)
-    create(:date_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
 
     assert_equal 2, reservable_item.item_pool.max_available_between(@starts, @ends)
   end
@@ -102,13 +102,13 @@ class ItemPoolTest < ActiveSupport::TestCase
     2.times { create(:reservable_item, item_pool: item_pool) }
 
     reservation1 = create(:reservation, started_at: @starts, ended_at: @starts + 4.days)
-    create(:date_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
     reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts + 4.days)
-    create(:date_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
     reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts + 6.days)
-    create(:date_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
+    create(:reservation_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
 
     assert_equal 1, reservable_item.item_pool.max_available_between(@starts, @ends)
   end

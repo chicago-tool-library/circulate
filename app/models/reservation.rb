@@ -6,18 +6,18 @@ class Reservation < ApplicationRecord
     rejected: "rejected"
   }
 
-  has_many :date_holds
-  has_many :item_pools, through: :date_holds
+  has_many :reservation_holds
+  has_many :item_pools, through: :reservation_holds
   belongs_to :reviewer, class_name: "User", required: false
   has_one :pickup
 
-  accepts_nested_attributes_for :date_holds, allow_destroy: true
+  accepts_nested_attributes_for :reservation_holds, allow_destroy: true
 
   validates :name, presence: true
   validates :started_at, presence: true
   validates :ended_at, presence: true
   validates :status, inclusion: {in: Reservation.statuses.keys}
-  validates_associated :date_holds
+  validates_associated :reservation_holds
 
   before_validation :move_ended_at_to_end_of_day
 

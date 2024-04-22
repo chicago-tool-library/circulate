@@ -5,7 +5,7 @@
 
   <fieldset>
     <legend>Items on this reservation</legend>
-    <%= form.dynamic_fields_for :date_holds do |dynamic_form| %>
+    <%= form.dynamic_fields_for :reservation_holds do |dynamic_form| %>
       <%= dynamic_form.select :item_pool_id, item_pool_options %>
       <%= dynamic_form.number_field :quantity %>
       <%= dynamic_form.check_box :_destroy, label: "Remove?" %>

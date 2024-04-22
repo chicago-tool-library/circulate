@@ -1,0 +1,9 @@
+<div class="form-group">
+    <%= reservation_hold.item_pool.name %>
+    <%= form.fields_for :reservation_holds, reservation_hold do |f| %>
+        <%= f.number_field :quantity %>
+        <% unless reservation_hold.persisted? %>
+            <%= f.hidden_field :item_pool_id, value: reservation_hold.item_pool.id %>
+        <% end %>
+    <% end %>
+</div>
