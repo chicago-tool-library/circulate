@@ -2,6 +2,7 @@
   <%= breadcrumbs "Item Pools", admin_item_pools_path %>
   <%= index_header @item_pool.name do %>
     <%= link_to "Edit", edit_admin_item_pool_path(@item_pool), class: "btn" %>
+    <%= link_to "New Reservable Item", new_admin_item_pool_reservable_item_path(@item_pool), class: "btn" %>
   <% end %>
 <% end %>
 
