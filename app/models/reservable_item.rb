@@ -1,3 +1,4 @@
+# A ReservableItem is an item that can be checked out while fulfilling a Reservation via a ReservationLoan.
 class ReservableItem < ApplicationRecord
   include ItemStatuses
   include ItemNumbering

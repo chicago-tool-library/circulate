@@ -25,7 +25,7 @@
 <br>
 
 <div id="date-holds">
-  <% @pickup.reservation.date_holds.each do |date_hold| %>
-    <%= render partial: "admin/pickups/date_hold", locals: {date_hold: date_hold, pickup: @pickup} %>
+  <% @pickup.reservation.reservation_holds.each do |reservation_hold| %>
+    <%= render partial: "admin/pickups/reservation_hold", locals: {reservation_hold: reservation_hold, pickup: @pickup} %>
   <% end %>
 </div>

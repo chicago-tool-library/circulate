@@ -1,9 +1,0 @@
-<div class="form-group">
-    <%= date_hold.item_pool.name %>
-    <%= form.fields_for :date_holds, date_hold do |f| %>
-        <%= f.number_field :quantity %>
-        <% unless date_hold.persisted? %>
-            <%= f.hidden_field :item_pool_id, value: date_hold.item_pool.id %>
-        <% end %>
-    <% end %>
-</div>

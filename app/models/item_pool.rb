@@ -3,7 +3,7 @@ class ItemPool < ApplicationRecord
 
   belongs_to :creator, class_name: "User"
   has_many :reservable_items
-  has_many :date_holds
+  has_many :reservation_holds
 
   validates :name, presence: true
   validate :unnumbered_has_no_items
@@ -48,7 +48,7 @@ class ItemPool < ApplicationRecord
   # If ignored_reservation_id is provided, it will not be included in the totals.
   def sum_reservations_by_day(starts, ends, ignored_reservation_id: nil)
     query = self.class
-      .joins(date_holds: :reservation)
+      .joins(reservation_holds: :reservation)
       .joins(self.class.sanitize_sql_array(["JOIN generate_series(?, ?, interval '1 day') d(the_day) ON the_day BETWEEN reservations.started_at AND reservations.ended_at", starts, ends]))
       .where("item_pools.id = ?", id)
       .group("the_day")
@@ -59,7 +59,7 @@ class ItemPool < ApplicationRecord
     end
 
     {}.tap do |hash|
-      query.pluck("the_day", Arel.sql("COALESCE(SUM(date_holds.quantity), 0)")).each do |day, reserved|
+      query.pluck("the_day", Arel.sql("COALESCE(SUM(reservation_holds.quantity), 0)")).each do |day, reserved|
         hash[day.to_date] = reserved
       end
     end

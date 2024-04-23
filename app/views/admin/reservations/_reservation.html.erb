@@ -29,8 +29,8 @@
   <p>
     <strong>Items:</strong>
     <ul>
-      <% reservation.date_holds.each do |date_hold| %>
-        <li><%= link_to date_hold.item_pool.name, admin_item_pool_path(date_hold.item_pool) %> (<%= date_hold.quantity %>)</li>
+      <% reservation.reservation_holds.each do |reservation_hold| %>
+        <li><%= link_to reservation_hold.item_pool.name, admin_item_pool_path(reservation_hold.item_pool) %> (<%= reservation_hold.quantity %>)</li>
       <% end %>
     </ul>
   </p>

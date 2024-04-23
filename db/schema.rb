@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_015816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -289,18 +289,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
     t.index ["categorized_id", "category_id"], name: "index_categorizations_on_categorized_id_and_category_id"
     t.index ["categorized_id"], name: "index_categorizations_on_categorized_id"
     t.index ["category_id"], name: "index_categorizations_on_category_id"
-  end
-
-  create_table "date_holds", force: :cascade do |t|
-    t.bigint "reservation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "item_pool_id", null: false
-    t.integer "quantity", default: 1, null: false
-    t.bigint "library_id", null: false
-    t.index ["item_pool_id"], name: "index_date_holds_on_item_pool_id"
-    t.index ["library_id"], name: "index_date_holds_on_library_id"
-    t.index ["reservation_id"], name: "index_date_holds_on_reservation_id"
   end
 
   create_table "documents", force: :cascade do |t|
@@ -590,9 +578,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
     t.index ["number", "library_id"], name: "index_reservable_items_on_number_and_library_id", unique: true
   end
 
+  create_table "reservation_holds", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "item_pool_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.bigint "library_id", null: false
+    t.index ["item_pool_id"], name: "index_reservation_holds_on_item_pool_id"
+    t.index ["library_id"], name: "index_reservation_holds_on_library_id"
+    t.index ["reservation_id"], name: "index_reservation_holds_on_reservation_id"
+  end
+
   create_table "reservation_loans", force: :cascade do |t|
     t.bigint "pickup_id", null: false
-    t.bigint "date_hold_id", null: false
+    t.bigint "reservation_hold_id", null: false
     t.bigint "reservable_item_id"
     t.integer "quantity", comment: "For item pools without uniquely numbered items"
     t.bigint "library_id", null: false
@@ -600,10 +600,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
     t.datetime "updated_at", null: false
     t.datetime "checked_out_at", precision: nil
     t.datetime "checked_in_at", precision: nil
-    t.index ["date_hold_id"], name: "index_reservation_loans_on_date_hold_id"
     t.index ["library_id"], name: "index_reservation_loans_on_library_id"
     t.index ["pickup_id"], name: "index_reservation_loans_on_pickup_id"
     t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
+    t.index ["reservation_hold_id"], name: "index_reservation_loans_on_reservation_hold_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -694,8 +694,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
-  add_foreign_key "date_holds", "item_pools"
-  add_foreign_key "date_holds", "libraries"
   add_foreign_key "gift_memberships", "memberships"
   add_foreign_key "holds", "items"
   add_foreign_key "holds", "loans"
@@ -718,10 +716,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_024054) do
   add_foreign_key "reservable_items", "item_pools"
   add_foreign_key "reservable_items", "libraries"
   add_foreign_key "reservable_items", "users", column: "creator_id"
-  add_foreign_key "reservation_loans", "date_holds"
+  add_foreign_key "reservation_holds", "item_pools"
+  add_foreign_key "reservation_holds", "libraries"
   add_foreign_key "reservation_loans", "libraries"
   add_foreign_key "reservation_loans", "pickups"
   add_foreign_key "reservation_loans", "reservable_items"
+  add_foreign_key "reservation_loans", "reservation_holds"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "ticket_updates", "audits"

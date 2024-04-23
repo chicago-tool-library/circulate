@@ -3,7 +3,7 @@ module Admin
     before_action :set_reservation, only: %i[show edit update destroy]
 
     def index
-      @reservations = Reservation.includes(date_holds: :item_pool)
+      @reservations = Reservation.includes(reservation_holds: :item_pool)
     end
 
     def show
@@ -44,7 +44,7 @@ module Admin
       redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
     end
 
-    def append_date_hold
+    def append_reservation_hold
       @item_pool = ItemPool.find(params[:item_pool_id])
     end
 
@@ -55,7 +55,7 @@ module Admin
     end
 
     def reservation_params
-      params.require(:reservation).permit(:name, :started_at, :ended_at, date_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
+      params.require(:reservation).permit(:name, :started_at, :ended_at, reservation_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
     end
   end
 end

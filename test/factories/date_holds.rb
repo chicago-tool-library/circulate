@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :date_hold do
+  factory :reservation_hold do
     reservation
     item_pool
     quantity { 1 }

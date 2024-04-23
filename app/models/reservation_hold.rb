@@ -1,4 +1,5 @@
-class DateHold < ApplicationRecord
+# A ReservationHold represents a hold on an ItemPool for a given date range and quantity.
+class ReservationHold < ApplicationRecord
   belongs_to :reservation
   belongs_to :item_pool
   has_many :reservation_loans
