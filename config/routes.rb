@@ -19,9 +19,8 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
 
     if FeatureFlags.group_lending_enabled?
-      namespace :organization do
-        get "/", to: "home#cost"
-      end
+      get "organization/", to: "organization#cost"
+      get "organization/profile", to: "organization#profile"
     end
   end
 
