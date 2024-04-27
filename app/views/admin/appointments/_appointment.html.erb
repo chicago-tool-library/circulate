@@ -5,7 +5,7 @@
     ) do %>
   <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
   <td class="member">
-    <%= link_to appointment.member.full_name, admin_member_path(appointment.member) %><br>
+    <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member), class: "tooltip", data: {tooltip: appointment.member.full_name} %><br>
     <%= appointment.member.display_pronouns %>
   </td>
   <td class="items">
