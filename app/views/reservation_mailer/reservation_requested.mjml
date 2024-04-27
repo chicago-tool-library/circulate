@@ -1,0 +1,10 @@
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= image_url "logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+  </mj-column>
+</mj-section>

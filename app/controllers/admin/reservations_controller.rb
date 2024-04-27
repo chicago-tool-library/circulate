@@ -22,6 +22,7 @@ module Admin
       @reservation = Reservation.new(reservation_params)
 
       if @reservation.save
+        ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later
         redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully created."
       else
         @item_pools = ItemPool.all
