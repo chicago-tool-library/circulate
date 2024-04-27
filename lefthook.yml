@@ -22,6 +22,10 @@ pre-commit:
       glob: "*.rb"
       exclude: "application.rb|routes.rb|schema.rb"
       run: bundle exec standardrb --parallel --fix {staged_files} && git add {staged_files}
+    erblint:
+      tags: style
+      glob: "*.erb"
+      run: bundle exec erblint -a {staged_files} && git add {staged_files}
     readme:
       tags: lint
       run: ./node_modules/.bin/markdown-toc --bullets="-" -i README.md && git add README.md
