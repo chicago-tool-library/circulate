@@ -2,6 +2,7 @@
   <%= index_header preferred_or_default_name(@member) do %>
     <%= link_to "Edit Member", edit_admin_member_path(@member), class: "btn" %>
     <%= link_to "Add Note to Member", new_admin_member_note_path(@member), class: "btn", data: {turbo_frame: "new-note"} %>
+    <%= link_to "View Notifications", admin_reports_notifications_path(member_id: @member), class: "btn" %>
     <%# <%= link_to 'Record Payment', new_admin_member_payment_path(@member), class: "btn" %>
   <% end %>
 <% end %>
