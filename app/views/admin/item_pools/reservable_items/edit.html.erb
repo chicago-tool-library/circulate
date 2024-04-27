@@ -8,7 +8,7 @@
   <details>
     <summary>Destroy this reservable item?</summary>
     <%= action_bar "If you destroy this reservable item, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
-      <%= button_to "Destroy Reservable Item", [:admin, @reservable_item], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
+      <%= button_to "Destroy Reservable Item", [:admin, @reservable_item.item_pool, @reservable_item], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
     <% end %>
   </details>
 </div>

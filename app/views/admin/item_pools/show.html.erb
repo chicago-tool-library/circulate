@@ -11,7 +11,7 @@
           <tr>
             <td><%= reservable_item.number %></td>
             <td><%= ReservableItem::STATUS_NAMES[reservable_item.status] %></td>
-            <td><%= link_to "Edit", edit_admin_reservable_item_path(reservable_item) %></td>
+            <td><%= link_to "Edit", edit_admin_item_pool_reservable_item_path(@item_pool, reservable_item) %></td>
           </tr>
         <% end %>
       </tbody>
