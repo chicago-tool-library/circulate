@@ -14,10 +14,10 @@
 pre-commit:
   parallel: true
   commands:
-    # eslint:
-    #   glob: "*.{js,ts}"
-    #   run: yarn eslint {staged_files}
-    standard:
+    standardjs:
+      glob: "*.js"
+      run: yarn run standard --fix {staged_files} && git add {staged_files}
+    standardrb:
       tags: style
       glob: "*.rb"
       exclude: "application.rb|routes.rb|schema.rb"
@@ -27,5 +27,6 @@ pre-commit:
       glob: "*.erb"
       run: bundle exec erblint -a {staged_files} && git add {staged_files}
     readme:
+      glob: "README.md"
       tags: lint
-      run: ./node_modules/.bin/markdown-toc --bullets="-" -i README.md && git add README.md
+      run: yarn run markdown-toc --bullets="-" -i README.md && git add README.md
