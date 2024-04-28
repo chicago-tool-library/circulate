@@ -1,58 +1,58 @@
-import { Controller } from "@hotwired/stimulus";
-import { debounce } from 'lodash';
+import { Controller } from '@hotwired/stimulus'
+import { debounce } from 'lodash'
 
 export default class extends Controller {
-  static targets = [ "input", "results", "loader" ]
+  static targets = ['input', 'results', 'loader']
 
-  initialize() {
+  initialize () {
     this.load = debounce(this.load, 300)
   }
 
-  loadResults(event) {
+  loadResults (event) {
     if (this.queryIsValid()) {
       if (this.queryHasChanged()) {
-        this.load();
+        this.load()
       }
     } else {
-      this.resultsTarget.innerHTML = "";
+      this.resultsTarget.innerHTML = ''
     }
   }
 
-  queryIsValid() {
-    return this.inputTarget.value.length > 2;
+  queryIsValid () {
+    return this.inputTarget.value.length > 2
   }
 
-  queryHasChanged() {
-    return this.inputTarget.value !== this.lastQuery;
+  queryHasChanged () {
+    return this.inputTarget.value !== this.lastQuery
   }
 
-  toggleLoader(show) {
+  toggleLoader (show) {
     if (show) {
-      this.loaderTarget.classList.remove("d-none");
+      this.loaderTarget.classList.remove('d-none')
     } else {
-      this.loaderTarget.classList.add("d-none");
+      this.loaderTarget.classList.add('d-none')
     }
   }
 
-  load() {
-    const query = this.inputTarget.value;
-    this.lastQuery = query;
+  load () {
+    const query = this.inputTarget.value
+    this.lastQuery = query
 
-    let url = new URL("/holds/autocomplete", document.location);
-    url.searchParams.set("query", query);
+    const url = new URL('/holds/autocomplete', document.location)
+    url.searchParams.set('query', query)
 
-    this.toggleLoader(true);
-    console.debug(this.inputTarget.value);
+    this.toggleLoader(true)
+    console.debug(this.inputTarget.value)
 
     fetch(url).then(response => response.text()).then((html) => {
       if (this.queryIsValid()) {
-        this.resultsTarget.innerHTML = html;
+        this.resultsTarget.innerHTML = html
       }
-      this.toggleLoader(false);
-      document.dispatchEvent(new Event("turbo:load"));
+      this.toggleLoader(false)
+      document.dispatchEvent(new Event('turbo:load'))
     }).catch((e) => {
-      this.toggleLoader(false);
-      console.error(e);
+      this.toggleLoader(false)
+      console.error(e)
     })
   }
 }

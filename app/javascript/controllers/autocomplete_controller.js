@@ -1,23 +1,23 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus'
 
-import Awesomplete from "awesomplete";
+import Awesomplete from 'awesomplete'
 
 export default class extends Controller {
-  static targets = [ "input" ]
+  static targets = ['input']
 
-  connect() {
+  connect () {
     this.awesomplete = new Awesomplete(this.inputTarget, {
-      minChars: 1,
-    });
+      minChars: 1
+    })
   }
 
-  input(event) {
-    let url = new URL(this.data.get("path"), document.location);
-    url.searchParams.set("q", event.target.value);
+  input (event) {
+    const url = new URL(this.data.get('path'), document.location)
+    url.searchParams.set('q', event.target.value)
     fetch(url).then(response => response.json()).then((data) => {
-      this.awesomplete.list = data;
+      this.awesomplete.list = data
     }).catch((e) => {
-      console.error(e);
+      console.error(e)
     })
   }
 }
