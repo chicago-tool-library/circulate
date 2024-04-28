@@ -30,3 +30,7 @@ pre-commit:
       glob: "README.md"
       tags: lint
       run: yarn run markdown-toc --bullets="-" -i README.md && git add README.md
+    newlines:
+      tags: lint
+      glob: "*.{erb,html,js,json,md,mjml,rb,scss,txt,yaml}"
+      run: bin/add_newlines {staged_files} && git add {staged_files}
