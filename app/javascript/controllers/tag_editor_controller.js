@@ -1,25 +1,25 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus'
 
-const jquery = require("jquery");
-const Selectize = require("@selectize/selectize");
+const jquery = require('jquery')
+require('@selectize/selectize')
 
 export default class extends Controller {
-  static targets = [ "input" ]
+  static targets = ['input']
 
-  connect() {
+  connect () {
     this.selectize = jquery(this.inputTarget).selectize({
       copyClassesToDropdown: false,
       // create: true,
-      plugins: ['remove_button'], // 'restore_on_backspace'
-    });
+      plugins: ['remove_button'] // 'restore_on_backspace'
+    })
   }
 
-  load(query, callback) {
-    let url = new URL(this.data.get("path"), document.location);
+  load (query, callback) {
+    const url = new URL(this.data.get('path'), document.location)
     fetch(url).then(response => response.json()).then((data) => {
-      callback(data);
+      callback(data)
     }).catch((e) => {
-      console.error(e);
+      console.error(e)
     })
   }
 }

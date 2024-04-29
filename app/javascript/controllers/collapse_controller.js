@@ -1,18 +1,18 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = [ "content", "button" ]
+  static targets = ['content', 'button']
 
-  connect() {
-    this.toggle();
+  connect () {
+    this.toggle()
   }
 
-  toggle() {
-    if (this.contentTarget.classList.contains("hidden")) {
-      this.buttonTarget.setAttribute("aria-expanded", "true")
+  toggle () {
+    if (this.contentTarget.classList.contains('hidden')) {
+      this.buttonTarget.setAttribute('aria-expanded', 'true')
     } else {
-      this.buttonTarget.setAttribute("aria-expanded", "false")
+      this.buttonTarget.setAttribute('aria-expanded', 'false')
     }
-    this.contentTarget.classList.toggle("hidden");
+    this.contentTarget.classList.toggle('hidden')
   }
 }

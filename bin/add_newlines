@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# Add trailing newlines to files if they don't already exist
+
+for file in "$@"
+do
+    if [ "$(tail -c1 "$file" | wc -l)" -eq 0 ]
+    then
+        echo >> "$file"
+    fi
+done

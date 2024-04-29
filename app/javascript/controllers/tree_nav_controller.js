@@ -1,28 +1,28 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  connect() {
+  connect () {
     try {
-      const location = window.location.href.toLowerCase();
-      const url = new URL(location);
-      const id = url.searchParams.get("category");
+      const location = window.location.href.toLowerCase()
+      const url = new URL(location)
+      const id = url.searchParams.get('category')
 
       if (!id) {
-        return;
+        return
       }
 
-      let listItem = this.element.querySelector(`li.tree-node[data-id="${id}"]`);
+      let listItem = this.element.querySelector(`li.tree-node[data-id="${id}"]`)
       if (!listItem) {
-        return;
+        return
       }
 
-      listItem.querySelector("a").classList.add("text-bold");
+      listItem.querySelector('a').classList.add('text-bold')
       while (listItem) {
-        const button = listItem.querySelector("button")
+        const button = listItem.querySelector('button')
         if (button) {
-          this.toggleButton(button);
+          this.toggleButton(button)
         }
-        listItem = listItem.parentElement.closest("li.tree-node")
+        listItem = listItem.parentElement.closest('li.tree-node')
       }
     } catch (err) {
       console.error(err)
@@ -30,18 +30,18 @@ export default class extends Controller {
     }
   }
 
-  toggle(event) {
-    const button = event.currentTarget;
-    this.toggleButton(button);
+  toggle (event) {
+    const button = event.currentTarget
+    this.toggleButton(button)
   }
 
-  toggleButton(button) {
-    if (button.getAttribute("aria-expanded") === "true") {
-        button.setAttribute("aria-expanded", "false")
+  toggleButton (button) {
+    if (button.getAttribute('aria-expanded') === 'true') {
+      button.setAttribute('aria-expanded', 'false')
     } else {
-        button.setAttribute("aria-expanded", "true")
+      button.setAttribute('aria-expanded', 'true')
     }
-    button.querySelector("i").classList.toggle("icon-arrow-right")
-    button.querySelector("i").classList.toggle("icon-arrow-down")
+    button.querySelector('i').classList.toggle('icon-arrow-right')
+    button.querySelector('i').classList.toggle('icon-arrow-down')
   }
 }
