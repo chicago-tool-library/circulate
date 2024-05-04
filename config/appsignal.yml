@@ -10,6 +10,24 @@ default: &defaults
     # that RecordNotFound exceptions coming from controller actions are ok.
     - ActiveRecord::RecordNotFound
 
+  # This is the default, see https://docs.appsignal.com/ruby/configuration/options.html#option-request_headers
+  request_headers:
+      - HTTP_ACCEPT
+      - HTTP_ACCEPT_CHARSET
+      - HTTP_ACCEPT_ENCODING
+      - HTTP_ACCEPT_LANGUAGE
+      - HTTP_CACHE_CONTROL
+      - HTTP_CONNECTION
+      - HTTP_USER_AGENT # to help diagnose browser-specific issues
+      - CONTENT_LENGTH
+      - PATH_INFO
+      - HTTP_RANGE
+      - REQUEST_METHOD
+      - REQUEST_PATH
+      - SERVER_NAME
+      - SERVER_PORT
+      - SERVER_PROTOCOL
+
   # See https://docs.appsignal.com/ruby/configuration/options.html for
   # all configuration options.
 
