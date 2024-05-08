@@ -1,7 +1,7 @@
 <% if hold.upcoming_appointment %>
-  <p>You are scheduled to pick this item up on <%= appointment_date_and_time hold.upcoming_appointment %>.</p>
+  <p><b>You are scheduled to pick this item up on <%= appointment_date_and_time hold.upcoming_appointment %>.</b></p>
 <% else %>
-  <p><em>Current status: <%= render_hold_status(hold) %>.</em></p>
+  <p><em><b>Current status: <%= render_hold_status(hold) %>.</b></em></p>
   <% if hold.ready_for_pickup? %>
     <% if @current_library.allow_appointments? %>
       <p>
