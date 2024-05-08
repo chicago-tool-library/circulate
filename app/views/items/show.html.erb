@@ -53,12 +53,46 @@
         <% if user_signed_in? %>
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title">You can place this item on hold</h5>
+              <h5 class="card-title">
+                <% if @current_hold %>
+                  You have this item on hold
+                <% else %>
+                  You can place this item on hold
+                <% end %>
+              </h5>
             </div>
             <div class="card-body">
-              Placing a hold means you would like to be on the waiting list to use this tool.
-              If you are first on the waiting list you have 1 week to schedule a pick-up for the tool.
-              If the tool is currently being borrowed or if you are not first on the waiting list you will receive an email when you are first on the waiting list.
+              <p>
+                Placing a hold adds you to the waiting list to use this tool.
+              </p>
+              <% if @item.available? %>
+                <% if @item.active_holds.empty? %>
+                  <p>
+                    No one else has this item on hold.
+                    If you place this item on hold you will be <b>first</b> on the waiting list.
+                    You will have one week to schedule an appointment and come to the library to pick it up.
+                  </p>
+                <% elsif @current_hold %>
+                  <p>
+                    You have already placed a hold on this item.
+                  </p>
+                <% else %>
+                  <p>
+                    If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
+                    When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                  </p>
+                <% end %>
+              <% elsif @current_hold %>  <%# item is checked out, and current user already has a hold on it %>
+                <p>
+                  You have already placed a hold on this item.
+                </p>
+              <% else %>
+                <p>
+                  This item is currently checked out.
+                  If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
+                  When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                </p>
+              <% end %>
             </div>
             <div class="card-footer">
               <% if @item.allow_multiple_holds_per_member? %>
