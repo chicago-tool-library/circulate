@@ -112,7 +112,7 @@ module ItemsHelper
 
   def rotated_variant(image, options = {})
     if image.metadata.key? "rotation"
-      options[:rotate] ||= image.metadata["rotation"]
+      options[:rotate] ||= image.metadata["rotation"].to_i
     end
     image.variant(options) if image.variable?
   end
