@@ -5,6 +5,17 @@ class ApplicationController < ActionController::Base
   include ActiveSupport::Testing::TimeHelpers
   include PageAttributes
 
+  # Move CSRF token storage from its default location in the session (which is
+  # destroyed after every browser close) to a long lived cookie in order to
+  # prevent InvalidAuthenticityToken errors raised from cached
+  # pages being reloaded. For a detailed analysis see:
+  #
+  #  - The ancient Rails bug tracking this: https://github.com/rails/rails/issues/21948
+  #  - The Rails PR with the new feature we're using: https://github.com/rails/rails/pull/44283
+  #  - A PR that includes an *excellent* write up and a similar implementation
+  #    made before the above feature landed: https://github.com/demarches-simplifiees/demarches-simplifiees.fr/pull/6332
+  protect_from_forgery store: NonSessionCookieStore.new(:csrf_token), with: :exception
+
   set_current_tenant_through_filter
   before_action :set_tenant
 
