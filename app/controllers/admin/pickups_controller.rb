@@ -8,6 +8,7 @@ module Admin
 
     def show
       @pickup = Pickup.includes(reservation: {reservation_holds: [:item_pool, reservation_loans: :reservable_item]}).find(params[:id])
+      @reservation = @pickup.reservation
     end
 
     def edit
