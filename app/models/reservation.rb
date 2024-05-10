@@ -22,7 +22,13 @@ class Reservation < ApplicationRecord
 
   before_validation :move_ended_at_to_end_of_day
 
+  scope :by_start_date, -> { order(started_at: :asc) }
+
   acts_as_tenant :library
+
+  def item_quantity
+    reservation_holds.sum(&:quantity)
+  end
 
   private
 
