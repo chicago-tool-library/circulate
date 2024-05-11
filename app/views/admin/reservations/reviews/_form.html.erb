@@ -1,5 +1,5 @@
 <%= form_with(model: reservation, url: [:admin, reservation, :review], builder: SpectreFormBuilder) do |form| %>
-  <%= form.select :status, options_for_select(reservation_status_options, reservation.status), prompt: true %>
   <%= form.text_area :notes %>
-  <%= form.submit %>
+  <%= form.submit "Approve", name: "reservation[event]", value: "approve" %>
+  <%= form.button "Reject", name: "reservation[event]", value: "reject" %>
 <% end %>
