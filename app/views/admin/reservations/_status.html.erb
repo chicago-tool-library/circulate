@@ -1,0 +1,8 @@
+<div id="pickup-status">
+  <% if reservation.satisfied? && reservation.status == Reservation.statuses[:building] %>
+    <div class="toast toast-success">
+      All requirements satisfied.
+      <%= button_to "Mark Ready for Pickup", admin_reservation_status_path(reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
+    </div>
+  <% end %>
+</div>

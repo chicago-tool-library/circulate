@@ -79,7 +79,6 @@ Rails.application.routes.draw do
       scope module: "items" do
         resources :attachments
         resource :history, only: :show
-        resource :loan_history, only: :show
         resources :holds, only: :index do
           scope module: "holds" do
             resource :position, only: :update
@@ -97,6 +96,7 @@ Rails.application.routes.draw do
 
       get :number
       resource :image, only: [:edit, :update]
+      resource :loan_history, only: :show
       # resource :manual_import, only: [:edit, :update]
     end
     resources :loan_summaries, only: :index
@@ -174,14 +174,10 @@ Rails.application.routes.draw do
       end
       resources :reservations do
         scope module: "reservations" do
-          resource :review, only: [:edit, :update]
-        end
-      end
-      resources :pickups do
-        scope module: "pickups" do
           resources :reservation_loans, only: [:create, :destroy]
-          resource :checkout, only: :create
-          resource :checkin, only: :create
+          resource :status, only: :update
+          resource :review, only: [:edit, :update]
+          resource :pickup, only: :show
         end
       end
     end

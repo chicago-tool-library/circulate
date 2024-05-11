@@ -1,16 +1,23 @@
 # A Reservation represents a request to borrow a set items from one or more ItemPools for a duration of time.
 class Reservation < ApplicationRecord
   enum status: {
-    pending: "pending",
-    requested: "requested",
-    approved: "approved",
-    rejected: "rejected"
+    pending: "pending",       # still being edited by the borrower
+    requested: "requested",   # waiting for a review from staff
+    approved: "approved",     # staff has approved this reservation
+    rejected: "rejected",     # staff has rejected this reservation
+    obsolete: "obsolete",     # replaced by a newer version of the reservation
+    building: "building",     # being pulled from shelves by staff
+    ready: "ready",           # ready for pickup
+    borrowed: "borrowed",     # picked up from library
+    returned: "returned",     # items returned
+    unresolved: "unresolved", # loan complete but requires staff intervention
+    cancelled: "cancelled"    # reservation cancelled
   }
 
   has_many :reservation_holds
+  has_many :reservation_loans
   has_many :item_pools, through: :reservation_holds
   belongs_to :reviewer, class_name: "User", required: false
-  has_one :pickup
 
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
 
@@ -28,6 +35,15 @@ class Reservation < ApplicationRecord
 
   def item_quantity
     reservation_holds.sum(&:quantity)
+  end
+
+  def satisfied?
+    reservation_holds.all? { |rh| rh.satisfied? }
+  end
+
+  # temporary
+  def pickup
+    self
   end
 
   private

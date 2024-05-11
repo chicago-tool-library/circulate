@@ -1,0 +1,24 @@
+<%= render "admin/reservations/profile" do %>
+
+  <%= render partial: "admin/reservations/status", locals: {reservation: @reservation} %>
+
+  <% if @reservation.status == Reservation.statuses[:ready] %>
+    <%= button_to "Check out", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:borrowed]}}, remote: true, class: "btn" %>
+  <% elsif @reservation.status == Reservation.statuses[:borrowed] %>
+    <%= button_to "Check out", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:returned]}}, remote: true, class: "btn" %>
+  <% end %>
+
+  <div class="divider"></div>
+
+  <% if @reservation.status == Reservation.statuses[:building] %>
+    <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+  <% end %>
+  <br>
+
+  <div id="date-holds">
+    <% @reservation.reservation_holds.each do |reservation_hold| %>
+      <%= render partial: "reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
+    <% end %>
+  </div>
+
+<% end %>
