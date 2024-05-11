@@ -2,15 +2,9 @@
 
   <%= render partial: "admin/reservations/status", locals: {reservation: @reservation} %>
 
-  <% if @reservation.status == Reservation.statuses[:ready] %>
-    <%= button_to "Check out", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:borrowed]}}, remote: true, class: "btn" %>
-  <% elsif @reservation.status == Reservation.statuses[:borrowed] %>
-    <%= button_to "Check out", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:returned]}}, remote: true, class: "btn" %>
-  <% end %>
-
   <div class="divider"></div>
 
-  <% if @reservation.status == Reservation.statuses[:building] %>
+  <% if @reservation.manager.state == :building %>
     <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
   <% end %>
   <br>

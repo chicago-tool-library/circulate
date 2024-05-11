@@ -21,7 +21,7 @@
             <%= reservation_loan.reservable_item.id %> -
             <%= reservation_loan.reservable_item.name %>
             <% end %>
-            <% if reservation_loan.editable? %>
+            <% if reservation.manager.state == :building %>
                 <%= button_to "Remove", admin_reservation_reservation_loan_path(reservation, reservation_loan), method: :delete, class: "btn btn-sm" %>
             <% end %>
         </li>

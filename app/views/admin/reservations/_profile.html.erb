@@ -2,8 +2,26 @@
   <%= breadcrumbs "Reservations", admin_reservations_path %>
   <%= index_header @reservation.name do %>
     <%= link_to "Edit", edit_admin_reservation_path(@reservation), class: "btn" %>
-    <%= link_to "Review", edit_admin_reservation_review_path(@reservation), class: "btn" %>
-    <%= button_to "Ready for Pickup", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
+
+    <% if @reservation.manager.can? :request %>
+      <%= button_to "Request", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:requested]}}, remote: true, class: "btn" %>
+
+    <% elsif @reservation.manager.can? :build %>
+      <%= button_to "Start Building", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:building]}}, remote: true, class: "btn" %>
+
+    <% elsif @reservation.manager.can? :approve %>
+      <%= link_to "Review", edit_admin_reservation_review_path(@reservation), class: "btn" %>
+
+    <% elsif @reservation.manager.can? :ready %>
+      <%= button_to "Ready for Pickup", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
+
+    <% elsif @reservation.manager.can? :borrow %>
+      <%= button_to "Check out", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:borrowed]}}, remote: true, class: "btn" %>
+
+    <% elsif @reservation.manager.can? :return %>
+      <%= button_to "Check in", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:returned]}}, remote: true, class: "btn" %>
+    <% end %>
+
   <% end %>
 <% end %>
 
