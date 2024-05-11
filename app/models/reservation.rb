@@ -1,6 +1,6 @@
 # A Reservation represents a request to borrow a set items from one or more ItemPools for a duration of time.
 class Reservation < ApplicationRecord
-  enum status: {
+  enum :status, {
     pending: "pending",       # still being edited by the borrower
     requested: "requested",   # waiting for a review from staff
     approved: "approved",     # staff has approved this reservation
@@ -12,7 +12,7 @@ class Reservation < ApplicationRecord
     returned: "returned",     # items returned
     unresolved: "unresolved", # loan complete but requires staff intervention
     cancelled: "cancelled"    # reservation cancelled
-  }
+  }, instance_methods: false, validate: true
 
   has_many :reservation_holds
   has_many :reservation_loans
@@ -24,10 +24,12 @@ class Reservation < ApplicationRecord
   validates :name, presence: true
   validates :started_at, presence: true
   validates :ended_at, presence: true
-  validates :status, inclusion: {in: Reservation.statuses.keys}
   validates_associated :reservation_holds
 
   before_validation :move_ended_at_to_end_of_day
+  before_validation :set_initial_status, on: :initialize
+  after_find :restore_manager
+  after_initialize :restore_manager
 
   scope :by_start_date, -> { order(started_at: :asc) }
 
@@ -41,12 +43,19 @@ class Reservation < ApplicationRecord
     reservation_holds.all? { |rh| rh.satisfied? }
   end
 
-  # temporary
-  def pickup
-    self
+  def manager
+    @manager ||= ReservationStateMachine.new(self)
   end
 
   private
+
+  def set_initial_status
+    self.status = state.current
+  end
+
+  def restore_manager
+    manager.restore!(status.to_sym) if status.present?
+  end
 
   def move_ended_at_to_end_of_day
     write_attribute :ended_at, ended_at.end_of_day if ended_at.present?
