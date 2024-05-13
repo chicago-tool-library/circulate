@@ -85,4 +85,13 @@ class ApplicationController < ActionController::Base
       referer || default_path
     end
   end
+
+  # Render a turbo-stream response without all the boilerplate
+  def render_turbo_response(*args)
+    respond_to do |format|
+      format.turbo_stream do
+        render(*args)
+      end
+    end
+  end
 end

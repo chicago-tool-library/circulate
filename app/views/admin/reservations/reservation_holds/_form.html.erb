@@ -1,0 +1,10 @@
+<%= tag.tr id: dom_id(reservation_hold) do %>
+  <td colspan="3">
+    <%= form_with(model: reservation_hold, url: [:admin, reservation, reservation_hold], builder: SpectreFormBuilder) do |form| %>
+      <%= form.text_field :item_pool_id, label: "Item ID", autocomplete: "off", autofocus: true %>
+      <%= form.number_field :quantity %>
+      <%= form.submit "Update" %>
+      <%= link_to "Cancel", admin_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true} %>
+    <% end %>
+  </td>
+<% end %>

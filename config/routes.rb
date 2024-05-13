@@ -175,6 +175,7 @@ Rails.application.routes.draw do
       resources :reservations do
         scope module: "reservations" do
           resources :reservation_loans, only: [:create, :destroy]
+          resources :reservation_holds
           resource :status, only: :update
           resource :review, only: [:edit, :update]
           resource :pickup, only: :show
