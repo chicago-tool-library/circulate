@@ -4,7 +4,18 @@ module Admin
     before_action :require_admin
 
     def index
-      @users = User.by_creation_date.all
+      users_query = User.by_creation_date.all
+
+      @users = case params[:filter]
+      when "admin"
+        users_query.admin
+      when "staff"
+        users_query.staff
+      when "members"
+        users_query.member
+      else
+        users_query
+      end
     end
 
     def show
