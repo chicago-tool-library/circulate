@@ -21,6 +21,7 @@ class Reservation < ApplicationRecord
   validates_associated :reservation_holds
 
   before_validation :move_ended_at_to_end_of_day
+  validate :validate_reservation_dates
 
   acts_as_tenant :library
 
@@ -28,5 +29,9 @@ class Reservation < ApplicationRecord
 
   def move_ended_at_to_end_of_day
     write_attribute :ended_at, ended_at.end_of_day if ended_at.present?
+  end
+
+  def validate_reservation_dates
+    errors.add(:ended_at, "end date must be after the start date") if started_at.present? && ended_at.present? && started_at.to_date >= ended_at.to_date
   end
 end
