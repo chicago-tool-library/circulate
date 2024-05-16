@@ -1,10 +1,12 @@
 module Admin
   class UsersController < BaseController
+    include Pagy::Backend
+
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     before_action :require_admin
 
     def index
-      @users = users_index_query
+      @pagy, @users = pagy(User.by_creation_date.all)
     end
 
     def show
