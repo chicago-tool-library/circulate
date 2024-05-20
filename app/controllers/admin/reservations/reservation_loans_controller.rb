@@ -1,5 +1,5 @@
 module Admin
-  module Pickups
+  module Reservations
     class ReservationLoansController < BaseController
       before_action :set_reservation_loan, only: :destroy
 
@@ -8,10 +8,10 @@ module Admin
       # Otherwise, we're creating a ReservationLoan for an individual ReservableItem.
       def create
         if (reservation_hold_id = reservation_loan_params[:reservation_hold_id])
-          @reservation_hold = @pickup.reservation.reservation_holds.find(reservation_hold_id)
+          @reservation_hold = @reservation.reservation_holds.find(reservation_hold_id)
 
           # TODO make quantity something provided by UI
-          @reservation_loan = @pickup.reservation_loans.new(
+          @reservation_loan = @reservation.reservation_loans.new(
             reservation_hold: @reservation_hold,
             quantity: @reservation_hold.quantity
           )
@@ -23,7 +23,7 @@ module Admin
             return
           end
 
-          @reservation_hold = @pickup.reservation.reservation_holds.find_by(item_pool_id: @reservable_item.item_pool_id)
+          @reservation_hold = @reservation.reservation_holds.find_by(item_pool_id: @reservable_item.item_pool_id)
           if !@reservation_hold
             # TODO this item isn't a part of the reservation
             # but we should handle this gracefully
@@ -31,7 +31,7 @@ module Admin
             return
           end
 
-          @reservation_loan = @pickup.reservation_loans.new(
+          @reservation_loan = @reservation.reservation_loans.new(
             reservable_item: @reservable_item,
             reservation_hold: @reservation_hold
           )
@@ -49,7 +49,6 @@ module Admin
       def destroy
         @reservation_loan.destroy!
 
-        @pickup = @reservation_loan.pickup
         @reservation_hold = @reservation_loan.reservation_hold
 
         respond_to do |format|
@@ -68,11 +67,11 @@ module Admin
       end
 
       def render_form
-        render partial: "admin/pickups/reservation_loans/form", locals: {pickup: @pickup, reservation_loan: @reservation_loan}, status: :unprocessable_entity
+        render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: @reservation_loan}, status: :unprocessable_entity
       end
 
       def set_reservation_loan
-        @reservation_loan = @pickup.reservation_loans.find(params[:id])
+        @reservation_loan = @reservation.reservation_loans.find(params[:id])
       end
 
       def reservation_loan_params

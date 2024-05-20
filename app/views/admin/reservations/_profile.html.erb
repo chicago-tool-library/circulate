@@ -3,9 +3,7 @@
   <%= index_header @reservation.name do %>
     <%= link_to "Edit", edit_admin_reservation_path(@reservation), class: "btn" %>
     <%= link_to "Review", edit_admin_reservation_review_path(@reservation), class: "btn" %>
-    <% unless @reservation.pickup %>
-      <%= button_to "Create Pickup", admin_pickups_path(reservation_id: @reservation), method: :create, remote: true, class: "btn" %>
-    <% end %>
+    <%= button_to "Ready for Pickup", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
   <% end %>
 <% end %>
 
@@ -27,9 +25,7 @@
 
     <ul class="tab">
       <%= tab_link "Items", admin_reservation_path(@reservation) %>
-      <% if @reservation.pickup %>
-        <%= tab_link "Pickup", admin_pickup_path(@reservation.pickup) %>
-      <% end %>
+      <%= tab_link "Pickup", admin_reservation_pickup_path(@reservation) %>
     </ul>
 
     <%= yield %>
