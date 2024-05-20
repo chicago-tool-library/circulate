@@ -6,7 +6,7 @@ module Admin
     before_action :require_admin
 
     def index
-      @pagy, @users = pagy(User.by_creation_date.all)
+      @pagy, @users = pagy(users_index_query)
     end
 
     def show
