@@ -113,4 +113,24 @@ class HoldsTest < ApplicationSystemTestCase
     assert_text @item.complete_number
     assert_text @item.name
   end
+
+  test "hold history only shows inactive holds" do
+    login_as @member.user
+
+    @started_hold_item = create(:item)
+    @expired_hold_item = create(:item)
+    @ended_hold_item = create(:item)
+
+    @started_hold = create(:started_hold, member: @member, item: @started_hold_item)
+    @expired_hold = create(:expired_hold, member: @member, item: @expired_hold_item)
+    @ended_hold = create(:ended_hold, member: @member, item: @ended_hold_item)
+
+    visit history_account_holds_path
+    refute_text @started_hold.item.name
+    refute_text @started_hold.item.complete_number
+    assert_text @expired_hold.item.name
+    assert_text @expired_hold.item.complete_number
+    assert_text @ended_hold.item.name
+    assert_text @ended_hold.item.complete_number
+  end
 end

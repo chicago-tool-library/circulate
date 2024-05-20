@@ -17,11 +17,11 @@
     "@selectize/selectize": "^0.15.2",
     "@spectre-org/spectre-css": "^1.0.0",
     "awesomplete": "^1.1.4",
-    "esbuild": "^0.20.2",
+    "esbuild": "^0.21.2",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
     "mjml": "^4.15.3",
-    "sass": "^1.76.0",
+    "sass": "^1.77.1",
     "sortablejs": "^1.15.2",
     "trix": "^2.1.1"
   },
