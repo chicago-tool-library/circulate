@@ -52,9 +52,9 @@ module AdminHelper
     end
   end
 
-  def renewal_tooltop(renewable, renewal_limit, &block)
+  def renewal_tooltop(renewable, renewal_limit, &)
     if renewable
-      tag.span(&block)
+      tag.span(&)
     else
       message = if renewal_limit == 0
         "Item can not be renewed."
