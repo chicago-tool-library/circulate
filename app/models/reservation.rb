@@ -33,6 +33,8 @@ class Reservation < ApplicationRecord
 
   scope :by_start_date, -> { order(started_at: :asc) }
 
+  scope :by_start_date, -> { order(started_at: :asc) }
+
   acts_as_tenant :library
 
   def item_quantity

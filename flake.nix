@@ -5,7 +5,7 @@
 #
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-ruby.url = "github:bobvanderlinden/nixpkgs-ruby";
     nixpkgs-ruby.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
@@ -54,7 +54,13 @@
 
               # needed to build psych gem, which is in the dependency tree as of rails 7.1
               libyaml
+
+              # needed for vips ffi to work
+              glib
+              vips
             ];
+
+            LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [ glib vips ]}";
 
             # Keep gems installed in a subdirectory
             BUNDLE_PATH = "./vendor/bundle";

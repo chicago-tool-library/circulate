@@ -7,10 +7,40 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    create(:user)
+    member_user = create(:member_user)
+    staff_user = create(:staff_user)
+    admin_user = create(:admin_user)
 
     visit admin_users_url
     assert_selector "h1", text: "Users"
+
+    assert_text member_user.email
+    assert_text staff_user.email
+    assert_text admin_user.email
+
+    click_on "Admin Only"
+
+    refute_text member_user.email
+    refute_text staff_user.email
+    assert_text admin_user.email
+
+    click_on "Staff Only"
+
+    refute_text member_user.email
+    assert_text staff_user.email
+    refute_text admin_user.email
+
+    click_on "Members Only"
+
+    assert_text member_user.email
+    refute_text staff_user.email
+    refute_text admin_user.email
+
+    click_on "All Users"
+
+    assert_text member_user.email
+    assert_text staff_user.email
+    assert_text admin_user.email
   end
 
   test "creating a user" do

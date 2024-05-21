@@ -5,6 +5,14 @@ FactoryBot.define do
     email
     password { "password" }
 
+    factory :member_user do
+      role { "member" }
+    end
+
+    factory :staff_user do
+      role { "staff" }
+    end
+
     factory :admin_user do
       role { "admin" }
     end
