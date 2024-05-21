@@ -64,17 +64,17 @@ module AdminHelper
       tag.span(
         class: "tooltip tooltip-bottom",
         data: {tooltip: message},
-        &block
+        &
       )
     end
   end
 
-  def action_bar(message, icon: "", type: nil, &block)
+  def action_bar(message, icon: "", type: nil, &)
     icon = feather_icon(icon) unless icon.empty?
     klass = "action-bar-#{type} " unless type.nil?
     tag.div(class: "action-bar #{klass}clearfix") do
       tag.div(icon + message, class: "float-left") +
-        tag.div(class: "float-right", &block)
+        tag.div(class: "float-right", &)
     end
   end
 
@@ -112,8 +112,8 @@ module AdminHelper
       tag.strong(value)
   end
 
-  def modal(title:, body:, &block)
-    render "shared/modal", title: title, body: body, &block
+  def modal(title:, body:, &)
+    render "shared/modal", title: title, body: body, &
   end
 
   def appointment_in_schedule_path(appointment)
