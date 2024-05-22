@@ -41,6 +41,7 @@ gem "translation"
 gem "store_model"
 gem "lograge"
 gem "acts_as_list"
+gem "finite_machine"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
