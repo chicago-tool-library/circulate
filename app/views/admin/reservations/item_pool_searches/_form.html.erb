@@ -1,0 +1,6 @@
+<%= tag.div id: dom_id(item_pool) do %>
+  <%= button_to "Add", admin_reservation_reservation_holds_path(@reservation), params: {reservation_hold: {item_pool_id: item_pool.id, quantity: 1}}, data: {turbo_method: "post"}, class: "btn btn-sm" %>
+  <% if local_assigns[:error] %>
+    <%= error %>
+  <% end %>
+<% end %>

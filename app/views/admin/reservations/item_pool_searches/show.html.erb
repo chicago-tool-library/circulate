@@ -1,0 +1,10 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Reservations", admin_reservations_path, @reservation.name, admin_reservation_path(@reservation) %>
+  <%= index_header "Add items" do %>
+    <%= link_to "Cancel", admin_reservation_path(@reservation), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= render "admin/item_pools/items_index" do |item_pool| %>
+  <%= render partial: "admin/reservations/item_pool_searches/form", locals: {item_pool: item_pool} %>
+<% end %>

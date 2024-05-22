@@ -10,5 +10,12 @@
         <%= render partial: "admin/reservations/reservation_holds/reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
       <% end %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">
+          <%= link_to "Add Item", admin_reservation_item_pool_search_path(@reservation), class: "btn" %>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 <% end %>
