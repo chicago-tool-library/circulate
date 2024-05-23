@@ -68,14 +68,15 @@
               <% if @item.available? %>
                 <% if @item.active_holds.empty? %>
                   <p>
-                    No one else has this item on hold.
                     If you place this item on hold you will be <b>first</b> on the waiting list.
                     You will have one week to schedule an appointment and come to the library to pick it up.
                   </p>
                 <% elsif @current_hold %>
-                  <p>
-                    You have already placed a hold on this item.
-                  </p>
+                  <% if @current_hold.upcoming_appointment %>
+                    <p>You are scheduled to pick this item up on <%= appointment_date_and_time @current_hold.upcoming_appointment %>.</p>
+                  <% else %>
+                    <p>Current status: <em><%= render_hold_status(@current_hold) %></em></p>
+                  <% end %>
                 <% else %>
                   <p>
                     If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
@@ -94,9 +95,8 @@
                     Please schedule an appointment by that date to return it.
                 <% end %>
               <% elsif @current_hold %>  <%# item is checked out, and current user already has a hold on it %>
-                <p>
-                  You have already placed a hold on this item.
-                </p>
+                <p>We will send you an email when it is your turn to borrow this item.</p>
+                <p>Current status: <em><%= render_hold_status(@current_hold) %></em></p>
               <% else %>
                 <p>
                   This item is currently checked out.

@@ -1,18 +1,10 @@
 <%# This page is shown when the currently logged in user has the item on hold. #%>
 
-<% if hold.upcoming_appointment %>
-  <p><b>You are scheduled to pick this item up on <%= appointment_date_and_time hold.upcoming_appointment %>.</b></p>
-<% else %>
-  <p><em><b>Current status: <%= render_hold_status(hold) %>.</b></em></p>
-  <% if hold.ready_for_pickup? %>
-    <% if @current_library.allow_appointments? %>
-      <p>
-        <%= link_to "Schedule an appointment", new_account_appointment_path %> to choose when to pick it up.
-      </p>
-    <% end %>
-  <% end %>
-<% end %>
-
 <div class="actions">
+  <% if hold.upcoming_appointment %>
+    <%= link_to "View Your Appointments", account_appointments_path, class: "btn" %>
+  <% elsif !hold.upcoming_appointment && hold.ready_for_pickup? && @current_library.allow_appointments? %>
+    <%= link_to "Schedule an Appointment", new_account_appointment_path, class: "btn btn-primary" %>
+  <% end %>
   <%= render_remove_link(hold) %>
 </div>
