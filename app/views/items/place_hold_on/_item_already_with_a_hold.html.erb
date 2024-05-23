@@ -1,3 +1,5 @@
+<%# This page is shown when the currently logged in user has the item on hold. #%>
+
 <% if hold.upcoming_appointment %>
   <p><b>You are scheduled to pick this item up on <%= appointment_date_and_time hold.upcoming_appointment %>.</b></p>
 <% else %>
