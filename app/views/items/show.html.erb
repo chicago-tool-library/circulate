@@ -51,18 +51,65 @@
       <% if @item.holdable? %>
 
         <% if user_signed_in? %>
+          <% current_user_has_checked_out = @item.checked_out_exclusive_loan && @item.checked_out_exclusive_loan.member == current_user.member %>
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title">You can place this item on hold</h5>
+              <h5 class="card-title">
+                <% if current_user_has_checked_out %>
+                  You have this item checked out
+                <% elsif @current_hold %>
+                  You have this item on hold
+                <% else %>
+                  You can place this item on hold
+                <% end %>
+              </h5>
             </div>
             <div class="card-body">
-              Placing a hold means you would like to be on the waiting list to use this tool.
-              If you are first on the waiting list you have 1 week to schedule a pick-up for the tool.
-              If the tool is currently being borrowed or if you are not first on the waiting list you will receive an email when you are first on the waiting list.
+              <% if @item.available? %>
+                <% if @item.active_holds.empty? %>
+                  <p>
+                    If you place this item on hold you will be <b>first</b> on the waiting list.
+                    You will have one week to schedule an appointment and come to the library to pick it up.
+                  </p>
+                <% elsif @current_hold %>
+                  <% if @current_hold.upcoming_appointment %>
+                    <p>You are scheduled to pick this item up on <%= appointment_date_and_time @current_hold.upcoming_appointment %>.</p>
+                  <% else %>
+                    <p>Current status: <em><%= render_hold_status(@current_hold) %></em></p>
+                  <% end %>
+                <% else %>
+                  <p>
+                    If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
+                    When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                  </p>
+                <% end %>
+              <% elsif current_user_has_checked_out %>
+                <% loan = @item.checked_out_exclusive_loan %>
+                <% if loan.upcoming_appointment %>
+                  <p>You have scheduled an appointment to return this item on <%= appointment_date_and_time loan.upcoming_appointment %>.</p>
+                <% elsif loan.status == "overdue" %>
+                  <p>This item is overdue. Please schedule an appointment to return it.</p>
+                <% else %>
+                  <p>
+                    This item is due back on <%= loan.due_at.strftime("%A, %B %d, %Y") %>.
+                    Please schedule an appointment by that date to return it.
+                <% end %>
+              <% elsif @current_hold %>  <%# item is checked out, and current user already has a hold on it %>
+                <p>We will send you an email when it is your turn to borrow this item.</p>
+                <p>Current status: <em><%= render_hold_status(@current_hold) %></em></p>
+              <% else %>
+                <p>
+                  This item is currently checked out.
+                  If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
+                  When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                </p>
+              <% end %>
             </div>
             <div class="card-footer">
               <% if @item.allow_multiple_holds_per_member? %>
                 <%= render partial: "items/place_hold_on/item_that_allows_multiple_holds", locals: {item: @item, current_hold_count: @current_hold_count} %>
+              <% elsif current_user_has_checked_out %>
+                <%= render partial: "items/place_hold_on/item_user_checked_out", locals: {loan: @item.checked_out_exclusive_loan} %>
               <% elsif @current_hold %>
                 <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
               <% else %>
