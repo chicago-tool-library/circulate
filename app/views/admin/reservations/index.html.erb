@@ -4,6 +4,40 @@
   <% end %>
 <% end %>
 
-<div id="reservations">
-  <%= render @reservations %>
-</div>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Starts</th>
+    <th>Ends</th>
+    <th>Status</th>
+    <th>Items</th>
+  </thead>
+  <tbody>
+    <% @reservations.each do |reservation| %>
+      <tr id="<%= dom_id reservation %>">
+        <td>
+          <%= link_to reservation.name, admin_reservation_path(reservation) %>
+        </td>
+
+        <td>
+          <%= reservation.started_at.to_formatted_s(:long) %>
+        </td>
+
+        <td>
+          <%= reservation.ended_at.to_formatted_s(:long) %>
+        </td>
+
+        <td>
+          <%= reservation.status %>
+        </td>
+
+        <td>
+          <%= reservation.item_quantity %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<%== pagy_bootstrap_nav(@pagy) %>

@@ -41,6 +41,7 @@ gem "translation"
 gem "store_model"
 gem "lograge"
 gem "acts_as_list"
+gem "finite_machine"
 
 gem "square.rb"
 gem "aws-sdk-s3", require: false
@@ -88,7 +89,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "minitest", "5.22.3"
+  gem "minitest", "5.23.0"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "rails-controller-testing"

@@ -1,9 +1,12 @@
 module Admin
   class ReservationsController < BaseController
+    include Pagy::Backend
+
     before_action :set_reservation, only: %i[show edit update destroy]
 
     def index
-      @reservations = Reservation.includes(reservation_holds: :item_pool)
+      reservations_scope = Reservation.includes(reservation_holds: :item_pool).by_start_date
+      @pagy, @reservations = pagy(reservations_scope, items: 50)
     end
 
     def show

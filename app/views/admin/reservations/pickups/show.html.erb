@@ -1,0 +1,18 @@
+<%= render "admin/reservations/profile" do %>
+
+  <%= render partial: "admin/reservations/status", locals: {reservation: @reservation} %>
+
+  <div class="divider"></div>
+
+  <% if @reservation.manager.state == :building %>
+    <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+  <% end %>
+  <br>
+
+  <div id="date-holds">
+    <% @reservation.reservation_holds.each do |reservation_hold| %>
+      <%= render partial: "reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
+    <% end %>
+  </div>
+
+<% end %>

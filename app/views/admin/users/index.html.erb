@@ -4,6 +4,24 @@
   <% end %>
 <% end %>
 
+<div class="sort-controls">
+  showing:
+  <div class="btn-group">
+    <%= link_to_unless params[:filter].blank?, "All Users", {}, class: "btn btn-sm" do %>
+      <span class="btn btn-sm active">All Users</span>
+    <% end %>
+    <%= link_to_unless params[:filter] == "admin", "Admin Only", {filter: "admin"}, class: "btn btn-sm" do %>
+      <span class="btn btn-sm active">Admin Only</span>
+    <% end %>
+    <%= link_to_unless params[:filter] == "staff", "Staff Only", {filter: "staff"}, class: "btn btn-sm" do %>
+      <span class="btn btn-sm active">Staff Only</span>
+    <% end %>
+    <%= link_to_unless params[:filter] == "members", "Members Only", {filter: "members"}, class: "btn btn-sm" do %>
+      <span class="btn btn-sm active">Members Only</span>
+    <% end %>
+  </div>
+</div>
+
 <table class="table">
   <thead>
     <tr>
@@ -26,5 +44,7 @@
     <% end %>
   </tbody>
 </table>
+
+<%== pagy_bootstrap_nav(@pagy) %>
 
 <br>

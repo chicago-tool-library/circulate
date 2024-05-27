@@ -2,7 +2,7 @@
 class ReservationLoan < ApplicationRecord
   belongs_to :reservable_item, required: false
   belongs_to :reservation_hold
-  belongs_to :pickup
+  belongs_to :reservation
 
   validate :reservation_hold_quantity_not_exceeded
   validates :reservable_item_id, uniqueness: {scope: :reservation_hold_id, message: "has already been added"}
@@ -13,10 +13,6 @@ class ReservationLoan < ApplicationRecord
   scope :pending, -> { where(checked_out_at: nil) }
   scope :checked_out, -> { where.not(checked_out_at: nil).and(where(checked_in_at: nil)) }
   scope :pending_or_checked_out, -> { pending.or(checked_out) }
-
-  def editable?
-    checked_out_at.nil?
-  end
 
   private
 
@@ -33,9 +29,9 @@ class ReservationLoan < ApplicationRecord
     return unless reservable_item
     return true unless reservation_hold.item_pool.uniquely_numbered?
 
-    # Prevent an item from being attached to more than one pickup at a time
+    # Prevent an item from being attached to more than one reservation at a time
     if reservable_item.reservation_loans.pending_or_checked_out.where.not(id:).any?
-      errors.add(:reservable_item_id, "is already assigned to another pickup")
+      errors.add(:reservable_item_id, "is already assigned to another reservation")
     end
   end
 end

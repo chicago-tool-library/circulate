@@ -1,0 +1,17 @@
+<turbo-stream action="replace" target="reservation-loan-form">
+  <template>
+    <%= render partial: "admin/reservations/reservation_loans/form", formats: [:html], locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(@reservation_hold) %>">
+  <template>
+    <%= render partial: "admin/reservations/pickups/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold} %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="pickup-status">
+  <template>
+    <%= render partial: "admin/reservations/status", formats: [:html], locals: {reservation: @reservation} %>
+  </template>
+</turbo-stream>

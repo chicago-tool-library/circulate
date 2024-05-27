@@ -1,5 +1,7 @@
 module Account
   class HoldsController < BaseController
+    include Pagy::Backend
+
     def index
       @holds = current_member.active_holds.recent_first.includes(:item)
     end
@@ -27,7 +29,7 @@ module Account
     end
 
     def history
-      @holds = current_member.inactive_holds.recent_first.includes(:item)
+      @pagy, @holds = pagy(current_member.inactive_holds.recent_first.includes(:item))
     end
   end
 end

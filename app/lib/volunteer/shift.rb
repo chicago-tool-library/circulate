@@ -38,8 +38,8 @@ module Volunteer
       @events.map(&:calendar_event_id)
     end
 
-    def each_event(&block)
-      @events.sort_by(&:summary).each(&block)
+    def each_event(&)
+      @events.sort_by(&:summary).each(&)
     end
   end
 end

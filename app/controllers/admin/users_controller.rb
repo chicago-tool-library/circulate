@@ -1,10 +1,12 @@
 module Admin
   class UsersController < BaseController
+    include Pagy::Backend
+
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     before_action :require_admin
 
     def index
-      @users = User.by_creation_date.all
+      @pagy, @users = pagy(users_index_query)
     end
 
     def show
@@ -51,6 +53,21 @@ module Admin
       parameters = params.require(:user).permit(:email, :role)
       parameters.delete("role") unless current_user.has_role?(params.dig("user", "role"))
       parameters
+    end
+
+    def users_index_query
+      users_query = User.by_creation_date.all
+
+      case params[:filter]
+      when "admin"
+        users_query.admin
+      when "staff"
+        users_query.staff
+      when "members"
+        users_query.member
+      else
+        users_query
+      end
     end
   end
 end
