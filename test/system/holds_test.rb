@@ -19,7 +19,7 @@ class HoldsTest < ApplicationSystemTestCase
     click_button "Place a hold"
 
     assert_selector "button[disabled]", text: "Place a hold"
-    assert_text "You placed a hold on this item."
+    assert_text "Hold placed."
   end
 
   test "member can't place a hold on an item in maintenance" do
@@ -62,7 +62,7 @@ class HoldsTest < ApplicationSystemTestCase
     click_button "Place a hold"
 
     assert_selector "button[disabled]", text: "Place a hold"
-    assert_text "You placed a hold on this item."
+    assert_text "Hold placed."
 
     visit account_holds_path
     within(list_item_containing(@item.complete_number)) { assert_text "#1 on wait list" }

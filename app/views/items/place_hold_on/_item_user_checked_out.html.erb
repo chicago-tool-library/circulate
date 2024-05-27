@@ -1,0 +1,25 @@
+<%# This page is shown when the currently logged in user has the item checked out. #%>
+
+<% if loan.upcoming_appointment %>
+  <%= link_to "View Your Appointments", account_appointments_path, class: "btn" %>
+<% else %>
+  <%= link_to "Schedule a Return", new_account_appointment_path, class: "btn btn-primary" %>
+
+  <% if loan.renewal_requests.any? %>
+    <% if loan.latest_renewal_request.rejected? %>
+      <em>Renewal unavailable. Please return this item soon.</em>
+    <% else %>
+      <em>Renewal requested</em>
+    <% end %>
+  <% elsif loan.member_renewable? %>
+    <%= button_to "Renew Loan", account_renewals_path(loan_id: loan), method: :post, class: "btn" %>
+  <% elsif loan.member_renewal_requestable? %>
+    <%= button_to "Request Loan Renewal", account_renewal_requests_path(loan_id: loan), method: :post, class: "btn" %>
+  <% elsif loan.any_active_holds? %>
+    <em>Renewal unavailable. Another borrower is waiting on this item.</em>
+  <% elsif !loan.within_renewal_limit? %>
+    <em>No renewals remaining.</em>
+  <% else %>
+    <em>This loan cannot be renewed.</em>
+  <% end %>
+<% end %>
