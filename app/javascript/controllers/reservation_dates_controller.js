@@ -1,19 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="reservation-dates"
 export default class extends Controller {
-  targets = ["startDate", "endDate"]
+  static targets = ["startDate", "endDate"]
+
   connect() {
-    console.log("ReservationDatesController connected");
     this.setMinEndDate();
+    this.startDateTarget.addEventListener('change', this.setMinEndDate.bind(this));
   }
 
   setMinEndDate() {
-    console.log("Setting min end date");
-  }
-
-  disableInvalidEndDates() {
-    console.log("Disabling invalid dates");
-    this.setMinEndDate();
+    if (this.startDateTarget.value) {
+      let dayAfterStartDate = new Date(this.startDateTarget.value);
+      dayAfterStartDate.setDate(dayAfterStartDate.getDate() + 1);
+      let minEndDate = dayAfterStartDate.toISOString().split('T')[0];
+      this.endDateTarget.min = minEndDate;
+    }
   }
 }

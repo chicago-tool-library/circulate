@@ -32,7 +32,6 @@ class Reservation < ApplicationRecord
   after_initialize :restore_manager
   validate :validate_reservation_dates
 
-
   scope :by_start_date, -> { order(started_at: :asc) }
 
   scope :by_start_date, -> { order(started_at: :asc) }

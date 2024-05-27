@@ -1,6 +1,6 @@
 <%= form_with(model: reservation, url: [:admin, reservation], builder: SpectreFormBuilder, data: {controller: "reservation-dates"}) do |form| %>
   <%= form.text_field :name %>
-  <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate", action: "reservation-dates#disableInvalidEndDates"}, id: "start-date-field" %>
+  <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
   <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
 
   <fieldset>
@@ -15,26 +15,4 @@
   <%= form.actions do %>
     <%= form.submit %>
   <% end %>
-  <script>
-    document.addEventListener("turbo:load", function() {
-
-      const startDateField = document.getElementById("start-date-field");
-      const endDateField = document.getElementById("end-date-field");
-
-      function setMinEndDate() {
-        if (startDateField?.value) {
-          let dayAfterStartDate = new Date(startDateField.value);
-          dayAfterStartDate.setDate(dayAfterStartDate.getDate() + 1);
-          minEndDate = dayAfterStartDate.toISOString().split('T')[0];
-          endDateField.min = minEndDate;
-        }
-      }
-
-      setMinEndDate();
-
-      startDateField?.addEventListener("change", function() {
-        setMinEndDate();
-      });
-  });
-</script>
 <% end %>
