@@ -30,6 +30,7 @@ class Reservation < ApplicationRecord
   before_validation :set_initial_status, on: :initialize
   after_find :restore_manager
   after_initialize :restore_manager
+  validate :validate_reservation_dates
 
   scope :by_start_date, -> { order(started_at: :asc) }
 
@@ -61,5 +62,9 @@ class Reservation < ApplicationRecord
 
   def move_ended_at_to_end_of_day
     write_attribute :ended_at, ended_at.end_of_day if ended_at.present?
+  end
+
+  def validate_reservation_dates
+    errors.add(:ended_at, "end date must be after the start date") if started_at.present? && ended_at.present? && started_at.to_date >= ended_at.to_date
   end
 end

@@ -1,7 +1,7 @@
-<%= form_with(model: reservation, url: [:admin, reservation], builder: SpectreFormBuilder) do |form| %>
+<%= form_with(model: reservation, url: [:admin, reservation], builder: SpectreFormBuilder, data: {controller: "reservation-dates"}) do |form| %>
   <%= form.text_field :name %>
-  <%= form.date_field :started_at, label: "Start" %>
-  <%= form.date_field :ended_at, label: "End" %>
+  <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
+  <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
 
   <fieldset>
     <legend>Items on this reservation</legend>

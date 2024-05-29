@@ -34,6 +34,8 @@ import NotesController from './notes_controller'
 
 import RequestItemController from './request_item_controller'
 
+import ReservationDatesController from './reservation_dates_controller'
+
 import SidebarController from './sidebar_controller'
 
 import TagEditorController from './tag_editor_controller'
@@ -56,6 +58,7 @@ application.register('modal', ModalController)
 application.register('multi-select', MultiSelectController)
 application.register('notes', NotesController)
 application.register('request-item', RequestItemController)
+application.register('reservation-dates', ReservationDatesController)
 application.register('sidebar', SidebarController)
 application.register('tag-editor', TagEditorController)
 application.register('toggle', ToggleController)
