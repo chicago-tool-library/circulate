@@ -139,13 +139,13 @@ jobs:
         PGPORT: ${{ job.services.postgres.ports[5432] }}
       run: ./bin/setup
 
-    - name: Run bin/reset script
+    - name: Run bin/setup script again
       env:
         PGHOST: localhost
         PGUSER: postgres
         PGPASSWORD: postgres
         PGPORT: ${{ job.services.postgres.ports[5432] }}
-      run: ./bin/reset
+      run: ./bin/setup
 
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v3

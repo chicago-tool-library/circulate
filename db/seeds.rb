@@ -42,7 +42,7 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
     Membership.create!(member: expires_in_one_week_member, started_at: 351.days.ago, ended_at: 14.days.since)
 
     # Hardcoding this value (the value of which is "password") means that user sessions aren't invalidated when running
-    # bin/reset and you won't have to log in again.
+    # bin/setup and you won't have to log in again.
     User.update_all(encrypted_password: "$2a$11$7iZBpCm6HGkC0B4fSbJCCen2IalyVwtDraM249IArh36CSQyqXuOa")
 
     Time.use_zone "America/Chicago" do
