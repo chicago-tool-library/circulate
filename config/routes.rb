@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :items do
       scope module: "items" do
         resources :attachments
+        resource :loan_history, only: :show
         resource :history, only: :show
         resources :holds, only: :index do
           scope module: "holds" do
@@ -96,7 +97,6 @@ Rails.application.routes.draw do
 
       get :number
       resource :image, only: [:edit, :update]
-      resource :loan_history, only: :show
       # resource :manual_import, only: [:edit, :update]
     end
     resources :loan_summaries, only: :index
