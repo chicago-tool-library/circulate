@@ -166,7 +166,7 @@ If `.env.local` doesn't exist in your project directory yet, you will need to cr
 
 ### Resetting the application
 
-During development, you can reset the database to the initial state by running `bin/reset`. This will delete any changes you have made to the database!
+During development, you can reset the database to the initial state by running `bin/setup`. This will delete any changes you have made to the database!
 
 This can be useful if you need to run through a certain scenario multiple times manually, or when switching branches to get back into a known good state.
 
@@ -249,7 +249,7 @@ Circulate leans heavily on a handful of open source frameworks and libraries, th
 
 ### Who to log in as
 
-During development, you will probably want to log into the app as various users (e.g. an admin or a member). [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) creates a set of user accounts when `bin/setup` or `bin/reset` are run. They are:
+During development, you will probably want to log into the app as various users (e.g. an admin or a member). [seeds.rb](https://github.com/rubyforgood/circulate/blob/main/db/seeds.rb) creates a set of user accounts when `bin/setup` are run. They are:
 - Admin `admin@example.com`
 - Verified member `verified_member@example.com`
 - New member `new_member@example.com`
