@@ -1,0 +1,5 @@
+<turbo-stream action="replace" target="<%= dom_id(@reservation_hold.item_pool) %>">
+  <template>
+    <%= render partial: "admin/reservations/item_pool_searches/form", locals: {item_pool: @reservation_hold.item_pool, error: @reservation_hold.errors[:item_pool_id].join}, formats: :html %>
+  </template>
+</turbo-stream>

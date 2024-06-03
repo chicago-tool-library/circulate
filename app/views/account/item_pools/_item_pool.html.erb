@@ -1,0 +1,10 @@
+<div id="<%= dom_id item_pool %>">
+  <h4>
+    <%= link_to item_pool.name, admin_item_pool_path(item_pool) %>
+  </h4>
+  <ul>
+    <% item_pool.reservable_items.each do |item| %>
+      <li><%= link_to item.name, [:admin, item_pool, item] %></li>
+    <% end %>
+  </ul>
+</div>

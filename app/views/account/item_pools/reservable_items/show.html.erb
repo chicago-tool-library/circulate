@@ -1,0 +1,8 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Reservable Items", admin_reservable_items_path %>
+  <%= index_header @reservable_item.name do %>
+    <%= link_to "Edit", edit_admin_reservable_item_path(@reservable_item), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= render @reservable_item %>

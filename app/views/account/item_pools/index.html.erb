@@ -1,0 +1,19 @@
+<% content_for :header do %>
+  <% if current_reservation %>
+    <div class="toast toast-warning">
+      <p>
+        Adding items to reservation from
+        <%= current_reservation.started_at.to_formatted_s(:short_date) %> to
+        <%= current_reservation.ended_at.to_formatted_s(:short_date) %>.
+
+        <%= link_to "View current items", account_reservation_path(current_reservation) %>
+      </p>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render "items_index" do %>
+  <% if current_reservation %>
+    <%= button_to "Reserve", account_reservation_reservation_holds_path(current_reservation) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,18 @@
+<h1><%= @item_pool.name %></h1>
+<div class="item-pool-show">
+  <table class="table">
+    <thead>
+      <th>Number</th>
+      <th>Status</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @item_pool.reservable_items.each do |reservable_item| %>
+        <tr>
+          <td><%= reservable_item.number %></td>
+          <td><%= ReservableItem::STATUS_NAMES[reservable_item.status] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
