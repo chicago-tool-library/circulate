@@ -7,7 +7,7 @@ module Admin
         item_pool_scope = ItemPool.all
 
         if params[:category]
-          @category = CategoryNode.where(id: params[:category]).first
+          @category = CategoryNode.find_by(id: params[:category])
           redirect_to(items_path, error: "Category not found") && return unless @category
 
           item_pool_scope = @category.item_pools
