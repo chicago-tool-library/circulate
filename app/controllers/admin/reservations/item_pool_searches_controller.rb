@@ -13,7 +13,7 @@ module Admin
           item_pool_scope = @category.item_pools
         end
 
-        item_pool_scope = item_pool_scope.includes(:categories).order("name ASC")
+        item_pool_scope = item_pool_scope.includes(:categories).order(name: :asc)
 
         @pagy, @item_pools = pagy(item_pool_scope)
         @categories = CategoryNode.with_item_pools
