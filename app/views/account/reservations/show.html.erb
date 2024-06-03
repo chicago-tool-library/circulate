@@ -1,0 +1,28 @@
+<div class="reservation-index">
+  <div class="columns">
+    <div class="column col-8 col-md-12">
+      <%= section_header "Reservations" do %>
+        <%= link_to "Add Items", account_item_pools_path(reservation_id: @reservation) %>
+      <% end %>
+      <table class="table">
+        <thead>
+          <th>Item</th>
+          <th>Quantity</th>
+        </thead>
+        <tbody>
+          <% @reservation.reservation_holds.each do |reservation_hold| %>
+            <tr>
+              <td>
+                <%= link_to reservation_hold.item_pool.name, admin_item_pool_path(reservation_hold.item_pool) %>
+              </td>
+
+              <td>
+                <%= reservation_hold.quantity %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

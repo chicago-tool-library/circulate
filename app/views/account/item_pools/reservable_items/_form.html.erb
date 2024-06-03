@@ -1,0 +1,8 @@
+<%= form_with(model: reservable_item, url: [:admin, reservable_item.item_pool, reservable_item], builder: SpectreFormBuilder) do |form| %>
+  <%= form.text_field :name %>
+  <%= form.select :status, options_for_select(item_status_options, reservable_item.status || ReservableItem.statuses[:active]), prompt: true, hint: "Only active items can be checked out" %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

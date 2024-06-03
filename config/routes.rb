@@ -32,6 +32,14 @@ Rails.application.routes.draw do
     resources :renewals, only: :create
     resources :renewal_requests, only: :create
     get "/", to: "home#index", as: "home"
+
+    resources :reservations do
+      scope module: "reservations" do
+        resources :reservation_holds
+        resource :item_pool_search, only: :show
+      end
+    end
+    resources :item_pools
   end
 
   namespace :renewal do
