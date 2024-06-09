@@ -1,11 +1,13 @@
 <%= tag.tr id: dom_id(reservation_hold) do %>
   <td>
-    <%= link_to reservation_hold.item_pool.name, admin_item_pool_path(reservation_hold.item_pool) %>
+    <%= link_to reservation_hold.item_pool.name, account_item_pool_path(reservation_hold.item_pool) %>
   </td>
   <td>
     <%= reservation_hold.quantity %>
   </td>
   <td>
-    <%= link_to "Edit", edit_admin_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true} %>
+    <% if local_assigns.key?(:editable) && !!editable %>
+      <%= link_to "Edit", edit_account_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true} %>
+    <% end %>
   </td>
 <% end %>

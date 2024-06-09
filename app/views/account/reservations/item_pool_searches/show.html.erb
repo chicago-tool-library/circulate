@@ -1,0 +1,5 @@
+<%= link_to "Cancel", account_reservation_path(@reservation), class: "btn" %>
+
+<%= render "account/item_pools/items_index" do |item_pool| %>
+  <%= render partial: "account/reservations/item_pool_searches/form", locals: {item_pool: item_pool} %>
+<% end %>

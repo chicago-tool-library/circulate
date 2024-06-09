@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       scope module: "reservations" do
         resources :reservation_holds
         resource :item_pool_search, only: :show
+        resource :submission
       end
     end
     resources :item_pools
