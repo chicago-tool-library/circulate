@@ -27,12 +27,6 @@ module Account
 
     private
 
-    def set_current_reservation
-      if (reservation = Reservation.find_by(id: params[:reservation_id]))
-        session[:current_reservation_id] = reservation.id
-      end
-    end
-
     def set_item_pool
       @item_pool = ItemPool.find(params[:id])
     end

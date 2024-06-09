@@ -1,9 +1,5 @@
 <div class="reservation-index">
-  <%= section_header "Reservation" do %>
-    <% if @reservation.manager.can?(:request) %>
-      <%= link_to "Add Items", account_reservation_item_pool_search_path(@reservation), class: "btn btn-primary" %>
-      <%= link_to "Submit Reservation", account_reservation_submission_path(@reservation), class: "btn btn-primary" %>
-    <% end %>
+  <%= section_header "Submit Reservation" do %>
   <% end %>
   <div class="columns">
     <div class="col-4 col-md-12">
@@ -27,7 +23,6 @@
         <thead>
           <th>Item</th>
           <th>Quantity</th>
-          <th></th>
         </thead>
         <tbody>
           <% @reservation.reservation_holds.each do |reservation_hold| %>
@@ -35,6 +30,11 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+    <div>
+      <%= link_to "Make changes to this reservation", account_reservation_path(@reservation) %>
+      <%= button_to "Submit for Review", account_reservation_submission_path(@reservation), method: :put, class: "btn btn-primary" %>
+      We will review your reservation shortly.
     </div>
   </div>
 </div>
