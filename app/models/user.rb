@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable,
-    :lockable, :timeoutable, :trackable, :validatable
+    :lockable, :timeoutable, :trackable, :validatable, :confirmable
 
   acts_as_tenant :library
 
