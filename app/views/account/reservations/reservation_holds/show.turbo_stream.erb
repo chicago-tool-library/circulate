@@ -1,5 +1,5 @@
 <turbo-stream action="replace" target="<%= dom_id(@reservation_hold) %>">
   <template>
-    <%= render partial: "account/reservations/reservation_holds/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold} %>
+    <%= render partial: "account/reservations/reservation_holds/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold, editable: @reservation.manager.can?(:request)} %>
   </template>
 </turbo-stream>

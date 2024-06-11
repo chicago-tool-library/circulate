@@ -31,7 +31,7 @@
         </thead>
         <tbody>
           <% @reservation.reservation_holds.each do |reservation_hold| %>
-            <%= render partial: "account/reservations/reservation_holds/reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
+            <%= render partial: "account/reservations/reservation_holds/reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold, editable: @reservation.manager.can?(:request)} %>
           <% end %>
         </tbody>
       </table>
