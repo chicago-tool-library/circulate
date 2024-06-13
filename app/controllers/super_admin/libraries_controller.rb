@@ -19,7 +19,9 @@ module SuperAdmin
       if @library.save
         redirect_to super_admin_libraries_path, success: "Library successfully created.", status: :see_other
       else
-        render :new, status: :unprocessable_entity
+        respond_to do |format|
+          format.html { render :new, status: :unprocessable_entity }
+        end
       end
     end
 
@@ -37,7 +39,9 @@ module SuperAdmin
       if @library.update(library_params)
         redirect_to super_admin_library_path(@library), success: "Library successfully updated.", status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        respond_to do |format|
+          format.html { render :edit, status: :unprocessable_entity }
+        end
       end
     end
 
