@@ -59,4 +59,12 @@ class LibraryTest < ActiveSupport::TestCase
 
     assert_equal %w[00000 1111x 222xx 33xxx 4xxxx], library.admissible_postal_codes
   end
+
+  test "#reservation_start_range is an inclusive range" do
+    library = build(:library, minimum_reservation_start_distance: 3, maximum_reservation_start_distance: 7)
+
+    expected_range = (3.days.from_now.beginning_of_day)..(7.days.from_now.end_of_day)
+
+    assert_equal expected_range, library.reservation_start_range
+  end
 end
