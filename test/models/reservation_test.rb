@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HoldTest < ActiveSupport::TestCase
+class ReservationTest < ActiveSupport::TestCase
   test "validations" do
     reservation = Reservation.new
 
