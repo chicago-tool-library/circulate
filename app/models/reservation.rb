@@ -31,6 +31,7 @@ class Reservation < ApplicationRecord
   after_find :restore_manager
   after_initialize :restore_manager
   validate :validate_reservation_dates
+  validate :validate_started_at
 
   scope :by_start_date, -> { order(started_at: :asc) }
 
@@ -66,5 +67,15 @@ class Reservation < ApplicationRecord
 
   def validate_reservation_dates
     errors.add(:ended_at, "end date must be after the start date") if started_at.present? && ended_at.present? && started_at.to_date >= ended_at.to_date
+  end
+
+  def validate_started_at
+    return unless started_at? && library
+
+    unless library.valid_reservation_started_at?(started_at)
+      minimum = library.minimum_reservation_start_distance.days.from_now.to_date
+      maximum = library.maximum_reservation_start_distance.days.from_now.to_date
+      errors.add(:started_at, "must be between #{minimum} and #{maximum}")
+    end
   end
 end
