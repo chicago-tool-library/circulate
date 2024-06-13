@@ -39,8 +39,11 @@ class Library < ApplicationRecord
       .map { |postal_code| postal_code.ljust(5, "x") }
   end
 
-  def reservation_start_range
-    (minimum_reservation_start_distance.days.from_now.beginning_of_day)..(maximum_reservation_start_distance.days.from_now.end_of_day)
+  def valid_reservation_started_at?(started_at)
+    minimum = minimum_reservation_start_distance.days.from_now.beginning_of_day
+    maximum = maximum_reservation_start_distance.days.from_now.end_of_day
+
+    minimum <= started_at && maximum >= started_at
   end
 
   private
