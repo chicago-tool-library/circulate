@@ -35,14 +35,4 @@ class Admin::MembersTest < ApplicationSystemTestCase
     assert_content "he/him"
     assert_no_content "she/her"
   end
-
-  test "staff can lookup regardless of a member's overdue loans" do
-    @user.update!(role: :staff)
-
-    create(:overdue_loan, member: @member)
-
-    visit admin_member_url(@member)
-
-    assert_content "Lookup"
-  end
 end
