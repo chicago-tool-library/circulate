@@ -574,6 +574,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
     t.boolean "allow_payments", default: true, null: false
     t.boolean "allow_volunteers", default: true, null: false
     t.boolean "allow_appointments", default: true, null: false
+    t.integer "maximum_reservation_length", default: 21, null: false
+    t.integer "minimum_reservation_start_distance", default: 2, null: false
+    t.integer "maximum_reservation_start_distance", default: 90, null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
 

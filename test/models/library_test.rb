@@ -18,6 +18,16 @@ class LibraryTest < ActiveSupport::TestCase
 
     assert library.invalid?
     assert_equal ["is invalid"], library.errors[:member_postal_code_pattern]
+
+    library = Library.new(maximum_reservation_length: 0, minimum_reservation_start_distance: -1, maximum_reservation_start_distance: 0)
+    assert library.invalid?
+    assert_equal ["must be greater than 0"], library.errors[:maximum_reservation_length]
+    assert_equal ["must be greater than or equal to 0"], library.errors[:minimum_reservation_start_distance]
+    assert_equal ["must be greater than 0"], library.errors[:maximum_reservation_start_distance]
+
+    library = Library.new(minimum_reservation_start_distance: 3, maximum_reservation_start_distance: 2)
+    assert library.invalid?
+    assert_equal ["must be greater than the mininum reservation start distance"], library.errors[:maximum_reservation_start_distance]
   end
 
   test "checks postal codes against pattern" do

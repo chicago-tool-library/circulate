@@ -19,9 +19,7 @@ module SuperAdmin
       if @library.save
         redirect_to super_admin_libraries_path, success: "Library successfully created.", status: :see_other
       else
-        respond_to do |format|
-          format.html { render :new, status: unprocessable_entity }
-        end
+        render :new, status: :unprocessable_entity
       end
     end
 
@@ -39,9 +37,7 @@ module SuperAdmin
       if @library.update(library_params)
         redirect_to super_admin_library_path(@library), success: "Library successfully updated.", status: :see_other
       else
-        respond_to do |format|
-          format.html { render :edit, status: :unprocessable_entity }
-        end
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -66,7 +62,7 @@ module SuperAdmin
     end
 
     def library_params
-      params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image)
+      params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image, :maximum_reservation_length, :minimum_reservation_start_distance, :maximum_reservation_start_distance)
     end
   end
 end
