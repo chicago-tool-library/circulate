@@ -33,10 +33,23 @@ module Admin
 
     private
 
+    INDEX_FILTERS = [
+      ALL = "all",
+      REJECTED = "rejected",
+      REQUESTED = "requested"
+    ]
+
     def index_filter
-      allowed = %w[requested rejected all]
-      return params[:filter] if allowed.include? params[:filter]
-      "requested"
+      case params[:filter]
+      when ALL
+        ALL
+      when REJECTED
+        REJECTED
+      when REQUESTED
+        REQUESTED
+      else
+        REQUESTED
+      end
     end
 
     def renewal_request_params
