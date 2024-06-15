@@ -76,7 +76,8 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
     assert_text "currently on loan"
   end
 
-  test "can't check out item to member with overdue item" do
+  test "can check out item to member with overdue item" do
+    @item = create(:item)
     @overdue_item = create(:item)
     @member = create(:verified_member_with_membership)
 
@@ -89,10 +90,10 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
       assert_text "Overdue"
     end
 
-    assert_text "Overdue items must be returned"
-
     within ".member-lookup-items" do
-      refute_selector "input"
+      fill_in :admin_lookup_item_number, with: @item.number
+      click_on "Lookup"
+      assert_button "Lend", disabled: false
     end
   end
 
