@@ -3,6 +3,8 @@ module Signup
     before_action :load_steps
     before_action :set_page_title
 
+    attr_reader :member
+
     layout "steps"
 
     def is_membership_enabled?
