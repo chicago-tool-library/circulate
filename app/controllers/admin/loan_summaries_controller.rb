@@ -13,10 +13,23 @@ module Admin
 
     private
 
+    INDEX_FILTERS = [
+      CHECKED_OUT = "checked_out",
+      OVERDUE = "overdue",
+      RETURNED = "returned"
+    ]
+
     def index_filter
-      allowed = %w[checked_out overdue returned]
-      return params[:filter] if allowed.include? params[:filter]
-      "checked_out"
+      case params[:filter]
+      when CHECKED_OUT
+        CHECKED_OUT
+      when OVERDUE
+        OVERDUE
+      when RETURNED
+        RETURNED
+      else
+        CHECKED_OUT
+      end
     end
   end
 end
