@@ -43,7 +43,7 @@ module Circulate
     config.active_storage.track_variants = true
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.variant_processor = :vips
-    config.active_job.queue_adapter = :sucker_punch
+    config.active_job.queue_adapter = :good_job
     config.action_dispatch.cookies_same_site_protection = :lax
     config.action_view.form_with_generates_remote_forms = false
     ActiveSupport.utc_to_local_returns_utc_offset_times = false
