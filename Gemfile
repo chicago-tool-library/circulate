@@ -105,3 +105,5 @@ gem "cssbundling-rails", "~> 1.4"
 gem "twilio-ruby", "~> 7.1"
 
 gem "ahoy_matey", "~> 5.1"
+
+gem "good_job", "~> 3.29"
