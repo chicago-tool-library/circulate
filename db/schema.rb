@@ -679,6 +679,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "organization_members", force: :cascade do |t|
+    t.text "full_name"
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_members_on_organization_id"
+    t.index ["user_id"], name: "index_organization_members_on_user_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.text "name"
     t.text "website"
@@ -850,6 +860,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "organization_members", "organizations"
+  add_foreign_key "organization_members", "users"
   add_foreign_key "organizations", "libraries"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservable_items", "item_pools"
