@@ -1,0 +1,10 @@
+<h1>Editing organization</h1>
+
+<%= render "form", organization: @organization %>
+
+<br>
+
+<div>
+  <%= link_to "Show this organization", [:admin, @organization] %> |
+  <%= link_to "Back to organizations", admin_organizations_path %>
+</div>
