@@ -1,6 +1,4 @@
 class NeonMemberJob < ApplicationJob
-  include SuckerPunch::Job
-
   def perform(member_id)
     member = Member.find(member_id)
     organization_id, api_key = Neon.credentials_for_library(member.library)
