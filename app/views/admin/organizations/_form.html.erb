@@ -1,20 +1,7 @@
-<%= form_with(model: [:admin, organization]) do |form| %>
-  <% if organization.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+<%= form_with(model: [:admin, organization], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
 
-      <ul>
-        <% organization.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+  <%= form.text_field :name, label: "Organization Name", autofocus: true %>
 
   <div>
     <%= form.submit %>

@@ -1,4 +1,4 @@
-class Admin::OrganizationsController < ApplicationController
+class Admin::OrganizationsController < Admin::BaseController
   before_action :set_organization, only: %i[show edit update destroy]
 
   # GET /admin/organizations or /admin/organizations.json

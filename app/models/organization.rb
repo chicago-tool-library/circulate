@@ -1,3 +1,5 @@
 class Organization < ApplicationRecord
-  belongs_to :library
+  acts_as_tenant :library
+
+  validates :name, presence: true, uniqueness: true
 end

@@ -1,14 +1,23 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Organizations</h1>
-
-<div id="organizations">
-  <% @organizations.each do |organization| %>
-    <%= render organization %>
-    <p>
-      <%= link_to "Show this organization", [:admin, organization] %>
-    </p>
+<% content_for :header do %>
+  <%= index_header "Organizations" do %>
+    <%= link_to "New Organization", new_admin_organization_path, class: "btn" %>
   <% end %>
-</div>
+<% end %>
 
-<%= link_to "New organization", new_admin_organization_path %>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Actions</th>
+  </thead>
+  <tbody>
+  <% @organizations.each do |organization| %>
+    <tr id="<%= dom_id organization %>">
+      <td>
+        <%= link_to organization.name, admin_organization_path(organization) %>
+      </td>
+      <td>
+        <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn" %>
+      </td>
+    </tr>
+  <% end %>
+</table>

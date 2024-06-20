@@ -1,10 +1,13 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @organization %>
+<% content_for :header do %>
+  <%= breadcrumbs "Organizations", admin_organizations_path %>
+  <%= index_header @organization.name do %>
+    <%= link_to "Edit", edit_admin_organization_path(@organization), class: "btn" %>
+    <%= link_to "New Organization Member", "#", class: "btn disabled" %>
+  <% end %>
+<% end %>
 
-<div>
-  <%= link_to "Edit this organization", edit_admin_organization_path(@organization) %> |
-  <%= link_to "Back to organizations", admin_organizations_path %>
+<h2>Organization Members</h2>
 
-  <%= button_to "Destroy this organization", [:admin, @organization], method: :delete %>
-</div>
+<p>TODO</p>
