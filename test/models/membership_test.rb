@@ -195,4 +195,25 @@ class MembershipTest < ActiveSupport::TestCase
     member2 = create(:member)
     create(:membership, member: member2, started_at: membership.started_at)
   end
+
+  test "next_start_date_for_member with a pending membership" do
+    member = create(:member)
+    create(:pending_membership, member: member)
+
+    assert_nil Membership.next_start_date_for_member(member)
+  end
+
+  test "next_start_date_for_member with an existing membership" do
+    member = create(:member)
+    first_membership = create(:membership, member: member)
+
+    assert_equal first_membership.ended_at, Membership.next_start_date_for_member(member)
+  end
+
+  test "next_start_date_for_member with a new member" do
+    member = create(:member)
+    now = Time.new(2025, 11, 5)
+
+    assert_equal now, Membership.next_start_date_for_member(member, now: now)
+  end
 end
