@@ -5,9 +5,6 @@
   <%= form.text_field :hostname %>
   <%= form.text_field :city %>
   <%= form.text_field :email %>
-  <%= form.number_field :maximum_reservation_length, min: 1, hint: "In days" %>
-  <%= form.number_field :minimum_reservation_start_distance, min: 0, hint: "In days" %>
-  <%= form.number_field :maximum_reservation_start_distance, min: 1, hint: "In days" %>
   <%= form.text_area :address, rows: 5 %>
   <%= form.text_field :member_postal_code_pattern, hint: "This can be a regular expression" %>
   <%= form.file_field :image, hint: "Take a photo with the device's camera", data: {"turbo-permanent": true} %>

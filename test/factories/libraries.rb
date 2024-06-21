@@ -7,9 +7,6 @@ FactoryBot.define do
     member_postal_code_pattern { ".*" }
     city { "Alexandria" }
     email { "team@alexandria.example.com" }
-    maximum_reservation_length { 21 }
-    minimum_reservation_start_distance { 2 }
-    maximum_reservation_start_distance { 90 }
     address do
       <<~ADDRESS.strip
         Library of Alexandria

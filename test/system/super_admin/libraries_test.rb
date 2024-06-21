@@ -25,9 +25,6 @@ class LibrariesTest < ApplicationSystemTestCase
     assert_text @library.city
     assert_text @library.email
     assert_text @library.hostname
-    assert_text @library.maximum_reservation_length
-    assert_text @library.minimum_reservation_start_distance
-    assert_text @library.maximum_reservation_start_distance
   end
 
   test "creating a library" do
@@ -40,9 +37,6 @@ class LibrariesTest < ApplicationSystemTestCase
     fill_in "Hostname", with: attributes[:hostname]
     fill_in "City", with: attributes[:city]
     fill_in "Email", with: attributes[:email]
-    fill_in "Maximum reservation length", with: attributes[:maximum_reservation_length]
-    fill_in "Minimum reservation start distance", with: attributes[:minimum_reservation_start_distance]
-    fill_in "Maximum reservation start distance", with: attributes[:maximum_reservation_start_distance]
 
     assert_difference("Library.count", 1) do
       click_on "Create Library"
@@ -60,9 +54,6 @@ class LibrariesTest < ApplicationSystemTestCase
     fill_in "Hostname", with: attributes[:hostname]
     fill_in "City", with: attributes[:city]
     fill_in "Email", with: attributes[:email]
-    fill_in "Maximum reservation length", with: attributes[:maximum_reservation_length]
-    fill_in "Minimum reservation start distance", with: attributes[:minimum_reservation_start_distance]
-    fill_in "Maximum reservation start distance", with: attributes[:maximum_reservation_start_distance]
 
     assert_difference("Library.count", 0) do
       click_on "Update Library"

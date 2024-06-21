@@ -18,16 +18,6 @@ class LibraryTest < ActiveSupport::TestCase
 
     assert library.invalid?
     assert_equal ["is invalid"], library.errors[:member_postal_code_pattern]
-
-    library = Library.new(maximum_reservation_length: 0, minimum_reservation_start_distance: -1, maximum_reservation_start_distance: 0)
-    assert library.invalid?
-    assert_equal ["must be greater than 0"], library.errors[:maximum_reservation_length]
-    assert_equal ["must be greater than or equal to 0"], library.errors[:minimum_reservation_start_distance]
-    assert_equal ["must be greater than 0"], library.errors[:maximum_reservation_start_distance]
-
-    library = Library.new(minimum_reservation_start_distance: 3, maximum_reservation_start_distance: 2)
-    assert library.invalid?
-    assert_equal ["must be greater than the mininum reservation start distance"], library.errors[:maximum_reservation_start_distance]
   end
 
   test "checks postal codes against pattern" do
@@ -58,15 +48,5 @@ class LibraryTest < ActiveSupport::TestCase
     library = build(:library, member_postal_code_pattern: "00000|^1111|^222|^33|^4")
 
     assert_equal %w[00000 1111x 222xx 33xxx 4xxxx], library.admissible_postal_codes
-  end
-
-  test "#valid_reservation_started_at?" do
-    library = build(:library, minimum_reservation_start_distance: 3, maximum_reservation_start_distance: 7)
-
-    assert library.valid_reservation_started_at?(3.days.from_now)
-    assert library.valid_reservation_started_at?(7.days.from_now)
-
-    refute library.valid_reservation_started_at?(2.days.from_now)
-    refute library.valid_reservation_started_at?(8.days.from_now)
   end
 end
