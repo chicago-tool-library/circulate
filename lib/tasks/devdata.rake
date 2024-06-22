@@ -59,15 +59,19 @@ namespace :devdata do
           load_models BorrowPolicy, id_offset: offset
           load_models Category, id_offset: offset
           load_models Item, id_offset: offset
-          Item.find_each do |item|
-            # create attachment
-            item.image.attach(io: image, filename: "tool-image.jpg")
-            image.rewind
-          end
           load_models ActionText::RichText, id_offset: offset
           load_models ItemPool, id_offset: offset, creator: admin
           load_models ReservableItem, id_offset: offset, creator: admin
         end
+      end
+
+      # Need to do this outside of with_tenant because of bug with tenant
+      # being reset when an ActiveJob is completed inline
+      # See: https://github.com/ErwinM/acts_as_tenant/issues/335
+      Item.find_each do |item|
+        # create attachment
+        item.image.attach(io: image, filename: "tool-image.jpg")
+        image.rewind
       end
     end
   end
