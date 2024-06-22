@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :organization do
-    name { "MyText" }
-    website { "MyText" }
-    library { nil }
+    sequence(:name) { |n| "Organization #{n}" }
+    sequence(:website) { |n| "https://#{n}.example.com" }
+    library { Library.first || create(:library) }
   end
 end

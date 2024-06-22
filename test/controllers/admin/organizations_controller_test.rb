@@ -1,8 +1,13 @@
 require "test_helper"
 
 class Admin::OrganizationsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @organization = organizations(:one)
+    @user = create(:admin_user)
+    sign_in @user
+
+    @organization = create(:organization)
   end
 
   test "should get index" do
@@ -16,8 +21,9 @@ class Admin::OrganizationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create organization" do
+    new_org = build(:organization)
     assert_difference("Organization.count") do
-      post admin_organizations_url, params: {organization: {name: @organization.name}}
+      post admin_organizations_url, params: {organization: {name: new_org.name, website: new_org.website}}
     end
 
     assert_redirected_to admin_organization_url(Organization.last)
