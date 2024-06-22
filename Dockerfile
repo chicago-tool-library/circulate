@@ -1,4 +1,4 @@
-FROM ruby:3.1.4-alpine3.18 AS builder
+FROM ruby:3.1.6-alpine3.18 AS builder
 
 LABEL maintainer="jeanine@littleforestconsulting.com"
 
@@ -26,7 +26,7 @@ COPY . .
 
 ### BUILD STEP DONE ###
 
-FROM ruby:3.1.4-alpine3.18
+FROM ruby:3.1.6-alpine3.18
 
 ARG RAILS_ROOT=/usr/src/app/
 

@@ -1,7 +1,11 @@
 module Signup
   class BaseController < ApplicationController
+    SIGNUP_TIMEOUT = 2.hours
+
     before_action :load_steps
     before_action :set_page_title
+
+    attr_reader :member
 
     layout "steps"
 
@@ -14,7 +18,7 @@ module Signup
     private
 
     def load_member
-      if session[:member_id] && session[:timeout] && session[:timeout] > Time.current - 15.minutes
+      if session[:member_id] && session[:timeout] && session[:timeout] > Time.current
         @member = Member.find(session[:member_id])
       else
         reset_session

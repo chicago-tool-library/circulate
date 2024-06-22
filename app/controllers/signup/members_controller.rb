@@ -20,7 +20,7 @@ module Signup
 
       if @member_signup_form.save
         session[:member_id] = @member_signup_form.member_id
-        session[:timeout] = Time.current + 15.minutes
+        session[:timeout] = Time.current + SIGNUP_TIMEOUT
 
         redirect_to signup_agreement_url
       else

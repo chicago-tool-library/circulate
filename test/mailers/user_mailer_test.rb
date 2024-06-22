@@ -20,4 +20,26 @@ class UserMailerTest < ActionMailer::TestCase
     assert_includes mail.html_part.body.to_s, expected_link, "mail should include reset link in html part"
     assert_includes mail.text_part.body.to_s, expected_link, "mail should include reset link in text part"
   end
+
+  test "stores a notification whenever it sends an email" do
+    user = create(:user)
+
+    assert_equal Notification.count, 0
+
+    user.send_reset_password_instructions
+
+    assert_equal Notification.count, 1
+
+    user.send_email_changed_notification
+
+    assert_equal Notification.count, 2
+
+    subjects = ActionMailer::Base.deliveries.map(&:subject)
+    assert_includes subjects, "Reset password instructions"
+    assert_includes subjects, "Email Changed"
+
+    actions = Notification.pluck(:action)
+    assert_includes actions, "reset_password_instructions"
+    assert_includes actions, "email_changed"
+  end
 end

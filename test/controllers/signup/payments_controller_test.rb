@@ -109,6 +109,21 @@ module Signup
       assert_mock mock_checkout
     end
 
+    test "failed callback invocation by timing out the session" do
+      mock_result = Minitest::Mock.new
+      mock_result.expect :success?, false
+      mock_result.expect :error, [{code: "ERROR_CODE"}]
+
+      travel_to(session[:timeout] + 1.minute) do
+        get callback_signup_payments_url, params: {orderId: "abcd1234"}
+      end
+
+      assert_redirected_to "http://example.com/signup"
+
+      follow_redirect!
+      assert_select ".toast-error", text: "Your session expired. Please come into the library to complete signup."
+    end
+
     test "failed callback invocation by not finding a transaction" do
       mock_result = Minitest::Mock.new
       mock_result.expect :success?, false

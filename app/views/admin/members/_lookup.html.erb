@@ -1,15 +1,6 @@
 <div class="columns member-lookup-items">
   <div class="column col-12">
     <h2 id="checkout" class="h4">Lend or Hold Item</h2>
-    <% if member.loan_summaries.overdue.count > 0 %>
-      <div class="toast">
-        <p>
-          <i class="icon icon-stop"></i>
-            Overdue items must be returned before additional items can be checked out or on hold.
-          </p>
-      </div>
-    <% else %>
-      <%= render partial: "admin/members/lookups/form" %>
-    <% end %>
+    <%= render partial: "admin/members/lookups/form" %>
   </div>
 </div>

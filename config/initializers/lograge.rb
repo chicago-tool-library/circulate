@@ -4,7 +4,7 @@ Rails.application.configure do
   # Set a few custom parameters on log lines
   config.lograge.custom_payload do |controller|
     {
-      user_id: controller.current_user.try(:id),
+      user_id: controller.current_user.try(:id) || controller.try(:member).try(:user).try(:id),
       request_id: controller.request.request_id
     }
   end

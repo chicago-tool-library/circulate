@@ -115,7 +115,8 @@ class HoldsTest < ApplicationSystemTestCase
     assert_text @member.preferred_name
   end
 
-  test "can't reserve an item for member with overdue item" do
+  test "can reserve an item for member with overdue item" do
+    @item = create(:item)
     @overdue_item = create(:item)
     @member = create(:verified_member_with_membership)
 
@@ -123,10 +124,10 @@ class HoldsTest < ApplicationSystemTestCase
 
     visit admin_member_holds_url(@member)
 
-    assert_text "Overdue items must be returned"
-
     within ".member-lookup-items" do
-      refute_selector "input"
+      fill_in :admin_lookup_item_number, with: @item.number
+      click_on "Lookup"
+      assert_button "Hold", disabled: false
     end
   end
 
