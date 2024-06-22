@@ -7,6 +7,7 @@
 <table class="table">
   <thead>
     <th>Name</th>
+    <th>Website</th>
     <th>Actions</th>
   </thead>
   <tbody>
@@ -14,6 +15,9 @@
     <tr id="<%= dom_id organization %>">
       <td>
         <%= link_to organization.name, admin_organization_path(organization) %>
+      </td>
+      <td>
+        <%= link_to organization.website %>
       </td>
       <td>
         <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn" %>
