@@ -66,7 +66,7 @@ module SuperAdmin
     end
 
     def library_params
-      params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image, :maximum_reservation_length, :minimum_reservation_start_distance, :maximum_reservation_start_distance)
+      params.require(:library).permit(:name, :hostname, :city, :email, :address, :member_postal_code_pattern, :image)
     end
   end
 end
