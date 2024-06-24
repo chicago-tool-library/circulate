@@ -39,6 +39,10 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
   end
 
   test "#errors shows when a reservation is too long (handles multiple policy durations)" do
+    # policy_a    |----------|
+    # policy_b    |-----|
+    # policy_c    |---|
+    # reservation |------|
     policy_a = create(:reservation_policy, maximum_duration: 10)
     policy_b = create(:reservation_policy, maximum_duration: 5)
     policy_c = create(:reservation_policy, maximum_duration: 3)
@@ -61,6 +65,10 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
   end
 
   test "#errors shows when a reservation starts too soon (handles multiple policy distance minimums)" do
+    # policy_a    |xx---------------|
+    # policy_b    |xxxxx------------|
+    # policy_c    |xxxxxxxxxx-------|
+    # reservation |---*-------------|
     policy_a = create(:reservation_policy, minimum_start_distance: 2)
     policy_b = create(:reservation_policy, minimum_start_distance: 5)
     policy_c = create(:reservation_policy, minimum_start_distance: 10)
@@ -83,6 +91,10 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
   end
 
   test "#errors shows when a reservation starts too late (handles multiple policy distance maximums)" do
+    # policy_a    |---------xx|
+    # policy_b    |-----xxxxxx|
+    # policy_c    |----xxxxxxx|
+    # reservation |--------*--|
     policy_a = create(:reservation_policy, maximum_start_distance: 10)
     policy_b = create(:reservation_policy, maximum_start_distance: 5)
     policy_c = create(:reservation_policy, maximum_start_distance: 4)
@@ -105,6 +117,10 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
   end
 
   test "#errors shows when multiple bounds make the reservation impossible" do
+    # policy_a    |---------xx|
+    # policy_b    |xxxxxx-----|
+    # policy_c    |----xxxxxxx|
+    # reservation |--------*--|
     policy_a = create(:reservation_policy, maximum_start_distance: 10)
     policy_b = create(:reservation_policy, minimum_start_distance: 6)
     policy_c = create(:reservation_policy, maximum_start_distance: 4)
