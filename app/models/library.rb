@@ -4,7 +4,6 @@ class Library < ApplicationRecord
   validates :city, presence: true
   validates :email, presence: true
   validate :member_postal_code_regexp
-  # validate :maximum_reservation_start_distance_is_greater_than_minimum
 
   has_one_attached :image
   has_many :documents
