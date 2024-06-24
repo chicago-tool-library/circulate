@@ -30,7 +30,6 @@ class Library < ApplicationRecord
       .map { |postal_code| postal_code.ljust(5, "x") }
   end
 
-
   private
 
   def create_docs
@@ -48,10 +47,4 @@ class Library < ApplicationRecord
       errors.add(:member_postal_code_pattern, :invalid)
     end
   end
-
-  # def maximum_reservation_start_distance_is_greater_than_minimum
-  #   if minimum_reservation_start_distance? && maximum_reservation_start_distance? && minimum_reservation_start_distance >= maximum_reservation_start_distance
-  #     errors.add(:maximum_reservation_start_distance, "must be greater than the mininum reservation start distance")
-  #   end
-  # end
 end
