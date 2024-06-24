@@ -12,19 +12,18 @@ class ReservationDateValidator
   end
 
   def errors
-    duration = (reservation.ended_at.to_date - reservation.started_at.to_date).to_i
     errors = Hash.new { |hash, key| hash[key] = [] }
 
     reservation_policies.each do |reservation_policy|
-      if violates_duration?(duration, reservation_policy)
+      if violates_duration?(reservation_policy)
         errors[:duration] << duration_error_message(reservation_policy)
       end
 
-      if violates_minimum_start_distance?(reservation, reservation_policy)
+      if violates_minimum_start_distance?(reservation_policy)
         errors[:minimum_start_distance] << minimum_start_distance_error_message(reservation_policy)
       end
 
-      if violates_maximum_start_distance?(reservation, reservation_policy)
+      if violates_maximum_start_distance?(reservation_policy)
         errors[:maximum_start_distance] << maximum_start_distance_error_message(reservation_policy)
       end
     end
@@ -38,15 +37,16 @@ class ReservationDateValidator
 
   private
 
-  def violates_duration?(duration, reservation_policy)
+  def violates_duration?(reservation_policy)
+    duration = (reservation.ended_at.to_date - reservation.started_at.to_date).to_i
     duration > reservation_policy.maximum_duration
   end
 
-  def violates_minimum_start_distance?(reservation, reservation_policy)
+  def violates_minimum_start_distance?(reservation_policy)
     (now + reservation_policy.minimum_start_distance.days).beginning_of_day > reservation.started_at
   end
 
-  def violates_maximum_start_distance?(reservation, reservation_policy)
+  def violates_maximum_start_distance?(reservation_policy)
     (now + reservation_policy.maximum_start_distance.days).end_of_day < reservation.started_at
   end
 
