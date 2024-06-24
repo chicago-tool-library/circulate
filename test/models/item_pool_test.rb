@@ -2,8 +2,8 @@ require "test_helper"
 
 class ItemPoolTest < ActiveSupport::TestCase
   setup do
-    @starts = 7.days.from_now.beginning_of_day
-    @ends = 14.days.from_now.beginning_of_day
+    @starts = Time.zone.parse("2024-02-15")
+    @ends = Time.zone.parse("2024-02-22")
   end
 
   test "no items available with no reservable items" do
