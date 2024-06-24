@@ -89,7 +89,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "minitest", "5.23.1"
+  gem "minitest", "5.24.0"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "rails-controller-testing"
@@ -102,6 +102,6 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "twilio-ruby", "~> 7.1"
+gem "twilio-ruby", "~> 7.2"
 
 gem "ahoy_matey", "~> 5.1"
