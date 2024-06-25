@@ -22,7 +22,7 @@ class AdminReservationPoliciesTest < ApplicationSystemTestCase
     end
   end
 
-  test "viewing reservation policy" do
+  test "viewing a reservation policy" do
     reservation_policy = create(:reservation_policy, default: true, description: "a description")
 
     visit admin_reservation_policies_path
