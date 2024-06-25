@@ -761,7 +761,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
 
   create_table "reservation_policies", force: :cascade do |t|
     t.string "name", null: false
-    t.string "description"
+    t.text "description"
     t.boolean "default", default: false, null: false
     t.integer "maximum_duration", default: 21, null: false
     t.integer "minimum_start_distance", default: 2, null: false

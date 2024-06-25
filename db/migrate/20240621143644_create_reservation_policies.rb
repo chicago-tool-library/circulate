@@ -2,7 +2,7 @@ class CreateReservationPolicies < ActiveRecord::Migration[7.1]
   def change
     create_table :reservation_policies do |t|
       t.string :name, null: false
-      t.string :description
+      t.text :description
       t.boolean :default, null: false, default: false
       t.integer :maximum_duration, null: false, default: 21
       t.integer :minimum_start_distance, null: false, default: 2
