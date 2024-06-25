@@ -114,7 +114,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:15
         env:
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres

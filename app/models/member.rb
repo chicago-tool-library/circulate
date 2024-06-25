@@ -151,7 +151,7 @@ class Member < ApplicationRecord
   end
 
   def update_neon_crm
-    NeonMemberJob.perform_async(id)
+    NeonMemberJob.perform_later(id)
   end
 
   def can_update_neon_crm?
