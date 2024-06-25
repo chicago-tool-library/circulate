@@ -3,7 +3,7 @@ class ReservationPolicy < ApplicationRecord
 
   acts_as_tenant :library
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :maximum_duration, presence: true
   validates :minimum_start_distance, presence: true
   validates :maximum_start_distance, presence: true

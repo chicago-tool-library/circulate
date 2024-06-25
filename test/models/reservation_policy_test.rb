@@ -20,6 +20,11 @@ class ReservationPolicyTest < ActiveSupport::TestCase
     reservation_policy = ReservationPolicy.new(minimum_start_distance: 3, maximum_start_distance: 2)
     assert reservation_policy.invalid?
     assert_equal ["must be greater than the mininum start distance"], reservation_policy.errors[:maximum_start_distance]
+
+    existing_reservation_policy = create(:reservation_policy)
+    reservation_policy = build(:reservation_policy, name: existing_reservation_policy.name)
+    assert reservation_policy.invalid?
+    assert_equal ["has already been taken"], reservation_policy.errors[:name]
   end
 
   test "after saving as default it ensures there are no other defaults" do

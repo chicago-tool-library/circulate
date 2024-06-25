@@ -1,0 +1,15 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Reservation Policies", admin_reservation_policies_path %>
+  <%= index_header "Editing Reservation policy" %>
+<% end %>
+
+<%= render "form", reservation_policy: @reservation_policy %>
+
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this reservation policy?</summary>
+    <%= action_bar "If you destroy this reservation policy, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy reservation policy", admin_reservation_policy_path(@reservation_policy), method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
+</div>

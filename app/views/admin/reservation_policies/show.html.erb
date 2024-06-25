@@ -1,0 +1,24 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Reservation Policies", admin_reservation_policies_path %>
+  <%= index_header @reservation_policy.name do %>
+    <%= link_to "Edit", edit_admin_reservation_policy_path(@reservation_policy), class: "btn" %>
+  <% end %>
+<% end %>
+
+<p>
+  <%= @reservation_policy.description %>
+</p>
+
+<dl>
+  <dt>Default</dt>
+  <dd><%= @reservation_policy.default? ? "Yes" : "No" %></dd>
+
+  <dt>Maximum duration</dt>
+  <dd><%= @reservation_policy.maximum_duration %> days</dd>
+
+  <dt>Minimum start distance</dt>
+  <dd><%= @reservation_policy.minimum_start_distance %> days</dd>
+
+  <dt>Maximum start distance</dt>
+  <dd><%= @reservation_policy.maximum_start_distance %> days</dd>
+</dl>

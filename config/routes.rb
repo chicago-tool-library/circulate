@@ -154,6 +154,7 @@ Rails.application.routes.draw do
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
+    resources :reservation_policies
 
     resource :map, only: :show
 
