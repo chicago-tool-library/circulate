@@ -206,9 +206,10 @@ Rails.application.routes.draw do
 
   post "/twilio/callback", to: "twilio#callback"
 
-  # Mount good_job dashboard for admins
+  # Mount dashboards for admins
   authenticate :user, ->(user) { user.admin? } do
     mount GoodJob::Engine => "good_job"
+    mount Blazer::Engine => "blazer"
   end
 
   root to: "home#index"
