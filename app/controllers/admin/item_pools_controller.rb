@@ -78,7 +78,6 @@ module Admin
     end
 
     def set_categories
-      set_reservation_policy_options
       @categories = CategoryNode.all
     end
 
