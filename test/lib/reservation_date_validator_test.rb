@@ -54,7 +54,6 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     errors = validator.errors
 
     assert errors.present?
-
     assert_equal [policy_b, policy_c], errors.maximum_duration
   end
 
@@ -74,7 +73,6 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     errors = validator.errors
 
     assert errors.present?
-
     assert_equal [policy_b, policy_c], errors.minimum_start_distance
   end
 
@@ -94,12 +92,6 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     errors = validator.errors
 
     assert errors.present?
-
-    expected_error_messages = [
-      "starts later than allowed by #{policy_b.name} (#{policy_b.maximum_start_distance} days)",
-      "starts later than allowed by #{policy_c.name} (#{policy_c.maximum_start_distance} days)"
-    ]
-
     assert_equal [policy_b, policy_c], errors.maximum_start_distance
   end
 
@@ -119,7 +111,6 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     errors = validator.errors
 
     assert errors.present?
-
     assert_equal [[policy_b, policy_c]], errors.impossible
   end
 
