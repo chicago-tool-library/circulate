@@ -90,5 +90,6 @@ class ReservationPolicyTest < ActiveSupport::TestCase
 
     default_policy = ReservationPolicy.default_policy
     assert default_policy.default?
+    assert_equal "System Default", default_policy.name
   end
 end

@@ -16,7 +16,7 @@ class ReservationPolicy < ApplicationRecord
   after_save :ensure_only_one_default!
 
   def self.default_policy
-    find_or_initialize_by(default: true)
+    find_or_initialize_by(default: true) { |policy| policy.name = "System Default" }
   end
 
   private

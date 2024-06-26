@@ -55,13 +55,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
 
     assert errors.present?
 
-    expected_error_messages = [
-      "duration is longer than allowed by #{policy_b.name} (#{policy_b.maximum_duration} days)",
-      "duration is longer than allowed by #{policy_c.name} (#{policy_c.maximum_duration} days)"
-    ]
-
-    assert_equal expected_error_messages, errors[:duration]
-    assert_equal [:duration], errors.keys
+    assert_equal [policy_b, policy_c], errors.maximum_duration
   end
 
   test "#errors shows when a reservation starts too soon (handles multiple policy distance minimums)" do
@@ -81,13 +75,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
 
     assert errors.present?
 
-    expected_error_messages = [
-      "starts sooner than allowed by #{policy_b.name} (#{policy_b.minimum_start_distance} days)",
-      "starts sooner than allowed by #{policy_c.name} (#{policy_c.minimum_start_distance} days)"
-    ]
-
-    assert_equal expected_error_messages, errors[:minimum_start_distance]
-    assert_equal [:minimum_start_distance], errors.keys
+    assert_equal [policy_b, policy_c], errors.minimum_start_distance
   end
 
   test "#errors shows when a reservation starts too late (handles multiple policy distance maximums)" do
@@ -112,8 +100,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
       "starts later than allowed by #{policy_c.name} (#{policy_c.maximum_start_distance} days)"
     ]
 
-    assert_equal expected_error_messages, errors[:maximum_start_distance]
-    assert_equal [:maximum_start_distance], errors.keys
+    assert_equal [policy_b, policy_c], errors.maximum_start_distance
   end
 
   test "#errors shows when multiple bounds make the reservation impossible" do
@@ -133,10 +120,42 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
 
     assert errors.present?
 
-    expected_error_messages = [
-      "impossible to find valid reservation dates (#{policy_b.name} and #{policy_c.name} are mutually exclusive)"
-    ]
+    assert_equal [[policy_b, policy_c]], errors.impossible
+  end
 
-    assert_equal expected_error_messages, errors[:impossible]
+  test "Errors has the correct defaults" do
+    errors = ReservationDateValidator::Errors.new
+
+    assert_equal [], errors.maximum_duration
+    assert_equal [], errors.minimum_start_distance
+    assert_equal [], errors.maximum_start_distance
+    assert_equal [], errors.impossible
+  end
+
+  test "Errors#empty? is true when it lacks reservation policies and false otherwise" do
+    reservation_policy = ReservationPolicy.new
+    errors = ReservationDateValidator::Errors.new
+
+    assert errors.empty?
+
+    errors = ReservationDateValidator::Errors.new
+    errors.maximum_duration << reservation_policy
+
+    refute errors.empty?
+
+    errors = ReservationDateValidator::Errors.new
+    errors.minimum_start_distance << reservation_policy
+
+    refute errors.empty?
+
+    errors = ReservationDateValidator::Errors.new
+    errors.maximum_start_distance << reservation_policy
+
+    refute errors.empty?
+
+    errors = ReservationDateValidator::Errors.new
+    errors.impossible << [reservation_policy, ReservationPolicy.new]
+
+    refute errors.empty?
   end
 end

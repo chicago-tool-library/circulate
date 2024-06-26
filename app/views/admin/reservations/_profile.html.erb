@@ -41,6 +41,10 @@
 
   <div class="column col-sm-12 col-8">
 
+    <% if Reservation.statuses.values_at(:requested, :approved, :building).include?(@reservation.status) %>
+      <%= render partial: "reservation_policies_warnings", locals: { reservation: @reservation } %>
+    <% end %>
+
     <ul class="tab">
       <%= tab_link "Items", admin_reservation_path(@reservation) %>
       <%= tab_link "Pickup", admin_reservation_pickup_path(@reservation) %>
