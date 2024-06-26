@@ -5,20 +5,41 @@
   <% end %>
 <% end %>
 
-<p>
-  <%= @reservation_policy.description %>
-</p>
+<div class="columns">
+  <div class="column col-4 col-sm-12">
+    <div class="panel item-panel">
+      <div class="panel-body">
+        <dl>
+          <dt>Default</dt>
+          <dd><%= @reservation_policy.default? ? "Yes" : "No" %></dd>
 
-<dl>
-  <dt>Default</dt>
-  <dd><%= @reservation_policy.default? ? "Yes" : "No" %></dd>
+          <dt>Maximum duration</dt>
+          <dd><%= @reservation_policy.maximum_duration %> days</dd>
 
-  <dt>Maximum duration</dt>
-  <dd><%= @reservation_policy.maximum_duration %> days</dd>
+          <dt>Minimum start distance</dt>
+          <dd><%= @reservation_policy.minimum_start_distance %> days</dd>
 
-  <dt>Minimum start distance</dt>
-  <dd><%= @reservation_policy.minimum_start_distance %> days</dd>
+          <dt>Maximum start distance</dt>
+          <dd><%= @reservation_policy.maximum_start_distance %> days</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="column col-sm-12 col-8">
+    <p>
+      <%= @reservation_policy.description %>
+    </p>
 
-  <dt>Maximum start distance</dt>
-  <dd><%= @reservation_policy.maximum_start_distance %> days</dd>
-</dl>
+
+    <section>
+      <h2>Item Pools</h2>
+      <ul>
+        <% @reservation_policy.item_pools.each do |item_pool| %>
+          <li>
+            <%= link_to item_pool.name, admin_item_pool_path(item_pool) %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  </div>
+</div>

@@ -24,6 +24,8 @@ class AdminReservationPoliciesTest < ApplicationSystemTestCase
 
   test "viewing a reservation policy" do
     reservation_policy = create(:reservation_policy, default: true, description: "a description")
+    ignored_item_pool = create(:item_pool)
+    item_pools = create_list(:item_pool, 3, reservation_policy:)
 
     visit admin_reservation_policies_path
     click_on reservation_policy.name
@@ -35,6 +37,12 @@ class AdminReservationPoliciesTest < ApplicationSystemTestCase
     assert_text "#{reservation_policy.maximum_start_distance} days"
     assert_text "Yes"
     assert_equal admin_reservation_policy_path(reservation_policy), current_path
+
+    item_pools.each do |item_pool|
+      assert_text item_pool.name
+    end
+
+    refute_text ignored_item_pool.name
   end
 
   test "creating a reservation policy successfully" do

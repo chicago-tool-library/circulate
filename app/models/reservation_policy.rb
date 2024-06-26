@@ -1,5 +1,6 @@
 class ReservationPolicy < ApplicationRecord
   belongs_to :library, required: true
+  has_many :item_pools, dependent: :nullify
 
   acts_as_tenant :library
 
