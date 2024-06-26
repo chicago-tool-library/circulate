@@ -4,6 +4,8 @@
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true,
         hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
+  <%= form.select :reservation_policy_id, options_for_select(@reservation_policy_options, item_pool.reservation_policy_id), include_blank: "None" %>
+
   <%= form.text_field :other_names, label: "Other names and keywords",
         hint: "Search terms that should return this item; typically slang or other names for the item" %>
 
