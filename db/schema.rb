@@ -679,6 +679,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "organization_members", force: :cascade do |t|
+    t.text "full_name"
+    t.bigint "organization_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_members_on_organization_id"
+    t.index ["user_id"], name: "index_organization_members_on_user_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.text "name"
+    t.text "website"
+    t.bigint "library_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
+    t.index ["library_id", "website"], name: "index_organizations_on_library_id_and_website", unique: true
+    t.index ["library_id"], name: "index_organizations_on_library_id"
+  end
+
   create_table "renewal_requests", force: :cascade do |t|
     t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
@@ -839,6 +860,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
+  add_foreign_key "organization_members", "organizations"
+  add_foreign_key "organization_members", "users"
+  add_foreign_key "organizations", "libraries"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservable_items", "item_pools"
   add_foreign_key "reservable_items", "libraries"

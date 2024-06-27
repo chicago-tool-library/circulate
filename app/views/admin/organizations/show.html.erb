@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :header do %>
+  <%= breadcrumbs "Organizations", admin_organizations_path %>
+  <%= index_header @organization.name do %>
+    <%= link_to "Edit", edit_admin_organization_path(@organization), class: "btn" %>
+    <%= link_to "New Organization Member", "#", class: "btn disabled" %>
+  <% end %>
+<% end %>
+
+<p><strong>Website:</website> <%= link_to @organization.website %></strong></p>
+
+<h2>Organization Members</h2>
+
+<p>TODO</p>
