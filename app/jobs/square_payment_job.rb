@@ -27,7 +27,8 @@ class SquarePaymentJob < ApplicationJob
     Membership.create_for_member(member, amount: order.amount, square_transaction_id: order.id, source: "square")
     MemberMailer.with(member: member, amount: order.amount.cents).welcome_message.deliver_later
 
-    square_checkout.complete_order(order)
+    result = square_checkout.complete_order(order)
+    raise result.error if result.failure?
   end
 
   private
