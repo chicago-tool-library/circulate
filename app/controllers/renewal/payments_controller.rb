@@ -47,7 +47,7 @@ module Renewal
     end
 
     def checkout
-      SquareCheckout.from_env
+      SquareCheckout::Client.from_env
     end
 
     def are_payments_enabled?

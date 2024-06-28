@@ -34,6 +34,6 @@ class SquareController < ApplicationController
   end
 
   def checkout
-    SquareCheckout.from_env
+    SquareCheckout::Client.from_env
   end
 end
