@@ -121,7 +121,7 @@ module AdminHelper
   end
 
   def square_order_url(order_id)
-    if Rails.env.production?
+    if ENV["SQUARE_ENVIRONMENT"] == "production"
       "https://squareup.com/dashboard/orders/overview/#{order_id}"
     else
       "https://squareupsandbox.com/dashboard/orders/overview/#{order_id}"
