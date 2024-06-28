@@ -27,7 +27,7 @@ module Signup
           member_id: @member.id,
           date: Date.current)
 
-        SquareCheckout.stub :new, mock_checkout do
+        SquareCheckout::Client.stub :new, mock_checkout do
           post signup_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
         end
 
@@ -52,7 +52,7 @@ module Signup
         member_id: Integer,
         date: Date)
 
-      SquareCheckout.stub :new, mock_checkout do
+      SquareCheckout::Client.stub :new, mock_checkout do
         post signup_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
       end
 
