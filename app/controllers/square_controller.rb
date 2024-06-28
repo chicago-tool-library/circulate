@@ -32,8 +32,4 @@ class SquareController < ApplicationController
       render plain: "Invalid request", status: :unauthorized
     end
   end
-
-  def checkout
-    SquareCheckout::Client.from_env
-  end
 end
