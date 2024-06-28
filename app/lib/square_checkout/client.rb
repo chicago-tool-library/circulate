@@ -64,7 +64,7 @@ module SquareCheckout
       fulfillment = fetched_order.fulfillment.dup
       fulfillment[:state] = "COMPLETED"
 
-      @client.orders.update_order(
+      update_response = @client.orders.update_order(
         order_id: fetched_order.id,
         body: {
           order: {
@@ -74,6 +74,12 @@ module SquareCheckout
           }
         }
       )
+
+      if update_response.success?
+        Result.success(update_response.body.order)
+      else
+        Result.failure(SquareError.new("failed to update order: #{update_response.errors}"))
+      end
     end
 
     def fetch_order(order_id:)
@@ -82,7 +88,7 @@ module SquareCheckout
       if order_response.success?
         Result.success(FetchedOrder.new(order_response.body.order))
       else
-        Result.failure(order_response.errors)
+        Result.failure(SquareError.new(order_response.errors))
       end
     end
 
