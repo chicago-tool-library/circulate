@@ -10,7 +10,7 @@ class SquareController < ApplicationController
     order_id = params.dig :data, :object, :payment, :order_id
 
     if order_id
-      SquarePaymentJob.perform_later(library_id: current_library.id, order_id: order_id)
+      SquarePaymentJob.perform_later(order_id: order_id)
       head :ok
     else
       head :unprocessable_entity
