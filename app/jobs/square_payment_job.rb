@@ -30,7 +30,9 @@ class SquarePaymentJob < ApplicationJob
     square_checkout.complete_order(order)
   end
 
+  private
+
   def square_checkout
-    @square_checkout ||= SquareCheckout.from_env
+    @square_checkout ||= SquareCheckout::Client.from_env
   end
 end
