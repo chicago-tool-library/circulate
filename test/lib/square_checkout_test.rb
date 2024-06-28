@@ -43,7 +43,11 @@ class SquareCheckoutTest < ActiveSupport::TestCase
               amount: amount.cents,
               currency: "USD"
             }
-          }]
+          }],
+          metadata: {
+            member_id: member.id.to_s,
+            created_by: "circulate"
+          }
         },
         payment_note: "Chicago Tool Library annual membership"
       })
@@ -100,8 +104,8 @@ class SquareCheckoutTest < ActiveSupport::TestCase
         idempotency_key: "test"
       )
 
-      refute result.success?
-      assert_equal "ERRORS", result.error
+      assert result.failure?
+      assert_instance_of SquareCheckout::SquareError, result.error
     end
 
     assert_mock mock_response
@@ -109,11 +113,49 @@ class SquareCheckoutTest < ActiveSupport::TestCase
   end
 
   test "handles a successful charge" do
-    mock_body_order = Minitest::Mock.new
-    mock_body_order.expect :[], [{amount_money: {amount: 1200, currency: "USD"}}], [:tenders]
+    order_payload = {id: "XfTpzcdd4r55sZSxyJhsjrJovb4F",
+                     location_id: "X9QSBEAF8RK29",
+                     line_items: [{uid: "mif7dF4aXAOweVBR1kMVIC",
+                                   quantity: "1",
+                                   name: "Annual Membership",
+                                   base_price_money: {amount: 4200, currency: "USD"},
+                                   gross_sales_money: {amount: 4200, currency: "USD"},
+                                   total_tax_money: {amount: 0, currency: "USD"},
+                                   total_discount_money: {amount: 0, currency: "USD"},
+                                   total_money: {amount: 4200, currency: "USD"},
+                                   variation_total_price_money: {amount: 4200, currency: "USD"},
+                                   item_type: "ITEM",
+                                   total_service_charge_money: {amount: 0, currency: "USD"}}],
+                     fulfillments: [{uid: "AwGQocvjXJAyzG22nhH6eC", type: "DIGITAL", state: "PROPOSED"}],
+                     metadata: {member_id: "21", created_by: "circulate"},
+                     created_at: "2024-02-07T05:09:03.336Z",
+                     updated_at: "2024-06-26T04:19:12.846Z",
+                     state: "OPEN",
+                     version: 8,
+                     reference_id: "20240206-69",
+                     total_tax_money: {amount: 0, currency: "USD"},
+                     total_discount_money: {amount: 0, currency: "USD"},
+                     total_tip_money: {amount: 0, currency: "USD"},
+                     total_money: {amount: 4200, currency: "USD"},
+                     tenders: [{id: "hSD79AU9DDy6v8ehelHi9XM0hXLZY",
+                                location_id: "X9QSBEAF8RK29",
+                                transaction_id: "XfTpzcdd4r55sZSxyJhsjrJovb4F",
+                                created_at: "2024-02-07T05:09:13Z",
+                                note: "Chicago Tool Library annual membership",
+                                amount_money: {amount: 4200, currency: "USD"},
+                                type: "OTHER",
+                                payment_id: "hSD79AU9DDy6v8ehelHi9XM0hXLZY"}],
+                     total_service_charge_money: {amount: 0, currency: "USD"},
+                     net_amounts: {total_money: {amount: 4200, currency: "USD"},
+                                   tax_money: {amount: 0, currency: "USD"},
+                                   discount_money: {amount: 0, currency: "USD"},
+                                   tip_money: {amount: 0, currency: "USD"},
+                                   service_charge_money: {amount: 0, currency: "USD"}},
+                     source: {name: "Sandbox for sq0idp-IPM-pOTUhlsIdaQnJ5loXw"},
+                     net_amount_due_money: {amount: 0, currency: "USD"}}
 
     mock_body = Minitest::Mock.new
-    mock_body.expect :order, mock_body_order
+    mock_body.expect :order, order_payload
 
     mock_response = Minitest::Mock.new
     mock_response.expect :success?, true
@@ -127,17 +169,18 @@ class SquareCheckoutTest < ActiveSupport::TestCase
 
     Square::Client.stub :new, mock_client do
       checkout = SquareCheckout.new(access_token: "SQ_ACCESS_TOKEN", location_id: "SQ_LOCATION_ID")
-      result = checkout.fetch_order(order_id: "order-12345")
+      fetch_order = checkout.fetch_order(order_id: "order-12345")
 
-      assert result.success?
-      assert_equal Money.new(1200), result.value
+      assert fetch_order.success?
+      order = fetch_order.value
+
+      assert_equal Money.new(4200), order.amount
     end
 
     assert_mock mock_response
     assert_mock mock_client
     assert_mock mock_orders
     assert_mock mock_body
-    assert_mock mock_body_order
   end
 
   test "handles not finding an order" do # handles 404 and 429
@@ -153,10 +196,10 @@ class SquareCheckoutTest < ActiveSupport::TestCase
 
     Square::Client.stub :new, mock_client do
       checkout = SquareCheckout.new(access_token: "SQ_ACCESS_TOKEN", location_id: "SQ_LOCATION_ID")
-      result = checkout.fetch_order(order_id: "order-12345")
+      fetch_order = checkout.fetch_order(order_id: "order-12345")
 
-      assert result.failure?
-      assert_equal "ERRORS", result.error
+      assert fetch_order.failure?
+      assert_equal "ERRORS", fetch_order.error
     end
 
     assert_mock mock_response
