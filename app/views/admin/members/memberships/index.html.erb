@@ -44,7 +44,11 @@
           <td><%= adjustment.amount.format %></td>
           <td>
             <% if adjustment.payment? %>
-              <%= adjustment.payment_source.capitalize %> payment
+              <% if adjustment.square_transaction_id %>
+                <%= link_to "Square payment", square_order_url(adjustment.square_transaction_id), target: "_blank" %>
+              <% else %>
+                <%= adjustment.payment_source.capitalize %> payment
+              <% end %>
             <% else %>
               <%= adjustment.kind.capitalize %>
             <% end %>
