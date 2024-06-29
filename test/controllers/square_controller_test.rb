@@ -60,7 +60,7 @@ class SquareControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "handles payment updates" do
-    assert_enqueued_with(job: SquarePaymentJob, args: [{library_id: current_library.id, order_id: "bfE82Bs4tWAEyTrcoxIpVl42Qe4F"}]) do
+    assert_enqueued_with(job: SquarePaymentJob, args: [{order_id: "bfE82Bs4tWAEyTrcoxIpVl42Qe4F"}]) do
       post square_callback_url, params: payment_updated_payload, headers: {
         "X-SQUARE-HMACSHA256-SIGNATURE": "s2TfTqnEVXKbXile3L/LfCd/MMhcQXRHQXROromxPDI="
       }
