@@ -4,6 +4,12 @@ class SquarePaymentJob < ApplicationJob
   class OrderLookupError < StandardError; end
 
   def perform(order_id:)
+    existing_adjustment = Adjustment.find_by(square_transaction_id: order_id)
+    if existing_adjustment
+      Rails.logger.info("Adjustment already exists for order #{order_id}, skipping.")
+      return
+    end
+
     fetch_order = square_checkout.fetch_order(order_id: order_id)
 
     if fetch_order.failure?

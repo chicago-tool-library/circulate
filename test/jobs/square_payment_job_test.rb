@@ -55,4 +55,20 @@ class SquarePaymentJobTest < ActiveJob::TestCase
     assert_mock mock_result
     assert_mock mock_checkout
   end
+
+  test "handles having already run" do
+    create(:square_payment_adjustment, square_transaction_id: "abcd1234")
+
+    mock_checkout = Minitest::Mock.new
+
+    SquareCheckout::Client.stub :new, mock_checkout do
+      assert_no_difference "Membership.count", "Adjustment.count" do
+        perform_enqueued_jobs do
+          SquarePaymentJob.perform_later(order_id: "abcd1234")
+        end
+      end
+    end
+
+    assert_mock mock_checkout
+  end
 end
