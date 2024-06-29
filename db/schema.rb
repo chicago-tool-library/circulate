@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_143644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -525,8 +525,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
     t.text "plain_text_description"
     t.text "url"
     t.text "purchase_link"
+    t.bigint "reservation_policy_id"
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
+    t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -755,6 +757,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_154800) do
     t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
     t.index ["reservation_hold_id"], name: "index_reservation_loans_on_reservation_hold_id"
     t.index ["reservation_id"], name: "index_reservation_loans_on_reservation_id"
+  end
+
+  create_table "reservation_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "default", default: false, null: false
+    t.integer "maximum_duration", default: 21, null: false
+    t.integer "minimum_start_distance", default: 2, null: false
+    t.integer "maximum_start_distance", default: 90, null: false
+    t.bigint "library_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id", "name"], name: "index_reservation_policies_on_library_id_and_name", unique: true
+    t.index ["library_id"], name: "index_reservation_policies_on_library_id"
   end
 
   create_table "reservations", force: :cascade do |t|

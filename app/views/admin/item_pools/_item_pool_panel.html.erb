@@ -31,6 +31,11 @@
           </ul>
         <% end %>
       <% end %>
+      <%= icon_stat "calendar", title: "reservation policy", placeholder: "No reservation policy" do %>
+        <% if item_pool.reservation_policy.present? %>
+          <%= link_to item_pool.reservation_policy.name, admin_reservation_policy_path(item_pool.reservation_policy) %>
+        <% end %>
+      <% end %>
     </ul>
   </div>
 </div>

@@ -1,0 +1,14 @@
+<%= form_with(model: [:admin, reservation_policy], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name %>
+  <%= form.number_field :maximum_duration, min: 1, hint: "in days" %>
+  <%= form.number_field :minimum_start_distance, min: 0, hint: "in days" %>
+  <%= form.number_field :maximum_start_distance, min: 1, hint: "in days" %>
+  <%= form.check_box :default, hint: "there can only be one default" %>
+  <%= form.text_area :description %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

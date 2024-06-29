@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :item_pool do
-    creator { create(:user) }
-    name { "Item Pool" }
+    creator { association(:user) }
+    sequence(:name) { |n| "Item Pool ##{n}" }
   end
 end

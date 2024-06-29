@@ -1,0 +1,28 @@
+<% content_for :header do %>
+  <%= index_header "Reservation Policies" do %>
+    <%= link_to "New Reservation policy", new_admin_reservation_policy_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Default</th>
+    <th>Maximum Duration</th>
+    <th>Minimum Start Distance</th>
+    <th>Maximum Start Distance</th>
+  </thead>
+  <tbody>
+    <% @reservation_policies.each do |reservation_policy| %>
+      <tr>
+        <td>
+          <%= link_to reservation_policy.name, admin_reservation_policy_path(reservation_policy) %>
+        </td>
+        <td><%= reservation_policy.default? ? "Yes" : "No" %></td>
+        <td><%= reservation_policy.maximum_duration %> days</td>
+        <td><%= reservation_policy.minimum_start_distance %> days</td>
+        <td><%= reservation_policy.maximum_start_distance %> days</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -2,6 +2,7 @@ class ItemPool < ApplicationRecord
   include ItemAttributes
 
   belongs_to :creator, class_name: "User"
+  belongs_to :reservation_policy, optional: true
   has_many :reservable_items
   has_many :reservation_holds
 
