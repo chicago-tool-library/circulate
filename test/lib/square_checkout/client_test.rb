@@ -200,7 +200,7 @@ module SquareCheckout
         fetch_order = checkout.fetch_order(order_id: "order-12345")
 
         assert fetch_order.failure?
-        assert_equal "ERRORS", fetch_order.error
+        assert_instance_of SquareCheckout::SquareError, fetch_order.error
       end
 
       assert_mock mock_response
