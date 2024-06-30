@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.4"
+ruby "3.1.6"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "~> 7.1.3"
@@ -55,7 +55,6 @@ gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
 gem "barnes"
-gem "sucker_punch"
 gem "dotenv"
 gem "appsignal"
 
@@ -70,7 +69,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "standard"
-  gem "standard-rails", "~> 1.0.2"
+  gem "standard-rails", "~> 1.1.0"
   gem "factory_bot_rails"
   gem "spy"
   gem "letter_opener"
@@ -89,7 +88,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "minitest", "5.23.1"
+  gem "minitest", "5.24.0"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "rails-controller-testing"
@@ -102,6 +101,10 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "twilio-ruby", "~> 7.1"
+gem "twilio-ruby", "~> 7.2"
 
 gem "ahoy_matey", "~> 5.1"
+
+gem "good_job", "~> 3.29"
+
+gem "blazer", "~> 3.0"

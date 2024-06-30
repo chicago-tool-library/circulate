@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
+    resources :organizations
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :categories, except: :show
@@ -153,6 +154,7 @@ Rails.application.routes.draw do
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
+    resources :reservation_policies
 
     resource :map, only: :show
 
@@ -205,6 +207,12 @@ Rails.application.routes.draw do
   resources :homepage, only: [:index, :create]
 
   post "/twilio/callback", to: "twilio#callback"
+
+  # Mount dashboards for admins
+  authenticate :user, ->(user) { user.admin? } do
+    mount GoodJob::Engine => "good_job"
+    mount Blazer::Engine => "blazer"
+  end
 
   root to: "home#index"
 

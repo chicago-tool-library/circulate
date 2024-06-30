@@ -185,7 +185,7 @@ class MemberTest < ActiveSupport::TestCase
     mock = Minitest::Mock.new
     mock.expect :call, true, [Integer]
 
-    NeonMemberJob.stub :perform_async, mock do
+    NeonMemberJob.stub :perform_later, mock do
       member.stub :can_update_neon_crm?, true do
         member.update(city: "#{member.city} Test")
       end

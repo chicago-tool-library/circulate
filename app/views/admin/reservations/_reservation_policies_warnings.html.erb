@@ -1,0 +1,40 @@
+<% validator = ReservationDateValidator.new(reservation:) %>
+<% errors = validator.errors %>
+
+<% if errors.present? %>
+  <% if errors.maximum_duration.present? %>
+    <div class="toast reservation-policy-warning clearfix">
+      <p class="float-left">
+        <i class="icon icon-stop"></i> Reservation violates maximum duration of reservation policies:
+        <%= errors.maximum_duration.map(&:name).join(", ") %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if errors.minimum_start_distance.present? %>
+    <div class="toast reservation-policy-warning clearfix">
+      <p class="float-left">
+        <i class="icon icon-stop"></i> Reservation violates minimum start distance of reservation policies:
+        <%= errors.minimum_start_distance.map(&:name).join(", ") %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if errors.maximum_start_distance.present? %>
+    <div class="toast reservation-policy-warning clearfix">
+      <p class="float-left">
+        <i class="icon icon-stop"></i> Reservation violates maximum start distance of reservation policies:
+        <%= errors.maximum_start_distance.map(&:name).join(", ") %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if errors.impossible.present? %>
+    <div class="toast reservation-policy-warning clearfix">
+      <p class="float-left">
+        <i class="icon icon-stop"></i> All dates are invalid due to contradictory reservation policies:
+        <%= errors.impossible.map { |policies| policies.map(&:name).join(" and ") }.join(", ") %>
+      </p>
+    </div>
+  <% end %>
+<% end %>

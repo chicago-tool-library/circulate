@@ -26,10 +26,12 @@ module Admin
     def new
       @item_pool = ItemPool.new
       set_categories
+      set_reservation_policy_options
     end
 
     def edit
       set_categories
+      set_reservation_policy_options
     end
 
     def create
@@ -39,6 +41,7 @@ module Admin
         redirect_to admin_item_pool_url(@item_pool), success: "Item pool was successfully created."
       else
         set_categories
+        set_reservation_policy_options
         render :new, status: :unprocessable_entity
       end
     end
@@ -48,6 +51,7 @@ module Admin
         redirect_to admin_item_pool_url(@item_pool), success: "Item pool was successfully updated."
       else
         set_categories
+        set_reservation_policy_options
         render :edit, status: :unprocessable_entity
       end
     end
@@ -69,12 +73,18 @@ module Admin
         :name, :other_names, :description, :size, :brand, :model, :strength,
         :power_source, :uniquely_numbered, :unnumbered_count,
         :location_shelf, :location_area, :url,
-        :purchase_link, category_ids: []
+        :purchase_link, :reservation_policy_id, category_ids: []
       )
     end
 
     def set_categories
       @categories = CategoryNode.all
+    end
+
+    def set_reservation_policy_options
+      @reservation_policy_options = ReservationPolicy.all.order(:name).map do |reservation_policy|
+        [reservation_policy.name, reservation_policy.id]
+      end
     end
   end
 end

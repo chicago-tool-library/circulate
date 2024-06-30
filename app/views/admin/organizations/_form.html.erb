@@ -1,0 +1,11 @@
+<%= form_with(model: [:admin, organization], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name, label: "Organization Name", autofocus: true %>
+
+  <%= form.text_field :website, label: "Website" %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
