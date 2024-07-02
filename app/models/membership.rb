@@ -102,7 +102,7 @@ class Membership < ApplicationRecord
 
   def no_overlapping_dates
     overlapping = member.memberships.where(
-      "started_at BETWEEN ? AND ? OR ended_at BETWEEN ? AND ?",
+      "started_at > ? AND started_at < ? OR ended_at > ? AND ended_at < ?",
       started_at, ended_at, started_at, ended_at
     ).count
 
