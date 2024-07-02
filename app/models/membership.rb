@@ -70,8 +70,8 @@ class Membership < ApplicationRecord
     # no safe start date if there is a pending membership
     return nil if member.pending_membership
 
-    # renewal memberships should start on the day after the last one ends
-    return member.last_membership.ended_at + 1.day if member.active_membership
+    # renewal memberships should start as soon as the last one ends to avoid gaps
+    return member.last_membership.ended_at if member.active_membership
 
     # if there isn't an active membership (this includes if there was one that
     # has already ended), it can start today
@@ -102,7 +102,7 @@ class Membership < ApplicationRecord
 
   def no_overlapping_dates
     overlapping = member.memberships.where(
-      "started_at BETWEEN ? AND ? OR ended_at BETWEEN ? AND ?",
+      "started_at > ? AND started_at < ? OR ended_at > ? AND ended_at < ?",
       started_at, ended_at, started_at, ended_at
     ).count
 

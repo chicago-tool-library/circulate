@@ -170,11 +170,19 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal membership, Membership.pending.first
   end
 
-  test "prevents a member from having an overlapping later membership" do
+  test "allows a member to have a membership that immediately follows an existing one" do
     member = create(:member)
     membership = create(:membership, member: member)
 
     later_membership = build(:membership, member: member, started_at: membership.ended_at)
+    assert later_membership.valid?
+  end
+
+  test "prevents a member from having an overlapping later membership" do
+    member = create(:member)
+    membership = create(:membership, member: member)
+
+    later_membership = build(:membership, member: member, started_at: membership.ended_at - 1.second)
     refute later_membership.valid?
     assert_equal ["can't overlap with another membership"], later_membership.errors[:base]
   end
@@ -183,7 +191,7 @@ class MembershipTest < ActiveSupport::TestCase
     member = create(:member)
     membership = create(:membership, member: member)
 
-    earlier_membership = build(:membership, member: member, ended_at: membership.started_at)
+    earlier_membership = build(:membership, member: member, ended_at: membership.started_at + 1.second)
     refute earlier_membership.valid?
     assert_equal ["can't overlap with another membership"], earlier_membership.errors[:base]
   end
@@ -194,5 +202,26 @@ class MembershipTest < ActiveSupport::TestCase
 
     member2 = create(:member)
     create(:membership, member: member2, started_at: membership.started_at)
+  end
+
+  test "next_start_date_for_member with a pending membership" do
+    member = create(:member)
+    create(:pending_membership, member: member)
+
+    assert_nil Membership.next_start_date_for_member(member)
+  end
+
+  test "next_start_date_for_member with an existing membership" do
+    member = create(:member)
+    first_membership = create(:membership, member: member)
+
+    assert_equal first_membership.ended_at, Membership.next_start_date_for_member(member)
+  end
+
+  test "next_start_date_for_member with a new member" do
+    member = create(:member)
+    now = Time.new(2025, 11, 5)
+
+    assert_equal now, Membership.next_start_date_for_member(member, now: now)
   end
 end
