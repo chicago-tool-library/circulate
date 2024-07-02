@@ -7,5 +7,12 @@ module Account
         render_not_found
       end
     end
+
+    def current_reservation
+      @current_reservation ||= Reservation.find_by(
+        id: session[:current_reservation_id]
+      )
+    end
+    helper_method :current_reservation
   end
 end

@@ -1,0 +1,40 @@
+<div class="reservation-index">
+  <%= section_header "Reservation" do %>
+    <% if @reservation.manager.can?(:request) %>
+      <%= link_to "Add Items", account_reservation_item_pool_search_path(@reservation), class: "btn btn-primary" %>
+      <%= link_to "Submit Reservation", account_reservation_submission_path(@reservation), class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+  <div class="columns">
+    <div class="col-4 col-md-12">
+      <h2><%= @reservation.name %></h2>
+      <p>
+        <%= @reservation.started_at.to_formatted_s(:long) %>
+        to
+        <%= @reservation.ended_at.to_formatted_s(:long) %>
+      </p>
+
+      <p>
+        <%= @reservation.status %>
+      </p>
+
+      <p>
+        <%= @reservation.item_quantity %>
+      </p>
+    </div>
+    <div class="column col-8 col-md-12">
+      <table class="table">
+        <thead>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <% @reservation.reservation_holds.each do |reservation_hold| %>
+            <%= render partial: "account/reservations/reservation_holds/reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold, editable: @reservation.manager.can?(:request)} %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

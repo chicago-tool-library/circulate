@@ -1,0 +1,11 @@
+<%= tag.tr id: dom_id(reservation_hold) do %>
+  <td colspan="3">
+    <%= form_with(model: reservation_hold, url: [:account, reservation, reservation_hold], builder: SpectreFormBuilder) do |form| %>
+      <%= reservation_hold.item_pool.name %>
+      <%= form.number_field :quantity, min: 1, max: reservation_hold.item_pool.max_reservable_quantity %>
+      <%= form.submit "Update" %>
+      <%= link_to "Cancel", account_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true} %>
+      <%= link_to "Remove", account_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true, turbo_method: :delete} %>
+    <% end %>
+  </td>
+<% end %>
