@@ -1,0 +1,20 @@
+<% content_for :header do %>
+  <%= index_header "Questions" do %>
+    <%= link_to "New question", new_admin_question_path, class: "btn" %>
+  <% end %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <th>Name</th>
+  </thead>
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td>
+          <%= link_to question.name, admin_question_path(question) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

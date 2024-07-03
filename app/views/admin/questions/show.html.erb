@@ -1,0 +1,6 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Questions", admin_questions_path %>
+  <%= index_header @question.name do %>
+    <%= link_to "Edit", edit_admin_question_path(@question), class: "btn" %>
+  <% end %>
+<% end %>

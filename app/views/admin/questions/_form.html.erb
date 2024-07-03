@@ -1,0 +1,9 @@
+<%= form_with(model: [:admin, question], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :name %>
+
+  <%= form.actions do %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

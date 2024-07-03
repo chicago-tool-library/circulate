@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_08_152218) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_03_203519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -694,6 +694,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_152218) do
     t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
     t.index ["library_id", "website"], name: "index_organizations_on_library_id_and_website", unique: true
     t.index ["library_id"], name: "index_organizations_on_library_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "library_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id"], name: "index_questions_on_library_id"
+    t.index ["name"], name: "index_questions_on_name", unique: true
   end
 
   create_table "renewal_requests", force: :cascade do |t|
