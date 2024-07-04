@@ -8,7 +8,7 @@ class Stem < ApplicationRecord
 
   validates :content, presence: true
   validates :answer_type, presence: true
-  validates :version, presence: true, uniqueness: { scope: :question_id }
+  validates :version, presence: true, uniqueness: {scope: :question_id}
 
   before_validation :assign_version
 
