@@ -18,6 +18,9 @@ class StemTest < ActiveSupport::TestCase
 
     assert stem.invalid?
     assert_equal ["has already been taken"], stem.errors[:version]
+
+    stem = build(:stem, version: existing_stem.version)
+    assert stem.valid?
   end
 
   test "#version is set to be one more than the its sibling's version (largest one) unless the version is already set" do
