@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_03_203519) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_03_214616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_203519) do
     "cash",
     "square",
     "forgiveness",
+  ], force: :cascade
+
+  create_enum :answer_type, [
+    "text",
+    "integer",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
@@ -801,6 +806,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_203519) do
     t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
 
+  create_table "stems", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.text "content", null: false
+    t.enum "answer_type", null: false, enum_type: "answer_type"
+    t.integer "version", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_stems_on_question_id"
+    t.index ["version", "question_id"], name: "index_stems_on_version_and_question_id", unique: true
+  end
+
   create_table "ticket_updates", force: :cascade do |t|
     t.integer "time_spent"
     t.bigint "ticket_id", null: false
@@ -893,6 +909,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_203519) do
   add_foreign_key "reservation_loans", "reservation_holds"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
+  add_foreign_key "stems", "questions"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"
