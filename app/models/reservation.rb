@@ -18,6 +18,7 @@ class Reservation < ApplicationRecord
   has_many :reservation_loans
   has_many :item_pools, through: :reservation_holds
   has_many :reservation_policies, through: :item_pools
+  has_many :answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", required: false
 
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_03_214616) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_04_161420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -193,6 +193,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_214616) do
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
     t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "stem_id", null: false
+    t.bigint "reservation_id", null: false
+    t.jsonb "result", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_answers_on_reservation_id"
+    t.index ["stem_id", "reservation_id"], name: "index_answers_on_stem_id_and_reservation_id", unique: true
+    t.index ["stem_id"], name: "index_answers_on_stem_id"
   end
 
   create_table "appointment_holds", force: :cascade do |t|
@@ -878,6 +889,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_03_214616) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
+  add_foreign_key "answers", "reservations"
+  add_foreign_key "answers", "stems"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "gift_memberships", "memberships"

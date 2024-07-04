@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   belongs_to :library, required: true
   has_many :stems, dependent: :destroy
+  has_many :answers, through: :stems
 
   acts_as_tenant :library
 
