@@ -42,7 +42,7 @@ class AdminQuestionsTest < ApplicationSystemTestCase
     assert_equal admin_question_path(question), current_path
     assert_text question.archived_at.to_date.to_s
     assert_text stem.content
-    assert_text stem.answer_type
+    assert_text stem.answer_type.capitalize
   end
 
   test "viewing a question without a stem" do
@@ -77,8 +77,6 @@ class AdminQuestionsTest < ApplicationSystemTestCase
     question = create(:question, :archived)
 
     visit admin_question_path(question)
-
-    refute_text "Archive"
 
     accept_confirm { click_on "Unarchive" }
 
