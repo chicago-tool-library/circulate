@@ -821,11 +821,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_161420) do
     t.bigint "question_id", null: false
     t.text "content", null: false
     t.enum "answer_type", null: false, enum_type: "answer_type"
-    t.integer "version", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_stems_on_question_id"
-    t.index ["version", "question_id"], name: "index_stems_on_version_and_question_id", unique: true
   end
 
   create_table "ticket_updates", force: :cascade do |t|
