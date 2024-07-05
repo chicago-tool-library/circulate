@@ -46,4 +46,20 @@ class QuestionTest < ActiveSupport::TestCase
       assert_equal 5, Question.count
     end
   end
+
+  test "#stem is the most recently created stem associated with the question" do
+    other_question, question = create_list(:question, 2)
+    create(:stem, question: other_question)
+
+    assert_nil question.reload.stem
+
+    first_stem = create(:stem, question:)
+    assert_equal first_stem, question.reload.stem
+
+    second_stem = create(:stem, question:)
+    assert_equal second_stem, question.reload.stem
+
+    create(:stem, question: other_question)
+    assert_equal second_stem, question.reload.stem
+  end
 end
