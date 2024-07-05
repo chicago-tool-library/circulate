@@ -1,9 +1,9 @@
 class Admin::QuestionsController < Admin::BaseController
-  before_action :set_question, only: %i[show edit update]
+  before_action :set_question, only: %i[show edit update archive unarchive]
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all.includes(:stem)
+    @questions = Question.all.includes(:stem).order(:name)
   end
 
   # GET /questions/1 or /questions/1.json
@@ -49,6 +49,16 @@ class Admin::QuestionsController < Admin::BaseController
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def archive
+    @question.update!(archived_at: Time.current)
+    redirect_to admin_question_path(@question), success: "Question was successfully archived."
+  end
+
+  def unarchive
+    @question.update!(archived_at: nil)
+    redirect_to admin_question_path(@question), success: "Question was successfully unarchived."
   end
 
   private

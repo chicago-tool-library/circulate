@@ -8,6 +8,7 @@
   <thead>
     <th>Name</th>
     <th>Answer Type</th>
+    <th>Archived at</th>
     <th>Content</th>
   </thead>
   <tbody>
@@ -18,6 +19,9 @@
         </td>
         <td>
           <%= question.stem&.answer_type %>
+        </td>
+        <td>
+          <%= question.archived_at %>
         </td>
         <td>
           <%= question.stem&.content %>

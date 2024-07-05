@@ -14,6 +14,9 @@ class AdminQuestionsTest < ApplicationSystemTestCase
       create(:stem, question:)
     end
 
+    archived_question = questions.first
+    archived_question.update!(archived_at: Time.current)
+
     visit admin_questions_url
 
     questions.each do |question|
@@ -24,10 +27,12 @@ class AdminQuestionsTest < ApplicationSystemTestCase
       assert_text question.stem.content
       assert_text question.stem.answer_type
     end
+
+    assert_text archived_question.archived_at.to_date.to_s
   end
 
   test "viewing a question with a stem" do
-    question = create(:question)
+    question = create(:question, archived_at: 3.days.ago)
     stem = create(:stem, question:)
 
     visit admin_questions_url
@@ -35,6 +40,7 @@ class AdminQuestionsTest < ApplicationSystemTestCase
 
     assert_text question.name
     assert_equal admin_question_path(question), current_path
+    assert_text question.archived_at.to_date.to_s
     assert_text stem.content
     assert_text stem.answer_type
   end
@@ -48,6 +54,39 @@ class AdminQuestionsTest < ApplicationSystemTestCase
     assert_text question.name
     assert_equal admin_question_path(question), current_path
     assert_text "Please edit to add question content"
+  end
+
+  test "archiving a question" do
+    question = create(:question, :unarchived)
+
+    visit admin_question_path(question)
+
+    refute_text "Unarchive"
+
+    accept_confirm { click_on "Archive" }
+
+    assert_text "Question was successfully archived"
+
+    question.reload
+
+    assert question.archived_at?
+    assert_equal Date.today, question.archived_at.to_date
+  end
+
+  test "unarchiving a question" do
+    question = create(:question, :archived)
+
+    visit admin_question_path(question)
+
+    refute_text "Archive"
+
+    accept_confirm { click_on "Unarchive" }
+
+    assert_text "Question was successfully unarchived"
+
+    question.reload
+
+    refute question.archived_at?
   end
 
   test "creating a question with errors" do

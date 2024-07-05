@@ -19,7 +19,7 @@ class Admin::QuestionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "creating a reservation policy" do
+  test "creating a question" do
     attributes = attributes_for(:question)
     assert_difference("Question.count", 1) do
       post admin_questions_url, params: {question: attributes.slice(:name)}
@@ -40,11 +40,25 @@ class Admin::QuestionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "updating a reservation policy" do
+  test "updating a question" do
     attributes = attributes_for(:question)
     question = create(:question)
 
     patch admin_question_url(question), params: {question: attributes.slice(:name)}
+    assert_redirected_to admin_question_url(question)
+  end
+
+  test "archiving a question" do
+    question = create(:question, :unarchived)
+
+    patch archive_admin_question_url(question)
+    assert_redirected_to admin_question_url(question)
+  end
+
+  test "unarchiving a question" do
+    question = create(:question, :archived)
+
+    patch unarchive_admin_question_url(question)
     assert_redirected_to admin_question_url(question)
   end
 end

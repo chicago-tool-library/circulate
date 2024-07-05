@@ -2,10 +2,16 @@
   <%= breadcrumbs "Questions", admin_questions_path %>
   <%= index_header @question.name do %>
     <%= link_to "Edit", edit_admin_question_path(@question), class: "btn" %>
+    <% if @question.archived_at? %>
+      <%= button_to "Unarchive", unarchive_admin_question_url(@question), method: :patch, data: {turbo_confirm: "Are you sure?"}, class: "btn" %>
+    <% else %>
+      <%= button_to "Archive", archive_admin_question_url(@question), method: :patch, data: {turbo_confirm: "Are you sure?"}, class: "btn" %>
+    <% end %>
   <% end %>
 <% end %>
 
 <div>
+  <%= @question.archived_at %>
   <% if @question.stem %>
   content: <%= @question.stem.content %>
   answer type: <%= @question.stem.answer_type %>

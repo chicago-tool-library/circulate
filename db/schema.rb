@@ -714,6 +714,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_161420) do
 
   create_table "questions", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "archived_at"
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -820,7 +821,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_161420) do
   create_table "stems", force: :cascade do |t|
     t.bigint "question_id", null: false
     t.text "content", null: false
-    t.enum "answer_type", null: false, enum_type: "answer_type"
+    t.enum "answer_type", default: "text", null: false, enum_type: "answer_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_stems_on_question_id"

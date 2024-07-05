@@ -6,7 +6,7 @@ class StemTest < ActiveSupport::TestCase
     stem.valid?
     assert_equal({}, stem.errors.messages)
 
-    stem = Stem.new
+    stem = Stem.new(answer_type: nil)
 
     assert stem.invalid?
     assert_equal ["can't be blank"], stem.errors[:content]
