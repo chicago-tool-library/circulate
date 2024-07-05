@@ -74,6 +74,9 @@ class Admin::QuestionsController < Admin::BaseController
   end
 
   def stem_params
-    question_params[:stems_attributes][0]
+    {
+      answer_type: question_params.dig(:stems_attributes, 0, :answer_type),
+      content: question_params.dig(:stems_attributes, 0, :content)
+    }
   end
 end
