@@ -3,7 +3,7 @@ class Admin::QuestionsController < Admin::BaseController
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all
+    @questions = Question.all.includes(:stem)
   end
 
   # GET /questions/1 or /questions/1.json
@@ -13,10 +13,12 @@ class Admin::QuestionsController < Admin::BaseController
   # GET /questions/new
   def new
     @question = Question.new
+    @stem = Stem.new
   end
 
   # GET /questions/1/edit
   def edit
+    @stem = @question.stem.presence || Stem.new
   end
 
   # POST /questions or /questions.json
@@ -28,6 +30,7 @@ class Admin::QuestionsController < Admin::BaseController
         format.html { redirect_to admin_question_url(@question), success: "Question was successfully created." }
         format.json { render :show, status: :created, location: @question }
       else
+        @stem = @question.stems.find_or_initialize_by(stem_params)
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
@@ -41,6 +44,7 @@ class Admin::QuestionsController < Admin::BaseController
         format.html { redirect_to admin_question_url(@question), success: "Question was successfully updated." }
         format.json { render :show, status: :ok, location: @question }
       else
+        @stem = @question.stems.find_or_initialize_by(stem_params)
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
@@ -56,6 +60,10 @@ class Admin::QuestionsController < Admin::BaseController
 
   # Only allow a list of trusted parameters through.
   def question_params
-    params.require(:question).permit(:name)
+    params.require(:question).permit(:name, stems_attributes: [:answer_type, :content])
+  end
+
+  def stem_params
+    question_params[:stems_attributes][0]
   end
 end

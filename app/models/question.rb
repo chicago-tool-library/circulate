@@ -7,4 +7,6 @@ class Question < ApplicationRecord
   acts_as_tenant :library
 
   validates :name, presence: true, uniqueness: true
+
+  accepts_nested_attributes_for :stems, allow_destroy: false
 end

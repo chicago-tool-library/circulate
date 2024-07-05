@@ -4,3 +4,12 @@
     <%= link_to "Edit", edit_admin_question_path(@question), class: "btn" %>
   <% end %>
 <% end %>
+
+<div>
+  <% if @question.stem %>
+  content: <%= @question.stem.content %>
+  answer type: <%= @question.stem.answer_type %>
+  <% else %>
+  <p>Please edit to add question content</p>
+  <% end %>
+</div>

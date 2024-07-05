@@ -3,6 +3,12 @@
 
   <%= form.text_field :name %>
 
+  <% answer_type_options = options_for_select(Stem::AnswerTypes::ALL.map { |type| [type.capitalize, type] }, @stem.answer_type) %>
+  <%= form.fields_for :stems_attributes, @stem do |stem_form| %>
+    <%= stem_form.select :answer_type, answer_type_options, {errors: question.errors, error_key: :"stems.answer_type"}, name: "question[stems_attributes][][answer_type]" %>
+    <%= stem_form.text_area :content, name: "question[stems_attributes][][content]", errors: question.errors, error_key: :"stems.content" %>
+  <% end %>
+
   <%= form.actions do %>
     <%= form.submit %>
   <% end %>

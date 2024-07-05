@@ -1,7 +1,14 @@
 class Stem < ApplicationRecord
+  module AnswerTypes
+    INTEGER = "integer"
+    TEXT = "text"
+
+    ALL = [TEXT, INTEGER]
+  end
+
   enum answer_type: {
-    "integer" => "integer",
-    "text" => "text"
+    AnswerTypes::INTEGER => AnswerTypes::INTEGER,
+    AnswerTypes::TEXT => AnswerTypes::TEXT
   }
 
   belongs_to :question, required: true
