@@ -26,7 +26,7 @@ module Admin
 
       if @reservation.save
         ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later
-        redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully created."
+        redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully created."
       else
         @item_pools = ItemPool.all
         render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ module Admin
 
     def update
       if @reservation.update(reservation_params)
-        redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
+        redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully updated."
       else
         @item_pools = ItemPool.all
         render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ module Admin
     def destroy
       @reservation.destroy!
 
-      redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
+      redirect_to admin_reservations_url, success: "Reservation was successfully destroyed."
     end
 
     def append_reservation_hold
