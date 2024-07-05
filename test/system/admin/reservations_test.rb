@@ -80,7 +80,6 @@ class AdminReservationsTest < ApplicationSystemTestCase
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
 
-
     assert_difference("Reservation.count", 0) do
       click_on "Update Reservation"
       assert_text "Reservation was successfully updated"

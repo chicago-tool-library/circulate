@@ -48,10 +48,6 @@ module Admin
       redirect_to admin_reservations_url, success: "Reservation was successfully destroyed."
     end
 
-    def append_reservation_hold
-      @item_pool = ItemPool.find(params[:item_pool_id])
-    end
-
     private
 
     def set_reservation
