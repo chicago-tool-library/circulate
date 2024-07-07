@@ -186,6 +186,7 @@ Rails.application.routes.draw do
           resource :review, only: [:edit, :update]
           resource :pickup, only: :show
           resource :item_pool_search, only: :show
+          resource :questions, only: :show
         end
       end
     end

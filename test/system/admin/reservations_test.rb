@@ -42,6 +42,20 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_text formatted_date_only(reservation.ended_at)
   end
 
+  test "viewing a reservation's questions and answers" do
+    reservation = create(:reservation)
+    create(:answer) # ignored
+    answers = create_list(:answer, 2, reservation:)
+
+    visit admin_reservation_url(reservation)
+    click_on "Questions"
+
+    answers.each do |answer|
+      assert_text answer.stem.content
+      assert_text answer.value
+    end
+  end
+
   test "creating a reservation successfully" do
     visit new_admin_reservation_path
 
