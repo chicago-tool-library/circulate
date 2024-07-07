@@ -1,0 +1,13 @@
+<% answers.each_with_index do |answer, i| %>
+  <div class="form-group">
+    <%= hidden_field_tag "reservation[answers_attributes][#{i}][id]", answer.id %>
+    <%= hidden_field_tag "reservation[answers_attributes][#{i}][stem_id]", answer.stem.id %>
+    <%= label_tag "reservation[answers_attributes][#{i}][value]", answer.stem.content, class: "form-label" %>
+    <% case answer.stem.answer_type %>
+    <% when Stem::AnswerTypes::TEXT %>
+      <%= text_area_tag "reservation[answers_attributes][#{i}][value]", answer.value, class: "form-input" %>
+    <% when Stem::AnswerTypes::INTEGER %>
+      <%= number_field_tag "reservation[answers_attributes][#{i}][value]", answer.value, class: "form-input", autocomplete: "off" %>
+    <% end %>
+  </div>
+<% end %>

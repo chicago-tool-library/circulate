@@ -58,4 +58,21 @@ class AnswerTest < ActiveSupport::TestCase
       answer.value = 3
     end
   end
+
+  test "#value= coerces types" do
+    text_stem = create(:stem, :text)
+    integer_stem = create(:stem, :integer)
+
+    answer = Answer.new
+
+    answer.stem = text_stem
+    answer.value = 1000
+    assert_equal "1000", answer.value
+    assert_equal ({"text" => "1000"}), answer.result
+
+    answer.stem = integer_stem
+    answer.value = "50"
+    assert_equal 50, answer.value
+    assert_equal ({"integer" => 50}), answer.result
+  end
 end

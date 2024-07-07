@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :text do
       answer_type { "text" }
     end
+
+    trait :archived do
+      question { association(:question, :archived) }
+    end
   end
 end

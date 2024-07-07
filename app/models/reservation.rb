@@ -21,6 +21,7 @@ class Reservation < ApplicationRecord
   has_many :answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", required: false
 
+  accepts_nested_attributes_for :answers, allow_destroy: false
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
 
   validates :name, presence: true

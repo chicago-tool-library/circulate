@@ -3,6 +3,8 @@
   <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
   <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
 
+  <%= render "answers", answers: @answers %>
+
   <fieldset>
     <legend>Items on this reservation</legend>
     <%= form.dynamic_fields_for :reservation_holds do |dynamic_form| %>

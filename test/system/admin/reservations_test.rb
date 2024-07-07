@@ -71,6 +71,30 @@ class AdminReservationsTest < ApplicationSystemTestCase
     end
   end
 
+  test "creating a reservation with questions and answers" do
+    text_stem = create(:stem, :text)
+    integer_stem = create(:stem, :integer)
+    create(:stem, :archived) # ignored
+
+    visit new_admin_reservation_path
+    fill_in "Name", with: @attributes[:name]
+    find("#start-date-field").set(date_input_format(@attributes[:started_at]))
+    find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    fill_in text_stem.content, with: "text answer"
+    fill_in integer_stem.content, with: "150"
+
+    assert_equal 0, Answer.count
+    assert_difference("Answer.count", 2) do
+      click_on "Create Reservation"
+      assert_text "Reservation was successfully created"
+    end
+
+    assert_equal 1, text_stem.answers.count
+    assert_equal 1, integer_stem.answers.count
+    assert_equal "text answer", text_stem.answers.first.value
+    assert_equal 150, integer_stem.answers.first.value
+  end
+
   test "updating a reservation successfully" do
     reservation = create(:reservation)
     visit admin_reservation_path(reservation)
@@ -108,6 +132,35 @@ class AdminReservationsTest < ApplicationSystemTestCase
     reservation.reload
 
     refute_equal @attributes[:name], reservation.name
+  end
+
+  test "updating a reservation with questions and answers" do
+    reservation = create(:reservation)
+    text_stem = create(:stem, :text)
+    integer_stem = create(:stem, :integer)
+    create(:stem, :archived) # ignored
+    text_answer = create(:answer, reservation:, stem: text_stem)
+    integer_answer = create(:answer, reservation:, stem: integer_stem, value: 3)
+
+    visit admin_reservation_path(reservation)
+    click_on "Edit"
+
+    fill_in "Name", with: @attributes[:name]
+    find("#start-date-field").set(date_input_format(@attributes[:started_at]))
+    find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    fill_in text_stem.content, with: "text answer"
+    fill_in integer_stem.content, with: "150"
+
+    assert_difference("Answer.count", 0) do
+      click_on "Update Reservation"
+      assert_text "Reservation was successfully updated"
+    end
+
+    text_answer.reload
+    integer_answer.reload
+
+    assert_equal "text answer", text_answer.value
+    assert_equal 150, integer_answer.value
   end
 
   test "destroying a reservation" do
