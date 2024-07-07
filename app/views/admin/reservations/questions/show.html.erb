@@ -1,6 +1,6 @@
 <%= render "admin/reservations/profile" do %>
   <dl>
-    <% @reservation.answers.each do |answer| %>
+    <% @reservation.answers.includes(:stem).each do |answer| %>
       <dt><%= answer.stem.content %></dt>
       <dd><%= answer.value %></dd>
     <% end %>
