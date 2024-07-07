@@ -1,27 +1,27 @@
 class Admin::QuestionsController < Admin::BaseController
   before_action :set_question, only: %i[show edit update archive unarchive]
 
-  # GET /questions or /questions.json
+  # GET /admin/questions or /admin/questions.json
   def index
     @questions = Question.all.includes(:stem).order(:name)
   end
 
-  # GET /questions/1 or /questions/1.json
+  # GET /admin/questions/1 or /admin/questions/1.json
   def show
   end
 
-  # GET /questions/new
+  # GET /admin/questions/new
   def new
     @question = Question.new
     @stem = Stem.new
   end
 
-  # GET /questions/1/edit
+  # GET /admin/questions/1/edit
   def edit
     @stem = @question.stem.presence || Stem.new
   end
 
-  # POST /questions or /questions.json
+  # POST /admin/questions or /admin/questions.json
   def create
     @question = Question.new(question_params)
 
@@ -37,7 +37,7 @@ class Admin::QuestionsController < Admin::BaseController
     end
   end
 
-  # PATCH/PUT /questions/1 or /questions/1.json
+  # PATCH/PUT /admin/questions/1 or /admin/questions/1.json
   def update
     respond_to do |format|
       if @question.update(question_params)
