@@ -47,10 +47,16 @@ class AnswerTest < ActiveSupport::TestCase
     assert_equal "some text", answer.value
     assert_equal ({"text" => "some text"}), answer.result
 
+    answer.value = nil
+    assert_nil answer.value
+
     answer.stem = integer_stem
     answer.value = 5
     assert_equal 5, answer.value
     assert_equal ({"integer" => 5}), answer.result
+
+    answer.value = nil
+    assert_nil answer.value
 
     answer.stem = nil
 

@@ -22,6 +22,7 @@ class Answer < ApplicationRecord
   private
 
   def coerce_value_type(suspect)
+    return if suspect.nil?
     case stem.answer_type
     when Stem::AnswerTypes::INTEGER
       suspect.to_i
