@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_143644) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_08_152218) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,12 +25,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_143644) do
     "cash",
     "square",
     "forgiveness",
-  ], force: :cascade
-
-  create_enum :hold_request_status, [
-    "new",
-    "completed",
-    "denied",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
