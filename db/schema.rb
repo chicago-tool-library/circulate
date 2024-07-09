@@ -27,12 +27,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     "forgiveness",
   ], force: :cascade
 
-  create_enum :hold_request_status, [
-    "new",
-    "completed",
-    "denied",
-  ], force: :cascade
-
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
