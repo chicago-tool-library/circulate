@@ -1,4 +1,5 @@
 <%= form_with(model: reservation, url: [:account, reservation], builder: SpectreFormBuilder, data: {controller: "reservation-dates"}) do |form| %>
+  <%= form.errors %>
   <%= form.text_field :name %>
   <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
   <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>

@@ -20,9 +20,10 @@ module Account
     end
 
     def create
-      @reservation = Reservation.new(reservation_params)
+      @reservation = Reservation.new(reservation_params.merge(organization: Organization.first))
 
       if @reservation.save
+        # TODO use the current user's actual organization
         redirect_to account_reservation_url(@reservation), notice: "Reservation was successfully created."
       else
         render :new, status: :unprocessable_entity

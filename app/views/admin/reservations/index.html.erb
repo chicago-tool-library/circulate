@@ -6,6 +6,7 @@
 
 <table class="table">
   <thead>
+    <th>Organization</th>
     <th>Name</th>
     <th>Starts</th>
     <th>Ends</th>
@@ -15,6 +16,9 @@
   <tbody>
     <% @reservations.each do |reservation| %>
       <tr id="<%= dom_id reservation %>">
+        <td>
+          <%= link_to reservation.organization.name, admin_organization_path(reservation.organization) %>
+        </td>
         <td>
           <%= link_to reservation.name, admin_reservation_path(reservation) %>
         </td>
