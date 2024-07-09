@@ -176,9 +176,19 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     parent_button(label, options.deep_merge(type: "submit", class: "btn btn-primary btn-lg btn-block", data: {disable: true}), &)
   end
 
-  def errors
+  def errors(debug = false)
     if @object.errors.any?
-      @template.tag.div "Please correct the errors below!", class: "toast toast-error mb-2"
+      if debug
+        @template.tag.div class: "toast toast-error mb-2" do
+          @template.tag.ul do
+            @object.errors.map do |error|
+              @template.concat(@template.tag.li(error.full_message))
+            end
+          end
+        end
+      else
+        @template.tag.div "Please correct the errors below!", class: "toast toast-error mb-2"
+      end
     end
   end
 
