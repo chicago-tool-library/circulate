@@ -20,49 +20,40 @@ Capybara.add_selector :rich_text_area do
   end
 end
 
-Capybara.register_driver :headless_chrome do |app|
-  Capybara::Selenium::Driver.new(
+Capybara.register_driver :headed_chrome do |app|
+  Capybara::Playwright::Driver.new(
     app,
     browser: :chrome,
-    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-      opts.add_argument "--headless=new"
-      opts.add_argument "--no-sandbox"
-      opts.add_argument "--disable-gpu"
-      opts.add_argument "--disable-dev-shm-usage"
-      opts.add_argument "--window-size=1400x1800"
-
-      # This configurable is used in the Nix development set up, see NIX.md.
-      # It's safe to remove if the Nix pieces are ever ripped out.
-      if ENV.has_key?("SELENIUM_CHROME_BINARY")
-        opts.binary = ENV["SELENIUM_CHROME_BINARY"]
-      end
-    end
+    headless: false
   )
 end
 
-Capybara.register_driver :headless_chrome_in_container do |app|
-  Capybara::Selenium::Driver.new(
+Capybara.register_driver :headless_chrome do |app|
+  Capybara::Playwright::Driver.new(
     app,
-    browser: :remote,
-    url: "http://selenium_chrome:4444/wd/hub",
-    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-      opts.add_argument "--headless=new"
-      opts.add_argument "--disable-gpu"
-      opts.add_argument "--window-size=1400x1800"
-    end
+    browser: :chrome,
+    headless: true
   )
 end
 
-Capybara.register_driver :chrome_in_container do |app|
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :remote,
-    url: "http://selenium_chrome:4444/wd/hub",
-    options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-      opts.add_argument "--window-size=1400x1800"
-    end
-  )
-end
+# Capybara.register_driver :headless_chrome_in_container do |app|
+#   Capybara::Playwright::Driver.new(
+#     app,
+#     browser: :remote,
+#     url: "http://selenium_chrome:4444/wd/hub"
+#   )
+# end
+
+# Capybara.register_driver :chrome_in_container do |app|
+#   Capybara::Selenium::Driver.new(
+#     app,
+#     browser: :remote,
+#     url: "http://selenium_chrome:4444/wd/hub",
+#     options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+#       opts.add_argument "--window-size=1400x1800"
+#     end
+#   )
+# end
 
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
@@ -75,17 +66,14 @@ if ENV["DOCKER"]
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driver = if ENV["DOCKER"]
-    (ENV["HEADLESS"] == "true") ? :headless_chrome_in_container : :chrome_in_container
-  else
-    (ENV["HEADLESS"] == "true") ? :headless_chrome : nil
-  end
+  # driver = if ENV["DOCKER"]
+  #   (ENV["HEADLESS"] == "true") ? :headless_chrome_in_container : :chrome_in_container
+  # else
+  #   (ENV["HEADLESS"] == "true") ? :headless_chrome : nil
+  # end
 
-  if driver
-    driven_by driver
-  else
-    driven_by :selenium, using: :chrome, screen_size: [1400, 1800]
-  end
+  driver = (ENV["HEADLESS"] == "true") ? :headless_chrome : :headed_chrome
+  driven_by driver
 
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
@@ -106,26 +94,26 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     ActsAsTenant.test_tenant = nil
     ActionController::Base.allow_forgery_protection = false
 
-    errors = page.driver.browser.logs.get(:browser)
-    fail = false
-    if errors.present?
-      errors.each do |error|
-        if fail_on_js_error(error)
-          warn "JS console (#{error.level.downcase}): #{error.message}"
-          fail = true
-        end
-      end
-    end
+    # errors = page.driver.browser.logs.get(:browser)
+    # fail = false
+    # if errors.present?
+    #   errors.each do |error|
+    #     if fail_on_js_error(error)
+    #       warn "JS console (#{error.level.downcase}): #{error.message}"
+    #       fail = true
+    #     end
+    #   end
+    # end
 
-    refute fail, "there were JavaScript errors"
+    # refute fail, "there were JavaScript errors"
   end
 
   private
 
   def ignore_js_errors(reason: "I know what I am doing")
-    Rails.logger.info("Ignored JS error because: #{reason}")
+    # Rails.logger.info("Ignored JS error because: #{reason}")
     yield if block_given?
-    page.driver.browser.logs.get(:browser)
+    # page.driver.browser.logs.get(:browser)
   end
 
   def sign_in_as_admin

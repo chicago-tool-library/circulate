@@ -16,6 +16,11 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 
+  puts "== Installing playwright =="
+  playwright_version=`bundle exec ruby -e 'require "playwright"; puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION.strip'`
+  system!("yarn add -D 'playwright@#{playwright_version}'")
+  system!("yarn run playwright install")
+
   puts '== Drop db connections =='
   system! 'bin/rails db:close_connections'
 
