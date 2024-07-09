@@ -19,6 +19,7 @@ class Reservation < ApplicationRecord
   has_many :item_pools, through: :reservation_holds
   has_many :reservation_policies, through: :item_pools
   belongs_to :reviewer, class_name: "User", required: false
+  belongs_to :organization
 
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
 
