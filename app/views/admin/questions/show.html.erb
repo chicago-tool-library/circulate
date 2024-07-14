@@ -1,0 +1,41 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Questions", admin_questions_path %>
+  <%= index_header @question.name do %>
+    <%= link_to "Edit", edit_admin_question_path(@question), class: "btn" %>
+    <% if @question.archived_at? %>
+      <%= button_to "Unarchive", unarchive_admin_question_url(@question), method: :patch, data: {turbo_confirm: "Are you sure?"}, class: "btn" %>
+    <% else %>
+      <%= button_to "Archive", archive_admin_question_url(@question), method: :patch, data: {turbo_confirm: "Are you sure?"}, class: "btn" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-4 col-sm-12">
+    <div class="panel item-panel">
+      <div class="panel-body">
+        <dl>
+          <% if @question.archived_at? %>
+            <dt>Archived at</dt>
+            <dd><%= @question.archived_at %></dd>
+          <% end %>
+
+          <dt>Answer type</dt>
+          <dd><%= @question.stem&.answer_type&.capitalize %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="column col-sm-12 col-8">
+    <section>
+      <h2>Content</h2>
+      <p>
+        <% if @question.stem %>
+          <%= @question.stem.content %>
+        <% else %>
+          <p>Please edit to add question content</p>
+        <% end %>
+      </p>
+    </section>
+  </div>
+</div>

@@ -67,6 +67,10 @@ Rails.application.routes.draw do
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :categories, except: :show
     resources :gift_memberships
+    resources :questions, except: [:destroy] do
+      patch :archive, on: :member
+      patch :unarchive, on: :member
+    end
     resources :appointments, only: [:index, :show, :edit, :update, :destroy] do
       resources :holds, only: [:create, :destroy], controller: :appointment_holds
       resources :loans, only: [:create, :destroy], controller: :appointment_loans
@@ -182,6 +186,7 @@ Rails.application.routes.draw do
           resource :review, only: [:edit, :update]
           resource :pickup, only: :show
           resource :item_pool_search, only: :show
+          resource :questions, only: :show
         end
       end
     end

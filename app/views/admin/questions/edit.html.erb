@@ -1,0 +1,6 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Questions", admin_questions_path %>
+  <%= index_header "Editing Question" %>
+<% end %>
+
+<%= render "form", question: @question %>
