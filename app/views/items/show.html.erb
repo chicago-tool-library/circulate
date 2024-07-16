@@ -1,3 +1,17 @@
+<% content_for :head do %>
+  <meta property="og:title" content="<%= page_attr(:title) %>">
+  <meta property="og:url" content="<%= request.original_url %>">
+
+  <% if @item.description.present? %>
+    <meta name="description" content="<%= @item.description.to_plain_text %>">
+    <meta property="og:description" content="<%= @item.description.to_plain_text %>">
+  <% end %>
+
+  <% if @item.image.attached? %>
+    <meta property="og:image" content="<%= item_image_url(@item.image, resize_to_limit: [600, 600]) %>">
+  <% end %>
+<% end %>
+
 <div class="items-show">
 
   <h1><%= @item.name %></h1>
