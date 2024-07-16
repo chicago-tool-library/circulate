@@ -183,7 +183,7 @@ Rails.application.routes.draw do
           resources :reservation_loans, only: [:create, :destroy]
           resources :reservation_holds
           resource :status, only: :update
-          resource :review, only: [:edit, :update]
+          resource :review, only: [:edit, :update, :show]
           resource :pickup, only: :show
           resource :item_pool_search, only: :show
           resource :questions, only: :show

@@ -56,6 +56,22 @@ class AdminReservationsTest < ApplicationSystemTestCase
     end
   end
 
+  test "viewing a reservation's review notes after review" do
+    reservation = create(:reservation, :approved)
+
+    visit admin_reservation_url(reservation)
+    click_on "Review Notes"
+
+    assert_text reservation.notes
+  end
+
+  test "viewing a reservation's review notes before review" do
+    reservation = create(:reservation, notes: "")
+    visit admin_reservation_url(reservation)
+
+    refute_text "Review Notes"
+  end
+
   test "creating a reservation successfully" do
     visit new_admin_reservation_path
 

@@ -4,12 +4,12 @@ body.admin {
   }
 
   table .table-stripe {
-    background: rgba(255,255,255,.7);
+    background: rgba(255, 255, 255, 0.7);
   }
 
   .admin-search-form {
     margin-top: 0.6rem;
-  } 
+  }
 
   .off-canvas-sidebar .nav-item {
     margin-top: 0.2rem;
@@ -25,7 +25,7 @@ body.admin {
     }
   }
 
- .app-header {
+  .app-header {
     background: $primary-color;
     color: white;
     padding-top: 1rem;
@@ -37,7 +37,7 @@ body.admin {
       padding-bottom: 0;
     }
     ul.breadcrumb {
-      margin: -.3rem 0 0 0;
+      margin: -0.3rem 0 0 0;
       padding: 0;
       a {
         color: white;
@@ -45,7 +45,8 @@ body.admin {
       .breadcrumb-item {
         padding-right: 0.2rem;
       }
-      .breadcrumb-item:not(:first-child)::before, .breadcrumb-item {
+      .breadcrumb-item:not(:first-child)::before,
+      .breadcrumb-item {
         color: white;
       }
       .breadcrumb-item:last-child::after {
@@ -71,32 +72,33 @@ body.admin {
       padding-bottom: 0;
     }
   }
+
+  .reservation-review {
+    padding: 1rem 0;
+  }
 }
 
-  .admin-dashboard {
-    dl {
-    }
-    .pair {
-      width: 19%;
-      display: inline-block;
-    }
-    dt {
-    }
-    dd {
-      font-size: 3rem;
-      line-height: 1;
-      font-weight: 300;
-      margin-top: 0;
-    }
+.admin-dashboard {
+  .pair {
+    width: 19%;
+    display: inline-block;
   }
+
+  dd {
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 300;
+    margin-top: 0;
+  }
+}
 
 .member-notes {
   .note {
     position: relative;
     .edit-button {
       position: absolute;
-      bottom: .4rem;
-      right: .4rem;
+      bottom: 0.4rem;
+      right: 0.4rem;
     }
   }
 }
@@ -113,5 +115,5 @@ body.admin {
 
 .ticket-edit-button {
   padding-left: 1rem;
-  padding-top: .3rem;
+  padding-top: 0.3rem;
 }
