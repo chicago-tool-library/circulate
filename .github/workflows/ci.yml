@@ -131,6 +131,10 @@ jobs:
       with:
         bundler-cache: true
 
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: "package.json"
+
     - name: Run bin/setup script
       env:
         PGHOST: localhost
