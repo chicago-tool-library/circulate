@@ -12,6 +12,11 @@ class MembershipRenewalTest < ApplicationSystemTestCase
 
     ActionMailer::Base.deliveries.clear
 
+    # This warning is generated on execution of complete_first_three_steps, and
+    # it seems to be harmless. See
+    # https://github.com/YusukeIwaki/capybara-playwright-driver/issues/51 for
+    # discussion. The fix in the driver involves a puts which is noisy in test
+    # outputs, so we suppress that here.
     suppress_puts([
       /Execution context was destroyed, most likely because of a navigation/
     ])
