@@ -48,6 +48,9 @@ class AdminReservationsTest < ApplicationSystemTestCase
     answers = create_list(:answer, 2, reservation:)
 
     visit admin_reservation_url(reservation)
+    # TODO: This is a somewhat ambiguous selector that I'm dropping in to fix
+    # tests in a sweep. Consider rearranging the view to make it easier to
+    # select between the tab and the global nav.
     within(".tab") do
       click_on "Questions"
     end

@@ -11,6 +11,14 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     login_as @user
 
     ActionMailer::Base.deliveries.clear
+
+    suppress_puts([
+      /Execution context was destroyed, most likely because of a navigation/
+    ])
+  end
+
+  def teardown
+    restore_puts
   end
 
   def complete_first_three_steps

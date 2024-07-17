@@ -1,4 +1,5 @@
 require "test_helper"
+require "test_helpers/stdout_helpers"
 
 Capybara.default_max_wait_time = 5
 
@@ -87,6 +88,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Warden::Test::Helpers
   include ActionMailer::TestHelper
   include ActiveJob::TestHelper
+  include StdoutHelpers
 
   def fail_on_js_error(error)
     return false if /the server responded with a status of 422/.match?(error.message)
