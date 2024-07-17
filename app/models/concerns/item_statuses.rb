@@ -7,6 +7,7 @@ module ItemStatuses
     "pending" => "Pending",
     "active" => "Active",
     "maintenance" => "Maintenance",
+    "missing" => "Missing",
     "retired" => "Retired"
   }
 
@@ -14,6 +15,7 @@ module ItemStatuses
     "pending" => "just acquired; not ready to loan",
     "active" => "available to loan",
     "maintenance" => "undergoing maintenance; do not loan",
+    "missing" => "misplaced; unable to loan",
     "retired" => "no longer part of our inventory"
   }
 
@@ -22,6 +24,7 @@ module ItemStatuses
       pending: "pending",
       active: "active",
       maintenance: "maintenance",
+      missing: "missing",
       retired: "retired"
     }
 
