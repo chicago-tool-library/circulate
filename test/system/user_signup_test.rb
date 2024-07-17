@@ -108,7 +108,9 @@ class UserSignupTest < ApplicationSystemTestCase
 
     visit root_url
 
-    click_on "Member Login"
+    within(".navbar-links") do
+      click_on "Member Login"
+    end
 
     fill_in "Email", with: email
     fill_in "Password", with: "password"

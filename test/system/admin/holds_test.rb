@@ -148,7 +148,9 @@ class HoldsTest < ApplicationSystemTestCase
       assert_text @item.name
     end
 
-    click_on "Holds"
+    within(".member-tabs") do
+      click_on "Holds"
+    end
 
     refute_selector "#current-holds"
     refute_text @item.name
@@ -177,7 +179,10 @@ class HoldsTest < ApplicationSystemTestCase
     hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
 
     # Make the first hold the last
-    @handles.first.drag_to @handles.last
+    # NOTE: A short delay seems to be required for test to pass under Playwright,
+    # future developers are welcome to try removing it to see if it's no longer
+    # necessary
+    @handles.first.drag_to @handles.last, delay: 0.25
     # Wait for the update to complete
     assert_no_selector "div[data-controller='hold-order'][aria-busy='true']"
 

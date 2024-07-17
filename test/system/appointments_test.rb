@@ -147,7 +147,9 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     visit account_home_url
 
-    click_on "Appointments"
+    within(".navbar-links") do
+      click_on "Appointments"
+    end
 
     assert_text "Appointments"
 
