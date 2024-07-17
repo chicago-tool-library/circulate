@@ -42,9 +42,10 @@
               # https://github.com/NixOS/nixpkgs/pull/246444
               (imagemagick.override { ghostscriptSupport = true; })
 
-              # for selenium tests
+              # for system tests
               chromium
               chromedriver
+              playwright
 
               # for linters and git hooks
               lefthook
@@ -73,7 +74,7 @@
             # We'll run chromium in headless mode
             HEADLESS = "true";
             PARALLEL_WORKERS = "3";
-            SELENIUM_CHROME_BINARY = "${pkgs.chromium}/bin/chromium";
+            PLAYWRIGHT_CHROME_BINARY = "${pkgs.chromium}/bin/chromium";
           };
       });
 }

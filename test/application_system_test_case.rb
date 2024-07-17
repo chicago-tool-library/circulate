@@ -32,7 +32,10 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Playwright::Driver.new(
     app,
     browser: :chrome,
-    headless: true
+    headless: true,
+    # We only use this env var for the Nix dev environment. For other platforms
+    # we can let playwright use its own downloaded browser.
+    executablePath: ENV.fetch("PLAYWRIGHT_CHROME_BINARY", nil)
   )
 end
 
