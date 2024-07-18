@@ -101,7 +101,7 @@ class ItemsController < ApplicationController
   end
 
   def apply_order(query)
-    params.delete(:sort) if params[:sort] == "relevancy"
+    params.delete(:sort) if params[:sort] == "relevance"
 
     if params[:sort].blank? && params[:query].present?
       query # we don't need to apply the ordering ourselves since pg_search has already done it

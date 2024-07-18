@@ -82,7 +82,7 @@ class ItemSortingTest < ApplicationSystemTestCase
     visit items_url
     fill_in "search items", with: "dri\n"
 
-    assert_selector ".btn.active", text: "Relevancy"
+    assert_selector ".btn.active", text: "Relevance"
 
     click_on "Date Added"
 
@@ -101,7 +101,7 @@ class ItemSortingTest < ApplicationSystemTestCase
     visit items_url
     fill_in "search items", with: "dri\n"
 
-    assert_selector ".btn.active", text: "Relevancy"
+    assert_selector ".btn.active", text: "Relevance"
 
     click_on "Name"
 
@@ -120,7 +120,7 @@ class ItemSortingTest < ApplicationSystemTestCase
     visit items_url
     fill_in "search items", with: "dri\n"
 
-    assert_selector ".btn.active", text: "Relevancy"
+    assert_selector ".btn.active", text: "Relevance"
 
     click_on "Number"
 
@@ -135,21 +135,21 @@ class ItemSortingTest < ApplicationSystemTestCase
     assert_equal expected_item_names_order, item_links
   end
 
-  test "there is no relevancy sort button when there is no query" do
+  test "there is no relevance sort button when there is no query" do
     visit items_url
 
-    refute_text "Relevancy"
+    refute_text "Relevance"
 
     fill_in "search items", with: "Drill\n"
 
-    assert_text "Relevancy"
+    assert_text "Relevance"
   end
 
-  test "items are ordered by relevancy when a query is provided but no sort is provided" do
+  test "items are ordered by relevance when a query is provided but no sort is provided" do
     visit items_url
     fill_in "search items", with: "Ra Drill\n"
 
-    assert_selector ".btn.active", text: "Relevancy"
+    assert_selector ".btn.active", text: "Relevance"
 
     item_links = all(".items-table-name a").map(&:text)
 
@@ -160,8 +160,8 @@ class ItemSortingTest < ApplicationSystemTestCase
     assert_equal expected_item_names_order, item_links
   end
 
-  test "when there is no query but the sort is still set to relevancy it falls back to its default" do
-    visit items_url sort: "relevancy"
+  test "when there is no query but the sort is still set to relevance it falls back to its default" do
+    visit items_url sort: "relevance"
 
     assert_selector ".btn.active", text: "Date Added"
   end

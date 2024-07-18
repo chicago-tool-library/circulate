@@ -62,8 +62,8 @@
             <button class="btn btn-sm active">Date Added</button>
           <% end %>
           <% if params[:query].present? %>
-            <%= link_to_unless params[:sort] == "relevancy" || params[:sort].blank?, "Relevancy", add_filter_param(:sort, "relevancy"), class: "btn btn-sm" do %>
-              <button class="btn btn-sm active">Relevancy</button>
+            <%= link_to_unless params[:sort] == "relevance" || params[:sort].blank?, "Relevance", add_filter_param(:sort, "relevance"), class: "btn btn-sm" do %>
+              <button class="btn btn-sm active">Relevance</button>
             <% end %>
           <% end %>
         </div>
