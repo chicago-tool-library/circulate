@@ -162,7 +162,6 @@ Rails.application.routes.draw do
 
     resource :map, only: :show
 
-    post "search", to: "searches#create"
     get "search", to: "searches#show"
 
     get "/ui/names", to: "ui#names"

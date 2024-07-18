@@ -1,11 +1,5 @@
 module Admin
   class SearchesController < BaseController
-    def create
-      query = params[:query]
-
-      redirect_to admin_search_path(query: query), status: :see_other
-    end
-
     def show
       @query = params[:query]
       @exact = params[:exact] != "false"
