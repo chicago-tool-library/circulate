@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
     # One of the filtering methods above may have already redirected
     return if performed?
 
-    item_scope = item_scope.with_attached_image.reorder(index_order)
+    item_scope = apply_order(item_scope.with_attached_image)
 
     set_index_page_title
 
@@ -100,11 +100,21 @@ class ItemsController < ApplicationController
     redirect_to items_path(filter_params), error: error_message, status: :see_other
   end
 
+  def apply_order(query)
+    params.delete(:sort) if params[:sort] == "relevancy"
+
+    if params[:sort].blank? && params[:query].present?
+      query # we don't need to apply the ordering ourselves since pg_search has already done it
+    else
+      query.reorder(index_order) # ignore default ordering from pg_search
+    end
+  end
+
   def index_order
     options = {
       "name" => "items.name ASC",
       "number" => "items.number ASC",
-      "added" => "items.created_at DESC"
+      "added" => "items.created_at DESC",
     }
     options.fetch(params[:sort]) { options["added"] }
   end

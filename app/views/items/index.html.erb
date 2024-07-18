@@ -58,8 +58,13 @@
           <%= link_to_unless_current "Number", add_filter_param(:sort, "number"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">Number</button>
           <% end %>
-          <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "Date Added", add_filter_param(:sort, "added"), class: "btn btn-sm" do %>
+          <%= link_to_unless params[:sort] == "added" || (params[:sort].blank? && params[:query].blank?), "Date Added", add_filter_param(:sort, "added"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">Date Added</button>
+          <% end %>
+          <% if params[:query].present? %>
+            <%= link_to_unless params[:sort] == "relevancy" || params[:sort].blank?, "Relevancy", add_filter_param(:sort, "relevancy"), class: "btn btn-sm" do %>
+              <button class="btn btn-sm active">Relevancy</button>
+            <% end %>
           <% end %>
         </div>
       </div>
