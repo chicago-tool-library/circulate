@@ -30,6 +30,7 @@
     <% if @items.present? %>
       <div class="search-result-type">
         <h2>Items</h2>
+        <%= render partial: "items/available_now_filter", locals: {url: admin_search_path, params: params} %>
         <%= render partial: "admin/items/items", locals: {items: @items} %>
       </div>
     <% end %>

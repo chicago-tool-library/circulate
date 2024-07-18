@@ -52,6 +52,31 @@ class AdminSearchesTest < ApplicationSystemTestCase
     assert_text sander.name
   end
 
+  test "items list can be filtered by available" do
+    drill = create(:item, :active, name: "Power Drill")
+    saw = create(:item, :maintenance, name: "Power Saw")
+    sander = create(:item, :active, name: "Power Sander")
+
+    visit admin_dashboard_path
+    fill_in "query", with: "Power\n"
+
+    assert_text drill.name
+    assert_text sander.name
+    assert_text saw.name
+
+    find("label", text: "Only show items available now").click # check available only
+
+    refute_text saw.name
+    assert_text drill.name
+    assert_text sander.name
+
+    find("label", text: "Only show items available now").click # uncheck available only
+
+    assert_text drill.name
+    assert_text sander.name
+    assert_text saw.name
+  end
+
   test "lists members that match anything" do
     jamie_surname = create(:verified_member, full_name: "Jamie Surname")
     jamie = create(:verified_member, preferred_name: "Jamie")
