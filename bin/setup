@@ -17,7 +17,7 @@ FileUtils.chdir APP_ROOT do
   system("bundle check") || system!("bundle install")
 
   puts "== Installing playwright yarn package =="
-  playwright_version=`bundle exec ruby -e 'require "playwright"; puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION.strip'`
+  playwright_version=`bundle exec ruby -e 'require "playwright"; puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION'`.strip
   system!("yarn add -D 'playwright@#{playwright_version}'")
 
   if ENV["USING_NIX"] == "1"
