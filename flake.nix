@@ -44,7 +44,6 @@
 
               # for system tests
               chromium
-              chromedriver
 
               # for linters and git hooks
               lefthook
