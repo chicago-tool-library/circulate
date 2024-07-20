@@ -100,7 +100,7 @@
           <%= link_to "Circulate", admin_items_path %>
         </span>
         <div class="float-right mr-1 admin-search-form">
-          <%= form_with url: admin_search_path do |form| %>
+          <%= form_with url: admin_search_path, method: :get do |form| %>
             <div class="has-icon-left">
               <%= form.text_field :query, class: "form-input input-sm", placeholder: "search", type: "search" %>
               <i class="form-icon icon icon-search"></i>
@@ -185,7 +185,7 @@
             </div>
           </section>
           <section class="navbar-section">
-            <%= form_with url: admin_search_path do |form| %>
+            <%= form_with url: admin_search_path, method: :get do |form| %>
                 <div class="has-icon-left">
                   <%= form.text_field :query, class: "form-input input-sm", placeholder: "search" %>
                   <i class="form-icon icon icon-search"></i>
