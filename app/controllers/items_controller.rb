@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
 
     # Track that a search was performed if we are on the first page
     if @query && @pagy.page == 1
-      ahoy.track "Searched", query: @query, params: (@filter_params || {}), n_results: @pagy.count, first_page_results: @items.map(&:id)
+      ahoy.track "Searched", query: @query, params: @filter_params || {}, n_results: @pagy.count, first_page_results: @items.map(&:id)
     end
   end
 
