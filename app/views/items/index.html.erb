@@ -52,14 +52,19 @@
       <div>
         <span>Sort by</span>
         <div class="ml-1 btn-group">
-          <%= link_to_unless_current "name", add_filter_param(:sort, "name"), class: "btn btn-sm" do %>
-            <button class="btn btn-sm active">name</button>
+          <%= link_to_unless_current "Name", add_filter_param(:sort, "name"), class: "btn btn-sm" do %>
+            <button class="btn btn-sm active">Name</button>
           <% end %>
-          <%= link_to_unless_current "number", add_filter_param(:sort, "number"), class: "btn btn-sm" do %>
-            <button class="btn btn-sm active">number</button>
+          <%= link_to_unless_current "Number", add_filter_param(:sort, "number"), class: "btn btn-sm" do %>
+            <button class="btn btn-sm active">Number</button>
           <% end %>
-          <%= link_to_unless params[:sort] == "added" || params[:sort].blank?, "added", add_filter_param(:sort, "added"), class: "btn btn-sm" do %>
-            <button class="btn btn-sm active">date added</button>
+          <%= link_to_unless params[:sort] == "added" || (params[:sort].blank? && params[:query].blank?), "Date Added", add_filter_param(:sort, "added"), class: "btn btn-sm" do %>
+            <button class="btn btn-sm active">Date Added</button>
+          <% end %>
+          <% if params[:query].present? %>
+            <%= link_to_unless params[:sort] == "relevance" || params[:sort].blank?, "Relevance", add_filter_param(:sort, "relevance"), class: "btn btn-sm" do %>
+              <button class="btn btn-sm active">Relevance</button>
+            <% end %>
           <% end %>
         </div>
       </div>
