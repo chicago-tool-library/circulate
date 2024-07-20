@@ -3,81 +3,23 @@ require "test_helpers/stdout_helpers"
 
 Capybara.default_max_wait_time = 5
 
-# Backported from Rails 6.1
-Capybara.add_selector :rich_text_area do
-  label "rich-text area"
-  xpath do |locator|
-    if locator.nil?
-      XPath.descendant(:"trix-editor")
-    else
-      input_located_by_name = XPath.anywhere(:input).where(XPath.attr(:name) == locator).attr(:id)
-
-      XPath.descendant(:"trix-editor").where \
-        XPath.attr(:id).equals(locator) |
-          XPath.attr(:placeholder).equals(locator) |
-          XPath.attr(:"aria-label").equals(locator) |
-          XPath.attr(:input).equals(input_located_by_name)
-    end
-  end
-end
-
-Capybara.register_driver :headed_chrome do |app|
+Capybara.register_driver :circulate_playwright do |app|
   Capybara::Playwright::Driver.new(
     app,
-    browser: :chrome,
-    headless: false
-  )
-end
-
-Capybara.register_driver :headless_chrome do |app|
-  Capybara::Playwright::Driver.new(
-    app,
-    browser: :chrome,
-    headless: true,
+    browser_type: :chromium,
+    headless: (ENV["HEADLESS"] == "true"),
     # We only use this env var for the Nix dev environment. For other platforms
     # we can let playwright use its own downloaded browser.
     executablePath: ENV.fetch("PLAYWRIGHT_CHROME_BINARY", nil)
   )
 end
 
-# Capybara.register_driver :headless_chrome_in_container do |app|
-#   Capybara::Playwright::Driver.new(
-#     app,
-#     browser: :remote,
-#     url: "http://selenium_chrome:4444/wd/hub"
-#   )
-# end
-
-# Capybara.register_driver :chrome_in_container do |app|
-#   Capybara::Selenium::Driver.new(
-#     app,
-#     browser: :remote,
-#     url: "http://selenium_chrome:4444/wd/hub",
-#     options: Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-#       opts.add_argument "--window-size=1400x1800"
-#     end
-#   )
-# end
-
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
 end
 
-if ENV["DOCKER"]
-  Capybara.server_host = "0.0.0.0"
-  Capybara.server_port = 4000
-  Capybara.app_host = "http://example.com:4000"
-end
-
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  # driver = if ENV["DOCKER"]
-  #   (ENV["HEADLESS"] == "true") ? :headless_chrome_in_container : :chrome_in_container
-  # else
-  #   (ENV["HEADLESS"] == "true") ? :headless_chrome : nil
-  # end
-
-  driver = (ENV["HEADLESS"] == "true") ? :headless_chrome : :headed_chrome
-  driven_by driver
+  driven_by :circulate_playwright
 
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
@@ -98,28 +40,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   teardown do
     ActsAsTenant.test_tenant = nil
     ActionController::Base.allow_forgery_protection = false
-
-    # errors = page.driver.browser.logs.get(:browser)
-    # fail = false
-    # if errors.present?
-    #   errors.each do |error|
-    #     if fail_on_js_error(error)
-    #       warn "JS console (#{error.level.downcase}): #{error.message}"
-    #       fail = true
-    #     end
-    #   end
-    # end
-
-    # refute fail, "there were JavaScript errors"
   end
 
   private
-
-  def ignore_js_errors(reason: "I know what I am doing")
-    # Rails.logger.info("Ignored JS error because: #{reason}")
-    yield if block_given?
-    # page.driver.browser.logs.get(:browser)
-  end
 
   def sign_in_as_admin
     @user = FactoryBot.create(:user, role: "admin")
