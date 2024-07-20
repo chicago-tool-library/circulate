@@ -5,6 +5,8 @@
   <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
   <%= form.select :organization_id, @organization_options %>
 
+  <%= render "answers", answers: @answers %>
+
   <fieldset>
     <legend>Items on this reservation</legend>
     <%= form.dynamic_fields_for :reservation_holds do |dynamic_form| %>

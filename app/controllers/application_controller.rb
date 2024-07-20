@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
   #    made before the above feature landed: https://github.com/demarches-simplifiees/demarches-simplifiees.fr/pull/6332
   protect_from_forgery store: NonSessionCookieStore.new(:csrf_token), with: :exception
 
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_authenticity_token
+
   set_current_tenant_through_filter
   before_action :set_tenant
 
@@ -51,8 +53,6 @@ class ApplicationController < ActionController::Base
   def current_library
     @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
   end
-
-  private
 
   def set_tenant
     if current_library
@@ -93,5 +93,19 @@ class ApplicationController < ActionController::Base
         render(*args)
       end
     end
+  end
+
+  def handle_invalid_authenticity_token(error)
+    # Track the error so we can continue investigating why this is happening to folks
+    Appsignal.report_error(error) do |transaction|
+      transaction.Appsignal.set_custom_data(
+        authenticity_token: params[:authenticity_token],
+        csrf_cookie: request.cookies["csrf_token"]
+      )
+    end
+
+    redirect_back(fallback_location: root_path, flash: {
+      error: "There was an issue with your submission, please try again."
+    })
   end
 end

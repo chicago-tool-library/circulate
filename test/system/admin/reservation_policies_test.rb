@@ -126,6 +126,8 @@ class AdminReservationPoliciesTest < ApplicationSystemTestCase
       assert_text "has already been taken"
     end
 
+    reservation_policy.reload
+
     refute_equal @attributes[:name], reservation_policy.name
     refute_equal @attributes[:description], reservation_policy.description
     refute_equal @attributes[:maximum_duration], reservation_policy.maximum_duration

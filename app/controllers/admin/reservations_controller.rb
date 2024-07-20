@@ -16,11 +16,13 @@ module Admin
       @reservation = Reservation.new
       @item_pools = ItemPool.all
       set_organization_options
+      set_answers
     end
 
     def edit
       @item_pools = ItemPool.all
       set_organization_options
+      set_answers
     end
 
     def create
@@ -28,19 +30,23 @@ module Admin
 
       if @reservation.save
         redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully created."
+        ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later
+        redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully created."
       else
         @item_pools = ItemPool.all
         set_organization_options
+        set_answers
         render :new, status: :unprocessable_entity
       end
     end
 
     def update
       if @reservation.update(reservation_params)
-        redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
+        redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully updated."
       else
         @item_pools = ItemPool.all
         set_organization_options
+        set_answers
         render :edit, status: :unprocessable_entity
       end
     end
@@ -48,11 +54,7 @@ module Admin
     def destroy
       @reservation.destroy!
 
-      redirect_to admin_reservations_url, notice: "Reservation was successfully destroyed."
-    end
-
-    def append_reservation_hold
-      @item_pool = ItemPool.find(params[:item_pool_id])
+      redirect_to admin_reservations_url, success: "Reservation was successfully destroyed."
     end
 
     private
@@ -67,6 +69,13 @@ module Admin
 
     def reservation_params
       params.require(:reservation).permit(:name, :started_at, :ended_at, :organization_id, reservation_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
+      params.require(:reservation).permit(:name, :started_at, :ended_at,
+        answers_attributes: [:id, :stem_id, :value],
+        reservation_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
+    end
+
+    def set_answers
+      @answers = @reservation.answers.includes(:stem).presence || Question.all.order(:name).where(archived_at: nil).includes(:stem).map { |question| Answer.new(reservation: @reservation, stem: question.stem) }
     end
   end
 end

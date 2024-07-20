@@ -1,6 +1,24 @@
 default: &defaults
   push_api_key: "<%= ENV["APPSIGNAL_PUSH_API_KEY"] %>"
   name: "Circulate"
+  request_headers:
+    - HTTP_ACCEPT
+    - HTTP_ACCEPT_CHARSET
+    - HTTP_ACCEPT_ENCODING
+    - HTTP_ACCEPT_LANGUAGE
+    - HTTP_CACHE_CONTROL
+    - HTTP_CONNECTION
+    - CONTENT_LENGTH
+    - PATH_INFO
+    - HTTP_RANGE
+    - REQUEST_METHOD
+    - REQUEST_PATH
+    - SERVER_NAME
+    - SERVER_PORT
+    - SERVER_PROTOCOL
+    # The above are the default. The following is to help us narrow down if
+    # only certain clients are encountering InvalidAuthenticityToken errors.
+    - HTTP_USER_AGENT
 
   # Errors that should not be recorded by AppSignal
   # For more information see our docs:

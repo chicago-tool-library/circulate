@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_20_134332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     "forgiveness",
   ], force: :cascade
 
+  create_enum :answer_type, [
+    "text",
+    "integer",
+  ], force: :cascade
+
   create_enum :item_attachment_kind, [
     "manual",
     "parts_list",
@@ -38,6 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     "active",
     "maintenance",
     "retired",
+    "missing",
   ], force: :cascade
 
   create_enum :membership_type, [
@@ -188,6 +194,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
     t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "stem_id", null: false
+    t.bigint "reservation_id", null: false
+    t.jsonb "result", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_answers_on_reservation_id"
+    t.index ["stem_id", "reservation_id"], name: "index_answers_on_stem_id_and_reservation_id", unique: true
+    t.index ["stem_id"], name: "index_answers_on_stem_id"
   end
 
   create_table "appointment_holds", force: :cascade do |t|
@@ -407,6 +424,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     t.integer "error_event", limit: 2
     t.text "error_backtrace", array: true
     t.uuid "process_id"
+    t.interval "duration"
     t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
     t.index ["process_id", "created_at"], name: "index_good_job_executions_on_process_id_and_created_at"
   end
@@ -696,6 +714,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     t.index ["library_id"], name: "index_organizations_on_library_id"
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "archived_at"
+    t.bigint "library_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id"], name: "index_questions_on_library_id"
+    t.index ["name"], name: "index_questions_on_name", unique: true
+  end
+
   create_table "renewal_requests", force: :cascade do |t|
     t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
     t.bigint "loan_id"
@@ -794,6 +822,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
     t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
   end
 
+  create_table "stems", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.text "content", null: false
+    t.enum "answer_type", default: "text", null: false, enum_type: "answer_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_stems_on_question_id"
+  end
+
   create_table "ticket_updates", force: :cascade do |t|
     t.integer "time_spent"
     t.bigint "ticket_id", null: false
@@ -855,6 +892,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
   add_foreign_key "agreement_acceptances", "members"
+  add_foreign_key "answers", "reservations"
+  add_foreign_key "answers", "stems"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "gift_memberships", "memberships"
@@ -886,6 +925,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_234628) do
   add_foreign_key "reservation_loans", "reservation_holds"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
+  add_foreign_key "stems", "questions"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"

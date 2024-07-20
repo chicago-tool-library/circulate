@@ -196,10 +196,12 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
 
   # Use this method for inputs where the label has to preceed the input as a sibling
   def sequence_layout(method, options = {})
+    errors = options.delete(:errors) || @object.errors
+    error_key = options.delete(:error_key) || method
     label_text = label_or_default(options[:label], method)
-    has_error = @object.errors.include?(method)
+    has_error = errors.include?(error_key)
     display_required = options.delete(:required)
-    messages = has_error ? @object.errors.messages[method].join(", ") : options.delete(:hint)
+    messages = has_error ? errors.messages[error_key].join(", ") : options.delete(:hint)
 
     hint_content = messages.present? ? @template.tag.div(messages, class: "form-input-hint") : ""
 

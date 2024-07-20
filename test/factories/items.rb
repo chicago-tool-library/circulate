@@ -31,5 +31,13 @@ FactoryBot.define do
     trait :with_image do
       image { Rack::Test::UploadedFile.new(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"), "image/jpeg") }
     end
+
+    trait :active do
+      status { Item.statuses[:active] }
+    end
+
+    trait :maintenance do
+      status { Item.statuses[:maintenance] }
+    end
   end
 end

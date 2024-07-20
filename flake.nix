@@ -42,9 +42,8 @@
               # https://github.com/NixOS/nixpkgs/pull/246444
               (imagemagick.override { ghostscriptSupport = true; })
 
-              # for selenium tests
+              # for system tests
               chromium
-              chromedriver
 
               # for linters and git hooks
               lefthook
@@ -70,10 +69,13 @@
             DATABASE_URL = "postgres://localhost:5435";
             PGUSER = "postgres";
 
-            # We'll run chromium in headless mode
+            # We'll run system tests in headless mode
             HEADLESS = "true";
             PARALLEL_WORKERS = "3";
-            SELENIUM_CHROME_BINARY = "${pkgs.chromium}/bin/chromium";
+            PLAYWRIGHT_CHROME_BINARY = "${pkgs.chromium}/bin/chromium";
+
+            # Set a general env variable that other setup code can use.
+            USING_NIX = "1";
           };
       });
 }
