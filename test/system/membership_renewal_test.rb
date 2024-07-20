@@ -11,6 +11,19 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     login_as @user
 
     ActionMailer::Base.deliveries.clear
+
+    # This warning is generated on execution of complete_first_three_steps, and
+    # it seems to be harmless. See
+    # https://github.com/YusukeIwaki/capybara-playwright-driver/issues/51 for
+    # discussion. The fix in the driver involves a puts which is noisy in test
+    # outputs, so we suppress that here.
+    suppress_puts([
+      /Execution context was destroyed, most likely because of a navigation/
+    ])
+  end
+
+  def teardown
+    restore_puts
   end
 
   def complete_first_three_steps
@@ -33,38 +46,36 @@ class MembershipRenewalTest < ApplicationSystemTestCase
   end
 
   def complete_square_checkout
-    ignore_js_errors reason: "square site has a couple issues" do
-      click_on "Pay Online Now"
+    click_on "Pay Online Now"
 
-      wait_for_square_sandbox_to_load
+    wait_for_square_sandbox_to_load
 
-      # Checkout API Sandbox Testing Panel
-      # extract order id from page
-      # p.text will be something like "order_id: xyu3Gv1KQic4q93xISrJusrHXa4F\nurl: https://sandbox.square.link/u/xUTx9ykD"
-      p = page.find("p", text: "order_id")
-      data = p.text.split.in_groups_of(2).to_h
-      order_id = data["order_id:"]
+    # Checkout API Sandbox Testing Panel
+    # extract order id from page
+    # p.text will be something like "order_id: xyu3Gv1KQic4q93xISrJusrHXa4F\nurl: https://sandbox.square.link/u/xUTx9ykD"
+    p = page.find("p", text: "order_id")
+    data = p.text.split.in_groups_of(2).to_h
+    order_id = data["order_id:"]
 
-      # advance through and complete the payment
-      click_on "Next"
+    # advance through and complete the payment
+    click_on "Next"
 
-      # complete the payment so we can verify the callback
-      click_on "Test Payment"
-      assert_content "Checkout Complete"
+    # complete the payment so we can verify the callback
+    click_on "Test Payment"
+    assert_content "Checkout Complete"
 
-      # grab redirect URL
-      td = page.find("td", text: /redirected/)
-      url = td.text.sub("Customer redirected to:", "").strip
+    # grab redirect URL
+    td = page.find("td", text: /redirected/)
+    url = td.text.sub("Customer redirected to:", "").strip
 
-      # build redirect URL from url and order id
-      redirect_url = "#{url}?orderId=#{order_id}"
+    # build redirect URL from url and order id
+    redirect_url = "#{url}?orderId=#{order_id}"
 
-      perform_enqueued_jobs do
-        visit redirect_url
+    perform_enqueued_jobs do
+      visit redirect_url
 
-        # Back in the app
-        assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
-      end
+      # Back in the app
+      assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
   end
 

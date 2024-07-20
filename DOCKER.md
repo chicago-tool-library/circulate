@@ -79,43 +79,15 @@ $ docker-compose exec web rails c
 ```
 
 ## Testing Suite
-Run the testing suite from within the container:
+Run the unit testing suite from within the container:
 
 ```
 $ docker-compose exec web rails test
-$ docker-compose exec web rails test:system
 ```
 
-Run one test (whether system or not) with:
+NOTE: System tests are not currently set up with docker.
+
+Run one test with:
 ```
 $ docker-compose exec web rails test <filepath>
 ```
-
-System tests will generate a screenshot upon failure. The screenshots can be
-found in the local `tmp/screenshots` directory which maps to the
-`/usr/src/app/tmp/screenshots` directory inside the container.
-
-### Watching tests run
-
-You can view the tests in real time by using a VNC client and temporarily
-switching to the `chrome_in_container` driver by setting the `HEADLESS`
-environment variable to `false`. This environment variable is set in the
-`config/docker.env` file. After changing any values in this file, you must
-restart the container:
-
-```
-$ docker-compose up -d --force-recreate web
-```
-
-Mac OS comes with a built-in screen sharing application, "Screen Sharing".
-On Ubuntu-based Linux, the VNC client application "Vinagre" (aka "Remote Desktop Viewer")
-is commonly used, and can be installed with `sudo apt install vinagre`.
-
-You can open the VNC client application and configure it directly, but in both operating systems
-it's probably easier to click on [vnc://localhost:5900](vnc://localhost:5900)
-(or paste that into your browser's address bar) and let the browser launch the VNC client with
- the appropriate parameters for you.
-
-The VNC password is `secret`.
-
-Run the spec(s) from the command line and you can see the test running in the browser through the VNC client.

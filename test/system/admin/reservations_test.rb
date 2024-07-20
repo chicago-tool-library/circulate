@@ -11,7 +11,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   def date_input_format(datetime)
-    datetime.strftime("%m/%d/%Y")
+    datetime.strftime("%Y-%m-%d")
   end
 
   test "visiting the index" do
@@ -48,7 +48,12 @@ class AdminReservationsTest < ApplicationSystemTestCase
     answers = create_list(:answer, 2, reservation:)
 
     visit admin_reservation_url(reservation)
-    click_on "Questions"
+    # TODO: This is a somewhat ambiguous selector that I'm dropping in to fix
+    # tests in a sweep. Consider rearranging the view to make it easier to
+    # select between the tab and the global nav.
+    within(".tab") do
+      click_on "Questions"
+    end
 
     answers.each do |answer|
       assert_text answer.stem.content
