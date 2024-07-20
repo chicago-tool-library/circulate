@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_051930) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_20_134332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -424,6 +424,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_051930) do
     t.integer "error_event", limit: 2
     t.text "error_backtrace", array: true
     t.uuid "process_id"
+    t.interval "duration"
     t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
     t.index ["process_id", "created_at"], name: "index_good_job_executions_on_process_id_and_created_at"
   end
