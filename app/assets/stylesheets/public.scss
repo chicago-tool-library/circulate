@@ -30,13 +30,13 @@
   }
 
   .navbar {
+    align-items: center;
     .navbar-brand {
       width: 3rem;
       img {
         width: 100%;
       }
     }
-    align-items: center;
     .navbar-section {
       flex: 1 auto;
     }
@@ -116,7 +116,7 @@
   background: white;
   font-size: 1.2;
   z-index: 1000;
- 
+
   &:focus {
     top: 0;
     transition: 0.1s ease-in;

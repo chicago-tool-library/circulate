@@ -69,9 +69,9 @@ $pri-btn-color-hover: darken($button-color, 7%);
 
 // BUTTONS
 .primary-btn {
-  @include primary-button;
   letter-spacing: $button-letter-spacing;
   border: none;
+  @include primary-button;
   a {
     height: 50px !important;
   }
@@ -82,8 +82,8 @@ $pri-btn-color-hover: darken($button-color, 7%);
 }
 
 .secondary-btn {
-  @include secondary-button;
   letter-spacing: $button-letter-spacing;
+  @include secondary-button;
 }
 
 .link-btn {
@@ -111,7 +111,7 @@ $pri-btn-color-hover: darken($button-color, 7%);
 //     &.active {
 //       color: $text-color;
 //     }
-    
+
 //       &:visited {
 //         color: $text-color;
 //       }
@@ -164,7 +164,7 @@ $pri-btn-color-hover: darken($button-color, 7%);
     color: $text-color;
     padding-top: 5px;
     text-decoration: none;
-  
+
     &:focus,
     &:hover {
       color: #000 !important;
@@ -172,7 +172,7 @@ $pri-btn-color-hover: darken($button-color, 7%);
     &.active {
       color: $text-color !important;
     }
-  
+
     &:visited {
       color: $text-color !important;
     }
