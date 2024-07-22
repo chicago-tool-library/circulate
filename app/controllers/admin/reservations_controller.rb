@@ -25,6 +25,7 @@ module Admin
 
     def create
       @reservation = Reservation.new(reservation_params)
+      @reservation.submitted_by = current_user
 
       if @reservation.save
         ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later

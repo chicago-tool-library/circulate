@@ -2,6 +2,10 @@ require "test_helper"
 
 class ReservationTest < ActiveSupport::TestCase
   test "validations" do
+    reservation = build(:reservation)
+    reservation.valid?
+    assert_equal({}, reservation.errors.messages)
+
     reservation = Reservation.new
 
     assert reservation.invalid?
