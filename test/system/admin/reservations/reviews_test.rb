@@ -22,6 +22,11 @@ class AdminReservationsReviewsTest < ApplicationSystemTestCase
     assert_equal "approved", reservation.status
     assert_equal review_notes, reservation.notes
     assert_equal @user, reservation.reviewer
+
+    perform_enqueued_jobs
+    mail = ActionMailer::Base.deliveries.last
+    assert mail, "must send approval email"
+    assert_includes mail.subject, "was approved"
   end
 
   test "a reservation can be rejected" do
@@ -41,6 +46,11 @@ class AdminReservationsReviewsTest < ApplicationSystemTestCase
     assert_equal "rejected", reservation.status
     assert_equal review_notes, reservation.notes
     assert_equal @user, reservation.reviewer
+
+    perform_enqueued_jobs
+    mail = ActionMailer::Base.deliveries.last
+    assert mail, "must send rejection email"
+    assert_includes mail.subject, "was rejected"
   end
 
   test "a reservation that is not 'requested' cannot be approved or rejected" do
