@@ -1,12 +1,12 @@
 require "application_system_test_case"
 
-class Admin::MonthlyActivitiesTest < ApplicationSystemTestCase
+class AdminMembersWithOverdueItemsTest < ApplicationSystemTestCase
   include AdminHelper
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::NumberHelper
   include MembersHelper
 
-  def setup
+  setup do
     sign_in_as_admin
 
     @member_without_loans = create(:member, preferred_name: "Loanless Lane")
