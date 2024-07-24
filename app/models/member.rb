@@ -5,6 +5,7 @@ class Member < ApplicationRecord
 
   has_many :loans, dependent: :destroy
   has_many :checked_out_loans, -> { checked_out }, class_name: "Loan"
+  has_many :overdue_loans, -> { overdue }, class_name: "Loan"
   has_many :appointments, dependent: :destroy
   has_many :loan_summaries
 

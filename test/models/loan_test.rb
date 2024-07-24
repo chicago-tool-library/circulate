@@ -221,4 +221,15 @@ class LoanTest < ActiveSupport::TestCase
       loan.upcoming_appointment
     end
   end
+
+  test "scope #overdue contains only overdue loans" do
+    create(:ended_loan) # ignored
+    overdue_loans = create_list(:overdue_loan, 3)
+    create(:loan) # active loan - ignored
+
+    query = Loan.all.overdue
+
+    assert_equal overdue_loans.size, query.count
+    assert_equal overdue_loans, query.order(id: :asc)
+  end
 end
