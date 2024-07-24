@@ -21,7 +21,7 @@
           </td>
           <td>
             <% member.overdue_loans.each do |loan| %>
-              <%= link_to loan.item.name, [:admin, loan.item] %>
+              <%= link_to loan.item.name, [:admin, loan.item] %> (<%= time_ago_in_words(loan.due_at) %>)
               <br>
             <% end %>
           </td>

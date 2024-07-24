@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class Admin::MonthlyActivitiesTest < ApplicationSystemTestCase
   include AdminHelper
+  include ActionView::Helpers::DateHelper
   include ActionView::Helpers::NumberHelper
   include MembersHelper
 
@@ -15,11 +16,13 @@ class Admin::MonthlyActivitiesTest < ApplicationSystemTestCase
     create(:ended_loan, member: @member_with_non_overdue_loans)
 
     member_with_one_overdue_loan = create(:member, preferred_name: "(Over)Drew")
-    create(:overdue_loan, member: member_with_one_overdue_loan)
+    create(:overdue_loan, member: member_with_one_overdue_loan, due_at: 3.weeks.ago)
     create(:loan, member: member_with_one_overdue_loan)
 
     member_with_multiple_overdue_loans = create(:member, preferred_name: "(Mul)Timothy")
-    create_list(:overdue_loan, 3, member: member_with_multiple_overdue_loans)
+    1.upto(3).each do |n|
+      create(:overdue_loan, member: member_with_multiple_overdue_loans, due_at: n.weeks.ago)
+    end
     create(:loan, member: member_with_multiple_overdue_loans)
     create(:ended_loan, member: member_with_multiple_overdue_loans)
 
@@ -39,6 +42,7 @@ class Admin::MonthlyActivitiesTest < ApplicationSystemTestCase
 
       member.overdue_loans.each do |loan|
         assert_text loan.item.name
+        assert_text time_ago_in_words(loan.due_at)
       end
     end
     assert_equal 3, all("tr").size # 2 for members, 1 for the header

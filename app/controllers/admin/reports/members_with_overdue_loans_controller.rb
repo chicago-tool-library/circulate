@@ -4,6 +4,7 @@ module Admin
   module Reports
     class MembersWithOverdueLoansController < BaseController
       include Pagy::Backend
+      include ActionView::Helpers::DateHelper
 
       def index
         query = Member.all.joins(:overdue_loans).distinct.includes(:user, overdue_loans: :item).order(email: :asc)
@@ -31,7 +32,7 @@ module Admin
               member.full_name,
               member.user.email,
               member.phone_number,
-              member.overdue_loans.map { |loan| loan.item.name }.join(", ")
+              member.overdue_loans.map { |loan| "#{loan.item.name} (#{time_ago_in_words(loan.due_at)})" }.join(", ")
             ]
           end
         end
