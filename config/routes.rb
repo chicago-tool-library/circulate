@@ -140,6 +140,7 @@ Rails.application.routes.draw do
       resources :items_with_holds, only: :index
       resources :zipcodes, only: :index
       get "money", to: "money#index"
+      get "members-with-overdue-loans", to: "members_with_overdue_loans#index"
     end
 
     namespace :settings do
