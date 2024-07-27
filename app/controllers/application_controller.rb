@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
   def handle_invalid_authenticity_token(error)
     # Track the error so we can continue investigating why this is happening to folks
     Appsignal.report_error(error) do |transaction|
-      transaction.Appsignal.set_custom_data(
+      transaction.set_custom_data(
         authenticity_token: params[:authenticity_token],
         csrf_cookie: request.cookies["csrf_token"]
       )
