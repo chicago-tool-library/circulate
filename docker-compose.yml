@@ -28,12 +28,12 @@ services:
     image: postgres:15
     env_file:
       - config/docker.env
-    volumes:
-      - db_data:/var/lib/postgresql/data
     ports:
       - '5435:5432'
     networks:
       - default
+    tmpfs:
+      - /var/lib/postgresql/data
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
@@ -43,9 +43,6 @@ services:
       - '5900:5900'
     networks:
       - default
-
-volumes:
-  db_data:
 
 networks:
   default:
