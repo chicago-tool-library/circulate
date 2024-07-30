@@ -51,7 +51,17 @@ namespace :devdata do
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
 
+      # Attach a fixture image to all items by having them all share a single
+      # ActiveStorage::Blob. This means rotating the fixture image in dev will
+      # impact every item, but it saves us from duplicating the image hundreds
+      # of times.
       image = File.open(Rails.root.join("test", "fixtures", "files", "tool-image.jpg"))
+      image_blob = ActiveStorage::Blob.create_and_upload!(io: image, filename: "tool-image.jpg")
+
+      # Calling analyze explicitly prevents an AnalyzeJob from kicking off for
+      # every image attach below. This is important as it sidesteps this bug:
+      # https://github.com/ErwinM/acts_as_tenant/issues/335
+      image_blob.analyze
 
       ActsAsTenant.with_tenant(library) do
         Audited.audit_class.as_user(admin) do
@@ -62,16 +72,11 @@ namespace :devdata do
           load_models ActionText::RichText, id_offset: offset
           load_models ItemPool, id_offset: offset, creator: admin
           load_models ReservableItem, id_offset: offset, creator: admin
-        end
-      end
 
-      # Need to do this outside of with_tenant because of bug with tenant
-      # being reset when an ActiveJob is completed inline
-      # See: https://github.com/ErwinM/acts_as_tenant/issues/335
-      Item.find_each do |item|
-        # create attachment
-        item.image.attach(io: image, filename: "tool-image.jpg")
-        image.rewind
+          Item.find_each do |item|
+            item.image.attach(image_blob)
+          end
+        end
       end
     end
   end
