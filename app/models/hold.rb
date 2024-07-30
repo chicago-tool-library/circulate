@@ -116,22 +116,7 @@ class Hold < ApplicationRecord
   def self.start_waiting_holds(now = Time.current, &block)
     started = 0
 
-    active(now).includes(item: :borrow_policy).find_each do |hold|
-      if hold.item.status == Item.statuses[:maintenance]
-        Rails.logger.debug { "[hold #{hold.id}]: item in maintenance mode" }
-        next
-      end
-
-      unless hold.item.holdable?
-        Rails.logger.debug { "[hold #{hold.id}]: item is not holdable" }
-        next
-      end
-
-      if hold.started?
-        Rails.logger.debug { "[hold #{hold.id}]: already started" }
-        next
-      end
-
+    active(now).waiting.joins(:item).merge(Item.holdable).includes(item: :borrow_policy).find_each do |hold|
       unless hold.ready_for_pickup?(now)
         Rails.logger.debug { "[hold #{hold.id}]: not ready for pickup" }
         next
