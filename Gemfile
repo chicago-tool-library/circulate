@@ -51,7 +51,7 @@ gem "omniauth-rails_csrf_protection"
 # Calendar syncing
 gem "googleauth"
 
-gem "image_processing", "~> 1.12"
+gem "image_processing", "~> 1.13"
 gem "mini_magick"
 
 gem "barnes"
@@ -105,6 +105,6 @@ gem "twilio-ruby", "~> 7.2"
 
 gem "ahoy_matey", "~> 5.1"
 
-gem "good_job", "~> 4.0"
+gem "good_job", "~> 4.1"
 
 gem "blazer", "~> 3.0"
