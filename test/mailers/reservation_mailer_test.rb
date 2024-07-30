@@ -1,6 +1,6 @@
-require "test_helper"
+require "application_system_test_case"
 
-class ReservationMailerTest < ActionMailer::TestCase
+class ReservationMailerTest < ApplicationSystemTestCase
   setup do
     ActionMailer::Base.deliveries.clear
   end
@@ -10,15 +10,13 @@ class ReservationMailerTest < ActionMailer::TestCase
 
     ReservationMailer.with(reservation:).reservation_requested.deliver_now
 
-    mail = ActionMailer::Base.deliveries.last
+    expected_subject = "Reservation submitted for #{reservation.started_at.to_fs(:short_date)}"
 
-    subject = "Reservation submitted for #{reservation.started_at.to_fs(:short_date)}"
-
-    assert mail.multipart?, "mail should be multipart"
-    assert_equal subject, mail.subject
-    assert_equal [reservation.submitted_by.email], mail.to
-    assert_includes mail.html_part.body.to_s, subject, "mail should include subject in html part"
-    assert_includes mail.text_part.body.to_s, subject, "mail should include subject in text part"
+    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+      assert_equal expected_subject, subject
+      assert_includes html, expected_subject, "mail should include subject in html part"
+      assert_includes text, expected_subject, "mail should include subject in text part"
+    end
   end
 
   test "#reviewed includes html and text parts containing the notes when approved" do
@@ -26,20 +24,17 @@ class ReservationMailerTest < ActionMailer::TestCase
 
     ReservationMailer.with(reservation:).reviewed.deliver_now
 
-    mail = ActionMailer::Base.deliveries.last
-
     message = "Your reservation for #{reservation.started_at.to_fs(:short_date)} was approved"
 
-    assert_equal message, mail.subject
-    assert_equal [reservation.submitted_by.email], mail.to
+    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+      assert_equal message, subject
 
-    assert mail.multipart?, "mail should be multipart"
+      assert_includes html, message, "mail should include approval message in html part"
+      assert_includes html, reservation.notes, "mail should include approval notes in html part"
 
-    assert_includes mail.html_part.body.to_s, message, "mail should include approval message in html part"
-    assert_includes mail.html_part.body.to_s, reservation.notes, "mail should include approval notes in html part"
-
-    assert_includes mail.text_part.body.to_s, message, "mail should include approval message in text part"
-    assert_includes mail.text_part.body.to_s, reservation.notes, "mail should include approval notes in text part"
+      assert_includes text, message, "mail should include approval message in text part"
+      assert_includes text, reservation.notes, "mail should include approval notes in text part"
+    end
   end
 
   test "#reviewed includes html and text parts containing the notes when rejected" do
@@ -47,19 +42,16 @@ class ReservationMailerTest < ActionMailer::TestCase
 
     ReservationMailer.with(reservation:).reviewed.deliver_now
 
-    mail = ActionMailer::Base.deliveries.last
-
     message = "Your reservation for #{reservation.started_at.to_fs(:short_date)} was rejected"
 
-    assert_equal message, mail.subject
-    assert_equal [reservation.submitted_by.email], mail.to
+    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+      assert_equal message, subject
 
-    assert mail.multipart?, "mail should be multipart"
+      assert_includes html, message, "mail should include rejection message in html part"
+      assert_includes html, reservation.notes, "mail should include rejection notes in html part"
 
-    assert_includes mail.html_part.body.to_s, message, "mail should include rejection message in html part"
-    assert_includes mail.html_part.body.to_s, reservation.notes, "mail should include rejection notes in html part"
-
-    assert_includes mail.text_part.body.to_s, message, "mail should include rejection message in text part"
-    assert_includes mail.text_part.body.to_s, reservation.notes, "mail should include rejection notes in text part"
+      assert_includes text, message, "mail should include rejection message in text part"
+      assert_includes text, reservation.notes, "mail should include rejection notes in text part"
+    end
   end
 end
