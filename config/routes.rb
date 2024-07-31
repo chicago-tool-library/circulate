@@ -33,14 +33,16 @@ Rails.application.routes.draw do
     resources :renewal_requests, only: :create
     get "/", to: "home#index", as: "home"
 
-    resources :reservations do
-      scope module: "reservations" do
-        resources :reservation_holds
-        resource :item_pool_search, only: :show
-        resource :submission
+    if ENV["FEATURE_GROUP_LENDING"] == "on"
+      resources :reservations do
+        scope module: "reservations" do
+          resources :reservation_holds
+          resource :item_pool_search, only: :show
+          resource :submission
+        end
       end
+      resources :item_pools
     end
-    resources :item_pools
   end
 
   namespace :renewal do
@@ -168,7 +170,6 @@ Rails.application.routes.draw do
     resources :holds, only: [:index]
     resources :users
     resources :renewal_requests, only: [:index, :update]
-    resources :reservation_policies
 
     resource :map, only: :show
 
@@ -181,6 +182,7 @@ Rails.application.routes.draw do
 
     if ENV["FEATURE_GROUP_LENDING"] == "on"
       # Group Lending
+      resources :reservation_policies
       resources :item_pools do
         scope module: "item_pools" do
           resource :availability, only: :show
