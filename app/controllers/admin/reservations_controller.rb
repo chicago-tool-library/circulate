@@ -29,7 +29,6 @@ module Admin
       @reservation = Reservation.new(reservation_params)
 
       if @reservation.save
-        redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully created."
         ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later
         redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully created."
       else
@@ -68,8 +67,7 @@ module Admin
     end
 
     def reservation_params
-      params.require(:reservation).permit(:name, :started_at, :ended_at, :organization_id, reservation_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
-      params.require(:reservation).permit(:name, :started_at, :ended_at,
+      params.require(:reservation).permit(:name, :started_at, :ended_at, :organization_id,
         answers_attributes: [:id, :stem_id, :value],
         reservation_holds_attributes: [:id, :quantity, :item_pool_id, :_destroy])
     end
