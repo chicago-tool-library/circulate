@@ -74,7 +74,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       text = delivered_mail.body.parts[1].body.to_s
       attachments = []
     end
-    yield html, text, attachments
+
+    yield html, text, attachments, delivered_mail.subject
   end
 
   def assert_date_displayed(datetime)
