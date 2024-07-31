@@ -15,31 +15,35 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    reservations = [
-      create(:reservation, status: "requested", started_at: 3.days.ago, ended_at: 3.days.from_now),
-      create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now),
-      create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now)
-    ]
+    Time.use_zone("America/Chicago") do
+      reservations = [
+        create(:reservation, status: "requested", started_at: 6.days.ago, ended_at: 6.days.from_now),
+        create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now),
+        create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now)
+      ]
 
-    visit admin_reservations_url
+      visit admin_reservations_url
 
-    reservations.each do |reservation|
+      reservations.each do |reservation|
+        assert_text reservation.name
+        assert_text reservation.status
+        assert_text formatted_date_only(reservation.started_at)
+        assert_text formatted_date_only(reservation.ended_at)
+      end
+    end
+  end
+
+  test "viewing a reservation" do
+    Time.use_zone("America/Chicago") do
+      reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
+
+      visit admin_reservation_url(reservation)
+
       assert_text reservation.name
       assert_text reservation.status
       assert_text formatted_date_only(reservation.started_at)
       assert_text formatted_date_only(reservation.ended_at)
     end
-  end
-
-  test "viewing a reservation" do
-    reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
-
-    visit admin_reservation_url(reservation)
-
-    assert_text reservation.name
-    assert_text reservation.status
-    assert_text formatted_date_only(reservation.started_at)
-    assert_text formatted_date_only(reservation.ended_at)
   end
 
   test "viewing a reservation's questions and answers" do
