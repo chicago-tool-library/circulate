@@ -20,7 +20,7 @@ module Account
     end
 
     def create
-      @reservation = Reservation.new(reservation_params.merge(organization: Organization.first))
+      @reservation = Reservation.new(reservation_params.merge(organization_id: Organization.first.id, submitted_by: current_user))
 
       if @reservation.save
         # TODO use the current user's actual organization
