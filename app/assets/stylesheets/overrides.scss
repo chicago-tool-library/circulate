@@ -117,8 +117,8 @@ trix-toolbar {
   }
 
   .off-canvas-toggle {
-    @include default-button();
     margin-top: 0.5rem;
+    @include default-button();
     .icon {
       color: $dark-color;
     }
@@ -132,10 +132,10 @@ form.button_to {
 
 // Improve contrast on labels
 .label {
+  background-color: lighten($gray-color-light, 1%);
   &, &.label-success, &.label-warning, &.label-error, &.label-primary, &.label-secondary {
     color: inherit;
   }
-  background-color: lighten($gray-color-light, 1%);
 
   &.label-primary { background-color: lighten($primary-color, 40%); }
   &.label-secondary { background-color: $secondary-color-light; }

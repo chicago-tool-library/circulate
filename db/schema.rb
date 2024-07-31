@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_20_134332) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_22_221811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -807,9 +807,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_20_134332) do
     t.bigint "reviewer_id"
     t.bigint "library_id", null: false
     t.bigint "organization_id", null: false
+    t.bigint "submitted_by_id", null: false
     t.index ["library_id"], name: "index_reservations_on_library_id"
     t.index ["organization_id"], name: "index_reservations_on_organization_id"
     t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
+    t.index ["submitted_by_id"], name: "index_reservations_on_submitted_by_id"
   end
 
   create_table "short_links", force: :cascade do |t|
@@ -925,6 +927,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_20_134332) do
   add_foreign_key "reservation_loans", "reservation_holds"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
+  add_foreign_key "reservations", "users", column: "submitted_by_id"
   add_foreign_key "stems", "questions"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"

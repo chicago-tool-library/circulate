@@ -220,12 +220,12 @@ $photo-width: 187px;
     grid-column-gap: .6rem;
 
     .items-table-image {
+      grid-column: 1;
+      grid-row: span 1;
       img, .image-placeholder {
         max-width: 100px;
         max-height: 70px;
       }
-      grid-column: 1;
-      grid-row: span 1;
     }
     .items-table-name {
       grid-column: 2/4;
@@ -976,8 +976,8 @@ table.monthly-adjustments {
 
 .app-body, .app-header {
   .btn {
-    @include default-button();
     border-radius: 5px;
+    @include default-button();
     &.btn-default {
       background: $gray-color-dark;
       border-color: $dark-color;

@@ -21,6 +21,7 @@ class Reservation < ApplicationRecord
   has_many :answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", required: false
   belongs_to :organization
+  belongs_to :submitted_by, class_name: "User", required: true
 
   accepts_nested_attributes_for :answers, allow_destroy: false
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
@@ -35,8 +36,6 @@ class Reservation < ApplicationRecord
   after_find :restore_manager
   after_initialize :restore_manager
   validate :validate_reservation_dates
-
-  scope :by_start_date, -> { order(started_at: :asc) }
 
   scope :by_start_date, -> { order(started_at: :asc) }
 

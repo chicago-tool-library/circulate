@@ -18,7 +18,8 @@ module Admin
 
         @reservation.transaction do
           if @reservation.manager.trigger(event) && @reservation.update(reservation_params)
-            redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
+            ReservationMailer.with(reservation: @reservation).reviewed.deliver_later
+            redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully updated."
           else
             render :edit, status: :unprocessable_entity
           end

@@ -41,3 +41,36 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     get new_user_session_path, headers: {referer: "not a valid referer"}
   end
 end
+
+# This is a lot of code to work around that I couldn't find a nice way to
+# stub `protect_against_forgery?` for any instance of a subclass of
+# ApplicationController. The value of this method is cached, so it's not
+# possible to simply change the config value and have it take affect.
+#
+# In this case we're using a specific subclass to verify the desired behavior.
+class ApplicationControllerCSRFTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = create(:user)
+    class Users::SessionsController # standard:disable Lint/ConstantDefinitionInBlock
+      alias_method :original_protect_against_forgery?, :protect_against_forgery?
+      def protect_against_forgery?
+        true
+      end
+    end
+  end
+
+  teardown do
+    class Users::SessionsController # standard:disable Lint/ConstantDefinitionInBlock
+      alias_method :protect_against_forgery?, :original_protect_against_forgery?
+      remove_method :original_protect_against_forgery?
+    end
+  end
+
+  test "handles an invalid_authenticity_token" do
+    post user_session_path, params: {user: {email: @user.email, password: "password"}}, headers: {referer: "http://example.com/users/sessions/new"}
+
+    assert_response :redirect
+    assert_equal "http://example.com/users/sessions/new", response.location
+    assert_equal "There was an issue with your submission, please try again.", flash[:error]
+  end
+end

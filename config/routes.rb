@@ -149,6 +149,7 @@ Rails.application.routes.draw do
       resources :items_with_holds, only: :index
       resources :zipcodes, only: :index
       get "money", to: "money#index"
+      get "members-with-overdue-loans", to: "members_with_overdue_loans#index"
     end
 
     namespace :settings do
@@ -191,7 +192,7 @@ Rails.application.routes.draw do
           resources :reservation_loans, only: [:create, :destroy]
           resources :reservation_holds
           resource :status, only: :update
-          resource :review, only: [:edit, :update]
+          resource :review, only: [:edit, :update, :show]
           resource :pickup, only: :show
           resource :item_pool_search, only: :show
           resource :questions, only: :show

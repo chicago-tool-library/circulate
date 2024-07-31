@@ -43,6 +43,7 @@ class Loan < ApplicationRecord
       now, zone, zone, tonight
     )
   }
+  scope :overdue, -> { where(ended_at: nil).where(arel_table[:due_at].lt(Time.current)) }
 
   acts_as_tenant :library
 

@@ -8,41 +8,46 @@ class AdminQuestionsTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    questions = create_list(:question, 3)
+    Time.use_zone("America/Chicago") do
+      questions = create_list(:question, 3)
 
-    questions_with_stems = questions.first(2).each do |question|
-      create(:stem, question:)
+      questions_with_stems = questions.first(2).each do |question|
+        create(:stem, question:)
+      end
+
+      archived_question = questions.first
+      archived_question.update!(archived_at: Time.current)
+
+      visit admin_questions_url
+
+      questions.each do |question|
+        assert_text question.name
+      end
+
+      questions_with_stems.each do |question|
+        assert_text question.stem.content
+        assert_text question.stem.answer_type
+      end
+
+      assert_text archived_question.archived_at.to_date.to_s
     end
-
-    archived_question = questions.first
-    archived_question.update!(archived_at: Time.current)
-
-    visit admin_questions_url
-
-    questions.each do |question|
-      assert_text question.name
-    end
-
-    questions_with_stems.each do |question|
-      assert_text question.stem.content
-      assert_text question.stem.answer_type
-    end
-
-    assert_text archived_question.archived_at.to_date.to_s
   end
 
   test "viewing a question with a stem" do
-    question = create(:question, archived_at: 3.days.ago)
-    stem = create(:stem, question:)
+    Time.use_zone("America/Chicago") do
+      question = create(:question, archived_at: 3.days.ago)
+      stem = create(:stem, question:, content: "My Cool Question")
 
-    visit admin_questions_url
-    click_on question.name
+      visit admin_questions_url
 
-    assert_text question.name
-    assert_equal admin_question_path(question), current_path
-    assert_text question.archived_at.to_date.to_s
-    assert_text stem.content
-    assert_text stem.answer_type.capitalize
+      click_on question.name
+
+      assert_text question.name
+      assert_current_path admin_question_path(question)
+      assert_text question.archived_at.to_date.to_s
+      assert_text stem.content
+      assert_text stem.answer_type.capitalize
+    end
   end
 
   test "viewing a question without a stem" do
@@ -52,25 +57,27 @@ class AdminQuestionsTest < ApplicationSystemTestCase
     click_on question.name
 
     assert_text question.name
-    assert_equal admin_question_path(question), current_path
+    assert_current_path admin_question_path(question)
     assert_text "Please edit to add question content"
   end
 
   test "archiving a question" do
-    question = create(:question, :unarchived)
+    Time.use_zone("America/Chicago") do
+      question = create(:question, :unarchived)
 
-    visit admin_question_path(question)
+      visit admin_question_path(question)
 
-    refute_text "Unarchive"
+      refute_text "Unarchive"
 
-    accept_confirm { click_on "Archive" }
+      accept_confirm { click_on "Archive" }
 
-    assert_text "Question was successfully archived"
+      assert_text "Question was successfully archived"
 
-    question.reload
+      question.reload
 
-    assert question.archived_at?
-    assert_equal Date.today, question.archived_at.to_date
+      assert question.archived_at?
+      assert_equal Date.today, question.archived_at.to_date
+    end
   end
 
   test "unarchiving a question" do
@@ -119,7 +126,7 @@ class AdminQuestionsTest < ApplicationSystemTestCase
 
     question = Question.last!
 
-    assert_equal admin_question_path(question), current_path
+    assert_current_path admin_question_path(question)
     assert_equal @attributes[:name], question.name
     assert question.stem.present?
     assert @stem_attributes[:answer_type], question.stem.answer_type
@@ -147,7 +154,7 @@ class AdminQuestionsTest < ApplicationSystemTestCase
 
     question.reload
 
-    assert_equal admin_question_path(question), current_path
+    assert_current_path admin_question_path(question)
     assert_equal @attributes[:name], question.name
     assert question.stem.present?
     refute_equal stem, question.stem

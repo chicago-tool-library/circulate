@@ -19,6 +19,7 @@ default: &defaults
     # The above are the default. The following is to help us narrow down if
     # only certain clients are encountering InvalidAuthenticityToken errors.
     - HTTP_USER_AGENT
+    - HTTP_REFERER
 
   # Errors that should not be recorded by AppSignal
   # For more information see our docs:

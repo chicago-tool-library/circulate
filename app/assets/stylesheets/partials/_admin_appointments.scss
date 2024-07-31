@@ -9,12 +9,12 @@
   }
 
   .card-footer {
+    display: flex;
+    justify-content: flex-end;
+
     button {
       margin-left: 0.5em;
     }
-
-    display: flex;
-    justify-content: flex-end;
   }
 
   table {

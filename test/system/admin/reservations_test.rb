@@ -16,31 +16,35 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    reservations = [
-      create(:reservation, status: "requested", started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
-      create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
-      create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
-    ]
+    Time.use_zone("America/Chicago") do
+      reservations = [
+        create(:reservation, status: "requested", started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
+        create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
+        create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
+      ]
 
-    visit admin_reservations_url
+      visit admin_reservations_url
 
-    reservations.each do |reservation|
+      reservations.each do |reservation|
+        assert_text reservation.name
+        assert_text reservation.status
+        assert_text formatted_date_only(reservation.started_at)
+        assert_text formatted_date_only(reservation.ended_at)
+      end
+    end
+  end
+
+  test "viewing a reservation" do
+    Time.use_zone("America/Chicago") do
+      reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
+
+      visit admin_reservation_url(reservation)
+
       assert_text reservation.name
       assert_text reservation.status
       assert_text formatted_date_only(reservation.started_at)
       assert_text formatted_date_only(reservation.ended_at)
     end
-  end
-
-  test "viewing a reservation" do
-    reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
-
-    visit admin_reservation_url(reservation)
-
-    assert_text reservation.name
-    assert_text reservation.status
-    assert_text formatted_date_only(reservation.started_at)
-    assert_text formatted_date_only(reservation.ended_at)
   end
 
   test "viewing a reservation's questions and answers" do
@@ -62,6 +66,22 @@ class AdminReservationsTest < ApplicationSystemTestCase
     end
   end
 
+  test "viewing a reservation's review notes after review" do
+    reservation = create(:reservation, :approved)
+
+    visit admin_reservation_url(reservation)
+    click_on "Review Notes"
+
+    assert_text reservation.notes
+  end
+
+  test "viewing a reservation's review notes before review" do
+    reservation = create(:reservation, notes: "")
+    visit admin_reservation_url(reservation)
+
+    refute_text "Review Notes"
+  end
+
   test "creating a reservation successfully" do
     visit new_admin_reservation_path
 
@@ -80,6 +100,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal @attributes[:name], reservation.name
     assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
     assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
+    assert_equal @user, reservation.submitted_by
   end
 
   test "creating a reservation with errors" do
