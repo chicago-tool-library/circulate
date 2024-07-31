@@ -26,7 +26,7 @@
             <% end %>
           </td>
           <td>
-            <%= member.user.email %>
+            <%= member.user&.email %>
           </td>
           <td>
             <%= format_phone_number(member.phone_number) %>
