@@ -26,12 +26,16 @@ services:
 
   database:
     image: postgres:15
+    command: -c config_file=/etc/postgresql.conf
+
     env_file:
       - config/docker.env
     ports:
       - '5435:5432'
     networks:
       - default
+    volumes:
+      - ./config/postgres.conf:/etc/postgresql.conf
     tmpfs:
       - /var/lib/postgresql/data
 
