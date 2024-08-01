@@ -50,14 +50,6 @@ class MemberMailer < ApplicationMailer
     summary_mail
   end
 
-  def hold_available
-    @member = params[:member]
-    @hold = params[:hold]
-    @subject = "One of your holds is available"
-    @library = @member.library
-    mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
-  end
-
   def holds_available
     @member = params[:member]
     @holds = params[:holds]
