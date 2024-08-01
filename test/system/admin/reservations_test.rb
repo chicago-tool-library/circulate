@@ -3,6 +3,7 @@ require "application_system_test_case"
 class AdminReservationsTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
+    @organization = create(:organization)
     @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
   end
 
@@ -17,9 +18,9 @@ class AdminReservationsTest < ApplicationSystemTestCase
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
-        create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now),
-        create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now),
-        create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now)
+        create(:reservation, status: "requested", started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
+        create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
+        create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
       ]
 
       visit admin_reservations_url
@@ -87,6 +88,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     fill_in "Name", with: @attributes[:name]
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    select(@organization.name, from: "Organization")
 
     assert_difference("Reservation.count", 1) do
       click_on "Create Reservation"
@@ -120,6 +122,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     fill_in "Name", with: @attributes[:name]
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    select(@organization.name, from: "Organization")
     fill_in text_stem.content, with: "text answer"
     fill_in integer_stem.content, with: "150"
 

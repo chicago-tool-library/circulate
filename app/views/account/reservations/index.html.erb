@@ -1,12 +1,11 @@
 <% content_for :header do %>
   <%= index_header "Reservations" do %>
-    <%= link_to "New reservation", new_admin_reservation_path, class: "btn" %>
+    <%= link_to "New reservation", new_account_reservation_path, class: "btn" %>
   <% end %>
 <% end %>
 
 <table class="table">
   <thead>
-    <th>Organization</th>
     <th>Name</th>
     <th>Starts</th>
     <th>Ends</th>
@@ -17,10 +16,7 @@
     <% @reservations.each do |reservation| %>
       <tr id="<%= dom_id reservation %>">
         <td>
-          <%= link_to reservation.organization.name, admin_organization_path(reservation.organization) %>
-        </td>
-        <td>
-          <%= link_to reservation.name, admin_reservation_path(reservation) %>
+          <%= link_to reservation.name, account_reservation_path(reservation) %>
         </td>
 
         <td>

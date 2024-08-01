@@ -5,6 +5,7 @@ class ReservationHold < ApplicationRecord
   has_many :reservation_loans
 
   validate :ensure_quantity_is_available
+  validates :quantity, numericality: {only_integer: true, greater_than: 0}
 
   # TODO add database constraint
   validates :item_pool_id, uniqueness: {scope: :reservation_id, message: "already added to this reservation"}

@@ -20,6 +20,7 @@ class Reservation < ApplicationRecord
   has_many :reservation_policies, through: :item_pools
   has_many :answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", required: false
+  belongs_to :organization
   belongs_to :submitted_by, class_name: "User", required: true
 
   accepts_nested_attributes_for :answers, allow_destroy: false
