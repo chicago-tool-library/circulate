@@ -37,7 +37,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
     get items_url(category: category.id)
 
-    assert_select "a[href='#{item_path(item)}']", count: 1
+    assert_select "a[href='#{item_path(item)}?search_result_index=0']", count: 1
   end
 
   [:retired, :pending].each do |status|

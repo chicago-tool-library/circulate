@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
 
     # Track that a search was performed if we are on the first page
     if @query && @pagy.page == 1
-      ahoy.track "Searched", query: @query
+      ahoy.track "Searched", query: @query, params: @filter_params || {}, n_results: @pagy.count
     end
   end
 
@@ -34,7 +34,11 @@ class ItemsController < ApplicationController
       @current_hold_count = current_member.active_holds.active_hold_count_for_item(@item).to_i
     end
 
-    ahoy.track "Item viewed", item_id: @item.id
+    # the `request.referer != request.url` condition prevents logging the view after
+    # placing a hold redirects back to the item page
+    if request.referer != request.url
+      ahoy.track "Item viewed", item_id: @item.id, referrer_url: request.referer, search_result_index: params[:search_result_index].to_i + 1
+    end
   end
 
   private

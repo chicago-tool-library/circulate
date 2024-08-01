@@ -72,10 +72,10 @@
 
     <% if @items.any? %>
       <div class="items-table">
-        <% @items.each do |item| %>
+        <% @items.each.with_index do |item, index| %>
           <%= tag.div class: "items-table-image" do %>
             <% if item.image.attached? %>
-              <%= link_to item_path(item) do %>
+              <%= link_to item_path(item, search_result_index: index) do %>
                 <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
               <% end %>
             <% else %>
@@ -90,7 +90,7 @@
               <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
             <% end %>
             <br>
-            <%= link_to item.name, item_path(item) %>
+            <%= link_to item.name, item_path(item, search_result_index: index) %>
             <%#= item.added %>
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
