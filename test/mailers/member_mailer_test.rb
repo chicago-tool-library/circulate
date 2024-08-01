@@ -88,7 +88,7 @@ class MemberMailerTest < ApplicationSystemTestCase
     assert_emails(1) { email.deliver_now }
 
     message = "Your holds are available"
-    expected_subject = "#{message} (#{item_names.join(', ')})"
+    expected_subject = "#{message} (#{item_names.join(", ")})"
 
     assert_delivered_email(to: member.email) do |text, html, _, subject|
       assert_equal expected_subject, subject

@@ -98,6 +98,45 @@ class MemberTexterTest < ActionMailer::TestCase
     assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
   end
 
+  test "sends a holds available message to the member (multiple holds)" do
+    member = create(:verified_member, reminders_via_text: true)
+    holds = create_list(:hold, 3, member:)
+    item_numbers = holds.map { |hold| hold.item.complete_number }.join(", ")
+
+    reasonable_hour = Time.current.change(hour: 9, min: 0)
+    travel_to reasonable_hour do
+      MemberTexter.new(member).holds_available(holds)
+    end
+
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_equal text.to, member.canonical_phone_number
+    assert_nil text.schedule_type
+    assert_nil text.send_at
+    assert_equal "accepted", text.status
+    assert_includes text.body, "Your holds for #{item_numbers} are available"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
+    assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
+  end
+
+  test "sends a holds available message to the member (one hold)" do
+    member = create(:verified_member, reminders_via_text: true)
+    hold = create(:hold, member: member)
+
+    reasonable_hour = Time.current.change(hour: 9, min: 0)
+    travel_to reasonable_hour do
+      MemberTexter.new(member).holds_available([hold])
+    end
+
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_equal text.to, member.canonical_phone_number
+    assert_nil text.schedule_type
+    assert_nil text.send_at
+    assert_equal "accepted", text.status
+    assert_includes text.body, "Your hold for #{hold.item.complete_number} is available"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
+    assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
+  end
+
   test "schedules a hold available message for tomorrow morning if it's after 8pm" do
     member = create(:verified_member, reminders_via_text: true)
     hold = create(:hold, member: member)
