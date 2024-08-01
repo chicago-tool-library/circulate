@@ -286,7 +286,7 @@ class HoldTest < ActiveSupport::TestCase
     end
   end
 
-  test "start_waiting_holds" do
+  test "start_waiting_holds smoke test" do
     unnumbered_hold = create(:hold, :active, :waiting, item: create(:item, :active, :available, :unnumbered))
     # no other holds
     solo_hold = create(:hold, :active, :waiting, item: create(:item, :active, :available, :uniquely_numbered))
