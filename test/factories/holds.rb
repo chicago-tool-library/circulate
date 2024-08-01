@@ -40,16 +40,5 @@ FactoryBot.define do
     trait :active do
       ended_at { nil }
     end
-
-    factory :previous_active_hold do
-      transient do
-        for_hold do
-          association(:hold, :active, item:)
-        end
-      end
-      active
-      item { association(:item, :uniquely_numbered) }
-      position { for_hold.position - 1 }
-    end
   end
 end

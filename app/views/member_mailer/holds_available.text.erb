@@ -1,0 +1,14 @@
+<%= @subject %>
+
+<% @holds.each do |hold|%>
+- <%= hold.item.name %> (<%= hold.item.complete_number %>) is now available!
+<% end %>
+
+
+Please login to your account and schedule an appointment to pick your items up:
+
+<%= new_account_appointment_url %>
+
+* If you aren't able to get an item in the next 7 days, it will become available for another member.
+
+* If you no longer wish to borrow an item, please cancel the hold in your account so it can be borrowed by another member.
