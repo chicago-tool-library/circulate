@@ -22,8 +22,8 @@ class Member < ApplicationRecord
   has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
-  enum id_kind: [:drivers_license, :state_id, :city_key, :student_id, :employee_id, :other_id_kind]
-  enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
+  enum id_kind: {drivers_license: 0, state_id: 1, city_key: 2, student_id: 3, employee_id: 4, other_id_kind: 5}
+  enum status: {pending: 0, verified: 1, suspended: 2, deactivated: 3}, _prefix: true
 
   validates :email,
     format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"},
@@ -57,11 +57,11 @@ class Member < ApplicationRecord
   before_validation :set_default_address_fields
   before_validation :downcase_email
 
+  after_update :update_neon_crm, if: :can_update_neon_crm?
   after_save :send_welcome_text, if: -> {
     reminders_via_text? && (saved_change_to_phone_number? || saved_change_to_reminders_via_text?)
   }
   after_save :update_user_email
-  after_update :update_neon_crm, if: :can_update_neon_crm?
 
   acts_as_tenant :library
 

@@ -5,7 +5,7 @@ class GiftMembership < ApplicationRecord
 
   composed_of :code, class_name: "GiftMembershipCode", mapping: %w[code value], allow_nil: true
 
-  belongs_to :membership, required: false
+  belongs_to :membership, optional: true
   validates :purchaser_email, format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"}
   validates :purchaser_name, presence: true
   validates :code, presence: true, uniqueness: {scope: :library_id}

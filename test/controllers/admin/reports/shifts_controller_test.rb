@@ -11,7 +11,7 @@ module Admin
       end
 
       test "displays volunteer shifts" do
-        create(:volunteer_shift_event, start: Time.current + 24.hours, finish: Time.current + 26.hours)
+        create(:volunteer_shift_event, start: 24.hours.from_now, finish: 26.hours.from_now)
 
         get admin_reports_shifts_url
         assert_response :success

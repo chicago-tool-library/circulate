@@ -90,7 +90,7 @@ def scrub_data
   SQL
 
   # There are some members in the database without associated users that the above query doesn't update.
-  Member.left_joins(:user).where(user: {id: nil}).each { |m| m.destroy }
+  Member.where.missing(:user).each { |m| m.destroy }
 
   User.connection.execute(<<~SQL)
     UPDATE users

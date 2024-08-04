@@ -16,9 +16,9 @@ class LoanSummary < ApplicationRecord
   scope :checked_out, -> { where(ended_at: nil) }
   scope :due_on, ->(day) { where("due_at BETWEEN ? AND ?", day.beginning_of_day.utc, day.end_of_day.utc) }
   scope :overdue, -> { overdue_as_of(Time.current) }
-  scope :overdue_as_of, ->(date) { checked_out.where "due_at < ?", date }
+  scope :overdue_as_of, ->(date) { checked_out.where(due_at: ...date) }
   scope :returned, -> { where.not(ended_at: nil) }
-  scope :returned_since, ->(date) { where("loan_summaries.ended_at >= ?", date) }
+  scope :returned_since, ->(date) { where(loan_summaries: {ended_at: date..}) }
 
   scope :by_end_date, -> { order(ended_at: :asc) }
   scope :by_due_date, -> { order(due_at: :asc) }

@@ -11,7 +11,7 @@ class Stem < ApplicationRecord
     AnswerTypes::TEXT => AnswerTypes::TEXT
   }
 
-  belongs_to :question, required: true
+  belongs_to :question, optional: false
   has_many :answers, dependent: :destroy
 
   validates :content, presence: true

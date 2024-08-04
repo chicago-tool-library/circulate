@@ -1,6 +1,6 @@
 # A ReservationLoan represents that a specific ReservableItem was checked out for a Reservation.
 class ReservationLoan < ApplicationRecord
-  belongs_to :reservable_item, required: false
+  belongs_to :reservable_item, optional: true
   belongs_to :reservation_hold
   belongs_to :reservation
 

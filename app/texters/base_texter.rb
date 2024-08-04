@@ -26,7 +26,7 @@ class BaseTexter
   end
 
   def text(to:, body:, send_at: nil)
-    Rails.logger.debug("Sending SMS to: #{to}, body: #{body}")
+    Rails.logger.debug { "Sending SMS to: #{to}, body: #{body}" }
     schedule_args = {}
     if send_at.present?
       schedule_args = {send_at: send_at, schedule_type: "fixed"}

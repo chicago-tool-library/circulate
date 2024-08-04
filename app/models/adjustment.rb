@@ -18,9 +18,9 @@ class Adjustment < ApplicationRecord
   belongs_to :member
 
   # validates_presence_of :square_transaction_id, if: ->(a) { a.square? }
-  validates_inclusion_of :payment_source, in: payment_sources, if: ->(a) { a.payment? }
-  validates_absence_of :payment_source, unless: ->(a) { a.payment? }
-  validates_inclusion_of :kind, in: kinds
+  validates :payment_source, inclusion: {in: payment_sources, if: ->(a) { a.payment? }}
+  validates :payment_source, absence: {unless: ->(a) { a.payment? }}
+  validates :kind, inclusion: {in: kinds}
 
   def self.record_membership(membership, amount)
     membership.member.adjustments.create!(amount: -amount, adjustable: membership, kind: "membership")

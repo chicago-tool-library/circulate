@@ -1,0 +1,3 @@
+# See: https://github.com/standardrb/standard?tab=readme-ov-file#yaml-options
+plugins:
+  - standard-rails

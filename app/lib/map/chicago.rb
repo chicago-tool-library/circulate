@@ -1,6 +1,6 @@
 module Map
   class Chicago
-    SVG_FILE = File.join(Rails.root, "app/lib/map/chicago.svg")
+    SVG_FILE = Rails.root.join("app/lib/map/chicago.svg").to_s
 
     def initialize(values = {}, svg: nil, fill: "#DF6C54")
       @values = values

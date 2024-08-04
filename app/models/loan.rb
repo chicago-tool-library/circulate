@@ -8,7 +8,7 @@ class Loan < ApplicationRecord
   has_one :hold, dependent: :nullify
 
   validates :due_at, presence: true
-  validates_numericality_of :ended_at, allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }
+  validates :ended_at, numericality: {allow_nil: true, greater_than_or_equal_to: ->(loan) { loan.created_at }}
   validates :initial_loan_id, uniqueness: {scope: :renewal_count}, if: ->(l) { l.initial_loan_id.present? }
 
   validates_each :item_id do |record, attr, value|

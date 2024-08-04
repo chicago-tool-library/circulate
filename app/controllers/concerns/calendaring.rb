@@ -3,7 +3,7 @@ module Calendaring
 
   def sync_upcoming_events
     Date.beginning_of_week = :sunday
-    cutoff = Time.current + 60.days
+    cutoff = 60.days.from_now
     result = google_calendar.upcoming_events(Time.current.beginning_of_day, cutoff)
     if result.success?
       Event.update_events(result.value)

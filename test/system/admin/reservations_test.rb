@@ -8,7 +8,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   def formatted_date_only(datetime)
-    datetime.to_formatted_s(:long).sub(/\d\d:\d\d/, "")
+    datetime.to_fs(:long).sub(/\d\d:\d\d/, "")
   end
 
   def date_input_format(datetime)

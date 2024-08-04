@@ -5,12 +5,12 @@ class BorrowPolicy < ApplicationRecord
 
   validates :name,
     presence: true, uniqueness: {scope: :library_id, case_sensitive: false}
-  validates_numericality_of :duration,
-    only_integer: true, greater_than_or_equal_to: 1, less_than: 365
-  validates_numericality_of :fine_period,
-    only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100
-  validates_numericality_of :renewal_limit,
-    only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52
+  validates :duration,
+    numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than: 365}
+  validates :fine_period,
+    numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
+  validates :renewal_limit,
+    numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52}
   validates :code, inclusion: {in: "A".."ZZ", message: "must be 1 or 2 letters from A to ZZ"}, uniqueness: {scope: :library_id}
 
   validate :require_consumables_to_not_be_uniquely_numbered
@@ -48,7 +48,7 @@ class BorrowPolicy < ApplicationRecord
 
   def make_only_default
     if default
-      self.class.where("id != ?", id).update_all(default: false)
+      self.class.where.not(id: id).update_all(default: false)
     end
   end
 

@@ -12,8 +12,8 @@ class Membership < ApplicationRecord
 
   scope :active, -> { where("started_at <= ? AND ended_at >= ?", Time.current, Time.current) }
   scope :pending, -> { where(started_at: nil, ended_at: nil) }
-  scope :ended, -> { where("ended_at <= ?", Time.current).order("ended_at ASC") }
-  scope :expiring_before, ->(date) { where("ended_at <= ?", date) }
+  scope :ended, -> { where(ended_at: ..Time.current).order("ended_at ASC") }
+  scope :expiring_before, ->(date) { where(ended_at: ..date) }
 
   scope :for_export, -> {
     select_clauses = year_range_for_export.flat_map { |year|
