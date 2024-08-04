@@ -34,7 +34,7 @@ end
 
 desc "Export data for eventual import using pg_restore"
 task :create_database_dump do
-  path = "exports/#{Time.now.to_date}.pgdump"
+  path = "exports/#{Date.current}.pgdump"
   `pg_dump --no-acl --no-owner --clean --format=custom circulate_development > #{path}`
 end
 

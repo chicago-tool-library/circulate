@@ -7,8 +7,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       status: "confirmed",
       description: "more info"
     )
@@ -24,8 +24,8 @@ class EventTest < ActiveSupport::TestCase
 
     assert new_event
     assert_equal [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")], new_event.attendees
-    assert_equal Time.new(2020, 11, 5, 18, 0), new_event.start
-    assert_equal Time.new(2020, 11, 5, 20, 0), new_event.finish
+    assert_equal Time.zone.local(2020, 11, 5, 18, 0), new_event.start
+    assert_equal Time.zone.local(2020, 11, 5, 20, 0), new_event.finish
     assert_equal "more info", new_event.description
   end
 
@@ -35,8 +35,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "summary before",
       description: "description before",
-      start: Time.new(2020, 11, 12, 18, 0),
-      finish: Time.new(2020, 11, 12, 20, 0),
+      start: Time.zone.local(2020, 11, 12, 18, 0),
+      finish: Time.zone.local(2020, 11, 12, 20, 0),
       attendees: [Attendee.new(email: "person@example.com", name: "A Person", status: "accepted")]
     )
 
@@ -45,8 +45,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: [Attendee.new(email: "someone-else@example.com", name: "Someone Else", status: "needsAction")],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       status: "confirmed",
       description: "more info"
     )
@@ -62,8 +62,8 @@ class EventTest < ActiveSupport::TestCase
 
     assert updated_event
     assert_equal [Attendee.new(email: "someone-else@example.com", name: "Someone Else", status: "needsAction")], updated_event.attendees
-    assert_equal Time.new(2020, 11, 5, 18, 0), updated_event.start
-    assert_equal Time.new(2020, 11, 5, 20, 0), updated_event.finish
+    assert_equal Time.zone.local(2020, 11, 5, 18, 0), updated_event.start
+    assert_equal Time.zone.local(2020, 11, 5, 20, 0), updated_event.finish
     assert_equal "more info", updated_event.description
   end
 
@@ -73,8 +73,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: ["person@example.com"],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       description: "more info"
     )
 
@@ -83,8 +83,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: ["someone-else@example.com"],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       status: "cancelled",
       description: "more info"
     )
@@ -107,8 +107,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: ["person@example.com"],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       description: "more info"
     )
 
@@ -117,8 +117,8 @@ class EventTest < ActiveSupport::TestCase
       calendar_id: "CAL1",
       summary: "a quick event",
       attendees: ["someone-else@example.com"],
-      start: Time.new(2020, 11, 5, 18, 0),
-      finish: Time.new(2020, 11, 5, 20, 0),
+      start: Time.zone.local(2020, 11, 5, 18, 0),
+      finish: Time.zone.local(2020, 11, 5, 20, 0),
       status: "cancelled",
       description: "more info"
     )

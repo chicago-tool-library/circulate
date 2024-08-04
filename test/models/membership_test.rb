@@ -220,7 +220,7 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "next_start_date_for_member with a new member" do
     member = create(:member)
-    now = Time.new(2025, 11, 5)
+    now = Time.zone.parse("2025-11-05")
 
     assert_equal now, Membership.next_start_date_for_member(member, now: now)
   end
