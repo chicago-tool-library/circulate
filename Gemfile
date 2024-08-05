@@ -69,7 +69,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "standard"
-  gem "standard-rails", "~> 1.1.0"
+  # Temporarily pinning standard-rails until a release after 1.1.0 is cut
+  gem "standard-rails", github: "standardrb/standard-rails", ref: "3570b7ab7c6d6ff36c5f4d26f92044bc47fb62cb"
   gem "factory_bot_rails"
   gem "spy"
   gem "letter_opener"
