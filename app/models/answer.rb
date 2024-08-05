@@ -1,6 +1,6 @@
 class Answer < ApplicationRecord
-  belongs_to :stem, required: true
-  belongs_to :reservation, required: true
+  belongs_to :stem, optional: false
+  belongs_to :reservation, optional: false
 
   validates :result, presence: true
   validates :reservation_id, uniqueness: {scope: :stem_id}

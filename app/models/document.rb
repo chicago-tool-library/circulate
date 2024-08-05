@@ -1,7 +1,7 @@
 class Document < ApplicationRecord
   has_rich_text :body
 
-  validates_presence_of :name, :summary
+  validates :name, :summary, presence: true
 
   scope :coded, ->(code) { where(code: code) }
 

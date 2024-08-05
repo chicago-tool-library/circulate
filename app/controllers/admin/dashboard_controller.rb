@@ -16,9 +16,9 @@ module Admin
       @items_checked_out_today = Loan.where("created_at BETWEEN ? AND ?", Time.current.beginning_of_day, Time.current.end_of_day).count
 
       # this week
-      @loans_past_week = Loan.where("created_at >= ?", 7.days.ago).count
-      @new_members_past_week = Member.where("created_at >= ?", 7.days.ago).count
-      @new_verified_members_past_week = Member.verified.where("created_at >= ?", 7.days.ago).count
+      @loans_past_week = Loan.where(created_at: 7.days.ago..).count
+      @new_members_past_week = Member.where(created_at: 7.days.ago..).count
+      @new_verified_members_past_week = Member.verified.where(created_at: 7.days.ago..).count
     end
   end
 end

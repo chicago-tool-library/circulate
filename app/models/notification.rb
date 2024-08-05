@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  belongs_to :member, required: false
+  belongs_to :member, optional: true
 
   validates :address, presence: true
   validates :action, presence: true

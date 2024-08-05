@@ -24,8 +24,8 @@ class AppointmentTest < ActiveSupport::TestCase
     appointment = Appointment.new
     appointment.time_range_string = "2021-03-31 18:00:00 -0500..2021-03-31 19:00:00 -0500"
 
-    assert_equal DateTime.new(2021, 3, 31, 23, 0, 0), appointment.starts_at
-    assert_equal DateTime.new(2021, 4, 1, 0, 0, 0), appointment.ends_at
+    assert_equal Time.zone.parse("2021-3-31 23:00"), appointment.starts_at
+    assert_equal Time.zone.parse("2021-4-1 00:00"), appointment.ends_at
   end
 
   ["blarg..blarg", "boom", nil, ""].each do |value|

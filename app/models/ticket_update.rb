@@ -1,7 +1,7 @@
 class TicketUpdate < ApplicationRecord
   belongs_to :ticket, touch: true
   belongs_to :creator, class_name: "User"
-  belongs_to :audit, class_name: "Audited::Audit", required: false
+  belongs_to :audit, class_name: "Audited::Audit", optional: true
 
   has_rich_text :body
   validates :body, presence: true

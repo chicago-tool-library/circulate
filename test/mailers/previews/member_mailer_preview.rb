@@ -43,7 +43,7 @@ class MemberMailerPreview < ActionMailer::Preview
   end
 
   def items_on_hold
-    loan_summaries = LoanSummary.where("due_at > ?", Time.current + 1.day).limit(5).includes(item: :borrow_policy).to_a
+    loan_summaries = LoanSummary.where("due_at > ?", 1.day.from_now).limit(5).includes(item: :borrow_policy).to_a
     member = Member.second
 
     first_item = loan_summaries.first.item
@@ -73,7 +73,7 @@ class MemberMailerPreview < ActionMailer::Preview
       RenewalRequest.create!(loan: loan)
     end
 
-    renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where("created_at >= ?", Time.current.beginning_of_day.utc).includes(loan: [:item, :member]).limit(5)
+    renewal_requests = RenewalRequest.requested.where.not(loan_id: nil).where(created_at: Time.current.beginning_of_day.utc..).includes(loan: [:item, :member]).limit(5)
 
     MemberMailer.with(member: Member.joins(:user).where(users: {role: :admin}).first, renewal_requests: renewal_requests).staff_daily_renewal_requests
   end
@@ -101,7 +101,7 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def appointment_confirmation
     member = Member.verified.first
-    tomorrow = Time.current + 1.day
+    tomorrow = 1.day.from_now
     loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: Member.verified.first, due_at: tomorrow, uniquely_numbered: false, library: member.library)
     appointment = Appointment.new(starts_at: tomorrow, ends_at: tomorrow + 1.hour, member: member)
     appointment.loans << loan
@@ -111,7 +111,7 @@ class MemberMailerPreview < ActionMailer::Preview
 
   def appointment_updated
     member = Member.verified.first
-    tomorrow = Time.current + 1.day
+    tomorrow = 1.day.from_now
     loan = Loan.create!(item: Item.available.order("RANDOM()").first, member: member, due_at: tomorrow, uniquely_numbered: false, library: member.library)
     appointment = Appointment.new(starts_at: tomorrow, ends_at: tomorrow + 1.hour, member: member)
     appointment.loans << loan

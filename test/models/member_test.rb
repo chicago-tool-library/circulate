@@ -105,7 +105,7 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_nil member.upcoming_appointment_of(hold), "it should return nil if there is no appointment found"
 
-    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
+    appointment = create(:appointment, member: member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, holds: [hold])
     assert_equal appointment, member.upcoming_appointment_of(hold)
   end
 
@@ -115,7 +115,7 @@ class MemberTest < ActiveSupport::TestCase
 
     assert_nil member.upcoming_appointment_of(loan), "it should return nil if there is no appointment found"
 
-    appointment = create(:appointment, member: member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, loans: [loan])
+    appointment = create(:appointment, member: member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, loans: [loan])
     assert_equal appointment, member.upcoming_appointment_of(loan)
   end
 

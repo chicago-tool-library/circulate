@@ -33,7 +33,7 @@ class LoanTest < ActiveSupport::TestCase
 
   test "can update an active loan" do
     loan = create(:loan)
-    loan.due_at = Date.today.end_of_day
+    loan.due_at = Date.current.end_of_day
     loan.save!
   end
 

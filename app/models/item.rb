@@ -54,7 +54,7 @@ class Item < ApplicationRecord
   scope :available, -> { left_outer_joins(:checked_out_exclusive_loan).where(loans: {id: nil}) }
   scope :without_attached_image, -> { left_joins(:image_attachment).where(active_storage_attachments: {record_id: nil}) }
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
-  scope :without_active_holds, -> { left_outer_joins(:active_holds).where(active_holds: {id: nil}) }
+  scope :without_active_holds, -> { where.missing(:active_holds) }
   scope :available_now, -> { available.without_active_holds.where(status: Item.statuses[:active]) }
 
   scope :by_name, -> { order(name: :asc) }
@@ -137,7 +137,7 @@ class Item < ApplicationRecord
     %w[name brand size model serial strength].each do |attr_name|
       value = attributes[attr_name]
       next unless value.present?
-      write_attribute attr_name, value.strip
+      self[attr_name] = value.strip
     end
   end
 

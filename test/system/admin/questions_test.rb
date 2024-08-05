@@ -76,7 +76,7 @@ class AdminQuestionsTest < ApplicationSystemTestCase
       question.reload
 
       assert question.archived_at?
-      assert_equal Date.today, question.archived_at.to_date
+      assert_equal Date.current, question.archived_at.to_date
     end
   end
 

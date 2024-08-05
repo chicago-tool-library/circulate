@@ -5,7 +5,7 @@ module Admin
     include AdminHelper
 
     def setup
-      @date = DateTime.new(2022, 1, 1)
+      @date = Time.zone.parse("2022-1-1")
       travel_to @date
 
       # 2 new (verified) members this month and 1 pending
@@ -14,31 +14,30 @@ module Admin
       create(:complete_member, status: :pending)
 
       # 1 existing member from November last year
-      november_member_1 = create(:verified_member_with_membership, created_at: DateTime.new(2021, 11, 1))
+      november_member_1 = create(:verified_member_with_membership, created_at: Time.zone.parse("2021-11-1"))
 
       # 2 loans for the same member this month, giving us 1 active member
       january_loan_1 = create(:loan, member: january_member_1)
       january_loan_2 = create(:loan, member: january_member_1)
 
       # 1 loan for an old member last month, giving us 1 active member
-      december_loan_1 = create(:loan, member: november_member_1, created_at: DateTime.new(2021, 12, 10))
+      december_loan_1 = create(:loan, member: november_member_1, created_at: Time.zone.parse("2021-12-10"))
 
       # 2 appointments this month, 1 of which completed.
-      create(:appointment, member: january_member_1, starts_at: DateTime.new(2022, 1, 5),
-        ends_at: DateTime.new(2022, 1, 6), loans: [january_loan_1])
-      create(:appointment, member: january_member_1, starts_at: DateTime.new(2022, 1, 27),
-        ends_at: DateTime.new(2022, 1, 28), completed_at: DateTime.new(2022, 1, 28), loans: [january_loan_2])
+      create(:appointment, member: january_member_1, starts_at: Time.zone.parse("2022-1-5"),
+        ends_at: Time.zone.parse("2022-1-6"), loans: [january_loan_1])
+      create(:appointment, member: january_member_1, starts_at: Time.zone.parse("2022-1-27"),
+        ends_at: Time.zone.parse("2022-1-28"), completed_at: Time.zone.parse("2022-1-28"), loans: [january_loan_2])
 
       # 1 appointment which started and was completed last month but ended this month,
       # giving us 1 for last month
-      create(:appointment, member: november_member_1, starts_at: DateTime.new(2021, 12, 25),
-        ends_at: DateTime.new(2022, 1, 1), completed_at: DateTime.new(2021, 12, 26), loans: [december_loan_1])
+      create(:appointment, member: november_member_1, starts_at: Time.zone.parse("2021-12-25"),
+        ends_at: Time.zone.parse("2022-1-1"), completed_at: Time.zone.parse("2021-12-26"), loans: [december_loan_1])
 
       sign_in_as_admin
     end
 
     def teardown
-      travel_back
     end
 
     # ╔═══════════════╦══════════════════════╦═════════════════════╦════════════════════════════╗

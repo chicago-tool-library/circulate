@@ -143,7 +143,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     @loan1 = create(:loan, item: @borrowed_item1, member: @member)
     @loan2 = create(:loan, item: @borrowed_item2, member: @member)
 
-    @appointment = create(:appointment, member: @member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [@hold1], loans: [@loan1])
+    @appointment = create(:appointment, member: @member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, holds: [@hold1], loans: [@loan1])
 
     visit account_home_url
 

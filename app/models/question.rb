@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  belongs_to :library, required: true
+  belongs_to :library, optional: false
   has_many :stems, dependent: :destroy
   has_one :stem, -> { order(created_at: :desc) }
   has_many :answers, through: :stems

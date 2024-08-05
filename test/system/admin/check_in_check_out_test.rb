@@ -151,12 +151,12 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "renews item" do
     Time.use_zone "America/Chicago" do
-      saturday = Time.new(2020, 1, 25).end_of_day
+      saturday = Time.zone.parse("2020-1-25").end_of_day
       @item = create(:item)
       @member = create(:verified_member_with_membership)
       create(:loan, item: @item, member: @member, due_at: saturday, created_at: saturday - 7.days)
 
-      friday = Time.new(2020, 1, 24, 12, 30)
+      friday = Time.zone.parse("2020-1-24 12:30")
 
       travel_to friday do
         visit admin_member_url(@member)
@@ -196,13 +196,13 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
 
   test "can't renew item with max renewals" do
     Time.use_zone "America/Chicago" do
-      sunday = Time.new(2020, 1, 26).end_of_day
+      sunday = Time.zone.parse("2020-1-26").end_of_day
       borrow_policy = create(:borrow_policy, renewal_limit: 0)
       @item = create(:item, borrow_policy: borrow_policy)
       @member = create(:verified_member_with_membership)
       create(:loan, item: @item, member: @member, due_at: sunday, created_at: sunday - 7.days)
 
-      saturday = Time.new(2020, 1, 25, 12, 30)
+      saturday = Time.zone.parse("2020-1-25 12:30")
 
       travel_to saturday do
         visit admin_member_url(@member)

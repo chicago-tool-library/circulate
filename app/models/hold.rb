@@ -7,7 +7,7 @@ class Hold < ApplicationRecord
   belongs_to :member
   belongs_to :item, counter_cache: true
   belongs_to :creator, class_name: "User"
-  belongs_to :loan, required: false
+  belongs_to :loan, optional: true
 
   # sequential_updates moves items one at a time to deal with having a uniqueness constraint on [item_id, position]
   # if/when that becomes a performance issue, we can consider making the constraint deferred
@@ -19,9 +19,9 @@ class Hold < ApplicationRecord
     )
   }
   scope :inactive, ->(now = Time.current) { ended.or(expired(now)) }
-  scope :ended, -> { where("ended_at IS NOT NULL") }
-  scope :expired, ->(now = Time.current) { where("expires_at < ?", now) }
-  scope :started, -> { where("started_at IS NOT NULL") }
+  scope :ended, -> { where.not(ended_at: nil) }
+  scope :expired, ->(now = Time.current) { where(expires_at: ...now) }
+  scope :started, -> { where.not(started_at: nil) }
   scope :waiting, -> { where("started_at IS NULL") }
 
   scope :recent_first, -> { order("created_at desc") }
@@ -86,7 +86,7 @@ class Hold < ApplicationRecord
   end
 
   def previous_active_holds(now = Time.current)
-    Hold.active(now).where("position < ?", position).where(item: item).where.not(member: member).ordered_by_position.to_a
+    Hold.active(now).where(position: ...position).where(item: item).where.not(member: member).ordered_by_position.to_a
   end
 
   def ready_for_pickup?(now = Time.current)
@@ -110,7 +110,7 @@ class Hold < ApplicationRecord
   end
 
   def self.extend_started_holds_until(date)
-    Hold.active.started.where("expires_at < ?", date).update_all(expires_at: date)
+    Hold.active.started.where(expires_at: ...date).update_all(expires_at: date)
   end
 
   def self.start_waiting_holds(now = Time.current, &block)
@@ -118,32 +118,32 @@ class Hold < ApplicationRecord
 
     active(now).includes(item: :borrow_policy).find_each do |hold|
       if hold.item.status == Item.statuses[:maintenance]
-        Rails.logger.debug "[hold #{hold.id}]: item in maintenance mode"
+        Rails.logger.debug { "[hold #{hold.id}]: item in maintenance mode" }
         next
       end
 
       unless hold.item.holdable?
-        Rails.logger.debug "[hold #{hold.id}]: item is not holdable"
+        Rails.logger.debug { "[hold #{hold.id}]: item is not holdable" }
         next
       end
 
       if hold.started?
-        Rails.logger.debug "[hold #{hold.id}]: already started"
+        Rails.logger.debug { "[hold #{hold.id}]: already started" }
         next
       end
 
       unless hold.ready_for_pickup?(now)
-        Rails.logger.debug "[hold #{hold.id}]: not ready for pickup"
+        Rails.logger.debug { "[hold #{hold.id}]: not ready for pickup" }
         next
       end
 
-      Rails.logger.debug "[hold #{hold.id}]: ready to start"
+      Rails.logger.debug { "[hold #{hold.id}]: ready to start" }
       hold.start!(now)
       yield hold if block # send email
       started += 1
     end
 
-    Rails.logger.debug "Audit active holds: started #{started}."
+    Rails.logger.debug { "Audit active holds: started #{started}." }
 
     started
   end

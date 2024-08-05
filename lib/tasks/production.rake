@@ -34,7 +34,7 @@ end
 
 desc "Export data for eventual import using pg_restore"
 task :create_database_dump do
-  path = "exports/#{Time.now.to_date}.pgdump"
+  path = "exports/#{Date.current}.pgdump"
   `pg_dump --no-acl --no-owner --clean --format=custom circulate_development > #{path}`
 end
 
@@ -90,7 +90,7 @@ def scrub_data
   SQL
 
   # There are some members in the database without associated users that the above query doesn't update.
-  Member.left_joins(:user).where(user: {id: nil}).each { |m| m.destroy }
+  Member.where.missing(:user).each { |m| m.destroy }
 
   User.connection.execute(<<~SQL)
     UPDATE users

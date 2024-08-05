@@ -24,7 +24,7 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     @loan = create(:loan, item: @borrowed_item, member: @member)
 
     create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 27.hours.since.beginning_of_hour, finish: 28.hours.since.beginning_of_hour)
-    @appointment = create(:appointment, member: @member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [@hold], loans: [@loan])
+    @appointment = create(:appointment, member: @member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, holds: [@hold], loans: [@loan])
 
     visit account_holds_path
     accept_confirm { click_on "Remove Hold" }
@@ -47,7 +47,7 @@ class RemoveHoldsTest < ApplicationSystemTestCase
   test "removes hold and cancels associated appointment if it's the only item" do
     held_item = create(:item)
     hold = create(:hold, item: held_item, member: @member)
-    create(:appointment, member: @member, starts_at: Time.now + 1.day, ends_at: Time.now + 1.day + 2.hours, holds: [hold])
+    create(:appointment, member: @member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, holds: [hold])
 
     visit account_holds_path
     accept_confirm { click_on "Remove Hold" }

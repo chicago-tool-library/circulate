@@ -13,11 +13,7 @@ module Admin
             @member.assign_number
             @member.status_verified!
           end
-          name = if @member.preferred_name.blank?
-            @member.full_name
-          else
-            @member.preferred_name
-          end
+          name = @member.preferred_name.presence || @member.full_name
           flash[:success] = "#{name}'s membership has been activated."
           redirect_to admin_member_url(@member), status: :see_other
         else
