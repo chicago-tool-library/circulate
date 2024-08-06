@@ -6,7 +6,7 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
       reminders_via_email: true, reminders_via_text: false, receive_newsletter: true, volunteer_interest: true
     }
 
-    confirmed_email_attrs = { confirmation_sent_at: Time.current, confirmed_at: Time.current }
+    confirmed_email_attrs = {confirmation_sent_at: Time.current, confirmed_at: Time.current}
 
     admin_member = Member.create!(member_attrs.merge(
       email: "admin#{email_suffix}@example.com", full_name: "Admin Member", preferred_name: "Admin"
