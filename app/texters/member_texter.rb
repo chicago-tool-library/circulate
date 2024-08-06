@@ -31,14 +31,16 @@ class MemberTexter < BaseTexter
     result
   end
 
-  def hold_available(hold)
+  def holds_available(holds)
     return unless should_text?
 
+    item_numbers = holds.map { |hold| hold.item.complete_number }.join(", ")
+
     message = <<~EOM.chomp
-      Chicago Tool Library Reminder: Your hold for #{hold.item.complete_number} is available! Schedule a pick-up at #{new_account_appointment_url}
+      Chicago Tool Library Reminder: Your #{pluralize_without_number(holds.size, "hold")} for #{item_numbers} #{pluralize_without_number(holds.size, "is")} available! Schedule a pick-up at #{new_account_appointment_url}
     EOM
     result = text_at_reasonable_hour(to: @member.canonical_phone_number, body: message)
-    store_notification("hold_available", message, result)
+    store_notification("holds_available", message, result)
     result
   end
 
@@ -69,5 +71,11 @@ class MemberTexter < BaseTexter
 
   def should_text?
     FeatureFlags.sms_reminders_enabled? && member.reminders_via_text?
+  end
+
+  def pluralize_without_number(count, word)
+    return word if count == 1
+
+    ActiveSupport::Inflector.pluralize(word)
   end
 end

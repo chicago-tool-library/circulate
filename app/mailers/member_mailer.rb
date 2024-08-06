@@ -50,12 +50,14 @@ class MemberMailer < ApplicationMailer
     summary_mail
   end
 
-  def hold_available
+  def holds_available
     @member = params[:member]
-    @hold = params[:hold]
-    @subject = "One of your holds is available"
+    @holds = params[:holds]
+    item_names = @holds.map { |hold| hold.item.name }.join(", ")
+
+    @subject = "Your #{pluralize(@holds.size, "hold")} #{pluralize(@holds.size, "is")} available"
     @library = @member.library
-    mail(to: @member.email, subject: "#{@subject} (#{@hold.item.name})")
+    mail(to: @member.email, subject: "#{@subject} (#{item_names})")
   end
 
   def renewal_request_updated
@@ -103,6 +105,12 @@ class MemberMailer < ApplicationMailer
   end
 
   private
+
+  def pluralize(count, word)
+    return word if count == 1
+
+    ActiveSupport::Inflector.pluralize(word)
+  end
 
   def summary_mail(template_name: "summary")
     @member = params[:member]

@@ -2,9 +2,12 @@ namespace :holds do
   desc "Check for holds that should be started and send emails to members"
   task start_waiting_holds: :environment do
     Time.use_zone("America/Chicago") do
-      Hold.start_waiting_holds do |hold|
-        MemberMailer.with(member: hold.member, hold: hold).hold_available.deliver_now
-        MemberTexter.new(hold.member).hold_available(hold)
+      holds = []
+      Hold.start_waiting_holds { |hold| holds << hold }
+
+      holds.group_by(&:member).each do |member, member_holds|
+        MemberMailer.with(member:, holds: member_holds).holds_available.deliver_now
+        MemberTexter.new(member).holds_available(member_holds)
       end
     end
   end

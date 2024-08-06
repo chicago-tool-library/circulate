@@ -58,7 +58,15 @@ class MemberMailerPreview < ActionMailer::Preview
     member = Member.second
     hold = Hold.create!(item: first_item, member: member, creator: User.first, library: member.library)
 
-    MemberMailer.with(member: Member.first, hold: hold, library: member.library).hold_available
+    MemberMailer.with(member: Member.first, holds: [hold], library: member.library).holds_available
+  end
+
+  def holds_available
+    items = Item.active.first(2)
+    member = Member.second
+    holds = items.map { |item| Hold.create!(item:, member:, creator: User.first, library: member.library) }
+
+    MemberMailer.with(member: Member.first, holds:, library: member.library).holds_available
   end
 
   def membership_renewal_reminder

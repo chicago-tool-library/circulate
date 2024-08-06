@@ -56,6 +56,7 @@ class Item < ApplicationRecord
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
   scope :without_active_holds, -> { where.missing(:active_holds) }
   scope :available_now, -> { available.without_active_holds.where(status: Item.statuses[:active]) }
+  scope :holdable, -> { active }
 
   scope :by_name, -> { order(name: :asc) }
 

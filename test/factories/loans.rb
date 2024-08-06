@@ -20,5 +20,13 @@ FactoryBot.define do
     factory :nonexclusive_loan do
       uniquely_numbered { false }
     end
+
+    trait :checked_out do
+      ended_at { nil }
+    end
+
+    trait :exclusive do
+      uniquely_numbered { true }
+    end
   end
 end

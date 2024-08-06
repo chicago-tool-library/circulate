@@ -39,5 +39,21 @@ FactoryBot.define do
     trait :maintenance do
       status { Item.statuses[:maintenance] }
     end
+
+    trait :uniquely_numbered do
+      borrow_policy { association(:borrow_policy, uniquely_numbered: true) }
+    end
+
+    trait :unnumbered do
+      borrow_policy { association(:unnumbered_borrow_policy) }
+    end
+
+    trait :available do
+      checked_out_exclusive_loan { nil }
+    end
+
+    trait :unavailable do
+      checked_out_exclusive_loan { association(:loan, :exclusive, :checked_out) }
+    end
   end
 end

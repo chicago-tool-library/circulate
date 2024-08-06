@@ -18,7 +18,7 @@ class HoldsTest < ActiveSupport::TestCase
     mail = mails.first
     assert_includes mail.to, hold.member.email
 
-    assert_includes mail.subject, "One of your holds is available"
+    assert_includes mail.subject, "Your hold is available"
     assert_includes mail.encoded, hold.item.complete_number
 
     text = TwilioHelper::FakeSMS.messages.last
