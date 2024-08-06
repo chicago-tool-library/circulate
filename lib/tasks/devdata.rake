@@ -112,7 +112,7 @@ namespace :devdata do
     member = Member.create!(
       status: status,
       email: email,
-      user: User.create!(email: email, password: "password"),
+      user: User.create!(email: email, password: "password", confirmed_at: Time.current, confirmation_sent_at: Time.current),
       phone_number: "5005550006",
       full_name: full_name,
       preferred_name: preferred_name,
