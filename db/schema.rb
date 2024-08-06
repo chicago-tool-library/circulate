@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_08_214836) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_06_214629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -883,6 +883,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_214836) do
     t.enum "role", default: "member", null: false, enum_type: "user_role"
     t.bigint "member_id"
     t.integer "library_id"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
