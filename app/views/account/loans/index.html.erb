@@ -6,6 +6,9 @@
         <% if @current_library.allow_appointments? %>
           <%= link_to "Schedule a Return", new_account_appointment_path, class: "btn btn-primary" %>
         <% end %>
+        <% if @loans.any?(&:member_renewable?)%>
+          <%= button_to "Renew All", renew_all_account_loans_path, method: :post, class: "btn btn-secondary" %>
+        <% end %>
         <%= link_to "View Loan History", history_account_loans_path, class: "ml-2" %>
       <% end %>
 
