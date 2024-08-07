@@ -71,6 +71,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.hosts << ".circulate.local"
+  config.hosts << /[a-z0-9-.]+\.ngrok-free\.app/
 
   if ENV.fetch("DOCKER", "") == "true"
     Socket.ip_address_list.each do |addrinfo|

@@ -223,6 +223,7 @@ Rails.application.routes.draw do
   resources :homepage, only: [:index, :create]
 
   post "/twilio/callback", to: "twilio#callback"
+  post "/square/callback", to: "square#callback"
 
   # Mount dashboards for admins
   authenticate :user, ->(user) { user.admin? } do
