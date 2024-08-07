@@ -73,13 +73,20 @@
                   You have this item checked out
                 <% elsif @current_hold %>
                   You have this item on hold
+                <% elsif !current_user.confirmed? %>
+                  Confirm your email address before placing this item on hold
                 <% else %>
                   You can place this item on hold
                 <% end %>
               </h5>
             </div>
             <div class="card-body">
-              <% if @item.available? %>
+              <% if !current_user.confirmed? %>
+                <p>
+                  Click the link in the confirmation email you received to confirm your email address.
+                  If you didn't receive an email or can't find it then you can <%= link_to "request another one", new_user_confirmation_path %>.
+                </p>
+              <% elsif @item.available? %>
                 <% if @item.active_holds.empty? %>
                   <p>
                     If you place this item on hold you will be <b>first</b> on the waiting list.
@@ -126,7 +133,7 @@
                 <%= render partial: "items/place_hold_on/item_user_checked_out", locals: {loan: @item.checked_out_exclusive_loan} %>
               <% elsif @current_hold %>
                 <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
-              <% else %>
+              <% elsif current_user.confirmed? %>
                 <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
               <% end %>
             </div>

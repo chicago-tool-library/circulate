@@ -11,7 +11,7 @@ module Account
       @new_hold = Hold.new(item: @item, member: current_member, creator: current_user)
 
       @new_hold.transaction do
-        if @new_hold.save
+        if current_user.confirmed? && @new_hold.save
           ahoy.track "Placed hold", hold_id: @new_hold.id
           @new_hold.start! if @new_hold.ready_for_pickup?
           redirect_to item_path(@item), success: "Hold placed.", status: :see_other
