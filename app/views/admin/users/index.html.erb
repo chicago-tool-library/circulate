@@ -35,7 +35,12 @@
   <tbody>
     <% @users.each do |user| %>
       <tr id="user-<%= user.id %>">
-        <td><%= link_to user.email, [:admin, user] %></td>
+        <td>
+          <%= link_to user.email, [:admin, user] %>
+          <% if user.unconfirmed_email? %>
+            (<%= user.unconfirmed_email %>)
+          <% end %>
+        </td>
         <td><%= user.role %></td>
         <td><%= user.current_sign_in_at %></td>
         <td><%= link_to "Edit", edit_admin_user_path(user), class: "btn" %></td>
