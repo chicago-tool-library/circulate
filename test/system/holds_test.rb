@@ -32,6 +32,17 @@ class HoldsTest < ApplicationSystemTestCase
     refute_selector 'input[value="Place a hold"]'
   end
 
+  test "member with an unconfirmed email can't place a hold on an item" do
+    member = create(:member, user: create(:user, :unconfirmed))
+    login_as member.user
+
+    item = create(:item)
+
+    visit item_url(item)
+
+    assert_text "Confirm your email address before placing this item on hold"
+  end
+
   test "member can place a hold multiple times when the borrow policy allows it" do
     login_as @member.user
 
