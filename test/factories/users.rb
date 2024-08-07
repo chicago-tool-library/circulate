@@ -1,9 +1,16 @@
 FactoryBot.define do
   factory :user do
-    library { Library.first || create(:library) }
+    library { Library.first || association(:library) }
 
     email
     password { "password" }
+    confirmation_sent_at { Time.current }
+    confirmed_at { Time.current }
+
+    trait :unconfirmed do
+      confirmation_sent_at { nil }
+      confirmed_at { nil }
+    end
 
     factory :member_user do
       role { "member" }

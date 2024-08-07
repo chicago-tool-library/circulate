@@ -55,7 +55,7 @@ module Admin
 
       user.reload
 
-      assert_equal "modified@example.com", user.email
+      assert_equal "modified@example.com", user.unconfirmed_email
       assert_equal "admin", user.role
     end
 
@@ -67,7 +67,7 @@ module Admin
 
       user.reload
 
-      assert_equal "modified@example.com", user.email
+      assert_equal "modified@example.com", user.unconfirmed_email
       assert_equal "member", user.role
     end
 
@@ -82,7 +82,7 @@ module Admin
 
       user.reload
 
-      assert_equal "modified@example.com", user.email
+      assert_equal "modified@example.com", user.unconfirmed_email
       assert_equal "super_admin", user.role
     end
 
