@@ -153,7 +153,7 @@ namespace :devdata do
     # holds where this person is in line behind someone else
     waiting_holds.times do
       item = random_model(Item.active.available.without_active_holds)
-      member_in_front = random_model(Member)
+      member_in_front = random_member
       Hold.create!(member: member_in_front, item: item, creator: member_in_front.user)
       Hold.create!(member: member, item: item, creator: member.user)
     end
@@ -166,5 +166,9 @@ namespace :devdata do
 
   def random_model(scope)
     scope.order("RANDOM()").first
+  end
+
+  def random_member
+    random_model(Member.where.not(email: "member_with_unconfirmed_email@example.com"))
   end
 end
