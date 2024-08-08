@@ -2,13 +2,6 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- app/models/hold.rb:
-  - Rails/WhereEquals
-  - Rails/RedundantPresenceValidationOnBelongsTo
-- app/models/item.rb:
-  - Rails/Blank
-- app/models/item_pool.rb:
-  - Rails/WhereEquals
 - db/migrate/20190427201337_install_audited.rb:
   - Rails/ReversibleMigrationMethodDefinition
   - Rails/CreateTableWithTimestamps
