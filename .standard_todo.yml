@@ -79,9 +79,3 @@ ignore:
   - Rails/CreateTableWithTimestamps
 - lib/tasks/devdata.rake:
   - Rails/RootPathnameMethods
-- lib/tasks/email.rake:
-  - Rails/FindEach
-- lib/tasks/holds.rake:
-  - Rails/FindEach
-- lib/tasks/members.rake:
-  - Rails/FindEach
