@@ -2,8 +2,6 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- app/controllers/admin/settings/library_updates_controller.rb:
-  - Rails/LexicallyScopedActionFilter
 - app/helpers/items_helper.rb:
   - Rails/HelperInstanceVariable
 - app/lib/activity_notifier.rb:
