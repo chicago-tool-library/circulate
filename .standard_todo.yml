@@ -2,8 +2,6 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- app/lib/activity_notifier.rb:
-  - Rails/FindEach
 - app/models/borrow_policy.rb:
   - Rails/UniqueValidationWithoutIndex
 - app/models/categorization.rb:
