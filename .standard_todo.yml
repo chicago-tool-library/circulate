@@ -2,10 +2,6 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- app/models/borrow_policy.rb:
-  - Rails/UniqueValidationWithoutIndex
-- app/models/categorization.rb:
-  - Rails/UniqueValidationWithoutIndex
 - app/models/hold.rb:
   - Rails/WhereEquals
   - Rails/RedundantPresenceValidationOnBelongsTo
@@ -13,14 +9,6 @@ ignore:
   - Rails/Blank
 - app/models/item_pool.rb:
   - Rails/WhereEquals
-- app/models/reservation_hold.rb:
-  - Rails/UniqueValidationWithoutIndex
-- app/models/reservation_loan.rb:
-  - Rails/UniqueValidationWithoutIndex
-- app/models/reservation_policy.rb:
-  - Rails/UniqueValidationWithoutIndex
-- app/models/short_link.rb:
-  - Rails/UniqueValidationWithoutIndex
 - db/migrate/20190427201337_install_audited.rb:
   - Rails/ReversibleMigrationMethodDefinition
   - Rails/CreateTableWithTimestamps
