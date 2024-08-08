@@ -115,4 +115,4 @@ module TestCasePatch
   end
 end
 
-ActiveSupport::TestCase.extend TestCasePatch
+ActiveSupport.on_load(:active_support_test_case) { extend TestCasePatch }

@@ -11,7 +11,7 @@ namespace :holds do
 
   task set_expires_at: :environment do
     Time.use_zone("America/Chicago") do
-      Hold.where("started_at IS NOT NULL AND ended_at IS NULL AND started_at > ?", 1.week.ago).each do |hold|
+      Hold.where("started_at IS NOT NULL AND ended_at IS NULL AND started_at > ?", 1.week.ago).find_each do |hold|
         hold.start!(hold.started_at)
       end
     end

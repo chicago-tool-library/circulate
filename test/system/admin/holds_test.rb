@@ -176,7 +176,7 @@ class HoldsTest < ApplicationSystemTestCase
 
     @handles = all(".drag-handle")
     assert_equal 4, @handles.size
-    hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
+    hold_ids = all(".item-holds-table tr[data-hold-id]").pluck("data-hold-id")
 
     # Make the first hold the last
     # NOTE: A short delay seems to be required for test to pass under Playwright,
@@ -187,13 +187,13 @@ class HoldsTest < ApplicationSystemTestCase
     assert_no_selector "div[data-controller='hold-order'][aria-busy='true']"
 
     # make sure it worked
-    reordered_hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
+    reordered_hold_ids = all(".item-holds-table tr[data-hold-id]").pluck("data-hold-id")
     expected_hold_ids = hold_ids[1..] + [hold_ids[0]]
     assert_equal expected_hold_ids, reordered_hold_ids
 
     # reload the page and make sure it was persisted
     visit admin_item_holds_path(@item)
-    reloaded_hold_ids = all(".item-holds-table tr[data-hold-id]").map { |row| row["data-hold-id"] }
+    reloaded_hold_ids = all(".item-holds-table tr[data-hold-id]").pluck("data-hold-id")
     assert_equal expected_hold_ids, reloaded_hold_ids
   end
 end

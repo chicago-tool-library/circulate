@@ -34,7 +34,7 @@ class ActivityNotifier
 
   # TODO activate this one
   def remind_pending_members
-    Member.status_pending.where(created_at: ...@now).each do |member|
+    Member.status_pending.where(created_at: ...@now).find_each do |member|
       MemberMailer.with(member: member).membership_reminder.deliver
     end
   end
@@ -46,7 +46,7 @@ class ActivityNotifier
       return
     end
 
-    Member.joins(:user).where(users: {role: :admin}).each do |staff|
+    Member.joins(:user).where(users: {role: :admin}).find_each do |staff|
       MemberMailer.with(member: staff, renewal_requests: daily_renewal_requests).staff_daily_renewal_requests.deliver
     end
   end

@@ -95,7 +95,7 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test "it has two items without images" do
-    image = File.open(Rails.root.join("test/fixtures/files/tool-image.jpg"))
+    image = Rails.root.join("test/fixtures/files/tool-image.jpg").open
     items = create_list(:item, 3)
     item = items.first
     item.image.attach(io: image, filename: "tool-image.jpg")
