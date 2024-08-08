@@ -5,7 +5,7 @@ class Hold < ApplicationRecord
   has_one :appointment, through: :appointment_hold
 
   belongs_to :member
-  belongs_to :item, counter_cache: true
+  belongs_to :item, counter_cache: true, required: true
   belongs_to :creator, class_name: "User"
   belongs_to :loan, optional: true
 
@@ -22,15 +22,14 @@ class Hold < ApplicationRecord
   scope :ended, -> { where.not(ended_at: nil) }
   scope :expired, ->(now = Time.current) { where(expires_at: ...now) }
   scope :started, -> { where.not(started_at: nil) }
-  scope :waiting, -> { where("started_at IS NULL") }
+  scope :waiting, -> { where(started_at: nil) }
 
   scope :recent_first, -> { order("created_at desc") }
   scope :ordered_by_position, -> { order("position asc") }
 
-  validates :item, presence: true
   validates :expires_at, presence: {
     message: "is required when started_at is set"
-  }, if: -> { started_at.present? }
+  }, if: :started_at?
 
   validate :ensure_items_are_holdable, on: :create
 
