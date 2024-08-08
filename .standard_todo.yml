@@ -77,5 +77,3 @@ ignore:
   - Rails/ApplicationRecord
 - db/migrate/20240411151214_create_ahoy_visits_and_events.rb:
   - Rails/CreateTableWithTimestamps
-- lib/tasks/devdata.rake:
-  - Rails/RootPathnameMethods
