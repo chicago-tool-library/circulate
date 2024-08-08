@@ -2,8 +2,6 @@
 # Remove from this list as you refactor files.
 ---
 ignore:
-- app/helpers/items_helper.rb:
-  - Rails/HelperInstanceVariable
 - app/lib/activity_notifier.rb:
   - Rails/FindEach
 - app/models/borrow_policy.rb:
