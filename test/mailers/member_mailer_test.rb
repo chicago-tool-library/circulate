@@ -1,6 +1,6 @@
-require "test_helper"
+require "application_system_test_case"
 
-class MemberMailerTest < ActionMailer::TestCase
+class MemberMailerTest < ApplicationSystemTestCase
   include Lending
 
   setup do
@@ -76,6 +76,52 @@ class MemberMailerTest < ActionMailer::TestCase
 
     assert_emails 1 do
       email.deliver_now
+    end
+  end
+
+  test "can deliver holds available email (multiple holds)" do
+    member = create(:member)
+    holds = create_list(:hold, 2, member:)
+    item_names = holds.map { |hold| hold.item.name }
+    email = MemberMailer.with(member:, holds:).holds_available
+
+    assert_emails(1) { email.deliver_now }
+
+    message = "Your holds are available"
+    expected_subject = "#{message} (#{item_names.join(", ")})"
+
+    assert_delivered_email(to: member.email) do |text, html, _, subject|
+      assert_equal expected_subject, subject
+
+      assert_includes html, message, "mail should include message in html part"
+      assert_includes text, message, "mail should include message in text part"
+
+      item_names.each do |item_name|
+        assert_includes html, item_name, "mail should include item name (#{item_name}) in html part"
+        assert_includes text, item_name, "mail should include item name (#{item_name}) in text part"
+      end
+    end
+  end
+
+  test "can deliver holds available email (one hold)" do
+    member = create(:member)
+    hold = create(:hold, member:)
+    item_name = hold.item.name
+    email = MemberMailer.with(member:, holds: [hold]).holds_available
+
+    assert_emails(1) { email.deliver_now }
+
+    message = "Your hold is available"
+    expected_subject = "#{message} (#{hold.item.name})"
+
+    assert_delivered_email(to: member.email) do |html, text, _, subject|
+      assert_equal expected_subject, subject
+
+      assert_includes html, message, "mail should include message in html part"
+      assert_includes text, message, "mail should include message in text part"
+
+      assert_includes html, item_name, "mail should include item name (#{item_name}) in html part"
+      assert_includes text, item_name, "mail should include item name (#{item_name}) in text part"
     end
   end
 end
