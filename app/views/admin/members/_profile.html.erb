@@ -23,6 +23,15 @@
       </div>
     <% end %>
 
+    <% unless @member.user.confirmed? %>
+      <div class="toast clearfix member-membership">
+        <p class="float-left"><i class="icon icon-stop"></i> Member's email address has not been verified.</p>
+        <p class="float-right">
+          <%= link_to "Resend Verification Email", resend_verification_email_admin_member_path(@member), data: {turbo_method: "post", turbo_confirm: "Resend verification email to #{@member.user.email}?"} %>
+        </p>
+      </div>
+    <% end %>
+
     <div class="member-notes">
       <%= render partial: "admin/members/notes/list", locals: {member: @member} %>
     </div>

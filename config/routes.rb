@@ -138,6 +138,10 @@ Rails.application.routes.draw do
         resources :loan_summaries, only: :index
         resources :notes
       end
+
+      member do
+        post :resend_verification_email
+      end
     end
 
     namespace :reports do

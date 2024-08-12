@@ -4,7 +4,7 @@ module Admin
 
     include MemberOrdering
 
-    before_action :set_member, only: [:show, :edit, :update, :destroy]
+    before_action :set_member, only: [:show, :edit, :update, :destroy, :resend_verification_email]
 
     def index
       member_scope = (params[:filter] == "closed") ? Member.closed : Member.open
@@ -55,6 +55,12 @@ module Admin
       else
         redirect_to admin_member_url(@member), error: "Member could not be destroyed.", status: :see_other
       end
+    end
+
+    def resend_verification_email
+      @member.user.send_confirmation_instructions
+
+      redirect_to admin_member_url(@member), success: "Verification email sent to #{@member.user.email}", status: :see_other
     end
 
     private
