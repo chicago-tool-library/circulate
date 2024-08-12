@@ -1,6 +1,8 @@
 module ItemsHelper
   include Pagy::Frontend
 
+  attr_reader :filter_params
+
   def item_categories(item)
     item.categories.select(:id, :name)
       .order(:name)
@@ -49,20 +51,20 @@ module ItemsHelper
   end
 
   class TreeNode
-    attr_reader :children
-    attr_reader :value
+    attr_accessor :children
+    attr_accessor :value
 
     def initialize(value)
-      @value = value
-      @children = {}
+      self.value = value
+      self.children = {}
     end
 
     def [](key)
-      @children[key]
+      children[key]
     end
 
     def []=(key, value)
-      @children[key] = value
+      children[key] = value
     end
   end
 
@@ -208,6 +210,6 @@ module ItemsHelper
   end
 
   def add_filter_param(param, value)
-    (@filter_params || {}).merge(param => value).sort.to_h
+    (filter_params || {}).merge(param => value).sort.to_h
   end
 end
