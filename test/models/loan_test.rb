@@ -26,19 +26,19 @@ class LoanTest < ActiveSupport::TestCase
 
   test "an uncountable item can have multiple active loans" do
     item = create(:item)
-    assert_nothing_raised {
+    assert_nothing_raised do
       2.times do
         create(:loan, item: item, uniquely_numbered: false)
       end
-    }
+    end
   end
 
   test "can update an active loan" do
     loan = create(:loan)
     loan.due_at = Date.current.end_of_day
-    assert_nothing_raised {
+    assert_nothing_raised do
       loan.save!
-    }
+    end
   end
 
   %i[pending maintenance retired].each do |status|

@@ -201,9 +201,9 @@ class MembershipTest < ActiveSupport::TestCase
     membership = create(:membership, member: member)
 
     member2 = create(:member)
-    assert_nothing_raised {
+    assert_nothing_raised do
       create(:membership, member: member2, started_at: membership.started_at)
-    }
+    end
   end
 
   test "next_start_date_for_member with a pending membership" do

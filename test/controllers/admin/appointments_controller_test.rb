@@ -42,9 +42,9 @@ module Admin
     end
 
     test "renders show page with items to pickup and drop off" do
-      assert_nothing_raised {
+      assert_nothing_raised do
         get admin_appointment_path(@appointment)
-      }
+      end
     end
   end
 end
