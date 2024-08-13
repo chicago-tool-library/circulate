@@ -1,6 +1,6 @@
 class AssignMemberNumbers < ActiveRecord::Migration[6.0]
   class Member < ActiveRecord::Base
-    enum status: [:pending, :verified, :suspended, :deactivated], _prefix: true
+    enum :status, [:pending, :verified, :suspended, :deactivated], _prefix: true
     scope :verified, -> { where(status: statuses[:verified]) }
     def assign_number
       self.number = (self.class.maximum(:number) || 0) + 1

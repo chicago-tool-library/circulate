@@ -22,8 +22,8 @@ class Member < ApplicationRecord
   has_many :notes, as: :notable
 
   PRONOUNS = ["he/him", "she/her", "they/them"]
-  enum id_kind: {drivers_license: 0, state_id: 1, city_key: 2, student_id: 3, employee_id: 4, other_id_kind: 5}
-  enum status: {pending: 0, verified: 1, suspended: 2, deactivated: 3}, _prefix: true
+  enum :id_kind, {drivers_license: 0, state_id: 1, city_key: 2, student_id: 3, employee_id: 4, other_id_kind: 5}
+  enum :status, {pending: 0, verified: 1, suspended: 2, deactivated: 3}, _prefix: true
 
   validates :email,
     format: {with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email"},

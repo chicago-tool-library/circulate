@@ -1,13 +1,13 @@
 class Adjustment < ApplicationRecord
   monetize :amount_cents
 
-  enum payment_source: {
+  enum :payment_source, {
     cash: "cash",
     square: "square",
     forgiveness: "forgiveness"
   }
 
-  enum kind: {
+  enum :kind, {
     fine: "fine",
     membership: "membership",
     donation: "donation",
