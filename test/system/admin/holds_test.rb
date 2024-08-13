@@ -162,10 +162,10 @@ class HoldsTest < ApplicationSystemTestCase
     @inactive_hold = create(:ended_hold, item: @item)
 
     visit admin_item_holds_path(@item)
-    find("[data-hold-id='#{@active_hold.id}']")
+    assert_selector("[data-hold-id='#{@active_hold.id}']")
 
     click_on "Ended"
-    find("[data-hold-id='#{@inactive_hold.id}']")
+    assert_selector("[data-hold-id='#{@inactive_hold.id}']")
   end
 
   test "reordering holds" do

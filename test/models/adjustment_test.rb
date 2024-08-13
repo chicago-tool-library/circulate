@@ -2,11 +2,13 @@ require "test_helper"
 
 class AdjustmentTest < ActiveSupport::TestCase
   test "factory definitions" do
-    create(:fine_adjustment)
-    create(:membership_adjustment)
-    create(:donation_adjustment)
-    create(:cash_payment_adjustment)
-    create(:square_payment_adjustment)
+    assert_nothing_raised {
+      create(:fine_adjustment)
+      create(:membership_adjustment)
+      create(:donation_adjustment)
+      create(:cash_payment_adjustment)
+      create(:square_payment_adjustment)
+    }
   end
 
   test "records member paying account balance" do

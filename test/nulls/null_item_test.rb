@@ -6,7 +6,7 @@ class NullItemTest < ActiveSupport::TestCase
   end
 
   test "item API" do
-    @item.holds.active.count
-    @item.active?
+    assert_equal 0, @item.holds.active.count
+    assert_equal false, @item.active?
   end
 end

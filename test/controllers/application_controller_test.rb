@@ -38,7 +38,9 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "ignores a poorly formed referer" do
-    get new_user_session_path, headers: {referer: "not a valid referer"}
+    assert_nothing_raised {
+      get new_user_session_path, headers: {referer: "not a valid referer"}
+    }
   end
 end
 

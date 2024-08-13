@@ -3,7 +3,9 @@ require "test_helper"
 module Map
   class ChicagoTest < ActiveSupport::TestCase
     test "runs with no data" do
-      Chicago.new({}).to_xml
+      assert_nothing_raised {
+        Chicago.new({}).to_xml
+      }
     end
 
     test "adds styles to svg" do

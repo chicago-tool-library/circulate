@@ -26,15 +26,19 @@ class LoanTest < ActiveSupport::TestCase
 
   test "an uncountable item can have multiple active loans" do
     item = create(:item)
-    2.times do
-      create(:loan, item: item, uniquely_numbered: false)
-    end
+    assert_nothing_raised {
+      2.times do
+        create(:loan, item: item, uniquely_numbered: false)
+      end
+    }
   end
 
   test "can update an active loan" do
     loan = create(:loan)
     loan.due_at = Date.current.end_of_day
-    loan.save!
+    assert_nothing_raised {
+      loan.save!
+    }
   end
 
   %i[pending maintenance retired].each do |status|
@@ -220,6 +224,7 @@ class LoanTest < ActiveSupport::TestCase
       member_double.expect(:upcoming_appointment_of, nil, [loan])
       loan.upcoming_appointment
     end
+    assert_mock member_double
   end
 
   test "scope #overdue contains only overdue loans" do
