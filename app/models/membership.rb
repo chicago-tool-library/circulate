@@ -1,7 +1,7 @@
 class Membership < ApplicationRecord
   class PendingMembership < StandardError; end
 
-  enum membership_type: {
+  enum :membership_type, {
     initial: "initial",
     renewal: "renewal"
   }

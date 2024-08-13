@@ -4,7 +4,7 @@ class ItemAttachment < ApplicationRecord
 
   has_one_attached :file
 
-  enum kind: {
+  enum :kind, {
     "manual" => "manual",
     "parts_list" => "parts_list",
     "other" => "other"

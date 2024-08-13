@@ -1,7 +1,7 @@
 class RenewalRequest < ApplicationRecord
   belongs_to :loan
 
-  enum status: {
+  enum :status, {
     requested: "requested",
     approved: "approved",
     rejected: "rejected"

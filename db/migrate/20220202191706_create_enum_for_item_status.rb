@@ -1,6 +1,6 @@
 class CreateEnumForItemStatus < ActiveRecord::Migration[6.1]
   class Item < ActiveRecord::Base
-    enum status: [:pending, :active, :maintenance, :retired]
+    enum :status, [:pending, :active, :maintenance, :retired]
   end
 
   def change

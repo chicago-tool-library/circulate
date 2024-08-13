@@ -13,7 +13,7 @@ class Ticket < ApplicationRecord
     "resolved" => "the problem has been fixed"
   }
 
-  enum status: {
+  enum :status, {
     assess: "assess",
     parts: "parts",
     repairing: "repairing",

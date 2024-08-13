@@ -54,82 +54,83 @@ module Admin
     test "table is populated accordingly" do
       visit admin_reports_monthly_activities_url
 
+      assert_selector ".monthly-adjustments"
       within(".monthly-adjustments") do
         # ║               ║ Activity             ║ Members             ║ Appointments               ║
         within("thead > tr:nth-child(1)") do
-          find("th:nth-child(2)").assert_text("Activity")
-          find("th:nth-child(3)").assert_text("Members")
-          find("th:nth-child(4)").assert_text("Appointments")
+          within("th:nth-child(2)") { assert_text("Activity") }
+          within("th:nth-child(3)") { assert_text("Members") }
+          within("th:nth-child(4)") { assert_text("Appointments") }
         end
 
         # ║ Month         ║ Loans     ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
         within("thead > tr:nth-child(2)") do
-          find("th:nth-child(1)").assert_text("Month")
+          within("th:nth-child(1)") { assert_text("Month") }
 
-          find("th:nth-child(2)").assert_text("Loans")
-          find("th:nth-child(3)").assert_text("Members")
+          within("th:nth-child(2)") { assert_text("Loans") }
+          within("th:nth-child(3)") { assert_text("Members") }
 
-          find("th:nth-child(4)").assert_text("New")
-          find("th:nth-child(5)").assert_text("Pending")
+          within("th:nth-child(4)") { assert_text("New") }
+          within("th:nth-child(5)") { assert_text("Pending") }
 
-          find("th:nth-child(6)").assert_text("Scheduled")
-          find("th:nth-child(7)").assert_text("Completed")
+          within("th:nth-child(6)") { assert_text("Scheduled") }
+          within("th:nth-child(7)") { assert_text("Completed") }
         end
 
         # ║ November 2021 ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
         within("tbody > tr:nth-child(1)") do
-          find("td:nth-child(1)").assert_text("November 2021")
+          within("td:nth-child(1)") { assert_text("November 2021") }
 
-          find("td:nth-child(2)").assert_text("0")
-          find("td:nth-child(3)").assert_text("0")
+          within("td:nth-child(2)") { assert_text("0") }
+          within("td:nth-child(3)") { assert_text("0") }
 
-          find("td:nth-child(4)").assert_text("1")
-          find("td:nth-child(5)").assert_text("0")
+          within("td:nth-child(4)") { assert_text("1") }
+          within("td:nth-child(5)") { assert_text("0") }
 
-          find("td:nth-child(6)").assert_text("0")
-          find("td:nth-child(7)").assert_text("0")
+          within("td:nth-child(6)") { assert_text("0") }
+          within("td:nth-child(7)") { assert_text("0") }
         end
 
         # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
         within("tbody > tr:nth-child(2)") do
-          find("td:nth-child(1)").assert_text("December 2021")
+          within("td:nth-child(1)") { assert_text("December 2021") }
 
-          find("td:nth-child(2)").assert_text("1")
-          find("td:nth-child(3)").assert_text("1")
+          within("td:nth-child(2)") { assert_text("1") }
+          within("td:nth-child(3)") { assert_text("1") }
 
-          find("td:nth-child(4)").assert_text("0")
-          find("td:nth-child(5)").assert_text("0")
+          within("td:nth-child(4)") { assert_text("0") }
+          within("td:nth-child(5)") { assert_text("0") }
 
-          find("td:nth-child(6)").assert_text("1")
-          find("td:nth-child(7)").assert_text("1")
+          within("td:nth-child(6)") { assert_text("1") }
+          within("td:nth-child(7)") { assert_text("1") }
         end
 
         # ║ January 2022  ║ 2         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
         within("tbody > tr:nth-child(3)") do
-          find("td:nth-child(1)").assert_text("January 2022")
+          within("td:nth-child(1)") { assert_text("January 2022") }
 
-          find("td:nth-child(2)").assert_text("2")
-          find("td:nth-child(3)").assert_text("1")
+          within("td:nth-child(2)") { assert_text("2") }
+          within("td:nth-child(3)") { assert_text("1") }
 
-          find("td:nth-child(4)").assert_text("2")
-          find("td:nth-child(5)").assert_text("1")
+          within("td:nth-child(4)") { assert_text("2") }
+          within("td:nth-child(5)") { assert_text("1") }
 
-          find("td:nth-child(6)").assert_text("2")
-          find("td:nth-child(7)").assert_text("1")
+          within("td:nth-child(6)") { assert_text("2") }
+          within("td:nth-child(7)") { assert_text("1") }
         end
 
         # ║ Total         ║ 3         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
         within("tfoot > tr") do
-          find("td:nth-child(1)").assert_text("Total")
+          within("td:nth-child(1)") { assert_text("Total") }
 
-          find("td:nth-child(2)").assert_text("3")
-          find("td:nth-child(3)").assert_text("2")
+          within("td:nth-child(2)") { assert_text("3") }
+          within("td:nth-child(3)") { assert_text("2") }
 
-          find("td:nth-child(4)").assert_text("3")
-          find("td:nth-child(5)").assert_text("1")
+          within("td:nth-child(4)") { assert_text("3") }
+          within("td:nth-child(5)") { assert_text("1") }
 
-          find("td:nth-child(6)").assert_text("3")
-          find("td:nth-child(7)").assert_text("2")
+          within("td:nth-child(6)") { assert_text("3") }
+          within("td:nth-child(7)") { assert_text("2") }
         end
       end
     end

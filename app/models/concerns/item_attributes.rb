@@ -11,7 +11,7 @@ module ItemAttributes
 
     has_rich_text :description
 
-    enum power_source: {
+    enum :power_source, {
       solar: "solar",
       gas: "gas",
       air: "air",
