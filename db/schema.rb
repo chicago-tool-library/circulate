@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_22_221811) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -714,6 +714,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_22_221811) do
     t.index ["library_id"], name: "index_organizations_on_library_id"
   end
 
+  create_table "pending_reservation_items", force: :cascade do |t|
+    t.bigint "reservable_item_id", null: false
+    t.bigint "reservation_id", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_pending_reservation_items_on_created_by_id"
+    t.index ["reservable_item_id"], name: "index_pending_reservation_items_on_reservable_item_id", unique: true
+    t.index ["reservation_id"], name: "index_pending_reservation_items_on_reservation_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "archived_at"
@@ -916,6 +927,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_22_221811) do
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users"
   add_foreign_key "organizations", "libraries"
+  add_foreign_key "pending_reservation_items", "reservable_items"
+  add_foreign_key "pending_reservation_items", "reservations"
+  add_foreign_key "pending_reservation_items", "users", column: "created_by_id"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservable_items", "item_pools"
   add_foreign_key "reservable_items", "libraries"
