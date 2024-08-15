@@ -82,6 +82,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     find("time[datetime='#{datetime.utc}']")
   end
 
+  def within_dom_id(object)
+    within "##{dom_id(object)}" do
+      yield
+    end
+  end
+
+  def assert_active_tab(title)
+    assert_selector "ul.tab li.tab-item.active", text: title
+  end
+
   # Sometimes the Square sandbox site returns a 404 for a little while after being created.
   # This method will check to see if the sandbox page has successfully loaded, and if not,
   # it will reload the page after a short wait.

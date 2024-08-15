@@ -218,4 +218,53 @@ class AdminReservationsTest < ApplicationSystemTestCase
       assert_text "Reservation was successfully destroyed."
     end
   end
+
+  test "adding items to a reservation" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    create(:reservable_item, item_pool: hammer_pool)
+
+    drill_pool = create(:item_pool, name: "Drill")
+    create(:reservable_item, item_pool: drill_pool)
+
+    reservation = create(:reservation)
+    visit admin_reservation_path(reservation)
+
+    # add Hammer to reservation
+    click_on "Add Item"
+    assert_text "Hammer"
+    within_dom_id(hammer_pool) do
+      click_on "Add"
+    end
+
+    assert_active_tab "Items"
+    assert_text "Hammer"
+
+    reservation.reload
+    assert_equal 1, reservation.reservation_holds.size
+    assert_equal hammer_pool, reservation.reservation_holds[0].item_pool
+    assert_equal 1, reservation.reservation_holds[0].quantity
+  end
+
+  test "editing the quantity on a reservation" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    create(:reservable_item, item_pool: hammer_pool)
+    create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation)
+    hammer_reservation_hold = create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
+    visit admin_reservation_path(reservation)
+
+    within "table" do
+      click_on "Edit"
+      fill_in "Quantity", with: 2
+      click_on "Update"
+    end
+
+    refute_selector "table form"
+    assert_text "Hammer"
+    assert_text "2"
+
+    hammer_reservation_hold.reload
+    assert_equal 2, hammer_reservation_hold.quantity
+  end
 end
