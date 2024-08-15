@@ -4,14 +4,22 @@
   </template>
 </turbo-stream>
 
-<turbo-stream action="replace" target="<%= dom_id(@reservation_hold) %>">
-  <template>
-    <%= render partial: "admin/reservations/pickups/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold} %>
-  </template>
-</turbo-stream>
+<% if @reservation_hold %>
+  <turbo-stream action="replace" target="<%= dom_id(@reservation_hold) %>">
+    <template>
+      <%= render partial: "admin/reservations/pickups/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold} %>
+    </template>
+  </turbo-stream>
+<% end %>
 
 <turbo-stream action="replace" target="pickup-status">
   <template>
     <%= render partial: "admin/reservations/status", formats: [:html], locals: {reservation: @reservation} %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="pending-reservation-items">
+  <template>
+    <%= render partial: "admin/reservations/pending_reservation_items", formats: [:html], locals: {reservation: @reservation} %>
   </template>
 </turbo-stream>

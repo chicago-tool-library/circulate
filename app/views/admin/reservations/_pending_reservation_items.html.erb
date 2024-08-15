@@ -1,0 +1,14 @@
+<div id="pending-reservation-items">
+    <% if reservation.pending_reservation_items.size > 0 %>
+        <h4><%= pluralize reservation.pending_reservation_items.size, "item" %> were scanned that did not match the reservation</h4>
+        <ul>
+            <% reservation.pending_reservation_items.each do |pending_reservation_item| %>
+                <li id="<%= dom_id(pending_reservation_item) %>">
+                    <%= pending_reservation_item.reservable_item.number %> -
+                    <%= pending_reservation_item.reservable_item.name %>
+                    <%= button_to "Remove", [:admin, reservation, pending_reservation_item], method: :delete %>
+                </li>
+            <% end %>
+        </ul>
+    <% end %>
+</div>

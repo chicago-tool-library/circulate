@@ -16,6 +16,7 @@ class Reservation < ApplicationRecord
 
   has_many :reservation_holds
   has_many :reservation_loans
+  has_many :pending_reservation_items, -> { order({created_at: :asc}) }
   has_many :item_pools, through: :reservation_holds
   has_many :reservation_policies, through: :item_pools
   has_many :answers, dependent: :destroy
