@@ -1,6 +1,6 @@
 <div id="pending-reservation-items">
     <% if reservation.pending_reservation_items.size > 0 %>
-        <h4><%= pluralize reservation.pending_reservation_items.size, "item" %> were scanned that did not match the reservation</h4>
+        <h4><%= pluralize reservation.pending_reservation_items.size, "item" %> scanned that did not match the reservation</h4>
         <ul>
             <% reservation.pending_reservation_items.each do |pending_reservation_item| %>
                 <li id="<%= dom_id(pending_reservation_item) %>">

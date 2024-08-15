@@ -267,4 +267,43 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer_reservation_hold.reload
     assert_equal 2, hammer_reservation_hold.quantity
   end
+
+  test "adding and removing items from a pickup" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation, status: "building")
+    create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
+    visit admin_reservation_pickup_path(reservation)
+
+    assert_active_tab "Pickup"
+    fill_in "Item ID", with: hammer.id
+    click_on "Add Item"
+
+    assert_text "#{hammer_pool.name} (1/1)"
+    assert_text "All requirements satisfied"
+    assert_text hammer.name
+
+    click_on "Remove"
+    assert_text "#{hammer_pool.name} (0/1)"
+    refute_text "All requirements satisfied"
+    refute_text hammer.name
+  end
+
+  test "adding unreserved items to a pickup" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation, status: "building")
+    visit admin_reservation_pickup_path(reservation)
+
+    assert_active_tab "Pickup"
+    fill_in "Item ID", with: hammer.id
+    click_on "Add Item"
+
+    assert_text "1 item scanned that did not match the reservation"
+    click_on "Remove"
+
+    refute_text "1 item scanned that did not match the reservation"
+  end
 end
