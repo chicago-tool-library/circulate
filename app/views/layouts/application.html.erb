@@ -84,7 +84,6 @@
           <%= flash_message :alert, "error" %>
 
           <%= render(partial: "account/membership_renewal_message") if user_signed_in? %>
-          <%= render(partial: "account/email_verification_message") if user_signed_in? %>
 
           <%= yield %>
         </div>
