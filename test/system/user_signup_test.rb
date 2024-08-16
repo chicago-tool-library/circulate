@@ -115,8 +115,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Login"
 
-    refute_selector "a", text: "Member Login"
-    assert_selector "a", text: "Membership"
+    assert_text "You have to confirm your email address before continuing"
   end
 
   test "signup and pay through square", :remote do
