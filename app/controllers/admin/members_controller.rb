@@ -59,8 +59,9 @@ module Admin
 
     def resend_verification_email
       @member.user.send_confirmation_instructions
+      email = @member.user.unconfirmed_email || @member.user.email
 
-      redirect_to admin_member_url(@member), success: "Verification email sent to #{@member.user.email}", status: :see_other
+      redirect_to admin_member_url(@member), success: "Verification email sent to #{email}", status: :see_other
     end
 
     private

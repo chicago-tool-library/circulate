@@ -120,15 +120,18 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "updates user email when member email is updated" do
-    member = create(:member, email: "original@example.com")
+    original_email = "original@example.com"
+    user = create(:user, email: original_email)
+    member = create(:member, user:, email: original_email)
 
-    assert_equal "original@example.com", member.email
-    assert_equal "original@example.com", member.user.email
+    assert_equal original_email, member.email
+    assert_equal original_email, member.user.email
 
     assert member.update(email: "revised@different.biz")
 
     member.user.reload
-    assert_equal "revised@different.biz", member.user.email
+    assert_equal original_email, member.user.email
+    assert_equal "revised@different.biz", member.user.unconfirmed_email
   end
 
   test "doesn't allow multiple users with the same email address" do

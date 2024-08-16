@@ -23,7 +23,7 @@
       </div>
     <% end %>
 
-    <% unless @member.user.confirmed? %>
+    <% if !@member.user.confirmed? || @member.user.unconfirmed_email? %>
       <div class="toast clearfix member-membership">
         <p class="float-left"><i class="icon icon-stop"></i> Member's email address has not been verified.</p>
         <p class="float-right">

@@ -67,7 +67,7 @@ module Admin
       mails = ActionMailer::Base.deliveries
       assert_equal 1, mails.count
       mail = ActionMailer::Base.deliveries.last
-      assert_equal [member.user.email], mail.to
+      assert_equal [member.user.unconfirmed_email], mail.to
       assert_equal "Confirmation instructions", mail.subject
     end
   end
