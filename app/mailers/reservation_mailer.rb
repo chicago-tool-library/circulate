@@ -2,8 +2,9 @@ class ReservationMailer < ApplicationMailer
   def reservation_requested
     @reservation = params[:reservation]
     @library = @reservation.library
+    @to_emails = User.select { |user| user.has_role?("admin") && user.library_id === @library.id }.pluck(:email)
     @subject = "Reservation submitted for #{@reservation.started_at.to_fs(:short_date)}"
-    mail(to: @reservation.submitted_by.email, subject: @subject)
+    mail(to: @reservation.submitted_by.email, subject: @subject, bcc: @to_emails)
   end
 
   def reviewed
