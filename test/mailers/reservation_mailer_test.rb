@@ -19,6 +19,21 @@ class ReservationMailerTest < ApplicationSystemTestCase
     end
   end
 
+  test "#review_requested includes HTML and text parts when a reservation is submitted" do
+    reservation = create(:reservation)
+    admin_user = create(:user, role: "admin", library: reservation.library)
+
+    ReservationMailer.with(reservation:).review_requested.deliver_now
+
+    expected_subject = "Reservation ready for review"
+
+    assert_delivered_email(to: admin_user.email) do |html, text, _, subject|
+      assert_equal expected_subject, subject
+      assert_includes html, expected_subject, "mail should include subject in html part"
+      assert_includes text, expected_subject, "mail should include subject in text part"
+    end
+  end
+
   test "#reviewed includes html and text parts containing the notes when approved" do
     reservation = create(:reservation, :approved)
 
