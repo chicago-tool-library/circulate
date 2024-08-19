@@ -9,9 +9,6 @@
     <% elsif @reservation.manager.can? :build %>
       <%= button_to "Start Building", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:building]}}, remote: true, class: "btn" %>
 
-    <% elsif @reservation.manager.can? :approve %>
-      <%= link_to "Review", edit_admin_reservation_review_path(@reservation), class: "btn" %>
-
     <% elsif @reservation.manager.can? :ready %>
       <%= button_to "Ready for Pickup", admin_reservation_status_path(@reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
 
@@ -49,6 +46,7 @@
       <%= tab_link "Items", admin_reservation_path(@reservation) %>
       <%= tab_link "Pickup", admin_reservation_pickup_path(@reservation) %>
       <%= tab_link "Questions", admin_reservation_questions_path(@reservation) %>
+      <%= tab_link "Review", edit_admin_reservation_review_path(@reservation) if @reservation.manager.can?(:approve) %>
       <%= tab_link("Review Notes", admin_reservation_review_path(@reservation)) if @reservation.notes? %>
     </ul>
 

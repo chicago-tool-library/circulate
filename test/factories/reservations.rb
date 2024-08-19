@@ -7,6 +7,11 @@ FactoryBot.define do
     library { Library.first || association(:library) }
     organization
 
+    trait :pending do
+      status { "pending" }
+      notes { nil }
+    end
+
     trait :requested do
       status { "requested" }
       notes { nil }

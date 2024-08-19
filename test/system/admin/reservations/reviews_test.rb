@@ -59,4 +59,11 @@ class AdminReservationsReviewsTest < ApplicationSystemTestCase
 
     assert_text "Can't review a reservation with status approved"
   end
+
+  test "does not have a review button/tab for non-requested reservations" do
+    reservation = create(:reservation, :pending)
+    visit admin_reservation_path(reservation)
+
+    refute_text(/\Areview\z/i)
+  end
 end
