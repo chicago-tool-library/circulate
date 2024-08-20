@@ -115,7 +115,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Login"
 
-    assert_text "You have to confirm your email address before continuing"
+    assert_text "You have to confirm your account before continuing"
   end
 
   test "signup and pay through square", :remote do
