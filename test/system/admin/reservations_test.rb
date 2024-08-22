@@ -15,6 +15,18 @@ class AdminReservationsTest < ApplicationSystemTestCase
     datetime.strftime("%Y-%m-%d")
   end
 
+  def select_first_available_pickup_date
+    first_optgroup = find("#reservation_pickup_event_id optgroup", match: :first)
+    first_optgroup.find("option", match: :first).select_option
+    first_optgroup.text
+  end
+
+  def select_last_available_dropoff_date
+    first_optgroup = find("#reservation_dropoff_event_id optgroup", match: :first)
+    first_optgroup.all("option").last.select_option
+    first_optgroup.text
+  end
+
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
@@ -83,12 +95,18 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   test "creating a reservation successfully" do
+    base_time = 2.days.from_now.at_noon
+    first_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour)
+    last_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+
     visit new_admin_reservation_path
 
     fill_in "Name", with: @attributes[:name]
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
     select(@organization.name, from: "Organization")
+    select_first_available_pickup_date
+    select_last_available_dropoff_date
 
     assert_difference("Reservation.count", 1) do
       click_on "Create Reservation"
@@ -101,6 +119,8 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
     assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
     assert_equal @user, reservation.submitted_by
+    assert_equal first_event, reservation.pickup_event
+    assert_equal last_event, reservation.dropoff_event
   end
 
   test "creating a reservation with errors" do
@@ -140,12 +160,18 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
   test "updating a reservation successfully" do
     reservation = create(:reservation)
+    base_time = 2.days.from_now.at_noon
+    first_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour)
+    last_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+
     visit admin_reservation_path(reservation)
     click_on "Edit"
 
     fill_in "Name", with: @attributes[:name]
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    select_first_available_pickup_date
+    select_last_available_dropoff_date
 
     assert_difference("Reservation.count", 0) do
       click_on "Update Reservation"
@@ -158,6 +184,8 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal @attributes[:name], reservation.name
     assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
     assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
+    assert_equal first_event, reservation.pickup_event
+    assert_equal last_event, reservation.dropoff_event
   end
 
   test "updating a reservation with errors" do

@@ -31,8 +31,8 @@ class Reservation < ApplicationRecord
   validates :name, presence: true
   validates :started_at, presence: true
   validates :ended_at, presence: true
-  validates :pickup_event, presence: true, if: :must_have_pickup_event?
   validates_associated :reservation_holds
+  validate :must_have_pickup_event
 
   after_initialize :restore_manager
   before_validation :move_ended_at_to_end_of_day
@@ -74,7 +74,9 @@ class Reservation < ApplicationRecord
     errors.add(:ended_at, "end date must be after the start date") if started_at.present? && ended_at.present? && started_at.to_date >= ended_at.to_date
   end
 
-  def must_have_pickup_event?
-    !manager.pending?
+  def must_have_pickup_event
+    return if manager.pending? || pickup_event.present?
+
+    errors.add(:pickup_event, "can't be blank")
   end
 end
