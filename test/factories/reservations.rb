@@ -7,6 +7,8 @@ FactoryBot.define do
     library { Library.first || association(:library) }
     organization
 
+    after(:build) { |reservation| reservation.send(:restore_manager) }
+
     trait :pending do
       status { "pending" }
       notes { nil }
@@ -15,16 +17,60 @@ FactoryBot.define do
     trait :requested do
       status { "requested" }
       notes { nil }
+      pickup_event { association(:event) }
     end
 
     trait :approved do
       status { "approved" }
       notes { "This reservation has been approved! :)" }
+      pickup_event { association(:event) }
     end
 
     trait :rejected do
       status { "rejected" }
       notes { "This reservation has been rejected :(" }
+      pickup_event { association(:event) }
+    end
+
+    trait :obsolete do
+      status { "obsolete" }
+    end
+    pickup_event { association(:event) }
+
+    trait :building do
+      status { "building" }
+      notes { "This reservation is building" }
+      pickup_event { association(:event) }
+    end
+
+    trait :ready do
+      status { "ready" }
+      notes { "This reservation is ready" }
+      pickup_event { association(:event) }
+    end
+
+    trait :borrowed do
+      status { "borrowed" }
+      notes { "This reservation is borrowed" }
+      pickup_event { association(:event) }
+    end
+
+    trait :returned do
+      status { "returned" }
+      notes { "This reservation is returned" }
+      pickup_event { association(:event) }
+    end
+
+    trait :unresolved do
+      status { "unresolved" }
+      notes { "This reservation is unresolved" }
+      pickup_event { association(:event) }
+    end
+
+    trait :cancelled do
+      status { "cancelled" }
+      notes { "This reservation is cancelled" }
+      pickup_event { association(:event) }
     end
   end
 end
