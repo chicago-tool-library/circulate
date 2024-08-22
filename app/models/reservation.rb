@@ -33,6 +33,7 @@ class Reservation < ApplicationRecord
   validates :ended_at, presence: true
   validates_associated :reservation_holds
   validate :must_have_pickup_event
+  validate :dropoff_event_must_be_after_pickup_event
 
   after_initialize :restore_manager
   before_validation :move_ended_at_to_end_of_day
@@ -78,5 +79,13 @@ class Reservation < ApplicationRecord
     return if manager.pending? || pickup_event.present?
 
     errors.add(:pickup_event, "can't be blank")
+  end
+
+  def dropoff_event_must_be_after_pickup_event
+    return if pickup_event.blank? || dropoff_event.blank?
+
+    if pickup_event.start > dropoff_event.start
+      errors.add(:dropoff_event, "must be after pickup event")
+    end
   end
 end

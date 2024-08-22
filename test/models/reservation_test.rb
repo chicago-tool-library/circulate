@@ -56,4 +56,15 @@ class ReservationTest < ActiveSupport::TestCase
       assert reservation.save
     end
   end
+
+  test "dropoff event must be after the pickup event" do
+    base_time = 2.days.from_now.at_noon
+    first_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour)
+    last_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+
+    reservation = build(:reservation, :pending, pickup_event: last_event, dropoff_event: first_event)
+
+    assert reservation.invalid?
+    assert_equal ["must be after pickup event"], reservation.errors[:dropoff_event]
+  end
 end
