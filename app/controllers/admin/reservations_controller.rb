@@ -1,6 +1,7 @@
 module Admin
   class ReservationsController < BaseController
     include Pagy::Backend
+    include AppointmentsHelper
 
     before_action :set_reservation, only: %i[show edit update destroy]
 

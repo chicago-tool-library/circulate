@@ -1,6 +1,8 @@
 require "application_system_test_case"
 
 class AdminReservationsTest < ApplicationSystemTestCase
+  include AppointmentsHelper
+
   setup do
     sign_in_as_admin
     @organization = create(:organization)
@@ -27,6 +29,14 @@ class AdminReservationsTest < ApplicationSystemTestCase
     first_optgroup.text
   end
 
+  def create_events
+    base_time = 2.days.from_now.at_noon
+    [
+      create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour),
+      create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+    ]
+  end
+
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
@@ -48,7 +58,8 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
   test "viewing a reservation" do
     Time.use_zone("America/Chicago") do
-      reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
+      pickup_event, dropoff_event = create_events
+      reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now, pickup_event:, dropoff_event:)
 
       visit admin_reservation_url(reservation)
 
@@ -56,6 +67,10 @@ class AdminReservationsTest < ApplicationSystemTestCase
       assert_text reservation.status
       assert_text formatted_date_only(reservation.started_at)
       assert_text formatted_date_only(reservation.ended_at)
+      assert_text formatted_date_only(pickup_event.start)
+      assert_text format_appointment_times(pickup_event.start, pickup_event.finish)
+      assert_text formatted_date_only(dropoff_event.start)
+      assert_text format_appointment_times(dropoff_event.start, dropoff_event.finish)
     end
   end
 
@@ -95,9 +110,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
   end
 
   test "creating a reservation successfully" do
-    base_time = 2.days.from_now.at_noon
-    first_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour)
-    last_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+    first_event, last_event = create_events
 
     visit new_admin_reservation_path
 
@@ -160,9 +173,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
   test "updating a reservation successfully" do
     reservation = create(:reservation)
-    base_time = 2.days.from_now.at_noon
-    first_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour)
-    last_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+    first_event, last_event = create_events
 
     visit admin_reservation_path(reservation)
     click_on "Edit"
