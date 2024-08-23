@@ -1,7 +1,7 @@
 module Admin
   module Reservations
     class BaseController < Admin::BaseController
-      include AppointmentsHelper
+      include ReservationsHelper
       before_action :set_reservation
 
       private

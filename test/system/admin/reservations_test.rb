@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 class AdminReservationsTest < ApplicationSystemTestCase
-  include AppointmentsHelper
+  include ReservationsHelper
 
   setup do
     sign_in_as_admin
@@ -67,10 +67,8 @@ class AdminReservationsTest < ApplicationSystemTestCase
       assert_text reservation.status
       assert_text formatted_date_only(reservation.started_at)
       assert_text formatted_date_only(reservation.ended_at)
-      assert_text formatted_date_only(pickup_event.start)
-      assert_text format_appointment_times(pickup_event.start, pickup_event.finish)
-      assert_text formatted_date_only(dropoff_event.start)
-      assert_text format_appointment_times(dropoff_event.start, dropoff_event.finish)
+      assert_text format_reservation_event(pickup_event)
+      assert_text format_reservation_event(dropoff_event)
     end
   end
 

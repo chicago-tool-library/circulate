@@ -33,10 +33,10 @@
           <%= icon_stat "info", @reservation.status, title: "status" %>
 
           <% if @reservation.pickup_event %>
-            <%= icon_stat "corner-down-left", "#{@reservation.pickup_event.date.to_formatted_s(:long)} #{format_appointment_times(@reservation.pickup_event.start, @reservation.pickup_event.finish)}", title: "pickup" %>
+            <%= icon_stat "clock", format_reservation_event(@reservation.pickup_event), title: "pickup" %>
           <% end %>
           <% if @reservation.dropoff_event %>
-            <%= icon_stat "corner-down-left", "#{@reservation.dropoff_event.date.to_formatted_s(:long)} #{format_appointment_times(@reservation.dropoff_event.start, @reservation.dropoff_event.finish)}", title: "dropoff" %>
+            <%= icon_stat "corner-down-left", format_reservation_event(@reservation.dropoff_event), title: "dropoff" %>
           <% end %>
 
         </ul>
