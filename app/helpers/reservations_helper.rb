@@ -9,11 +9,11 @@ module ReservationsHelper
     [event.date.to_fs(:short), format_event_times(event)].join(" ")
   end
 
-  private
-
   def format_event_times(event)
     [event.start, event.finish].map { |time| format_event_time(time) }.join(" - ")
   end
+
+  private
 
   def format_event_time(time)
     time.strftime("%l:%M%P").strip

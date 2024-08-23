@@ -89,7 +89,7 @@ module Admin
 
     def set_reservation_slots
       @reservation_slots = Event.appointment_slots.upcoming.group_by { |event| event.start.to_date }.map { |date, events|
-        times = events.map { |event| [helpers.format_appointment_times(event.start, event.finish), event.id] }
+        times = events.map { |event| [helpers.format_event_times(event), event.id] }
         [date.strftime("%A, %B %-d, %Y"), times]
       }
     end
