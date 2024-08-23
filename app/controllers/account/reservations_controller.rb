@@ -14,18 +14,21 @@ module Account
 
     def new
       @reservation = Reservation.new
+      set_reservation_slots
     end
 
     def edit
+      set_reservation_slots
     end
 
     def create
-      @reservation = Reservation.new(reservation_params.merge(organization_id: Organization.first.id, submitted_by: current_user))
+      @reservation = Reservation.new(reservation_params.merge(organization_id: Organization.first.id, submitted_by: current_user.member))
 
       if @reservation.save
         # TODO use the current user's actual organization
         redirect_to account_reservation_url(@reservation), notice: "Reservation was successfully created."
       else
+        set_reservation_slots
         render :new, status: :unprocessable_entity
       end
     end
@@ -34,6 +37,7 @@ module Account
       if @reservation.update(reservation_params)
         redirect_to account_reservation_url(@reservation), notice: "Reservation was successfully updated."
       else
+        set_reservation_slots
         render :edit, status: :unprocessable_entity
       end
     end
@@ -51,7 +55,16 @@ module Account
     end
 
     def reservation_params
-      params.require(:reservation).permit(:name, :started_at, :ended_at)
+      params.require(:reservation).permit(:name, :started_at, :ended_at, :pickup_event_id, :dropoff_event_id,)
+    end
+
+    def set_reservation_slots
+      events = Event.appointment_slots.upcoming.to_a + Event.where(id: [@reservation.pickup_event_id, @reservation.dropoff_event_id]).to_a
+
+      @reservation_slots = events.group_by { |event| event.start.to_date }.map { |date, events|
+        times = events.map { |event| [helpers.format_event_times(event), event.id] }
+        [date.strftime("%A, %B %-d, %Y"), times]
+      }
     end
   end
 end

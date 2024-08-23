@@ -129,7 +129,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal @attributes[:name], reservation.name
     assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
     assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
-    assert_equal @user, reservation.submitted_by
+    assert_equal @user.member, reservation.submitted_by
     assert_equal first_event, reservation.pickup_event
     assert_equal last_event, reservation.dropoff_event
   end

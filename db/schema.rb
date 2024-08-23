@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_23_210841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -810,9 +810,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
     t.bigint "reviewer_id"
     t.bigint "library_id", null: false
     t.bigint "organization_id", null: false
-    t.bigint "submitted_by_id", null: false
     t.bigint "pickup_event_id"
     t.bigint "dropoff_event_id"
+    t.bigint "submitted_by_id", null: false
     t.index ["dropoff_event_id"], name: "index_reservations_on_dropoff_event_id"
     t.index ["library_id"], name: "index_reservations_on_library_id"
     t.index ["organization_id"], name: "index_reservations_on_organization_id"
@@ -941,8 +941,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
   add_foreign_key "reservations", "events", column: "dropoff_event_id"
   add_foreign_key "reservations", "events", column: "pickup_event_id"
   add_foreign_key "reservations", "libraries"
+  add_foreign_key "reservations", "members", column: "submitted_by_id"
   add_foreign_key "reservations", "users", column: "reviewer_id"
-  add_foreign_key "reservations", "users", column: "submitted_by_id"
   add_foreign_key "stems", "questions"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"

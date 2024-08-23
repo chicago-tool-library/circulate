@@ -21,7 +21,7 @@ class Reservation < ApplicationRecord
   has_many :answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", optional: true
   belongs_to :organization
-  belongs_to :submitted_by, class_name: "User", optional: false
+  belongs_to :submitted_by, class_name: "Member", optional: false
   belongs_to :pickup_event, class_name: "Event", optional: true
   belongs_to :dropoff_event, class_name: "Event", optional: true
 
