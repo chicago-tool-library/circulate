@@ -78,14 +78,14 @@ class Reservation < ApplicationRecord
   def must_have_pickup_event
     return if manager.pending? || pickup_event.present?
 
-    errors.add(:pickup_event, "can't be blank")
+    errors.add(:pickup_event_id, "can't be blank")
   end
 
   def dropoff_event_must_be_after_pickup_event
     return if pickup_event.blank? || dropoff_event.blank?
 
     if pickup_event.start > dropoff_event.start
-      errors.add(:dropoff_event, "must be after pickup event")
+      errors.add(:dropoff_event_id, "must be after pickup event")
     end
   end
 end

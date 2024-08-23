@@ -88,7 +88,9 @@ module Admin
     end
 
     def set_reservation_slots
-      @reservation_slots = Event.appointment_slots.upcoming.group_by { |event| event.start.to_date }.map { |date, events|
+      events = Event.appointment_slots.upcoming.to_a + Event.where(id: [@reservation.pickup_event_id, @reservation.dropoff_event_id]).to_a
+
+      @reservation_slots = events.group_by { |event| event.start.to_date }.map { |date, events|
         times = events.map { |event| [helpers.format_event_times(event), event.id] }
         [date.strftime("%A, %B %-d, %Y"), times]
       }

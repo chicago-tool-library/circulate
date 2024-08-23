@@ -243,6 +243,18 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal 150, integer_answer.value
   end
 
+  test "the dropdown for pickup/dropoff events includes old events if already associated" do
+    old_pickup_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 3.days.ago, finish: 3.days.ago + 1.hour)
+    old_dropoff_event = create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 2.days.ago, finish: 2.days.ago + 1.hour)
+    reservation = create(:reservation, pickup_event: old_pickup_event, dropoff_event: old_dropoff_event)
+
+    visit admin_reservation_path(reservation)
+    click_on "Edit"
+
+    assert_selector "option[value='#{old_pickup_event.id}']"
+    assert_selector "option[value='#{old_dropoff_event.id}']"
+  end
+
   test "destroying a reservation" do
     reservation = create(:reservation)
     visit edit_admin_reservation_path(reservation)

@@ -48,7 +48,7 @@ class ReservationTest < ActiveSupport::TestCase
 
       assert reservation.invalid?
 
-      assert_equal ["can't be blank"], reservation.errors[:pickup_event]
+      assert_equal ["can't be blank"], reservation.errors[:pickup_event_id]
       assert reservation.errors[:dropoff_event].blank?
 
       reservation.pickup_event = create(:event)
@@ -65,6 +65,6 @@ class ReservationTest < ActiveSupport::TestCase
     reservation = build(:reservation, :pending, pickup_event: last_event, dropoff_event: first_event)
 
     assert reservation.invalid?
-    assert_equal ["must be after pickup event"], reservation.errors[:dropoff_event]
+    assert_equal ["must be after pickup event"], reservation.errors[:dropoff_event_id]
   end
 end
