@@ -20,6 +20,26 @@ module Account
       datetime.strftime("%Y-%m-%d")
     end
 
+    def select_first_available_pickup_date
+      first_optgroup = find("#reservation_pickup_event_id optgroup", match: :first)
+      first_optgroup.find("option", match: :first).select_option
+      first_optgroup.text
+    end
+
+    def select_last_available_dropoff_date
+      first_optgroup = find("#reservation_dropoff_event_id optgroup", match: :first)
+      first_optgroup.all("option").last.select_option
+      first_optgroup.text
+    end
+
+    def create_events
+      base_time = 2.days.from_now.at_noon
+      [
+        create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour),
+        create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.hours, finish: base_time + 3.hours)
+      ]
+    end
+
     test "visiting the index" do
       Time.use_zone("America/Chicago") do
         reservations = [
@@ -53,11 +73,15 @@ module Account
     end
 
     test "creating a reservation successfully" do
+      first_event, last_event = create_events
+
       visit new_account_reservation_path
 
       fill_in "Name", with: @attributes[:name]
       find("#start-date-field").set(date_input_format(@attributes[:started_at]))
       find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+      select_first_available_pickup_date
+      select_last_available_dropoff_date
 
       assert_difference("Reservation.count", 1) do
         click_on "Create Reservation"
@@ -70,6 +94,8 @@ module Account
       assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
       assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
       assert_equal @member.user, reservation.submitted_by
+      assert_equal first_event, reservation.pickup_event
+      assert_equal last_event, reservation.dropoff_event
     end
 
     test "creating a reservation with errors" do
@@ -83,6 +109,7 @@ module Account
     end
 
     test "creating a reservation, adding items, and submitting it " do
+      create_events
       hammer_pool = create(:item_pool, name: "Hammer")
       create(:reservable_item, item_pool: hammer_pool)
 
@@ -91,6 +118,8 @@ module Account
       fill_in "Name", with: @attributes[:name]
       find("#start-date-field").set(date_input_format(@attributes[:started_at]))
       find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+      select_first_available_pickup_date
+      select_last_available_dropoff_date
 
       click_on "Create Reservation"
       assert_text @attributes[:name]
