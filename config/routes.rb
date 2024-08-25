@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     end
     resources :loans, only: :index do
       get :history, to: "loans#history", on: :collection
+      post :renew_all, to: "loans#renew_all", on: :collection
     end
     resource :member, only: [:show, :edit, :update]
     resource :password, only: [:edit, :update]

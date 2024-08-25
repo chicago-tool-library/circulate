@@ -6,6 +6,6 @@ class NullBorrowPolicyTest < ActiveSupport::TestCase
   end
 
   test "borrow policy API" do
-    @policy.member_renewable?
+    assert_equal false, @policy.member_renewable?
   end
 end

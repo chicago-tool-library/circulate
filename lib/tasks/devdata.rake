@@ -55,7 +55,7 @@ namespace :devdata do
       # ActiveStorage::Blob. This means rotating the fixture image in dev will
       # impact every item, but it saves us from duplicating the image hundreds
       # of times.
-      image = File.open(Rails.root.join("test/fixtures/files/tool-image.jpg"))
+      image = Rails.root.join("test/fixtures/files/tool-image.jpg").open
       image_blob = ActiveStorage::Blob.create_and_upload!(io: image, filename: "tool-image.jpg")
 
       # Calling analyze explicitly prevents an AnalyzeJob from kicking off for

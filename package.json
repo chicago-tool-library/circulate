@@ -10,8 +10,8 @@
     "@appsignal/stimulus": "^1.0.18",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.5",
-    "@rails/actioncable": "^7.1.3",
-    "@rails/actiontext": "^7.1.3",
+    "@rails/actioncable": "^7.2.0",
+    "@rails/actiontext": "^7.2.0",
     "@rails/activestorage": "^7.1.3",
     "@rails/ujs": "^7.1.3",
     "@selectize/selectize": "^0.15.2",
@@ -23,12 +23,12 @@
     "mjml": "^4.15.3",
     "sass": "^1.77.8",
     "sortablejs": "^1.15.2",
-    "trix": "^2.1.4"
+    "trix": "^2.1.5"
   },
   "version": "0.1.0",
   "devDependencies": {
     "markdown-toc": "^1.2.0",
-    "playwright": "1.45.3",
+    "playwright": "1.45.0",
     "standard": "^17.1.0"
   },
   "scripts": {

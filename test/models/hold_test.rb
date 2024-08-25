@@ -8,6 +8,7 @@ class HoldTest < ActiveSupport::TestCase
       member_double.expect(:upcoming_appointment_of, nil, [hold])
       hold.upcoming_appointment
     end
+    assert_mock member_double
   end
 
   test "new hold" do
@@ -284,6 +285,37 @@ class HoldTest < ActiveSupport::TestCase
         fail "should not be called"
       end
     end
+  end
+
+  test "start_waiting_holds smoke test" do
+    unnumbered_hold = create(:hold, :active, :waiting, item: create(:item, :active, :available, :unnumbered))
+    # no other holds
+    solo_hold = create(:hold, :active, :waiting, item: create(:item, :active, :available, :uniquely_numbered))
+    # previous inactive hold
+    hold_with_previous_inactive_hold = create(:hold, :active, :waiting, position: 2, item: create(:item, :active, :available, :uniquely_numbered)).tap do |hold|
+      create(:hold, :ended, position: 1, item: hold.item)
+    end
+    # future active hold
+    hold_with_future_active_hold = create(:hold, :active, :waiting, position: 2, item: create(:item, :active, :available, :uniquely_numbered)).tap do |hold|
+      create(:hold, :active, :waiting, position: 3, item: hold.item)
+    end
+
+    expected_holds = [unnumbered_hold, solo_hold, hold_with_previous_inactive_hold, hold_with_future_active_hold]
+
+    # holds that will be ignored
+    create(:hold, :ended, :waiting, item: create(:item, :active, :available, :unnumbered))
+    create(:hold, :active, :started, item: create(:item, :active, :available, :unnumbered))
+    create(:hold, :active, :waiting, item: create(:item, :active, :available, :unnumbered)).tap do |hold|
+      hold.item.update!(status: "maintenance")
+    end
+    create(:hold, :active, :expired, item: create(:item, :active, :available, :unnumbered))
+    create(:hold, :active, :waiting, item: create(:item, :active, :unavailable, :uniquely_numbered))
+
+    holds = []
+    Hold.start_waiting_holds { |hold| holds << hold }
+
+    assert_equal expected_holds.size, holds.size
+    assert_equal expected_holds, holds.sort_by(&:id)
   end
 
   test "is ready for pickup if item is uncounted" do

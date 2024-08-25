@@ -22,15 +22,14 @@ class Hold < ApplicationRecord
   scope :ended, -> { where.not(ended_at: nil) }
   scope :expired, ->(now = Time.current) { where(expires_at: ...now) }
   scope :started, -> { where.not(started_at: nil) }
-  scope :waiting, -> { where("started_at IS NULL") }
+  scope :waiting, -> { where(started_at: nil) }
 
   scope :recent_first, -> { order("created_at desc") }
   scope :ordered_by_position, -> { order("position asc") }
 
-  validates :item, presence: true
   validates :expires_at, presence: {
     message: "is required when started_at is set"
-  }, if: -> { started_at.present? }
+  }, if: :started_at?
 
   validate :ensure_items_are_holdable, on: :create
 
@@ -116,22 +115,7 @@ class Hold < ApplicationRecord
   def self.start_waiting_holds(now = Time.current, &block)
     started = 0
 
-    active(now).includes(item: :borrow_policy).find_each do |hold|
-      if hold.item.status == Item.statuses[:maintenance]
-        Rails.logger.debug { "[hold #{hold.id}]: item in maintenance mode" }
-        next
-      end
-
-      unless hold.item.holdable?
-        Rails.logger.debug { "[hold #{hold.id}]: item is not holdable" }
-        next
-      end
-
-      if hold.started?
-        Rails.logger.debug { "[hold #{hold.id}]: already started" }
-        next
-      end
-
+    active(now).waiting.joins(:item).merge(Item.holdable).includes(:member, item: :borrow_policy).find_each do |hold|
       unless hold.ready_for_pickup?(now)
         Rails.logger.debug { "[hold #{hold.id}]: not ready for pickup" }
         next

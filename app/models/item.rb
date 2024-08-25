@@ -56,6 +56,7 @@ class Item < ApplicationRecord
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
   scope :without_active_holds, -> { where.missing(:active_holds) }
   scope :available_now, -> { available.without_active_holds.where(status: Item.statuses[:active]) }
+  scope :holdable, -> { active }
 
   scope :by_name, -> { order(name: :asc) }
 
@@ -83,7 +84,7 @@ class Item < ApplicationRecord
   end
 
   def available?
-    !checked_out_exclusive_loan.present?
+    checked_out_exclusive_loan.blank?
   end
 
   def complete_number
@@ -136,7 +137,7 @@ class Item < ApplicationRecord
   def strip_whitespace
     %w[name brand size model serial strength].each do |attr_name|
       value = attributes[attr_name]
-      next unless value.present?
+      next if value.blank?
       self[attr_name] = value.strip
     end
   end
@@ -164,7 +165,7 @@ class Item < ApplicationRecord
 
   # called when item is updated
   def audited_changes(**args)
-    unless @current_category_ids.present?
+    if @current_category_ids.blank?
       cache_category_ids(nil)
     end
     if (@current_category_ids.present? || category_ids.present?) && @current_category_ids != category_ids.sort

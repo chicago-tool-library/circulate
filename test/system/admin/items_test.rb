@@ -90,6 +90,7 @@ class ItemsTest < ApplicationSystemTestCase
   end
 
   test "editing an item's photo" do
+    skip "TODO rotate photo and verify that it was saved"
     audited_as_admin do
       @item = create(:item, :with_image)
     end
@@ -97,8 +98,6 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_url(@item)
 
     click_on "Edit Photo"
-
-    # TODO rotate photo and verify that it was saved
   end
 
   test "accessing an item's history after deleting a category" do

@@ -16,9 +16,8 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 
-  puts "== Installing playwright yarn package =="
-  playwright_version=`bundle exec ruby -e 'require "playwright"; puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION'`.strip
-  system!("yarn add -D 'playwright@#{playwright_version}'")
+  puts "== Installing yarn packages =="
+  system!("yarn install")
 
   if ENV["USING_NIX"] == "1"
     # Nix cannot execute misc downloaded binaries so it brings its own browser

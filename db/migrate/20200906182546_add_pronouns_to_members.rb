@@ -1,7 +1,7 @@
 class AddPronounsToMembers < ActiveRecord::Migration[6.0]
   class TemporaryMember < ActiveRecord::Base
     self.table_name = "members"
-    enum pronoun: [:"he/him", :"she/her", :"they/them", :custom_pronoun]
+    enum :pronoun, [:"he/him", :"she/her", :"they/them", :custom_pronoun]
   end
 
   def change

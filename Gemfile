@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.1.6"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 7.1.3"
+gem "rails", "~> 7.2.0"
 
 # Since Rails 7 sprockets is optional; we still use it so we need to depend on
 # the gem explicitly
@@ -69,7 +69,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "standard"
-  gem "standard-rails", "~> 1.1.0"
+  # Temporarily pinning standard-rails until a release after 1.1.0 is cut
+  gem "standard-rails", github: "standardrb/standard-rails", ref: "3570b7ab7c6d6ff36c5f4d26f92044bc47fb62cb"
   gem "factory_bot_rails"
   gem "spy"
   gem "letter_opener"
@@ -83,7 +84,7 @@ group :development do
   gem "solargraph-rails"
   gem "solargraph-standardrb"
   gem "lefthook"
-  gem "erb_lint", "~> 0.5.0"
+  gem "erb_lint", "~> 0.6.0"
 end
 
 group :test do

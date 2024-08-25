@@ -79,13 +79,33 @@ class MemberTexterTest < ActionMailer::TestCase
     assert_equal "return_reminder", notification.action
   end
 
-  test "sends a hold available message to the member" do
+  test "sends a holds available message to the member (multiple holds)" do
+    member = create(:verified_member, reminders_via_text: true)
+    holds = create_list(:hold, 3, member:)
+    item_numbers = holds.map { |hold| hold.item.complete_number }.join(", ")
+
+    reasonable_hour = Time.current.change(hour: 9, min: 0)
+    travel_to reasonable_hour do
+      MemberTexter.new(member).holds_available(holds)
+    end
+
+    text = TwilioHelper::FakeSMS.messages.last
+    assert_equal text.to, member.canonical_phone_number
+    assert_nil text.schedule_type
+    assert_nil text.send_at
+    assert_equal "accepted", text.status
+    assert_includes text.body, "Your holds for #{item_numbers} are available"
+    refute_match %r{\n\z}, text.body, "does not end in newline"
+    assert_operator text.body.length, :<=, 160, "fits in one SMS segment"
+  end
+
+  test "sends a holds available message to the member (one hold)" do
     member = create(:verified_member, reminders_via_text: true)
     hold = create(:hold, member: member)
 
     reasonable_hour = Time.current.change(hour: 9, min: 0)
     travel_to reasonable_hour do
-      MemberTexter.new(member).hold_available(hold)
+      MemberTexter.new(member).holds_available([hold])
     end
 
     text = TwilioHelper::FakeSMS.messages.last
@@ -105,7 +125,7 @@ class MemberTexterTest < ActionMailer::TestCase
     Time.use_zone("America/Chicago") do
       late = Time.current.change(hour: 20, min: 1) # 8:01PM local time
       travel_to late do
-        MemberTexter.new(member).hold_available(hold)
+        MemberTexter.new(member).holds_available([hold])
       end
 
       text = TwilioHelper::FakeSMS.messages.last
@@ -124,18 +144,18 @@ class MemberTexterTest < ActionMailer::TestCase
 
     TwilioHelper::FakeSMS.messages.clear
 
-    MemberTexter.new(member).hold_available(hold)
+    MemberTexter.new(member).holds_available([hold])
 
     assert_empty TwilioHelper::FakeSMS.messages
   end
 
-  test "stores a notification record of the hold available message" do
+  test "stores a notification record of the holds available message" do
     member = create(:verified_member, reminders_via_text: true)
     hold = create(:hold, member: member)
 
     reasonable_hour = Time.current.change(hour: 9, min: 0)
     travel_to reasonable_hour do
-      MemberTexter.new(member).hold_available(hold)
+      MemberTexter.new(member).holds_available([hold])
     end
 
     notification = Notification.last
@@ -145,7 +165,7 @@ class MemberTexterTest < ActionMailer::TestCase
     assert_equal text.body, notification.subject
     assert_equal member.id, notification.member_id
     assert_equal "accepted", notification.status
-    assert_equal "hold_available", notification.action
+    assert_equal "holds_available", notification.action
   end
 
   test "sends a welcome message to the member" do
