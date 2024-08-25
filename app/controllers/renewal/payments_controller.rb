@@ -20,7 +20,7 @@ module Renewal
 
       result = checkout.checkout_url(amount: @form.amount, email: @member.email, return_to: callback_renewal_payments_url, member_id: @member.id, date: Date.current)
       if result.success?
-        if client.slow_sandbox_environment?
+        if checkout.slow_sandbox_environment?
           # It takes the sandbox a while to be ready
           sleep 2
         end
