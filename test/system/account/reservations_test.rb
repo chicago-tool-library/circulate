@@ -2,6 +2,8 @@ require "application_system_test_case"
 
 module Account
   class ReservationsTest < ApplicationSystemTestCase
+    include ReservationsHelper
+
     setup do
       ActionMailer::Base.deliveries.clear
 
@@ -61,7 +63,8 @@ module Account
 
     test "viewing a reservation" do
       Time.use_zone("America/Chicago") do
-        reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now)
+        pickup_event, dropoff_event = create_events
+        reservation = create(:reservation, started_at: 3.days.ago, ended_at: 3.days.from_now, pickup_event:, dropoff_event:)
 
         visit account_reservation_url(reservation)
 
@@ -69,6 +72,8 @@ module Account
         assert_text reservation.status
         assert_text formatted_date_only(reservation.started_at)
         assert_text formatted_date_only(reservation.ended_at)
+        assert_text format_reservation_event(pickup_event)
+        assert_text format_reservation_event(dropoff_event)
       end
     end
 
