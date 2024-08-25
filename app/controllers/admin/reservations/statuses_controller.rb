@@ -5,7 +5,7 @@ module Admin
         if @reservation.update(reservation_params)
           redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
         else
-          render :edit, status: :unprocessable_entity
+          redirect_to admin_reservation_url(@reservation), error: "Reservation could not updated: #{@reservation.errors.full_messages.join(", ")}"
         end
       end
 

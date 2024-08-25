@@ -36,6 +36,7 @@ class Reservation < ApplicationRecord
   validate :dropoff_event_must_be_after_pickup_event
 
   after_initialize :restore_manager
+  before_validation :restore_manager
   before_validation :move_ended_at_to_end_of_day
   before_validation :set_initial_status, on: :initialize
   after_find :restore_manager
