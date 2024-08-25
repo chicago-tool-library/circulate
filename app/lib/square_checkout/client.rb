@@ -95,7 +95,7 @@ module SquareCheckout
     # It takes a while for the sandbox to register new orders. This check gives
     # us a way to delay redirecting to Square to handle this gracefully.
     def slow_sandbox_environment?
-      ENV.fetch("SQUARE_SLOW_SANDBOX_DELAY") == "on"
+      ENV.fetch("SQUARE_SLOW_SANDBOX_DELAY", "off") == "on"
     end
 
     def self.from_env
