@@ -32,6 +32,7 @@ module Renewal
           return_to: "http://example.com/renewal/payments/callback",
           member_id: @member.id,
           date: Date.current)
+        mock_checkout.expect(:slow_sandbox_environment?, false)
 
         SquareCheckout::Client.stub :new, mock_checkout do
           post renewal_payments_url, params: {membership_payment_form: {amount_dollars: "12"}}
