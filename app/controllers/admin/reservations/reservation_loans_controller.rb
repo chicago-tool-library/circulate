@@ -15,12 +15,10 @@ module Admin
             reservation_hold: @reservation_hold,
             quantity: @reservation_hold.quantity
           )
+        elsif reservation_loan_params[:reservable_item_id].blank?
+          render_form_with_error("please enter an item ID")
+          return
         else
-          if reservation_loan_params[:reservable_item_id].blank?
-            render_form_with_error("please enter an item ID")
-            return
-          end
-
           # TODO look items up by number and not id
           @reservable_item = ReservableItem.find_by(id: reservation_loan_params[:reservable_item_id])
           if !@reservable_item
