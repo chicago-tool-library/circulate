@@ -7,7 +7,7 @@ class User < ApplicationRecord
   # while the canonical list of roles is the "user_role" enum in the
   # database, this enum exists to help display the list of roles
   # elsewhere in the app
-  enum role: {
+  enum :role, {
     member: "member",
     staff: "staff",
     admin: "admin",

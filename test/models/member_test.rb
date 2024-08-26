@@ -260,6 +260,8 @@ class MemberTest < ActiveSupport::TestCase
   test "can destroy member with renewals" do
     loan = create(:overdue_loan)
     renew_loan(loan)
-    loan.member.destroy
+    assert_nothing_raised do
+      loan.member.destroy
+    end
   end
 end

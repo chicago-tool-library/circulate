@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_12_014456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -330,6 +330,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
     t.boolean "member_renewable", default: false, null: false
     t.integer "library_id"
     t.boolean "consumable", default: false
+    t.index ["code", "library_id"], name: "index_borrow_policies_on_code_and_library_id", unique: true
     t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 
@@ -352,8 +353,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "categorized_type", null: false
-    t.index ["categorized_id", "category_id"], name: "index_categorizations_on_categorized_id_and_category_id"
     t.index ["categorized_id"], name: "index_categorizations_on_categorized_id"
+    t.index ["category_id", "categorized_id"], name: "index_categorizations_on_category_id_and_categorized_id", unique: true
     t.index ["category_id"], name: "index_categorizations_on_category_id"
   end
 
@@ -771,6 +772,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
     t.bigint "item_pool_id", null: false
     t.integer "quantity", default: 1, null: false
     t.bigint "library_id", null: false
+    t.index ["item_pool_id", "reservation_id"], name: "index_reservation_holds_on_item_pool_id_and_reservation_id", unique: true
     t.index ["item_pool_id"], name: "index_reservation_holds_on_item_pool_id"
     t.index ["library_id"], name: "index_reservation_holds_on_library_id"
     t.index ["reservation_id"], name: "index_reservation_holds_on_reservation_id"
@@ -787,6 +789,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
     t.datetime "checked_in_at", precision: nil
     t.bigint "reservation_id", null: false
     t.index ["library_id"], name: "index_reservation_loans_on_library_id"
+    t.index ["reservable_item_id", "reservation_hold_id"], name: "idx_on_reservable_item_id_reservation_hold_id_1dde83e836", unique: true
     t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
     t.index ["reservation_hold_id"], name: "index_reservation_loans_on_reservation_hold_id"
     t.index ["reservation_id"], name: "index_reservation_loans_on_reservation_id"
@@ -832,7 +835,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_014456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "library_id"
-    t.index ["library_id", "slug"], name: "index_short_links_on_library_id_and_slug"
+    t.index ["slug", "library_id"], name: "index_short_links_on_slug_and_library_id", unique: true
+    t.index ["url", "library_id"], name: "index_short_links_on_url_and_library_id", unique: true
   end
 
   create_table "stems", force: :cascade do |t|

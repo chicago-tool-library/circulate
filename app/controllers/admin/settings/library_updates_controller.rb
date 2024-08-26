@@ -15,6 +15,9 @@ class Admin::Settings::LibraryUpdatesController < Admin::BaseController
   def edit
   end
 
+  def show
+  end
+
   def create
     @library_update = LibraryUpdate.new(library_update_params)
 

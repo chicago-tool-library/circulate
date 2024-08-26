@@ -20,7 +20,7 @@ module ItemStatuses
   }
 
   included do
-    enum status: {
+    enum :status, {
       pending: "pending",
       active: "active",
       maintenance: "maintenance",

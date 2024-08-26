@@ -6,7 +6,7 @@ class Stem < ApplicationRecord
     ALL = [TEXT, INTEGER]
   end
 
-  enum answer_type: {
+  enum :answer_type, {
     AnswerTypes::INTEGER => AnswerTypes::INTEGER,
     AnswerTypes::TEXT => AnswerTypes::TEXT
   }

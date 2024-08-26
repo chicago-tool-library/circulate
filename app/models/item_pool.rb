@@ -51,7 +51,7 @@ class ItemPool < ApplicationRecord
     query = self.class
       .joins(reservation_holds: :reservation)
       .joins(self.class.sanitize_sql_array(["JOIN generate_series(?, ?, interval '1 day') d(the_day) ON the_day BETWEEN reservations.started_at AND reservations.ended_at", starts, ends]))
-      .where("item_pools.id = ?", id)
+      .where(item_pools: {id: id})
       .group("the_day")
       .order("the_day ASC")
 

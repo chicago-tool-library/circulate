@@ -8,6 +8,7 @@ class HoldTest < ActiveSupport::TestCase
       member_double.expect(:upcoming_appointment_of, nil, [hold])
       hold.upcoming_appointment
     end
+    assert_mock member_double
   end
 
   test "new hold" do
