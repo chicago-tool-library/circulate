@@ -119,12 +119,4 @@ module AdminHelper
   def appointment_in_schedule_path(appointment)
     admin_appointments_path(day: appointment.starts_at.to_date.to_s, anchor: dom_id(appointment))
   end
-
-  def square_order_url(order_id)
-    if ENV["SQUARE_ENVIRONMENT"] == "production"
-      "https://squareup.com/dashboard/orders/overview/#{order_id}"
-    else
-      "https://squareupsandbox.com/dashboard/orders/overview/#{order_id}"
-    end
-  end
 end

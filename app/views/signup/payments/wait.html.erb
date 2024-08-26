@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circulate</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="3">
+    <%= stylesheet_link_tag "application", media: "all" %>
+  </head>
+
+  <%= tag.body class: @body_class do %>
+    <div class="container grid-lg public">
+      <div class="columns">
+        <div class="column col-12 please-wait">
+          <p class="text-center">Your payment is being processed.</p>
+          <div class="loading loading-lg"></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</html>

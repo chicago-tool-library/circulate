@@ -1,8 +1,8 @@
 <%# Library can come from local or instance variable. %>
 <% library ||= @library %>
 
-<% if @payment %>
-  <p><strong>Your payment has been processed and applied to your account.</strong></p>
+<% if @amount %>
+  <p><strong>Your payment of <%= @amount.format %> has been processed and applied to your account.</strong></p>
 <% end %>
 <p>To activate your membership, please bring the following with you to the library the first time you visit:</p>
 <ul>
