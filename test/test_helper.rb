@@ -26,10 +26,6 @@ class ActiveSupport::TestCase
     assert_equal expected, subject.size, "wrong size; got #{subject.size} instead of #{expected}"
   end
 
-  def current_library
-    ActsAsTenant.test_tenant
-  end
-
   setup do
     ActsAsTenant.test_tenant = libraries(:chicago_tool_library)
 
