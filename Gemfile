@@ -89,7 +89,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem "minitest", "5.24.1"
+  gem "minitest", "5.25.1"
   gem "capybara", ">= 2.15"
   gem "capybara-playwright-driver"
   gem "rails-controller-testing"
@@ -106,6 +106,6 @@ gem "twilio-ruby", "~> 7.2"
 
 gem "ahoy_matey", "~> 5.1"
 
-gem "good_job", "~> 4.1"
+gem "good_job", "~> 4.2"
 
 gem "blazer", "~> 3.0"
