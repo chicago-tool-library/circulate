@@ -21,9 +21,64 @@
       <%= link_to "Skip to content", "#content-start" %>
     </div>
 
-    <div class="off-canvas" data-controller="sidebar">
+    <header class="header">
 
-      <div id="sidebar-id" class="off-canvas-sidebar" data-sidebar-target="menu">
+      <nav>
+        <%= link_to account_home_path do %>
+          <%= logo small: true, alt: "Chicago Tool Library logo" %>
+        <% end %>
+        <%= render "shared/search" %>
+        <ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle btn btn-link" tabindex="0">Borrow Tools</a>
+            <ul class="menu">
+              <li class="menu-item"><%= link_to "Inventory", items_path %></li>
+              <li class="menu-item"><%= link_to "Loans", account_loans_path %></li>
+              <li class="menu-item"><%= link_to "Holds", account_holds_path %></li>
+              <li class="menu-item"><%= link_to "Appointments", account_appointments_path %></li>
+            </ul>
+          </li>
+
+
+<%
+=begin%>
+
+          <li class="nav-item">
+            <span>Borrow Tools</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "Inventory", items_path %></li>
+              <li class="nav-item"><%= link_to "Loans", account_loans_path %></li>
+              <li class="nav-item"><%= link_to "Holds", account_holds_path %></li>
+              <li class="nav-item"><%= link_to "Appointments", account_appointments_path %></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <span>Membership</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "Profile", account_member_path %></li>
+              <% if current_user.admin? %>
+                <li class="nav-item"><%= link_to "Librarian View", admin_dashboard_path %></li>
+              <% end %>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <span>About Us</span>
+            <ul class="nav">
+              <li class="nav-item"><%= link_to "Hours & Location", account_home_path %></li>
+              <li class="nav-item"><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/" %></li>
+              <li class="nav-item"><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/" %></li>
+            </ul>
+          </li>
+<%
+=end%>
+        </ul>
+      </nav>
+    </header>
+
+    <%
+=begin%>
+ <div class="off-canvas" data-controller="sidebar">
+      <div id="sidebar-id" class="off-canvas-sidebar" data-sidebar-target="menu" style="background-color: teal;">
         <ul class="nav">
           <%= render partial: "shared/navbar_links" %>
         </ul>
@@ -47,10 +102,14 @@
         <i class="icon icon-menu"></i>
       </a>
     </div>
+<%
+=end%>
 
     <div class="container grid-lg public">
 
-      <header class="navbar hide-sm">
+      <%
+=begin%>
+ <header class="navbar hide-sm" style="background-color: papayawhip;">
         <section class="navbar-section">
           <span class="navbar-brand mr-3">
             <a href="https://chicagotoollibrary.org/">
@@ -65,6 +124,8 @@
           <%= render "shared/search", id: "navbarQuery" %>
         </section>
       </header>
+<%
+=end%>
 
       <%= render partial: "shared/time_override" if Rails.env.development? %>
 

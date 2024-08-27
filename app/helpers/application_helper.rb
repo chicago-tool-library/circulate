@@ -4,11 +4,11 @@ module ApplicationHelper
     %w[new edit].include? params[:action]
   end
 
-  def logo(library: current_library, small: false, classes: "")
+  def logo(library: current_library, small: false, classes: "", alt: "")
     if library.image.attached?
-      image_tag url_for(library.image.variant(resize_to_limit: [100, 89])), class: classes
+      image_tag url_for(library.image.variant(resize_to_limit: [100, 89])), class: classes, alt:
     else
-      image_tag "logo#{small ? "_small" : nil}.png", class: classes
+      image_tag "logo#{small ? "_small" : nil}.png", class: classes, alt:
     end
   end
 
