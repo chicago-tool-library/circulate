@@ -24,53 +24,47 @@
     <header class="header">
 
       <nav>
-        <%= link_to account_home_path do %>
-          <%= logo small: true, alt: "Chicago Tool Library logo" %>
+        <%= link_to account_home_path, class: "logo-link" do %>
+          <%= logo small: true, alt: "#{current_library.name} logo" %>
         <% end %>
-        <%= render "shared/search" %>
-        <ul>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle btn btn-link" tabindex="0">Borrow Tools</a>
-            <ul class="menu">
-              <li class="menu-item"><%= link_to "Inventory", items_path %></li>
-              <li class="menu-item"><%= link_to "Loans", account_loans_path %></li>
-              <li class="menu-item"><%= link_to "Holds", account_holds_path %></li>
-              <li class="menu-item"><%= link_to "Appointments", account_appointments_path %></li>
+        <div class="search-and-menu-icon">
+          <%= render "shared/search" %>
+          <label class="icon-container btn btn-action btn-lg" for="menu-toggle">
+            <i class="icon icon-menu" aria-hidden="true"></i>
+            <span class="visually-hidden">Toggle navigation</span>
+          </label>
+          <input id="menu-toggle" class="visually-hidden" type="checkbox" />
+          <label class="expanded-menu-label" for="menu-toggle">
+            <span class="visually-hidden">Toggle navigation</span>
+          </label>
+        </div>
+        <ul class="navigation-links">
+          <li>
+            <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
+            <ul aria-labelledby="nav-borrow-tools-label">
+              <li><%= link_to "Inventory", items_path, class: "btn btn-link" %></li>
+              <li><%= link_to "Loans", account_loans_path, class: "btn btn-link" %></li>
+              <li><%= link_to "Holds", account_holds_path, class: "btn btn-link" %></li>
+              <li><%= link_to "Appointments", account_appointments_path, class: "btn btn-link" %></li>
             </ul>
           </li>
-
-
-<%
-=begin%>
-
-          <li class="nav-item">
-            <span>Borrow Tools</span>
-            <ul class="nav">
-              <li class="nav-item"><%= link_to "Inventory", items_path %></li>
-              <li class="nav-item"><%= link_to "Loans", account_loans_path %></li>
-              <li class="nav-item"><%= link_to "Holds", account_holds_path %></li>
-              <li class="nav-item"><%= link_to "Appointments", account_appointments_path %></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <span>Membership</span>
-            <ul class="nav">
-              <li class="nav-item"><%= link_to "Profile", account_member_path %></li>
-              <% if current_user.admin? %>
-                <li class="nav-item"><%= link_to "Librarian View", admin_dashboard_path %></li>
+          <li>
+            <span class="link-group-label" id="nav-membership-label">Membership</span>
+            <ul aria-labelledby="nav-membership-label">
+              <li><%= link_to "Profile", account_member_path, class: "btn btn-link" %></li>
+              <% if current_user&.admin? %>
+                <li><%= link_to "Librarian View", admin_dashboard_path, class: "btn btn-link" %></li>
               <% end %>
             </ul>
           </li>
-          <li class="nav-item">
-            <span>About Us</span>
-            <ul class="nav">
-              <li class="nav-item"><%= link_to "Hours & Location", account_home_path %></li>
-              <li class="nav-item"><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/" %></li>
-              <li class="nav-item"><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/" %></li>
+          <li>
+            <span class="link-group-label" id="nav-about-us-label">About Us</span>
+            <ul aria-labelledby="nav-about-us-label">
+              <li><%= link_to "Hours & Location", account_home_path, class: "btn btn-link" %></li>
+              <li><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
+              <li><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
             </ul>
           </li>
-<%
-=end%>
         </ul>
       </nav>
     </header>
