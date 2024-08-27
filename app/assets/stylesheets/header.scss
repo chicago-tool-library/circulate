@@ -141,6 +141,7 @@ header.header {
         top: 1.5rem;
         background-color: white;
         min-width: 100%;
+        transition: opacity 150ms;
       }
 
       > li:focus-within > ul, > li:hover > ul {
