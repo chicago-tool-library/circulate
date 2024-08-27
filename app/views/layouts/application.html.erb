@@ -22,8 +22,7 @@
     </div>
 
     <header class="header">
-
-      <nav>
+      <nav class="container grid-lg">
         <%= link_to account_home_path, class: "logo-link" do %>
           <%= logo small: true, alt: "#{current_library.name} logo" %>
         <% end %>
@@ -42,27 +41,27 @@
           <li>
             <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
             <ul aria-labelledby="nav-borrow-tools-label">
-              <li><%= link_to "Inventory", items_path, class: "btn btn-link" %></li>
-              <li><%= link_to "Loans", account_loans_path, class: "btn btn-link" %></li>
-              <li><%= link_to "Holds", account_holds_path, class: "btn btn-link" %></li>
-              <li><%= link_to "Appointments", account_appointments_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Inventory", items_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Loans", account_loans_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Holds", account_holds_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Appointments", account_appointments_path, class: "btn btn-link" %></li>
             </ul>
           </li>
           <li>
             <span class="link-group-label" id="nav-membership-label">Membership</span>
             <ul aria-labelledby="nav-membership-label">
-              <li><%= link_to "Profile", account_member_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Profile", account_member_path, class: "btn btn-link" %></li>
               <% if current_user&.admin? %>
-                <li><%= link_to "Librarian View", admin_dashboard_path, class: "btn btn-link" %></li>
+                <li class="navigation-link"><%= link_to "Librarian View", admin_dashboard_path, class: "btn btn-link" %></li>
               <% end %>
             </ul>
           </li>
           <li>
             <span class="link-group-label" id="nav-about-us-label">About Us</span>
             <ul aria-labelledby="nav-about-us-label">
-              <li><%= link_to "Hours & Location", account_home_path, class: "btn btn-link" %></li>
-              <li><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
-              <li><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Hours & Location", account_home_path, class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
+              <li class="navigation-link"><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
             </ul>
           </li>
         </ul>

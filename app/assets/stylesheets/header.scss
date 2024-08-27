@@ -8,6 +8,22 @@
   width: 1px;
 }
 
+$max-mobile-width: 600px;
+$min-desktop-width: $max-mobile-width + 1px;
+
+@mixin mobile {
+  @media only screen and (max-width: $max-mobile-width) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: $min-desktop-width) {
+    @content;
+  }
+}
+
+
 header.header {
   nav {
     align-items: center;
@@ -15,16 +31,30 @@ header.header {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 1rem 0.25rem 0.5rem;
+
+    @include desktop {
+      background-color: transparent;
+    }
   }
 
-  .logo-link img {
-    max-height: 53px;
+  .logo-link {
+    @include desktop {
+      order: 1;
+    }
+
+    img {
+      max-height: 53px;
+    }
   }
 
   .search-and-menu-icon {
     align-items: center;
     display: flex;
     gap: 0.25rem;
+
+    @include desktop {
+      order: 3;
+    }
   }
 
   .search-and-menu-icon:has(#menu-toggle:focus) .icon-container {
@@ -43,22 +73,15 @@ header.header {
     .icon {
       color: #423730;
     }
+
+    @include desktop {
+      display: none;
+    }
   }
 
   .navigation-links {
-    background-color: white;
-    bottom: 0;
     list-style-type: none;
     margin: 0;
-    min-width: 10rem;
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
-    position: fixed;
-    right: 0;
-    top: 0;
-    transform: translateX(100%);
-    transition: transform 250ms;
-    z-index: 200;
 
     ul {
       list-style-type: none;
@@ -69,11 +92,69 @@ header.header {
       padding: 0;
     }
 
+
     .link-group-label {
       display: flex;
       padding: 1rem 0 0.5rem;
       font-weight: bold;
       justify-content: center;
+
+      @include desktop {
+        color: $primary-color;
+        cursor: default;
+        font-weight: normal;
+        padding: 0;
+      }
+    }
+
+    @include mobile {
+      background-color: white;
+      bottom: 0;
+      min-width: 10rem;
+      padding-left: 0.5rem;
+      padding-top: 0.5rem;
+      position: fixed;
+      right: 0;
+      top: 0;
+      transform: translateX(100%);
+      transition: transform 250ms;
+      z-index: 200;
+    }
+
+    @include desktop {
+      align-items: center;
+      display: flex;
+      flex: 1;
+      gap: 0.75rem;
+      padding-left: 1rem;
+      order: 2;
+
+      > li {
+        height: 1.5rem;
+        position: relative;
+      }
+
+      li > ul {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 1.5rem;
+        background-color: white;
+        min-width: 100%;
+      }
+
+      > li:focus-within > ul, > li:hover > ul {
+        opacity: 1;
+        pointer-events: unset;
+        z-index: 200;
+      }
+    }
+  }
+
+  .navigation-link {
+    > a {
+      text-align: left;
+      width: 100%;
     }
   }
 
@@ -94,6 +175,12 @@ header.header {
 
   &:has(#menu-toggle:not(:checked)) {
     .expanded-menu-label {
+      display: none;
+    }
+  }
+
+  @include desktop {
+    .expanded-menu-label, #menu-toggle {
       display: none;
     }
   }
