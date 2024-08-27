@@ -149,6 +149,10 @@ header.header {
         pointer-events: unset;
         z-index: 200;
       }
+
+      > li:focus-within > .link-group-label, > li:hover > .link-group-label {
+        text-decoration: underline;
+      }
     }
   }
 
