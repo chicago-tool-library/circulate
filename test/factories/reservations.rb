@@ -34,8 +34,8 @@ FactoryBot.define do
 
     trait :obsolete do
       status { "obsolete" }
+      pickup_event { association(:event) }
     end
-    pickup_event { association(:event) }
 
     trait :building do
       status { "building" }
