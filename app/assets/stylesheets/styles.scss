@@ -1135,7 +1135,7 @@ footer.page-footer {
 @media all and (min-width: 840px) {
   .time-override {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 10rem;
   }
