@@ -41,27 +41,39 @@
           <li>
             <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
             <ul aria-labelledby="nav-borrow-tools-label">
-              <li class="navigation-link"><%= link_to "Inventory", items_path, class: "btn btn-link" %></li>
-              <li class="navigation-link"><%= link_to "Loans", account_loans_path, class: "btn btn-link" %></li>
-              <li class="navigation-link"><%= link_to "Holds", account_holds_path, class: "btn btn-link" %></li>
-              <li class="navigation-link"><%= link_to "Appointments", account_appointments_path, class: "btn btn-link" %></li>
+              <%= navbar_link_to "Inventory", items_path %>
+              <% if user_signed_in? %>
+                <%= navbar_link_to "Loans", account_loans_path %>
+                <%= navbar_link_to "Holds", account_holds_path %>
+                <% if current_library.allow_appointments? %>
+                  <%= navbar_link_to "Appointments", account_appointments_path %>
+                <% end %>
+              <% end %>
             </ul>
           </li>
           <li>
             <span class="link-group-label" id="nav-membership-label">Membership</span>
             <ul aria-labelledby="nav-membership-label">
-              <li class="navigation-link"><%= link_to "Profile", account_member_path, class: "btn btn-link" %></li>
-              <% if current_user&.admin? %>
-                <li class="navigation-link"><%= link_to "Librarian View", admin_dashboard_path, class: "btn btn-link" %></li>
+              <% if user_signed_in? %>
+                <%= navbar_link_to "Profile", account_member_path %>
+                <% if current_user.admin? %>
+                  <%= navbar_link_to "Librarian View", admin_dashboard_path %>
+                <% end %>
+              <% else %>
+                <%= navbar_link_to "Member Login", new_user_session_path %>
+                <% if current_library.allow_members? %>
+                  <%= navbar_link_to "Become a Member", signup_path %>
+                <% end %>
+                <%= navbar_link_to "Tools for Organizations", "https://chicagotoollibrary.myturn.com/library/" %>
               <% end %>
             </ul>
           </li>
           <li>
             <span class="link-group-label" id="nav-about-us-label">About Us</span>
             <ul aria-labelledby="nav-about-us-label">
-              <li class="navigation-link"><%= link_to "Hours & Location", account_home_path, class: "btn btn-link" %></li>
-              <li class="navigation-link"><%= link_to "Contact Us", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
-              <li class="navigation-link"><%= link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "btn btn-link" %></li>
+              <%= navbar_link_to "Hours & Location", account_home_path %>
+              <%= navbar_link_to "Contact Us", "https://www.chicagotoollibrary.org/" %>
+              <%= navbar_link_to "Visit Our Website", "https://www.chicagotoollibrary.org/" %>
             </ul>
           </li>
         </ul>

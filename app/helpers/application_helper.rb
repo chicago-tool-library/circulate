@@ -12,9 +12,9 @@ module ApplicationHelper
     end
   end
 
-  def navbar_link_to(text, link, **options)
-    tag.li(class: "nav-item") do
-      link_to(text, link, class: "btn btn-link #{options.delete(:class)}", **options)
+  def navbar_link_to(text, link)
+    tag.li(class: "navigation-link") do
+      link_to(text, link, class: "btn btn-link")
     end
   end
 
