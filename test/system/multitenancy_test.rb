@@ -11,8 +11,9 @@ class MultitenancyTest < ApplicationSystemTestCase
     fill_in :user_password, with: user.password
     click_on "Login"
 
-    within ".navbar" do
-      assert_text "Logout"
+    within ".navigation-links" do
+      find("#nav-account-label").hover
+      assert_text "Sign Out"
     end
   end
 
@@ -30,9 +31,7 @@ class MultitenancyTest < ApplicationSystemTestCase
     fill_in :user_password, with: @user.password
     click_on "Login"
 
-    within ".navbar" do
-      refute_text @member.full_name
-    end
+    refute_text @member.full_name
     assert_button "Login"
   end
 
