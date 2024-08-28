@@ -14,7 +14,8 @@ module ApplicationHelper
 
   def navbar_link_to(text, link, new_tab: false, **options)
     if new_tab
-      options.merge!(target: "_blank", rel: "noopener noreferrer")
+      options[:target] = "_blank"
+      options[:rel] = "noopener noreferrer"
     end
 
     tag.li(class: "navigation-link") do
