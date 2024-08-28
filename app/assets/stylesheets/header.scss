@@ -24,6 +24,10 @@ $light-gray: #e4ddda;
   }
 }
 
+@mixin subtle-box-shadow {
+  box-shadow: $light-gray 1px 1px 4px 0px;
+}
+
 
 header.header {
   nav {
@@ -110,6 +114,7 @@ header.header {
     }
 
     @include mobile {
+      @include subtle-box-shadow;
       background-color: white;
       bottom: 0;
       min-width: 10rem;
@@ -137,7 +142,7 @@ header.header {
       }
 
       li > ul {
-        box-shadow: $light-gray 1px 1px 4px 0px;
+        @include subtle-box-shadow;
         opacity: 0;
         pointer-events: none;
         position: absolute;
