@@ -1,0 +1,67 @@
+<header class="header">
+  <nav class="container grid-lg">
+    <%= link_to account_home_path, class: "logo-link" do %>
+      <%= logo small: true, alt: "#{current_library.name} logo" %>
+    <% end %>
+    <div class="search-and-menu-icon">
+      <%= render "shared/search", id: "navbarQuery" %>
+      <label class="icon-container btn btn-action btn-lg" for="menu-toggle">
+        <i class="icon icon-menu" aria-hidden="true"></i>
+        <span class="visually-hidden">Toggle navigation</span>
+      </label>
+      <input id="menu-toggle" class="visually-hidden" type="checkbox" />
+      <label class="expanded-menu-label" for="menu-toggle">
+        <span class="visually-hidden">Toggle navigation</span>
+      </label>
+    </div>
+    <ul class="navigation-links">
+      <li class="navigation-link-group">
+        <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
+        <ul aria-labelledby="nav-borrow-tools-label">
+          <%= navbar_link_to "Inventory", items_path %>
+          <% if user_signed_in? %>
+            <%= navbar_link_to "Loans", account_loans_path %>
+            <%= navbar_link_to "Holds", account_holds_path %>
+            <% if current_library.allow_appointments? %>
+              <%= navbar_link_to "Appointments", account_appointments_path %>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+      <li class="navigation-link-group">
+        <span class="link-group-label" id="nav-membership-label">Membership</span>
+        <ul aria-labelledby="nav-membership-label">
+          <% if user_signed_in? %>
+            <%= navbar_link_to "Profile", account_member_path %>
+            <% if current_user.admin? %>
+              <%= navbar_link_to "Librarian View", admin_dashboard_path %>
+            <% end %>
+          <% else %>
+            <% if current_library.allow_members? %>
+              <%= navbar_link_to "Sign Up", signup_path %>
+            <% end %>
+            <%= navbar_link_to "Tools for Organizations", "https://chicagotoollibrary.myturn.com/library/" %>
+          <% end %>
+        </ul>
+      </li>
+      <li class="navigation-link-group">
+        <span class="link-group-label" id="nav-about-us-label">About Us</span>
+        <ul aria-labelledby="nav-about-us-label">
+          <%= navbar_link_to "Hours & Location", account_home_path %>
+          <%= navbar_link_to "Contact Us", "https://www.chicagotoollibrary.org/" %>
+          <%= navbar_link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "extra-space" %>
+        </ul>
+      </li>
+      <li class="navigation-link-group">
+        <span class="link-group-label" id="nav-account-label">Account</span>
+        <ul aria-labelledby="nav-account-label">
+          <% if user_signed_in? %>
+            <%= navbar_link_to "Sign Out", destroy_user_session_path, data: {turbo_method: :delete} %>
+          <% else %>
+            <%= navbar_link_to "Sign In", new_user_session_path %>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
