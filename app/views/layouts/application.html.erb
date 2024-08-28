@@ -68,58 +68,7 @@
       </nav>
     </header>
 
-    <%
-=begin%>
- <div class="off-canvas" data-controller="sidebar">
-      <div id="sidebar-id" class="off-canvas-sidebar" data-sidebar-target="menu" style="background-color: teal;">
-        <ul class="nav">
-          <%= render partial: "shared/navbar_links" %>
-        </ul>
-      </div>
-
-      <a class="off-canvas-overlay" href="#close" data-action="sidebar#close" title="close sidebar"></a>
-
-      <div class="off-canvas-content show-sm mobile-banner">
-        <div class="mobile-banner-content">
-          <div class="logo">
-            <a href="https://chicagotoollibrary.org/">
-              <%= logo(small: true) %>
-            </a>
-          </div>
-
-          <%= render "shared/search" %>
-        </div>
-      </div>
-
-      <a class="off-canvas-toggle btn btn-action btn-lg show-sm" href="#sidebar-id" data-action="sidebar#open" title="show sidebar nvigation">
-        <i class="icon icon-menu"></i>
-      </a>
-    </div>
-<%
-=end%>
-
     <div class="container grid-lg public">
-
-      <%
-=begin%>
- <header class="navbar hide-sm" style="background-color: papayawhip;">
-        <section class="navbar-section">
-          <span class="navbar-brand mr-3">
-            <a href="https://chicagotoollibrary.org/">
-              <%= image_tag "logo_small.png", alt: "Chicago Tool Library logo" %>
-            </a>
-          </span>
-          <ul class="navbar-links">
-            <%= render partial: "shared/navbar_links" %>
-          </ul>
-        </section>
-        <section class="navbar-section search-section">
-          <%= render "shared/search", id: "navbarQuery" %>
-        </section>
-      </header>
-<%
-=end%>
-
       <%= render partial: "shared/time_override" if Rails.env.development? %>
 
       <main id="content-start">
