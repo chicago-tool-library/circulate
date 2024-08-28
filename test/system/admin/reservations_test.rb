@@ -40,9 +40,9 @@ class AdminReservationsTest < ApplicationSystemTestCase
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
-        create(:reservation, status: "requested", started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
-        create(:reservation, status: "approved", started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
-        create(:reservation, status: "rejected", started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
+        create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
+        create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
+        create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
       ]
 
       visit admin_reservations_url
