@@ -1,33 +1,6 @@
-.visually-hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-
-$max-mobile-width: 600px;
-$min-desktop-width: $max-mobile-width + 1px;
-$light-gray: #e4ddda;
-
-@mixin mobile {
-  @media only screen and (max-width: $max-mobile-width) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media only screen and (min-width: $min-desktop-width) {
-    @content;
-  }
-}
-
 @mixin subtle-box-shadow {
   box-shadow: $light-gray 1px 1px 4px 0px;
 }
-
 
 header.header {
   nav {
@@ -77,7 +50,7 @@ header.header {
     border-color: $light-gray;
 
     .icon {
-      color: #423730;
+      color: $dark-color;
     }
 
     @include desktop {
@@ -96,21 +69,6 @@ header.header {
     ul, li {
       margin: 0;
       padding: 0;
-    }
-
-
-    .link-group-label {
-      display: flex;
-      padding: 1rem 0 0.5rem;
-      font-weight: bold;
-      justify-content: center;
-
-      @include desktop {
-        color: $primary-color;
-        cursor: default;
-        font-weight: normal;
-        padding: 0;
-      }
     }
 
     @include mobile {
@@ -133,35 +91,57 @@ header.header {
       display: flex;
       flex: 1;
       gap: 0.75rem;
-      padding-left: 1.25rem;
       order: 2;
+      padding-left: 1.25rem;
+    }
+  }
 
-      > li {
-        height: 1.5rem;
-        position: relative;
-      }
+  .link-group-label {
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    padding: 1rem 0 0.5rem;
 
-      li > ul {
-        @include subtle-box-shadow;
-        opacity: 0;
-        pointer-events: none;
-        position: absolute;
-        top: 1.5rem;
-        background-color: white;
-        min-width: 100%;
-        transition: opacity 150ms;
-        min-width: 7rem;
-      }
+    @include desktop {
+      color: $primary-color;
+      cursor: default;
+      font-weight: normal;
+      padding: 0;
+    }
+  }
 
-      > li:focus-within > ul, > li:hover > ul {
-        opacity: 1;
-        pointer-events: unset;
-        z-index: 200;
-      }
+  .navigation-link-group {
+    @include desktop {
+      height: 1.5rem;
+      position: relative;
+    }
+  }
 
-      > li:focus-within > .link-group-label, > li:hover > .link-group-label {
-        text-decoration: underline;
-      }
+  .navigation-link-group > ul {
+    @include desktop {
+      @include subtle-box-shadow;
+      background-color: white;
+      min-width: 100%;
+      min-width: 7rem;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      top: 1.5rem;
+      transition: opacity 150ms;
+    }
+  }
+
+ .navigation-link-group:focus-within > ul, .navigation-link-group:hover > ul {
+    @include desktop {
+      opacity: 1;
+      pointer-events: unset;
+      z-index: 200;
+    }
+  }
+
+ .navigation-link-group:focus-within > .link-group-label, .navigation-link-group:hover > .link-group-label {
+    @include desktop {
+      text-decoration: underline;
     }
   }
 
@@ -169,15 +149,17 @@ header.header {
     > a {
       border: 0;
       text-align: left;
-      width: 100%;
       transition: background-color 150ms;
+      width: 100%;
 
       &:hover, &:focus {
         background-color: $light-gray;
       }
 
       &.extra-space {
-        margin-top: 1.25rem;
+        @include desktop {
+          margin-top: 1.25rem;
+        }
       }
     }
   }
@@ -188,11 +170,11 @@ header.header {
     }
 
     .expanded-menu-label {
-      position: fixed;
-      top: 0;
-      left: 0;
       bottom: 0;
+      left: 0;
+      position: fixed;
       right: 0;
+      top: 0;
       z-index: 100;
     }
   }

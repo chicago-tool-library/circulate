@@ -38,7 +38,7 @@
           </label>
         </div>
         <ul class="navigation-links">
-          <li>
+          <li class="navigation-link-group">
             <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
             <ul aria-labelledby="nav-borrow-tools-label">
               <%= navbar_link_to "Inventory", items_path %>
@@ -51,7 +51,7 @@
               <% end %>
             </ul>
           </li>
-          <li>
+          <li class="navigation-link-group">
             <span class="link-group-label" id="nav-membership-label">Membership</span>
             <ul aria-labelledby="nav-membership-label">
               <% if user_signed_in? %>
@@ -67,7 +67,7 @@
               <% end %>
             </ul>
           </li>
-          <li>
+          <li class="navigation-link-group">
             <span class="link-group-label" id="nav-about-us-label">About Us</span>
             <ul aria-labelledby="nav-about-us-label">
               <%= navbar_link_to "Hours & Location", account_home_path %>
@@ -75,7 +75,7 @@
               <%= navbar_link_to "Visit Our Website", "https://www.chicagotoollibrary.org/", class: "extra-space" %>
             </ul>
           </li>
-          <li>
+          <li class="navigation-link-group">
             <span class="link-group-label" id="nav-about-us-label">Account</span>
             <ul aria-labelledby="nav-about-us-label">
               <% if user_signed_in? %>
