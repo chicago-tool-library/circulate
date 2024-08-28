@@ -12,7 +12,11 @@ module ApplicationHelper
     end
   end
 
-  def navbar_link_to(text, link, **options)
+  def navbar_link_to(text, link, new_tab: false, **options)
+    if new_tab
+      options.merge!(target: "_blank", rel: "noopener noreferrer")
+    end
+
     tag.li(class: "navigation-link") do
       link_to(text, link, class: "btn btn-link #{options.delete(:class)}", **options)
     end
