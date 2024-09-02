@@ -22,13 +22,13 @@
     "jquery": "^3.7.1",
     "mjml": "^4.15.3",
     "sass": "^1.77.8",
-    "sortablejs": "^1.15.2",
+    "sortablejs": "^1.15.3",
     "trix": "^2.1.5"
   },
   "version": "0.1.0",
   "devDependencies": {
     "markdown-toc": "^1.2.0",
-    "playwright": "1.45.0",
+    "playwright": "1.46.0",
     "standard": "^17.1.0"
   },
   "scripts": {
