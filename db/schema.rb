@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_16_214629) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -811,8 +811,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_214629) do
     t.bigint "library_id", null: false
     t.bigint "organization_id", null: false
     t.bigint "submitted_by_id", null: false
+    t.bigint "pickup_event_id"
+    t.bigint "dropoff_event_id"
+    t.index ["dropoff_event_id"], name: "index_reservations_on_dropoff_event_id"
     t.index ["library_id"], name: "index_reservations_on_library_id"
     t.index ["organization_id"], name: "index_reservations_on_organization_id"
+    t.index ["pickup_event_id"], name: "index_reservations_on_pickup_event_id"
     t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
     t.index ["submitted_by_id"], name: "index_reservations_on_submitted_by_id"
   end
@@ -934,6 +938,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_16_214629) do
   add_foreign_key "reservation_loans", "libraries"
   add_foreign_key "reservation_loans", "reservable_items"
   add_foreign_key "reservation_loans", "reservation_holds"
+  add_foreign_key "reservations", "events", column: "dropoff_event_id"
+  add_foreign_key "reservations", "events", column: "pickup_event_id"
   add_foreign_key "reservations", "libraries"
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "reservations", "users", column: "submitted_by_id"
