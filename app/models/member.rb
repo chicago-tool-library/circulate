@@ -148,7 +148,7 @@ class Member < ApplicationRecord
   end
 
   def update_user_email
-    user.update_column(:email, email) if user && !user.new_record? # Skip validations
+    user.update_column(:unconfirmed_email, email) if user&.persisted? # Skip validations
   end
 
   def update_neon_crm
