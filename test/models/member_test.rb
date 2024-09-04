@@ -3,6 +3,20 @@ require "test_helper"
 class MemberTest < ActiveSupport::TestCase
   include Lending
 
+  [
+    :member,
+    [:member, :with_bio],
+    :complete_member,
+    :verified_member,
+    :verified_member_with_membership
+  ].each do |factory_name|
+    test "#{Array(factory_name).join(", ")} is a valid factory/trait" do
+      member = build(*factory_name)
+      member.valid?
+      assert_equal({}, member.errors.messages)
+    end
+  end
+
   test "strips no digits from phone number" do
     member = Member.new(phone_number: "(123) 456-7890")
     member.valid?
@@ -122,16 +136,16 @@ class MemberTest < ActiveSupport::TestCase
   test "updates user email when member email is updated" do
     original_email = "original@example.com"
     user = create(:user, email: original_email)
-    member = create(:member, user:, email: original_email)
+    member = user.member
 
     assert_equal original_email, member.email
-    assert_equal original_email, member.user.email
+    assert_equal original_email, user.email
 
     assert member.update(email: "revised@different.biz")
 
-    member.user.reload
-    assert_equal original_email, member.user.email
-    assert_equal "revised@different.biz", member.user.unconfirmed_email
+    user.reload
+    assert_equal original_email, user.email
+    assert_equal "revised@different.biz", user.unconfirmed_email
   end
 
   test "doesn't allow multiple users with the same email address" do

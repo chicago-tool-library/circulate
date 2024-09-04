@@ -2,10 +2,13 @@ FactoryBot.define do
   factory :user do
     library { Library.first || association(:library) }
 
-    email
+    sequence(:email) do |n|
+      "person#{n}@example.com"
+    end
     password { "password" }
     confirmation_sent_at { Time.current }
     confirmed_at { Time.current }
+    member { association(:member, email:) }
 
     trait :unconfirmed do
       confirmation_sent_at { nil }
