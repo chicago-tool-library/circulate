@@ -118,8 +118,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     assert_text "You have to confirm your account before continuing"
     find("#nav-account-label").hover
-    refute_selector "a", text: "Sign In"
-    assert_selector "a", text: "Sign Out"
+    assert_selector "a", text: "Sign In"
   end
 
   test "signup and pay through square", :remote do
