@@ -109,10 +109,11 @@ namespace :devdata do
     @member_count ||= 100
     number = @member_count += 1
 
+    user = User.create!(email: email, password: "password", confirmed_at: Time.current, confirmation_sent_at: Time.current)
     member = Member.create!(
       status: status,
       email: email,
-      user: User.create!(email: email, password: "password", confirmed_at: Time.current, confirmation_sent_at: Time.current),
+      user: user,
       phone_number: "5005550006",
       full_name: full_name,
       preferred_name: preferred_name,
@@ -169,6 +170,6 @@ namespace :devdata do
   end
 
   def random_member
-    random_model(Member.where.not(email: "member_with_unconfirmed_email@example.com"))
+    random_model(Member.where.not(email: "member_with_unconfirmed_email@example.com").joins(:user))
   end
 end
