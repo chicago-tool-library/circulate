@@ -84,14 +84,13 @@
           <% end %>
 
           <%= tag.div class: "items-table-name" do %>
-            <strong><%= full_item_number(item) %></strong>
+            <strong><%= link_to item.name, item_path(item, search_result_index: index), class: "item-name" %></strong>
             <%= item_status_label(item) %>
             <% if item.active_holds.any? %>
               <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
             <% end %>
             <br>
-            <%= link_to item.name, item_path(item, search_result_index: index) %>
-            <%#= item.added %>
+            <strong><%= full_item_number(item) %></strong>
             <% if item.size.present? %>
               <span class="label"><%= item.size %></span>
             <% end %>

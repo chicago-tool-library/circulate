@@ -182,6 +182,10 @@ $photo-width: 187px;
     border-bottom: 1px solid #dadee4;
     width: 100%;
   }
+
+  .items-table-name .item-name {
+    font-size: 1rem;
+  }
 }
 
 @media all and (min-width: 841px) {
