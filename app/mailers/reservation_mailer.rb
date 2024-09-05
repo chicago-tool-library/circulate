@@ -9,7 +9,7 @@ class ReservationMailer < ApplicationMailer
   def review_requested
     @reservation = params[:reservation]
     @library = @reservation.library
-    @admins = User.where(library_id: @library.id).where(role: ["admin", "super_admin"]).pluck(:email)
+    @admins = User.where(library_id: @library.id).where(role: ["admin"]).pluck(:email)
     @subject = "Reservation ready for review"
     mail(to: @admins, subject: @subject)
   end
