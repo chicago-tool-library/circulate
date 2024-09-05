@@ -6,6 +6,7 @@ class MemberTest < ActiveSupport::TestCase
   [
     :member,
     [:member, :with_bio],
+    [:member, :with_user],
     :complete_member,
     :verified_member,
     :verified_member_with_membership
@@ -136,7 +137,7 @@ class MemberTest < ActiveSupport::TestCase
   test "updates user email when member email is updated" do
     original_email = "original@example.com"
     user = create(:user, email: original_email)
-    member = user.member
+    member = create(:member, user:, email: original_email)
 
     assert_equal original_email, member.email
     assert_equal original_email, user.email

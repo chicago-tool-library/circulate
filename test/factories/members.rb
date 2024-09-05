@@ -7,7 +7,7 @@ FactoryBot.define do
     library { Library.first || create(:library) }
 
     full_name { "Ida B. Wells" }
-    email
+    email { generate(:email) }
     phone_number { "5005550006" }
     postal_code { "60609" }
     address1 { "1 N. Michigan Ave" }
@@ -18,6 +18,10 @@ FactoryBot.define do
       bio { "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }
     end
 
+    trait :with_user do
+      user { association(:user, email:) }
+    end
+
     trait :with_pronunciation do
       pronunciation { "ˈaɪdə welz" }
     end
@@ -26,6 +30,7 @@ FactoryBot.define do
       preferred_name { "Ida" }
       pronouns { ["she/her"] }
       address1 { "apt 3" }
+      user { association(:user, email:) }
 
       factory :verified_member do
         sequence :number
