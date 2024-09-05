@@ -6,7 +6,7 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
   end
 
   test "pending member can't checkout items" do
-    @member = create(:member)
+    @member = create(:member, :with_user)
     @item = create(:item)
 
     visit admin_member_url(@member)
