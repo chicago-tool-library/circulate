@@ -88,7 +88,7 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
 
-    assert_emails 1
+    assert_emails 2
     assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment of"
@@ -115,8 +115,7 @@ class UserSignupTest < ApplicationSystemTestCase
 
     click_on "Login"
 
-    refute_selector "a", text: "Member Login"
-    assert_selector "a", text: "Membership"
+    assert_text "You have to confirm your account before continuing"
   end
 
   test "signup and pay through square", :remote do
@@ -133,7 +132,7 @@ class UserSignupTest < ApplicationSystemTestCase
     assert membership.pending?
     assert_equal "initial", membership.membership_type
 
-    assert_emails 1
+    assert_emails 2
     assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       assert_includes html, "Your payment of $42.00"
@@ -163,7 +162,7 @@ class UserSignupTest < ApplicationSystemTestCase
     end
     refute_content "Your payment"
 
-    assert_emails 1
+    assert_emails 2
     assert_delivered_email(to: email) do |html, text|
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment"

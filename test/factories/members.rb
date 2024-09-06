@@ -11,7 +11,7 @@ FactoryBot.define do
     phone_number { "5005550006" }
     postal_code { "60609" }
     address1 { "1 N. Michigan Ave" }
-    user
+    user { association(:user, email:) }
     reminders_via_email { true }
     reminders_via_text { false }
 

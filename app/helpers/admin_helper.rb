@@ -18,7 +18,7 @@ module AdminHelper
   def flash_message(key, classname = key)
     if flash.key?(key)
       tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do
-        tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key]
+        tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key].html_safe
       end
     end
   end

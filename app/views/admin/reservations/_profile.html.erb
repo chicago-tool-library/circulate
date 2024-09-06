@@ -31,6 +31,14 @@
           <%= icon_stat "clock", @reservation.started_at.to_formatted_s(:long), title: "pickup" %>
           <%= icon_stat "corner-down-left", @reservation.ended_at.to_formatted_s(:long), title: "return" %>
           <%= icon_stat "info", @reservation.status, title: "status" %>
+
+          <% if @reservation.pickup_event %>
+            <%= icon_stat "clock", format_reservation_event(@reservation.pickup_event), title: "pickup" %>
+          <% end %>
+          <% if @reservation.dropoff_event %>
+            <%= icon_stat "corner-down-left", format_reservation_event(@reservation.dropoff_event), title: "dropoff" %>
+          <% end %>
+
         </ul>
       </div>
     </div>

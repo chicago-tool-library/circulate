@@ -21,6 +21,17 @@
       <p>
         <%= @reservation.item_quantity %>
       </p>
+
+       <% if @reservation.pickup_event %>
+        <p>
+          Pickup: <%= format_reservation_event(@reservation.pickup_event) %>
+        </p>
+      <% end %>
+      <% if @reservation.dropoff_event %>
+        <p>
+          Dropoff: <%= format_reservation_event(@reservation.dropoff_event) %>
+        </p>
+      <% end %>
     </div>
     <div class="column col-8 col-md-12">
       <table class="table">

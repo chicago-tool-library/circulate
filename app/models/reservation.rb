@@ -23,6 +23,8 @@ class Reservation < ApplicationRecord
   belongs_to :reviewer, class_name: "User", optional: true
   belongs_to :organization
   belongs_to :submitted_by, class_name: "User", optional: false
+  belongs_to :pickup_event, class_name: "Event", optional: true
+  belongs_to :dropoff_event, class_name: "Event", optional: true
 
   accepts_nested_attributes_for :answers, allow_destroy: false
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
@@ -31,8 +33,11 @@ class Reservation < ApplicationRecord
   validates :started_at, presence: true
   validates :ended_at, presence: true
   validates_associated :reservation_holds
+  validate :must_have_pickup_event
+  validate :dropoff_event_must_be_after_pickup_event
 
   after_initialize :restore_manager
+  before_validation :restore_manager
   before_validation :move_ended_at_to_end_of_day
   before_validation :set_initial_status, on: :initialize
   after_find :restore_manager
@@ -70,5 +75,19 @@ class Reservation < ApplicationRecord
 
   def validate_reservation_dates
     errors.add(:ended_at, "end date must be after the start date") if started_at.present? && ended_at.present? && started_at.to_date >= ended_at.to_date
+  end
+
+  def must_have_pickup_event
+    return if manager.pending? || pickup_event.present?
+
+    errors.add(:pickup_event_id, "can't be blank")
+  end
+
+  def dropoff_event_must_be_after_pickup_event
+    return if pickup_event.blank? || dropoff_event.blank?
+
+    if pickup_event.start > dropoff_event.start
+      errors.add(:dropoff_event_id, "must be after pickup event")
+    end
   end
 end
