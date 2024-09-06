@@ -1,0 +1,22 @@
+<mj-section>
+  <mj-column padding-top="20px">
+    <mj-image src="<%= image_url "logo.jpg" %>" width="100px" />
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text font-size="28px" font-weight="bold" align="center">
+      <p><%= @subject %></p>
+    </mj-text>
+  </mj-column>
+</mj-section>
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p><%= @reservation.name %> ready for review.</p>
+      <p>
+        <a href="<%= admin_reservation_url(@reservation) %>">Review reservation request</a> in the Circulate app.
+      </p>
+    </mj-text>
+  </mj-column>
+</mj-section>

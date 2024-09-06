@@ -59,8 +59,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     find(:rich_text_area, locator).execute_script("this.editor.loadHTML(arguments[0])", with.to_s)
   end
 
-  def assert_delivered_email(to:, &block)
-    delivered_mail = ActionMailer::Base.deliveries.last
+  def assert_delivered_email(to:, second_to_last: false, &block)
+    delivered_mail = second_to_last ? ActionMailer::Base.deliveries[-2] : ActionMailer::Base.deliveries.last
     assert_equal [to], delivered_mail.to
 
     assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
