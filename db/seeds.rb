@@ -8,44 +8,44 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
 
     confirmed_email_attrs = {confirmation_sent_at: Time.current, confirmed_at: Time.current}
 
-    admin_member = Member.create!(member_attrs.merge(
-      email: "admin#{email_suffix}@example.com", full_name: "Admin Member", preferred_name: "Admin"
+    admin_user = User.create!(email: "admin#{email_suffix}@example.com", password: "password", role: "admin", **confirmed_email_attrs)
+    Member.create!(member_attrs.merge(
+      email: admin_user.email, full_name: "Admin Member", preferred_name: "Admin"
     ))
-    User.create!(email: admin_member.email, password: "password", member: admin_member, role: "admin", **confirmed_email_attrs)
 
-    unconfirmed_email_member = Member.create!(member_attrs.merge(
-      email: "member_with_unconfirmed_email#{email_suffix}@example.com", full_name: "Unconfirmed Email", preferred_name: "Unconfirmed Email"
+    unconfirmed_email_user = User.create!(email: "member_with_unconfirmed_email#{email_suffix}@example.com", password: "password", unconfirmed_email: "member_with_unconfirmed_email#{email_suffix}@example.com")
+    Member.create!(member_attrs.merge(
+      email: unconfirmed_email_user.email, full_name: "Unconfirmed Email", preferred_name: "Unconfirmed Email"
     ))
-    User.create!(email: unconfirmed_email_member.email, password: "password", member: unconfirmed_email_member)
 
+    verified_user = User.create!(email: "verified_member#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
     verified_member = Member.create!(member_attrs.merge(
-      email: "verified_member#{email_suffix}@example.com", full_name: "Firstname Lastname", preferred_name: "Verified", status: 1, address_verified: true
+      email: verified_user.email, full_name: "Firstname Lastname", preferred_name: "Verified", status: 1, address_verified: true
     ))
-    User.create!(email: verified_member.email, password: "password", member: verified_member, **confirmed_email_attrs)
     verified_member.memberships.create!(started_at: Time.current, ended_at: 1.year.since)
 
-    unverified_member = Member.create!(member_attrs.merge(
-      email: "new_member#{email_suffix}@example.com", full_name: "Firstname Lastname", preferred_name: "New"
+    unverified_user = User.create!(email: "new_member#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
+    Member.create!(member_attrs.merge(
+      email: unverified_user.email, full_name: "Firstname Lastname", preferred_name: "New"
     ))
-    User.create!(email: unverified_member.email, password: "password", member: unverified_member, **confirmed_email_attrs)
 
+    member_for_18_months_user = User.create!(email: "member_for_18_months#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
     member_for_18_months = Member.create!(member_attrs.merge(
-      email: "member_for_18_months#{email_suffix}@example.com", full_name: "Member for Eighteen Months", preferred_name: "18mo", status: 1, address_verified: true
+      email: member_for_18_months_user.email, full_name: "Member for Eighteen Months", preferred_name: "18mo", status: 1, address_verified: true
     ))
-    User.create!(email: member_for_18_months.email, password: "password", member: member_for_18_months, **confirmed_email_attrs)
     Membership.create!(member: member_for_18_months, started_at: 18.months.ago, ended_at: 6.months.ago)
     Membership.create!(member: member_for_18_months, started_at: 6.months.ago + 1.day, ended_at: 6.months.since - 1.day)
 
+    expired_user = User.create!(email: "expired_member#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
     expired_member = Member.create!(member_attrs.merge(
-      email: "expired_member#{email_suffix}@example.com", full_name: "Expired Member", preferred_name: "Expired", status: 1, address_verified: true
+      email: expired_user.email, full_name: "Expired Member", preferred_name: "Expired", status: 1, address_verified: true
     ))
-    User.create!(email: expired_member.email, password: "password", member: expired_member, **confirmed_email_attrs)
     Membership.create!(member: expired_member, started_at: 18.months.ago, ended_at: 6.months.ago)
 
+    expires_in_one_week_user = User.create!(email: "expires_soon#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
     expires_in_one_week_member = Member.create!(member_attrs.merge(
-      email: "expires_soon#{email_suffix}@example.com", full_name: "Expires Soon Member", preferred_name: "Soon", status: 1, address_verified: true
+      email: expires_in_one_week_user.email, full_name: "Expires Soon Member", preferred_name: "Soon", status: 1, address_verified: true
     ))
-    User.create!(email: expires_in_one_week_member.email, password: "password", member: expires_in_one_week_member, **confirmed_email_attrs)
     Membership.create!(member: expires_in_one_week_member, started_at: 351.days.ago, ended_at: 14.days.since)
 
     # Hardcoding this value (the value of which is "password") means that user sessions aren't invalidated when running

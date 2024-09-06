@@ -6,7 +6,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
   end
 
   test "verify pending member without membership" do
-    @member = create(:member)
+    @member = create(:member, :with_user)
 
     visit admin_member_url(@member)
 
@@ -41,7 +41,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
   end
 
   test "verify pending member without membership using square" do
-    @member = create(:member)
+    @member = create(:member, :with_user)
 
     visit admin_member_url(@member)
 
@@ -68,7 +68,7 @@ class MemberVerificationTest < ApplicationSystemTestCase
   end
 
   test "verify pending member with a membership" do
-    @member = create(:member)
+    @member = create(:member, :with_user)
     create(:membership, member: @member)
 
     visit admin_member_url(@member)

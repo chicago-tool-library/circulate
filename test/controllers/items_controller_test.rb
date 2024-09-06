@@ -15,7 +15,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "shows item page for signed in user" do
-    member = create(:member)
+    member = create(:member, :with_user)
     sign_in(member.user)
     item = create(:item)
 

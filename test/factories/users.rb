@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :user do
     library { Library.first || association(:library) }
 
-    email
+    email { generate(:email) }
     password { "password" }
     confirmation_sent_at { Time.current }
     confirmed_at { Time.current }
