@@ -95,21 +95,22 @@ header.header {
       flex: 1;
       gap: 0.75rem;
       order: 2;
-      padding-left: 1.25rem;
+      padding-left: 1rem;
     }
   }
 
   .link-group-label {
     display: flex;
     font-weight: bold;
-    justify-content: center;
-    padding: 1rem 0 0.5rem;
+    padding: 1rem 0.4rem 0.5rem;
 
     @include desktop {
+      border-radius: 0.2rem 0.2rem 0 0;
       color: $primary-color;
       cursor: default;
-      font-weight: normal;
-      padding: 0;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      transition: all 150ms;
     }
   }
 
@@ -124,6 +125,7 @@ header.header {
     @include desktop {
       @include subtle-box-shadow;
       background-color: white;
+      border-radius: 0 0.2rem 0.2rem 0.2rem;
       min-width: 100%;
       min-width: 7rem;
       opacity: 0;
@@ -146,7 +148,8 @@ header.header {
   .navigation-link-group:focus-within > .link-group-label,
   .navigation-link-group:hover > .link-group-label {
     @include desktop {
-      text-decoration: underline;
+      background-color: $primary-color;
+      color: white;
     }
   }
 
@@ -156,6 +159,10 @@ header.header {
       text-align: left;
       transition: background-color 150ms;
       width: 100%;
+
+      @include desktop {
+        padding-left: 0.5rem;
+      }
 
       &:hover,
       &:focus {
