@@ -12,11 +12,27 @@ $gray-color: #AE9C90;
 $gray-color-light: #D9D0CB;
 $light-color: white;
 
+$max-mobile-width: 600px;
+$min-desktop-width: $max-mobile-width + 1px;
+$light-gray: #e4ddda;
+
 $secondary-color-light: lighten($secondary-color, 20%);
 
 $background-color: #F9F6F2;
 
 $background-color-dark: darken($background-color, 5%);
+
+@mixin mobile {
+  @media only screen and (max-width: $max-mobile-width) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: $min-desktop-width) {
+    @content;
+  }
+}
 
 @mixin default-button{
   border-color: lighten($gray-color-light, 5%);
@@ -187,4 +203,15 @@ $pri-btn-color-hover: darken($button-color, 7%);
   border-radius: 7px;
   border: #E4E8F0 solid 1px;
   padding: 20px;
+}
+
+// This is the opposite of aria-hidden="true"
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

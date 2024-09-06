@@ -32,7 +32,8 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     # This sleep seems to quell a flaky failure with Capybara clicking on the
     # Appointments link after the accept_confirm above
     sleep 1
-    within("header.navbar") do
+    within(".navigation-links") do
+      find("#nav-borrow-tools-label").hover
       click_on "Appointments"
     end
     assert_current_path account_appointments_path
@@ -55,7 +56,8 @@ class RemoveHoldsTest < ApplicationSystemTestCase
     # This sleep seems to quell a flaky failure with Capybara clicking on the
     # Appointments link after the accept_confirm above
     sleep 1
-    within("header.navbar") do
+    within(".navigation-links") do
+      find("#nav-borrow-tools-label").hover
       click_on "Appointments"
     end
     assert_current_path account_appointments_path
