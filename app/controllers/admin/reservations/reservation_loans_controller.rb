@@ -15,6 +15,9 @@ module Admin
             reservation_hold: @reservation_hold,
             quantity: @reservation_hold.quantity
           )
+        elsif reservation_loan_params[:reservable_item_id].blank?
+          render_form_with_error("please enter an item ID")
+          return
         else
           # TODO look items up by number and not id
           @reservable_item = ReservableItem.find_by(id: reservation_loan_params[:reservable_item_id])
@@ -25,9 +28,17 @@ module Admin
 
           @reservation_hold = @reservation.reservation_holds.find_by(item_pool_id: @reservable_item.item_pool_id)
           if !@reservation_hold
-            # TODO this item isn't a part of the reservation
-            # but we should handle this gracefully
-            render_form_with_error("not found on this reservation")
+            pending_item = @reservation.pending_reservation_items.new(
+              reservable_item: @reservable_item,
+              created_by: current_user
+            )
+            if pending_item.save
+              respond_to do |format|
+                format.turbo_stream
+              end
+            else
+              render_form_with_error("already associated with a reservation")
+            end
             return
           end
 

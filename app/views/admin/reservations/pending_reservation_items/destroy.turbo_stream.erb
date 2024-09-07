@@ -1,0 +1,5 @@
+<turbo-stream action="replace" target="pending-reservation-items">
+  <template>
+    <%= render partial: "admin/reservations/pending_reservation_items", formats: [:html], locals: {reservation: @reservation} %>
+  </template>
+</turbo-stream>
