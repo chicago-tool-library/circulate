@@ -8,6 +8,7 @@ module Account
       ActionMailer::Base.deliveries.clear
 
       @member = create(:verified_member_with_membership)
+      @admin_user = create(:user, role: "admin", library: @member.library)
       @organization = create(:organization)
       @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
 
@@ -153,9 +154,14 @@ module Account
         assert_text "The reservation was submitted."
       end
 
-      assert_emails 1
-      assert_delivered_email(to: @member.email) do |html, text|
+      assert_emails 2
+
+      assert_delivered_email(to: @member.email, second_to_last: true) do |html, text|
         assert_includes html, "Reservation submitted"
+      end
+
+      assert_delivered_email(to: @admin_user.email) do |html, text|
+        assert_includes html, "Reservation ready for review"
       end
     end
   end

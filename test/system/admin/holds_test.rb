@@ -6,7 +6,7 @@ class HoldsTest < ApplicationSystemTestCase
   end
 
   test "pending member can reserve items" do
-    @member = create(:member)
+    @member = create(:member, :with_user)
     @item = create(:item)
 
     visit admin_member_holds_url(@member)

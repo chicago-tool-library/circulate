@@ -9,17 +9,17 @@ class AdminMembersWithOverdueItemsTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
 
-    @member_without_loans = create(:member, preferred_name: "Loanless Lane")
+    @member_without_loans = create(:member, :with_user, preferred_name: "Loanless Lane")
 
-    @member_with_non_overdue_loans = create(:member, preferred_name: "Mr. Ontime")
+    @member_with_non_overdue_loans = create(:member, :with_user, preferred_name: "Mr. Ontime")
     create(:loan, member: @member_with_non_overdue_loans)
     create(:ended_loan, member: @member_with_non_overdue_loans)
 
-    member_with_one_overdue_loan = create(:member, preferred_name: "(Over)Drew")
+    member_with_one_overdue_loan = create(:member, :with_user, preferred_name: "(Over)Drew")
     create(:overdue_loan, member: member_with_one_overdue_loan, due_at: 3.weeks.ago)
     create(:loan, member: member_with_one_overdue_loan)
 
-    member_with_multiple_overdue_loans = create(:member, preferred_name: "(Mul)Timothy")
+    member_with_multiple_overdue_loans = create(:member, :with_user, preferred_name: "(Mul)Timothy")
     1.upto(3).each do |n|
       create(:overdue_loan, member: member_with_multiple_overdue_loans, due_at: n.weeks.ago)
     end

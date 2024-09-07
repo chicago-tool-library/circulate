@@ -147,7 +147,8 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     visit account_home_url
 
-    within(".navbar-links") do
+    within(".navigation-links") do
+      find("#nav-borrow-tools-label").hover
       click_on "Appointments"
     end
 

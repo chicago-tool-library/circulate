@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_04_212517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -654,8 +654,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
     t.text "pronouns", default: [], array: true
     t.string "pronunciation"
     t.integer "library_id"
+    t.bigint "user_id"
     t.index ["library_id", "number"], name: "index_members_on_library_id_and_number", unique: true
+    t.index ["library_id", "user_id"], name: "index_members_on_library_id_and_user_id", unique: true
     t.index ["library_id"], name: "index_members_on_library_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -896,7 +899,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "role", default: "member", null: false, enum_type: "user_role"
-    t.bigint "member_id"
     t.integer "library_id"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
@@ -906,8 +908,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
     t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
-    t.index ["member_id", "library_id"], name: "index_users_on_member_id_and_library_id"
-    t.index ["member_id"], name: "index_users_on_member_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
@@ -934,6 +934,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
   add_foreign_key "loans", "items"
   add_foreign_key "loans", "loans", column: "initial_loan_id"
   add_foreign_key "loans", "members"
+  add_foreign_key "members", "users"
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
@@ -963,7 +964,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_22_201215) do
   add_foreign_key "ticket_updates", "users", column: "creator_id"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users", column: "creator_id"
-  add_foreign_key "users", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (

@@ -15,7 +15,7 @@ class User < ApplicationRecord
     super_admin: "super_admin"
   }
 
-  belongs_to :member, optional: true
+  has_one :member
 
   scope :by_creation_date, -> { order(created_at: :asc) }
 

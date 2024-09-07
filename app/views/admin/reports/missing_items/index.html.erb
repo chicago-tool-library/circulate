@@ -1,0 +1,37 @@
+<%= content_for :header do %>
+  <%= index_header "Missing Items" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <table class="table">
+      <tr>
+        <th>Item</th>
+        <th>Open Tickets</th>
+        <th>Most Recent Ticket</th>
+        <th>Most Recent Update</th>
+      </tr>
+      <% @items.each do |item| %>
+        <tr>
+          <td>
+            <%= link_to item.name, [:admin, item] %><br>
+            <%= item.complete_number %>
+          </td>
+          <td>
+            <%= link_to pluralize(item.tickets.active.count, "ticket"), admin_item_tickets_path(item) %>
+          </td>
+          <td>
+            <% if item.last_active_ticket %>
+              <%= link_to item.last_active_ticket.title, admin_item_ticket_path(item, item.last_active_ticket) %>
+            <% end %>
+          </td>
+          <td>
+            <% if item.last_active_ticket %>
+              <%= truncate(item.last_active_ticket.latest_ticket_update&.body&.to_plain_text, length: 120) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

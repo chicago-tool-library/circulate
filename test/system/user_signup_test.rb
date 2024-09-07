@@ -106,8 +106,9 @@ class UserSignupTest < ApplicationSystemTestCase
 
     visit root_url
 
-    within(".navbar-links") do
-      click_on "Member Login"
+    within(".navigation-links") do
+      find("#nav-account-label").hover
+      click_on "Sign In"
     end
 
     fill_in "Email", with: email
@@ -116,6 +117,8 @@ class UserSignupTest < ApplicationSystemTestCase
     click_on "Login"
 
     assert_text "You have to confirm your account before continuing"
+    find("#nav-account-label").hover
+    assert_selector "a", text: "Sign In"
   end
 
   test "signup and pay through square", :remote do

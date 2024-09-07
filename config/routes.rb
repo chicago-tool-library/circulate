@@ -147,6 +147,7 @@ Rails.application.routes.draw do
     namespace :reports do
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
+      resources :missing_items, only: :index
       resources :monthly_activities, only: :index
       resources :member_requests, only: :index
       resources :notifications, only: :index

@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class MemberCheckedOutItemsTest < ApplicationSystemTestCase
   setup do
-    @member = create(:member)
+    @member = create(:member, :with_user)
 
     login_as(@member.user)
   end
