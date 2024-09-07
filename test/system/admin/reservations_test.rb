@@ -321,7 +321,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer_pool = create(:item_pool, name: "Hammer")
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
-    reservation = create(:reservation, status: "building")
+    reservation = create(:reservation, :building)
     create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
     visit admin_reservation_pickup_path(reservation)
 
@@ -343,7 +343,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer_pool = create(:item_pool, name: "Hammer")
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
-    reservation = create(:reservation, status: "building")
+    reservation = create(:reservation, :building)
     visit admin_reservation_pickup_path(reservation)
 
     assert_active_tab "Pickup"
