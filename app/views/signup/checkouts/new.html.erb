@@ -1,0 +1,36 @@
+<% case Rails.env %>
+<% when 'production' %>
+  <%= javascript_include_tag "https://web.squarecdn.com/v1/square.js", "data-turbolinks-track": "reload" %>
+<% when 'development' %>
+  <%= javascript_include_tag "https://sandbox.web.squarecdn.com/v1/square.js", "data-turbolinks-track": "reload" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-sm-12 col-4 col-ml-auto pay-online">
+
+    <%= form_with(model: @form, url: signup_checkouts_url, builder: SpectreFormBuilder, class: "membership-payment") do |form| %>
+    <%= form.text_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
+
+      <%= form.actions do %>
+        <%= form.submit "Pay Online Now", data: {turbo: false} %>
+      <% end %>
+    <% end %>
+</div>
+
+<div class="container">
+  <h1>New Payment</h1>
+  <p id="notice"><%= @notice %></p>
+  <div class="col-md-8 order-md-1">
+      <%= form_with(id: "payment-form", url: payments_path, method: :post, local: true) do |f| %>
+      <div class="mb-3">
+        <label for="card" class="form-label">Credit Card</label>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <%= f.text_field "price", class: "form-control" %>
+      </div>
+          <%= f.submit "Pay", id: "card-button", class: "btn btn-primary" %>
+      <% end %>
+  </div>
+  <%= link_to "Back", payments_path %>
+</div>
