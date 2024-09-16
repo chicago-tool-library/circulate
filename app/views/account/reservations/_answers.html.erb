@@ -1,5 +1,5 @@
 <% answers.each_with_index do |answer, i| %>
-  <%= tag.div class: "form-group #{answer.errors.present? ? 'has-error' : nil}" do %>
+  <%= tag.div class: "form-group #{answer.errors.present? ? "has-error" : nil}" do %>
     <%= hidden_field_tag "reservation[required_answers_attributes][#{i}][id]", answer.id %>
     <%= hidden_field_tag "reservation[required_answers_attributes][#{i}][stem_id]", answer.stem.id %>
     <%= label_tag "reservation[required_answers_attributes][#{i}][value]", class: "form-label" do %>
