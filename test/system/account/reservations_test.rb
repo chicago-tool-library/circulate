@@ -114,7 +114,7 @@ module Account
       end
     end
 
-    test "creating a reservation, adding items, and submitting it " do
+    test "creating a reservation, adding items, and submitting it" do
       create_events
       hammer_pool = create(:item_pool, name: "Hammer")
       create(:reservable_item, item_pool: hammer_pool)

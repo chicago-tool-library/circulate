@@ -32,6 +32,12 @@
           Dropoff: <%= format_reservation_event(@reservation.dropoff_event) %>
         </p>
       <% end %>
+      <dl>
+        <% @reservation.answers.includes(:stem).each do |answer| %>
+          <dt><%= answer.stem.content %></dt>
+          <dd><%= answer.value %></dd>
+        <% end %>
+      </dl>
     </div>
     <div class="column col-8 col-md-12">
       <table class="table">

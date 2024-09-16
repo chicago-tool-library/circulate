@@ -20,6 +20,7 @@ class Reservation < ApplicationRecord
   has_many :item_pools, through: :reservation_holds
   has_many :reservation_policies, through: :item_pools
   has_many :answers, dependent: :destroy
+  has_many :required_answers, dependent: :destroy
   belongs_to :reviewer, class_name: "User", optional: true
   belongs_to :organization
   belongs_to :submitted_by, class_name: "User", optional: false
@@ -27,6 +28,7 @@ class Reservation < ApplicationRecord
   belongs_to :dropoff_event, class_name: "Event", optional: true
 
   accepts_nested_attributes_for :answers, allow_destroy: false
+  accepts_nested_attributes_for :required_answers, allow_destroy: false
   accepts_nested_attributes_for :reservation_holds, allow_destroy: true
 
   validates :name, presence: true
