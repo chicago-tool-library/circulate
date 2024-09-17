@@ -16,6 +16,8 @@ class User < ApplicationRecord
   }
 
   has_one :member
+  has_many :organization_members, dependent: :destroy
+  has_many :organizations, through: :organization_members
 
   scope :by_creation_date, -> { order(created_at: :asc) }
 

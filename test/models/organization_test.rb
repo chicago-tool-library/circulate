@@ -1,7 +1,21 @@
 require "test_helper"
 
 class OrganizationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "validations" do
+    organization = build(:organization)
+    organization.valid?
+    assert_equal({}, organization.errors.messages)
+
+    organization = Organization.new
+
+    assert organization.invalid?
+    assert_equal ["can't be blank"], organization.errors[:name]
+
+    existing_organization = create(:organization)
+    organization = Organization.new(name: existing_organization.name, website: existing_organization.website)
+
+    assert organization.invalid?
+    assert_equal ["has already been taken"], organization.errors[:name]
+    assert_equal ["has already been taken"], organization.errors[:website]
+  end
 end
