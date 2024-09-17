@@ -16,7 +16,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "puma"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.12"
+gem "jbuilder", "~> 2.13"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -102,10 +102,10 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "twilio-ruby", "~> 7.2"
+gem "twilio-ruby", "~> 7.3"
 
-gem "ahoy_matey", "~> 5.1"
+gem "ahoy_matey", "~> 5.2"
 
-gem "good_job", "~> 4.2"
+gem "good_job", "~> 4.3"
 
 gem "blazer", "~> 3.0"
