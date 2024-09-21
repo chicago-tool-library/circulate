@@ -1,3 +1,5 @@
+ActionMailer::Base.perform_deliveries = false
+
 def seed_library(library, email_suffix = "", postal_code = "60609")
   ActsAsTenant.with_tenant(library) do
     member_attrs = {
