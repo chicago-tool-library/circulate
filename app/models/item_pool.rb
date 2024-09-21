@@ -10,6 +10,7 @@ class ItemPool < ApplicationRecord
   validate :unnumbered_has_no_items
 
   scope :uniquely_numbered, -> { where(uniquely_numbered: true) }
+  scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
 
   acts_as_tenant :library
 
