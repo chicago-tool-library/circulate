@@ -8,7 +8,7 @@
   <% end %>
 <% end %>
 
-<p><strong>Website:</website> <%= link_to @organization.website %></strong></p>
+<p><strong>Website:</website> <%= @organization.website? ? link_to(@organization.website) : nil %></strong></p>
 
 <h2>Organization Members</h2>
 

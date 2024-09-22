@@ -17,7 +17,9 @@
         <%= link_to organization.name, admin_organization_path(organization) %>
       </td>
       <td>
-        <%= link_to organization.website %>
+        <% if organization.website? %>
+          <%= link_to organization.website %>
+        <% end %>
       </td>
       <td>
         <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn" %>
