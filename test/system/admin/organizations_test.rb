@@ -60,4 +60,44 @@ class AdminOrganizationsTest < ApplicationSystemTestCase
       assert_text "has already been taken"
     end
   end
+
+  test "updating a organization successfully" do
+    organization = create(:organization)
+
+    visit admin_organization_path(organization)
+    click_on "Edit"
+
+    fill_in "Name", with: @attributes[:name]
+    fill_in "Website", with: @attributes[:website]
+
+    assert_difference("Organization.count", 0) do
+      click_on "Update Organization"
+      assert_text "Organization was successfully updated"
+    end
+
+    organization.reload
+
+    assert_equal admin_organization_path(organization), current_path
+    assert_equal @attributes[:name], organization.name
+    assert_equal @attributes[:website], organization.website
+  end
+
+  test "updating a organization with errors" do
+    organization = create(:organization)
+    original_name = organization.name
+    visit admin_organization_path(organization)
+    click_on "Edit"
+
+    fill_in "Name", with: ""
+    fill_in "Website", with: @attributes[:website]
+
+    assert_difference("Organization.count", 0) do
+      click_on "Update Organization"
+      assert_text "can't be blank"
+    end
+
+    organization.reload
+
+    assert_equal original_name, organization.name
+  end
 end
