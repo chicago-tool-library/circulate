@@ -49,11 +49,20 @@ class AnswerTest < ActiveSupport::TestCase
 
     answer.value = nil
     assert_nil answer.value
+    assert_equal ({"text" => nil}), answer.result
 
     answer.stem = integer_stem
     answer.value = 5
     assert_equal 5, answer.value
     assert_equal ({"integer" => 5}), answer.result
+
+    answer.value = nil
+    assert_nil answer.value
+    assert_equal ({"integer" => nil}), answer.result
+
+    answer.value = ""
+    assert_nil answer.value
+    assert_equal ({"integer" => nil}), answer.result
 
     answer.value = nil
     assert_nil answer.value
