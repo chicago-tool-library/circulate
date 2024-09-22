@@ -75,6 +75,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :organizations
+    resources :organization_members, only: [:show]
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :categories, except: :show

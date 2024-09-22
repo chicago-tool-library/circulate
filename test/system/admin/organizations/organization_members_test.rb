@@ -17,4 +17,17 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
       assert_text organization_member.user_id
     end
   end
+
+  test "viewing an organization member" do
+    organization_member = create(:organization_member, organization: @organization)
+
+    visit admin_organization_url(@organization)
+
+    click_on organization_member.full_name
+
+    assert_text organization_member.user.email
+    assert_text organization_member.full_name
+    assert_text @organization.name
+    assert_current_path admin_organization_member_path(organization_member)
+  end
 end
