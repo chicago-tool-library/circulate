@@ -114,7 +114,7 @@ namespace :devdata do
             delay: 10,
             duration: 4,
             notes: "This looks good.",
-            assign_events: true,
+            assign_events: true
           ) do |reservation|
             reservation.reservation_holds.create!(item_pool: ItemPool.uniquely_numbered.find_random, quantity: 2)
             reservation.reservation_holds.create!(item_pool: ItemPool.not_uniquely_numbered.find_random, quantity: 2)
@@ -124,11 +124,11 @@ namespace :devdata do
     end
   end
 
-  def create_reservation(name:, status:, delay:0, duration: 1, notes: nil, assign_events: false)
+  def create_reservation(name:, status:, delay: 0, duration: 1, notes: nil, assign_events: false)
     started_at = Time.current.beginning_of_day + delay.days
     ended_at = started_at.end_of_day + duration.days
     pickup_event, dropoff_event = if assign_events
-      [Event.appointment_slots.where("start >= ?", started_at).first, Event.appointment_slots.where("finish <= ?", ended_at).last]
+      [Event.appointment_slots.where(start: started_at..).first, Event.appointment_slots.where(finish: ..ended_at).last]
     else
       [nil, nil]
     end
