@@ -100,4 +100,17 @@ class AdminOrganizationsTest < ApplicationSystemTestCase
 
     assert_equal original_name, organization.name
   end
+
+  test "destroying a organization" do
+    organization = create(:organization)
+    visit edit_admin_organization_path(organization)
+
+    assert_difference("Organization.count", -1) do
+      find("summary", text: "Destroy this organization?").click
+      accept_confirm do
+        click_on("Destroy Organization")
+      end
+      assert_text "Organization was successfully destroyed."
+    end
+  end
 end
