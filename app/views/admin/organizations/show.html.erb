@@ -8,6 +8,33 @@
 
 <p><strong>Website:</website> <%= @organization.website? ? link_to(@organization.website) : nil %></strong></p>
 
-<h2>Organization Members</h2>
+<section>
 
-<p>TODO</p>
+  <h2>Organization Members</h2>
+
+  <table class="table">
+    <thead>
+      <th>Full Name</th>
+      <th>User ID</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+    <% @organization.organization_members.order(:full_name).each do |organization_member| %>
+      <tr>
+        <td>
+          <%= organization_member.full_name %>
+        </td>
+        <td>
+          <%= link_to organization_member.user_id, admin_user_path(organization_member.user) %>
+        </td>
+        <td>
+          <%
+=begin%>
+ <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn" %>
+<%
+=end%>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</section>
