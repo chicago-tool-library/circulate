@@ -1,7 +1,7 @@
 <% content_for :header do %>
   <%= breadcrumbs "Organizations", admin_organizations_path, @organization_member.organization.name, admin_organization_path(@organization_member.organization) %>
   <%= index_header @organization_member.full_name do %>
-    <%= link_to "Edit", "#", class: "btn" %>
+    <%= link_to "Edit", edit_admin_organization_member_path(@organization_member), class: "btn" %>
   <% end %>
 <% end %>
 

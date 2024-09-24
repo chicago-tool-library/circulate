@@ -1,5 +1,5 @@
 class Admin::OrganizationMembersController < Admin::BaseController
-  before_action :set_organization_member, only: %i[show]
+  before_action :set_organization_member, only: %i[show edit update]
   before_action :set_organization, only: %i[new create]
 
   def show
@@ -14,14 +14,25 @@ class Admin::OrganizationMembersController < Admin::BaseController
     @organization_member = OrganizationMember.create_with_user(
       email: user_email,
       organization: @organization,
-      **organization_params
+      **organization_member_params
     )
     @user = @organization_member.user
 
     if @organization_member.persisted?
-      redirect_to admin_organization_member_path(@organization), success: "Organization Member was successfully created."
+      redirect_to admin_organization_member_path(@organization_member), success: "Organization Member was successfully created."
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @organization_member.update(organization_member_params)
+      redirect_to admin_organization_member_path(@organization_member), success: "Organization Member was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -35,7 +46,7 @@ class Admin::OrganizationMembersController < Admin::BaseController
     @organization = Organization.find(params[:organization_id])
   end
 
-  def organization_params
+  def organization_member_params
     params.require(:organization_member).permit(:full_name)
   end
 

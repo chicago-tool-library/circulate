@@ -3,4 +3,16 @@
   <%= index_header "New Organization Member" %>
 <% end %>
 
-<%= render "form", user: @user, organization: @organization, organization_member: @organization_member %>
+<%= form_with(model: [:admin, @organization, @organization_member], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :full_name %>
+
+  <%= form.fields_for :users_attributes, @user do |user_form| %>
+    <%= user_form.text_field :email, type: "email" %>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

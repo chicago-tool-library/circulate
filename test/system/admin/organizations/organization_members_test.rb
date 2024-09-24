@@ -94,4 +94,41 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
       assert_text "can't be blank"
     end
   end
+
+  test "updating an organization member successfully" do
+    organization_member = create(:organization_member, organization: @organization)
+
+    visit admin_organization_member_path(organization_member)
+    click_on "Edit"
+
+    fill_in "Full name", with: @attributes[:full_name]
+
+    assert_difference("OrganizationMember.count", 0) do
+      click_on "Update Organization member"
+      assert_text "Organization Member was successfully updated"
+    end
+
+    organization_member.reload
+
+    assert_equal admin_organization_member_path(organization_member), current_path
+    assert_equal @attributes[:full_name], organization_member.full_name
+  end
+
+  test "updating a organization with errors" do
+    organization_member = create(:organization_member, organization: @organization)
+    original_full_name = organization_member.full_name
+    visit admin_organization_member_path(organization_member)
+    click_on "Edit"
+
+    fill_in "Full name", with: ""
+
+    assert_difference("OrganizationMember.count", 0) do
+      click_on "Update Organization member"
+      assert_text "can't be blank"
+    end
+
+    organization_member.reload
+
+    assert_equal original_full_name, organization_member.full_name
+  end
 end
