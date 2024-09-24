@@ -131,4 +131,17 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
 
     assert_equal original_full_name, organization_member.full_name
   end
+
+  test "destroying an organization member" do
+    organization_member = create(:organization_member)
+    visit edit_admin_organization_member_path(organization_member)
+
+    assert_difference("OrganizationMember.count", -1) do
+      find("summary", text: "Destroy this organization member?").click
+      accept_confirm do
+        click_on("Destroy Organization Member")
+      end
+      assert_text "Organization Member was successfully destroyed."
+    end
+  end
 end

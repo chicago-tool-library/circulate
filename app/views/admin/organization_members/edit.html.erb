@@ -12,3 +12,12 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this organization member?</summary>
+    <%= action_bar "If you destroy this organization member, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy Organization Member", [:admin, @organization_member], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
+</div>

@@ -1,5 +1,5 @@
 class Admin::OrganizationMembersController < Admin::BaseController
-  before_action :set_organization_member, only: %i[show edit update]
+  before_action :set_organization_member, only: %i[show edit update destroy]
   before_action :set_organization, only: %i[new create]
 
   def show
@@ -34,6 +34,11 @@ class Admin::OrganizationMembersController < Admin::BaseController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @organization_member.destroy!
+    redirect_to admin_organization_path(@organization_member.organization), success: "Organization Member was successfully destroyed."
   end
 
   private

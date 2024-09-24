@@ -101,7 +101,7 @@ class AdminOrganizationsTest < ApplicationSystemTestCase
     assert_equal original_name, organization.name
   end
 
-  test "destroying a organization" do
+  test "destroying an organization" do
     organization = create(:organization)
     visit edit_admin_organization_path(organization)
 
