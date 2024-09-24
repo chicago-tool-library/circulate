@@ -7,6 +7,8 @@
   <%= form.select(:pickup_event_id, grouped_options_for_select(@reservation_slots, reservation.pickup_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
   <%= form.select(:dropoff_event_id, grouped_options_for_select(@reservation_slots, reservation.dropoff_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
 
+  <%= render "answers", answers: @answers %>
+
   <%= form.actions do %>
     <%= form.submit %>
   <% end %>

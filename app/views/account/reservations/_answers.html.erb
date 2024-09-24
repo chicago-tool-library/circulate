@@ -1,0 +1,19 @@
+<% answers.each_with_index do |answer, i| %>
+  <%= tag.div class: "form-group #{answer.errors.present? ? "has-error" : nil}" do %>
+    <%= hidden_field_tag "reservation[required_answers_attributes][#{i}][id]", answer.id %>
+    <%= hidden_field_tag "reservation[required_answers_attributes][#{i}][stem_id]", answer.stem.id %>
+    <%= label_tag "reservation[required_answers_attributes][#{i}][value]", class: "form-label" do %>
+      <%= answer.stem.content %>
+      <span class="label label-warning label-required-field">required</span>
+    <% end %>
+    <% case answer.stem.answer_type %>
+    <% when Stem::AnswerTypes::TEXT %>
+      <%= text_area_tag "reservation[required_answers_attributes][#{i}][value]", answer.value, class: "form-input" %>
+    <% when Stem::AnswerTypes::INTEGER %>
+      <%= number_field_tag "reservation[required_answers_attributes][#{i}][value]", answer.value, class: "form-input", autocomplete: "off" %>
+    <% end %>
+    <% if answer.errors[:value].present? %>
+      <div class="form-input-hint"><%= answer.errors[:value].join(", ") %></div>
+    <% end %>
+  <% end %>
+<% end %>
