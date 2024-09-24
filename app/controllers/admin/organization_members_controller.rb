@@ -14,7 +14,7 @@ class Admin::OrganizationMembersController < Admin::BaseController
     @organization_member = OrganizationMember.create_with_user(
       email: user_email,
       organization: @organization,
-      **organization_params,
+      **organization_params
     )
     @user = @organization_member.user
 

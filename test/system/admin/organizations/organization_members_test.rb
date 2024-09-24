@@ -4,7 +4,7 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
     @organization = create(:organization)
-    @attributes = attributes_for(:organization_member).slice(:name, :website)
+    @attributes = attributes_for(:organization_member).slice(:full_name)
     @user_attributes = attributes_for(:user).slice(:email)
   end
 
@@ -39,11 +39,9 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
     fill_in "Full name", with: @attributes[:full_name]
     fill_in "Email", with: @user_attributes[:email]
 
-    assert_difference("User.count", 1) do
-      assert_difference("OrganizationMember.count", 1) do
-        click_on "Create Organization member"
-        assert_text "Organization Member was successfully created"
-      end
+    assert_difference -> { User.count } => 1, -> { OrganizationMember.count } => 1 do
+      click_on "Create Organization member"
+      assert_text "Organization Member was successfully created"
     end
 
     organization_member = OrganizationMember.last!
@@ -53,7 +51,6 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
   end
 
   test "creating an organization member successfully (with an existing user)" do
-    skip
     existing_user = create(:user)
     visit admin_organization_url(@organization)
     click_on "New Organization Member"
@@ -61,7 +58,7 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
     fill_in "Full name", with: @attributes[:full_name]
     fill_in "Email", with: existing_user.email
 
-    assert_difference("OrganizationMember.count", 1) do
+    assert_difference -> { User.count } => 0, -> { OrganizationMember.count } => 1 do
       click_on "Create Organization member"
       assert_text "Organization Member was successfully created"
     end
@@ -72,14 +69,27 @@ class AdminOrganizationMembersTest < ApplicationSystemTestCase
     assert_equal existing_user, organization_member.user
   end
 
-  test "creating an organization member with errors" do
-    skip
+  test "creating an organization member with errors on the organization member" do
+    visit admin_organization_url(@organization)
+    click_on "New Organization Member"
+
+    fill_in "Full name", with: ""
+    fill_in "Email", with: @user_attributes[:email]
+
+    assert_difference -> { User.count } => 0, -> { OrganizationMember.count } => 0 do
+      click_on "Create Organization member"
+      assert_text "can't be blank"
+    end
+  end
+
+  test "creating an organization member with errors on the user" do
     visit admin_organization_url(@organization)
     click_on "New Organization Member"
 
     fill_in "Full name", with: @attributes[:full_name]
+    fill_in "Email", with: ""
 
-    assert_difference("OrganizationMember.count", 0) do
+    assert_difference -> { User.count } => 0, -> { OrganizationMember.count } => 0 do
       click_on "Create Organization member"
       assert_text "can't be blank"
     end
