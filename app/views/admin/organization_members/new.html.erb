@@ -1,0 +1,6 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Organizations", admin_organizations_path, @organization.name, admin_organization_path(@organization) %>
+  <%= index_header "New Organization Member" %>
+<% end %>
+
+<%= render "form", user: @user, organization: @organization, organization_member: @organization_member %>

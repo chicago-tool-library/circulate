@@ -15,4 +15,12 @@ class UserTest < ActiveSupport::TestCase
       assert_equal({}, user.errors.messages)
     end
   end
+
+  test ".find_by_case_insensitive_email" do
+    original_user = create(:user, email: "myMixedCaseEmail@example.com")
+
+    assert_equal original_user, User.find_by_case_insensitive_email(original_user.email.upcase)
+    assert_equal original_user, User.find_by_case_insensitive_email(original_user.email.downcase)
+    assert_nil User.find_by_case_insensitive_email("myMixedCaseEmail@example.co")
+  end
 end

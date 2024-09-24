@@ -21,6 +21,10 @@ class User < ApplicationRecord
 
   scope :by_creation_date, -> { order(created_at: :asc) }
 
+  def self.find_by_case_insensitive_email(email)
+    find_by(arel_table[:email].lower.eq(email.downcase))
+  end
+
   def roles
     case role
     when "member"

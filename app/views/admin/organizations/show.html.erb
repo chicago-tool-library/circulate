@@ -2,7 +2,7 @@
   <%= breadcrumbs "Organizations", admin_organizations_path %>
   <%= index_header @organization.name do %>
     <%= link_to "Edit", edit_admin_organization_path(@organization), class: "btn" %>
-    <%= link_to "New Organization Member", "#", class: "btn" %>
+    <%= link_to "New Organization Member", new_admin_organization_organization_member_path(@organization), class: "btn" %>
   <% end %>
 <% end %>
 
@@ -16,7 +16,6 @@
     <thead>
       <th>Full Name</th>
       <th>User ID</th>
-      <th>Actions</th>
     </thead>
     <tbody>
     <% @organization.organization_members.order(:full_name).each do |organization_member| %>
@@ -26,15 +25,6 @@
         </td>
         <td>
           <%= link_to organization_member.user_id, admin_user_path(organization_member.user) %>
-        </td>
-        <td>
-          <%
-=begin
-          %>
- <%= link_to "Edit", edit_admin_organization_path(organization), class: "btn" %>
-<%
-=end
-%>
         </td>
       </tr>
     <% end %>
