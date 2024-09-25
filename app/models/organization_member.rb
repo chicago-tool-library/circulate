@@ -2,6 +2,14 @@ class OrganizationMember < ApplicationRecord
   belongs_to :organization
   belongs_to :user
 
+  # while the canonical list of roles is the "organization_member_role" enum in the
+  # database, this enum exists to help display the list of roles
+  # elsewhere in the app
+  enum :role, {
+    admin: "admin",
+    member: "member"
+  }
+
   validates :full_name, presence: true
 
   def self.create_with_user(email:, **organization_member_attributes)

@@ -1,6 +1,18 @@
 require "test_helper"
 
 class OrganizationMemberTest < ActiveSupport::TestCase
+  [
+    :organization_member,
+    [:organization_member, :member],
+    [:organization_member, :admin]
+  ].each do |factory_name|
+    test "#{Array(factory_name).join(", ")} is a valid factory/trait" do
+      user = build(*factory_name)
+      user.valid?
+      assert_equal({}, user.errors.messages)
+    end
+  end
+
   test "validations" do
     organization_member = build(:organization_member)
     organization_member.valid?

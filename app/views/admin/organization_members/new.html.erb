@@ -12,6 +12,9 @@
     <%= user_form.text_field :email, type: "email" %>
   <% end %>
 
+  <% role_options = OrganizationMember.roles.values.sort.map { |role| [role.capitalize, role] } %>
+  <%= form.select :role, options_for_select(role_options, @organization_member.role) %>
+
   <div>
     <%= form.submit %>
   </div>

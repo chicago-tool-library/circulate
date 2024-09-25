@@ -52,7 +52,7 @@ class Admin::OrganizationMembersController < Admin::BaseController
   end
 
   def organization_member_params
-    params.require(:organization_member).permit(:full_name)
+    params.require(:organization_member).permit(:full_name, :role)
   end
 
   def user_email

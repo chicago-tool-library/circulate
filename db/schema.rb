@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_190657) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_24_215440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_190657) do
   create_enum :membership_type, [
     "initial",
     "renewal",
+  ], force: :cascade
+
+  create_enum :organization_member_role, [
+    "admin",
+    "member",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -703,6 +708,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_190657) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "role", default: "member", null: false, enum_type: "organization_member_role"
     t.index ["organization_id"], name: "index_organization_members_on_organization_id"
     t.index ["user_id"], name: "index_organization_members_on_user_id"
   end

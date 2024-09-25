@@ -11,6 +11,7 @@
       <div class="panel-body">
         <ul class="item-stats">
           <%= icon_stat "user", @organization_member.user.email, title: "email" %>
+          <%= icon_stat "info", @organization_member.role.capitalize, title: "role" %>
         </ul>
       </div>
     </div>

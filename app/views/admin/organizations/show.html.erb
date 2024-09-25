@@ -15,6 +15,7 @@
   <table class="table">
     <thead>
       <th>Full Name</th>
+      <th>Role</th>
       <th>User ID</th>
     </thead>
     <tbody>
@@ -22,6 +23,9 @@
       <tr>
         <td>
           <%= link_to organization_member.full_name, admin_organization_member_path(organization_member) %>
+        </td>
+        <td>
+          <%= organization_member.role.capitalize %>
         </td>
         <td>
           <%= link_to organization_member.user_id, admin_user_path(organization_member.user) %>
