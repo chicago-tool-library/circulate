@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_215440) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_201023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -709,6 +709,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_215440) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "role", default: "member", null: false, enum_type: "organization_member_role"
+    t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
     t.index ["organization_id"], name: "index_organization_members_on_organization_id"
     t.index ["user_id"], name: "index_organization_members_on_user_id"
   end

@@ -11,6 +11,7 @@ class OrganizationMember < ApplicationRecord
   }
 
   validates :full_name, presence: true
+  validates :organization_id, uniqueness: {scope: :user_id}
 
   def self.create_with_user(email:, **organization_member_attributes)
     organization_member = new(organization_member_attributes)
