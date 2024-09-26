@@ -9,7 +9,7 @@
   <%= form.text_field :full_name %>
 
   <% role_options = OrganizationMember.roles.values.sort.map { |role| [role.capitalize, role] } %>
-  <%= form.select :role, options_for_select(role_options, @organization_member.role) %>
+  <%= form.select :role, options_for_select(role_options, @organization_member.role), required: true %>
 
   <div>
     <%= form.submit %>
