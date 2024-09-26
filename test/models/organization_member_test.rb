@@ -22,6 +22,7 @@ class OrganizationMemberTest < ActiveSupport::TestCase
 
     assert organization_member.invalid?
     assert_equal ["can't be blank"], organization_member.errors[:full_name]
+    assert_equal [], organization_member.errors[:website]
     assert_equal ["must exist"], organization_member.errors[:organization]
     assert_equal ["must exist"], organization_member.errors[:user]
 
