@@ -111,7 +111,10 @@
     <% end %>
   <% else %>
     <div class="toast toast-warning">
-      <p>You can only schedule an appointment if you have a tool on hold or that can be returned.</p>
+      <p>You can only schedule an appointment if you have at least one item that is:</p>
+      <ul>
+        <li>on hold and ready for pickup ready, or</li>
+        <li>on loan that can be returned</p>
       <%= link_to "View Inventory", items_path, class: "btn btn-lg btn-default" %>
     </div>
   <% end %>

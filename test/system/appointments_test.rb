@@ -86,9 +86,44 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     click_on "Schedule an Appointment"
 
-    assert_text "You can only schedule an appointment if you have a tool on hold or that can be returned."
+    assert_text "You can only schedule an appointment if"
 
     refute_text "Select Items to Return"
+  end
+
+  test "attempts to schedule appiontment for a hold in maintenance" do
+    @member = create(:verified_member_with_membership)
+
+    login_as @member.user
+    create(:event, calendar_id: Event.appointment_slot_calendar_id, start: 27.hours.since.beginning_of_hour, finish: 28.hours.since.beginning_of_hour)
+
+    @active_item = create(:item)
+    @maintenance_item = create(:item)
+
+    create(:started_hold, item: @active_item, member: @member)
+    create(:hold, item: @maintenance_item, member: @member)
+
+    @maintenance_item.update(status: Item.statuses[:maintenance])
+
+    visit account_holds_url
+
+    within list_item_containing(@active_item.complete_number) do
+      assert_text "Ready for pickup"
+    end
+
+    within list_item_containing(@maintenance_item.complete_number) do
+      assert_text "#1 on wait list"
+    end
+
+    click_on "Schedule a Pick Up"
+
+    assert_text "Schedule an Appointment"
+
+    within list_item_containing(@active_item.complete_number) do
+      assert_text "Ready for pickup"
+    end
+
+    refute_text @maintenance_item.complete_number
   end
 
   test "multiple members can make an appointment for an uncounted tool" do

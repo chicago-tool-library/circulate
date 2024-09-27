@@ -137,6 +137,17 @@ class HoldTest < ActiveSupport::TestCase
     assert hold.ready_for_pickup?
   end
 
+  # Only active items can be picked up
+  Item.statuses.keys.without("active").each do |status|
+    test "#ready_for_pickup? is false when an item's status is #{status}" do
+      hold = create(:hold)
+      hold.item.update(status: Item.statuses[status])
+
+      hold.reload
+      refute hold.ready_for_pickup?
+    end
+  end
+
   test "start_waiting_holds starts a hold" do
     create(:hold)
 
