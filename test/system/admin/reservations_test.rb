@@ -266,20 +266,46 @@ class AdminReservationsTest < ApplicationSystemTestCase
     refute_text hammer.name
   end
 
-  test "adding unreserved items to a pickup" do
+  test "adding unreserved items to a pickup and then removing them" do
     hammer_pool = create(:item_pool, name: "Hammer")
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
     reservation = create(:reservation, :building)
     visit admin_reservation_pickup_path(reservation)
 
-    assert_active_tab "Pickup"
-    fill_in "Item ID", with: hammer.id
-    click_on "Add Item"
+    assert_no_difference "PendingReservationItem.count" do
+      assert_difference "PendingReservationItem.count", 1 do
+        assert_active_tab "Pickup"
+        fill_in "Item ID", with: hammer.id
+        click_on "Add Item"
 
-    assert_text "1 item scanned that did not match the reservation"
-    click_on "Remove"
+        assert_text "1 item scanned that did not match the reservation"
+      end
 
-    refute_text "1 item scanned that did not match the reservation"
+      click_on "Remove"
+      refute_text "1 item scanned that did not match the reservation"
+    end
+  end
+
+  test "adding unreserved items to a pickup and merging a new item into the reservation" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation, :building)
+    visit admin_reservation_pickup_path(reservation)
+
+    assert_difference -> { reservation.reservation_holds.count } => 1,
+      -> { reservation.pending_reservation_items.count } => 0 do
+      assert_active_tab "Pickup"
+      fill_in "Item ID", with: hammer.id
+      click_on "Add Item"
+
+      assert_text "1 item scanned that did not match the reservation"
+
+      click_on "Add to Reservation"
+
+      refute_text "1 item scanned that did not match the reservation"
+      assert_text "Hammer (1/1)"
+    end
   end
 end

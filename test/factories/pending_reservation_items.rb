@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :pending_reservation_item do
-    reservable_item { nil }
-    reservation { nil }
+    association :reservable_item
+    association :reservation
+    association :created_by, factory: :user
   end
 end

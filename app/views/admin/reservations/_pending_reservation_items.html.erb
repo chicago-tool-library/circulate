@@ -7,6 +7,7 @@
                     <%= pending_reservation_item.reservable_item.number %> -
                     <%= pending_reservation_item.reservable_item.name %>
                     <%= button_to "Remove", [:admin, reservation, pending_reservation_item], method: :delete %>
+                    <%= button_to "Add to Reservation", [:admin, reservation, pending_reservation_item], method: :put %>
                 </li>
             <% end %>
         </ul>

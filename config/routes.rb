@@ -199,7 +199,7 @@ Rails.application.routes.draw do
         scope module: "reservations" do
           resources :reservation_loans, only: [:create, :destroy]
           resources :reservation_holds
-          resources :pending_reservation_items, only: [:destroy]
+          resources :pending_reservation_items, only: [:update, :destroy]
           resource :status, only: :update
           resource :review, only: [:edit, :update, :show]
           resource :pickup, only: :show
