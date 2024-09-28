@@ -89,6 +89,8 @@ class Hold < ApplicationRecord
   end
 
   def ready_for_pickup?(now = Time.current)
+    return false unless item.active?
+
     # Holds for uncounted items are always ready to be picked up
     unless item.borrow_policy.uniquely_numbered?
       return true

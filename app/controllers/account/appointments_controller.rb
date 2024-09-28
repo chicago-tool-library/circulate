@@ -69,7 +69,7 @@ module Account
     end
 
     def load_holds_and_loans
-      @holds = Hold.active.includes(member: {appointments: :holds}).where(member: @member)
+      @holds = Hold.active.includes(:item, member: {appointments: :holds}).where(member: @member, item: {status: Item.statuses[:active]})
       @loans = @member.loans.includes(:item, member: {appointments: :loans}).checked_out
     end
 
