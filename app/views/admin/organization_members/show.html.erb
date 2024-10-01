@@ -1,0 +1,19 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Organizations", admin_organizations_path, @organization_member.organization.name, admin_organization_path(@organization_member.organization) %>
+  <%= index_header @organization_member.full_name do %>
+    <%= link_to "Edit", edit_admin_organization_member_path(@organization_member), class: "btn" %>
+  <% end %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-4 col-sm-12">
+    <div class="panel item-panel">
+      <div class="panel-body">
+        <ul class="item-stats">
+          <%= icon_stat "user", @organization_member.user.email, title: "email" %>
+          <%= icon_stat "info", @organization_member.role.capitalize, title: "role" %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

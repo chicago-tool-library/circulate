@@ -74,7 +74,10 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
-    resources :organizations
+    resources :organizations do
+      resources :organization_members, only: [:new, :create]
+    end
+    resources :organization_members, only: [:show, :edit, :update, :destroy]
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update]
     resources :categories, except: :show

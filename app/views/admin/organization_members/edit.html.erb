@@ -1,0 +1,26 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Organizations", admin_organizations_path, @organization_member.organization.name, admin_organization_path(@organization_member.organization), @organization_member.full_name, admin_organization_member_path(@organization_member) %>
+  <%= index_header "Edit Organization Member" %>
+<% end %>
+
+<%= form_with(model: [:admin, @organization_member], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_field :full_name %>
+
+  <% role_options = OrganizationMember.roles.values.sort.map { |role| [role.capitalize, role] } %>
+  <%= form.select :role, options_for_select(role_options, @organization_member.role), required: true %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<div class="destroy-area">
+  <details>
+    <summary>Destroy this organization member?</summary>
+    <%= action_bar "If you destroy this organization member, it can not be recovered.", icon: "alert-octagon", type: :warning do %>
+      <%= button_to "Destroy Organization Member", [:admin, @organization_member], method: :delete, data: {turbo_confirm: "Are you sure?"}, class: "btn btn-sm" %>
+    <% end %>
+  </details>
+</div>

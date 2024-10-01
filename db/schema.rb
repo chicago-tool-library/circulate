@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_04_212517) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_205021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_04_212517) do
   create_enum :membership_type, [
     "initial",
     "renewal",
+  ], force: :cascade
+
+  create_enum :organization_member_role, [
+    "admin",
+    "member",
   ], force: :cascade
 
   create_enum :power_source, [
@@ -703,12 +708,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_04_212517) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.enum "role", default: "member", null: false, enum_type: "organization_member_role"
+    t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
     t.index ["organization_id"], name: "index_organization_members_on_organization_id"
     t.index ["user_id"], name: "index_organization_members_on_user_id"
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.text "name"
+    t.text "name", null: false
     t.text "website"
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
@@ -904,8 +911,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_04_212517) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.index "lower((email)::text), library_id", name: "index_users_on_lowercase_email_and_library_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email", "library_id"], name: "index_users_on_email_and_library_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"

@@ -1,15 +1,36 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :header do %>
   <%= breadcrumbs "Organizations", admin_organizations_path %>
   <%= index_header @organization.name do %>
     <%= link_to "Edit", edit_admin_organization_path(@organization), class: "btn" %>
-    <%= link_to "New Organization Member", "#", class: "btn disabled" %>
+    <%= link_to "New Organization Member", new_admin_organization_organization_member_path(@organization), class: "btn" %>
   <% end %>
 <% end %>
 
-<p><strong>Website:</website> <%= link_to @organization.website %></strong></p>
+<p><strong>Website:</website> <%= @organization.website? ? link_to(@organization.website) : nil %></strong></p>
 
-<h2>Organization Members</h2>
+<section>
 
-<p>TODO</p>
+  <h2>Organization Members</h2>
+
+  <table class="table">
+    <thead>
+      <th>Full Name</th>
+      <th>Role</th>
+      <th>User ID</th>
+    </thead>
+    <tbody>
+    <% @organization.organization_members.order(:full_name).each do |organization_member| %>
+      <tr>
+        <td>
+          <%= link_to organization_member.full_name, admin_organization_member_path(organization_member) %>
+        </td>
+        <td>
+          <%= organization_member.role.capitalize %>
+        </td>
+        <td>
+          <%= link_to organization_member.user_id, admin_user_path(organization_member.user) %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</section>
