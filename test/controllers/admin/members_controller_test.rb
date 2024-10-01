@@ -57,8 +57,22 @@ module Admin
       assert_redirected_to admin_member_url(@member)
     end
 
-    test "should resend member verification email" do
+    test "should resend member verification email to new unconfirmed user" do
       member = create(:member, user: create(:user, :unconfirmed))
+      ActionMailer::Base.deliveries.clear
+
+      post resend_verification_email_admin_member_url(member)
+      assert_redirected_to admin_member_url(member)
+
+      mails = ActionMailer::Base.deliveries
+      assert_equal 1, mails.count
+      mail = ActionMailer::Base.deliveries.last
+      assert_equal [member.user.email], mail.to
+      assert_equal "Confirmation instructions", mail.subject
+    end
+
+    test "should resend member verification email to previously confirmed user" do
+      member = create(:member, user: create(:user, :unconfirmed, unconfirmed_email: "unconfirmed@example.com"))
       ActionMailer::Base.deliveries.clear
 
       post resend_verification_email_admin_member_url(member)
