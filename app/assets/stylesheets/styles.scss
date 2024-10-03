@@ -518,7 +518,10 @@ legend {
 }
 
 .signup-steps {
-  margin: 1rem 0 2rem;
+  margin: 1rem 0 1rem;
+  .step-item {
+    margin-left: 0;
+  }
 }
 
 .signup-logo {
@@ -606,6 +609,9 @@ form.membership-amount {
     margin-bottom: 2rem;
   }
   .verification-instructions {
+  }
+  h1 {
+    margin-bottom: 0;
   }
 }
 
@@ -877,13 +883,14 @@ table.monthly-adjustments {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      margin-left: 0;
     }
     .feather-icon {
       margin-right: 0.2rem;
     }
-    // .feather-icon + a {
-    //   margin-left: -0.3em;
-    // }
+    &:last-child {
+      margin-bottom: 0.6rem;
+    }
   }
 }
 
@@ -967,10 +974,13 @@ table.monthly-adjustments {
   .btn.btn-link {
     color: white;
   }
-  .menu .menu-item > a {
-    color: $dark-color;
-    &:hover {
-      background: $secondary-color-light;
+  .menu .menu-item {
+    margin-left: 0;
+    & > a {
+      color: $dark-color;
+      &:hover {
+        background: $secondary-color-light;
+      }
     }
   }
   input:focus {

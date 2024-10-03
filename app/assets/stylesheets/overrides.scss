@@ -130,6 +130,15 @@ form.button_to {
   display: inline;
 }
 
+form {
+  fieldset {
+    padding: 0;
+  }
+  legend + p {
+    margin-top: 0;
+  }
+}
+
 // Improve contrast on labels
 .label {
   background-color: lighten($gray-color-light, 1%);
@@ -157,6 +166,9 @@ form.button_to {
   a {
     text-decoration: none;
   }
+  p {
+    margin-top: 0;
+  }
 }
 
 .dropdown {
@@ -168,6 +180,9 @@ form.button_to {
       outline-color: $secondary-color-light;
       @include control-shadow($secondary-color);
     }
+  }
+  .menu {
+    max-height: 100vh;
   }
   .menu .menu-item > a {
     color: $dark-color;
