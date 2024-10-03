@@ -48,6 +48,9 @@
   }
 
   .category-nav {
+    li {
+      margin-left: 0;
+    }
     button.toggle-categories {
       margin-bottom: .3rem;
       @media all and (min-width: 641px)  {
