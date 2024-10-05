@@ -17,6 +17,7 @@
 
 # Ignore editor configs
 /.idea
+.vscode/
 
 # Ignore uploaded files in development.
 /storage/*
