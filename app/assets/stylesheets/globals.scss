@@ -1,8 +1,10 @@
+@use "sass:color";
+
 @import 'mixins';
 
 $primary-color: #2F7890;
-$primary-color-light: lighten(#2F7890, 20%);
-$secondary-color: darken(#CDABBE, 10%);
+$primary-color-light: color.adjust(#2F7890, $lightness: 20%, $space: hsl);
+$secondary-color: color.adjust(#CDABBE, $lightness: -10%, $space: hsl);
 $error-color: #DF6C54;
 $warning-color: #FBCF33;
 $success-color: #AEBE39;
@@ -16,11 +18,11 @@ $max-mobile-width: 600px;
 $min-desktop-width: $max-mobile-width + 1px;
 $light-gray: #e4ddda;
 
-$secondary-color-light: lighten($secondary-color, 20%);
+$secondary-color-light: color.adjust($secondary-color, $lightness: 20%, $space: hsl);
 
 $background-color: #F9F6F2;
 
-$background-color-dark: darken($background-color, 5%);
+$background-color-dark: color.adjust($background-color, $lightness: -5%, $space: hsl);
 
 @mixin mobile {
   @media only screen and (max-width: $max-mobile-width) {
@@ -35,37 +37,37 @@ $background-color-dark: darken($background-color, 5%);
 }
 
 @mixin default-button{
-  border-color: lighten($gray-color-light, 5%);
+  border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
   &, &:visited {
     color: $gray-color-dark;
   }
   &:hover {
     background-color: $secondary-color-light;
-    border-color: lighten($secondary-color, 10%);
+    border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
     color: $dark-color;
   }
   &:active, &.active {
     background-color: $secondary-color;
-    border-color: darken($secondary-color, 10%);
+    border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
 
 @mixin title{
-  border-color: lighten($gray-color-light, 5%);
+  border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
   &, &:visited {
     color: $gray-color-dark;
   }
   &:hover {
     background-color: $secondary-color-light;
-    border-color: lighten($secondary-color, 10%);
+    border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
     color: $dark-color;
   }
   &:active, &.active {
     background-color: $secondary-color;
-    border-color: darken($secondary-color, 10%);
+    border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
@@ -77,7 +79,7 @@ $background-color-dark: darken($background-color, 5%);
 
 // NEW ADDED STYLES
 $button-color: #36b3a8;
-$pri-btn-color-hover: darken($button-color, 7%);
+$pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
 
 // body {
 //   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;

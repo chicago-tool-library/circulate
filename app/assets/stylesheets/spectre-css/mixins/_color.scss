@@ -1,0 +1,29 @@
+@use "sass:color";
+
+// Background color utility mixin
+@mixin bg-color-variant($name: ".bg-primary", $color: $primary-color) {
+  #{$name} {
+    background: $color !important;
+
+    @if (color.channel($color, 'lightness', $space: hsl) < 60) {
+      color: $light-color;
+    }
+  }
+}
+
+// Text color utility mixin
+@mixin text-color-variant($name: ".text-primary", $color: $primary-color) {
+  #{$name} {
+    color: $color !important;
+  }
+
+  a#{$name} {
+    &:focus,
+    &:hover {
+      color: color.adjust($color, $lightness: -5%, $space: hsl);
+    }
+    &:visited {
+      color: color.adjust($color, $lightness: 5%, $space: hsl);
+    }
+  }
+}

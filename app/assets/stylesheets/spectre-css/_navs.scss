@@ -1,0 +1,36 @@
+@use "sass:color";
+
+// Navs
+.nav {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: $unit-1 0;
+
+  .nav-item {
+    a {
+      color: $gray-color-dark;
+      padding: $unit-1 $unit-2;
+      text-decoration: none;
+      &:focus,
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    &.active {
+      & > a {
+        color: color.adjust($gray-color-dark, $lightness: -10%, $space: hsl);
+        font-weight: bold;
+        &:focus,
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  & .nav {
+    margin-bottom: $unit-2;
+    margin-left: $unit-4;
+  }
+}

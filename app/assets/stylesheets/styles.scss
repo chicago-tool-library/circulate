@@ -1,11 +1,13 @@
+@use "sass:color";
+
 @import 'globals';
 
-@import '@spectre-org/spectre-css/src/spectre';
-@import '@spectre-org/spectre-css/src/spectre-icons';
-@import '@spectre-org/spectre-css/src/spectre-exp';
+@import 'spectre-css/spectre';
+@import 'spectre-css/spectre-icons';
+@import 'spectre-css/spectre-exp';
 @import 'trix/dist/trix';
 
-@import '@spectre-org/spectre-css/src/mixins/_shadow';
+@import 'spectre-css/mixins/_shadow';
 @import './partials/index';
 
 @import './helpers/layouts_helper';
@@ -406,47 +408,47 @@ $photo-width: 187px;
   .feather-icon {
     height: 24px;
     width: 24px;
-    stroke: darken($secondary-color, 10%);
+    stroke: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
   }
   .btn {
-    background-color: darken($secondary-color, 20%);
-    border-color: darken($secondary-color, 20%);
+    background-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
+    border-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
     color: white;
     &:hover, &:visited {
-    background-color: darken($secondary-color, 30%);
-      border-color: darken($secondary-color, 30%);
+    background-color: color.adjust($secondary-color, $lightness: -30%, $space: hsl);
+      border-color: color.adjust($secondary-color, $lightness: -30%, $space: hsl);
       color: white;
     }
   }
 
   &.action-bar-warning {
-    background-color: lighten($warning-color, 20%);
-    color: darken($warning-color, 30%);
+    background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl);
+    color: color.adjust($warning-color, $lightness: -30%, $space: hsl);
     .btn {
-      background-color: darken($warning-color, 20%);
-      border-color: darken($warning-color, 20%);
+      background-color: color.adjust($warning-color, $lightness: -20%, $space: hsl);
+      border-color: color.adjust($warning-color, $lightness: -20%, $space: hsl);
       &:hover {
-        background-color: darken($warning-color, 30%);
+        background-color: color.adjust($warning-color, $lightness: -30%, $space: hsl);
       }
     }
     .feather-icon {
-      stroke: darken($warning-color, 10%);
+      stroke: color.adjust($warning-color, $lightness: -10%, $space: hsl);
     }
   }
   &.action-bar-error {
-    background-color: lighten($error-color, 20%);
-    color: darken($error-color, 30%);
+    background-color: color.adjust($error-color, $lightness: 20%, $space: hsl);
+    color: color.adjust($error-color, $lightness: -30%, $space: hsl);
     .btn {
       background-color: $error-color;
-      border-color: darken($error-color, 10%);
+      border-color: color.adjust($error-color, $lightness: -10%, $space: hsl);
       color: white;
       &:hover {
-        background-color: darken($error-color, 10%);
+        background-color: color.adjust($error-color, $lightness: -10%, $space: hsl);
         color: white;
       }
     }
     .feather-icon {
-      stroke: darken($error-color, 10%);
+      stroke: color.adjust($error-color, $lightness: -10%, $space: hsl);
     }
   }
 }
@@ -499,7 +501,7 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background-color: lighten($error-color, 20%);
+  background-color: color.adjust($error-color, $lightness: 20%, $space: hsl);
   color: inherit;
 }
 
@@ -1003,10 +1005,10 @@ table.monthly-adjustments {
     }
     &.btn-primary {
       background: $primary-color;
-      border-color: darken($primary-color, 10%);
+      border-color: color.adjust($primary-color, $lightness: -10%, $space: hsl);
       color: white;
       &:hover {
-        background: darken($primary-color, 10%);
+        background: color.adjust($primary-color, $lightness: -10%, $space: hsl);
       }
       &:active, &.active {
         background: $dark-color;
@@ -1015,10 +1017,10 @@ table.monthly-adjustments {
     }
     &.btn-secondary {
       background: $secondary-color;
-      border-color: darken($secondary-color, 10%);
+      border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
       color: white;
       &:hover {
-        background: darken($secondary-color, 10%);
+        background: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
       }
       &:active, &.active {
         background: $dark-color;
