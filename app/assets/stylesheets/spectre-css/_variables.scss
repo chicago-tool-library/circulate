@@ -1,0 +1,119 @@
+@use "sass:color";
+
+// Core variables
+$version: "0.5.9";
+
+// Core features
+$rtl: false !default;
+
+// Core colors
+$primary-color: #5755d9 !default;
+$primary-color-dark: color.adjust($primary-color, $lightness: -3%, $space: hsl) !default;
+$primary-color-light: color.adjust($primary-color, $lightness: 3%, $space: hsl) !default;
+$secondary-color: color.adjust($primary-color, $lightness: 37.5%, $space: hsl) !default;
+$secondary-color-dark: color.adjust($secondary-color, $lightness: -3%, $space: hsl) !default;
+$secondary-color-light: color.adjust($secondary-color, $lightness: 3%, $space: hsl) !default;
+
+// Gray colors
+$dark-color: #303742 !default;
+$light-color: #fff !default;
+$gray-color: color.adjust($dark-color, $lightness: 55%, $space: hsl) !default;
+$gray-color-dark: color.adjust($gray-color, $lightness: -30%, $space: hsl) !default;
+$gray-color-light: color.adjust($gray-color, $lightness: 20%, $space: hsl) !default;
+
+$border-color: color.adjust($dark-color, $lightness: 65%, $space: hsl) !default;
+$border-color-dark: color.adjust($border-color, $lightness: -10%, $space: hsl) !default;
+$border-color-light: color.adjust($border-color, $lightness: 8%, $space: hsl) !default;
+$bg-color: color.adjust($dark-color, $lightness: 75%, $space: hsl) !default;
+$bg-color-dark: color.adjust($bg-color, $lightness: -3%, $space: hsl) !default;
+$bg-color-light: $light-color !default;
+
+// Control colors
+$success-color: #32b643 !default;
+$warning-color: #ffb700 !default;
+$error-color: #e85600 !default;
+
+// Other colors
+$code-color: #d73e48 !default;
+$highlight-color: #ffe9b3 !default;
+$body-bg: $bg-color-light !default;
+$body-font-color: color.adjust($dark-color, $lightness: 5%, $space: hsl) !default;
+$link-color: $primary-color !default;
+$link-color-dark: color.adjust($link-color, $lightness: -10%, $space: hsl) !default;
+$link-color-light: color.adjust($link-color, $lightness: 10%, $space: hsl) !default;
+
+// Fonts
+// Credit: https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/
+$base-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto !default;
+$mono-font-family: "SF Mono", "Segoe UI Mono", "Roboto Mono", Menlo, Courier, monospace !default;
+$fallback-font-family: "Helvetica Neue", sans-serif !default;
+$cjk-zh-hans-font-family: $base-font-family, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", $fallback-font-family !default;
+$cjk-zh-hant-font-family: $base-font-family, "PingFang TC", "Hiragino Sans CNS", "Microsoft JhengHei", $fallback-font-family !default;
+$cjk-jp-font-family: $base-font-family, "Hiragino Sans", "Hiragino Kaku Gothic Pro", "Yu Gothic", YuGothic, Meiryo, $fallback-font-family !default;
+$cjk-ko-font-family: $base-font-family, "Malgun Gothic", $fallback-font-family !default;
+$body-font-family: $base-font-family, $fallback-font-family !default;
+
+// Unit sizes
+$unit-o: .05rem !default;
+$unit-h: .1rem !default;
+$unit-1: .2rem !default;
+$unit-2: .4rem !default;
+$unit-3: .6rem !default;
+$unit-4: .8rem !default;
+$unit-5: 1rem !default;
+$unit-6: 1.2rem !default;
+$unit-7: 1.4rem !default;
+$unit-8: 1.6rem !default;
+$unit-9: 1.8rem !default;
+$unit-10: 2rem !default;
+$unit-12: 2.4rem !default;
+$unit-16: 3.2rem !default;
+
+// Font sizes
+$html-font-size: 20px !default;
+$html-line-height: 1.5 !default;
+$font-size: .8rem !default;
+$font-size-sm: .7rem !default;
+$font-size-lg: .9rem !default;
+$line-height: 1.2rem !default;
+
+// Sizes
+$layout-spacing: $unit-2 !default;
+$layout-spacing-sm: $unit-1 !default;
+$layout-spacing-lg: $unit-4 !default;
+$border-radius: $unit-h !default;
+$border-width: $unit-o !default;
+$border-width-lg: $unit-h !default;
+$control-size: $unit-9 !default;
+$control-size-sm: $unit-7 !default;
+$control-size-lg: $unit-10 !default;
+$control-padding-x: $unit-2 !default;
+$control-padding-x-sm: $unit-2 * .75 !default;
+$control-padding-x-lg: $unit-2 * 1.5 !default;
+$control-padding-y: ($control-size - $line-height) * 0.5 - $border-width !default;
+$control-padding-y-sm: ($control-size-sm - $line-height) * 0.5 - $border-width !default;
+$control-padding-y-lg: ($control-size-lg - $line-height) * 0.5 - $border-width !default;
+$control-icon-size: .8rem !default;
+
+$control-width-xs: 180px !default;
+$control-width-sm: 320px !default;
+$control-width-md: 640px !default;
+$control-width-lg: 960px !default;
+$control-width-xl: 1280px !default;
+
+// Responsive breakpoints
+$size-xs: 480px !default;
+$size-sm: 600px !default;
+$size-md: 840px !default;
+$size-lg: 960px !default;
+$size-xl: 1280px !default;
+$size-2x: 1440px !default;
+
+$responsive-breakpoint: $size-xs !default;
+
+// Z-index
+$zindex-0: 1 !default;
+$zindex-1: 100 !default;
+$zindex-2: 200 !default;
+$zindex-3: 300 !default;
+$zindex-4: 400 !default;

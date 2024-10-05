@@ -1,6 +1,8 @@
+@use "sass:color";
+
 @import 'globals';
 
-@import '@spectre-org/spectre-css/src/mixins/_shadow';
+@import './spectre-css/mixins/_shadow';
 
 .selectize-input {
   box-shadow: none;
@@ -29,18 +31,18 @@
 .selectize-control.multi .selectize-input [data-value].active {
   background-image: none;
   background-repeat: no-repeat;
-  background-color: darken($secondary-color, 10%);
+  background-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
   filter: none;
 }
 
 .selectize-control.multi .selectize-input > div.active,
 .selectize-control.plugin-remove_button [data-value].active .remove {
-  border-color: darken($secondary-color, 20%);
+  border-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
 }
 
 .selectize-control.multi .selectize-input > div,
 .selectize-control.plugin-remove_button [data-value] .remove {
-  border-color: darken($secondary-color, 10%);
+  border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
 }
 
 
@@ -141,27 +143,27 @@ form {
 
 // Improve contrast on labels
 .label {
-  background-color: lighten($gray-color-light, 1%);
+  background-color: color.adjust($gray-color-light, $lightness: 1%, $space: hsl);
   &, &.label-success, &.label-warning, &.label-error, &.label-primary, &.label-secondary {
     color: inherit;
   }
 
-  &.label-primary { background-color: lighten($primary-color, 40%); }
+  &.label-primary { background-color: color.adjust($primary-color, $lightness: 40%, $space: hsl); }
   &.label-secondary { background-color: $secondary-color-light; }
-  &.label-success { background-color: lighten($success-color, 20%); }
-  &.label-warning { background-color: lighten($warning-color, 20%); }
-  &.label-error { background-color: lighten($error-color, 20%); }
+  &.label-success { background-color: color.adjust($success-color, $lightness: 20%, $space: hsl); }
+  &.label-warning { background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl); }
+  &.label-error { background-color: color.adjust($error-color, $lightness: 20%, $space: hsl); }
 }
 
 .toast {
   color: inherit;
-  background-color: lighten($gray-color-light, 1%);
+  background-color: color.adjust($gray-color-light, $lightness: 1%, $space: hsl);
 
-  &.toast-primary { background-color: lighten($primary-color, 30%); }
+  &.toast-primary { background-color: color.adjust($primary-color, $lightness: 30%, $space: hsl); }
   &.toast-secondary { background-color: $secondary-color-light; }
-  &.toast-success { background-color: lighten($success-color, 20%); }
-  &.toast-warning { background-color: lighten($warning-color, 20%); }
-  &.toast-error { background-color: lighten($error-color, 20%); }
+  &.toast-success { background-color: color.adjust($success-color, $lightness: 20%, $space: hsl); }
+  &.toast-warning { background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl); }
+  &.toast-error { background-color: color.adjust($error-color, $lightness: 20%, $space: hsl); }
 
   a {
     text-decoration: none;
