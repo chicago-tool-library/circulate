@@ -7,10 +7,16 @@
     </div>
     <div class="signup-fee-description">
       <p>
-        Your membership fee will be your only payment to the Tool Library for one year.
+        This means you choose how much your one-year membership costs.
       </p>
       <p>
-        If everyone paid $100 for their one-year membership, we would be able to grow the organization and offer new programs. This is only a suggestion &mdash; and not a requirement &mdash; so please choose a number that makes sense for you and your budget.
+        Please choose how much you can contribute to this community service. Membership contributions are the Tool Library's main source of income to pay our staff, pay our rent, and buy and maintain our tools.
+      </p>
+      <p>
+        We recommend contributing $100 for a one-year membership, but this is only a recommendation. Many people pay more and many people pay less.
+      </p>
+      <p>
+        Please note that your membership contribution is the only payment you will make to the Tool Library this year. There are no late fees, replacement fees, or rental fees.
       </p>
     </div>
   </div>
@@ -41,14 +47,14 @@
   <div class="column col-sm-12 col-4 col-mr-auto complete-in-person">
     <%= form_with(url: skip_signup_payments_url, builder: SpectreFormBuilder) do |form| %>
       <fieldset>
-        <legend>Complete Signup at the Library</legend>
+        <legend>Pay in-person</legend>
         <p>
-          You can also complete signup in person at the library. We accept cash, credit cards, and mobile payments, and
+          You can also complete your payment in person at the library. We accept cash, credit cards, and mobile payments, and
           are happy to answer any questions you have about membership.
         </p>
       </fieldset>
 
-      <%= button_tag "Complete in Person", class: "btn btn-lg btn-block" %>
+      <%= button_tag "Pay in-person", class: "btn btn-lg btn-block" %>
     <% end %>
   </div>
 </div>
