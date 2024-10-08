@@ -31,7 +31,7 @@
         <p>
           You can save time by making one-time payment online using a credit card or Apple/Google Pay.
         </p>
-        <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg" %>
+        <%= form.money_field :amount_dollars, label: "Your membership fee:", class: "input-lg", type: :number, min: 5 %>
       </fieldset>
       <%= form.actions do %>
         <%= form.submit "Pay Online Now", data: {turbo: false} %>
