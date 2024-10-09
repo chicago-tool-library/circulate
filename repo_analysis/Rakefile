@@ -16,8 +16,8 @@ task :recent_prs do
   # pull_requests schema
   # id, node_id, number, state, locked, title, user, body, created_at, updated_at, closed_at, merged_at, merge_commit_sha, assignee, milestone, draft, head, base, author_association, auto_merge, repo, url, merged_by
 
-  csv = CSV.new(STDOUT, col_sep: "\t")
-  csv << %w{pr author merged_at link}
+  csv = CSV.new($stdout, col_sep: "\t")
+  csv << %w[pr author merged_at link]
   db.execute(query) do |row|
     csv << [
       row[5], # title
