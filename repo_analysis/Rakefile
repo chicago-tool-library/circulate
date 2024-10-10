@@ -1,0 +1,29 @@
+require "csv"
+require "sqlite3"
+
+db = SQLite3::Database.new("github.db")
+
+desc "Print a CSV list of PRs (either still open or closed in the last two months)"
+task :recent_prs do
+  query = <<~SQL
+    SELECT pull_requests.*, users.name
+    FROM pull_requests
+    LEFT JOIN users on users.id == pull_requests.user
+    WHERE (closed_at IS NULL OR closed_at >= "2024-06-01") AND user != 49699333
+    ORDER BY closed_at DESC NULLS FIRST
+  SQL
+
+  # pull_requests schema
+  # id, node_id, number, state, locked, title, user, body, created_at, updated_at, closed_at, merged_at, merge_commit_sha, assignee, milestone, draft, head, base, author_association, auto_merge, repo, url, merged_by
+
+  csv = CSV.new($stdout, col_sep: "\t")
+  csv << %w[pr author merged_at link]
+  db.execute(query) do |row|
+    csv << [
+      row[5], # title
+      row[23], # author
+      row[11], # state
+      "https://github.com/chicago-tool-library/circulate/pull/#{row[2]}"
+    ]
+  end
+end
