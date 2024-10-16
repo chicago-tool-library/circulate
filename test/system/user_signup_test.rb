@@ -83,7 +83,7 @@ class UserSignupTest < ApplicationSystemTestCase
     email = complete_first_three_steps
 
     perform_enqueued_jobs do
-      click_on "Complete in Person"
+      click_on "Pay in-person"
 
       assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
@@ -99,7 +99,7 @@ class UserSignupTest < ApplicationSystemTestCase
     email = complete_first_three_steps
 
     perform_enqueued_jobs do
-      click_on "Complete in Person"
+      click_on "Pay in-person"
 
       assert_selector "li.step-item.active", text: "Complete", wait: slow_op_wait_time
     end
