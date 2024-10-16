@@ -21,10 +21,10 @@ module ReservationLending
           pending_reservation_item.destroy!
           Result.success(reservation_loan)
         else
-          Result.failure(reservation_loan.errors.full_messages.to_sentence)
+          Result.failure(reservation_loan)
         end
       else
-        Result.failure(reservation_hold.errors.full_messages.to_sentence)
+        Result.failure(reservation_hold)
       end
     end
   end

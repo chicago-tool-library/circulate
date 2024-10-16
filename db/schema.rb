@@ -782,6 +782,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_205021) do
     t.bigint "item_pool_id", null: false
     t.integer "quantity", default: 1, null: false
     t.bigint "library_id", null: false
+    t.datetime "started_at"
+    t.datetime "ended_at"
     t.index ["item_pool_id", "reservation_id"], name: "index_reservation_holds_on_item_pool_id_and_reservation_id", unique: true
     t.index ["item_pool_id"], name: "index_reservation_holds_on_item_pool_id"
     t.index ["library_id"], name: "index_reservation_holds_on_library_id"
