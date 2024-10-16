@@ -4,12 +4,4 @@ class ApplicationRecord < ActiveRecord::Base
   def self.find_random
     order("RANDOM()").first
   end
-
-  def to_save_result
-    if save
-      Result.success(self)
-    else
-      Result.failure(self)
-    end
-  end
 end

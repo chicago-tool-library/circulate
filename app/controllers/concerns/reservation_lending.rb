@@ -13,8 +13,6 @@ module ReservationLending
         reservation_hold.quantity += 1
       else
         reservation_hold.quantity = 1
-        reservation_hold.started_at = reservation.started_at
-        reservation_hold.ended_at = reservation.ended_at
       end
 
       if reservation_hold.save
