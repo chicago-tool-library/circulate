@@ -13,6 +13,8 @@ module ReservationLending
         reservation_hold.quantity += 1
       else
         reservation_hold.quantity = 1
+        reservation_hold.started_at = reservation.started_at
+        reservation_hold.ended_at = reservation.ended_at
       end
 
       if reservation_hold.save
@@ -21,11 +23,25 @@ module ReservationLending
           pending_reservation_item.destroy!
           Result.success(reservation_loan)
         else
-          Result.failure(reservation_loan.errors.full_messages.to_sentence)
+          Result.failure(reservation_loan)
         end
       else
-        Result.failure(reservation_hold.errors.full_messages.to_sentence)
+        Result.failure(reservation_hold)
       end
+    end
+  end
+
+  def create_reservation_hold(reservation:, item_pool_id:, quantity:)
+    reservation_hold = reservation.reservation_holds.new(
+      item_pool_id:,
+      quantity:,
+      started_at: reservation.started_at,
+      ended_at: reservation.ended_at
+    )
+    if reservation_hold.save
+      Result.success(reservation_hold)
+    else
+      Result.failure(reservation_hold)
     end
   end
 end

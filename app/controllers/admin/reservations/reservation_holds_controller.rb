@@ -20,11 +20,16 @@ module Admin
       end
 
       def create
-        @reservation_hold = @reservation.reservation_holds.new(reservation_hold_params)
+        result = ReservationLending.create_reservation_hold(
+          reservation: @reservation,
+          item_pool_id: reservation_hold_params[:item_pool_id],
+          quantity: reservation_hold_params[:quantity]
+        )
 
-        if @reservation_hold.save
+        if result.success?
           redirect_to admin_reservation_path(@reservation), status: :see_other
         else
+          @reservation_hold = result.error
           render_turbo_response :create_error
         end
       end
