@@ -9,6 +9,8 @@ class ReservationHold < ApplicationRecord
   validates :quantity, numericality: {only_integer: true, greater_than: 0}
   validate :ensure_quantity_is_available
 
+  before_validation :fill_dates_from_reservation, unless: :persisted?
+
   # TODO add database constraint
   validates :item_pool_id, uniqueness: {scope: :reservation_id, message: "already added to this reservation"}
 
@@ -38,5 +40,11 @@ class ReservationHold < ApplicationRecord
       message = (max_available == 0) ? "none available" : "only #{max_available} available"
       errors.add(:quantity, message)
     end
+  end
+
+  def fill_dates_from_reservation
+    return unless reservation
+    self.started_at = reservation.started_at if started_at.nil?
+    self.ended_at = reservation.ended_at if ended_at.nil?
   end
 end

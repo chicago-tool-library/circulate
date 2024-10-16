@@ -30,18 +30,4 @@ module ReservationLending
       end
     end
   end
-
-  def create_reservation_hold(reservation:, item_pool_id:, quantity:)
-    reservation_hold = reservation.reservation_holds.new(
-      item_pool_id:,
-      quantity:,
-      started_at: reservation.started_at,
-      ended_at: reservation.ended_at
-    )
-    if reservation_hold.save
-      Result.success(reservation_hold)
-    else
-      Result.failure(reservation_hold)
-    end
-  end
 end

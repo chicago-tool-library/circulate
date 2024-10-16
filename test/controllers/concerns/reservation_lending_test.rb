@@ -45,22 +45,4 @@ class ReservationLendingTest < ActiveSupport::TestCase
 
     assert pending_reservation_item.destroyed?
   end
-
-  test "creating a reservation hold" do
-    reservation = create(:reservation)
-    reservable_item = create(:reservable_item)
-
-    result = ReservationLending.create_reservation_hold(
-      reservation:,
-      item_pool_id: reservable_item.item_pool_id,
-      quantity: 1
-    )
-
-    assert result.success?
-
-    reservation_hold = result.value
-
-    assert_equal reservation.started_at, reservation_hold.started_at
-    assert_equal reservation.ended_at, reservation_hold.ended_at
-  end
 end
