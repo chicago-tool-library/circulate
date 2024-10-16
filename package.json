@@ -15,7 +15,6 @@
     "@rails/activestorage": "^7.2.100",
     "@rails/ujs": "^7.1.400",
     "@selectize/selectize": "^0.15.2",
-    "@spectre-org/spectre-css": "^1.2.0",
     "awesomplete": "^1.1.7",
     "esbuild": "^0.24.0",
     "feather-icons": "^4.29.2",
@@ -34,6 +33,6 @@
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
     "build-dev": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11  --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
 }
