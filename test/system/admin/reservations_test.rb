@@ -37,6 +37,12 @@ class AdminReservationsTest < ApplicationSystemTestCase
     ]
   end
 
+  def assert_hold_quantity(item_pool, quantity)
+    within "tr", text: item_pool.name do
+      assert_text quantity
+    end
+  end
+
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
@@ -212,7 +218,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
       click_on "Add"
     end
 
-    assert_active_tab "Items"
+    assert_active_tab "Reservation"
     assert_text "Hammer"
 
     reservation.reload
@@ -252,16 +258,16 @@ class AdminReservationsTest < ApplicationSystemTestCase
     create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
     visit admin_reservation_pickup_path(reservation)
 
-    assert_active_tab "Pickup"
+    assert_active_tab "Items"
     fill_in "Item ID", with: hammer.id
     click_on "Add Item"
 
-    assert_text "#{hammer_pool.name} (1/1)"
+    assert_hold_quantity hammer_pool, "1/1"
     assert_text "All requirements satisfied"
     assert_text hammer.name
 
     click_on "Remove"
-    assert_text "#{hammer_pool.name} (0/1)"
+    assert_hold_quantity hammer_pool, "0/1"
     refute_text "All requirements satisfied"
     refute_text hammer.name
   end
@@ -275,7 +281,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
     assert_no_difference "PendingReservationItem.count" do
       assert_difference "PendingReservationItem.count", 1 do
-        assert_active_tab "Pickup"
+        assert_active_tab "Items"
         fill_in "Item ID", with: hammer.id
         click_on "Add Item"
 
@@ -296,7 +302,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
     assert_difference -> { reservation.reservation_holds.count } => 1,
       -> { reservation.pending_reservation_items.count } => 0 do
-      assert_active_tab "Pickup"
+      assert_active_tab "Items"
       fill_in "Item ID", with: hammer.id
       click_on "Add Item"
 
@@ -305,7 +311,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
       click_on "Add to Reservation"
 
       refute_text "1 item scanned that did not match the reservation"
-      assert_text "Hammer (1/1)"
+      assert_hold_quantity hammer_pool, "1/1"
     end
   end
 end

@@ -13,6 +13,15 @@ module ReservationsHelper
     [event.start, event.finish].map { |time| format_event_time(time) }.join(" - ")
   end
 
+  def default_reservation_tab_path(reservation)
+    manager = reservation.manager
+    if manager.requested? || manager.pending?
+      admin_reservation_path(reservation)
+    else
+      admin_reservation_pickup_path(reservation)
+    end
+  end
+
   private
 
   def format_event_time(time)

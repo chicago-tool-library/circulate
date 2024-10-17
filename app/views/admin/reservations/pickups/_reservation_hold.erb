@@ -1,30 +1,43 @@
-<div id="<%= dom_id(reservation_hold) %>">
-    <h3 id="item-pool-<%= reservation_hold.item_pool_id %>">
-        <%= reservation_hold.item_pool.name %>
-        (<%= reservation_hold.loaned_quantity %>/<%= reservation_hold.quantity %>)
-
-        <% if reservation.status == Reservation.statuses[:building] && !reservation_hold.item_pool.uniquely_numbered? && !reservation_hold.satisfied? %>
-        <%= button_to "Add all",
-              admin_reservation_reservation_loans_path(reservation),
-              method: :post,
-              params: {reservation_loan: {reservation_hold_id: reservation_hold.id}},
-              class: "btn btn-sm" %>
+<tbody id="<%= dom_id(reservation_hold) %>">
+  <tr>
+    <th colspan="2" scope="rowgroup" id="item-pool-<%= reservation_hold.item_pool_id %>">
+      <%= reservation_hold.item_pool.name %>
+    </th>
+    <th>
+      <%= reservation_hold.loaned_quantity %>/<%= reservation_hold.quantity %>
+    </th>
+  </tr>
+  <% reservation_hold.reservation_loans.each do |reservation_loan| %>
+    <tr>
+      <% if reservation_loan.quantity %>
+        <td><%= reservation_hold.item_pool.name %></td>
+        <td><%= reservation_loan.quantity %></td>
+      <% else %>
+        <td><%= reservation_loan.reservable_item.id %></td>
+        <td><%= reservation_loan.reservable_item.name %></td>
+      <% end %>
+      <td>
+        <% if reservation.manager.state == :building %>
+            <%= button_to "Remove", admin_reservation_reservation_loan_path(reservation, reservation_loan), method: :delete, class: "btn btn-sm" %>
         <% end %>
-    </h3>
-    <ul>
-        <% reservation_hold.reservation_loans.each do |reservation_loan| %>
-        <li>
-            <% if reservation_loan.quantity %>
-            <%= reservation_hold.item_pool.name %> -
-            <%= reservation_loan.quantity %>
-            <% else %>
-            <%= reservation_loan.reservable_item.id %> -
-            <%= reservation_loan.reservable_item.name %>
-            <% end %>
-            <% if reservation.manager.state == :building %>
-                <%= button_to "Remove", admin_reservation_reservation_loan_path(reservation, reservation_loan), method: :delete, class: "btn btn-sm" %>
-            <% end %>
-        </li>
+      </td>
+    <tr>
+  <% end %>
+  <% if reservation.status == Reservation.statuses[:building] &&  !reservation_hold.satisfied? %>
+    <tr class="text-italic">
+      <td colspan="2">
+        <%= pluralize reservation_hold.remaining_quantity, "more item" %> needed
+        <%= link_to "View available", admin_item_pool_path(reservation_hold.item_pool), target: "_blank" %>
+      </td>
+      <td>
+        <% if !reservation_hold.item_pool.uniquely_numbered? %>
+          <%= button_to "Add all",
+                admin_reservation_reservation_loans_path(reservation),
+                method: :post,
+                params: {reservation_loan: {reservation_hold_id: reservation_hold.id}},
+                class: "btn btn-sm" %>
         <% end %>
-    </ul>
-</div>
+      </td>
+    </tr>
+  <% end %>
+</tbody>

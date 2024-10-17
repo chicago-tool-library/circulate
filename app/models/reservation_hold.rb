@@ -28,6 +28,11 @@ class ReservationHold < ApplicationRecord
     loaned_quantity == quantity
   end
 
+  # How many more items are needed to satisfy this hold?
+  def remaining_quantity
+    quantity - loaned_quantity
+  end
+
   private
 
   def ensure_quantity_is_available
