@@ -11,10 +11,18 @@
 
   <%= render partial: "admin/reservations/pending_reservation_items", locals: {reservation: @reservation} %>
 
-  <div id="date-holds">
+  <table class="table" id="reservation_holds">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th></th>
+      </tr>
+    </thead>
+
     <% @reservation.reservation_holds.each do |reservation_hold| %>
       <%= render partial: "reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
     <% end %>
-  </div>
+  </table>
 
 <% end %>
