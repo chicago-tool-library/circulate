@@ -46,7 +46,15 @@ module AdminHelper
   end
 
   def tab_link(label, path, badge: nil)
-    opts = (badge.present? && badge != 0) ? {class: "badge", data: {badge: badge}} : {}
+    opts = {}
+    if badge.present?
+      if badge == true
+        opts[:class] = "badge"
+      elsif badge != 0
+        opts[:class] = "badge"
+        opts[:data] = {badge: badge}
+      end
+    end
     tag.li(class: "tab-item #{"active" if current_page?(path)}") do
       link_to label, path, **opts
     end

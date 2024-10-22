@@ -46,7 +46,7 @@ module Admin
 
     def update
       if @reservation.update(reservation_params)
-        redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully updated."
+        redirect_to default_reservation_tab_path(@reservation), success: "Reservation was successfully updated."
       else
         @item_pools = ItemPool.all
         set_organization_options

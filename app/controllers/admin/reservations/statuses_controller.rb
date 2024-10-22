@@ -3,9 +3,9 @@ module Admin
     class StatusesController < BaseController
       def update
         if @reservation.update(reservation_params)
-          redirect_to admin_reservation_url(@reservation), notice: "Reservation was successfully updated."
+          redirect_to default_reservation_tab_path(@reservation), notice: "Reservation was successfully updated."
         else
-          redirect_to admin_reservation_url(@reservation), error: "Reservation could not updated: #{@reservation.errors.full_messages.join(", ")}"
+          redirect_to default_reservation_tab_path(@reservation), error: "Reservation could not updated: #{@reservation.errors.full_messages.join(", ")}"
         end
       end
 

@@ -51,10 +51,10 @@
     <% end %>
 
     <ul class="tab">
-      <%= tab_link "Items", admin_reservation_path(@reservation) %>
-      <%= tab_link "Pickup", admin_reservation_pickup_path(@reservation) %>
+      <%= tab_link "Reservation", admin_reservation_path(@reservation) %>
+      <%= tab_link "Items", admin_reservation_pickup_path(@reservation) %>
       <%= tab_link "Questions", admin_reservation_questions_path(@reservation) %>
-      <%= tab_link "Review", edit_admin_reservation_review_path(@reservation) if @reservation.manager.can?(:approve) %>
+      <%= tab_link("Review", edit_admin_reservation_review_path(@reservation), badge: true) if @reservation.manager.can?(:approve) %>
       <%= tab_link("Review Notes", admin_reservation_review_path(@reservation)) if @reservation.notes? %>
     </ul>
 
