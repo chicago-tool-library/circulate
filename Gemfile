@@ -108,4 +108,4 @@ gem "ahoy_matey", "~> 5.2"
 
 gem "good_job", "~> 4.4"
 
-gem "blazer", "~> 3.0"
+gem "blazer", "~> 3.1"
