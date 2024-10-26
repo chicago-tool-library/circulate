@@ -1,6 +1,8 @@
+@use "../globals";
+
 .admin-appointments {
   div.card.completed {
-    background-color: $background-color-dark;
+    background-color: globals.$background-color-dark;
     opacity: 0.7;
   }
 
@@ -41,7 +43,7 @@
   }
 
   tr.completed {
-    background-color: $background-color-dark;
+    background-color: globals.$background-color-dark;
     td {
       opacity: 0.7;
     }
@@ -107,7 +109,7 @@ p.appointment-comment {
   }
 
   tr.completed {
-    background-color: $background-color-dark;
+    background-color: globals.$background-color-dark;
     td {
       opacity: 0.7;
     }

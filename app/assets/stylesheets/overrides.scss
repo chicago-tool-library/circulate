@@ -1,8 +1,8 @@
 @use "sass:color";
 
-@import 'globals';
+@use 'globals';
 
-@import './spectre-css/mixins/_shadow';
+@use 'spectre-css/mixins/_shadow';
 
 .selectize-input {
   box-shadow: none;
@@ -10,8 +10,8 @@
   border-radius: 0.1rem;
   &.focus {
     box-shadow: none;
-    @include control-shadow($primary-color);
-    border-color: $primary-color;
+    @include shadow.control-shadow(globals.$primary-color);
+    border-color: globals.$primary-color;
   }
 }
 
@@ -22,7 +22,7 @@
 .selectize-control.multi .selectize-input [data-value] {
   background-image: none;
   background-repeat: no-repeat;
-  background-color: $secondary-color;
+  background-color: globals.$secondary-color;
   text-shadow: none;
   box-shadow: none;
   filter: none;
@@ -31,30 +31,30 @@
 .selectize-control.multi .selectize-input [data-value].active {
   background-image: none;
   background-repeat: no-repeat;
-  background-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+  background-color: color.adjust(globals.$secondary-color, $lightness: -10%, $space: hsl);
   filter: none;
 }
 
 .selectize-control.multi .selectize-input > div.active,
 .selectize-control.plugin-remove_button [data-value].active .remove {
-  border-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
+  border-color: color.adjust(globals.$secondary-color, $lightness: -20%, $space: hsl);
 }
 
 .selectize-control.multi .selectize-input > div,
 .selectize-control.plugin-remove_button [data-value] .remove {
-  border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+  border-color: color.adjust(globals.$secondary-color, $lightness: -10%, $space: hsl);
 }
 
 
 .selectize-dropdown [data-selectable].option {
-  color: $gray-color-dark;
+  color: globals.$gray-color-dark;
 }
 .selectize-dropdown [data-selectable].option.active {
-  background: $secondary-color-light;
+  background: globals.$secondary-color-light;
 }
 .selectize-dropdown [data-selectable].option:hover {
   cursor: pointer;
-  color: $dark-color;
+  color: globals.$dark-color;
 }
 
 trix-editor {
@@ -63,8 +63,8 @@ trix-editor {
   border-radius: 0.1rem;
   color: #51433b;
   &:focus {
-    @include control-shadow($primary-color);
-    border-color: $primary-color;
+    @include shadow.control-shadow(globals.$primary-color);
+    border-color: globals.$primary-color;
   }
 }
 trix-toolbar {
@@ -84,7 +84,7 @@ trix-toolbar {
 }
 
 .step .step-item a::before {
-  border-color: $background-color;
+  border-color: globals.$background-color;
 }
 
 .form-checkbox,
@@ -92,18 +92,18 @@ trix-toolbar {
 .form-switch {
   input {
     &:focus + .form-icon {
-      @include control-shadow();
-      border-color: $secondary-color;
+      @include shadow.control-shadow();
+      border-color: globals.$secondary-color;
     }
     &:checked + .form-icon {
-      background: $secondary-color;
-      border-color: $secondary-color;
+      background: globals.$secondary-color;
+      border-color: globals.$secondary-color;
     }
   }
 }
 
 .divider[data-content]::after, .divider-vert[data-content]::after {
-  background: $background-color;
+  background: globals.$background-color;
 }
 
 // Fix issue where the tag input is being drawn above the name autocomplete
@@ -120,9 +120,9 @@ trix-toolbar {
 
   .off-canvas-toggle {
     margin-top: 0.5rem;
-    @include default-button();
+    @include globals.default-button();
     .icon {
-      color: $dark-color;
+      color: globals.$dark-color;
     }
   }
 }
@@ -143,27 +143,27 @@ form {
 
 // Improve contrast on labels
 .label {
-  background-color: color.adjust($gray-color-light, $lightness: 1%, $space: hsl);
+  background-color: color.adjust(globals.$gray-color-light, $lightness: 1%, $space: hsl);
   &, &.label-success, &.label-warning, &.label-error, &.label-primary, &.label-secondary {
     color: inherit;
   }
 
-  &.label-primary { background-color: color.adjust($primary-color, $lightness: 40%, $space: hsl); }
-  &.label-secondary { background-color: $secondary-color-light; }
-  &.label-success { background-color: color.adjust($success-color, $lightness: 20%, $space: hsl); }
-  &.label-warning { background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl); }
-  &.label-error { background-color: color.adjust($error-color, $lightness: 20%, $space: hsl); }
+  &.label-primary { background-color: color.adjust(globals.$primary-color, $lightness: 40%, $space: hsl); }
+  &.label-secondary { background-color: globals.$secondary-color-light; }
+  &.label-success { background-color: color.adjust(globals.$success-color, $lightness: 20%, $space: hsl); }
+  &.label-warning { background-color: color.adjust(globals.$warning-color, $lightness: 20%, $space: hsl); }
+  &.label-error { background-color: color.adjust(globals.$error-color, $lightness: 20%, $space: hsl); }
 }
 
 .toast {
   color: inherit;
-  background-color: color.adjust($gray-color-light, $lightness: 1%, $space: hsl);
+  background-color: color.adjust(globals.$gray-color-light, $lightness: 1%, $space: hsl);
 
-  &.toast-primary { background-color: color.adjust($primary-color, $lightness: 30%, $space: hsl); }
-  &.toast-secondary { background-color: $secondary-color-light; }
-  &.toast-success { background-color: color.adjust($success-color, $lightness: 20%, $space: hsl); }
-  &.toast-warning { background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl); }
-  &.toast-error { background-color: color.adjust($error-color, $lightness: 20%, $space: hsl); }
+  &.toast-primary { background-color: color.adjust(globals.$primary-color, $lightness: 30%, $space: hsl); }
+  &.toast-secondary { background-color: globals.$secondary-color-light; }
+  &.toast-success { background-color: color.adjust(globals.$success-color, $lightness: 20%, $space: hsl); }
+  &.toast-warning { background-color: color.adjust(globals.$warning-color, $lightness: 20%, $space: hsl); }
+  &.toast-error { background-color: color.adjust(globals.$error-color, $lightness: 20%, $space: hsl); }
 
   a {
     text-decoration: none;
@@ -177,19 +177,19 @@ form {
   .dropdown-toggle {
     color: white;
     &:focus {
-      background: $secondary-color;
+      background: globals.$secondary-color;
       color: white;
-      outline-color: $secondary-color-light;
-      @include control-shadow($secondary-color);
+      outline-color: globals.$secondary-color-light;
+      @include shadow.control-shadow(globals.$secondary-color);
     }
   }
   .menu {
     max-height: 100vh;
   }
   .menu .menu-item > a {
-    color: $dark-color;
+    color: globals.$dark-color;
     &:hover {
-      background: $secondary-color-light;
+      background: globals.$secondary-color-light;
     }
   }
 }

@@ -6,7 +6,7 @@
 @mixin viewer-slider-size($image-number: 36) {
   @for $s from 1 through ($image-number) {
     .viewer-slider[max='#{$image-number}'][value='#{$s}'] + .viewer-image {
-      background-position-y: percentage(math.div((($s)-1) * 1, ($image-number)-1));
+      background-position-y: math.percentage(math.div((($s)-1) * 1, ($image-number)-1));
     }
   }
 }

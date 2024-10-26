@@ -1,26 +1,27 @@
 @use "sass:color";
 
-@import 'globals';
+@use "globals";
 
-@import 'spectre-css/spectre';
-@import 'spectre-css/spectre-icons';
-@import 'spectre-css/spectre-exp';
-@import 'trix/dist/trix';
+@use "spectre-css/spectre";
+@use "spectre-css/spectre-icons";
+@use "spectre-css/spectre-exp";
+@use "trix/dist/trix";
 
-@import 'spectre-css/mixins/_shadow';
-@import './partials/index';
+@use "spectre-css/mixins/_shadow";
+@use "partials/index";
 
-@import './helpers/layouts_helper';
+@use "helpers/layouts_helper";
 
-@import 'admin';
-@import 'public';
-@import 'account';
-@import 'volunteer';
-@import 'header';
-@import 'homepage';
+@use "admin";
+@use "public";
+@use "account";
+@use "volunteer";
+@use "header";
+@use "homepage";
+@use "spectre-css/variables";
 
 body {
-  background-color: $background-color;
+  background-color: globals.$background-color;
 }
 
 .feather-icon {
@@ -35,21 +36,21 @@ body {
 
 .btn .feather-icon {
   stroke: currentColor;
-  margin-right: .4em;
+  margin-right: 0.4em;
 }
 
 .btn.btn-sm .feather-icon {
   height: 16px;
   width: 16px;
-  margin-right: .2em;
+  margin-right: 0.2em;
 }
 
 .feather-icon.error {
-  stroke:$error-color;
+  stroke: variables.$error-color;
 }
 
 .more-info {
-  border-bottom: .05rem dotted;
+  border-bottom: 0.05rem dotted;
   cursor: help;
   text-decoration: none;
 }
@@ -63,21 +64,21 @@ form details {
 
   summary {
     margin-bottom: 0.3rem;
-    color: $link-color;
+    color: variables.$link-color;
     outline: none;
 
     &:focus {
-      @include control-shadow();
+      @include shadow.control-shadow();
     }
 
     &:focus,
     &:hover,
     &:active,
     &.active {
-      color: $link-color-dark;
+      color: variables.$link-color-dark;
       text-decoration: underline;
     }
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
   }
@@ -98,11 +99,11 @@ header.navbar {
 .toast {
   margin-bottom: 1rem;
   a {
-    color: $primary-color;
+    color: variables.$primary-color;
   }
 }
 
-.tool-card  {
+.tool-card {
   position: relative;
   margin-bottom: 1rem;
 
@@ -124,12 +125,15 @@ header.navbar {
     width: 100%;
   }
   &.status-available {
-    border-color: $success-color;
+    border-color: variables.$success-color;
   }
-  &.status-on-hold, &.status-checked-out {
-    border-color: $warning-color;
+  &.status-on-hold,
+  &.status-checked-out {
+    border-color: variables.$warning-color;
   }
-  &.status-available, &.status-on-hold, &.status-checked-out {
+  &.status-available,
+  &.status-on-hold,
+  &.status-checked-out {
     border-width: 3px;
     margin: -2px;
   }
@@ -139,7 +143,6 @@ header.navbar {
     font-size: 0.9em;
   }
 }
-
 
 .off-canvas-content {
   .off-canvas-title a {
@@ -161,9 +164,9 @@ header.navbar {
 
 .members-table {
   display: grid;
-  grid-row-gap: .5rem;
-  grid-column-gap: .3rem;
-  grid-template-columns: .5fr 2fr 4fr 2fr 2.5fr .5fr .5fr;
+  grid-row-gap: 0.5rem;
+  grid-column-gap: 0.3rem;
+  grid-template-columns: 0.5fr 2fr 4fr 2fr 2.5fr 0.5fr 0.5fr;
 
   .members-table-header {
     font-weight: bold;
@@ -200,7 +203,8 @@ $photo-width: 187px;
     .items-table-image {
       grid-column: 1;
       grid-row: span 2;
-      img, .image-placeholder {
+      img,
+      .image-placeholder {
         max-width: 100%;
       }
     }
@@ -223,13 +227,14 @@ $photo-width: 187px;
 @media all and (max-width: 840px) {
   .items-table {
     grid-template-columns: 100px 1fr 1fr;
-    grid-row-gap: .6rem;
-    grid-column-gap: .6rem;
+    grid-row-gap: 0.6rem;
+    grid-column-gap: 0.6rem;
 
     .items-table-image {
       grid-column: 1;
       grid-row: span 1;
-      img, .image-placeholder {
+      img,
+      .image-placeholder {
         max-width: 100px;
         max-height: 70px;
       }
@@ -245,7 +250,7 @@ $photo-width: 187px;
       font-size: 0.6rem;
       a {
         display: inline-block;
-        margin-right: .3rem;
+        margin-right: 0.3rem;
       }
     }
   }
@@ -270,7 +275,7 @@ $photo-width: 187px;
     font-weight: bold;
 
     &:hover {
-      color: $primary-color;
+      color: variables.$primary-color;
     }
   }
 }
@@ -287,14 +292,14 @@ $photo-width: 187px;
   display: grid;
 
   grid-template-columns: 1fr 100px 200px;
-  grid-row-gap: .3rem;
-  grid-column-gap: .6rem;
+  grid-row-gap: 0.3rem;
+  grid-column-gap: 0.6rem;
 
   .categories-table-row {
     display: contents;
     &:hover .categories-table-name,
     &:hover .categories-table-count {
-      background: $background-color-dark;
+      background: globals.$background-color-dark;
     }
     .categories-table-name.highlight {
       animation: highlight-fade-out 1.5s;
@@ -307,17 +312,37 @@ $photo-width: 187px;
 
   .categories-table-name {
     grid-column-start: 1;
-    padding-left: .2rem;
-    &.nested-1 { margin-left: 1rem; }
-    &.nested-2 { margin-left: 2rem; }
-    &.nested-3 { margin-left: 3rem; }
-    &.nested-4 { margin-left: 4rem; }
-    &.nested-5 { margin-left: 5rem; }
-    &.nested-6 { margin-left: 6rem; }
-    &.nested-7 { margin-left: 7rem; }
-    &.nested-8 { margin-left: 8rem; }
-    &.nested-9 { margin-left: 9rem; }
-    &.nested-10 { margin-left: 10rem; }
+    padding-left: 0.2rem;
+    &.nested-1 {
+      margin-left: 1rem;
+    }
+    &.nested-2 {
+      margin-left: 2rem;
+    }
+    &.nested-3 {
+      margin-left: 3rem;
+    }
+    &.nested-4 {
+      margin-left: 4rem;
+    }
+    &.nested-5 {
+      margin-left: 5rem;
+    }
+    &.nested-6 {
+      margin-left: 6rem;
+    }
+    &.nested-7 {
+      margin-left: 7rem;
+    }
+    &.nested-8 {
+      margin-left: 8rem;
+    }
+    &.nested-9 {
+      margin-left: 9rem;
+    }
+    &.nested-10 {
+      margin-left: 10rem;
+    }
   }
 
   .categories-table-count {
@@ -336,35 +361,59 @@ $photo-width: 187px;
   .responsive-table-header {
     box-sizing: border-box;
     flex-grow: 1;
-    width: 100%;  // Default to full width
+    width: 100%; // Default to full width
     overflow: hidden; // Or flex might break
     list-style: none;
-    border-bottom: .05rem solid #dadee4;
-    padding: .6rem .4rem;
+    border-bottom: 0.05rem solid #dadee4;
+    padding: 0.6rem 0.4rem;
   }
   .responsive-table-cell {
-    > h1, > h2, > h3, > h4, > h5, > h6 { margin: 0; }
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
+      margin: 0;
+    }
   }
   .responsive-table-header {
     font-weight: bold;
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
 }
 
-.responsive-table-cell, .responsive-table-header {
-  .responsive-table.two-columns   > & { width: 50%; }
-  .responsive-table.three-columns > & { width: 33.33%; }
-  .responsive-table.four-columns  > & { width: 25%; }
-  .responsive-table.five-columns  > & { width: 20%; }
-  .responsive-table.six-columns   > & { width: 16.6%; }
-  .responsive-table.seven-columns   > & { width: 14.2%; }
-  .responsive-table.eight-columns   > & { width: 12.5%; }
+.responsive-table-cell,
+.responsive-table-header {
+  .responsive-table.two-columns > & {
+    width: 50%;
+  }
+  .responsive-table.three-columns > & {
+    width: 33.33%;
+  }
+  .responsive-table.four-columns > & {
+    width: 25%;
+  }
+  .responsive-table.five-columns > & {
+    width: 20%;
+  }
+  .responsive-table.six-columns > & {
+    width: 16.6%;
+  }
+  .responsive-table.seven-columns > & {
+    width: 14.2%;
+  }
+  .responsive-table.eight-columns > & {
+    width: 12.5%;
+  }
 }
 
 @media all and (max-width: 840px) {
   .responsive-table {
     display: block;
-    & .responsive-table-header { display: none; }
+    & .responsive-table-header {
+      display: none;
+    }
     & .responsive-table-cell {
       width: 100% !important;
       &:empty {
@@ -373,33 +422,34 @@ $photo-width: 187px;
     }
   }
   .responsive-table-cell {
-    .responsive-table.two-columns   > &:nth-of-type(2n+1),
-    .responsive-table.three-columns > &:nth-of-type(3n+1),
-    .responsive-table.four-columns  > &:nth-of-type(4n+1),
-    .responsive-table.five-columns  > &:nth-of-type(5n+1),
-    .responsive-table.six-columns   > &:nth-of-type(6n+1),
-    .responsive-table.seven-columns > &:nth-of-type(7n+1) {
+    .responsive-table.two-columns > &:nth-of-type(2n + 1),
+    .responsive-table.three-columns > &:nth-of-type(3n + 1),
+    .responsive-table.four-columns > &:nth-of-type(4n + 1),
+    .responsive-table.five-columns > &:nth-of-type(5n + 1),
+    .responsive-table.six-columns > &:nth-of-type(6n + 1),
+    .responsive-table.seven-columns > &:nth-of-type(7n + 1) {
       font-weight: bold;
     }
-    .responsive-table.two-columns   > &:nth-of-type(2n),
+    .responsive-table.two-columns > &:nth-of-type(2n),
     .responsive-table.three-columns > &:nth-of-type(3n),
-    .responsive-table.four-columns  > &:nth-of-type(4n),
-    .responsive-table.five-columns  > &:nth-of-type(5n),
-    .responsive-table.six-columns   > &:nth-of-type(6n),
+    .responsive-table.four-columns > &:nth-of-type(4n),
+    .responsive-table.five-columns > &:nth-of-type(5n),
+    .responsive-table.six-columns > &:nth-of-type(6n),
     .responsive-table.seven-columns > &:nth-of-type(7n) {
       margin-bottom: 2rem;
     }
   }
 }
 
-.destroy-button, .destroy-area {
+.destroy-button,
+.destroy-area {
   padding-top: 3rem;
 }
 
 .app .action-bar {
-  background: $secondary-color-light;
+  background: variables.$secondary-color-light;
   border-radius: 4px;
-  padding: .5rem .5rem .3rem .6rem;
+  padding: 0.5rem 0.5rem 0.3rem 0.6rem;
   margin-bottom: 1rem;
   .float-left {
     line-height: 32px;
@@ -408,47 +458,108 @@ $photo-width: 187px;
   .feather-icon {
     height: 24px;
     width: 24px;
-    stroke: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+    stroke: color.adjust(
+      variables.$secondary-color,
+      $lightness: -10%,
+      $space: hsl
+    );
   }
   .btn {
-    background-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
-    border-color: color.adjust($secondary-color, $lightness: -20%, $space: hsl);
+    background-color: color.adjust(
+      variables.$secondary-color,
+      $lightness: -20%,
+      $space: hsl
+    );
+    border-color: color.adjust(
+      variables.$secondary-color,
+      $lightness: -20%,
+      $space: hsl
+    );
     color: white;
-    &:hover, &:visited {
-    background-color: color.adjust($secondary-color, $lightness: -30%, $space: hsl);
-      border-color: color.adjust($secondary-color, $lightness: -30%, $space: hsl);
+    &:hover,
+    &:visited {
+      background-color: color.adjust(
+        variables.$secondary-color,
+        $lightness: -30%,
+        $space: hsl
+      );
+      border-color: color.adjust(
+        variables.$secondary-color,
+        $lightness: -30%,
+        $space: hsl
+      );
       color: white;
     }
   }
 
   &.action-bar-warning {
-    background-color: color.adjust($warning-color, $lightness: 20%, $space: hsl);
-    color: color.adjust($warning-color, $lightness: -30%, $space: hsl);
+    background-color: color.adjust(
+      variables.$warning-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+    color: color.adjust(
+      variables.$warning-color,
+      $lightness: -30%,
+      $space: hsl
+    );
     .btn {
-      background-color: color.adjust($warning-color, $lightness: -20%, $space: hsl);
-      border-color: color.adjust($warning-color, $lightness: -20%, $space: hsl);
+      background-color: color.adjust(
+        variables.$warning-color,
+        $lightness: -20%,
+        $space: hsl
+      );
+      border-color: color.adjust(
+        variables.$warning-color,
+        $lightness: -20%,
+        $space: hsl
+      );
       &:hover {
-        background-color: color.adjust($warning-color, $lightness: -30%, $space: hsl);
+        background-color: color.adjust(
+          variables.$warning-color,
+          $lightness: -30%,
+          $space: hsl
+        );
       }
     }
     .feather-icon {
-      stroke: color.adjust($warning-color, $lightness: -10%, $space: hsl);
+      stroke: color.adjust(
+        variables.$warning-color,
+        $lightness: -10%,
+        $space: hsl
+      );
     }
   }
   &.action-bar-error {
-    background-color: color.adjust($error-color, $lightness: 20%, $space: hsl);
-    color: color.adjust($error-color, $lightness: -30%, $space: hsl);
+    background-color: color.adjust(
+      variables.$error-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+    color: color.adjust(variables.$error-color, $lightness: -30%, $space: hsl);
     .btn {
-      background-color: $error-color;
-      border-color: color.adjust($error-color, $lightness: -10%, $space: hsl);
+      background-color: variables.$error-color;
+      border-color: color.adjust(
+        variables.$error-color,
+        $lightness: -10%,
+        $space: hsl
+      );
       color: white;
       &:hover {
-        background-color: color.adjust($error-color, $lightness: -10%, $space: hsl);
+        background-color: color.adjust(
+          variables.$error-color,
+          $lightness: -10%,
+          $space: hsl
+        );
         color: white;
       }
     }
     .feather-icon {
-      stroke: color.adjust($error-color, $lightness: -10%, $space: hsl);
+      stroke: color.adjust(
+        variables.$error-color,
+        $lightness: -10%,
+        $space: hsl
+      );
     }
   }
 }
@@ -465,7 +576,7 @@ fieldset {
   margin-top: 1rem;
 }
 legend {
-  margin-bottom: .4rem;
+  margin-bottom: 0.4rem;
   font-size: 0.8rem;
   font-weight: bold;
 }
@@ -501,7 +612,11 @@ legend {
 }
 
 .form-group.has-error .label-required-field {
-  background-color: color.adjust($error-color, $lightness: 20%, $space: hsl);
+  background-color: color.adjust(
+    variables.$error-color,
+    $lightness: 20%,
+    $space: hsl
+  );
   color: inherit;
 }
 
@@ -531,7 +646,7 @@ legend {
   margin-top: 1rem;
   img {
     max-width: 30%;
-    margin-bottom: .6rem;
+    margin-bottom: 0.6rem;
   }
   &.on-step {
     img {
@@ -542,15 +657,16 @@ legend {
     h1 {
       display: inline;
       font-size: 1.3rem;
-      margin: 0 0 0 .3em;
+      margin: 0 0 0 0.3em;
       position: relative;
-      top: .25em;
+      top: 0.25em;
     }
   }
 }
 
 form.membership-amount {
-  label, .input-group {
+  label,
+  .input-group {
     float: left;
   }
   label {
@@ -565,7 +681,7 @@ form.membership-amount {
   }
   .form-input-hint {
     float: left;
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     line-height: 2.3rem;
   }
   .input-group-addon {
@@ -580,7 +696,7 @@ form.membership-amount {
   }
 }
 
-@media (min-width: $size-md + 1) {
+@media (min-width: variables.$size-md + 1) {
   .complete-in-person {
     margin-left: 1rem;
   }
@@ -599,7 +715,7 @@ form.membership-amount {
 
 .callout-box {
   background: white;
-  padding: 1rem .5rem .5rem 1.5rem;
+  padding: 1rem 0.5rem 0.5rem 1.5rem;
   margin-bottom: 1rem;
   ul {
     list-style: outside;
@@ -619,14 +735,14 @@ form.membership-amount {
 
 .instructions {
   .main {
-    color: $primary-color;
+    color: variables.$primary-color;
     font-weight: 500;
     line-height: 1.2;
     font-size: 1.2rem;
     margin-bottom: 0.5em;
   }
   .sub {
-    color: $primary-color;
+    color: variables.$primary-color;
     font-size: 1rem;
   }
   .divider {
@@ -660,7 +776,7 @@ form.membership-amount {
     }
   }
   h1 {
-    margin-bottom: .1em;
+    margin-bottom: 0.1em;
   }
 }
 
@@ -670,7 +786,7 @@ form.membership-amount {
     line-height: 1.1;
   }
   .landing-options .column {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
 
@@ -679,7 +795,8 @@ form.membership-amount {
   margin-top: 3rem;
 }
 
-.member-active-loans, .member-recent-loans {
+.member-active-loans,
+.member-recent-loans {
   p {
     margin-bottom: 0;
   }
@@ -687,7 +804,7 @@ form.membership-amount {
 
 .member-active-loans {
   .due-date {
-    margin: 1rem 0 .5rem;
+    margin: 1rem 0 0.5rem;
   }
 
   .item-image {
@@ -696,8 +813,6 @@ form.membership-amount {
       max-width: 100%;
     }
   }
-
-
 
   .columns {
     margin-top: 0 !important;
@@ -710,11 +825,14 @@ form.membership-amount {
 }
 
 .admin {
-  .member-lookup-items, .member-appointment-form, .member-panel, .checkout-notice {
+  .member-lookup-items,
+  .member-appointment-form,
+  .member-panel,
+  .checkout-notice {
     background: white;
-    padding: .7rem .5rem;
+    padding: 0.7rem 0.5rem;
     .info-box {
-      background: $secondary-color-light;
+      background: variables.$secondary-color-light;
     }
   }
 
@@ -739,13 +857,13 @@ form.membership-amount {
     margin-top: 1rem;
   }
   .num-attending {
-    color: $success-color;
+    color: variables.$success-color;
   }
   .attending-1 {
-    color: $warning-color;
+    color: variables.$warning-color;
   }
   .attending-0 {
-    color: $error-color;
+    color: variables.$error-color;
   }
   .attendees {
     list-style: outside;
@@ -775,7 +893,7 @@ form.membership-amount {
 .admin {
   .info-box {
     background: white;
-    padding: .5em .7em;
+    padding: 0.5em 0.7em;
     margin-bottom: 1em;
     p:last-of-type {
       margin-bottom: 0;
@@ -791,7 +909,7 @@ table.monthly-adjustments {
   thead tr:first-of-type {
     line-height: 0.8em;
     font-size: 0.8em;
-    color: $gray-color;
+    color: variables.$gray-color;
     th {
       border-bottom: 0;
     }
@@ -802,22 +920,25 @@ table.monthly-adjustments {
       padding-top: 0;
     }
   }
-  tbody tr:last-of-type, tfoot tr {
+  tbody tr:last-of-type,
+  tfoot tr {
     td {
       border-bottom: 0;
     }
   }
   tfoot tr td {
-    background: $dark-color;
-    color: $light-color;
+    background: variables.$dark-color;
+    color: variables.$light-color;
     font-weight: bold;
   }
-  td.fees, th.fees {
-    padding-right: .7rem;
+  td.fees,
+  th.fees {
+    padding-right: 0.7rem;
   }
-  td.left-lined, th.left-lined {
-    border-left: 1px solid $gray-color-light;
-    padding-left: .7rem;
+  td.left-lined,
+  th.left-lined {
+    border-left: 1px solid variables.$gray-color-light;
+    padding-left: 0.7rem;
   }
   tfoot td.left-lined {
     border-color: transparent;
@@ -834,13 +955,13 @@ table.monthly-adjustments {
 
 .nav-category {
   padding: 0.2rem 0.4rem;
-  color: $gray-color;
+  color: variables.$gray-color;
 }
 
-@media (max-width: $size-md) {
-    img {
-      max-width: 60vw;
-    }
+@media (max-width: variables.$size-md) {
+  img {
+    max-width: 60vw;
+  }
 }
 
 .image-editor {
@@ -872,13 +993,15 @@ table.monthly-adjustments {
   width: 100%;
 }
 
-.member-panel, .item-panel {
+.member-panel,
+.item-panel {
   background: white;
   margin-bottom: 16px;
   h6 {
     margin-bottom: 0;
   }
-  .member-stats, .item-stats {
+  .member-stats,
+  .item-stats {
     list-style: none outside;
     margin: 0 0 1.2rem;
     li {
@@ -898,7 +1021,8 @@ table.monthly-adjustments {
 
 .item-panel {
   .item-image {
-    &, & img {
+    &,
+    & img {
       border-top-left-radius: 0.1rem;
       border-top-right-radius: 0.1rem;
     }
@@ -909,12 +1033,14 @@ table.monthly-adjustments {
 }
 
 .item-description {
-  margin: 1rem .5rem;
+  margin: 1rem 0.5rem;
 }
 
-.item-stats, .member-stats {
+.item-stats,
+.member-stats {
   li.with-inner-stats {
-    svg, .inner-stats {
+    svg,
+    .inner-stats {
       float: left;
     }
   }
@@ -927,14 +1053,14 @@ table.monthly-adjustments {
     }
   }
   .placeholder-text {
-    color: #C0C0C0;
+    color: #c0c0c0;
     font-style: italic;
   }
 }
 
 .note-form {
   padding: 0.5rem 1rem 1.2rem;
-  background: $background-color-dark;
+  background: globals.$background-color-dark;
   margin-bottom: 1rem;
   label {
     font-weight: 500;
@@ -956,7 +1082,7 @@ table.monthly-adjustments {
   .edit-note {
     position: absolute;
     right: 0;
-    top: .4rem;
+    top: 0.4rem;
   }
   .trix-content {
     margin-bottom: 1rem;
@@ -964,8 +1090,8 @@ table.monthly-adjustments {
 }
 
 .nav-header {
-  background: $dark-color;
-  padding: .4rem 0 .4rem;
+  background: variables.$dark-color;
+  padding: 0.4rem 0 0.4rem;
   header.navbar {
     margin-bottom: 0;
   }
@@ -979,52 +1105,71 @@ table.monthly-adjustments {
   .menu .menu-item {
     margin-left: 0;
     & > a {
-      color: $dark-color;
+      color: variables.$dark-color;
       &:hover {
-        background: $secondary-color-light;
+        background: variables.$secondary-color-light;
       }
     }
   }
   input:focus {
-    border-color: $success-color;
-    @include control-shadow($success-color);
+    border-color: variables.$success-color;
+    @include shadow.control-shadow(variables.$success-color);
   }
 }
 
-.app-body, .app-header {
+.app-body,
+.app-header {
   .btn {
     border-radius: 5px;
-    @include default-button();
+    @include globals.default-button();
     &.btn-default {
-      background: $gray-color-dark;
-      border-color: $dark-color;
+      background: variables.$gray-color-dark;
+      border-color: variables.$dark-color;
       color: white;
       &:hover {
-        background: $dark-color;
+        background: variables.$dark-color;
       }
     }
     &.btn-primary {
-      background: $primary-color;
-      border-color: color.adjust($primary-color, $lightness: -10%, $space: hsl);
+      background: variables.$primary-color;
+      border-color: color.adjust(
+        variables.$primary-color,
+        $lightness: -10%,
+        $space: hsl
+      );
       color: white;
       &:hover {
-        background: color.adjust($primary-color, $lightness: -10%, $space: hsl);
+        background: color.adjust(
+          variables.$primary-color,
+          $lightness: -10%,
+          $space: hsl
+        );
       }
-      &:active, &.active {
-        background: $dark-color;
-        border-color: $dark-color;
+      &:active,
+      &.active {
+        background: variables.$dark-color;
+        border-color: variables.$dark-color;
       }
     }
     &.btn-secondary {
-      background: $secondary-color;
-      border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+      background: variables.$secondary-color;
+      border-color: color.adjust(
+        variables.$secondary-color,
+        $lightness: -10%,
+        $space: hsl
+      );
       color: white;
       &:hover {
-        background: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+        background: color.adjust(
+          variables.$secondary-color,
+          $lightness: -10%,
+          $space: hsl
+        );
       }
-      &:active, &.active {
-        background: $dark-color;
-        border-color: $dark-color;
+      &:active,
+      &.active {
+        background: variables.$dark-color;
+        border-color: variables.$dark-color;
       }
     }
   }
@@ -1035,18 +1180,38 @@ table.monthly-adjustments {
     .column {
       min-height: 4rem;
     }
-    .primary { background-color: $primary-color; }
-    .secondary { background-color: $secondary-color; }
+    .primary {
+      background-color: variables.$primary-color;
+    }
+    .secondary {
+      background-color: variables.$secondary-color;
+    }
 
-    .success { background-color: $success-color; }
-    .warning { background-color: $warning-color; }
-    .error { background-color: $error-color; }
+    .success {
+      background-color: variables.$success-color;
+    }
+    .warning {
+      background-color: variables.$warning-color;
+    }
+    .error {
+      background-color: variables.$error-color;
+    }
 
-    .dark { background-color: $dark-color; }
-    .gray-dark { background-color: $gray-color-dark; }
-    .gray { background-color: $gray-color; }
-    .gray-light { background-color: $gray-color-light; }
-    .light { background-color: $light-color; }
+    .dark {
+      background-color: variables.$dark-color;
+    }
+    .gray-dark {
+      background-color: variables.$gray-color-dark;
+    }
+    .gray {
+      background-color: variables.$gray-color;
+    }
+    .gray-light {
+      background-color: variables.$gray-color-light;
+    }
+    .light {
+      background-color: variables.$light-color;
+    }
   }
 }
 
@@ -1055,39 +1220,40 @@ table.monthly-adjustments {
 }
 
 .warning {
-  color: $error-color;
+  color: variables.$error-color;
 }
 
 ul.hold-items {
-  margin: 0
+  margin: 0;
 }
 
 .hold-item {
   list-style: none;
-  background: $light-color;
-  padding: .5rem;
+  background: variables.$light-color;
+  padding: 0.5rem;
   float: left;
-  margin: 0 .5rem .5rem 0;
+  margin: 0 0.5rem 0.5rem 0;
   border-radius: 3px;
   border: solid 2px;
-  position: relative;;
+  position: relative;
   .item-name {
     display: inline-block;
   }
   img {
     vertical-align: top;
-    margin-right: .5em;
+    margin-right: 0.5em;
   }
-  &.status-checked-out, &.status-on-hold {
-    border-color: $warning-color;
+  &.status-checked-out,
+  &.status-on-hold {
+    border-color: variables.$warning-color;
   }
   &.status-available {
-    border-color: $success-color;
+    border-color: variables.$success-color;
   }
   .remove-link {
     position: absolute;
-    bottom: .5rem;
-    right: .5rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
     font-size: 0.9em;
   }
 }
@@ -1105,7 +1271,9 @@ ul.hold-items {
 .tool-card .modal {
   .stats {
     margin-bottom: 1.2rem;
-    p { margin-bottom: .2rem; }
+    p {
+      margin-bottom: 0.2rem;
+    }
   }
 }
 
@@ -1139,7 +1307,7 @@ footer.page-footer {
   font-size: 0.8rem;
   padding: 1rem 0 0;
   flex-shrink: 0;
-  background: $background-color-dark;
+  background: globals.$background-color-dark;
   text-align: center;
   position: relative;
 }

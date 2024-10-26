@@ -1,5 +1,8 @@
+@use "globals";
+@use "spectre-css/variables";
+
 @mixin subtle-box-shadow {
-  box-shadow: $light-gray 1px 1px 4px 0px;
+  box-shadow: globals.$light-gray 1px 1px 4px 0px;
 }
 
 header.header {
@@ -12,14 +15,14 @@ header.header {
     justify-content: space-between;
     padding: 0.5rem 1rem 0.25rem 0.5rem;
 
-    @include desktop {
+    @include globals.desktop {
       background-color: transparent;
       padding: 1rem 0 1.5rem;
     }
   }
 
   .logo-link {
-    @include desktop {
+    @include globals.desktop {
       order: 1;
     }
 
@@ -33,13 +36,13 @@ header.header {
     display: flex;
     gap: 0.25rem;
 
-    @include desktop {
+    @include globals.desktop {
       order: 3;
     }
   }
 
   .search-and-menu-icon:has(#menu-toggle:focus) .icon-container {
-    outline: solid 1px $primary-color;
+    outline: solid 1px variables.$primary-color;
   }
 
   .header-search {
@@ -49,13 +52,13 @@ header.header {
   }
 
   .icon-container {
-    border-color: $light-gray;
+    border-color: globals.$light-gray;
 
     .icon {
-      color: $dark-color;
+      color: variables.$dark-color;
     }
 
-    @include desktop {
+    @include globals.desktop {
       display: none;
     }
   }
@@ -74,7 +77,7 @@ header.header {
       padding: 0;
     }
 
-    @include mobile {
+    @include globals.mobile {
       @include subtle-box-shadow;
       background-color: white;
       bottom: 0;
@@ -89,7 +92,7 @@ header.header {
       z-index: 200;
     }
 
-    @include desktop {
+    @include globals.desktop {
       align-items: center;
       display: flex;
       flex: 1;
@@ -104,9 +107,9 @@ header.header {
     font-weight: bold;
     padding: 1rem 0.4rem 0.5rem;
 
-    @include desktop {
+    @include globals.desktop {
       border-radius: 0.2rem 0.2rem 0 0;
-      color: $primary-color;
+      color: variables.$primary-color;
       cursor: default;
       font-weight: 500;
       padding: 0.15rem 0.5rem;
@@ -115,14 +118,14 @@ header.header {
   }
 
   .navigation-link-group {
-    @include desktop {
+    @include globals.desktop {
       height: 1.5rem;
       position: relative;
     }
   }
 
   .navigation-link-group > ul {
-    @include desktop {
+    @include globals.desktop {
       @include subtle-box-shadow;
       background-color: white;
       border-radius: 0 0.2rem 0.2rem 0.2rem;
@@ -138,7 +141,7 @@ header.header {
 
   .navigation-link-group:focus-within > ul,
   .navigation-link-group:hover > ul {
-    @include desktop {
+    @include globals.desktop {
       opacity: 1;
       pointer-events: unset;
       z-index: 200;
@@ -147,8 +150,8 @@ header.header {
 
   .navigation-link-group:focus-within > .link-group-label,
   .navigation-link-group:hover > .link-group-label {
-    @include desktop {
-      background-color: $primary-color;
+    @include globals.desktop {
+      background-color: variables.$primary-color;
       color: white;
     }
   }
@@ -160,17 +163,17 @@ header.header {
       transition: background-color 150ms;
       width: 100%;
 
-      @include desktop {
+      @include globals.desktop {
         padding-left: 0.5rem;
       }
 
       &:hover,
       &:focus {
-        background-color: $light-gray;
+        background-color: globals.$light-gray;
       }
 
       &.extra-space {
-        @include desktop {
+        @include globals.desktop {
           margin-top: 1.25rem;
         }
       }
@@ -198,7 +201,7 @@ header.header {
     }
   }
 
-  @include desktop {
+  @include globals.desktop {
     .expanded-menu-label,
     #menu-toggle {
       display: none;

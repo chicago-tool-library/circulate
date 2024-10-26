@@ -1,4 +1,4 @@
-@import './styles.scss';
-@import "awesomplete/awesomplete";
-@import "@selectize/selectize/dist/css/selectize.default";
-@import './overrides.scss';
+@use "styles.scss";
+@use "awesomplete/awesomplete";
+@use "@selectize/selectize/dist/css/selectize.default";
+@use "overrides.scss";

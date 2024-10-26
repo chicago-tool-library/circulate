@@ -1,3 +1,5 @@
+@use "../spectre-css/variables";
+
 .item-holds-table {
   tbody tr {
     .drag-handle {
@@ -5,7 +7,7 @@
       width: 36px;
     }
     &.notified {
-      background: $gray-color-light;
+      background: variables.$gray-color-light;
       .drag-handle {
         cursor: default;
       }
@@ -19,6 +21,6 @@
     cursor: grabbing;
   }
   tr.ghost {
-    background: $secondary-color-light;
+    background: variables.$secondary-color-light;
   }
 }
