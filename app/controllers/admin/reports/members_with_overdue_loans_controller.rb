@@ -7,7 +7,13 @@ module Admin
       include ActionView::Helpers::DateHelper
 
       def index
-        query = Member.all.joins(:overdue_loans).distinct.includes(:user, overdue_loans: :item).order(email: :asc)
+        overdue_loan_min = Loan.arel_table[:due_at].minimum.as("overdue_loan_min")
+        query = Member.all
+          .joins(:overdue_loans)
+          .group(:id)
+          .includes(:user, overdue_loans: :item)
+          .select(:id, :user_id, :preferred_name, :full_name, :phone_number, overdue_loan_min)
+          .order(overdue_loan_min: :asc)
 
         respond_to do |format|
           format.html do
