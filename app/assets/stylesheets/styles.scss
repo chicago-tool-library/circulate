@@ -733,6 +733,13 @@ form.membership-amount {
   }
 }
 
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2em;
+  gap: 1ch;
+}
+
 .instructions {
   .main {
     color: variables.$primary-color;
