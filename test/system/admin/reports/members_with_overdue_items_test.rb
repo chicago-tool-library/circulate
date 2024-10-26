@@ -56,7 +56,6 @@ class AdminMembersWithOverdueItemsTest < ApplicationSystemTestCase
     end
     BorrowPolicy.where.not(id: [borrow_policy_1, borrow_policy_2].map(&:id)).delete_all
 
-
     visit admin_reports_members_with_overdue_loans_url
 
     assert_text @member_with_one_overdue_loan.user.email

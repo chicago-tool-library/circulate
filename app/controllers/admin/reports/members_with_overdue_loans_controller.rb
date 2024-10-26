@@ -28,7 +28,7 @@ module Admin
         loans_query = Loan.overdue
 
         if params[:borrow_policy_id]
-          loans_query = loans_query.joins(:item).where(item: { borrow_policy_id: params[:borrow_policy_id]})
+          loans_query = loans_query.joins(:item).where(item: {borrow_policy_id: params[:borrow_policy_id]})
         end
 
         Member.all
