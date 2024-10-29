@@ -1,28 +1,36 @@
 @use "sass:color";
 
-@import 'mixins';
+@use "mixins";
 
-$primary-color: #2F7890;
-$primary-color-light: color.adjust(#2F7890, $lightness: 20%, $space: hsl);
-$secondary-color: color.adjust(#CDABBE, $lightness: -10%, $space: hsl);
-$error-color: #DF6C54;
-$warning-color: #FBCF33;
-$success-color: #AEBE39;
+$primary-color: #2f7890;
+$primary-color-light: color.adjust(#2f7890, $lightness: 20%, $space: hsl);
+$secondary-color: color.adjust(#cdabbe, $lightness: -10%, $space: hsl);
+$error-color: #df6c54;
+$warning-color: #fbcf33;
+$success-color: #aebe39;
 $dark-color: #423730;
 $gray-color-dark: #605045;
-$gray-color: #AE9C90;
-$gray-color-light: #D9D0CB;
+$gray-color: #ae9c90;
+$gray-color-light: #d9d0cb;
 $light-color: white;
 
 $max-mobile-width: 600px;
 $min-desktop-width: $max-mobile-width + 1px;
 $light-gray: #e4ddda;
 
-$secondary-color-light: color.adjust($secondary-color, $lightness: 20%, $space: hsl);
+$secondary-color-light: color.adjust(
+  $secondary-color,
+  $lightness: 20%,
+  $space: hsl
+);
 
-$background-color: #F9F6F2;
+$background-color: #f9f6f2;
 
-$background-color-dark: color.adjust($background-color, $lightness: -5%, $space: hsl);
+$background-color-dark: color.adjust(
+  $background-color,
+  $lightness: -5%,
+  $space: hsl
+);
 
 @mixin mobile {
   @media only screen and (max-width: $max-mobile-width) {
@@ -36,10 +44,11 @@ $background-color-dark: color.adjust($background-color, $lightness: -5%, $space:
   }
 }
 
-@mixin default-button{
+@mixin default-button {
   border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
-  &, &:visited {
+  &,
+  &:visited {
     color: $gray-color-dark;
   }
   &:hover {
@@ -47,17 +56,19 @@ $background-color-dark: color.adjust($background-color, $lightness: -5%, $space:
     border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
     color: $dark-color;
   }
-  &:active, &.active {
+  &:active,
+  &.active {
     background-color: $secondary-color;
     border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
 
-@mixin title{
+@mixin title {
   border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
-  &, &:visited {
+  &,
+  &:visited {
     color: $gray-color-dark;
   }
   &:hover {
@@ -65,21 +76,20 @@ $background-color-dark: color.adjust($background-color, $lightness: -5%, $space:
     border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
     color: $dark-color;
   }
-  &:active, &.active {
+  &:active,
+  &.active {
     background-color: $secondary-color;
     border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
-
-
-
-
-
 
 // NEW ADDED STYLES
-$button-color: #36b3a8;
-$pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
+$pri-btn-color-hover: color.adjust(
+  mixins.$button-color,
+  $lightness: -7%,
+  $space: hsl
+);
 
 // body {
 //   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -87,9 +97,9 @@ $pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
 
 // BUTTONS
 .primary-btn {
-  letter-spacing: $button-letter-spacing;
+  letter-spacing: mixins.$button-letter-spacing;
   border: none;
-  @include primary-button;
+  @include mixins.primary-button;
   a {
     height: 50px !important;
   }
@@ -100,13 +110,13 @@ $pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
 }
 
 .secondary-btn {
-  letter-spacing: $button-letter-spacing;
-  @include secondary-button;
+  letter-spacing: mixins.$button-letter-spacing;
+  @include mixins.secondary-button;
 }
 
 .link-btn {
   font-weight: bold;
-  color: $new-link-color !important;
+  color: mixins.$new-link-color !important;
   font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: transparent;
   border: none;
@@ -141,45 +151,44 @@ $pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
 // }
 
 .title_bold {
-  @include title_bold;
+  @include mixins.title_bold;
 }
 
 .body {
-  @include standard_font;
+  @include mixins.standard_font;
   font-size: 16px;
 }
 
 .caption {
-  @include standard_font;
-  @include title_uppercase_weight;
+  @include mixins.standard_font;
+  @include mixins.title_uppercase_weight;
   font-size: 12px;
-  letter-spacing: $title-letter-spacing;
-  opacity: .5;
+  letter-spacing: mixins.$title-letter-spacing;
+  opacity: 0.5;
 }
 
 .caption_lg {
-  @include standard_font;
-  @include title_uppercase_weight;
+  @include mixins.standard_font;
+  @include mixins.title_uppercase_weight;
   font-size: 20px;
-  letter-spacing: $button-letter-spacing;
-  opacity: .5;
+  letter-spacing: mixins.$button-letter-spacing;
+  opacity: 0.5;
 }
 
 .caption_xs {
-  @include standard_font;
+  @include mixins.standard_font;
   font-size: 12px;
   font-weight: lighter;
 }
-
 
 // NEW MENU STYLING
 
 .new-menu-style {
   a {
-    @include title_bold;
+    @include mixins.title_bold;
     text-transform: uppercase;
-    border-top: 1px solid $text-color;
-    color: $text-color;
+    border-top: 1px solid mixins.$text-color;
+    color: mixins.$text-color;
     padding-top: 5px;
     text-decoration: none;
 
@@ -188,11 +197,11 @@ $pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
       color: #000 !important;
     }
     &.active {
-      color: $text-color !important;
+      color: mixins.$text-color !important;
     }
 
     &:visited {
-      color: $text-color !important;
+      color: mixins.$text-color !important;
     }
   }
   &:hover {
@@ -203,7 +212,7 @@ $pri-btn-color-hover: color.adjust($button-color, $lightness: -7%, $space: hsl);
 .card-container {
   background-color: white;
   border-radius: 7px;
-  border: #E4E8F0 solid 1px;
+  border: #e4e8f0 solid 1px;
   padding: 20px;
 }
 

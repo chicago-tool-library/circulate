@@ -1,84 +1,83 @@
 // TYPOGRAPHY
 $text-color: #4a4a4a !important;
 $title-size: 36px;
-$button-letter-spacing: .1em;
-$title-letter-spacing: .07em;
+$button-letter-spacing: 0.1em;
+$title-letter-spacing: 0.07em;
 $new-link-color: #36b3a8;
-
+$button-color: #36b3a8;
 
 @mixin standard_font {
-    font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: $text-color;
+  font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: $text-color;
 }
 
-@mixin title_uppercase_weight{
-    font-weight: bold;
-    text-transform: uppercase;
+@mixin title_uppercase_weight {
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 @mixin title_bold {
-    @include standard_font;
-    font-size: 16px;
-    font-weight: bold;
+  @include standard_font;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-
 @mixin new_title {
-    a {
-        @include standard_font;
-        font-size: 36px;
-        letter-spacing: .03em;
-        color: #4a4a4a !important;
-        text-transform: uppercase;
+  a {
+    @include standard_font;
+    font-size: 36px;
+    letter-spacing: 0.03em;
+    color: #4a4a4a !important;
+    text-transform: uppercase;
 
-        &.active {
-            color: #4a4a4a !important;
-          }
-
-          &:visited {
-            color: #4a4a4a !important;
-          }
+    &.active {
+      color: #4a4a4a !important;
     }
+
+    &:visited {
+      color: #4a4a4a !important;
+    }
+  }
 }
 
 // BUTTONS
 @mixin secondary_button_hover {
-    background-color: $button-color .2;
+  background-color: $button-color 0.2;
 }
 
 @mixin button {
-    border-radius: 7px;
-    cursor: pointer;
-    height: 50px;
-    padding-right: 20px;
-    padding-left: 20px;
-    font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold;
+  border-radius: 7px;
+  cursor: pointer;
+  height: 50px;
+  padding-right: 20px;
+  padding-left: 20px;
+  font-family: Proxima Nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
 }
 
-@mixin primary-button{
-    @include button;
-    background-color: $button-color;
-    text-transform: uppercase;
+@mixin primary-button {
+  @include button;
+  background-color: $button-color;
+  text-transform: uppercase;
 
-    a {
-        color: white;
-        text-decoration: none;
-    }
+  a {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 @mixin secondary-button {
-    @include button;
-    background-color: white;
-    border: 2px solid $button-color;
-    text-transform: uppercase;
+  @include button;
+  background-color: white;
+  border: 2px solid $button-color;
+  text-transform: uppercase;
 
-    a {
+  a {
     color: $button-color;
     text-decoration: none;
-    }
+  }
 
-    &:hover {
-        background-color: #F7FCFC;
-    }
+  &:hover {
+    background-color: #f7fcfc;
+  }
 }

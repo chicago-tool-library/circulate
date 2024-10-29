@@ -1,3 +1,5 @@
+@use "spectre-css/variables";
+
 body.admin {
   .off-canvas {
     height: auto;
@@ -21,12 +23,12 @@ body.admin {
 
   .off-canvas {
     .off-canvas-content {
-      background: $dark-color;
+      background: variables.$dark-color;
     }
   }
 
   .app-header {
-    background: $primary-color;
+    background: variables.$primary-color;
     color: white;
     padding-top: 1rem;
     margin-bottom: 1rem;
@@ -59,7 +61,7 @@ body.admin {
   .app-banner {
     color: white;
     padding-top: 0.5rem;
-    background: $error-color;
+    background: variables.$error-color;
     p {
       margin-bottom: 0.7rem;
       margin-top: 0;

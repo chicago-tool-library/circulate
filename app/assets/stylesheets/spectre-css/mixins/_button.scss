@@ -1,39 +1,42 @@
+@use "../variables";
+@use "shadow";
+
 @use "sass:color";
 
 // Button variant mixin
-@mixin button-variant($color: $primary-color) {
+@mixin button-variant($color: variables.$primary-color) {
   background: $color;
   border-color: color.adjust($color, $lightness: -3%, $space: hsl);
-  color: $light-color;
+  color: variables.$light-color;
   &:focus {
-    @include control-shadow($color);
+    @include shadow.control-shadow($color);
   }
   &:focus,
   &:hover {
     background: color.adjust($color, $lightness: -2%, $space: hsl);
     border-color: color.adjust($color, $lightness: -5%, $space: hsl);
-    color: $light-color;
+    color: variables.$light-color;
   }
   &:active,
   &.active {
     background: color.adjust($color, $lightness: -7%, $space: hsl);
     border-color: color.adjust($color, $lightness: -10%, $space: hsl);
-    color: $light-color;
+    color: variables.$light-color;
   }
   &.loading {
     &::after {
-      border-bottom-color: $light-color;
-      border-left-color: $light-color;
+      border-bottom-color: variables.$light-color;
+      border-left-color: variables.$light-color;
     }
   }
 }
 
-@mixin button-outline-variant($color: $primary-color) {
-  background: $light-color;
+@mixin button-outline-variant($color: variables.$primary-color) {
+  background: variables.$light-color;
   border-color: $color;
   color: $color;
   &:focus {
-    @include control-shadow($color);
+    @include shadow.control-shadow($color);
   }
   &:focus,
   &:hover {
@@ -45,7 +48,7 @@
   &.active {
     background: $color;
     border-color: color.adjust($color, $lightness: -5%, $space: hsl);
-    color: $light-color;
+    color: variables.$light-color;
   }
   &.loading {
     &::after {

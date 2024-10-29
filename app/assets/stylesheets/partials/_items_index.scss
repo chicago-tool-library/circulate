@@ -1,3 +1,5 @@
+@use "../spectre-css/variables";
+
 .items-index {
 
   nav.tree-nav {
@@ -28,10 +30,10 @@
       position: absolute;
       left: 0;
       top: -2px;
-      color: $dark-color;
+      color: variables.$dark-color;
       &:hover {
         cursor: pointer;
-        color: $secondary-color;
+        color: variables.$secondary-color;
       }
       .icon {
         font-size: 14px;
