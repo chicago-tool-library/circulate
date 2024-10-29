@@ -18,7 +18,7 @@ module ReservationsHelper
     if manager.requested? || manager.pending?
       admin_reservation_path(reservation)
     else
-      admin_reservation_pickup_path(reservation)
+      admin_reservation_loans_path(reservation)
     end
   end
 

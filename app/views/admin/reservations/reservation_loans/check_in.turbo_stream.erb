@@ -1,6 +1,6 @@
 <turbo-stream action="replace" target="reservation-loan-form">
   <template>
-    <%= render partial: "admin/reservations/reservation_loans/form", formats: [:html], locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+    <%= render partial: "admin/reservations/reservation_loans/lookup_form", formats: [:html], locals: {reservation: @reservation, reservation_loan_lookup_form: ReservationLoanLookupForm.new} %>
   </template>
 </turbo-stream>
 
@@ -11,12 +11,6 @@
     </template>
   </turbo-stream>
 <% end %>
-
-<turbo-stream action="replace" target="pickup-status">
-  <template>
-    <%= render partial: "admin/reservations/status", formats: [:html], locals: {reservation: @reservation} %>
-  </template>
-</turbo-stream>
 
 <turbo-stream action="replace" target="pending-reservation-items">
   <template>

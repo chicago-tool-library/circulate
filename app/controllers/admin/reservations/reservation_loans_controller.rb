@@ -3,6 +3,33 @@ module Admin
     class ReservationLoansController < BaseController
       before_action :set_reservation_loan, only: :destroy
 
+      def index
+        # TODO some eager loading?
+      end
+
+      def check_in
+        @reservable_item = ReservableItem.find_by(id: reservation_loan_lookup_params[:reservable_item_id])
+        if !@reservable_item
+          render_lookup_form_with_error("no item found with this ID")
+          return
+        end
+
+        @reservation_loan = @reservation.reservation_loans.find_by(reservable_item_id: @reservable_item.id)
+
+        if !@reservation_loan
+          render_lookup_form_with_error("not found on this reservation")
+          return
+        end
+
+        if @reservation_loan.checked_in_at.present?
+          render_lookup_form_with_error("already marked as returned")
+          return
+        end
+
+        @reservation_loan.update(checked_in_at: Time.current)
+        @reservation_hold = @reservation_loan.reservation_hold
+      end
+
       # There are two wolves inside this method. If :reservation_hold_id is passed, it means
       # that we're creating a ReservationLoan for an ItemPool without uniquely numbered items.
       # Otherwise, we're creating a ReservationLoan for an individual ReservableItem.
@@ -71,6 +98,16 @@ module Admin
 
       private
 
+      def render_lookup_form_with_error(message)
+        @reservation_loan_lookup_form = ReservationLoanLookupForm.new
+        @reservation_loan_lookup_form.errors.add(:reservable_item_id, message)
+        render_check_in_form
+      end
+
+      def render_check_in_form
+        render partial: "admin/reservations/reservation_loans/lookup_form", locals: {reservation: @reservation, reservation_loan_lookup_form: @reservation_loan_lookup_form}, status: :unprocessable_entity
+      end
+
       def render_form_with_error(message)
         @reservation_loan = ReservationLoan.new
         @reservation_loan.errors.add(:reservable_item_id, message)
@@ -87,6 +124,10 @@ module Admin
 
       def reservation_loan_params
         params.require(:reservation_loan).permit(:reservable_item_id, :reservation_hold_id)
+      end
+
+      def reservation_loan_lookup_params
+        params.require(:reservation_loan_lookup_form).permit(:reservable_item_id)
       end
     end
   end

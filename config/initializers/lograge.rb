@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.lograge.enabled = Rails.env.production?
+  config.lograge.enabled = true unless Rails.env.development?
 
   # Set a few custom parameters on log lines
   config.lograge.custom_payload do |controller|

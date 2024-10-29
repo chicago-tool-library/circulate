@@ -200,12 +200,15 @@ Rails.application.routes.draw do
       end
       resources :reservations do
         scope module: "reservations" do
-          resources :reservation_loans, only: [:create, :destroy]
+          resources :items, as: "loans", controller: "reservation_loans", only: [:index, :create, :destroy] do
+            collection do
+              post 'check_in'
+            end
+          end
           resources :reservation_holds
           resources :pending_reservation_items, only: [:update, :destroy]
           resource :status, only: :update
           resource :review, only: [:edit, :update, :show]
-          resource :pickup, only: :show
           resource :item_pool_search, only: :show
           resource :questions, only: :show
         end
