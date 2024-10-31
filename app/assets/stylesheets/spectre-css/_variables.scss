@@ -7,31 +7,53 @@ $version: "0.5.9";
 $rtl: false !default;
 
 // Core colors
-$primary-color: #5755d9 !default;
+// $primary-color: #5755d9 !default;
+$primary-color: #2f7890;
 $primary-color-dark: color.adjust($primary-color, $lightness: -3%, $space: hsl) !default;
-$primary-color-light: color.adjust($primary-color, $lightness: 3%, $space: hsl) !default;
-$secondary-color: color.adjust($primary-color, $lightness: 37.5%, $space: hsl) !default;
+// $primary-color-light: color.adjust($primary-color, $lightness: 3%, $space: hsl) !default;
+$primary-color-light: color.adjust(#2f7890, $lightness: 20%, $space: hsl);
+// $secondary-color: color.adjust($primary-color, $lightness: 37.5%, $space: hsl) !default;
+$secondary-color: color.adjust(#cdabbe, $lightness: -10%, $space: hsl);
 $secondary-color-dark: color.adjust($secondary-color, $lightness: -3%, $space: hsl) !default;
-$secondary-color-light: color.adjust($secondary-color, $lightness: 3%, $space: hsl) !default;
+// $secondary-color-light: color.adjust($secondary-color, $lightness: 3%, $space: hsl) !default;
+$secondary-color-light: color.adjust(
+  $secondary-color,
+  $lightness: 20%,
+  $space: hsl
+);
 
 // Gray colors
-$dark-color: #303742 !default;
+// $dark-color: #303742 !default;
+$dark-color: #423730;
 $light-color: #fff !default;
-$gray-color: color.adjust($dark-color, $lightness: 55%, $space: hsl) !default;
-$gray-color-dark: color.adjust($gray-color, $lightness: -30%, $space: hsl) !default;
-$gray-color-light: color.adjust($gray-color, $lightness: 20%, $space: hsl) !default;
+$light-color: white;
+// $gray-color: color.adjust($dark-color, $lightness: 55%, $space: hsl) !default;
+$gray-color: #ae9c90;
+// $gray-color-dark: color.adjust($gray-color, $lightness: -30%, $space: hsl) !default;
+$gray-color-dark: #605045;
+// $gray-color-light: color.adjust($gray-color, $lightness: 20%, $space: hsl) !default;
+$gray-color-light: #d9d0cb;
 
 $border-color: color.adjust($dark-color, $lightness: 65%, $space: hsl) !default;
 $border-color-dark: color.adjust($border-color, $lightness: -10%, $space: hsl) !default;
 $border-color-light: color.adjust($border-color, $lightness: 8%, $space: hsl) !default;
-$bg-color: color.adjust($dark-color, $lightness: 75%, $space: hsl) !default;
-$bg-color-dark: color.adjust($bg-color, $lightness: -3%, $space: hsl) !default;
+// $bg-color: color.adjust($dark-color, $lightness: 75%, $space: hsl) !default;
+$bg-color: #f9f6f2;
+// $bg-color-dark: color.adjust($bg-color, $lightness: -3%, $space: hsl) !default;
+$bg-color-dark: color.adjust(
+  $bg-color,
+  $lightness: -5%,
+  $space: hsl
+);
 $bg-color-light: $light-color !default;
 
 // Control colors
-$success-color: #32b643 !default;
-$warning-color: #ffb700 !default;
-$error-color: #e85600 !default;
+// $success-color: #32b643 !default;
+$success-color: #aebe39;
+// $warning-color: #ffb700 !default;
+$warning-color: #fbcf33;
+// $error-color: #e85600 !default;
+$error-color: #df6c54;
 
 // Other colors
 $code-color: #d73e48 !default;
@@ -41,6 +63,7 @@ $body-font-color: color.adjust($dark-color, $lightness: 5%, $space: hsl) !defaul
 $link-color: $primary-color !default;
 $link-color-dark: color.adjust($link-color, $lightness: -10%, $space: hsl) !default;
 $link-color-light: color.adjust($link-color, $lightness: 10%, $space: hsl) !default;
+$light-gray: #e4ddda;
 
 // Fonts
 // Credit: https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/
