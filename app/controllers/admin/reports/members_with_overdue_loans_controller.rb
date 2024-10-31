@@ -7,7 +7,7 @@ module Admin
       include ActionView::Helpers::DateHelper
 
       def index
-        query = Member.all.joins(:overdue_loans).distinct.includes(:user, overdue_loans: :item).order(email: :asc)
+        query = build_query
 
         respond_to do |format|
           format.html do
@@ -21,6 +21,24 @@ module Admin
       end
 
       private
+
+      def build_query
+        overdue_loan_min = Loan.arel_table[:due_at].minimum.as("overdue_loan_min")
+
+        loans_query = Loan.overdue
+
+        if params[:borrow_policy_id]
+          loans_query = loans_query.joins(:item).where(item: {borrow_policy_id: params[:borrow_policy_id]})
+        end
+
+        Member.all
+          .where(id: loans_query.select(:member_id))
+          .joins(:overdue_loans)
+          .group(:id)
+          .includes(:user, overdue_loans: :item)
+          .select(:id, :user_id, :preferred_name, :full_name, :phone_number, overdue_loan_min)
+          .order(overdue_loan_min: :asc)
+      end
 
       def build_csv(members)
         CSV.generate(headers: true) do |csv|

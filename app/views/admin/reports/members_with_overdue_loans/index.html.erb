@@ -6,6 +6,20 @@
 
 <div class="columns">
   <div class="column col-12">
+     <div class="filters">
+      Filter by borrow policy:
+      <div class="btn-group">
+        <%= link_to_unless params[:borrow_policy_id].blank?, "All", {}, class: "btn btn-sm" do %>
+          <button class="btn btn-sm active">All</button>
+        <% end %>
+
+        <% BorrowPolicy.all.order(:name).each do |borrow_policy| %>
+          <%= link_to_unless_current borrow_policy.name, {borrow_policy_id: borrow_policy.id}, class: "btn btn-sm" do %>
+            <button class="btn btn-sm active"><%= borrow_policy.name %></button>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
 
     <table class="table">
       <tr>
