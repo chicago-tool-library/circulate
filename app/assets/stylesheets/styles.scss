@@ -21,7 +21,7 @@
 @use "spectre-css/variables";
 
 body {
-  background-color: globals.$background-color;
+  background-color: variables.$bg-color;
 }
 
 .feather-icon {
@@ -299,7 +299,7 @@ $photo-width: 187px;
     display: contents;
     &:hover .categories-table-name,
     &:hover .categories-table-count {
-      background: globals.$background-color-dark;
+      background: variables.$bg-color-dark;
     }
     .categories-table-name.highlight {
       animation: highlight-fade-out 1.5s;
@@ -1060,7 +1060,7 @@ table.monthly-adjustments {
 
 .note-form {
   padding: 0.5rem 1rem 1.2rem;
-  background: globals.$background-color-dark;
+  background: variables.$bg-color-dark;
   margin-bottom: 1rem;
   label {
     font-weight: 500;
@@ -1307,7 +1307,7 @@ footer.page-footer {
   font-size: 0.8rem;
   padding: 1rem 0 0;
   flex-shrink: 0;
-  background: globals.$background-color-dark;
+  background: variables.$bg-color-dark;
   text-align: center;
   position: relative;
 }

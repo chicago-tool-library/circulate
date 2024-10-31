@@ -2,7 +2,7 @@
 @use "spectre-css/variables";
 
 @mixin subtle-box-shadow {
-  box-shadow: globals.$light-gray 1px 1px 4px 0px;
+  box-shadow: variables.$light-gray 1px 1px 4px 0px;
 }
 
 header.header {
@@ -52,7 +52,7 @@ header.header {
   }
 
   .icon-container {
-    border-color: globals.$light-gray;
+    border-color: variables.$light-gray;
 
     .icon {
       color: variables.$dark-color;
@@ -169,7 +169,7 @@ header.header {
 
       &:hover,
       &:focus {
-        background-color: globals.$light-gray;
+        background-color: variables.$light-gray;
       }
 
       &.extra-space {

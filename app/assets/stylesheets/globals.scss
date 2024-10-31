@@ -2,35 +2,10 @@
 
 @use "mixins";
 
-$primary-color: #2f7890;
-$primary-color-light: color.adjust(#2f7890, $lightness: 20%, $space: hsl);
-$secondary-color: color.adjust(#cdabbe, $lightness: -10%, $space: hsl);
-$error-color: #df6c54;
-$warning-color: #fbcf33;
-$success-color: #aebe39;
-$dark-color: #423730;
-$gray-color-dark: #605045;
-$gray-color: #ae9c90;
-$gray-color-light: #d9d0cb;
-$light-color: white;
+@use 'spectre-css/_variables';
 
 $max-mobile-width: 600px;
 $min-desktop-width: $max-mobile-width + 1px;
-$light-gray: #e4ddda;
-
-$secondary-color-light: color.adjust(
-  $secondary-color,
-  $lightness: 20%,
-  $space: hsl
-);
-
-$background-color: #f9f6f2;
-
-$background-color-dark: color.adjust(
-  $background-color,
-  $lightness: -5%,
-  $space: hsl
-);
 
 @mixin mobile {
   @media only screen and (max-width: $max-mobile-width) {
@@ -45,41 +20,41 @@ $background-color-dark: color.adjust(
 }
 
 @mixin default-button {
-  border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
+  border-color: color.adjust(variables.$gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
   &,
   &:visited {
-    color: $gray-color-dark;
+    color: variables.$gray-color-dark;
   }
   &:hover {
-    background-color: $secondary-color-light;
-    border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
-    color: $dark-color;
+    background-color: variables.$secondary-color-light;
+    border-color: color.adjust(variables.$secondary-color, $lightness: 10%, $space: hsl);
+    color: variables.$dark-color;
   }
   &:active,
   &.active {
-    background-color: $secondary-color;
-    border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+    background-color: variables.$secondary-color;
+    border-color: color.adjust(variables.$secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
 
 @mixin title {
-  border-color: color.adjust($gray-color-light, $lightness: 5%, $space: hsl);
+  border-color: color.adjust(variables.$gray-color-light, $lightness: 5%, $space: hsl);
   transition: none;
   &,
   &:visited {
-    color: $gray-color-dark;
+    color: variables.$gray-color-dark;
   }
   &:hover {
-    background-color: $secondary-color-light;
-    border-color: color.adjust($secondary-color, $lightness: 10%, $space: hsl);
-    color: $dark-color;
+    background-color: variables.$secondary-color-light;
+    border-color: color.adjust(variables.$secondary-color, $lightness: 10%, $space: hsl);
+    color: variables.$dark-color;
   }
   &:active,
   &.active {
-    background-color: $secondary-color;
-    border-color: color.adjust($secondary-color, $lightness: -10%, $space: hsl);
+    background-color: variables.$secondary-color;
+    border-color: color.adjust(variables.$secondary-color, $lightness: -10%, $space: hsl);
     color: white;
   }
 }
