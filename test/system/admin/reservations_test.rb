@@ -256,7 +256,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
     reservation = create(:reservation, :building)
     create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
     assert_active_tab "Items"
     fill_in "Item ID", with: hammer.id
@@ -277,7 +277,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
     reservation = create(:reservation, :building)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
     assert_no_difference "PendingReservationItem.count" do
       assert_difference "PendingReservationItem.count", 1 do
@@ -298,7 +298,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
     reservation = create(:reservation, :building)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
     assert_difference -> { reservation.reservation_holds.count } => 1,
       -> { reservation.pending_reservation_items.count } => 0 do
@@ -314,4 +314,12 @@ class AdminReservationsTest < ApplicationSystemTestCase
       assert_hold_quantity hammer_pool, "1/1"
     end
   end
+
+  # test "returning items" do
+  #   hammer_pool = create(:item_pool, name: "Hammer")
+  #   hammer = create(:reservable_item, item_pool: hammer_pool)
+
+  #   reservation = create(:reservation, :borrowed)
+  #   visit admin_reservation_loans_path(reservation)
+  # end
 end

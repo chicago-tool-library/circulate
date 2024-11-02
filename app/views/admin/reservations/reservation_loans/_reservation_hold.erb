@@ -18,16 +18,20 @@
       <% end %>
       <td>
         <% if reservation.manager.state == :building %>
-            <%= button_to "Remove", admin_reservation_reservation_loan_path(reservation, reservation_loan), method: :delete, class: "btn btn-sm" %>
+            <%= button_to "Remove", admin_reservation_loan_path(reservation, reservation_loan), method: :delete, class: "btn btn-sm" %>
         <% end %>
         <% if reservation_loan.checked_in_at.present? %>
           returned
-          <button>TODO: undo</button>
+          <%= button_to "Undo return",
+                undo_admin_reservation_loans_path(reservation),
+                method: :post,
+                params: {reservation_loan_lookup_form: {reservation_loan_id: reservation_loan.id}},
+                class: "btn btn-sm" %>
         <% elsif reservation.status == Reservation.statuses[:borrowed] && !reservation_hold.item_pool.uniquely_numbered? %>
           <%= button_to "Return all",
                 check_in_admin_reservation_loans_path(reservation),
                 method: :post,
-                params: {reservation_loan_lookup_form: {reservation_hold_id: reservation_hold.id}},
+                params: {reservation_loan_lookup_form: {reservation_loan_id: reservation_loan.id}},
                 class: "btn btn-sm" %>
         <% end %>
       </td>
@@ -43,23 +47,6 @@
         <% if !reservation_hold.item_pool.uniquely_numbered? %>
           <%= button_to "Add all",
                 admin_reservation_loans_path(reservation),
-                method: :post,
-                params: {reservation_loan: {reservation_hold_id: reservation_hold.id}},
-                class: "btn btn-sm" %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  <% if reservation.status == Reservation.statuses[:building] &&  !reservation_hold.satisfied? %>
-    <tr class="text-italic">
-      <td colspan="2">
-        <%= pluralize reservation_hold.remaining_quantity, "more item" %> needed
-        <%= link_to "View available", admin_item_pool_path(reservation_hold.item_pool), target: "_blank" %>
-      </td>
-      <td>
-        <% if !reservation_hold.item_pool.uniquely_numbered? %>
-          <%= button_to "Add all",
-                admin_reservation_reservation_loans_path(reservation),
                 method: :post,
                 params: {reservation_loan: {reservation_hold_id: reservation_hold.id}},
                 class: "btn btn-sm" %>

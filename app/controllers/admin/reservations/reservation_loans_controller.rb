@@ -8,13 +8,16 @@ module Admin
       end
 
       def check_in
-        @reservable_item = ReservableItem.find_by(id: reservation_loan_lookup_params[:reservable_item_id])
-        if !@reservable_item
-          render_lookup_form_with_error("no item found with this ID")
-          return
+        if (reservation_item_id = reservation_loan_lookup_params[:reservable_item_id])
+          @reservable_item = ReservableItem.find_by(id: reservation_item_id)
+          if !@reservable_item
+            render_lookup_form_with_error("no item found with this ID")
+            return
+          end
+          @reservation_loan = @reservation.reservation_loans.find_by(reservable_item_id: @reservable_item.id)
+        elsif (reservation_loan_id = reservation_loan_lookup_params[:reservation_loan_id])
+          @reservation_loan = @reservation.reservation_loans.find_by(id: reservation_loan_id)
         end
-
-        @reservation_loan = @reservation.reservation_loans.find_by(reservable_item_id: @reservable_item.id)
 
         if !@reservation_loan
           render_lookup_form_with_error("not found on this reservation")
@@ -28,6 +31,27 @@ module Admin
 
         @reservation_loan.update(checked_in_at: Time.current)
         @reservation_hold = @reservation_loan.reservation_hold
+      end
+
+      # undo checkin
+      def undo
+        if (reservation_loan_id = reservation_loan_lookup_params[:reservation_loan_id])
+          @reservation_loan = @reservation.reservation_loans.find_by(id: reservation_loan_id)
+        end
+
+        if !@reservation_loan
+          render_lookup_form_with_error("not found on this reservation")
+          return
+        end
+
+        if @reservation_loan.checked_in_at.blank?
+          render_lookup_form_with_error("not marked as returned")
+          return
+        end
+
+        @reservation_loan.update(checked_in_at: nil)
+        @reservation_hold = @reservation_loan.reservation_hold
+        render :create
       end
 
       # There are two wolves inside this method. If :reservation_hold_id is passed, it means
@@ -127,7 +151,7 @@ module Admin
       end
 
       def reservation_loan_lookup_params
-        params.require(:reservation_loan_lookup_form).permit(:reservable_item_id)
+        params.require(:reservation_loan_lookup_form).permit(:reservable_item_id, :reservation_loan_id)
       end
     end
   end
