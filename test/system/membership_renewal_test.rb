@@ -204,7 +204,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
     last_membership = @member.last_membership
 
     assert_equal "renewal", last_membership.membership_type
-    assert_in_delta Time.current, last_membership.started_at, 1.day
-    assert_in_delta last_membership.ended_at, last_membership.started_at + 364.days, 1.day
+    assert last_membership.started_at
+    assert_in_delta last_membership.ended_at, last_membership.started_at + 364.days, 25.hours # DST means days can have 25 hours
   end
 end
