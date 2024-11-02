@@ -6,6 +6,7 @@
         <tr>
           <th>Sent at</th>
           <th>Summary</th>
+          <th>To</th>
         </tr>
       </thead>
 
@@ -14,6 +15,7 @@
           <tr>
             <td><%= date_with_time_title notification.created_at %></td>
             <td><%= notification.subject %></td>
+            <td><%= notification.address %></td>
           </tr>
         <% end %>
       </tbody>

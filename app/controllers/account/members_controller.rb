@@ -10,6 +10,10 @@ module Account
     def update
       respond_to do |format|
         if current_member.update(member_params)
+          if current_member.saved_change_to_email?
+            current_member.user.send_confirmation_instructions
+          end
+
           format.html { redirect_to account_member_url, success: "Profile was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: current_member }
         else

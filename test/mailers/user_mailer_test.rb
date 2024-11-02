@@ -41,5 +41,7 @@ class UserMailerTest < ActionMailer::TestCase
     actions = Notification.pluck(:action)
     assert_includes actions, "reset_password_instructions"
     assert_includes actions, "email_changed"
+
+    assert_equal [user.email, user.email], Notification.pluck(:address)
   end
 end
