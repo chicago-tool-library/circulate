@@ -5,7 +5,7 @@ class UserMailer < Devise::Mailer
   def store_notification
     Notification.create!(
       action: action_name,
-      address: @user.email,
+      address: mail.to.join(","),
       member: @user.member,
       subject: mail.subject,
       uuid: SecureRandom.uuid

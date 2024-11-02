@@ -32,6 +32,16 @@ module Account
       assert_equal "Updated Name", @member.full_name
     end
 
+    test "member updates email" do
+      patch account_member_url, params: {member: {email: "new.email@example.com"}}
+
+      sent_email = ActionMailer::Base.deliveries.first
+      assert_equal ["new.email@example.com"], sent_email.to
+      assert_equal "Confirmation instructions", sent_email.subject
+
+      assert_redirected_to account_member_url
+    end
+
     test "member update redirects to edit when provided invalid params" do
       patch account_member_url, params: {member: {full_name: nil}}
       assert_template :edit

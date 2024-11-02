@@ -41,6 +41,14 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  # @note Just to make tests pass for now...
   include EnsureRequestTenant
+
+  def assert_enqueued_email(mailer, method, params: {})
+    assert_enqueued_with(job: ActionMailer::MailDeliveryJob, args: ->(job_arguments) {
+      job_mailer, job_method, _delivery, rest = *job_arguments
+      assert_equal mailer.to_s, job_mailer
+      assert_equal method.to_s, job_method
+      assert_equal(params, rest[:params])
+    })
+  end
 end

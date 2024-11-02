@@ -20,15 +20,6 @@ module Account
       @appointment.save
     end
 
-    private def assert_enqueued_email(mailer, method, params: {})
-      assert_enqueued_with(job: ActionMailer::MailDeliveryJob, args: ->(job_arguments) {
-        job_mailer, job_method, _delivery, rest = *job_arguments
-        assert_equal mailer.to_s, job_mailer
-        assert_equal method.to_s, job_method
-        assert_equal(params, rest[:params])
-      })
-    end
-
     test "creates a new appointment to pickup items on hold" do
       @hold = FactoryBot.create(:started_hold, member: @member)
       @event = FactoryBot.create(:appointment_slot_event)
