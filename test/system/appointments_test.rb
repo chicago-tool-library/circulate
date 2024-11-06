@@ -99,11 +99,13 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     @active_item = create(:item)
     @maintenance_item = create(:item)
+    @unholdable_item = create(:item) # an item that was put on hold before it was set to not allow holds
 
     create(:started_hold, item: @active_item, member: @member)
     create(:hold, item: @maintenance_item, member: @member)
 
     @maintenance_item.update(status: Item.statuses[:maintenance])
+    @unholdable_item.update(holds_enabled: false)
 
     visit account_holds_url
 
@@ -111,9 +113,8 @@ class AppointmentsTest < ApplicationSystemTestCase
       assert_text "Ready for pickup"
     end
 
-    within list_item_containing(@maintenance_item.complete_number) do
-      assert_text "#1 on wait list"
-    end
+    refute_text @maintenance_item.complete_number
+    refute_text @unholdable_item.complete_number
 
     click_on "Schedule a Pick Up"
 
@@ -124,6 +125,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     end
 
     refute_text @maintenance_item.complete_number
+    refute_text @unholdable_item.complete_number
   end
 
   test "multiple members can make an appointment for an uncounted tool" do

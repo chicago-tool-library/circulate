@@ -133,6 +133,16 @@ class ItemTest < ActiveSupport::TestCase
     assert item.destroy
   end
 
+  test "is holdable when active and has holds enabled" do
+    item = create(:item, status: Item.statuses[:active], holds_enabled: true)
+    assert item.holdable?
+  end
+
+  test "is not holdable when holds are disabled" do
+    item = create(:item, status: Item.statuses[:active], holds_enabled: false)
+    refute item.holdable?
+  end
+
   test "has a next_hold" do
     item = create(:item)
     hold = create(:hold, item: item, created_at: 2.days.ago)

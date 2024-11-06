@@ -56,7 +56,8 @@ class Item < ApplicationRecord
   scope :in_maintenance, -> { where(status: Item.statuses.values_at(:maintenance)) }
   scope :without_active_holds, -> { where.missing(:active_holds) }
   scope :available_now, -> { available.without_active_holds.where(status: Item.statuses[:active]) }
-  scope :holdable, -> { active }
+  scope :holdable, -> { active.and(holds_enabled) }
+  scope :holds_enabled, -> { where(holds_enabled: true) }
   scope :missing, -> { where(status: Item.statuses[:missing]) }
 
   scope :by_name, -> { order(name: :asc) }
@@ -97,7 +98,11 @@ class Item < ApplicationRecord
   end
 
   def holdable?
-    active?
+    active? && holds_enabled
+  end
+
+  def holds_enabled_status
+    holds_enabled ? "enabled" : "disabled"
   end
 
   delegate :allow_multiple_holds_per_member?, to: :borrow_policy

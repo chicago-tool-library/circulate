@@ -53,19 +53,21 @@
 
   <div class="columns mt-2">
     <div class="column col-4 col-sm-12">
-      <%= form.money_field :purchase_price, label: "Approximate purchase price" %>
+      <%= form.money_field :purchase_price, label: "Purchase price", hint: "What would it cost to replace?" %>
     </div>
     <div class="column col-8 col-sm-12">
       <%= form.text_field :purchase_link %>
     </div>
   </div>
 
+  <%= form.text_field :url, label: "More info URL", hint: "Link to more info, e.g. a manufacturer website" %>
+
   <%= form.rich_text_area :description,
         hint: "Any details about the tool. Could be notes about parts, usage, etc and will appear on the tool's public page" %>
 
   <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
 
-  <%= form.text_field :url, label: "URL", hint: "Link to more info, e.g. a manufacturer website" %>
+  <%= form.check_box :holds_enabled, label: "Allow holds to be placed on this item", hint: "Unchecking will hide but not delete existing holds." %>
 
   <fieldset>
     <legend>Item Location</legend>

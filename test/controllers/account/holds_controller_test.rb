@@ -34,5 +34,15 @@ module Account
       hold = @item.holds.last
       refute hold.started?
     end
+
+    test "doesn't create hold for item with holds disabled" do
+      @item.update!(holds_enabled: false)
+
+      assert_no_difference("@item.holds.count") do
+        post account_holds_url, params: {item_id: @item.id}
+      end
+      assert_redirected_to item_url(@item.id)
+      assert_equal "Can't be placed on hold", flash[:error]
+    end
   end
 end

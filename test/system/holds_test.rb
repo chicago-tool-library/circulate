@@ -32,6 +32,16 @@ class HoldsTest < ApplicationSystemTestCase
     refute_selector 'input[value="Place a hold"]'
   end
 
+  test "member can't place a hold on an item with holds disabled" do
+    login_as @member.user
+
+    @item = create(:item, holds_enabled: false)
+
+    visit item_url(@item)
+
+    refute_selector 'input[value="Place a hold"]'
+  end
+
   test "member can place a hold multiple times when the borrow policy allows it" do
     login_as @member.user
 

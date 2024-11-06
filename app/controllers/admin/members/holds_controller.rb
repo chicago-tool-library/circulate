@@ -12,6 +12,12 @@ module Admin
       def create
         @item = Item.find(new_hold_params[:item_id])
 
+        unless @item.holds_enabled
+          flash[:checkout_error] = "Holds are disabled for this item"
+          redirect_to admin_member_holds_path(@member, anchor: "checkout"), status: :see_other
+          return
+        end
+
         @hold = Hold.new(item: @item, member: @member, creator: current_user)
 
         @hold.transaction do
