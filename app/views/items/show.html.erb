@@ -135,6 +135,8 @@
           <%= render partial: "items/place_hold_on/not_logged_in" %>
         <% end %>
 
+      <% else %>
+        <p>This item can't be placed on hold.</p>
       <% end %>
 
     </div>
