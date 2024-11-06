@@ -1,0 +1,373 @@
+@use "sass:color";
+
+@use "globals";
+@use "spectre-css/_variables";
+@use "spectre-css/mixins/_shadow";
+
+.selectize-input {
+  box-shadow: none;
+  border: 0.05rem solid #cec3bc;
+  border-radius: 0.1rem;
+  &.focus {
+    box-shadow: none;
+    @include shadow.control-shadow(variables.$primary-color);
+    border-color: variables.$primary-color;
+  }
+}
+
+.selectize-dropdown {
+  border: 0.05rem solid #cec3bc;
+}
+
+.selectize-control.multi .selectize-input [data-value] {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-color: variables.$secondary-color;
+  text-shadow: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.selectize-control.multi .selectize-input [data-value].active {
+  background-image: none;
+  background-repeat: no-repeat;
+  background-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -10%,
+    $space: hsl
+  );
+  filter: none;
+}
+
+.selectize-control.multi .selectize-input > div.active,
+.selectize-control.plugin-remove_button [data-value].active .remove {
+  border-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -20%,
+    $space: hsl
+  );
+}
+
+.selectize-control.multi .selectize-input > div,
+.selectize-control.plugin-remove_button [data-value] .remove {
+  border-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -10%,
+    $space: hsl
+  );
+}
+
+.selectize-dropdown [data-selectable].option {
+  color: variables.$gray-color-dark;
+}
+.selectize-dropdown [data-selectable].option.active {
+  background: variables.$secondary-color-light;
+}
+.selectize-dropdown [data-selectable].option:hover {
+  cursor: pointer;
+  color: variables.$dark-color;
+}
+
+trix-editor {
+  background: white;
+  border: 0.05rem solid #cec3bc;
+  border-radius: 0.1rem;
+  color: #51433b;
+  &:focus {
+    @include shadow.control-shadow(variables.$primary-color);
+    border-color: variables.$primary-color;
+  }
+}
+trix-toolbar {
+  .trix-button-group {
+    border: 0.05rem solid #cec3bc;
+    border-radius: 0.1rem;
+  }
+  .trix-button {
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 0;
+  }
+  .trix-button:not(:disabled) {
+    background: white;
+  }
+  .trix-button-group {
+  }
+}
+
+.step .step-item a::before {
+  border-color: variables.$bg-color;
+}
+
+.form-checkbox,
+.form-radio,
+.form-switch {
+  input {
+    &:focus + .form-icon {
+      @include shadow.control-shadow();
+      border-color: variables.$secondary-color;
+    }
+    &:checked + .form-icon {
+      background: variables.$secondary-color;
+      border-color: variables.$secondary-color;
+    }
+  }
+}
+
+.divider[data-content]::after,
+.divider-vert[data-content]::after {
+  background: variables.$bg-color;
+}
+
+// Fix issue where the tag input is being drawn above the name autocomplete
+.form-group .awesomplete > ul {
+  z-index: 10;
+}
+
+.off-canvas {
+  height: auto;
+  .off-canvas-content {
+    height: 3.5rem;
+    padding-left: 3rem;
+  }
+
+  .off-canvas-toggle {
+    margin-top: 0.5rem;
+    @include globals.default-button();
+    .icon {
+      color: variables.$dark-color;
+    }
+  }
+}
+
+// These forms exist only to wrap a button
+form.button_to {
+  display: inline;
+}
+
+form {
+  fieldset {
+    padding: 0;
+  }
+  legend + p {
+    margin-top: 0;
+  }
+}
+
+// Improve contrast on labels
+.label {
+  background-color: color.adjust(
+    variables.$gray-color-light,
+    $lightness: 1%,
+    $space: hsl
+  );
+  &,
+  &.label-success,
+  &.label-warning,
+  &.label-error,
+  &.label-primary,
+  &.label-secondary {
+    color: inherit;
+  }
+
+  &.label-primary {
+    background-color: color.adjust(
+      variables.$primary-color,
+      $lightness: 40%,
+      $space: hsl
+    );
+  }
+  &.label-secondary {
+    background-color: variables.$secondary-color-light;
+  }
+  &.label-success {
+    background-color: color.adjust(
+      variables.$success-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.label-warning {
+    background-color: color.adjust(
+      variables.$warning-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.label-error {
+    background-color: color.adjust(
+      variables.$error-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+}
+
+.toast {
+  color: inherit;
+  background-color: color.adjust(
+    variables.$gray-color-light,
+    $lightness: 1%,
+    $space: hsl
+  );
+
+  &.toast-primary {
+    background-color: color.adjust(
+      variables.$primary-color,
+      $lightness: 30%,
+      $space: hsl
+    );
+  }
+  &.toast-secondary {
+    background-color: variables.$secondary-color-light;
+  }
+  &.toast-success {
+    background-color: color.adjust(
+      variables.$success-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.toast-warning {
+    background-color: color.adjust(
+      variables.$warning-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.toast-error {
+    background-color: color.adjust(
+      variables.$error-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+
+  a {
+    text-decoration: none;
+  }
+  p {
+    margin-top: 0;
+  }
+}
+
+.dropdown {
+  .dropdown-toggle {
+    color: white;
+    &:focus {
+      background: variables.$secondary-color;
+      color: white;
+      outline-color: variables.$secondary-color-light;
+      @include shadow.control-shadow(variables.$secondary-color);
+    }
+  }
+  .menu {
+    max-height: 100vh;
+  }
+  .menu .menu-item > a {
+    color: variables.$dark-color;
+    &:hover {
+      background: variables.$secondary-color-light;
+    }
+  }
+}
+
+.empty {
+  background: rgba(255, 255, 255, 0.5);
+  margin: 1rem 0;
+}
+
+@media all and (max-width: 840px) {
+  h1,
+  .h1 {
+    font-size: 1.6rem;
+  }
+  h2,
+  .h2 {
+    font-size: 1.3rem;
+  }
+  h3,
+  .h3 {
+    font-size: 1rem;
+  }
+
+  .header-header {
+    margin-bottom: 0.5rem;
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    .btn-lg {
+      font-size: 0.8rem;
+      height: 1.8rem;
+      padding: 0.25rem 0.4rem;
+    }
+  }
+}
+
+@media all and (max-width: 400px) {
+  h1,
+  .h1 {
+    font-size: 1.3rem;
+  }
+  h2,
+  .h2 {
+    font-size: 1rem;
+  }
+  h3,
+  .h3 {
+    font-size: 0.8rem;
+  }
+}
+
+.checkbox-lg {
+  .form-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0;
+  }
+  &.form-checkbox {
+    padding-left: 1.8rem;
+  }
+  &.form-checkbox input:checked + .form-icon::before {
+    border: 0.2rem solid white;
+    border-left-width: 0;
+    border-top-width: 0;
+    height: 18px;
+    margin-left: -5px;
+    margin-top: -11px;
+    width: 10px;
+  }
+}
+
+.mt-3 {
+  margin-top: 0.6rem !important;
+}
+.mt-4 {
+  margin-top: 0.8rem !important;
+}
+.mt-5 {
+  margin-top: 1rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 0.6rem !important;
+}
+.mb-4 {
+  margin-bottom: 0.8rem !important;
+}
+.mb-5 {
+  margin-bottom: 1rem !important;
+}
+
+.ml-3 {
+  margin-left: 0.6rem !important;
+}
+.ml-4 {
+  margin-left: 0.8rem !important;
+}
+.ml-5 {
+  margin-left: 1rem !important;
+}
+
+.divider {
+  border-top-color: #ddd;
+}
