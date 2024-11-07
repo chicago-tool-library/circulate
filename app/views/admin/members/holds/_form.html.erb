@@ -1,20 +1,24 @@
-<%= form_with(
-      model: @member.holds.new,
-      url: admin_member_holds_path(@member),
-      builder: SpectreFormBuilder,
-      data: {turbo_frame: "_top"}
-    ) do |form| %>
+<% if @item.holds_enabled %>
+  <%= form_with(
+        model: @member.holds.new,
+        url: admin_member_holds_path(@member),
+        builder: SpectreFormBuilder,
+        data: {turbo_frame: "_top"}
+      ) do |form| %>
 
-  <% if flash.key? :checkout_error %>
-    <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+    <% if flash.key? :checkout_error %>
+      <div class="toast toast-error"><%= flash[:checkout_error] %></div>
+    <% end %>
+
+    <%= form.hidden_field :member_id %>
+    <%= form.hidden_field :item_id, value: @item.id %>
+
+    <%= button_tag class: "btn" do %>
+      <%= feather_icon "clipboard" %>Hold
+    <% end %>
+
+    <%= (@item.holds.active.count + 1).ordinalize %> in line
   <% end %>
-
-  <%= form.hidden_field :member_id %>
-  <%= form.hidden_field :item_id, value: @item.id %>
-
-  <%= button_tag class: "btn" do %>
-    <%= feather_icon "clipboard" %>Hold
-  <% end %>
-
-  <%= (@item.holds.active.count + 1).ordinalize %> in line
+<% else %>
+  Holds are disabled for this item.
 <% end %>

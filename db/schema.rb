@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_26_205021) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_05_021006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -575,6 +575,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_205021) do
     t.string "purchase_link"
     t.integer "purchase_price_cents"
     t.string "myturn_item_type"
+    t.boolean "holds_enabled", default: true
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"

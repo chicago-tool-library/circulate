@@ -3,11 +3,17 @@ module Account
     include Pagy::Backend
 
     def index
-      @holds = current_member.active_holds.recent_first.includes(:item)
+      @holds = current_member.active_holds.recent_first.joins(:item).merge(Item.holdable)
     end
 
     def create
       @item = Item.find(params[:item_id])
+
+      unless @item.holds_enabled
+        redirect_to item_path(@item), error: "Can't be placed on hold", status: :see_other
+        return
+      end
+
       @new_hold = Hold.new(item: @item, member: current_member, creator: current_user)
 
       @new_hold.transaction do

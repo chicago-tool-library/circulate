@@ -54,6 +54,9 @@
                     <%= link_to(pluralize(count, "files"), admin_item_attachments_path(item)) %>
                 <% end %>
             <% end %>
+            <%= icon_stat "list", title: "hold list status" do %>
+                holds <%= @item.holds_enabled_status %>
+            <% end %>
         </ul>
     </div>
 </div>

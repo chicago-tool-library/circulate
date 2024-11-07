@@ -1,4 +1,10 @@
 <%= render "admin/items/profile" do %>
+  <% if !@item.holds_enabled %>
+    <div class="toast toast-warning">
+      <p>Holds are disabled for this item.</p>
+    </div>
+  <% end %>
+
   <div class="btn-group mt-2">
     <%= link_to_unless params[:inactive].blank?, "Current", url_for, class: "btn btn-sm" do %>
       <button class="btn btn-sm active">Current</button>

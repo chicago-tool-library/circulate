@@ -57,6 +57,18 @@ module Admin
         hold = member.holds.last
         refute hold.started?
       end
+
+      test "does not place a hold when an item has holds disabled" do
+        member = create(:verified_member)
+        item = create(:item, holds_enabled: false)
+
+        assert_no_difference("member.holds.active.count") do
+          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
+        end
+
+        assert_redirected_to admin_member_holds_url(member, anchor: "checkout")
+        assert_equal "Holds are disabled for this item", flash[:checkout_error]
+      end
     end
   end
 end
