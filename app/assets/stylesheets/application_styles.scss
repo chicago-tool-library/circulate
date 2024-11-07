@@ -695,7 +695,9 @@ form.membership-amount {
   }
 }
 
-@media (min-width: variables.$size-md + 1) {
+$min-width: variables.$size-md + 1;
+
+@media (min-width: $min-width) {
   .complete-in-person {
     margin-left: 1rem;
   }
