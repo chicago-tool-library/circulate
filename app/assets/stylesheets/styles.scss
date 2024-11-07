@@ -102,59 +102,12 @@ header.navbar {
   }
 }
 
-.tool-card {
-  position: relative;
-  margin-bottom: 1rem;
-
-  .card-title {
-    height: 2.2rem;
-  }
-  .item-number-chip {
-    position: absolute;
-    left: 1rem;
-    top: 1rem;
-    background: white;
-  }
-  .item-checkout-status {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-  }
-  .image-placeholder {
-    width: 100%;
-  }
-  &.status-available {
-    border-color: variables.$success-color;
-  }
-  &.status-on-hold,
-  &.status-checked-out {
-    border-color: variables.$warning-color;
-  }
-  &.status-available,
-  &.status-on-hold,
-  &.status-checked-out {
-    border-width: 3px;
-    margin: -2px;
-  }
-
-  .remove-link {
-    margin-left: 0.5em;
-    font-size: 0.9em;
-  }
-}
-
 .off-canvas-content {
   .off-canvas-title a {
     color: white;
     font-size: 0.9rem;
     line-height: 1.8rem;
   }
-}
-
-.sidebar-logo {
-  opacity: 0.2;
-  margin: 8px 0 0 8px;
-  font-size: 1rem;
 }
 
 .form-buttons {
@@ -796,13 +749,7 @@ form.membership-amount {
   }
 }
 
-.admin-login-link {
-  font-size: 1rem;
-  margin-top: 3rem;
-}
-
-.member-active-loans,
-.member-recent-loans {
+.member-active-loans {
   p {
     margin-bottom: 0;
   }
@@ -875,10 +822,6 @@ form.membership-amount {
     list-style: outside;
     font-size: 0.9em;
   }
-}
-
-.member-details {
-  margin-bottom: 2em;
 }
 
 .items-index-buttons {
@@ -1227,75 +1170,6 @@ table.monthly-adjustments {
 
 .warning {
   color: variables.$error-color;
-}
-
-ul.hold-items {
-  margin: 0;
-}
-
-.hold-item {
-  list-style: none;
-  background: variables.$light-color;
-  padding: 0.5rem;
-  float: left;
-  margin: 0 0.5rem 0.5rem 0;
-  border-radius: 3px;
-  border: solid 2px;
-  position: relative;
-  .item-name {
-    display: inline-block;
-  }
-  img {
-    vertical-align: top;
-    margin-right: 0.5em;
-  }
-  &.status-checked-out,
-  &.status-on-hold {
-    border-color: variables.$warning-color;
-  }
-  &.status-available {
-    border-color: variables.$success-color;
-  }
-  .remove-link {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    font-size: 0.9em;
-  }
-}
-
-.find-tools {
-  .find-tool-results {
-    margin-top: 1rem;
-  }
-  .continue-button {
-    position: relative;
-    top: 0.9rem;
-  }
-}
-
-.tool-card .modal {
-  .stats {
-    margin-bottom: 1.2rem;
-    p {
-      margin-bottom: 0.2rem;
-    }
-  }
-}
-
-.account-settings-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.account-settings-btn {
-  margin-bottom: 18px;
-}
-
-.btn-margin {
-  margin-left: 20px;
 }
 
 html {
