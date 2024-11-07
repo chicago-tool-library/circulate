@@ -1,12 +1,12 @@
 Rails.application.configure do
-  config.lograge.enabled = true
+  config.lograge.enabled = Rails.env.production?
 
   # Set a few custom parameters on log lines
   config.lograge.custom_payload do |controller|
-    {
-      user_id: controller.current_user.try(:id) || controller.try(:member).try(:user).try(:id),
-      request_id: controller.request.request_id
-    }
+    {request_id: controller.request.request_id}.tap do |payload|
+      user_id = controller.current_user.try(:id) || controller.try(:member).try(:user).try(:id)
+      payload[:user_id] = user_id if user_id
+    end
   end
 
   # Heroku environments will set this env var and expect logs on stdout
