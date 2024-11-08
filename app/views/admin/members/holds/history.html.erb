@@ -2,7 +2,7 @@
   <% if @holds.any? %>
     <div id="current-holds" class="member-holds">
       <% @holds.each do |hold| %>
-        <div id="<%= dom_id hold %>" class="columns mt-2 mb-2 highlightable">
+        <div id="<%= dom_id hold %>" class="columns mt-2 mb-2">
           <div class="column col-sm-6 col-4">
             <%= tag.div class: "item-image" do %>
               <% if hold.item.image.attached? %>

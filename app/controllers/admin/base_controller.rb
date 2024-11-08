@@ -1,5 +1,7 @@
 module Admin
   class BaseController < ApplicationController
+    include ActionView::RecordIdentifier
+
     before_action :authenticate_user!
     before_action :require_staff
     before_action :load_requested_renewal_request_count
@@ -34,6 +36,16 @@ module Admin
       if !@current_library.allow_appointments?
         render_not_found
       end
+    end
+
+    def flash_highlight(id_or_object)
+      identifier = if String === id_or_object
+        id_or_object
+      else
+        dom_id(id_or_object)
+      end
+      flash[:highlight] ||= []
+      flash[:highlight] << identifier
     end
   end
 end

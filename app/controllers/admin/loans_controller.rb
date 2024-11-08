@@ -19,6 +19,7 @@ module Admin
       @loan = create_loan(@item, @member)
 
       if @loan.persisted?
+        flash_highlight(@loan)
         redirect_to admin_member_path(@loan.member, anchor: dom_id(@loan)), status: :see_other
       else
         flash[:checkout_error] = @loan.errors.full_messages_for(:item_id).join
