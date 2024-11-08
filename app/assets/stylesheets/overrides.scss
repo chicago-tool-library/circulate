@@ -1,8 +1,8 @@
 @use "sass:color";
 
-@use 'globals';
-@use 'spectre-css/_variables';
-@use 'spectre-css/mixins/_shadow';
+@use "globals";
+@use "spectre-css/_variables";
+@use "spectre-css/mixins/_shadow";
 
 .selectize-input {
   box-shadow: none;
@@ -31,20 +31,31 @@
 .selectize-control.multi .selectize-input [data-value].active {
   background-image: none;
   background-repeat: no-repeat;
-  background-color: color.adjust(variables.$secondary-color, $lightness: -10%, $space: hsl);
+  background-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -10%,
+    $space: hsl
+  );
   filter: none;
 }
 
 .selectize-control.multi .selectize-input > div.active,
 .selectize-control.plugin-remove_button [data-value].active .remove {
-  border-color: color.adjust(variables.$secondary-color, $lightness: -20%, $space: hsl);
+  border-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -20%,
+    $space: hsl
+  );
 }
 
 .selectize-control.multi .selectize-input > div,
 .selectize-control.plugin-remove_button [data-value] .remove {
-  border-color: color.adjust(variables.$secondary-color, $lightness: -10%, $space: hsl);
+  border-color: color.adjust(
+    variables.$secondary-color,
+    $lightness: -10%,
+    $space: hsl
+  );
 }
-
 
 .selectize-dropdown [data-selectable].option {
   color: variables.$gray-color-dark;
@@ -102,7 +113,8 @@ trix-toolbar {
   }
 }
 
-.divider[data-content]::after, .divider-vert[data-content]::after {
+.divider[data-content]::after,
+.divider-vert[data-content]::after {
   background: variables.$bg-color;
 }
 
@@ -143,27 +155,92 @@ form {
 
 // Improve contrast on labels
 .label {
-  background-color: color.adjust(variables.$gray-color-light, $lightness: 1%, $space: hsl);
-  &, &.label-success, &.label-warning, &.label-error, &.label-primary, &.label-secondary {
+  background-color: color.adjust(
+    variables.$gray-color-light,
+    $lightness: 1%,
+    $space: hsl
+  );
+  &,
+  &.label-success,
+  &.label-warning,
+  &.label-error,
+  &.label-primary,
+  &.label-secondary {
     color: inherit;
   }
 
-  &.label-primary { background-color: color.adjust(variables.$primary-color, $lightness: 40%, $space: hsl); }
-  &.label-secondary { background-color: variables.$secondary-color-light; }
-  &.label-success { background-color: color.adjust(variables.$success-color, $lightness: 20%, $space: hsl); }
-  &.label-warning { background-color: color.adjust(variables.$warning-color, $lightness: 20%, $space: hsl); }
-  &.label-error { background-color: color.adjust(variables.$error-color, $lightness: 20%, $space: hsl); }
+  &.label-primary {
+    background-color: color.adjust(
+      variables.$primary-color,
+      $lightness: 40%,
+      $space: hsl
+    );
+  }
+  &.label-secondary {
+    background-color: variables.$secondary-color-light;
+  }
+  &.label-success {
+    background-color: color.adjust(
+      variables.$success-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.label-warning {
+    background-color: color.adjust(
+      variables.$warning-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.label-error {
+    background-color: color.adjust(
+      variables.$error-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
 }
 
 .toast {
   color: inherit;
-  background-color: color.adjust(variables.$gray-color-light, $lightness: 1%, $space: hsl);
+  background-color: color.adjust(
+    variables.$gray-color-light,
+    $lightness: 1%,
+    $space: hsl
+  );
 
-  &.toast-primary { background-color: color.adjust(variables.$primary-color, $lightness: 30%, $space: hsl); }
-  &.toast-secondary { background-color: variables.$secondary-color-light; }
-  &.toast-success { background-color: color.adjust(variables.$success-color, $lightness: 20%, $space: hsl); }
-  &.toast-warning { background-color: color.adjust(variables.$warning-color, $lightness: 20%, $space: hsl); }
-  &.toast-error { background-color: color.adjust(variables.$error-color, $lightness: 20%, $space: hsl); }
+  &.toast-primary {
+    background-color: color.adjust(
+      variables.$primary-color,
+      $lightness: 30%,
+      $space: hsl
+    );
+  }
+  &.toast-secondary {
+    background-color: variables.$secondary-color-light;
+  }
+  &.toast-success {
+    background-color: color.adjust(
+      variables.$success-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.toast-warning {
+    background-color: color.adjust(
+      variables.$warning-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
+  &.toast-error {
+    background-color: color.adjust(
+      variables.$error-color,
+      $lightness: 20%,
+      $space: hsl
+    );
+  }
 
   a {
     text-decoration: none;
@@ -195,25 +272,28 @@ form {
 }
 
 .empty {
-  background: rgba(255,255,255,.5);
+  background: rgba(255, 255, 255, 0.5);
   margin: 1rem 0;
 }
 
-@media all and (max-width: 840px)  {
-  h1, .h1 {
+@media all and (max-width: 840px) {
+  h1,
+  .h1 {
     font-size: 1.6rem;
   }
-  h2, .h2 {
+  h2,
+  .h2 {
     font-size: 1.3rem;
   }
-  h3, .h3 {
+  h3,
+  .h3 {
     font-size: 1rem;
   }
 
   .header-header {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     h1 {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
     .btn-lg {
       font-size: 0.8rem;
@@ -223,15 +303,18 @@ form {
   }
 }
 
-@media all and (max-width: 400px)  {
-  h1, .h1 {
+@media all and (max-width: 400px) {
+  h1,
+  .h1 {
     font-size: 1.3rem;
   }
-  h2, .h2 {
+  h2,
+  .h2 {
     font-size: 1rem;
   }
-  h3, .h3 {
-    font-size: .8rem;
+  h3,
+  .h3 {
+    font-size: 0.8rem;
   }
 }
 
@@ -255,9 +338,6 @@ form {
   }
 }
 
-.mt-3 {
-  margin-top: 0.6rem !important;
-}
 .mt-4 {
   margin-top: 0.8rem !important;
 }
@@ -273,17 +353,6 @@ form {
 }
 .mb-5 {
   margin-bottom: 1rem !important;
-}
-
-
-.ml-3 {
-  margin-left: 0.6rem !important;
-}
-.ml-4 {
-  margin-left: 0.8rem !important;
-}
-.ml-5 {
-  margin-left: 1rem !important;
 }
 
 .divider {
