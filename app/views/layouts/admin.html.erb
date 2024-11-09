@@ -9,6 +9,11 @@
     <% unless request.get? && !form_request? # prevent turbo for caching form redisplays, which will often contain validation messages %>
       <meta name="turbo-cache-control" content="no-preview">
     <% end %>
+    <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
+    <%= yield :head %>
+    <% if flash.key? :highlight %>
+      <meta name="highlight-element" content="<%= flash[:highlight].join(",") %>">
+    <% end %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
   </head>
