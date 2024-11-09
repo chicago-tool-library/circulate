@@ -24,11 +24,9 @@
       <table class="table table-scroll">
         <thead>
           <tr>
-            <th>
-              <span>Item</span><br>
-              <span>Holds</span>
-            </th>
-            <th>Item Number</th>
+            <th>Item</th>
+            <th>Holds</th>
+            <th>Renewals</th>
             <th>Member</th>
             <th>Requested On</th>
             <th>Status</th>
@@ -40,9 +38,10 @@
             <tr>
               <td>
                 <span><%= link_to request.loan.item.name, [:admin, request.loan.item] %></span><br>
-                <span><%= request.loan.item.active_holds.size %> <%= "hold".pluralize(request.loan.item.active_holds.size) %></span>
+                <span><%= full_item_number(request.loan.item) %></span>
               </td>
-              <td><%= full_item_number(request.loan.item) %></td>
+              <td><%= request.loan.item.active_holds.size %></td>
+              <td><%= request.loan.renewal_count %></td>
               <td><%= link_to preferred_or_default_name(request.loan.member), [:admin, request.loan.member] %></td>
               <td><%= date_with_time_title request.created_at %></td>
               <td>
