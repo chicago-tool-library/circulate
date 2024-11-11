@@ -39,7 +39,7 @@ module Admin
     end
 
     def flash_highlight(id_or_object)
-      identifier = if String === id_or_object
+      identifier = if id_or_object.is_a?(String)
         id_or_object
       else
         dom_id(id_or_object)
