@@ -21,7 +21,7 @@ module Admin
       if @loan.renewal?
         @previous_loan = undo_loan_renewal(@loan)
         flash_highlight(@previous_loan)
-        redirect_to admin_member_path(@loan.member, anchor: dom_id(@previous_loan)), status: :see_other
+        redirect_to admin_member_path(@loan.member), status: :see_other
       else
         redirect_to admin_member_path(@loan.member, anchor: "current-loans"), error: "Renewal could not be destroyed!", status: :see_other
       end
