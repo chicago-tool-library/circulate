@@ -348,22 +348,27 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rails/actioncable@^7.0", "@rails/actioncable@^7.2.200":
+"@rails/actioncable@^7.0":
   version "7.2.200"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.200.tgz#7f56b3313762dbb85b64490aa33c5f431419aafd"
   integrity sha512-gVmi3MabEa+Bkatvw0/k1Y3WTidcIf3qNbb9L8qc+AmT2UmkVqUZhJpSLvKmH10twCYIGzn7yySW/lOpg81Duw==
 
-"@rails/actiontext@^7.2.200":
-  version "7.2.200"
-  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-7.2.200.tgz#7074cd3fab61689bfaa5c6198c793eed9c08e07a"
-  integrity sha512-VnuizRllfkTZVKDkPpnhEL9Yb15T8j23Awx4NFfRPF+60bptA+50o3htAo28MA5I12ACTXDBxTNkLm36SiVuOw==
-  dependencies:
-    "@rails/activestorage" ">= 7.2.0-alpha"
+"@rails/actioncable@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.0.0.tgz#b12d87d4c2bb152c4445e2c168df93b585068e7c"
+  integrity sha512-9IXyJeaBggOzlD3pF4/yWELdyUWZm/KTyKBRqxNf9laLBXPqxJt3t6fO+X4s0WajMR8cIhzkxvq1gxsXVbn3LA==
 
-"@rails/activestorage@>= 7.2.0-alpha", "@rails/activestorage@^7.2.200":
-  version "7.2.200"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-7.2.200.tgz#087ff24e675f56b7abc19d29690876dd0f21df95"
-  integrity sha512-NJX7T1Z4LuoNLGGVOoMiEK24BXkpH5QNLYOTD1Ll3IzYu5eMs/mbDL+azJGsTig6WV20O16Pdkj9Fgl9Mo5qxA==
+"@rails/actiontext@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-8.0.0.tgz#01133b7bbb2eb541890bf3a8bdc761fc27f9a649"
+  integrity sha512-8pvXDEHqlVHptzfYDUXmBpstHsfHAVacYxO47cWDRjRmp1zdVXusLcom8UvqkRdTcAPXpte+LkjcfpD9S4DSSQ==
+  dependencies:
+    "@rails/activestorage" ">= 8.0.0-alpha"
+
+"@rails/activestorage@>= 8.0.0-alpha", "@rails/activestorage@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.0.0.tgz#be5dd10acc141b95ffa2b3026e61790c36f1679c"
+  integrity sha512-qoA7U1gMcWXhDnImwDIyRQDXkQKzThT2lu2Xpim8CnTOCEeAgkQ5Co2kzodpAI2grF1JSDvwXSPYNWwVAswndA==
   dependencies:
     spark-md5 "^3.0.1"
 
