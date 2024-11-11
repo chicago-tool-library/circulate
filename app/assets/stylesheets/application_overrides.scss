@@ -4,70 +4,6 @@
 @use "spectre-css/_variables";
 @use "spectre-css/mixins/_shadow";
 
-.selectize-input {
-  box-shadow: none;
-  border: 0.05rem solid #cec3bc;
-  border-radius: 0.1rem;
-  &.focus {
-    box-shadow: none;
-    @include shadow.control-shadow(variables.$primary-color);
-    border-color: variables.$primary-color;
-  }
-}
-
-.selectize-dropdown {
-  border: 0.05rem solid #cec3bc;
-}
-
-.selectize-control.multi .selectize-input [data-value] {
-  background-image: none;
-  background-repeat: no-repeat;
-  background-color: variables.$secondary-color;
-  text-shadow: none;
-  box-shadow: none;
-  filter: none;
-}
-
-.selectize-control.multi .selectize-input [data-value].active {
-  background-image: none;
-  background-repeat: no-repeat;
-  background-color: color.adjust(
-    variables.$secondary-color,
-    $lightness: -10%,
-    $space: hsl
-  );
-  filter: none;
-}
-
-.selectize-control.multi .selectize-input > div.active,
-.selectize-control.plugin-remove_button [data-value].active .remove {
-  border-color: color.adjust(
-    variables.$secondary-color,
-    $lightness: -20%,
-    $space: hsl
-  );
-}
-
-.selectize-control.multi .selectize-input > div,
-.selectize-control.plugin-remove_button [data-value] .remove {
-  border-color: color.adjust(
-    variables.$secondary-color,
-    $lightness: -10%,
-    $space: hsl
-  );
-}
-
-.selectize-dropdown [data-selectable].option {
-  color: variables.$gray-color-dark;
-}
-.selectize-dropdown [data-selectable].option.active {
-  background: variables.$secondary-color-light;
-}
-.selectize-dropdown [data-selectable].option:hover {
-  cursor: pointer;
-  color: variables.$dark-color;
-}
-
 trix-editor {
   background: white;
   border: 0.05rem solid #cec3bc;
@@ -116,27 +52,6 @@ trix-toolbar {
 .divider[data-content]::after,
 .divider-vert[data-content]::after {
   background: variables.$bg-color;
-}
-
-// Fix issue where the tag input is being drawn above the name autocomplete
-.form-group .awesomplete > ul {
-  z-index: 10;
-}
-
-.off-canvas {
-  height: auto;
-  .off-canvas-content {
-    height: 3.5rem;
-    padding-left: 3rem;
-  }
-
-  .off-canvas-toggle {
-    margin-top: 0.5rem;
-    @include globals.default-button();
-    .icon {
-      color: variables.$dark-color;
-    }
-  }
 }
 
 // These forms exist only to wrap a button
@@ -338,19 +253,6 @@ form {
   }
 }
 
-.mt-4 {
-  margin-top: 0.8rem !important;
-}
-.mt-5 {
-  margin-top: 1rem !important;
-}
-
-.mb-3 {
-  margin-bottom: 0.6rem !important;
-}
-.mb-4 {
-  margin-bottom: 0.8rem !important;
-}
 .mb-5 {
   margin-bottom: 1rem !important;
 }

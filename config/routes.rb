@@ -230,7 +230,6 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :documents, only: :show
-  resources :homepage, only: [:index, :create]
 
   post "/twilio/callback", to: "twilio#callback"
 
