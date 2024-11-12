@@ -37,7 +37,7 @@
 
     <%= tag.div class: "items-table-categories" do %>
       <% item.categories.each do |category| %>
-        <%= link_to tag.name, admin_items_path(category: category.id) %>
+        <%= link_to category.name, admin_items_path(category: category.id) %>
       <% end %>
     <% end %>
     <div class="item-table-divider"></div>

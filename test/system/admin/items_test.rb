@@ -188,7 +188,7 @@ class ItemsTest < ApplicationSystemTestCase
       assert_text "Viewing all 3 items"
     end
 
-    click_on "Drills"
+    click_on "Drills", match: :first # there are multiple links to this category on the page
     within(".items-summary") do
       assert_text "Viewing 2 items assigned to Drills", normalize_ws: true
     end
