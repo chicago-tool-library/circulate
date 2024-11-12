@@ -17,7 +17,7 @@ module Admin
         post admin_renewals_url(loan_id: @loan)
       end
 
-      assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{Loan.last.id}")
+      assert_redirected_to admin_member_url(@loan.member)
 
       @loan.reload
 
@@ -41,7 +41,7 @@ module Admin
         delete admin_renewal_url(@renewal)
       end
 
-      assert_redirected_to admin_member_url(@loan.member, anchor: "loan_#{@loan.id}")
+      assert_redirected_to admin_member_url(@loan.member)
 
       @loan.reload
 

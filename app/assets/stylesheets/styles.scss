@@ -240,68 +240,6 @@ $photo-width: 187px;
   max-width: 100%;
 }
 
-.categories-table {
-  display: grid;
-
-  grid-template-columns: 1fr 100px 200px;
-  grid-row-gap: 0.3rem;
-  grid-column-gap: 0.6rem;
-
-  .categories-table-row {
-    display: contents;
-    &:hover .categories-table-name,
-    &:hover .categories-table-count {
-      background: variables.$bg-color-dark;
-    }
-    .categories-table-name.highlight {
-      animation: highlight-fade-out 1.5s;
-    }
-  }
-
-  .categories-table-header {
-    font-weight: bold;
-  }
-
-  .categories-table-name {
-    grid-column-start: 1;
-    padding-left: 0.2rem;
-    &.nested-1 {
-      margin-left: 1rem;
-    }
-    &.nested-2 {
-      margin-left: 2rem;
-    }
-    &.nested-3 {
-      margin-left: 3rem;
-    }
-    &.nested-4 {
-      margin-left: 4rem;
-    }
-    &.nested-5 {
-      margin-left: 5rem;
-    }
-    &.nested-6 {
-      margin-left: 6rem;
-    }
-    &.nested-7 {
-      margin-left: 7rem;
-    }
-    &.nested-8 {
-      margin-left: 8rem;
-    }
-    &.nested-9 {
-      margin-left: 9rem;
-    }
-    &.nested-10 {
-      margin-left: 10rem;
-    }
-  }
-
-  .categories-table-count {
-    text-align: center;
-  }
-}
-
 .responsive-table {
   display: flex;
   flex-wrap: wrap;
@@ -771,10 +709,6 @@ form.membership-amount {
     margin-top: 0 !important;
     padding-top: 0.4rem;
   }
-
-  .highlight {
-    animation: highlight-fade-out 1.5s;
-  }
 }
 
 .admin {
@@ -796,12 +730,13 @@ form.membership-amount {
   }
 }
 
+.highlight {
+  animation: highlight-fade-out 1.5s;
+}
+
 @keyframes highlight-fade-out {
   from {
-    background-color: antiquewhite;
-  }
-  to {
-    background: transparent;
+    background-color: variables.$secondary-color-light;
   }
 }
 

@@ -14,7 +14,7 @@
         </div>
       </div>
       <% @returned_loan_summaries.each do |summary| %>
-        <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
+        <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2">
           <div class="column col-sm-6 col-4">
             <%= tag.div class: "item-image" do %>
               <% if summary.item.image.attached? %>
@@ -60,7 +60,7 @@
           </div>
         </div>
         <% summaries.sort_by { |s| s.latest_loan.updated_at }.each do |summary| %>
-          <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2 highlightable">
+          <div id="<%= dom_id summary.latest_loan %>" class="columns mt-2 mb-2">
             <div class="column col-sm-6 col-4">
               <%= tag.div class: "item-image" do %>
                 <% if summary.item.image.attached? %>
@@ -115,7 +115,7 @@
     <p class="mt-2">No current loans or recently returned items.</p>
   <% end %>
 
-  <%= render partial: "admin/members/lookup", locals: {member: @member} %>
+  <%= render partial: "admin/members/lookup", locals: {member: @member, lookup: @lookup} %>
 </div>
 
 <% end %>

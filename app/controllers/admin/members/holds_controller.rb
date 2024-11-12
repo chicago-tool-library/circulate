@@ -22,6 +22,7 @@ module Admin
 
         @hold.transaction do
           if @hold.save
+            flash_highlight(@hold)
             @hold.start! if @hold.ready_for_pickup?
             redirect_to admin_member_holds_path(@member, anchor: dom_id(@hold)), status: :see_other
           else
@@ -33,7 +34,8 @@ module Admin
 
       def lend
         @hold = @member.active_holds.find(params[:id])
-        if create_loan_from_hold(@hold)
+        if (loan = create_loan_from_hold(@hold))
+          flash_highlight(loan)
           redirect_to admin_member_holds_path(@hold.member), status: :see_other
         else
           redirect_to admin_member_holds_path(@hold.member), error: "That hold could not be loaned", status: :see_other
