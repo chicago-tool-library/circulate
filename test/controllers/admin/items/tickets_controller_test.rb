@@ -28,11 +28,35 @@ module Admin
       end
 
       test "should create ticket" do
+        status = "assess"
+        title = "A ticket title"
+        body = "A ticket body"
+
         assert_difference("Ticket.count") do
-          post admin_item_tickets_url(@item), params: {ticket: {status: "assess", title: "A ticket title", body: "A ticket body"}}
+          post admin_item_tickets_url(@item), params: {ticket: {status:, title:, body:}}
         end
 
         assert_redirected_to admin_item_ticket_url(@item, Ticket.last)
+
+        ticket = Ticket.first!
+
+        assert_equal status, ticket.status
+        assert_equal title, ticket.title
+        assert_equal body, ticket.body.to_plain_text
+      end
+
+      test "creating a retired ticket updates the item's status to retired too" do
+        retired = Item.statuses["retired"]
+
+        refute_equal retired, @item.status
+
+        assert_difference("Ticket.count") do
+          post admin_item_tickets_url(@item), params: {ticket: {status: retired, title: "foo", body: ""}}
+        end
+
+        ticket = Ticket.first!
+        assert_equal retired, ticket.status
+        assert_equal retired, @item.reload.status
       end
 
       test "should show ticket" do
@@ -54,10 +78,29 @@ module Admin
 
       test "should update ticket" do
         @ticket = create(:ticket, item: @item)
+        status = "parts"
+        body = "Waiting on parts"
 
-        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status: "parts", time_spent: "15", body: "Waiting on parts"}}
+        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status:, body:}}
 
         assert_redirected_to admin_item_ticket_url(@item, @ticket)
+
+        @ticket.reload
+        assert_equal status, @ticket.status
+        assert_equal body, @ticket.body.to_plain_text
+      end
+
+      test "updating a ticket to retired makes the item retired" do
+        @ticket = create(:ticket, item: @item)
+        retired = Item.statuses["retired"]
+
+        refute_equal retired, @item.status
+        refute_equal retired, @ticket.status
+
+        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status: retired, body: ""}}
+
+        assert_equal retired, @ticket.reload.status
+        assert_equal retired, @item.reload.status
       end
 
       test "should destroy ticket" do

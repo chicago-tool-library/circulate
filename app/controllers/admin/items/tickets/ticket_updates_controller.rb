@@ -5,12 +5,6 @@ module Admin
         before_action :set_ticket
         before_action :set_ticket_update, only: [:edit, :update, :destroy]
 
-        # def index
-        #   @maintenance_reports = @item.maintenance_reports.includes(:audit)
-
-        #   @events = @maintenance_reports.to_a.concat(@item.audits.includes(:maintenance_report)).sort_by(&:created_at)
-        # end
-
         def new
           @ticket_update_form = TicketUpdateForm.new(@ticket)
         end
