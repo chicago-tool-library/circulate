@@ -4,7 +4,7 @@ module Admin
       before_action :set_ticket, only: %i[show edit update destroy]
 
       def index
-        @tickets = @item.tickets.all
+        @tickets = @item.tickets.all.order(:status, updated_at: :desc)
       end
 
       def show
