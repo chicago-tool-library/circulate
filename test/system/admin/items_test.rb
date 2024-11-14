@@ -6,12 +6,17 @@ class ItemsTest < ApplicationSystemTestCase
     create(:default_borrow_policy)
   end
 
+  def assert_maintenance_option_is_disabled
+    assert_selector "option[value='maintenance'][disabled='disabled']"
+  end
+
   test "creating an item" do
     @item = build(:item)
 
     visit admin_items_url
     click_on "New Item"
 
+    assert_maintenance_option_is_disabled
     fill_in "Name", with: @item.name
     fill_in_rich_text_area "item_description", with: @item.description
     fill_in "Size", with: @item.size
@@ -33,6 +38,7 @@ class ItemsTest < ApplicationSystemTestCase
     visit admin_item_url(@item)
     click_on "Edit"
 
+    assert_maintenance_option_is_disabled
     fill_in "Name", with: "Modified Name"
     fill_in "Brand", with: "Modified Brand"
     fill_in_rich_text_area "item_description", with: @item.description

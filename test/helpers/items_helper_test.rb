@@ -156,4 +156,23 @@ class ItemsHelperTest < ActionView::TestCase
       end
     end
   end
+
+  class ItemStatusOptionsTest < ItemsHelperTest
+    test "it is all item statuses and descriptions" do
+      assert_includes item_status_options, ["Pending (just acquired; not ready to loan)", "pending"]
+      assert_includes item_status_options, ["Active (available to loan)", "active"]
+      assert_includes item_status_options, ["Maintenance (undergoing maintenance; do not loan)", "maintenance"]
+      assert_includes item_status_options, ["Missing (misplaced; unable to loan)", "missing"]
+      assert_includes item_status_options, ["Retired (no longer part of our inventory)", "retired"]
+    end
+
+    test "it is all item statuses and descriptions except for those that are marked as disabled" do
+      result = item_status_options(disabled_statuses: %w[maintenance retired])
+      assert_includes result, ["Maintenance (undergoing maintenance; do not loan)", "maintenance", {disabled: true}]
+      assert_includes result, ["Retired (no longer part of our inventory)", "retired", {disabled: true}]
+      assert_includes result, ["Pending (just acquired; not ready to loan)", "pending"]
+      assert_includes result, ["Active (available to loan)", "active"]
+      assert_includes result, ["Missing (misplaced; unable to loan)", "missing"]
+    end
+  end
 end
