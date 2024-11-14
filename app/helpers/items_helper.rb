@@ -52,6 +52,11 @@ module ItemsHelper
     end
   end
 
+  def status_hint(item)
+    status_maintenance_hint = item.persisted? ? link_to("create a ticket", new_admin_item_ticket_path(item)) : "create a ticket"
+    "Only active items can be checked out. To mark an item as in maintenance, please #{status_maintenance_hint}.".html_safe
+  end
+
   class TreeNode
     attr_accessor :children
     attr_accessor :value
