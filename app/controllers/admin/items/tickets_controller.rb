@@ -24,6 +24,7 @@ module Admin
         @ticket = @item.tickets.new(ticket_params)
 
         if @ticket.save
+          @ticket.item.update!(status: Item.statuses["retired"]) if @ticket.retired?
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully created.", status: :see_other
         else
           render :new, status: :unprocessable_entity
@@ -32,6 +33,7 @@ module Admin
 
       def update
         if @ticket.update(ticket_params)
+          @ticket.item.update!(status: Item.statuses["retired"]) if @ticket.retired?
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully updated.", status: :see_other
         else
           render :edit, status: :unprocessable_entity

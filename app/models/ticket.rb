@@ -3,21 +3,24 @@ class Ticket < ApplicationRecord
     "assess" => "Assess",
     "repairing" => "Repair in Progress",
     "parts" => "Parts on Order",
-    "resolved" => "Resolved"
+    "resolved" => "Resolved",
+    "retired" => "Retired"
   }
 
   STATUS_DESCRIPTIONS = {
     "assess" => "newly created; needs examination by maintenance team",
     "parts" => nil,
     "repairing" => nil,
-    "resolved" => "the problem has been fixed"
+    "resolved" => "the problem has been fixed",
+    "retired" => "removed from inventory"
   }
 
   enum :status, {
     assess: "assess",
     parts: "parts",
     repairing: "repairing",
-    resolved: "resolved"
+    resolved: "resolved",
+    retired: "retired"
   }
 
   belongs_to :item
