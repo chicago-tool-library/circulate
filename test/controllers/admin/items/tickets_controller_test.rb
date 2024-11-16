@@ -45,6 +45,20 @@ module Admin
         assert_equal body, ticket.body.to_plain_text
       end
 
+      test "creating a ticket with any status besides 'retired' updates the ticket's status to 'maintenance'" do
+        status = %w[assess repairing parts resolved].sample
+
+        refute_equal "maintenance", @item.status
+
+        assert_difference("Ticket.count") do
+          post admin_item_tickets_url(@item), params: {ticket: {status:, title: "foo", body: ""}}
+        end
+
+        ticket = Ticket.first!
+        assert_equal status, ticket.status
+        assert_equal "maintenance", @item.reload.status
+      end
+
       test "creating a retired ticket updates the item's status to retired too" do
         retired = Item.statuses["retired"]
 
