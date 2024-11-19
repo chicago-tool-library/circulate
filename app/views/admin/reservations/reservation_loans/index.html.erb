@@ -4,7 +4,7 @@
 
   <div class="divider"></div>
 
-  <% if @reservation.manager.state == :building%>
+  <% if @reservation.manager.state == :building %>
     <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
   <% end %>
 
