@@ -14,10 +14,12 @@ module ItemsHelper
     Item::STATUS_NAMES[status]
   end
 
-  def item_status_options
+  def item_status_options(disabled_statuses: [])
     Item.statuses.map do |key, value|
       description = " (#{Item::STATUS_DESCRIPTIONS[key]})" if Item::STATUS_DESCRIPTIONS[key]
-      ["#{Item::STATUS_NAMES[key]}#{description}", key]
+      ["#{Item::STATUS_NAMES[key]}#{description}", key].tap do |option|
+        option << {disabled: true} if disabled_statuses.include?(key)
+      end
     end
   end
 
@@ -48,6 +50,11 @@ module ItemsHelper
         }
       }.join.html_safe
     end
+  end
+
+  def status_hint(item)
+    status_maintenance_hint = item.persisted? ? link_to("create a ticket", new_admin_item_ticket_path(item)) : "create a ticket"
+    "Only active items can be checked out. To mark an item as in maintenance, please #{status_maintenance_hint}.".html_safe
   end
 
   class TreeNode

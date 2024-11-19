@@ -28,7 +28,7 @@
   "devDependencies": {
     "concurrently": "^9.1.0",
     "markdown-toc": "^1.2.0",
-    "playwright": "1.46.0",
+    "playwright": "1.45.0",
     "standard": "^17.1.2"
   },
   "scripts": {
