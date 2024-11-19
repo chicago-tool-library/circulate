@@ -8,7 +8,7 @@
     </th>
   </tr>
   <% reservation_hold.reservation_loans.each do |reservation_loan| %>
-    <tr>
+    <tr id="<%= dom_id(reservation_loan) %>">
       <% if reservation_loan.quantity %>
         <td><%= reservation_hold.item_pool.name %></td>
         <td><%= reservation_loan.quantity %></td>

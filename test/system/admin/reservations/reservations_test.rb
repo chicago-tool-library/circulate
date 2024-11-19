@@ -315,11 +315,40 @@ class AdminReservationsTest < ApplicationSystemTestCase
     end
   end
 
-  # test "returning items" do
-  #   hammer_pool = create(:item_pool, name: "Hammer")
-  #   hammer = create(:reservable_item, item_pool: hammer_pool)
+  test "returning items" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+    glove_pool = create(:item_pool, name: "Gloves", uniquely_numbered: false, unnumbered_count: 10)
 
-  #   reservation = create(:reservation, :borrowed)
-  #   visit admin_reservation_loans_path(reservation)
-  # end
+    reservation = create(:reservation, :borrowed)
+
+    hammer_hold = create(:reservation_hold, item_pool: hammer_pool, reservation:)
+    hammer_loan = reservation.reservation_loans.create!(reservation_hold: hammer_hold, reservable_item: hammer)
+    glove_hold = create(:reservation_hold, item_pool: glove_pool, quantity: 2, reservation:)
+    glove_loan = reservation.reservation_loans.create!(reservation_hold: glove_hold, quantity: 2)
+
+    visit admin_reservation_loans_path(reservation)
+
+    within_dom_id(hammer_loan) do
+      refute_text "returned"
+    end
+
+    # return hammer
+    fill_in "Item ID", with: hammer.id
+    click_on "Return Item"
+
+    within_dom_id(hammer_loan) do
+      assert_text "returned"
+    end
+
+    # return gloves
+    within_dom_id(glove_loan) do
+      refute_text "returned"
+      click_on "Return all"
+      assert_text "returned"
+    end
+
+    assert hammer_loan.reload.checked_in_at
+    assert glove_loan.reload.checked_in_at
+  end
 end
