@@ -86,7 +86,7 @@ def scrub_data
       postal_code = '60609',
       desires = NULL
     FROM users
-    WHERE users.member_id = members.id
+    WHERE users.id = members.user_id
   SQL
 
   # There are some members in the database without associated users that the above query doesn't update.
@@ -102,7 +102,7 @@ def scrub_data
       reset_password_token = NULL,
       reset_password_sent_at = NULL
     FROM members
-    WHERE users.member_id = members.id
+    WHERE users.id = members.user_id
   SQL
 
   Adjustment.where.not(square_transaction_id: nil).update_all(square_transaction_id: "sqtrxnid")
