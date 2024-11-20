@@ -23,13 +23,12 @@
         <% if reservation_loan.checked_in_at.present? %>
           returned
           <%= button_to "Undo return",
-                undo_admin_reservation_loans_path(reservation),
-                method: :post,
-                params: {reservation_loan_lookup_form: {reservation_loan_id: reservation_loan.id}},
+                admin_reservation_check_in_path(reservation, reservation_loan.id),
+                method: :delete,
                 class: "btn btn-sm" %>
         <% elsif reservation.status == Reservation.statuses[:borrowed] && !reservation_hold.item_pool.uniquely_numbered? %>
           <%= button_to "Return all",
-                check_in_admin_reservation_loans_path(reservation),
+                admin_reservation_check_ins_path(reservation),
                 method: :post,
                 params: {reservation_loan_lookup_form: {reservation_loan_id: reservation_loan.id}},
                 class: "btn btn-sm" %>
