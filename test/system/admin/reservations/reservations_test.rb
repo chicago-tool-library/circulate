@@ -279,17 +279,20 @@ class AdminReservationsTest < ApplicationSystemTestCase
     reservation = create(:reservation, :building)
     visit admin_reservation_loans_path(reservation)
 
-    assert_no_difference "PendingReservationItem.count" do
-      assert_difference "PendingReservationItem.count", 1 do
-        assert_active_tab "Items"
-        fill_in "Item ID", with: hammer.id
-        click_on "Add Item"
+    2.times do # do this twice to ensure that the form continues to work after handling an error
+      assert_no_difference "PendingReservationItem.count" do
+        assert_difference "PendingReservationItem.count", 1 do
+          assert_active_tab "Items"
+          fill_in "Item ID", with: hammer.id
+          click_on "Add Item"
 
-        assert_text "1 item scanned that did not match the reservation"
+          assert_text "1 item scanned that did not match the reservation"
+          assert_selector "button", text: "Add Item"
+        end
+
+        click_on "Remove"
+        refute_text "1 item scanned that did not match the reservation"
       end
-
-      click_on "Remove"
-      refute_text "1 item scanned that did not match the reservation"
     end
   end
 

@@ -1,6 +1,6 @@
 <turbo-stream action="replace" target="reservation-loan-form">
   <template>
-    <%= render partial: "admin/reservations/reservation_loans/lookup_form", formats: [:html], locals: {reservation: @reservation, reservation_loan_lookup_form: ReservationLoanLookupForm.new} %>
+    <%= render partial: "admin/reservations/reservation_loans/form", formats: [:html], locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
   </template>
 </turbo-stream>
 

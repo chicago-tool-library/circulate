@@ -9,7 +9,7 @@ module Admin
         if result.success?
           render_turbo_response(
             turbo_stream: turbo_stream.action(:redirect,
-              admin_reservation_pickup_path(@pending_reservation_item.reservation))
+              admin_reservation_loans_path(@pending_reservation_item.reservation))
           )
         else
           render_turbo_response :error
