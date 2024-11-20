@@ -56,7 +56,7 @@ module Admin
       end
 
       def render_form
-        render partial: "admin/reservations/check_ints/_form", locals: {reservation: @reservation, reservation_loan_lookup_form: @reservation_loan_lookup_form}, status: :unprocessable_entity
+        render partial: "admin/reservations/check_ins/form", locals: {reservation: @reservation, reservation_loan_lookup_form: @reservation_loan_lookup_form}, status: :unprocessable_entity
       end
 
       def reservation_loan_lookup_params
