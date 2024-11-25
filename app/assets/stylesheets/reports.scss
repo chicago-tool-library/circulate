@@ -1,0 +1,11 @@
+.items-in-maintenance {
+  .sort-link {
+    &.current.asc::after {
+      content: "▴";
+    }
+
+    &.current.desc::after {
+      content: "▾";
+    }
+  }
+}
