@@ -256,7 +256,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
     reservation = create(:reservation, :building)
     create(:reservation_hold, reservation: reservation, item_pool: hammer_pool)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
     assert_active_tab "Items"
     fill_in "Item ID", with: hammer.id
@@ -277,19 +277,22 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
     reservation = create(:reservation, :building)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
-    assert_no_difference "PendingReservationItem.count" do
-      assert_difference "PendingReservationItem.count", 1 do
-        assert_active_tab "Items"
-        fill_in "Item ID", with: hammer.id
-        click_on "Add Item"
+    2.times do # do this twice to ensure that the form continues to work after handling an error
+      assert_no_difference "PendingReservationItem.count" do
+        assert_difference "PendingReservationItem.count", 1 do
+          assert_active_tab "Items"
+          fill_in "Item ID", with: hammer.id
+          click_on "Add Item"
 
-        assert_text "1 item scanned that did not match the reservation"
+          assert_text "1 item scanned that did not match the reservation"
+          assert_selector "button", text: "Add Item"
+        end
+
+        click_on "Remove"
+        refute_text "1 item scanned that did not match the reservation"
       end
-
-      click_on "Remove"
-      refute_text "1 item scanned that did not match the reservation"
     end
   end
 
@@ -298,7 +301,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     hammer = create(:reservable_item, item_pool: hammer_pool)
 
     reservation = create(:reservation, :building)
-    visit admin_reservation_pickup_path(reservation)
+    visit admin_reservation_loans_path(reservation)
 
     assert_difference -> { reservation.reservation_holds.count } => 1,
       -> { reservation.pending_reservation_items.count } => 0 do
@@ -313,5 +316,42 @@ class AdminReservationsTest < ApplicationSystemTestCase
       refute_text "1 item scanned that did not match the reservation"
       assert_hold_quantity hammer_pool, "1/1"
     end
+  end
+
+  test "returning items" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+    glove_pool = create(:item_pool, name: "Gloves", uniquely_numbered: false, unnumbered_count: 10)
+
+    reservation = create(:reservation, :borrowed)
+
+    hammer_hold = create(:reservation_hold, item_pool: hammer_pool, reservation:)
+    hammer_loan = reservation.reservation_loans.create!(reservation_hold: hammer_hold, reservable_item: hammer)
+    glove_hold = create(:reservation_hold, item_pool: glove_pool, quantity: 2, reservation:)
+    glove_loan = reservation.reservation_loans.create!(reservation_hold: glove_hold, quantity: 2)
+
+    visit admin_reservation_loans_path(reservation)
+
+    within_dom_id(hammer_loan) do
+      refute_text "returned"
+    end
+
+    # return hammer
+    fill_in "Item ID", with: hammer.id
+    click_on "Return Item"
+
+    within_dom_id(hammer_loan) do
+      assert_text "returned"
+    end
+
+    # return gloves
+    within_dom_id(glove_loan) do
+      refute_text "returned"
+      click_on "Return all"
+      assert_text "returned"
+    end
+
+    assert hammer_loan.reload.checked_in_at
+    assert glove_loan.reload.checked_in_at
   end
 end

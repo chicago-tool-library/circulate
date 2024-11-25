@@ -7,6 +7,10 @@
   <% if @reservation.manager.state == :building %>
     <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
   <% end %>
+
+  <% if @reservation.manager.state == :borrowed %>
+    <%= render partial: "admin/reservations/check_ins/form", locals: {reservation: @reservation, reservation_loan_lookup_form: ReservationLoanLookupForm.new} %>
+  <% end %>
   <br>
 
   <%= render partial: "admin/reservations/pending_reservation_items", locals: {reservation: @reservation} %>

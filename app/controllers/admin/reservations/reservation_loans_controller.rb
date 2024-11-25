@@ -3,6 +3,10 @@ module Admin
     class ReservationLoansController < BaseController
       before_action :set_reservation_loan, only: :destroy
 
+      def index
+        # TODO some eager loading?
+      end
+
       # There are two wolves inside this method. If :reservation_hold_id is passed, it means
       # that we're creating a ReservationLoan for an ItemPool without uniquely numbered items.
       # Otherwise, we're creating a ReservationLoan for an individual ReservableItem.
