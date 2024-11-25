@@ -36,4 +36,25 @@ class AdminItemsInMaintenanceReportTest < ApplicationSystemTestCase
       refute_text ticket.item.name
     end
   end
+
+  test "it can be filtered by ticket status" do
+    assess_ticket = create(:ticket, :assess)
+    parts_ticket = create(:ticket, :parts)
+    repairing_ticket = create(:ticket, :repairing)
+
+    visit admin_reports_items_in_maintenance_index_path
+
+    [assess_ticket, parts_ticket, repairing_ticket].each do |ticket|
+      assert_text ticket.title
+    end
+
+    select("Assess", from: "Ticket Status")
+    click_on "Filter"
+
+    assert_text assess_ticket.title
+
+    [parts_ticket, repairing_ticket].each do |ticket|
+      refute_text ticket.title
+    end
+  end
 end
