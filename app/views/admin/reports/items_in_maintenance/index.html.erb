@@ -28,7 +28,7 @@
               <%= link_to ticket.item.name, admin_item_tickets_path(ticket.item) %>
             </td>
             <td>
-              <%= 'categories placeholder' %>
+              <%= ticket.item.categories.map(&:name).join(", ") %>
             </td>
             <td>
               <%= link_to ticket.title, admin_item_ticket_path(ticket.item, ticket) %>
