@@ -2,7 +2,7 @@ module Admin
   module Reports
     class ItemsInMaintenanceController < BaseController
       def index
-        @items = Item.in_maintenance.merge(Item.left_joins(:tickets)).uniq
+        @tickets = Ticket.all.includes(item: :borrow_policy).where.not(status: %w[resolved retired])
       end
     end
   end

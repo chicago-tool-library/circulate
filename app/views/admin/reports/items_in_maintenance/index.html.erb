@@ -2,42 +2,51 @@
   <%= index_header "Items in maintenance" %>
 <% end %>
 
-<% if @items.any? %>
-  <div class="responsive-table five-columns">
-    <%= tag.div "Item", class: "responsive-table-header" %>
-    <%= tag.div "Status", class: "responsive-table-header" %>
-    <%= tag.div "Open Tickets", class: "responsive-table-header" %>
-    <%= tag.div "Most Recent Ticket", class: "responsive-table-header" %>
-    <%= tag.div "Most Recent Update", class: "responsive-table-header" %>
-
-    <% @items.each do |item| %>
-      <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to item.name, [:admin, item] %><br>
-        <%= item.complete_number %>
-      <% end %>
-
-      <%= tag.div class: "responsive-table-cell" do %>
-        <%= item_status_name item.status %>
-      <% end %>
-
-      <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to pluralize(item.tickets.active.count, "ticket"), admin_item_tickets_path(item) %>
-      <% end %>
-
-      <%= tag.div class: "responsive-table-cell" do %>
-        <% if item.last_active_ticket %>
-          <%= link_to item.last_active_ticket.title, admin_item_ticket_path(item, item.last_active_ticket) %>
+<% if @tickets.any? %>
+  <div class="columns">
+    <div class="column col-12">
+      <table class="table">
+        <tr>
+          <th>Number</th>
+          <th>Status</th>
+          <th>Name</th>
+          <th>Categories</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+        </tr>
+        <% @tickets.each do |ticket| %>
+          <tr>
+            <td>
+              <%= ticket.item.complete_number %>
+            </td>
+            <td>
+              <%= ticket.item.status %>
+            </td>
+            <td>
+              <%= link_to ticket.item.name, admin_item_tickets_path(ticket.item) %>
+            </td>
+            <td>
+              <%= 'categories placeholder' %>
+            </td>
+            <td>
+              <%= link_to ticket.title, admin_item_ticket_path(ticket.item, ticket) %>
+            </td>
+            <td>
+              <%= ticket.status %>
+            </td>
+            <td>
+              <%= ticket.created_at.to_formatted_s(:short_date) %>
+            </td>
+            <td>
+              <%= ticket.updated_at.to_formatted_s(:short_date) %>
+            </td>
+          </tr>
         <% end %>
-      <% end %>
-
-      <%= tag.div class: "responsive-table-cell" do %>
-        <% if item.last_active_ticket %>
-          <%= truncate(item.last_active_ticket.latest_ticket_update&.body&.to_plain_text, length: 120) %>
-        <% end %>
-      <% end %>
-    <% end %>
+      </table>
+    </div>
   </div>
-
 <% else %>
   <%= empty_state "There are no items currently being repaired!" %>
 <% end %>
