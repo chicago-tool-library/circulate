@@ -18,7 +18,7 @@
     <%= stylesheet_link_tag "admin_application", media: "all", "data-turbo-track": "reload" %>
   </head>
 
-  <body class="admin">
+  <body class="admin <%= controller_name %>">
     <div class="off-canvas" data-controller="sidebar">
       <a class="off-canvas-toggle btn btn-action show-md" href="#sidebar-id" data-action="sidebar#open">
         <i class="icon icon-menu"></i>

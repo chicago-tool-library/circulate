@@ -1,3 +1,104 @@
-.items-in-maintenance {
+.items_in_maintenance {
+  --border-color: rgb(206.3684210526, 195.2236842105, 188.1315789474);
+  --box-shadow: 0 0 0 0.1rem rgba(47, 120, 144, 0.2);
+  --blue: #2f7890;
+  --color: rgb(80.7631578947, 67.3026315789, 58.7368421053);
 
+  .filters-container {
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1rem;
+    padding: 0 0.4rem;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .filters-form-fields {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .filter-column {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.4rem;
+  }
+
+  .item-and-ticket-filters {
+    border-right: 1px solid var(--border-color);
+    flex: 2;
+    padding-right: 0.5rem;
+  }
+
+  .item-filters {
+    .name {
+      flex: 4;
+    }
+
+    .number {
+      width: 10ch;
+    }
+
+    .status {
+      flex: 1;
+    }
+  }
+
+  .ticket-filters {
+    .title {
+      flex: 3;
+    }
+
+    .status {
+      flex: 2;
+    }
+  }
+
+  .date-filters {
+    flex: 1;
+  }
+
+  .filter-field,
+  .filter-select {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    label {
+      display: block;
+      line-height: 1.2rem;
+      padding: 0.3rem 0;
+    }
+  }
+
+  .filter-field input, .filter-field select {
+    border: 1px solid var(--border-color);
+    border-radius: 0.1rem;
+    color: var(--color);
+    font-size: 0.8rem;
+    height: 1.8rem;
+    line-height: 1.2rem;
+    outline: none;
+    padding: 0.25rem 0.4rem;
+    transition: border 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      box-shadow: var(--box-shadow);
+      border-color: var(--blue);
+    }
+  }
+
+  .filter-button-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 0;
+  }
 }
