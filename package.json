@@ -6,7 +6,7 @@
     "yarn": "1.22.x"
   },
   "dependencies": {
-    "@appsignal/javascript": "^1.4.1",
+    "@appsignal/javascript": "^1.5.0",
     "@appsignal/stimulus": "^1.0.18",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.12",
@@ -21,7 +21,7 @@
     "jquery": "^3.7.1",
     "mjml": "^4.15.3",
     "sass": "^1.80.4",
-    "sortablejs": "^1.15.3",
+    "sortablejs": "^1.15.6",
     "trix": "^2.1.8"
   },
   "version": "0.1.0",
