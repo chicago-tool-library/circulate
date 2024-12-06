@@ -72,6 +72,10 @@ class Item < ApplicationRecord
   before_save :cache_description_as_plain_text
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[number name status]
+  end
+
   def self.find_by_complete_number(complete_number)
     code, number = complete_number.split("-")
     joins(:borrow_policy).find_by(borrow_policies: {code: code}, number: number.to_i)

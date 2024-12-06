@@ -467,6 +467,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    ransack (4.2.1)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -663,6 +667,7 @@ DEPENDENCIES
   pundit
   rails (~> 7.2.2)
   rails-controller-testing
+  ransack
   reverse_markdown
   scenic
   solargraph
