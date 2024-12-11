@@ -117,7 +117,7 @@ jobs:
       #   uses: mxschmitt/action-tmate@v3
       #   if: ${{ matrix.test == 'system' && failure() }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: ${{ matrix.test == 'system' && failure() }}
         with:
           path: |
