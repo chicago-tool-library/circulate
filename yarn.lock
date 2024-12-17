@@ -987,7 +987,7 @@ domhandler@^5.0.2, domhandler@^5.0.3:
   dependencies:
     domelementtype "^2.3.0"
 
-dompurify@^3.2.0:
+dompurify@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.2.3.tgz#05dd2175225324daabfca6603055a09b2382a4cd"
   integrity sha512-U1U5Hzc2MO0oW3DF+G9qYN0aT7atAou4AgI0XjWz061nyBPbdxkfdhfy5uMgGn6+oLFCfn44ZGbdDqCzVmlOWA==
@@ -3602,12 +3602,12 @@ tree-kill@^1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-trix@^2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/trix/-/trix-2.1.9.tgz#01454f6b2ea498fb8a47e50bf8cc3f93689d8437"
-  integrity sha512-Hm02gmsFLjQ+gcFNUW0iwGibYpQpklBCnBUj4z5013W+q6eiZPA9d9HmeJK8jd+BMbqMq7OsVEGclrBrbl4MJw==
+trix@^2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/trix/-/trix-2.1.10.tgz#6f048115c2c20206067abbab8a6e7308710c39e0"
+  integrity sha512-PrMOKriE76tJbjqiOFpjTiRkOomWBiGPT/YrBw83HJ5SlFAcybYZVjVlkDkOrFZoYI4qCfWUw42BTAjSE9KSYQ==
   dependencies:
-    dompurify "^3.2.0"
+    dompurify "^3.2.3"
 
 tsconfig-paths@^3.15.0:
   version "3.15.0"
