@@ -107,3 +107,5 @@ gem "ahoy_matey", "~> 5.2"
 gem "good_job", "~> 4.7"
 
 gem "blazer", "~> 3.1"
+
+gem "acts-as-taggable-on", "~> 5.0"
