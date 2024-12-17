@@ -190,6 +190,11 @@ class ItemsTest < ApplicationSystemTestCase
     @hold = create(:hold, member: @member, item: @item3, creator: @user)
 
     visit admin_items_url
+
+    assert_text "Available"
+    assert_text "On Hold"
+    assert_text "Active"
+
     within(".items-summary") do
       assert_text "Viewing all 3 items"
     end
@@ -203,5 +208,15 @@ class ItemsTest < ApplicationSystemTestCase
     within(".items-summary") do
       assert_text "Viewing 1 item assigned to Drills", normalize_ws: true
     end
+  end
+
+  test "viewing an item's status" do
+    item = create(:item, :active)
+    create(:overdue_loan, item:)
+
+    visit admin_item_url(item)
+
+    assert_text "Overdue"
+    assert_text "Active"
   end
 end
