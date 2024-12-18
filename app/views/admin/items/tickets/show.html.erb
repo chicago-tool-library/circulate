@@ -7,6 +7,10 @@
       </h2>
       <p class="mb-3">
         <span class="chip bg-primary"><%= ticket_status_name @ticket.status %></span>
+        <% @ticket.tag_list.each do |tag| %>
+          <span class="chip"><%= tag %></span>
+        <% end %>
+        <br>
         Created by <%= link_to_member(@ticket.creator.member) %> on <%= display_date @ticket.created_at, :short_date %>
       </p>
 

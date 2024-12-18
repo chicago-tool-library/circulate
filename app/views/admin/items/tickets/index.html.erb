@@ -4,6 +4,7 @@
       <tr>
         <th>Title</th>
         <th>Status</th>
+        <th>Tags</th>
         <th>Last Updated</th>
       </tr>
     </thead>
@@ -13,6 +14,11 @@
         <tr>
           <td><%= link_to ticket.title, admin_item_ticket_path(@item, ticket) %></td>
           <td><span class="chip bg-primary"><%= ticket_status_name ticket.status %></span></td>
+          <td>
+            <% ticket.tag_list.each do |tag| %>
+              <span class="chip"><%= tag %></span>
+            <% end %>
+          </td>
           <td><%= display_date ticket.updated_at, :short_date %></td>
         </tr>
       <% end %>

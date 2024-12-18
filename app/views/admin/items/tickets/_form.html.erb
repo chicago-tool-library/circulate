@@ -4,6 +4,7 @@
   <%= form.text_field :title %>
   <%= form.rich_text_area :body %>
   <%= form.select :status, options_for_select(ticket_status_options, ticket.status), label: "Ticket Status" %>
+  <%= form.text_field :tag_list, label: "Tags", value: ticket.tag_list.join(", "), hint: "Comma separated e.g. 'Urgent, Quick Fix, etc'" %>
 
   <%= form.actions do %>
     <%= form.submit %>
