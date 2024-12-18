@@ -108,4 +108,4 @@ gem "good_job", "~> 4.6"
 
 gem "blazer", "~> 3.1"
 
-gem 'acts-as-taggable-on', '~> 12.0'
+gem "acts-as-taggable-on", "~> 12.0"
