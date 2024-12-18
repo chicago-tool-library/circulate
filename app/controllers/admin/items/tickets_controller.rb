@@ -57,7 +57,7 @@ module Admin
       end
 
       def ticket_params
-        params.require(:ticket).permit(:title, :body, :status).merge(creator_id: current_user.id)
+        params.require(:ticket).permit(:title, :body, :status, :tag_list).merge(creator_id: current_user.id)
       end
     end
   end
