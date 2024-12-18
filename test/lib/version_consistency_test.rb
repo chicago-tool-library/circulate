@@ -18,15 +18,13 @@ class VersionConsistencyTest < ActiveSupport::TestCase
     assert_equal tool_versions["nodejs"].split(".").take(1), package_json["engines"]["node"].split(".").take(1), "major node version matches"
   end
 
-  # Heroku buildpack reads from Gemfile
+  # Heroku buildpack reads from Gemfile, which reads from .tool-version
   # asdf reads from .tool-versions
   # nix reads from .ruby-version
   test "ruby version matches between Gemfile, .ruby-version, and .tool-versions" do
     tool_versions = parse_tool_versions
-    gemfile_version = Bundler::Definition.build("Gemfile", nil, {}).ruby_version.versions.first
-    ruby_version_file_version = Rails.root.join(".ruby-version").read.split("-").last.chomp
+    ruby_version_file_version = Rails.root.join(".ruby-version").read.split("-", 2).last.chomp
 
     assert_equal tool_versions["ruby"], ruby_version_file_version
-    assert_equal tool_versions["ruby"], gemfile_version
   end
 end
