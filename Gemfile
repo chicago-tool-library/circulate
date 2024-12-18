@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.6"
+ruby "3.4.0.rc1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", "~> 7.2.2"
@@ -35,7 +35,7 @@ gem "pagy"
 gem "pg_search"
 gem "activerecord-postgres_enum"
 gem "scenic"
-gem "reverse_markdown"
+gem "reverse_markdown", "~>3.0"
 gem "http"
 gem "translation"
 gem "store_model"
@@ -81,9 +81,6 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "web-console", ">= 3.3.0"
   gem "listen"
-  gem "solargraph"
-  gem "solargraph-rails"
-  gem "solargraph-standardrb"
   gem "lefthook"
   gem "erb_lint", "~> 0.7.0"
 end
