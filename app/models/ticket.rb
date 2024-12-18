@@ -30,6 +30,8 @@ class Ticket < ApplicationRecord
 
   has_rich_text :body
 
+  acts_as_taggable_on :tags
+
   validates :title, presence: true
   validates :status, inclusion: {in: Ticket.statuses.keys}
 
