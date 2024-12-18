@@ -9,13 +9,13 @@ class TicketTest < ActiveSupport::TestCase
 
     ticket.reload
 
-    assert_equal ['awesome', 'not awesome'], ticket.tag_list
+    assert_equal ["awesome", "not awesome"], ticket.tag_list
 
     ticket.tag_list.remove("not awesome")
 
     assert ticket.save
 
     ticket.reload
-    assert_equal ['awesome'], ticket.tag_list
+    assert_equal ["awesome"], ticket.tag_list
   end
 end
