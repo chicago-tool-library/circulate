@@ -39,7 +39,7 @@ module HoldsHelper
     message = "Are you sure you want to remove this hold?"
 
     if hold.appointment.present?
-      message <<
+      message +=
         " It will also be removed from your appointment." \
         " If it's the only item in your appointment, your appointment will be canceled."
     end
