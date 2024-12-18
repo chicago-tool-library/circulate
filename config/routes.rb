@@ -222,8 +222,6 @@ Rails.application.routes.draw do
 
   get "/dev/styles", to: "dev#styles"
 
-  get "/s/:id", to: "short_links#show", as: :short_link
-
   namespace :super_admin do
     resources :libraries
   end

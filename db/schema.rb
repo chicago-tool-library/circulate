@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_13_202700) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_18_023052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -844,17 +844,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_13_202700) do
     t.index ["pickup_event_id"], name: "index_reservations_on_pickup_event_id"
     t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
     t.index ["submitted_by_id"], name: "index_reservations_on_submitted_by_id"
-  end
-
-  create_table "short_links", force: :cascade do |t|
-    t.string "url", null: false
-    t.string "slug", null: false
-    t.integer "views_count", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "library_id"
-    t.index ["slug", "library_id"], name: "index_short_links_on_slug_and_library_id", unique: true
-    t.index ["url", "library_id"], name: "index_short_links_on_url_and_library_id", unique: true
   end
 
   create_table "stems", force: :cascade do |t|
