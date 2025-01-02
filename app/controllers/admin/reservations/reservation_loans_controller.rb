@@ -23,7 +23,6 @@ module Admin
           render_form_with_error("please enter an item number")
           return
         else
-          # TODO look items up by number and not id
           @reservable_item = ReservableItem.find_by(number: reservation_loan_params[:reservable_item_number])
           if !@reservable_item
             render_form_with_error("no item found with this number")
