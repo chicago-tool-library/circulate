@@ -104,6 +104,6 @@ gem "twilio-ruby", "~> 7.4"
 
 gem "ahoy_matey", "~> 5.2"
 
-gem "good_job", "~> 4.6"
+gem "good_job", "~> 4.7"
 
 gem "blazer", "~> 3.1"
