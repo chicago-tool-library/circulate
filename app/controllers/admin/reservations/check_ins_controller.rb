@@ -2,10 +2,10 @@ module Admin
   module Reservations
     class CheckInsController < BaseController
       def create
-        if (reservation_item_id = reservation_loan_lookup_params[:reservable_item_id])
-          @reservable_item = ReservableItem.find_by(id: reservation_item_id)
+        if (reservation_item_number = reservation_loan_lookup_params[:reservable_item_number])
+          @reservable_item = ReservableItem.find_by(number: reservation_item_number)
           if !@reservable_item
-            render_form_with_error("no item found with this ID")
+            render_form_with_error("no item found with this number")
             return
           end
           @reservation_loan = @reservation.reservation_loans.find_by(reservable_item_id: @reservable_item.id)
@@ -51,7 +51,7 @@ module Admin
 
       def render_form_with_error(message)
         @reservation_loan_lookup_form = ReservationLoanLookupForm.new
-        @reservation_loan_lookup_form.errors.add(:reservable_item_id, message)
+        @reservation_loan_lookup_form.errors.add(:reservable_item_number, message)
         render_form
       end
 
@@ -60,7 +60,7 @@ module Admin
       end
 
       def reservation_loan_lookup_params
-        params.require(:reservation_loan_lookup_form).permit(:reservable_item_id, :reservation_loan_id)
+        params.require(:reservation_loan_lookup_form).permit(:reservable_item_number, :reservation_loan_id)
       end
     end
   end

@@ -259,7 +259,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     visit admin_reservation_loans_path(reservation)
 
     assert_active_tab "Items"
-    fill_in "Item ID", with: hammer.id
+    fill_in "Item Number", with: hammer.number
     click_on "Add Item"
 
     assert_hold_quantity hammer_pool, "1/1"
@@ -283,7 +283,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
       assert_no_difference "PendingReservationItem.count" do
         assert_difference "PendingReservationItem.count", 1 do
           assert_active_tab "Items"
-          fill_in "Item ID", with: hammer.id
+          fill_in "Item Number", with: hammer.number
           click_on "Add Item"
 
           assert_text "1 item scanned that did not match the reservation"
@@ -306,7 +306,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_difference -> { reservation.reservation_holds.count } => 1,
       -> { reservation.pending_reservation_items.count } => 0 do
       assert_active_tab "Items"
-      fill_in "Item ID", with: hammer.id
+      fill_in "Item Number", with: hammer.number
       click_on "Add Item"
 
       assert_text "1 item scanned that did not match the reservation"
@@ -337,7 +337,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     end
 
     # return hammer
-    fill_in "Item ID", with: hammer.id
+    fill_in "Item Number", with: hammer.number
     click_on "Return Item"
 
     within_dom_id(hammer_loan) do
