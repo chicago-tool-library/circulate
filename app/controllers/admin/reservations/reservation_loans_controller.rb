@@ -19,14 +19,13 @@ module Admin
             reservation_hold: @reservation_hold,
             quantity: @reservation_hold.quantity
           )
-        elsif reservation_loan_params[:reservable_item_id].blank?
-          render_form_with_error("please enter an item ID")
+        elsif reservation_loan_params[:reservable_item_number].blank?
+          render_form_with_error("please enter an item number")
           return
         else
-          # TODO look items up by number and not id
-          @reservable_item = ReservableItem.find_by(id: reservation_loan_params[:reservable_item_id])
+          @reservable_item = ReservableItem.find_by(number: reservation_loan_params[:reservable_item_number])
           if !@reservable_item
-            render_form_with_error("no item found with this ID")
+            render_form_with_error("no item found with this number")
             return
           end
 
@@ -77,7 +76,7 @@ module Admin
 
       def render_form_with_error(message)
         @reservation_loan = ReservationLoan.new
-        @reservation_loan.errors.add(:reservable_item_id, message)
+        @reservation_loan.errors.add(:reservable_item_number, message)
         render_form
       end
 
@@ -90,7 +89,7 @@ module Admin
       end
 
       def reservation_loan_params
-        params.require(:reservation_loan).permit(:reservable_item_id, :reservation_hold_id)
+        params.require(:reservation_loan).permit(:reservable_item_number, :reservation_hold_id)
       end
     end
   end

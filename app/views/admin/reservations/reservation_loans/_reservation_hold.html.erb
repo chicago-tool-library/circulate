@@ -10,10 +10,10 @@
   <% reservation_hold.reservation_loans.each do |reservation_loan| %>
     <tr id="<%= dom_id(reservation_loan) %>">
       <% if reservation_loan.quantity %>
+        <td>*</td>
         <td><%= reservation_hold.item_pool.name %></td>
-        <td><%= reservation_loan.quantity %></td>
       <% else %>
-        <td><%= reservation_loan.reservable_item.id %></td>
+        <td><%= reservation_loan.reservable_item.number %></td>
         <td><%= reservation_loan.reservable_item.name %></td>
       <% end %>
       <td>

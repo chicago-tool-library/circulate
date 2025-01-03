@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "reservation-loan-form" do %>
   <%= form_with(model: reservation_loan_lookup_form, url: admin_reservation_check_ins_path(reservation.id), builder: SpectreFormBuilder) do |form| %>
-    <%= form.text_field :reservable_item_id, label: "Item ID", autocomplete: "off", autofocus: true %>
+    <%= form.text_field :reservable_item_number, label: "Item Number", autocomplete: "off", autofocus: true %>
     <%= form.submit "Return Item" %>
   <% end %>
 <% end %>
