@@ -4,8 +4,8 @@ module Admin
   class MonthlyActivitiesTest < ApplicationSystemTestCase
     include AdminHelper
 
-    def setup
-      @date = Time.zone.parse("2022-1-1")
+    setup do
+      @date = Time.zone.parse("2022-1-15")
       travel_to @date
 
       # 2 new (verified) members this month and 1 pending
@@ -16,9 +16,10 @@ module Admin
       # 1 existing member from November last year
       november_member_1 = create(:verified_member_with_membership, created_at: Time.zone.parse("2021-11-1"))
 
-      # 2 loans for the same member this month, giving us 1 active member
+      # 3 loans (1 renewal) for the same member this month, giving us 1 active member
       january_loan_1 = create(:loan, member: january_member_1)
-      january_loan_2 = create(:loan, member: january_member_1)
+      january_loan_2 = create(:loan, member: january_member_1, due_at: 1.week.ago, ended_at: 1.week.ago, created_at: 8.days.ago)
+      january_loan_3 = create(:loan, initial_loan: january_loan_2, member: january_member_1, renewal_count: 1, item: january_loan_2.item)
 
       # 1 loan for an old member last month, giving us 1 active member
       december_loan_1 = create(:loan, member: november_member_1, created_at: Time.zone.parse("2021-12-10"))
@@ -27,7 +28,7 @@ module Admin
       create(:appointment, member: january_member_1, starts_at: Time.zone.parse("2022-1-5"),
         ends_at: Time.zone.parse("2022-1-6"), loans: [january_loan_1])
       create(:appointment, member: january_member_1, starts_at: Time.zone.parse("2022-1-27"),
-        ends_at: Time.zone.parse("2022-1-28"), completed_at: Time.zone.parse("2022-1-28"), loans: [january_loan_2])
+        ends_at: Time.zone.parse("2022-1-28"), completed_at: Time.zone.parse("2022-1-28"), loans: [january_loan_3])
 
       # 1 appointment which started and was completed last month but ended this month,
       # giving us 1 for last month
@@ -37,20 +38,17 @@ module Admin
       sign_in_as_admin
     end
 
-    def teardown
-    end
-
-    # ╔═══════════════╦══════════════════════╦═════════════════════╦════════════════════════════╗
-    # ║               ║ Activity             ║ Members             ║ Appointments               ║
-    # ├───────────────┼──────────────────────┼─────────────────────┼────────────────────────────┤
-    # ║ Month         ║ Loans     ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
-    # ╠═══════════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ November 2021 ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
-    # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
-    # ║ January 2022  ║ 2         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
-    # ╠═══════════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ Total         ║ 3         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
-    # ╚═══════════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
+    # ╔═══════════════╦══════════════════════════════════╦═════════════════════╦════════════════════════════╗
+    # ║               ║ Activity                         ║ Members             ║ Appointments               ║
+    # ├───────────────┼──────────────────────────────────┼─────────────────────┼────────────────────────────┤
+    # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
+    # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
+    # ║ November 2021 ║ 0         ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
+    # ║ December 2021 ║ 1         ║ 0         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
+    # ║ January 2022  ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+    # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
+    # ║ Total         ║ 4         ║ 1         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
+    # ╚═══════════════╩═══════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
     test "table is populated accordingly" do
       visit admin_reports_monthly_activities_url
 
@@ -63,74 +61,77 @@ module Admin
           within("th:nth-child(4)") { assert_text("Appointments") }
         end
 
-        # ║ Month         ║ Loans     ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
+        # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
         within("thead > tr:nth-child(2)") do
           within("th:nth-child(1)") { assert_text("Month") }
 
           within("th:nth-child(2)") { assert_text("Loans") }
-          within("th:nth-child(3)") { assert_text("Members") }
+          within("th:nth-child(3)") { assert_text("Renewals") }
+          within("th:nth-child(4)") { assert_text("Members") }
 
-          within("th:nth-child(4)") { assert_text("New") }
-          within("th:nth-child(5)") { assert_text("Pending") }
+          within("th:nth-child(5)") { assert_text("New") }
+          within("th:nth-child(6)") { assert_text("Pending") }
 
-          within("th:nth-child(6)") { assert_text("Scheduled") }
-          within("th:nth-child(7)") { assert_text("Completed") }
+          within("th:nth-child(7)") { assert_text("Scheduled") }
+          within("th:nth-child(8)") { assert_text("Completed") }
         end
 
-        # ║ November 2021 ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
+        # ║ November 2021 ║ 0         ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
         within("tbody > tr:nth-child(1)") do
           within("td:nth-child(1)") { assert_text("November 2021") }
 
           within("td:nth-child(2)") { assert_text("0") }
           within("td:nth-child(3)") { assert_text("0") }
+          within("td:nth-child(4)") { assert_text("0") }
 
-          within("td:nth-child(4)") { assert_text("1") }
-          within("td:nth-child(5)") { assert_text("0") }
-
+          within("td:nth-child(5)") { assert_text("1") }
           within("td:nth-child(6)") { assert_text("0") }
+
           within("td:nth-child(7)") { assert_text("0") }
+          within("td:nth-child(8)") { assert_text("0") }
         end
 
-        # ║ December 2021 ║ 1         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
+        # ║ December 2021 ║ 1         ║ 0         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
         within("tbody > tr:nth-child(2)") do
           within("td:nth-child(1)") { assert_text("December 2021") }
 
           within("td:nth-child(2)") { assert_text("1") }
-          within("td:nth-child(3)") { assert_text("1") }
+          within("td:nth-child(3)") { assert_text("0") }
+          within("td:nth-child(4)") { assert_text("1") }
 
-          within("td:nth-child(4)") { assert_text("0") }
           within("td:nth-child(5)") { assert_text("0") }
+          within("td:nth-child(6)") { assert_text("0") }
 
-          within("td:nth-child(6)") { assert_text("1") }
           within("td:nth-child(7)") { assert_text("1") }
+          within("td:nth-child(8)") { assert_text("1") }
         end
 
-        # ║ January 2022  ║ 2         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+        # ║ January 2022  ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
         within("tbody > tr:nth-child(3)") do
           within("td:nth-child(1)") { assert_text("January 2022") }
 
-          within("td:nth-child(2)") { assert_text("2") }
+          within("td:nth-child(2)") { assert_text("3") }
           within("td:nth-child(3)") { assert_text("1") }
-
-          within("td:nth-child(4)") { assert_text("2") }
-          within("td:nth-child(5)") { assert_text("1") }
-
-          within("td:nth-child(6)") { assert_text("2") }
-          within("td:nth-child(7)") { assert_text("1") }
+          within("td:nth-child(4)") { assert_text("1") }
+          within("td:nth-child(5)") { assert_text("2") }
+          within("td:nth-child(6)") { assert_text("1") }
+          within("td:nth-child(7)") { assert_text("2") }
+          within("td:nth-child(8)") { assert_text("1") }
         end
 
-        # ║ Total         ║ 3         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
+        # ║ Total         ║ 4         ║ 1         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
         within("tfoot > tr") do
           within("td:nth-child(1)") { assert_text("Total") }
 
-          within("td:nth-child(2)") { assert_text("3") }
-          within("td:nth-child(3)") { assert_text("2") }
+          within("td:nth-child(2)") { assert_text("4") }
+          within("td:nth-child(3)") { assert_text("1") }
+          within("td:nth-child(4)") { assert_text("2") }
 
-          within("td:nth-child(4)") { assert_text("3") }
-          within("td:nth-child(5)") { assert_text("1") }
+          within("td:nth-child(5)") { assert_text("3") }
+          within("td:nth-child(6)") { assert_text("1") }
 
-          within("td:nth-child(6)") { assert_text("3") }
-          within("td:nth-child(7)") { assert_text("2") }
+          within("td:nth-child(7)") { assert_text("3") }
+          within("td:nth-child(8)") { assert_text("2") }
         end
       end
     end

@@ -13,6 +13,7 @@
     <tr>
       <th>Month</th>
       <th class="left-lined">Loans</th>
+      <th class="left-lined">Renewals</th>
       <th>Members</th>
       <th class="left-lined">New</th>
       <th>Pending</th>
@@ -26,6 +27,7 @@
         <% year, month = date.split("-") %>
         <td><%= Date::MONTHNAMES[month.to_i] %> <%= year %></td>
         <td class="left-lined"><%= activities[:loans_count] %></td>
+        <td class="left-lined"><%= activities[:renewals_count] %></td>
         <td class="left-lined"><%= activities[:active_members_count] %></td>
         <td class="left-lined"><%= activities[:new_members_count] %></td>
         <td class="left-lined"><%= activities[:pending_members_count] %></td>
@@ -37,6 +39,7 @@
     <tr>
       <td>Total</td>
       <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:loans_count] } %></td>
+      <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:renewals_count] } %></td>
       <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:active_members_count] } %></td>
       <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:new_members_count] } %></td>
       <td class="left-lined"><%= @monthly_activities.values.sum { |a| a[:pending_members_count] } %></td>

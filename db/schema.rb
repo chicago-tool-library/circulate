@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_18_224853) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_05_181935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1142,6 +1142,24 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_18_224853) do
       count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
      FROM (months
        LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
+  create_view "monthly_renewals", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
+      count(DISTINCT l.id) AS renewals_count
+     FROM (months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+    WHERE (l.initial_loan_id IS NOT NULL)
     GROUP BY months.month
     ORDER BY months.month;
   SQL

@@ -12,10 +12,12 @@ module Admin
         appointments = MonthlyAppointment.all
         loans = MonthlyLoan.all
         members = MonthlyMember.all
+        renewals = MonthlyRenewal.all
 
         assign_monthlies(appointments, %i[appointments_count completed_appointments_count])
         assign_monthlies(loans, %i[loans_count active_members_count])
         assign_monthlies(members, %i[new_members_count pending_members_count])
+        assign_monthlies(renewals, %i[renewals_count])
 
         @monthly_activities = @monthly_activities.sort.to_h
       end
