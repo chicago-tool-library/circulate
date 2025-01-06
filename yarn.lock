@@ -19,10 +19,10 @@
     "@appsignal/types" "=3.0.1"
     tslib "^2.3.0"
 
-"@appsignal/stimulus@^1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.18.tgz#0a1ffccdc4800e87b3eaa37d7e2d7f27ab3399b9"
-  integrity sha512-V5OUHA/qQkQiyiglNysiN4VjlO/mhgzbt9QupezEQ3skEgUamEBWxv8sjR4XmNDGJ+D9GAC3/UV0FeuWlSRmzw==
+"@appsignal/stimulus@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.19.tgz#e6fa949034bf99b47c56c8095024b9cea600084c"
+  integrity sha512-iOdcQPQraxg+LW9h0HVoN7SGaYysq8fiOPjMI48IcrRmlzv21PRRiZyZc10ZMsbm8GSATG4g5Mp0qBEBYvjp5Q==
   dependencies:
     "@appsignal/types" "=3.0.1"
 
@@ -789,10 +789,10 @@ concat-with-sourcemaps@*:
   dependencies:
     source-map "^0.6.1"
 
-concurrently@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-9.1.1.tgz#609dde2ce12f4f12d6a5ea6eace4c38bb7ab2ead"
-  integrity sha512-6VX8lrBIycgZKTwBsWS+bLrmkGRkDmvtGsYylRN9b93CygN6CbK46HmnQ3rdSOR8HRjdahDrxb5MqD9cEFOg5Q==
+concurrently@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-9.1.2.tgz#22d9109296961eaee773e12bfb1ce9a66bc9836c"
+  integrity sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ==
   dependencies:
     chalk "^4.1.2"
     lodash "^4.17.21"
