@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/standardrb/standard-rails.git
-  revision: 3570b7ab7c6d6ff36c5f4d26f92044bc47fb62cb
-  ref: 3570b7ab7c6d6ff36c5f4d26f92044bc47fb62cb
-  specs:
-    standard-rails (1.1.0)
-      lint_roller (~> 1.0)
-      rubocop-rails (~> 2.25.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -542,6 +533,9 @@ GEM
     standard-performance (1.6.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.23.0)
+    standard-rails (1.1.0)
+      lint_roller (~> 1.0)
+      rubocop-rails (~> 2.25.0)
     statsd-ruby (1.5.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
@@ -643,7 +637,7 @@ DEPENDENCIES
   spy
   square.rb
   standard
-  standard-rails!
+  standard-rails
   stimulus-rails
   store_model
   translation
