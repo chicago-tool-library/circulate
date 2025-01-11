@@ -4,7 +4,7 @@ class TicketTest < ActiveSupport::TestCase
   test "has tags" do
     ticket = create(:ticket)
 
-    ticket.tag_list.add("awesome", "not awesome")
+    ticket.tag_list.add("aWesoMe", "NOT awesome")
     assert ticket.save
 
     ticket.reload
