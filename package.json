@@ -39,6 +39,7 @@
     "build:css:watch": "concurrently \"yarn build:css:admin --watch\" \"yarn build:css:application --watch\"",
     "build:css:admin": "sass ./app/assets/stylesheets/admin_application.scss:./app/assets/builds/admin_application.css --no-source-map --load-path=node_modules",
     "build:css:application": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "lint": "prettier . --check",
     "lint:fix": "prettier . --write"
   }
 }
