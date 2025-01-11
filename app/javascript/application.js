@@ -21,9 +21,15 @@ Turbo.StreamActions.arrangeAppointment = function () {
 }
 
 document.documentElement.addEventListener('turbo:load', setupFeatherIcons)
-document.documentElement.addEventListener('turbo:frame-render', setupFeatherIcons)
+document.documentElement.addEventListener(
+  'turbo:frame-render',
+  setupFeatherIcons
+)
 document.documentElement.addEventListener('turbo:load', highlightElement)
-document.documentElement.addEventListener('turbo:frame-render', highlightElement)
+document.documentElement.addEventListener(
+  'turbo:frame-render',
+  highlightElement
+)
 
 // Uncomment for trubo debugging sessions :-/
 // const events = [

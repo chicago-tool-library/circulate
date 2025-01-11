@@ -4,11 +4,11 @@ import { debounce } from 'lodash'
 export default class extends Controller {
   static targets = ['input', 'results', 'loader']
 
-  initialize () {
+  initialize() {
     this.load = debounce(this.load, 300)
   }
 
-  loadResults (event) {
+  loadResults(event) {
     if (this.queryIsValid()) {
       if (this.queryHasChanged()) {
         this.load()
@@ -18,15 +18,15 @@ export default class extends Controller {
     }
   }
 
-  queryIsValid () {
+  queryIsValid() {
     return this.inputTarget.value.length > 2
   }
 
-  queryHasChanged () {
+  queryHasChanged() {
     return this.inputTarget.value !== this.lastQuery
   }
 
-  toggleLoader (show) {
+  toggleLoader(show) {
     if (show) {
       this.loaderTarget.classList.remove('d-none')
     } else {
@@ -34,7 +34,7 @@ export default class extends Controller {
     }
   }
 
-  load () {
+  load() {
     const query = this.inputTarget.value
     this.lastQuery = query
 
@@ -44,15 +44,18 @@ export default class extends Controller {
     this.toggleLoader(true)
     console.debug(this.inputTarget.value)
 
-    fetch(url).then(response => response.text()).then((html) => {
-      if (this.queryIsValid()) {
-        this.resultsTarget.innerHTML = html
-      }
-      this.toggleLoader(false)
-      document.dispatchEvent(new Event('turbo:load'))
-    }).catch((e) => {
-      this.toggleLoader(false)
-      console.error(e)
-    })
+    fetch(url)
+      .then((response) => response.text())
+      .then((html) => {
+        if (this.queryIsValid()) {
+          this.resultsTarget.innerHTML = html
+        }
+        this.toggleLoader(false)
+        document.dispatchEvent(new Event('turbo:load'))
+      })
+      .catch((e) => {
+        this.toggleLoader(false)
+        console.error(e)
+      })
   }
 }

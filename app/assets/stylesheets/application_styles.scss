@@ -1,22 +1,22 @@
-@use "sass:color";
+@use 'sass:color';
 
-@use "globals";
+@use 'globals';
 
-@use "spectre-css/spectre";
-@use "spectre-css/spectre-icons";
-@use "spectre-css/spectre-exp";
-@use "trix/dist/trix";
+@use 'spectre-css/spectre';
+@use 'spectre-css/spectre-icons';
+@use 'spectre-css/spectre-exp';
+@use 'trix/dist/trix';
 
-@use "spectre-css/mixins/_shadow";
-@use "partials/index";
+@use 'spectre-css/mixins/_shadow';
+@use 'partials/index';
 
-@use "helpers/layouts_helper";
+@use 'helpers/layouts_helper';
 
-@use "public";
-@use "account";
-@use "volunteer";
-@use "header";
-@use "spectre-css/variables";
+@use 'public';
+@use 'account';
+@use 'volunteer';
+@use 'header';
+@use 'spectre-css/variables';
 
 body {
   background-color: variables.$bg-color;

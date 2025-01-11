@@ -21,9 +21,9 @@ module.exports = function (api) {
         require('@babel/preset-env').default,
         {
           targets: {
-            node: 'current'
-          }
-        }
+            node: 'current',
+          },
+        },
       ],
       (isProductionEnv || isDevelopmentEnv) && [
         require('@babel/preset-env').default,
@@ -31,9 +31,9 @@ module.exports = function (api) {
           forceAllTransforms: true,
           useBuiltIns: 'entry',
           modules: false,
-          exclude: ['transform-typeof-symbol']
-        }
-      ]
+          exclude: ['transform-typeof-symbol'],
+        },
+      ],
     ].filter(Boolean),
     plugins: [
       require('babel-plugin-macros'),
@@ -43,28 +43,28 @@ module.exports = function (api) {
       [
         require('@babel/plugin-proposal-class-properties').default,
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         require('@babel/plugin-proposal-object-rest-spread').default,
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         require('@babel/plugin-transform-runtime').default,
         {
           helpers: false,
-          regenerator: true
-        }
+          regenerator: true,
+        },
       ],
       [
         require('@babel/plugin-transform-regenerator').default,
         {
-          async: false
-        }
-      ]
-    ].filter(Boolean)
+          async: false,
+        },
+      ],
+    ].filter(Boolean),
   }
 }

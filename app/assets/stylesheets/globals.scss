@@ -1,8 +1,8 @@
-@use "sass:color";
+@use 'sass:color';
 
-@use "mixins";
+@use 'mixins';
 
-@use "spectre-css/_variables";
+@use 'spectre-css/_variables';
 
 $max-mobile-width: 600px;
 $min-desktop-width: $max-mobile-width + 1px;

@@ -7,14 +7,14 @@ export default class extends Controller {
   static targets = ['parent', 'child']
   static values = {
     accessor: String,
-    trigger: String
+    trigger: String,
   }
 
-  connect () {
+  connect() {
     this.change()
   }
 
-  change () {
+  change() {
     const accessor = !this.accessorValue ? 'value' : this.accessorValue
     const value = String(this.parentTarget[accessor])
     const triggers = this.triggerValue.split(',')

@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  connect () {
+  connect() {
     try {
       const location = window.location.href.toLowerCase()
       const url = new URL(location)
@@ -30,12 +30,12 @@ export default class extends Controller {
     }
   }
 
-  toggle (event) {
+  toggle(event) {
     const button = event.currentTarget
     this.toggleButton(button)
   }
 
-  toggleButton (button) {
+  toggleButton(button) {
     if (button.getAttribute('aria-expanded') === 'true') {
       button.setAttribute('aria-expanded', 'false')
     } else {

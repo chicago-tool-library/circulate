@@ -3,11 +3,11 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['content', 'button']
 
-  connect () {
+  connect() {
     this.toggle()
   }
 
-  toggle () {
+  toggle() {
     if (this.contentTarget.classList.contains('hidden')) {
       this.buttonTarget.setAttribute('aria-expanded', 'true')
     } else {
