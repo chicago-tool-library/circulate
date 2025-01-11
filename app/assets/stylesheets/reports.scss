@@ -79,7 +79,8 @@
     }
   }
 
-  .filter-field input, .filter-field select {
+  .filter-field input,
+  .filter-field select {
     border: 1px solid var(--border-color);
     border-radius: 0.1rem;
     color: var(--color);
@@ -88,7 +89,9 @@
     line-height: 1.2rem;
     outline: none;
     padding: 0.25rem 0.4rem;
-    transition: border 0.2s, box-shadow 0.2s;
+    transition:
+      border 0.2s,
+      box-shadow 0.2s;
 
     &:focus {
       box-shadow: var(--box-shadow);

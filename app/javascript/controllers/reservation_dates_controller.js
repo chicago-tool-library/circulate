@@ -3,12 +3,15 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['startDate', 'endDate']
 
-  connect () {
+  connect() {
     this.setMinEndDate()
-    this.startDateTarget.addEventListener('change', this.setMinEndDate.bind(this))
+    this.startDateTarget.addEventListener(
+      'change',
+      this.setMinEndDate.bind(this)
+    )
   }
 
-  setMinEndDate () {
+  setMinEndDate() {
     if (this.startDateTarget.value) {
       const dayAfterStartDate = new Date(this.startDateTarget.value)
       dayAfterStartDate.setDate(dayAfterStartDate.getDate() + 1)

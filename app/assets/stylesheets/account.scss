@@ -1,11 +1,11 @@
-@use "spectre-css/variables";
+@use 'spectre-css/variables';
 
 .account,
 .account-home-index,
 .account-holds-index,
 .appointment-form {
   .rule-list {
-    @media all and (min-width: 841px) {      
+    @media all and (min-width: 841px) {
       margin-left: 2rem;
     }
     @media all and (max-width: 840px) {
@@ -16,12 +16,14 @@
     }
   }
 
-  .loan-summary, .hold-summary {
+  .loan-summary,
+  .hold-summary {
     font-size: 1rem;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
-  .loan-list, .hold-list {
+  .loan-list,
+  .hold-list {
     margin: 0;
     list-style: none outside;
     li {
@@ -32,13 +34,13 @@
       float: left;
       width: 8rem;
       height: 100%;
-      padding-right: .8rem;
+      padding-right: 0.8rem;
       img {
         max-width: 100%;
       }
     }
     .item {
-      font-size: .9rem;
+      font-size: 0.9rem;
     }
     .status {
       display: block;
@@ -47,12 +49,12 @@
       display: block;
     }
     .actions {
-      margin-top: .8rem;
+      margin-top: 0.8rem;
       form {
         margin-top: 0.5rem;
       }
       .message {
-        margin-right: .5rem;
+        margin-right: 0.5rem;
       }
     }
     @media all and (max-width: 840px) {
@@ -65,7 +67,6 @@
     }
   }
 }
-
 
 .account-appointments-index {
   .section-header {

@@ -1,0 +1,19 @@
+# Ignore artifacts:
+build
+coverage
+
+.erb-lint.yml
+.github
+.solargraph.yml
+.standard_todo.yml
+.standard.yml
+*.html.erb
+*.md
+*.mjml
+app/assets/stylesheets/spectre-css/
+config
+db
+docker-compose.yml
+flake.lock
+lefthook.yml
+test/

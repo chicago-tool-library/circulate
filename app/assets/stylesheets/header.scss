@@ -1,5 +1,5 @@
-@use "globals";
-@use "spectre-css/variables";
+@use 'globals';
+@use 'spectre-css/variables';
 
 @mixin subtle-box-shadow {
   box-shadow: variables.$light-gray 1px 1px 4px 0px;

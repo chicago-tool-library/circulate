@@ -1,8 +1,8 @@
-@use "sass:color";
+@use 'sass:color';
 
-@use "globals";
-@use "spectre-css/_variables";
-@use "spectre-css/mixins/_shadow";
+@use 'globals';
+@use 'spectre-css/_variables';
+@use 'spectre-css/mixins/_shadow';
 
 .selectize-input {
   box-shadow: none;

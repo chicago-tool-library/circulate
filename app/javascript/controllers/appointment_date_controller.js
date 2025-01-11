@@ -3,11 +3,11 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['display', 'select']
 
-  connect () {
+  connect() {
     this.sync()
   }
 
-  sync () {
+  sync() {
     const value = this.selectTarget.value
 
     const option = this.element.querySelector(`option[value="${value}"]`)

@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
-function isExternal (url) {
+function isExternal(url) {
   const host = window.location.host
 
   const link = document.createElement('a')
@@ -11,7 +11,7 @@ function isExternal (url) {
 export default class extends Controller {
   static targets = ['target', 'modal']
 
-  newWindow (event) {
+  newWindow(event) {
     if (event.target.tagName === 'A') {
       const link = event.target
       const url = link.getAttribute('href')
@@ -23,14 +23,14 @@ export default class extends Controller {
     }
   }
 
-  hide (event) {
+  hide(event) {
     if (event.keyCode === 27 || event.type === 'click') {
       event.preventDefault()
       this.modalTarget.classList.remove('active')
     }
   }
 
-  show (event) {
+  show(event) {
     event.preventDefault()
     this.modalTarget.classList.add('active')
   }
