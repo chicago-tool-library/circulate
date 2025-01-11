@@ -30,10 +30,12 @@ class Ticket < ApplicationRecord
 
   has_rich_text :body
 
+  acts_as_taggable_on :tags
+
   validates :title, presence: true
   validates :status, inclusion: {in: Ticket.statuses.keys}
 
-  audited
+  audited except: :tag_list
   acts_as_tenant :library
 
   scope :active, -> { where(status: Ticket.statuses.values_at(:assess, :parts, :repairing)) }

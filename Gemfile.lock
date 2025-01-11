@@ -75,6 +75,9 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
+    acts-as-taggable-on (12.0.0)
+      activerecord (>= 7.1, < 8.1)
+      zeitwerk (>= 2.4, < 3.0)
     acts_as_list (1.2.4)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
@@ -588,6 +591,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgres_enum
+  acts-as-taggable-on (~> 12.0)
   acts_as_list
   acts_as_tenant
   ahoy_matey (~> 5.2)
