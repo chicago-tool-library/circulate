@@ -82,7 +82,7 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen"
   gem "lefthook"
-  gem "erb_lint", "~> 0.7.0"
+  gem "erb_lint", "~> 0.8.0"
 end
 
 group :test do
