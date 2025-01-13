@@ -38,100 +38,119 @@ module Admin
       sign_in_as_admin
     end
 
+    # Table for 2021
     # ╔═══════════════╦══════════════════════════════════╦═════════════════════╦════════════════════════════╗
     # ║               ║ Activity                         ║ Members             ║ Appointments               ║
     # ├───────────────┼──────────────────────────────────┼─────────────────────┼────────────────────────────┤
     # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
     # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ November 2021 ║ 0         ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
-    # ║ December 2021 ║ 1         ║ 0         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
-    # ║ January 2022  ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+    # ║ November      ║ 0         ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
+    # ║ December      ║ 1         ║ 0         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
     # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ Total         ║ 4         ║ 1         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
+    # ║ Total         ║ 1         ║ 0         ║ 1        ║ 1        ║ 0        ║ 1             ║ 1          ║
+    # ╚═══════════════╩═══════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
+    # Table for 2022
+    # ╔═══════════════╦══════════════════════════════════╦═════════════════════╦════════════════════════════╗
+    # ║               ║ Activity                         ║ Members             ║ Appointments               ║
+    # ├───────────────┼──────────────────────────────────┼─────────────────────┼────────────────────────────┤
+    # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
+    # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
+    # ║ January       ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+    # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
+    # ║ Total         ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
     # ╚═══════════════╩═══════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
     test "table is populated accordingly" do
       visit admin_reports_monthly_activities_url
 
-      assert_selector ".monthly-adjustments"
-      within(".monthly-adjustments") do
-        # ║               ║ Activity             ║ Members             ║ Appointments               ║
-        within("thead > tr:nth-child(1)") do
-          within("th:nth-child(2)") { assert_text("Activity") }
-          within("th:nth-child(3)") { assert_text("Members") }
-          within("th:nth-child(4)") { assert_text("Appointments") }
+      assert_selector "#year-2021"
+      assert_selector "#year-2022"
+
+      # table headings
+      ["#year-2021", "#year-2022"].each do |selector|
+        within("#year-2021") do
+          within("thead > tr:nth-child(1)") do
+            within("th:nth-child(2)") { assert_text("Activity") }
+            within("th:nth-child(3)") { assert_text("Members") }
+            within("th:nth-child(4)") { assert_text("Appointments") }
+          end
+
+          within("thead > tr:nth-child(2)") do
+            within("th:nth-child(1)") { assert_text("Month") }
+
+            within("th:nth-child(2)") { assert_text("Loans") }
+            within("th:nth-child(3)") { assert_text("Renewals") }
+            within("th:nth-child(4)") { assert_text("Members") }
+
+            within("th:nth-child(5)") { assert_text("New") }
+            within("th:nth-child(6)") { assert_text("Pending") }
+
+            within("th:nth-child(7)") { assert_text("Scheduled") }
+            within("th:nth-child(8)") { assert_text("Completed") }
+          end
         end
+      end
 
-        # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
-        within("thead > tr:nth-child(2)") do
-          within("th:nth-child(1)") { assert_text("Month") }
-
-          within("th:nth-child(2)") { assert_text("Loans") }
-          within("th:nth-child(3)") { assert_text("Renewals") }
-          within("th:nth-child(4)") { assert_text("Members") }
-
-          within("th:nth-child(5)") { assert_text("New") }
-          within("th:nth-child(6)") { assert_text("Pending") }
-
-          within("th:nth-child(7)") { assert_text("Scheduled") }
-          within("th:nth-child(8)") { assert_text("Completed") }
-        end
-
-        # ║ November 2021 ║ 0         ║ 0         ║ 0        ║ 1        ║ 0        ║ 0             ║ 0          ║
+      within("#year-2021") do
         within("tbody > tr:nth-child(1)") do
-          within("td:nth-child(1)") { assert_text("November 2021") }
+          within("td.month") { assert_text("November") }
 
-          within("td:nth-child(2)") { assert_text("0") }
-          within("td:nth-child(3)") { assert_text("0") }
-          within("td:nth-child(4)") { assert_text("0") }
-
-          within("td:nth-child(5)") { assert_text("1") }
-          within("td:nth-child(6)") { assert_text("0") }
-
-          within("td:nth-child(7)") { assert_text("0") }
-          within("td:nth-child(8)") { assert_text("0") }
+          within("td.loans_count-2021-11") { assert_text("0") }
+          within("td.renewals_count-2021-11") { assert_text("0") }
+          within("td.active_members_count-2021-11") { assert_text("0") }
+          within("td.new_members_count-2021-11") { assert_text("1") }
+          within("td.pending_members_count-2021-11") { assert_text("0") }
+          within("td.appointments_count-2021-11") { assert_text("0") }
+          within("td.completed_appointments_count-2021-11") { assert_text("0") }
         end
 
-        # ║ December 2021 ║ 1         ║ 0         ║ 1        ║ 0        ║ 0        ║ 1             ║ 1          ║
         within("tbody > tr:nth-child(2)") do
-          within("td:nth-child(1)") { assert_text("December 2021") }
+          within("td.month") { assert_text("December") }
 
-          within("td:nth-child(2)") { assert_text("1") }
-          within("td:nth-child(3)") { assert_text("0") }
-          within("td:nth-child(4)") { assert_text("1") }
-
-          within("td:nth-child(5)") { assert_text("0") }
-          within("td:nth-child(6)") { assert_text("0") }
-
-          within("td:nth-child(7)") { assert_text("1") }
-          within("td:nth-child(8)") { assert_text("1") }
+          within("td.loans_count-2021-12") { assert_text("1") }
+          within("td.renewals_count-2021-12") { assert_text("0") }
+          within("td.active_members_count-2021-12") { assert_text("1") }
+          within("td.new_members_count-2021-12") { assert_text("0") }
+          within("td.pending_members_count-2021-12") { assert_text("0") }
+          within("td.appointments_count-2021-12") { assert_text("1") }
+          within("td.completed_appointments_count-2021-12") { assert_text("1") }
         end
 
-        # ║ January 2022  ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
-        within("tbody > tr:nth-child(3)") do
-          within("td:nth-child(1)") { assert_text("January 2022") }
-
-          within("td:nth-child(2)") { assert_text("3") }
-          within("td:nth-child(3)") { assert_text("1") }
-          within("td:nth-child(4)") { assert_text("1") }
-          within("td:nth-child(5)") { assert_text("2") }
-          within("td:nth-child(6)") { assert_text("1") }
-          within("td:nth-child(7)") { assert_text("2") }
-          within("td:nth-child(8)") { assert_text("1") }
-        end
-
-        # ║ Total         ║ 4         ║ 1         ║ 2        ║ 3        ║ 1        ║ 3             ║ 2          ║
         within("tfoot > tr") do
-          within("td:nth-child(1)") { assert_text("Total") }
+          within("td.total") { assert_text("Total") }
 
-          within("td:nth-child(2)") { assert_text("4") }
-          within("td:nth-child(3)") { assert_text("1") }
-          within("td:nth-child(4)") { assert_text("2") }
+          within("td.loans_count-2021") { assert_text("1") }
+          within("td.renewals_count-2021") { assert_text("0") }
+          within("td.active_members_count-2021") { assert_text("1") }
+          within("td.new_members_count-2021") { assert_text("1") }
+          within("td.pending_members_count-2021") { assert_text("0") }
+          within("td.appointments_count-2021") { assert_text("1") }
+          within("td.completed_appointments_count-2021") { assert_text("1") }
+        end
+      end
 
-          within("td:nth-child(5)") { assert_text("3") }
-          within("td:nth-child(6)") { assert_text("1") }
+      within("#year-2022") do
+        within("tbody > tr:nth-child(1)") do
+          within("td.month") { assert_text("January") }
 
-          within("td:nth-child(7)") { assert_text("3") }
-          within("td:nth-child(8)") { assert_text("2") }
+          within("td.loans_count-2022-1") { assert_text("3") }
+          within("td.renewals_count-2022-1") { assert_text("1") }
+          within("td.active_members_count-2022-1") { assert_text("1") }
+          within("td.new_members_count-2022-1") { assert_text("2") }
+          within("td.pending_members_count-2022-1") { assert_text("1") }
+          within("td.appointments_count-2022-1") { assert_text("2") }
+          within("td.completed_appointments_count-2022-1") { assert_text("1") }
+        end
+
+        within("tfoot > tr") do
+          within("td.total") { assert_text("Total") }
+
+          within("td.loans_count-2022") { assert_text("3") }
+          within("td.renewals_count-2022") { assert_text("1") }
+          within("td.active_members_count-2022") { assert_text("1") }
+          within("td.new_members_count-2022") { assert_text("2") }
+          within("td.pending_members_count-2022") { assert_text("1") }
+          within("td.appointments_count-2022") { assert_text("2") }
+          within("td.completed_appointments_count-2022") { assert_text("1") }
         end
       end
     end
