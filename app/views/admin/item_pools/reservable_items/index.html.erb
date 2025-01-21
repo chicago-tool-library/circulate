@@ -1,14 +1,20 @@
-<% content_for :header do %>
-  <%= index_header "Reservable Items" do %>
-
-  <% end %>
+<%= render "admin/item_pools/profile" do %>
+  <div class="item-pool-show">
+    <table class="table">
+      <thead>
+        <th>Number</th>
+        <th>Status</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <% @item_pool.reservable_items.each do |reservable_item| %>
+          <tr>
+            <td><%= reservable_item.number %></td>
+            <td><%= ReservableItem::STATUS_NAMES[reservable_item.status] %></td>
+            <td><%= link_to "Edit", edit_admin_item_pool_reservable_item_path(@item_pool, reservable_item) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
-
-<div id="reservable_items">
-  <% @reservable_items.each do |reservable_item| %>
-    <%= render reservable_item %>
-    <p>
-      <%= link_to "Edit", edit_admin_reservable_item_path(reservable_item), class: "btn" %>
-    </p>
-  <% end %>
-</div>

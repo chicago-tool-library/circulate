@@ -14,7 +14,8 @@
   <div class="column col-sm-12 col-8">
 
     <ul class="tab">
-      <%= tab_link "Reservable Items", admin_item_pool_path(@item_pool) %>
+      <%= tab_link "Details", admin_item_pool_path(@item_pool) %>
+      <%= tab_link "Reservable Items", admin_item_pool_reservable_items_path(@item_pool) %>
       <%= tab_link "Availability", admin_item_pool_availability_path(@item_pool) %>
     </ul>
 

@@ -1,20 +1,12 @@
 <%= render "profile" do %>
-  <div class="item-pool-show">
-    <table class="table">
-      <thead>
-        <th>Number</th>
-        <th>Status</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <% @item_pool.reservable_items.each do |reservable_item| %>
-          <tr>
-            <td><%= reservable_item.number %></td>
-            <td><%= ReservableItem::STATUS_NAMES[reservable_item.status] %></td>
-            <td><%= link_to "Edit", edit_admin_item_pool_reservable_item_path(@item_pool, reservable_item) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="item-pool-details">
+    <dl>
+      <dt>Description</dt>
+      <dd><%= @item_pool.description || "-" %></dd>
+      <dt>Other names and keywords</dt>
+      <dd><%= @item_pool.other_names || "-" %></dd>
+      <dt>Purchase URL</dt>
+      <dd><%= @item_pool.purchase_link || "-" %></dd>
+    </dl>
   </div>
 <% end %>

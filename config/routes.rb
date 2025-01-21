@@ -195,7 +195,7 @@ Rails.application.routes.draw do
       resources :item_pools do
         scope module: "item_pools" do
           resource :availability, only: :show
-          resources :reservable_items, except: :index
+          resources :reservable_items
         end
       end
       resources :reservations do

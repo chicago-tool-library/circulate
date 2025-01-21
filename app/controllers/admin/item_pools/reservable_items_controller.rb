@@ -3,6 +3,9 @@ module Admin
     class ReservableItemsController < BaseController
       before_action :set_reservable_item, only: %i[show edit update destroy]
 
+      def index
+      end
+
       def show
       end
 
