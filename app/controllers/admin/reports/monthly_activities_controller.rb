@@ -30,7 +30,7 @@ module Admin
         when MonthlyRenewal
           %i[renewals_count]
         else
-          raise "Unknow record type: #{record}"
+          raise "Unknown record type: #{record}"
         end
       end
 
