@@ -101,6 +101,7 @@ Rails.application.routes.draw do
         resource :loan_history, only: :show
         resource :history, only: :show
         resources :holds, only: :index do
+          patch :remove, action: "remove"
           scope module: "holds" do
             resource :position, only: :update
           end
