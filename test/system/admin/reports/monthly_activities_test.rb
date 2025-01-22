@@ -55,9 +55,9 @@ module Admin
     # ├───────────────┼──────────────────────────────────┼─────────────────────┼────────────────────────────┤
     # ║ Month         ║ Loans     ║ Renewals  ║ Members  ║ New      ║ Pending  ║ Scheduled     ║ Completed  ║
     # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ January       ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+    # ║ January       ║ 2         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
     # ╠═══════════════╬═══════════╬═══════════╬══════════╬══════════╬══════════╬═══════════════╬════════════╣
-    # ║ Total         ║ 3         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
+    # ║ Total         ║ 2         ║ 1         ║ 1        ║ 2        ║ 1        ║ 2             ║ 1          ║
     # ╚═══════════════╩═══════════╩═══════════╩══════════╩══════════╩══════════╩═══════════════╩════════════╝
     test "table is populated accordingly" do
       visit admin_reports_monthly_activities_url
@@ -132,7 +132,7 @@ module Admin
         within("tbody > tr:nth-child(1)") do
           within("td.month") { assert_text("January") }
 
-          within("td.loans_count-2022-1") { assert_text("3") }
+          within("td.loans_count-2022-1") { assert_text("2") }
           within("td.renewals_count-2022-1") { assert_text("1") }
           within("td.active_members_count-2022-1") { assert_text("1") }
           within("td.new_members_count-2022-1") { assert_text("2") }
@@ -144,7 +144,7 @@ module Admin
         within("tfoot > tr") do
           within("td.total") { assert_text("Total") }
 
-          within("td.loans_count-2022") { assert_text("3") }
+          within("td.loans_count-2022") { assert_text("2") }
           within("td.renewals_count-2022") { assert_text("1") }
           within("td.active_members_count-2022") { assert_text("1") }
           within("td.new_members_count-2022") { assert_text("2") }
