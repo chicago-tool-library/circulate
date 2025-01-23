@@ -31,12 +31,6 @@
                 <strong>
                     <%= link_to item_pool.name, account_item_pool_path(item_pool) %>
                 </strong>
-                <% if item_pool.size.present? %>
-                    <span class="label"><%= item_pool.size %></span>
-                <% end %>
-                <% if item_pool.strength.present? %>
-                    <span class="label"><%= item_pool.strength %></span>
-                <% end %>
                 <br>
 
                 <div class="items-index-buttons">

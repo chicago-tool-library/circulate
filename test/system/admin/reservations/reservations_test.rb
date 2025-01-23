@@ -264,12 +264,12 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
     assert_hold_quantity hammer_pool, "1/1"
     assert_text "All requirements satisfied"
-    assert_text hammer.name
+    assert_text hammer.item_pool.name
 
     click_on "Remove"
     assert_hold_quantity hammer_pool, "0/1"
     refute_text "All requirements satisfied"
-    refute_text hammer.name
+    assert_text hammer.item_pool.name
   end
 
   test "adding unreserved items to a pickup and then removing them" do

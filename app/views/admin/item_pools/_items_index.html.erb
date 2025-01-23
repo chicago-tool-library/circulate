@@ -31,13 +31,8 @@
                 <strong>
                     <%= link_to item_pool.name, admin_item_pool_path(item_pool) %>
                 </strong>
-                <% if item_pool.size.present? %>
-                    <span class="label"><%= item_pool.size %></span>
-                <% end %>
-                <% if item_pool.strength.present? %>
-                    <span class="label"><%= item_pool.strength %></span>
-                <% end %>
-                <br>
+
+                <%= pluralize(item_pool.max_reservable_quantity, "item") %>
 
                 <div class="items-index-buttons">
                     <%= yield item_pool %>

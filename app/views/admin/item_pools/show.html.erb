@@ -1,12 +1,17 @@
 <%= render "profile" do %>
-  <div class="item-pool-details">
-    <dl>
-      <dt>Description</dt>
-      <dd><%= @item_pool.description || "-" %></dd>
-      <dt>Other names and keywords</dt>
-      <dd><%= @item_pool.other_names || "-" %></dd>
-      <dt>Purchase URL</dt>
-      <dd><%= @item_pool.purchase_link || "-" %></dd>
-    </dl>
+  <div class="columns mt-5">
+    <div class="column col-4 col-sm-12">
+      <%= render partial: "admin/item_pools/item_pool_panel", locals: {item_pool: @item_pool, admin: true} %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <div class="item-pool-details">
+        <dl>
+          <dt>Description</dt>
+          <dd><%= @item_pool.description || "-" %></dd>
+          <dt>Other names and keywords</dt>
+          <dd><%= @item_pool.other_names || "-" %></dd>
+        </dl>
+      </div>
+    </div>
   </div>
 <% end %>

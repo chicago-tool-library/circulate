@@ -1,6 +1,6 @@
 <tbody id="<%= dom_id(reservation_hold) %>">
   <tr>
-    <th colspan="2" scope="rowgroup" id="item-pool-<%= reservation_hold.item_pool_id %>">
+    <th scope="rowgroup" id="item-pool-<%= reservation_hold.item_pool_id %>">
       <%= reservation_hold.item_pool.name %>
     </th>
     <th>
@@ -11,10 +11,8 @@
     <tr id="<%= dom_id(reservation_loan) %>">
       <% if reservation_loan.quantity %>
         <td>*</td>
-        <td><%= reservation_hold.item_pool.name %></td>
       <% else %>
         <td><%= reservation_loan.reservable_item.number %></td>
-        <td><%= reservation_loan.reservable_item.name %></td>
       <% end %>
       <td>
         <% if reservation.manager.state == :building %>

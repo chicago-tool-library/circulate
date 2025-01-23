@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_18_023052) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -533,18 +533,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_18_023052) do
     t.integer "unnumbered_count"
     t.bigint "library_id", null: false
     t.text "description"
-    t.text "size"
-    t.text "brand"
-    t.text "model"
-    t.text "strength"
     t.text "other_names"
-    t.enum "power_source", enum_type: "power_source"
-    t.text "location_area"
-    t.text "location_shelf"
     t.text "plain_text_description"
-    t.text "url"
-    t.text "purchase_link"
     t.bigint "reservation_policy_id"
+    t.string "checkout_notice"
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
@@ -759,7 +751,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_18_023052) do
   end
 
   create_table "reservable_items", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "item_pool_id", null: false
@@ -771,6 +762,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_18_023052) do
     t.string "serial"
     t.integer "number", null: false
     t.integer "purchase_price_cents"
+    t.string "size"
+    t.string "strength"
+    t.enum "power_source", enum_type: "power_source"
+    t.string "location_area"
+    t.string "location_shelf"
+    t.string "purchase_link"
+    t.string "url"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"

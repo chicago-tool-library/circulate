@@ -5,7 +5,7 @@
             <% reservation.pending_reservation_items.each do |pending_reservation_item| %>
                 <li id="<%= dom_id(pending_reservation_item) %>">
                     <%= pending_reservation_item.reservable_item.number %> -
-                    <%= pending_reservation_item.reservable_item.name %>
+                    <%= pending_reservation_item.reservable_item.item_pool.name %>
                     <%= button_to "Remove", [:admin, reservation, pending_reservation_item], method: :delete %>
                     <%= button_to "Add to Reservation", [:admin, reservation, pending_reservation_item], method: :put %>
                 </li>

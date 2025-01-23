@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  include ItemAttributes
+  include ItemCategorization
   include ItemStatuses
   include ItemNumbering
 
@@ -16,6 +16,18 @@ class Item < ApplicationRecord
       strength: "D"
     },
     using: {tsearch: {prefix: true, dictionary: "english"}}
+
+  has_rich_text :description
+
+  enum :power_source, {
+    solar: "solar",
+    gas: "gas",
+    air: "air",
+    electric_corded: "electric (corded)",
+    electric_battery: "electric (battery)"
+  }
+
+  validates :power_source, inclusion: {in: power_sources.keys}, allow_blank: true
 
   has_many :loans, dependent: :nullify
   has_one :checked_out_exclusive_loan, -> { checked_out.exclusive.readonly }, class_name: "Loan"

@@ -70,10 +70,8 @@ module Admin
 
     def item_pool_params
       params.require(:item_pool).permit(
-        :name, :other_names, :description, :size, :brand, :model, :strength,
-        :power_source, :uniquely_numbered, :unnumbered_count,
-        :location_shelf, :location_area, :url,
-        :purchase_link, :reservation_policy_id, category_ids: []
+        :name, :other_names, :description, :uniquely_numbered, :unnumbered_count,
+        :reservation_policy_id, :checkout_notice, category_ids: []
       )
     end
 

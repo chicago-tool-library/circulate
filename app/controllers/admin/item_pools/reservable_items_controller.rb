@@ -20,7 +20,7 @@ module Admin
         @reservable_item = @item_pool.reservable_items.new(reservable_item_params.merge(creator: current_user))
 
         if @reservable_item.save
-          redirect_to admin_item_pool_url(@item_pool), success: "Reservable item was successfully created."
+          redirect_to admin_item_pool_reservable_items_url(@item_pool), success: "Reservable item was successfully created."
         else
           render :new, status: :unprocessable_entity
         end
@@ -28,7 +28,7 @@ module Admin
 
       def update
         if @reservable_item.update(reservable_item_params)
-          redirect_to admin_item_pool_url(@item_pool), success: "Reservable item was successfully updated."
+          redirect_to admin_item_pool_reservable_items_url(@item_pool), success: "Reservable item was successfully updated."
 
         else
           render :edit, status: :unprocessable_entity
@@ -38,7 +38,7 @@ module Admin
       def destroy
         @reservable_item.destroy!
 
-        redirect_to admin_item_pool_url(@item_pool), success: "Reservable item was successfully destroyed."
+        redirect_to admin_item_pool_reservable_items_url(@item_pool), success: "Reservable item was successfully destroyed."
       end
 
       private
@@ -48,7 +48,10 @@ module Admin
       end
 
       def reservable_item_params
-        params.require(:reservable_item).permit(:name, :status)
+        params.require(:reservable_item).permit(
+          :name, :status, :size, :brand, :model, :strength, :power_source, :location_area, :location_shelf, :url,
+          :purchase_price, :purchase_link
+        )
       end
     end
   end
