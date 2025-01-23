@@ -175,7 +175,7 @@ jobs:
     #   uses: mxschmitt/action-tmate@v3
     #   if: ${{ failure() }}
 
-  StandardJS:
+  Prettier:
     runs-on: ubuntu-latest
 
     steps:
@@ -190,8 +190,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - run: yarn install --frozen-lockfile
-    - name: StandardJS
-      run: yarn run standard
+    - name: Prettier
+      run: yarn run lint
 
   StandardRB:
     runs-on: ubuntu-latest

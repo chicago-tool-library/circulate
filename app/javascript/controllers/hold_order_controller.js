@@ -7,7 +7,7 @@ import { turboFetch } from '../lib/request'
 export default class extends Controller {
   static targets = ['tbody']
 
-  connect () {
+  connect() {
     this.sortable = Sortable.create(this.tbodyTarget, {
       animation: 150,
       handle: '.drag-handle',
@@ -18,24 +18,26 @@ export default class extends Controller {
       },
       chosenClass: 'sorting',
       ghostClass: 'ghost',
-      preventOnFilter: false // we still want links and inputs to work on non-reorderable rows
+      preventOnFilter: false, // we still want links and inputs to work on non-reorderable rows
     })
 
     setupFeatherIcons()
   }
 
-  end (event) {
+  end(event) {
     const id = event.item.dataset.holdId
     const index = event.newIndex
-    const previousItem = this.element.querySelector(`*[data-initial-index="${index}"]`)
+    const previousItem = this.element.querySelector(
+      `*[data-initial-index="${index}"]`
+    )
     const position = previousItem.dataset.position
 
     const url = this.data.get('url').replace(':id', id)
     this.element.ariaBusy = true
 
     turboFetch(url, 'PUT', { position })
-      .then(response => response.text())
-      .then(html => {
+      .then((response) => response.text())
+      .then((html) => {
         Turbo.renderStreamMessage(html)
       })
   }

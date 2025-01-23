@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_22_225005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -853,6 +853,37 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
     t.index ["question_id"], name: "index_stems_on_question_id"
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "taggable_type"
+    t.bigint "taggable_id"
+    t.string "tagger_type"
+    t.bigint "tagger_id"
+    t.string "context", limit: 128
+    t.datetime "created_at", precision: nil
+    t.string "tenant", limit: 128
+    t.index ["context"], name: "index_taggings_on_context"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "taggings_taggable_context_idx"
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
+    t.index ["tenant"], name: "index_taggings_on_tenant"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
   create_table "ticket_updates", force: :cascade do |t|
     t.integer "time_spent"
     t.bigint "ticket_id", null: false
@@ -957,6 +988,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
   add_foreign_key "reservations", "users", column: "reviewer_id"
   add_foreign_key "reservations", "users", column: "submitted_by_id"
   add_foreign_key "stems", "questions"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "ticket_updates", "audits"
   add_foreign_key "ticket_updates", "tickets"
   add_foreign_key "ticket_updates", "users", column: "creator_id"
@@ -1075,24 +1107,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
     GROUP BY months.month
     ORDER BY months.month;
   SQL
-  create_view "monthly_loans", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count
-     FROM (months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
   create_view "monthly_members", sql_definition: <<-SQL
       WITH dates AS (
            SELECT min(date_trunc('month'::text, members.created_at)) AS startm,
@@ -1108,6 +1122,43 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_022003) do
       count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
      FROM (months
        LEFT JOIN members m ON ((date_trunc('month'::text, m.created_at) = months.month)))
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
+  create_view "monthly_renewals", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
+      count(DISTINCT l.id) AS renewals_count
+     FROM (months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+    WHERE (l.initial_loan_id IS NOT NULL)
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
+  create_view "monthly_loans", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count
+     FROM (months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+    WHERE (l.initial_loan_id IS NULL)
     GROUP BY months.month
     ORDER BY months.month;
   SQL

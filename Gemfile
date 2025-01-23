@@ -82,7 +82,7 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen"
   gem "lefthook"
-  gem "erb_lint", "~> 0.7.0"
+  gem "erb_lint", "~> 0.8.0"
 end
 
 group :test do
@@ -107,3 +107,5 @@ gem "ahoy_matey", "~> 5.2"
 gem "good_job", "~> 4.7"
 
 gem "blazer", "~> 3.1"
+
+gem "acts-as-taggable-on", "~> 12.0"

@@ -3,12 +3,12 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['menu']
 
-  open (event) {
+  open(event) {
     event.preventDefault()
     this.menuTarget.classList.add('active')
   }
 
-  close (event) {
+  close(event) {
     event.preventDefault()
     this.menuTarget.classList.remove('active')
   }
@@ -17,11 +17,11 @@ export default class extends Controller {
     this.menuTarget.classList.remove('active')
   }
 
-  connect () {
+  connect() {
     document.addEventListener('turbo:before-cache', this.handleCache)
   }
 
-  disconnect () {
+  disconnect() {
     document.removeEventListener('turbo:before-cache', this.handleCache)
   }
 }

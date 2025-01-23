@@ -1,6 +1,6 @@
 # EXAMPLE USAGE
 # Refer for explanation to following link:
-# https://github.com/Arkweid/lefthook/blob/master/docs/full_guide.md
+# https://evilmartians.github.io/lefthook/intro.html
 #
 # pre-push:
 #   commands:
@@ -14,9 +14,8 @@
 pre-commit:
   parallel: true
   commands:
-    standardjs:
-      glob: "*.js"
-      run: yarn run standard --fix {staged_files} && git add {staged_files}
+    prettier:
+      run: yarn run lint:fix {staged_files} && git add {staged_files}
     standardrb:
       tags: style
       glob: "*.rb"

@@ -3,7 +3,7 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['image', 'field']
 
-  connect () {
+  connect() {
     this.rotation = parseInt(this.data.get('rotation'), 10)
     if (isNaN(this.rotation)) {
       throw new Error('rotation attribute needs to be provided')
@@ -11,21 +11,21 @@ export default class extends Controller {
     this.updateImageStyle()
   }
 
-  left (event) {
+  left(event) {
     event.preventDefault()
     this.adjustRotation(-90)
     this.updateImageStyle()
     this.updateField()
   }
 
-  right (event) {
+  right(event) {
     event.preventDefault()
     this.adjustRotation(90)
     this.updateImageStyle()
     this.updateField()
   }
 
-  adjustRotation (degrees) {
+  adjustRotation(degrees) {
     this.rotation += degrees
     if (this.rotation === 360) {
       this.rotation = 0
@@ -34,11 +34,11 @@ export default class extends Controller {
     }
   }
 
-  updateImageStyle () {
+  updateImageStyle() {
     this.imageTarget.style.transform = `rotate(${this.rotation}deg)`
   }
 
-  updateField () {
+  updateField() {
     this.fieldTarget.value = this.rotation
   }
 }

@@ -6,20 +6,23 @@ require('@selectize/selectize')
 export default class extends Controller {
   static targets = ['input']
 
-  connect () {
+  connect() {
     this.selectize = jquery(this.inputTarget).selectize({
       copyClassesToDropdown: false,
       // create: true,
-      plugins: ['remove_button'] // 'restore_on_backspace'
+      plugins: ['remove_button'], // 'restore_on_backspace'
     })
   }
 
-  load (query, callback) {
+  load(query, callback) {
     const url = new URL(this.data.get('path'), document.location)
-    fetch(url).then(response => response.json()).then((data) => {
-      callback(data)
-    }).catch((e) => {
-      console.error(e)
-    })
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        callback(data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 }

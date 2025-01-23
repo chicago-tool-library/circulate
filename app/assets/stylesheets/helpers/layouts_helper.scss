@@ -3,21 +3,24 @@
   justify-content: space-between;
 }
 
-@media all and (max-width: 400px)  {
-  h1, .h1 {
+@media all and (max-width: 400px) {
+  h1,
+  .h1 {
     font-size: 1.3rem;
   }
-  h2, .h2 {
+  h2,
+  .h2 {
     font-size: 1rem;
   }
-  h3, .h3 {
-    font-size: .8rem;
+  h3,
+  .h3 {
+    font-size: 0.8rem;
   }
 
   .section-header {
     display: block;
     .section-header-content {
-      margin-top: .6rem;
+      margin-top: 0.6rem;
       .btn {
         max-width: 49%;
       }
@@ -26,5 +29,4 @@
       }
     }
   }
-
 }
