@@ -96,8 +96,8 @@ class ItemsController < ApplicationController
             ended_at IS NULL
             AND (expires_at IS NULL OR expires_at > NOW())
           GROUP BY item_id
-         ) AS active_holds
-         ON active_holds.item_id = items.id"
+         ) AS active_hold_counts
+         ON active_hold_counts.item_id = items.id"
       )
       .joins(
         "LEFT JOIN loans AS active_loans
@@ -121,7 +121,7 @@ class ItemsController < ApplicationController
                     WHEN active_loans.due_at < NOW() THEN 4  -- overdue
                     ELSE 3  -- checked out
                   END
-                WHEN borrow_policies.uniquely_numbered AND active_holds.item_id IS NOT NULL THEN 2  -- on hold
+                WHEN borrow_policies.uniquely_numbered AND active_hold_counts.item_id IS NOT NULL THEN 2  -- on hold
                 ELSE 1  -- available
               END
             WHEN items.status = 'maintenance' THEN 5  -- in maintenance
