@@ -28,5 +28,8 @@
       <%= render partial: "reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
     <% end %>
   </table>
-
+  <%= tag.div data: {
+      controller: "reservation-pickup-sounds",
+      action: "turbo:before-stream-render@window->reservation-pickup-sounds#playSound"
+  } %>
 <% end %>

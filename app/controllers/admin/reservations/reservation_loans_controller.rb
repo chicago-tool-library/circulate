@@ -1,6 +1,10 @@
 module Admin
   module Reservations
     class ReservationLoansController < BaseController
+      COMPLETE_SUCCESS = 'complete-success'
+      PARTIAL_SUCCESS = 'partial-success'
+      ERROR = 'error'
+
       before_action :set_reservation_loan, only: :destroy
 
       def index
@@ -11,6 +15,8 @@ module Admin
       # that we're creating a ReservationLoan for an ItemPool without uniquely numbered items.
       # Otherwise, we're creating a ReservationLoan for an individual ReservableItem.
       def create
+        @sound_type = ERROR
+
         if (reservation_hold_id = reservation_loan_params[:reservation_hold_id])
           @reservation_hold = @reservation.reservation_holds.find(reservation_hold_id)
 
@@ -36,6 +42,7 @@ module Admin
               created_by: current_user
             )
             if pending_item.save
+              @sound_type = COMPLETE_SUCCESS
               respond_to do |format|
                 format.turbo_stream
               end
@@ -52,6 +59,7 @@ module Admin
         end
 
         if @reservation_loan.save
+          @sound_type = COMPLETE_SUCCESS
           respond_to do |format|
             format.turbo_stream
           end
