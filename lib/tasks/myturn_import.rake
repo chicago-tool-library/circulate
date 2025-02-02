@@ -64,7 +64,7 @@
 
 namespace :myturn do
   task reset: :environment do
-    # Just for development
+    raise unless Rails.env.development?
     ReservationLoan.delete_all
     ReservationHold.delete_all
     ReservableItem.delete_all
@@ -91,20 +91,20 @@ namespace :myturn do
             next
           end
 
-          item_pool = ItemPool.create_with(creator: user).find_or_create_by!(name: row["Name"])
-
-          item_pool.update(
-            description: row["Description"],
-            other_names: row["Keywords"]
-          )
-
           begin
+            item_pool = ItemPool.create_with(creator: user).find_or_create_by!(name: row["Name"])
+
+            item_pool.update!(
+              description: row["Description"],
+              other_names: row["Keywords"]
+            )
+
             item = item_pool.reservable_items.create_with(creator: user).find_or_create_by!(
               number: item_number,
               status: ReservableItem.statuses[:active]
             )
 
-            item.update(
+            item.update!(
               size: row["Size"],
               brand: row["Manufacturer"],
               model: row["Model"],
