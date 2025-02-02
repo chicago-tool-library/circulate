@@ -5,7 +5,7 @@ module ItemNumbering
 
   included do
     before_validation :assign_number, on: :create
-    validates :number, numericality: {only_integer: true}, uniqueness: {scope: :library}
+    validates :number, presence: true, numericality: {only_integer: true}, uniqueness: {scope: :library}
   end
 
   class_methods do

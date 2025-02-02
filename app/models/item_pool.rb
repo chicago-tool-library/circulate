@@ -1,5 +1,7 @@
 class ItemPool < ApplicationRecord
-  include ItemAttributes
+  include ItemCategorization
+
+  has_rich_text :description
 
   belongs_to :creator, class_name: "User"
   belongs_to :reservation_policy, optional: true

@@ -1,99 +1,101 @@
 ---
+# Cordless drill
 - id: 10
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 10
   status: active
+  brand: Dewalt
 - id: 11
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 11
   status: active
+  brand: Dewalt
 - id: 12
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 12
   status: active
+  brand: Dewalt
 - id: 13
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 13
   status: active
+  brand: Dewalt
 - id: 14
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 14
   status: active
+  brand: Dewalt
 - id: 15
-  name: Dewalt cordless drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 200
   number: 15
   status: active
+  brand: Dewalt
+# Corded drill
 - id: 16
-  name: Dewalt corded drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
   number: 16
   status: active
+  brand: Dewalt
 - id: 17
-  name: Dewalt corded drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
   number: 17
   status: active
+  brand: Dewalt
 - id: 18
-  name: Dewalt corded drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
   number: 18
   status: active
+  brand: Dewalt
 - id: 19
-  name: Dewalt corded drill
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 201
   number: 19
   status: active
+  brand: Dewalt
 - id: 20
-  name: Little Giant Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 202
   number: 20
   status: active
+  brand: Little Giant
 - id: 21
-  name: Werner Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 202
   number: 21
   status: active
+  brand: Werner
 - id: 22
-  name: Little Giant Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 202
   number: 22
   status: active
+  brand: Little Giant
 - id: 23
-  name: Werner Telescoping Ladder
   created_at: 2019-08-04 15:42:35 UTC
   updated_at: 2019-08-04 15:42:35 UTC
   item_pool_id: 202
   number: 23
   status: active
+  brand: Werner

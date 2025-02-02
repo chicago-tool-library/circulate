@@ -7,14 +7,12 @@
 <% end %>
 
 <div class="columns">
-  <div class="column col-4 col-sm-12">
-    <%= render partial: "admin/item_pools/item_pool_panel", locals: {item_pool: @item_pool, admin: true} %>
-  </div>
 
-  <div class="column col-sm-12 col-8">
+  <div class="column col-sm-12 col-12">
 
     <ul class="tab">
-      <%= tab_link "Reservable Items", admin_item_pool_path(@item_pool) %>
+      <%= tab_link "Details", admin_item_pool_path(@item_pool) %>
+      <%= tab_link "Reservable Items", admin_item_pool_reservable_items_path(@item_pool) %>
       <%= tab_link "Availability", admin_item_pool_availability_path(@item_pool) %>
     </ul>
 

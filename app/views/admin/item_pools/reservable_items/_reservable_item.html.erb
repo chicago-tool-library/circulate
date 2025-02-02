@@ -1,7 +1,7 @@
 <div id="<%= dom_id reservable_item %>">
   <p>
     <%= link_to reservable_item.name, admin_reservable_item_path(reservable_item) %>
-    blongs to the item pool
+    belongs to the item pool
     <%= link_to reservable_item.item_pool.name, admin_item_pool_path(reservable_item.item_pool) %>
   </p>
 </div>
