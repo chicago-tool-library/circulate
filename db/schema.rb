@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_22_225005) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_02_194446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -769,6 +769,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_22_225005) do
     t.string "location_shelf"
     t.string "purchase_link"
     t.string "url"
+    t.jsonb "myturn_metadata", default: "{}"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
