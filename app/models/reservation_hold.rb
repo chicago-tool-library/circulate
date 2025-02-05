@@ -8,6 +8,7 @@ class ReservationHold < ApplicationRecord
   validates :ended_at, presence: true
   validates :quantity, numericality: {only_integer: true, greater_than: 0}
   validate :ensure_quantity_is_available
+  validate :ensure_quantity_covers_existing_loans
 
   before_validation :fill_dates_from_reservation, unless: :persisted?
 
@@ -43,6 +44,14 @@ class ReservationHold < ApplicationRecord
     max_available = item_pool.max_available_between(started_at, ended_at, ignored_reservation_id: reservation_id)
     unless quantity <= max_available
       message = (max_available == 0) ? "none available" : "only #{max_available} available"
+      errors.add(:quantity, message)
+    end
+  end
+
+  def ensure_quantity_covers_existing_loans
+    number_required_by_loans = reservation_loans.sum(:quantity)
+    if quantity < number_required_by_loans
+      message = "#{number_required_by_loans} are required by existing loans"
       errors.add(:quantity, message)
     end
   end

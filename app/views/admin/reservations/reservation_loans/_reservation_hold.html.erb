@@ -9,7 +9,7 @@
   </tr>
   <% reservation_hold.reservation_loans.each do |reservation_loan| %>
     <tr id="<%= dom_id(reservation_loan) %>">
-      <% if reservation_loan.quantity %>
+      <% if reservation_loan.reservable_item.blank? %>
         <td>*</td>
       <% else %>
         <td><%= reservation_loan.reservable_item.number %></td>
@@ -38,7 +38,7 @@
     <tr class="text-italic">
       <td colspan="2">
         <%= pluralize reservation_hold.remaining_quantity, "more item" %> needed
-        <%= link_to "View available", admin_item_pool_path(reservation_hold.item_pool), target: "_blank" %>
+        <%= link_to "View available", admin_item_pool_reservable_items_path(reservation_hold.item_pool), target: "_blank" %>
       </td>
       <td>
         <% if !reservation_hold.item_pool.uniquely_numbered? %>

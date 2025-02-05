@@ -4,8 +4,9 @@ class ReservationLoan < ApplicationRecord
   belongs_to :reservation_hold
   belongs_to :reservation
 
-  validate :reservation_hold_quantity_not_exceeded
   validates :reservable_item_id, uniqueness: {scope: :reservation_hold_id, message: "has already been added"}
+  validates :quantity, numericality: {only_integer: true, greater_than: 0, allow_nil: true}
+  validate :reservation_hold_quantity_not_exceeded
   validate :item_is_available
 
   acts_as_tenant :library
