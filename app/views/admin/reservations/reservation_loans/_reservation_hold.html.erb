@@ -9,10 +9,10 @@
   </tr>
   <% reservation_hold.reservation_loans.each do |reservation_loan| %>
     <tr id="<%= dom_id(reservation_loan) %>">
-      <% if reservation_loan.reservable_item.blank? %>
-        <td>*</td>
-      <% else %>
+      <% if reservation_loan.uniquely_numbered? %>
         <td><%= reservation_loan.reservable_item.number %></td>
+      <% else %>
+        <td>*</td>
       <% end %>
       <td>
         <% if reservation.manager.state == :building %>
@@ -41,7 +41,7 @@
         <%= link_to "View available", admin_item_pool_reservable_items_path(reservation_hold.item_pool), target: "_blank" %>
       </td>
       <td>
-        <% if !reservation_hold.item_pool.uniquely_numbered? %>
+        <% if !reservation_hold.uniquely_numbered? %>
           <%= button_to "Add all",
                 admin_reservation_loans_path(reservation),
                 method: :post,

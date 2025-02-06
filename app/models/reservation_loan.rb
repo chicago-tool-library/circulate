@@ -15,6 +15,10 @@ class ReservationLoan < ApplicationRecord
   scope :checked_out, -> { where.not(checked_out_at: nil).and(where(checked_in_at: nil)) }
   scope :pending_or_checked_out, -> { pending.or(checked_out) }
 
+  def uniquely_numbered?
+    reservable_item.present?
+  end
+
   private
 
   def reservation_hold_quantity_not_exceeded

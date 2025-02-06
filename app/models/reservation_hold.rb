@@ -21,11 +21,7 @@ class ReservationHold < ApplicationRecord
 
   # Total number of items that were reserved
   def loaned_quantity
-    if item_pool.uniquely_numbered?
-      reservation_loans.size
-    else
-      reservation_loans.pluck(:quantity).sum
-    end
+    reservation_loans.sum(:quantity)
   end
 
   # Do all held items have an associated loaned item?
@@ -36,6 +32,10 @@ class ReservationHold < ApplicationRecord
   # How many more items are needed to satisfy this hold?
   def remaining_quantity
     quantity - loaned_quantity
+  end
+
+  def uniquely_numbered?
+    item_pool.uniquely_numbered?
   end
 
   private
@@ -49,9 +49,9 @@ class ReservationHold < ApplicationRecord
   end
 
   def ensure_quantity_covers_existing_loans
-    number_required_by_loans = reservation_loans.sum(:quantity)
-    if quantity < number_required_by_loans
-      message = "#{number_required_by_loans} are required by existing loans"
+    required_by_loans = loaned_quantity
+    if quantity < required_by_loans
+      message = "#{required_by_loans} are required by existing loans"
       errors.add(:quantity, message)
     end
   end
