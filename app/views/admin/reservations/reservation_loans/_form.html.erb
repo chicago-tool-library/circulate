@@ -3,8 +3,4 @@
     <%= form.text_field :reservable_item_number, label: "Item Number", autocomplete: "off", autofocus: true %>
     <%= form.submit "Add Item" %>
   <% end %>
-
-  <% if sound_type.present? %>
-    <audio autoplay src="<%= sound_type %>" preload="auto"></audio>
-  <% end %>
 <% end %>

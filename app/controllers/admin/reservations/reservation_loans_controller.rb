@@ -88,7 +88,7 @@ module Admin
       end
 
       def render_form
-        render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: @reservation_loan, sound_type: @sound_type}, status: :unprocessable_entity
+        render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: @reservation_loan}, status: :unprocessable_entity
       end
 
       def set_reservation_loan
