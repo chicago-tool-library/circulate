@@ -8,6 +8,9 @@ class ReservableItem < ApplicationRecord
   has_many :reservation_loans
   has_one_attached :image
 
+  store_accessor :myturn_metadata,
+    :image_url, :dimensions, :weight, :item_type, :supplier
+
   enum :power_source, {
     solar: "solar",
     gas: "gas",
@@ -23,4 +26,13 @@ class ReservableItem < ApplicationRecord
   monetize :purchase_price_cents,
     allow_nil: true,
     disable_validation: true
+
+  def import_myturn_image
+    return if myturn_metadata["image_url"].blank?
+
+    url = URI.parse(myturn_metadata["image_url"])
+    filename = File.basename(url.path)
+    downloaded_image = url.open
+    image.attach(io: downloaded_image, filename:)
+  end
 end
