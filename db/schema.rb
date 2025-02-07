@@ -769,7 +769,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_05_054754) do
     t.string "location_shelf"
     t.string "purchase_link"
     t.string "url"
-    t.jsonb "myturn_metadata", default: "{}"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
