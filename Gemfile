@@ -102,9 +102,9 @@ gem "cssbundling-rails", "~> 1.4"
 
 gem "twilio-ruby", "~> 7.4"
 
-gem "ahoy_matey", "~> 5.2"
+gem "ahoy_matey", "~> 5.3"
 
-gem "good_job", "~> 4.7"
+gem "good_job", "~> 4.8"
 
 gem "blazer", "~> 3.1"
 
