@@ -12,6 +12,10 @@
   </turbo-stream>
 <% end %>
 
+<% if @sound_type %>
+  <turbo-stream action="playSound" sound_type="<%= @sound_type %>"></turbo-stream>
+<% end %>
+
 <turbo-stream action="replace" target="pickup-status">
   <template>
     <%= render partial: "admin/reservations/status", formats: [:html], locals: {reservation: @reservation} %>

@@ -29,3 +29,7 @@
     <% end %>
   </table>
 <% end %>
+
+<% Sounds.all_sound_paths.each do |sound_path| %>
+  <audio src="<%= sound_path %>" preload="auto"></audio>
+<% end %>

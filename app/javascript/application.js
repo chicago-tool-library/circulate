@@ -10,7 +10,7 @@ import { highlightElement } from './lib/highlight'
 
 ActiveStorage.start()
 
-// When we send a custom turob action of "redirect", simply go to that location.
+// When we send a custom turbo action of "redirect", simply go to that location.
 // Based on https://www.ducktypelabs.com/turbo-break-out-and-redirect/
 Turbo.StreamActions.redirect = function () {
   Turbo.visit(this.target)
@@ -18,6 +18,12 @@ Turbo.StreamActions.redirect = function () {
 
 Turbo.StreamActions.arrangeAppointment = function () {
   arrangeAppointment(this.target)
+}
+
+Turbo.StreamActions.playSound = function () {
+  const soundType = this.getAttribute('sound_type')
+  const audioTag = document.body.querySelector(`[src="${soundType}"]`)
+  audioTag?.play()
 }
 
 document.documentElement.addEventListener('turbo:load', setupFeatherIcons)
