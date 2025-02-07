@@ -109,7 +109,14 @@ namespace :myturn do
               brand: row["Manufacturer"],
               model: row["Model"],
               serial: row["Serial Number"],
-              purchase_price: (Money.new(row["Replacement Cost"]) if row["Replacement Cost"])
+              purchase_price: (Money.new(row["Replacement Cost"]) if row["Replacement Cost"]),
+              myturn_metadata: {
+                image_url: row["Image"].presence.try(:chomp, "|"),
+                dimensions: row["Dimensions"].presence,
+                weight: row["Weight"].presence,
+                item_type: row["Item Type"].presence,
+                supplier: row["Source / Supplier"].presence
+              }.compact
             )
           rescue ActiveRecord::RecordInvalid => e
             puts e
