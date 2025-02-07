@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_02_194446) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_05_054754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -794,7 +794,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_02_194446) do
   create_table "reservation_loans", force: :cascade do |t|
     t.bigint "reservation_hold_id", null: false
     t.bigint "reservable_item_id"
-    t.integer "quantity", comment: "For item pools without uniquely numbered items"
+    t.integer "quantity", default: 1, null: false
     t.bigint "library_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

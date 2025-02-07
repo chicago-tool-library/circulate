@@ -8,6 +8,7 @@ class ReservationHold < ApplicationRecord
   validates :ended_at, presence: true
   validates :quantity, numericality: {only_integer: true, greater_than: 0}
   validate :ensure_quantity_is_available
+  validate :ensure_quantity_covers_existing_loans
 
   before_validation :fill_dates_from_reservation, unless: :persisted?
 
@@ -20,11 +21,7 @@ class ReservationHold < ApplicationRecord
 
   # Total number of items that were reserved
   def loaned_quantity
-    if item_pool.uniquely_numbered?
-      reservation_loans.size
-    else
-      reservation_loans.pluck(:quantity).sum
-    end
+    reservation_loans.sum(:quantity)
   end
 
   # Do all held items have an associated loaned item?
@@ -37,12 +34,24 @@ class ReservationHold < ApplicationRecord
     quantity - loaned_quantity
   end
 
+  def uniquely_numbered?
+    item_pool.uniquely_numbered?
+  end
+
   private
 
   def ensure_quantity_is_available
     max_available = item_pool.max_available_between(started_at, ended_at, ignored_reservation_id: reservation_id)
     unless quantity <= max_available
       message = (max_available == 0) ? "none available" : "only #{max_available} available"
+      errors.add(:quantity, message)
+    end
+  end
+
+  def ensure_quantity_covers_existing_loans
+    required_by_loans = loaned_quantity
+    if quantity < required_by_loans
+      message = "#{required_by_loans} are required by existing loans"
       errors.add(:quantity, message)
     end
   end

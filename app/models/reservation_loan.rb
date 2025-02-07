@@ -4,8 +4,9 @@ class ReservationLoan < ApplicationRecord
   belongs_to :reservation_hold
   belongs_to :reservation
 
-  validate :reservation_hold_quantity_not_exceeded
   validates :reservable_item_id, uniqueness: {scope: :reservation_hold_id, message: "has already been added"}
+  validates :quantity, numericality: {only_integer: true, greater_than: 0, allow_nil: true}
+  validate :reservation_hold_quantity_not_exceeded
   validate :item_is_available
 
   acts_as_tenant :library
@@ -13,6 +14,10 @@ class ReservationLoan < ApplicationRecord
   scope :pending, -> { where(checked_out_at: nil) }
   scope :checked_out, -> { where.not(checked_out_at: nil).and(where(checked_in_at: nil)) }
   scope :pending_or_checked_out, -> { pending.or(checked_out) }
+
+  def uniquely_numbered?
+    reservable_item.present?
+  end
 
   private
 
