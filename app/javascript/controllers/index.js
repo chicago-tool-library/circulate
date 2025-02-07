@@ -34,8 +34,6 @@ import NotesController from './notes_controller'
 
 import ReservationDatesController from './reservation_dates_controller'
 
-import ReservationPickupSoundsController from './reservation_pickup_sounds_controller'
-
 import SidebarController from './sidebar_controller'
 
 import TagEditorController from './tag_editor_controller'
@@ -58,10 +56,6 @@ application.register('modal', ModalController)
 application.register('multi-select', MultiSelectController)
 application.register('notes', NotesController)
 application.register('reservation-dates', ReservationDatesController)
-application.register(
-  'reservation-pickup-sounds',
-  ReservationPickupSoundsController
-)
 application.register('sidebar', SidebarController)
 application.register('tag-editor', TagEditorController)
 application.register('toggle', ToggleController)

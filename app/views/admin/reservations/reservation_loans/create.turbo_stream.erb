@@ -1,6 +1,6 @@
 <turbo-stream action="replace" target="reservation-loan-form">
-  <template data-sound-type="<%= @sound_type %>">
-    <%= render partial: "admin/reservations/reservation_loans/form", formats: [:html], locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+  <template>
+    <%= render partial: "admin/reservations/reservation_loans/form", formats: [:html], locals: {reservation: @reservation, reservation_loan: ReservationLoan.new, sound_type: @sound_type} %>
   </template>
 </turbo-stream>
 

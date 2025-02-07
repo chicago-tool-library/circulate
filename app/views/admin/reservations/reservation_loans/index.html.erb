@@ -5,7 +5,7 @@
   <div class="divider"></div>
 
   <% if @reservation.manager.state == :building %>
-    <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new} %>
+    <%= render partial: "admin/reservations/reservation_loans/form", locals: {reservation: @reservation, reservation_loan: ReservationLoan.new, sound_type: nil} %>
   <% end %>
 
   <% if @reservation.manager.state == :borrowed %>
@@ -28,8 +28,4 @@
       <%= render partial: "reservation_hold", locals: {reservation: @reservation, reservation_hold: reservation_hold} %>
     <% end %>
   </table>
-  <%= tag.div data: {
-      controller: "reservation-pickup-sounds",
-      action: "turbo:before-stream-render@window->reservation-pickup-sounds#playSound"
-  } %>
 <% end %>
