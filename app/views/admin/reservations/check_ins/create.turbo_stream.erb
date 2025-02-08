@@ -17,3 +17,7 @@
     <%= render partial: "admin/reservations/pending_reservation_items", formats: [:html], locals: {reservation: @reservation} %>
   </template>
 </turbo-stream>
+
+<% if @sound_type %>
+  <turbo-stream action="playSound" sound_type="<%= @sound_type %>"></turbo-stream>
+<% end %>

@@ -1,16 +1,15 @@
 module Admin
   module Reservations
     class PendingReservationItemsController < BaseController
+      include Sounds
       before_action :load_pending_reservation_item
 
       # Merge into the reservation
       def update
         result = ReservationLending.add_pending_item_to_reservation(@pending_reservation_item)
         if result.success?
-          render_turbo_response(
-            turbo_stream: turbo_stream.action(:redirect,
-              admin_reservation_loans_path(@pending_reservation_item.reservation))
-          )
+          @sound_type = success_sound_path
+          render_turbo_response(:update)
         else
           render_turbo_response :error
         end
@@ -19,6 +18,7 @@ module Admin
       # Remove from reservation
       def destroy
         if @pending_reservation_item.destroy
+          @sound_type = removed_sound_path
           render_turbo_response :destroy
         end
       end

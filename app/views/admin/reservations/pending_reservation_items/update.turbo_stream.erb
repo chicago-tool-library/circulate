@@ -1,0 +1,5 @@
+<%= turbo_stream.action(:redirect, admin_reservation_loans_path(@pending_reservation_item.reservation)) %>
+
+<% if @sound_type %>
+  <turbo-stream action="playSound" sound_type="<%= @sound_type %>"></turbo-stream>
+<% end %>
