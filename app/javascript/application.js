@@ -23,7 +23,12 @@ Turbo.StreamActions.arrangeAppointment = function () {
 Turbo.StreamActions.playSound = function () {
   const soundType = this.getAttribute('sound_type')
   const audioTag = document.body.querySelector(`[src="${soundType}"]`)
-  audioTag?.play()
+  if (audioTag) {
+    // Check to make sure fastSeek is implemented
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/fastSeek#browser_compatibility
+    audioTag.fastSeek && audioTag.fastSeek(0)
+    audioTag.play()
+  }
 }
 
 document.documentElement.addEventListener('turbo:load', setupFeatherIcons)
