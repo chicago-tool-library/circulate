@@ -196,4 +196,21 @@ class HoldsTest < ApplicationSystemTestCase
     reloaded_hold_ids = all(".item-holds-table tr[data-hold-id]").pluck("data-hold-id")
     assert_equal expected_hold_ids, reloaded_hold_ids
   end
+
+  test "ending a specific hold on an item" do
+    # use factory bot to create a few started holds
+    @holds = create_list(:started_hold, 3)
+    @a_hold = @holds.first
+    @item = @a_hold.item
+
+    # visit the admin item holds page
+    visit admin_item_holds_path(@item)
+
+    # end the hold we're testing and verify
+    within "[data-hold-id='#{@a_hold.id}']" do
+      assert_difference("@item.active_holds.count", -1) do
+        accept_confirm { click_on "Remove Hold" }
+      end
+    end
+  end
 end
