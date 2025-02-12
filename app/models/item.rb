@@ -62,6 +62,51 @@ class Item < ApplicationRecord
 
   scope :by_name, -> { order(name: :asc) }
 
+  scope :search_and_order_by_availability, ->(query) {
+    item_scope = search_by_anything(query)
+    .with_pg_search_rank
+    .joins(
+        "LEFT JOIN (
+          SELECT item_id, COUNT(*) as active_hold_count
+          FROM holds
+          WHERE
+            ended_at IS NULL
+            AND (expires_at IS NULL OR expires_at > NOW())
+          GROUP BY item_id
+         ) AS active_hold_counts
+         ON active_hold_counts.item_id = items.id"
+      )
+      .joins(
+        "LEFT JOIN loans AS active_loans
+         ON active_loans.item_id = items.id
+         AND active_loans.ended_at IS NULL
+         AND active_loans.uniquely_numbered"
+      )
+      .left_joins(:borrow_policy)
+
+      item_scope.select(
+        "#{item_scope.pg_search_rank_table_alias}.rank",
+        "items.*",
+        "
+          CASE
+            WHEN items.status = 'active' THEN
+              CASE
+                WHEN active_loans.id IS NOT NULL THEN
+                  CASE
+                    WHEN active_loans.due_at < NOW() THEN 4  -- overdue
+                    ELSE 3  -- checked out
+                  END
+                WHEN borrow_policies.uniquely_numbered AND active_hold_counts.item_id IS NOT NULL THEN 2  -- on hold
+                ELSE 1  -- available
+              END
+            WHEN items.status = 'maintenance' THEN 5  -- in maintenance
+            ELSE 6  -- unavailable
+          END AS search_priority
+        "
+      )
+      .reorder("#{item_scope.pg_search_rank_table_alias}.rank desc", "search_priority")
+  }
+
   validates :name, presence: true
   validates :borrow_policy_id, inclusion: {in: ->(item) { BorrowPolicy.pluck(:id) }}
   validates :url, format: {with: URI::DEFAULT_PARSER.make_regexp, message: "must be a valid URL", allow_blank: true}

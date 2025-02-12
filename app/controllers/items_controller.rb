@@ -85,51 +85,7 @@ class ItemsController < ApplicationController
       return item_scope
     end
 
-    scope = item_scope.search_by_anything(@query).with_pg_search_rank
-
-    scope
-      .joins(
-        "LEFT JOIN (
-          SELECT item_id, COUNT(*) as active_hold_count
-          FROM holds
-          WHERE
-            ended_at IS NULL
-            AND (expires_at IS NULL OR expires_at > NOW())
-          GROUP BY item_id
-         ) AS active_hold_counts
-         ON active_hold_counts.item_id = items.id"
-      )
-      .joins(
-        "LEFT JOIN loans AS active_loans
-         ON active_loans.item_id = items.id
-         AND active_loans.ended_at IS NULL
-         AND active_loans.uniquely_numbered"
-      )
-      .joins(
-        "LEFT JOIN borrow_policies
-         ON items.borrow_policy_id = borrow_policies.id"
-      )
-      .select(
-        "#{scope.pg_search_rank_table_alias}.rank",
-        "items.*",
-        "
-          CASE
-            WHEN items.status = 'active' THEN
-              CASE
-                WHEN active_loans.id IS NOT NULL THEN
-                  CASE
-                    WHEN active_loans.due_at < NOW() THEN 4  -- overdue
-                    ELSE 3  -- checked out
-                  END
-                WHEN borrow_policies.uniquely_numbered AND active_hold_counts.item_id IS NOT NULL THEN 2  -- on hold
-                ELSE 1  -- available
-              END
-            WHEN items.status = 'maintenance' THEN 5  -- in maintenance
-            ELSE 6  -- unavailable
-          END AS search_priority
-        "
-      )
-      .reorder("#{scope.pg_search_rank_table_alias}.rank desc", "search_priority")
+    item_scope.search_and_order_by_availability(@query)
   end
 
   def filter_by_available(item_scope)
