@@ -64,8 +64,8 @@ class Item < ApplicationRecord
 
   scope :search_and_order_by_availability, ->(query) {
     item_scope = search_by_anything(query)
-    .with_pg_search_rank
-    .joins(
+      .with_pg_search_rank
+      .joins(
         "LEFT JOIN (
           SELECT item_id, COUNT(*) as active_hold_count
           FROM holds
@@ -84,10 +84,10 @@ class Item < ApplicationRecord
       )
       .left_joins(:borrow_policy)
 
-      item_scope.select(
-        "#{item_scope.pg_search_rank_table_alias}.rank",
-        "items.*",
-        "
+    item_scope.select(
+      "#{item_scope.pg_search_rank_table_alias}.rank",
+      "items.*",
+      "
           CASE
             WHEN items.status = 'active' THEN
               CASE
@@ -103,7 +103,7 @@ class Item < ApplicationRecord
             ELSE 6  -- unavailable
           END AS search_priority
         "
-      )
+    )
       .reorder("#{item_scope.pg_search_rank_table_alias}.rank desc", "search_priority")
   }
 
