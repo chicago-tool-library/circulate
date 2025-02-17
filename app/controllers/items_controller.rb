@@ -85,8 +85,7 @@ class ItemsController < ApplicationController
       return item_scope
     end
 
-    scope = item_scope.search_by_anything(@query)
-    scope.select("#{scope.pg_search_rank_table_alias}.rank", "items.*")
+    item_scope.search_and_order_by_availability(@query)
   end
 
   def filter_by_available(item_scope)
