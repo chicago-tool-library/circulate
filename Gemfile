@@ -52,7 +52,7 @@ gem "omniauth-rails_csrf_protection"
 # Calendar syncing
 gem "googleauth"
 
-gem "image_processing", "~> 1.13"
+gem "image_processing", "~> 1.14"
 gem "mini_magick"
 
 gem "barnes"
