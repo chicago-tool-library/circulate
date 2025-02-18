@@ -4,35 +4,39 @@
 
 <section class="filters-container">
   <h2>Filters</h2>
-  <%= search_form_for(@q, url: admin_reports_items_in_maintenance_index_path, class: "filters-form") do |f| %>
+  <%= form_with(url: admin_reports_items_in_maintenance_index_path, class: "filters-form", method: :get) do |f| %>
     <div class="filters-form-fields">
       <div class="filter-column item-and-ticket-filters">
         <div class="filter-row item-filters">
           <div class="filter-field name">
-            <%= f.label :item_name_cont, "Item Name" %>
-            <%= f.search_field :item_name_cont %>
+            <%= f.label :"q[item_name_cont]", "Item Name" %>
+            <%= f.search_field :"q[item_name_cont]"  %>
           </div>
 
           <div class="filter-field status">
-            <%= f.label :item_status_eq, "Item Status" %>
-            <%= f.select :item_status_eq, Item.statuses.values.sort.map { |value| [value.humanize, value] }, {include_blank: true} %>
+            <%= f.label :"[q]item_status_eq", "Item Status" %>
+            <%= f.select :"[q]item_status_eq", Item.statuses.values.sort.map { |value| [value.humanize, value] }, {include_blank: true} %>
           </div>
 
           <div class="filter-field number">
-            <%= f.label :item_number_cont, "Item Number" %>
-            <%= f.search_field :item_number_eq %>
+            <%= f.label :"[q]item_number_eq", "Item Number" %>
+            <%= f.search_field :"[q]item_number_eq" %>
           </div>
-        </div>
+
 
         <div class="filter-row ticket-filters">
           <div class="filter-field title">
-            <%= f.label :title_cont, "Ticket Title" %>
-            <%= f.search_field :title_cont %>
+            <%= f.label :"[q]title_cont", "Ticket Title" %>
+            <%= f.search_field :"[q]title_cont" %>
           </div>
 
           <div class="filter-field status">
-            <%= f.label :status_eq, "Ticket Status" %>
-            <%= f.select :status_eq, [["Assess", "assess"], ["Parts", "parts"], ["Repairing", "repairing"]], {include_blank: true} %>
+            <%= f.label :"[q]status_eq", "Ticket Status" %>
+            <%= f.select :"[q]status_eq", [["Assess", "assess"], ["Parts", "parts"], ["Repairing", "repairing"]], {include_blank: true} %>
+          </div>
+          <div class="filter-field tag">
+            <%= f.label :tags_name_in, "Tag" %>
+            <%= f.select :tags_name_in, ActsAsTaggableOn::Tag.most_used.pluck(:name), {include_blank: true} %>      
           </div>
         </div>
       </div>
@@ -40,25 +44,25 @@
       <div class="filter-column date-filters">
         <div class="filter-row">
           <div class="filter-field">
-            <%= f.label :created_at_gteq, "Created After" %>
-            <%= f.date_field :created_at_gteq %>
+            <%= f.label :"[q]created_at_gteq", "Created After" %>
+            <%= f.date_field :"[q]created_at_gteq" %>
           </div>
 
           <div class="filter-field">
-            <%= f.label :created_at_lteq, "Created Before" %>
-            <%= f.date_field :created_at_lteq %>
+            <%= f.label :"[q]created_at_lteq", "Created Before" %>
+            <%= f.date_field :"[q]created_at_lteq" %>
           </div>
         </div>
 
         <div class="filter-row">
           <div class="filter-field">
-            <%= f.label :updated_at_gteq, "Updated After" %>
-            <%= f.date_field :updated_at_gteq %>
+            <%= f.label :"[q]updated_at_gteq", "Updated After" %>
+            <%= f.date_field :"[q]updated_at_gteq" %>
           </div>
 
           <div class="filter-field">
-            <%= f.label :updated_at_lteq, "Updated Before" %>
-            <%= f.date_field :updated_at_lteq %>
+            <%= f.label :"[q]updated_at_lteq", "Updated Before" %>
+            <%= f.date_field :"[q]updated_at_lteq" %>
           </div>
         </div>
       </div>
@@ -80,6 +84,7 @@
         <th>Categories</th>
         <th><%= sort_link(@q, :title, "Title") %></th>
         <th><%= sort_link(@q, :status, "Status") %></th>
+        <th><%= sort_link(@q, :tag_list, "Tags") %></th>
         <th><%= sort_link(@q, :created_at, "Created") %></th>
         <th><%= sort_link(@q, :updated_at, "Updated") %></th>
       </tr>
@@ -102,6 +107,9 @@
           </td>
           <td>
             <%= ticket.status %>
+          </td>
+          <td>
+            <%= ticket.tag_list %>
           </td>
           <td>
             <%= ticket.created_at.to_formatted_s(:short_date) %>
