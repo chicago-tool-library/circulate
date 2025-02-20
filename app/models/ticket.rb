@@ -41,13 +41,13 @@ class Ticket < ApplicationRecord
   scope :active, -> { where(status: Ticket.statuses.values_at(:assess, :parts, :repairing)) }
   scope :newest_first, -> { order(created_at: :desc) }
   # used for filtering--if no tags are selected, don't filter by tags
-  scope :has_tags, ->(tags) do  
-    if tags.present? 
-      tagged_with(tags) 
+  scope :has_tags, ->(tags) do
+    if tags.present?
+      tagged_with(tags)
     else
       all
     end
-  end 
+  end
 
   def self.ransackable_attributes(auth_object = nil)
     %w[created_at updated_at title status]

@@ -10,33 +10,33 @@
         <div class="filter-row item-filters">
           <div class="filter-field name">
             <%= f.label :"q[item_name_cont]", "Item Name" %>
-            <%= f.search_field :"q[item_name_cont]", value: params.dig(:q, :item_name_cont)  %>
+            <%= f.search_field :"q[item_name_cont]", value: params.dig(:q, :item_name_cont) %>
           </div>
 
           <div class="filter-field status">
             <%= f.label :"q[item_status_eq]", "Item Status" %>
-            <%= f.select :"q[item_status_eq]", Item.statuses.values.sort.map { |value| [value.humanize, value] }, {include_blank: true, selected: params.dig(:q, :item_status_eq)}%>
+            <%= f.select :"q[item_status_eq]", Item.statuses.values.sort.map { |value| [value.humanize, value] }, {include_blank: true, selected: params.dig(:q, :item_status_eq)} %>
           </div>
 
           <div class="filter-field number">
             <%= f.label :"q[item_number_eq]", "Item Number" %>
             <%= f.search_field :"q[item_number_eq]", value: params.dig(:q, :item_number_eq) %>
           </div>
-
-
+        </div>
         <div class="filter-row ticket-filters">
           <div class="filter-field title">
             <%= f.label :"q[title_cont]", "Ticket Title" %>
-            <%= f.search_field :"q[title_cont]",  value: params.dig(:q, :title_cont) %>
+            <%= f.search_field :"q[title_cont]", value: params.dig(:q, :title_cont) %>
           </div>
 
           <div class="filter-field status">
             <%= f.label :"q[status_eq]", "Ticket Status" %>
             <%= f.select :"q[status_eq]", [["Assess", "assess"], ["Parts", "parts"], ["Repairing", "repairing"]], {include_blank: true, selected: params.dig(:q, :status_eq)} %>
           </div>
+
           <div class="filter-field tag">
             <%= f.label :tags_name_in, "Tag" %>
-            <%= f.select :tags_name_in, ActsAsTaggableOn::Tag.most_used.pluck(:name), {include_blank: true, selected: params[:tags_name_in]} %>      
+            <%= f.select :tags_name_in, ActsAsTaggableOn::Tag.most_used.pluck(:name), {include_blank: true, selected: params[:tags_name_in]} %>
           </div>
         </div>
       </div>
