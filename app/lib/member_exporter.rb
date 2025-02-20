@@ -53,7 +53,7 @@ class MemberExporter
   private
 
   def year_headers
-    @year_range.flat_map { |year| ["#{year}_amount", "#{year}_started_at"] }
+    @year_range.flat_map { |year| ["#{year}_amount", "#{year}_started_on", "#{year}_ended_on"] }
   end
 
   def year_values(member)
@@ -61,11 +61,11 @@ class MemberExporter
       started_at = member["#{year}_started_at"]
       amount = member["#{year}_amount"].to_i
       if started_at
-        [amount / 100, started_at.to_fs(:short_date)]
+        [amount / 100, started_at.to_fs(:short_date), (started_at + 1.year).to_fs(:short_date)]
       elsif amount > 0
-        [amount / 100, nil]
+        [amount / 100, nil, nil]
       else
-        [nil, nil]
+        [nil, nil, nil]
       end
     }
   end
