@@ -21,7 +21,7 @@ class ItemExporter
       "number",
       "name",
       "categories",
-      "description",
+      "description_markdown",
       "item_url",
       *columns
     ]
