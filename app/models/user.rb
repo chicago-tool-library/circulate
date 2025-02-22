@@ -36,6 +36,10 @@ class User < ApplicationRecord
     find_by(arel_table[:email].lower.eq(email.downcase))
   end
 
+  def self.generate_temporary_password
+    Devise.friendly_token.first(6)
+  end
+
   def roles
     case role
     when "member"

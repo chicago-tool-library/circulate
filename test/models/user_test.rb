@@ -63,4 +63,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal original_user, User.find_by_case_insensitive_email(original_user.email.downcase)
     assert_nil User.find_by_case_insensitive_email("myMixedCaseEmail@example.co")
   end
+
+  test ".generate_temporary_password is a unique 6 character string" do
+    result = User.generate_temporary_password
+    assert_equal result.class, String
+    assert_equal result.size, 6
+    refute_equal result, User.generate_temporary_password
+  end
 end

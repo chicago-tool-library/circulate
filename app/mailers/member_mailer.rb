@@ -104,6 +104,14 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject)
   end
 
+  def admin_reset_password
+    @member = params[:member]
+    @new_password = params[:new_password]
+    @library = @member.library
+    @subject = "Your password has been reset by a librarian"
+    mail(to: @member.email, subject: @subject)
+  end
+
   private
 
   def pluralize(count, word)

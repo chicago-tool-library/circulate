@@ -61,6 +61,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   def assert_delivered_email(to:, second_to_last: false, &block)
     delivered_mail = second_to_last ? ActionMailer::Base.deliveries[-2] : ActionMailer::Base.deliveries.last
+    assert delivered_mail, "no email was delivered"
     assert_equal [to], delivered_mail.to
 
     assert delivered_mail.body.parts.size == 2, "non multipart email was sent!"
