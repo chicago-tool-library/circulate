@@ -18,7 +18,7 @@ class Admin::MemberPasswordResetTest < ApplicationSystemTestCase
       click_on "Reset Password"
     end
 
-    assert_current_path edit_admin_member_passwords_path(member)
+    assert_current_path edit_admin_member_password_path(member)
 
     new_password = "new-password"
 
@@ -38,7 +38,7 @@ class Admin::MemberPasswordResetTest < ApplicationSystemTestCase
         click_on "Reset Password"
       end
 
-      assert_current_path edit_admin_member_passwords_path(member)
+      assert_current_path edit_admin_member_password_path(member)
 
       assert_selector "input[value='#{@generated_password}']"
     end
@@ -71,7 +71,7 @@ class Admin::MemberPasswordResetTest < ApplicationSystemTestCase
         click_on "Reset Password"
       end
 
-      assert_current_path edit_admin_member_passwords_path(member)
+      assert_current_path edit_admin_member_password_path(member)
 
       assert_selector "input[value='#{@generated_password}']"
     end
