@@ -1,4 +1,4 @@
-<div id="<%= dom_id(appointment) %>-mobile" class="card <%= "completed" if appointment.completed? %>">
+<div id="<%= dom_id(appointment) %>-mobile" class="card <%= "completed" if appointment.completed? %> <%= "pulled" if appointment.pulled_at? && !appointment.completed? %>">
   <div class="card-header">
     <div class="card-title h5">
       <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %>
@@ -58,8 +58,13 @@
     <% if appointment.completed? %>
       <%= button_to "Restore", admin_appointment_completion_path(appointment, new: true),
             method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
-    <% else %>
+    <% elsif appointment.pulled_at? %>
+      <%= button_to "Mark As Not Pulled", admin_appointment_pull_path(appointment, params: {new: true}),
+            method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
       <%= button_to "Complete", admin_appointment_completion_path(appointment, new: true),
+            method: :post, class: "btn btn-primary", data: {disable_with: "saving"} %>
+    <% else %>
+      <%= button_to "Pull Items", admin_appointment_pull_path(appointment, params: {new: true}),
             method: :post, class: "btn btn-primary", data: {disable_with: "saving"} %>
     <% end %>
   </div>

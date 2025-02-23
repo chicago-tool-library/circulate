@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       resources :checkouts, only: [:create], controller: :appointment_checkouts
       resources :checkins, only: [:create], controller: :appointment_checkins
       resource :completion, only: [:create, :destroy], controller: :appointment_completions
+      resource :pull, only: [:create, :destroy], controller: :appointment_pulls
       resource :detail_completion, only: [:create, :destroy], controller: :appointment_detail_completions
     end
     resources :manage_features, only: [:index, :update]

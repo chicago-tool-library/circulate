@@ -1,6 +1,6 @@
 <%= tag.tr(
       id: dom_id(appointment),
-      class: "appointment #{appointment.completed? ? "completed" : "pending"}",
+      class: "appointment #{"completed" if appointment.completed?} #{"pulled" if appointment.pulled_at? && !appointment.completed?} #{"pending" unless appointment.pulled_at? || !appointment.completed?}",
       data: {sort_key: appointment_sort_key(appointment), appointment_id: appointment.id}
     ) do %>
   <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
@@ -33,8 +33,13 @@
     <% if appointment.completed? %>
       <%= button_to "Restore", admin_appointment_completion_path(appointment), params: {new: false},
             method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
-    <% else %>
+    <% elsif appointment.pulled_at? %>
+      <%= button_to "Mark As Not Pulled", admin_appointment_pull_path(appointment, params: {new: false}),
+            method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
       <%= button_to "Complete", admin_appointment_completion_path(appointment), params: {new: false},
+            method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
+    <% else %>
+      <%= button_to "Pull Items", admin_appointment_pull_path(appointment, params: {new: false}),
             method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
     <% end %>
   </td>

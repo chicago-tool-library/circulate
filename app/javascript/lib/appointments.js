@@ -3,9 +3,17 @@
 export function arrangeAppointment(id) {
   const element = document.getElementById(id)
   const isCompleted = element.classList.contains('completed')
-  const newParentSelector = isCompleted
-    ? '.completed-appointments'
-    : '.pending-appointments'
+  const isPulled = element.classList.contains('pulled')
+  let newParentSelector
+
+  if (isCompleted) {
+    newParentSelector = '.completed-appointments'
+  } else if (isPulled) {
+    newParentSelector = '.pulled-appointments'
+  } else {
+    newParentSelector = '.pending-appointments'
+  }
+
   const newParent = document.querySelector(newParentSelector)
 
   // Insert before an element with a higher sort key
