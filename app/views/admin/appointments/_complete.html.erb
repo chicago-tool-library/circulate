@@ -8,7 +8,7 @@
     <%= button_to "Mark As Not Pulled", admin_appointment_detail_pull_path(appointment),
           method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
   <% else %>
-    <%= button_to "Pulled Items", admin_appointment_detail_pull_path(appointment),
+    <%= button_to "Pull Items", admin_appointment_detail_pull_path(appointment),
           method: :post, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
   <% end %>
 

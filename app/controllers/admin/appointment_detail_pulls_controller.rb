@@ -8,7 +8,7 @@ module Admin
       @appointment = Appointment.find(params[:appointment_id])
       @appointment.update!(pulled_at: Time.current, staff_updating: true)
 
-      redirect_to admin_appointments_path, flash: {success: "Appointment items pulled."}, status: :see_other
+      render_appointment_to_turbo_stream
     end
 
     def destroy

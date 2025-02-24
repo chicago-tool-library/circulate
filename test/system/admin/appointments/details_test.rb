@@ -15,7 +15,7 @@ module Admin
     test "an admin can mark a pending appointment as pulled" do
       visit admin_appointment_path(@appointment)
 
-      click_on "Pulled Items"
+      click_on "Pull Items"
 
       assert_text "Complete"
       assert_text "Mark As Not Pulled"
@@ -33,7 +33,7 @@ module Admin
 
       click_on "Mark As Not Pulled"
 
-      assert_text "Pulled Items"
+      assert_text "Pull Items"
 
       @appointment.reload
 
