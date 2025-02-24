@@ -106,6 +106,6 @@ gem "ahoy_matey", "~> 5.3"
 
 gem "good_job", "~> 4.9"
 
-gem "blazer", "~> 3.1"
+gem "blazer", "~> 3.2"
 
 gem "acts-as-taggable-on", "~> 12.0"
