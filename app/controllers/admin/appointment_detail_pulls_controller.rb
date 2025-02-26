@@ -1,19 +1,19 @@
 module Admin
-  class AppointmentDetailCompletionsController < BaseController
+  class AppointmentDetailPullsController < BaseController
     include ActionView::RecordIdentifier
 
     before_action :are_appointments_enabled?
 
     def create
       @appointment = Appointment.find(params[:appointment_id])
-      @appointment.update!(completed_at: Time.current, staff_updating: true)
+      @appointment.update!(pulled_at: Time.current, staff_updating: true)
 
       render_appointment_to_turbo_stream
     end
 
     def destroy
       @appointment = Appointment.find(params[:appointment_id])
-      @appointment.update!(completed_at: nil, staff_updating: true)
+      @appointment.update!(pulled_at: nil, staff_updating: true)
 
       render_appointment_to_turbo_stream
     end

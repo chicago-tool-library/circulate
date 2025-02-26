@@ -43,6 +43,32 @@
         </tbody>
       </table>
 
+      <br>
+      <br>
+
+      <h2>Pulled Appointments</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="time">Time</th>
+            <th class="member">Member</th>
+            <th class="items">Items</th>
+            <th class="notes">Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody class="pulled-appointments">
+          <% @pulled_appointments.each do |appointment| %>
+            <%= render partial: "appointment_orig", locals: {appointment: appointment} %>
+          <% end %>
+        <tbody>
+      </table>
+
+      <br>
+      <br>
+
       <h2>Completed Appointments</h2>
 
       <table class="table">

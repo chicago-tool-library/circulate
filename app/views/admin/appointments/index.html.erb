@@ -44,6 +44,33 @@
           </tbody>
         </table>
 
+        <br>
+        <br>
+
+        <h2>Pulled Appointments</h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="time">Time</th>
+              <th class="member">Member</th>
+              <th class="items">Pickup Items</th>
+              <th class="items">Dropoff Items</th>
+              <th class="notes">Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody class="pulled-appointments">
+            <% @pulled_appointments.each do |appointment, index| %>
+              <%= render partial: "appointment", locals: {appointment: appointment} %>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br>
+        <br>
+
         <h2>Completed Appointments</h2>
 
         <table class="table">
@@ -67,6 +94,11 @@
       </div>
       <div class="show-xs">
         <% @pending_appointments.each do |appointment, index| %>
+          <div class="mt-2">
+            <%= render partial: "appointment_mobile", locals: {appointment: appointment} %>
+          </div>
+        <% end %>
+        <% @pulled_appointments.each do |appointment, index| %>
           <div class="mt-2">
             <%= render partial: "appointment_mobile", locals: {appointment: appointment} %>
           </div>

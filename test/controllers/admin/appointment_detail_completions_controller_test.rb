@@ -18,7 +18,7 @@ module Admin
     test "completes an appointment" do
       post admin_appointment_detail_completion_path(@appointment), as: :turbo_stream
 
-      assert_redirected_to admin_appointments_path
+      assert_response :success
       assert @appointment.reload.completed_at
     end
 

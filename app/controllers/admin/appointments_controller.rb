@@ -11,11 +11,14 @@ module Admin
         .includes(:member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
 
       @pending_appointments = []
+      @pulled_appointments = []
       @completed_appointments = []
 
       @appointments.sort_by { |a| helpers.appointment_sort_key(a) }.each do |appointment|
         if appointment.completed?
           @completed_appointments << appointment
+        elsif appointment.pulled_at?
+          @pulled_appointments << appointment
         else
           @pending_appointments << appointment
         end
