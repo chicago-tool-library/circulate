@@ -1,0 +1,13 @@
+<%= render "admin/members/profile" do %>
+  <h2>Reset Password</h2>
+
+  <%= form_with(model: @member.user, url: admin_member_password_path(@member), builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+
+    <%= form.text_field :password, label: "Temporary Password", type: "password" %>
+
+    <%= form.actions do %>
+      <%= form.submit "Reset Password", data: {turbo_confirm: "Are you sure you want to reset this member's password?"} %>
+    <% end %>
+  <% end %>
+<% end %>

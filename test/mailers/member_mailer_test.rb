@@ -124,4 +124,20 @@ class MemberMailerTest < ApplicationSystemTestCase
       assert_includes text, item_name, "mail should include item name (#{item_name}) in text part"
     end
   end
+
+  test "can deliver an admin reset password email" do
+    new_password = User.generate_temporary_password
+    member = create(:member)
+
+    email = MemberMailer.with(member:, new_password:).admin_reset_password
+
+    assert_emails(1) { email.deliver_now }
+
+    assert_delivered_email(to: member.email) do |html, text, _, subject|
+      assert_equal "Your password has been reset by a librarian", subject
+
+      assert_includes text, new_password, "mail should include the new password in text part"
+      assert_includes html, new_password, "mail should include the new password in html part"
+    end
+  end
 end

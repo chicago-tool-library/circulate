@@ -48,10 +48,12 @@
         <div class="dropdown">
           <a href="#" class="dropdown-toggle" data-turbo="false" tabindex="0">
             <i class="icon icon-more-vert"></i>
+            <span class="visually-hidden">More tabs</span>
           </a>
           <ul class="menu text-left">
             <li class="menu-item"><%= link_to "Previous Holds", history_admin_member_holds_path(@member) %></li>
             <li class="menu-item"><%= link_to "Notifications", admin_member_notifications_path(@member) %></li>
+            <li class="menu-item"><%= link_to "Reset Password", edit_admin_member_password_path(@member) %></li>
           </ul>
         </div>
       </li>

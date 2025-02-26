@@ -140,6 +140,7 @@ Rails.application.routes.draw do
 
         resources :loan_summaries, only: :index
         resources :notes
+        resource :password, only: [:edit, :update]
       end
 
       member do
