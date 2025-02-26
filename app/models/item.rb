@@ -65,46 +65,39 @@ class Item < ApplicationRecord
   scope :search_and_order_by_availability, ->(query) {
     item_scope = search_by_anything(query)
       .with_pg_search_rank
+      .with(active_hold_counts: Hold.active.group(:item_id).select(:item_id, "COUNT(*) as active_hold_count"))
       .joins(
-        "LEFT JOIN (
-          SELECT item_id, COUNT(*) as active_hold_count
-          FROM holds
-          WHERE
-            ended_at IS NULL
-            AND (expires_at IS NULL OR expires_at > NOW())
-          GROUP BY item_id
-         ) AS active_hold_counts
-         ON active_hold_counts.item_id = items.id"
+        "LEFT JOIN active_hold_counts ON active_hold_counts.item_id = items.id"
       )
-      .joins(
-        "LEFT JOIN loans AS active_loans
-         ON active_loans.item_id = items.id
-         AND active_loans.ended_at IS NULL
-         AND active_loans.uniquely_numbered"
-      )
+      .left_joins(:checked_out_exclusive_loan)
       .left_joins(:borrow_policy)
+
+    items = arel_table
+    search_priority = Arel::Nodes::Case
+      .new(items[:status])
+      .when("active").then(
+        Arel::Nodes::Case.new
+        .when(Loan.arel_table[:id].not_eq(nil)).then(
+          Arel::Nodes::Case.new
+          .when(Loan.arel_table[:due_at].lt(Time.current)).then(4).else(3)
+        )
+        .when(
+          Arel::Nodes::And.new([
+            BorrowPolicy.arel_table[:uniquely_numbered],
+            Arel::Nodes::SqlLiteral.new("active_hold_counts.item_id IS NOT NULL")
+          ])
+        ).then(2)
+        .else(1)
+      )
+      .when("maintenance").then(5)
+      .else(6)
+      .as("search_priority")
 
     item_scope.select(
       "#{item_scope.pg_search_rank_table_alias}.rank",
       "items.*",
-      "
-          CASE
-            WHEN items.status = 'active' THEN
-              CASE
-                WHEN active_loans.id IS NOT NULL THEN
-                  CASE
-                    WHEN active_loans.due_at < NOW() THEN 4  -- overdue
-                    ELSE 3  -- checked out
-                  END
-                WHEN borrow_policies.uniquely_numbered AND active_hold_counts.item_id IS NOT NULL THEN 2  -- on hold
-                ELSE 1  -- available
-              END
-            WHEN items.status = 'maintenance' THEN 5  -- in maintenance
-            ELSE 6  -- unavailable
-          END AS search_priority
-        "
-    )
-      .reorder("#{item_scope.pg_search_rank_table_alias}.rank desc", "search_priority")
+      search_priority
+    ).reorder("#{item_scope.pg_search_rank_table_alias}.rank desc", "search_priority")
   }
 
   validates :name, presence: true
