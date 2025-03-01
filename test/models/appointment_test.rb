@@ -69,6 +69,34 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_equal "First notes\n\nSecond notes", original.comment
   end
 
+  test ".only_today filters the query to only include appointments that start today" do
+    Time.use_zone("America/Chicago") do
+      day_start = Time.zone.today.beginning_of_day
+      day_end = Time.zone.today.end_of_day
+      create(:appointment, starts_at: day_start - 1.second, ends_at: day_start, holds: [create(:hold)]) # yesterday
+      appointments_for_today = [
+        create(:appointment, starts_at: day_start + 1.second, ends_at: day_start + 10.seconds, holds: [create(:hold)]),
+        create(:appointment, starts_at: day_end - 1.second, ends_at: day_end, holds: [create(:hold)])
+      ]
+      create(:appointment, starts_at: day_end + 1.second, ends_at: day_end + 3.seconds, holds: [create(:hold)]) # tomorrow
+
+      assert_equal appointments_for_today.size, Appointment.all.only_today.count
+      assert_equal appointments_for_today, Appointment.all.only_today
+    end
+  end
+
+  test ".not_pulled filters the query to only include appointments that lack a pulled_at time" do
+    create(:appointment, holds: [create(:hold)], pulled_at: 2.days.ago) # pulled
+    not_pulled_appointments = [
+      create(:appointment, holds: [create(:hold)], pulled_at: nil),
+      create(:appointment, holds: [create(:hold)], pulled_at: nil)
+    ]
+    create(:appointment, holds: [create(:hold)], pulled_at: 3.days.ago) # pulled
+
+    assert_equal not_pulled_appointments.size, Appointment.all.not_pulled.count
+    assert_equal not_pulled_appointments, Appointment.all.not_pulled
+  end
+
   test "#cancel_if_no_items!" do
     appointment = create(:appointment_with_holds)
     appointment.holds.destroy_all

@@ -11,8 +11,10 @@ class Appointment < ApplicationRecord
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
+  scope :only_today, -> { where(starts_at: Time.zone.now.all_day) }
   scope :chronologically, -> { order("starts_at ASC") }
   scope :simultaneous, ->(appointment) { where(starts_at: appointment.starts_at, ends_at: appointment.ends_at).where.not(id: appointment.id) }
+  scope :not_pulled, -> { where(pulled_at: nil) }
 
   attr_accessor :member_updating, :staff_updating
 
