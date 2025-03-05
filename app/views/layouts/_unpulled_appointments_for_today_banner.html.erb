@@ -1,0 +1,14 @@
+<% unpulled_appointments_for_today_count = Appointment.only_today.not_pulled.count %>
+<% if unpulled_appointments_for_today_count > 0 %>
+  <div class="app-banner">
+    <div class="header-header">
+      <div class="container grid-lg">
+        <p>
+          <%= link_to admin_appointments_path do %>
+            There <%= "is".pluralize unpulled_appointments_for_today_count %> <%= pluralize unpulled_appointments_for_today_count, "unpulled appointment" %> for today.
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
