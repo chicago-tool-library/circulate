@@ -12,7 +12,7 @@
       <% end %>
       <% if summary.overdue_as_of?(now) %>
         <span class="overdue">
-          <%= _("was due %{date}") % { date: checked_out_date(summary.due_at) } %>
+          <%= _("was due %{date}") % {date: checked_out_date(summary.due_at)} %>
         </span>
       <% else %>
         <% if summary.renewed? # and was active today %>

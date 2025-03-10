@@ -1,9 +1,8 @@
 <%= @subject %>
 
-<% @holds.each do |hold|%>
+<% @holds.each do |hold| %>
 - <%= hold.item.name %> (<%= hold.item.complete_number %>) is now available!
 <% end %>
-
 
 Please login to your account and schedule an appointment to pick your items up:
 
