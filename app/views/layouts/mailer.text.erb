@@ -1,6 +1,9 @@
+<% if @title.present? %>## <%= @title -%> ##
+
+<% end %>
 <%= yield %>
 
-<%= HTMLToMarkdown.new.convert(render partial: "member_mailer/donation", formats: [:html]) -%> 
+<%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/donation", formats: [:html])) -%>
 
 <% unless @library.email_banner1.blank? %>
 
@@ -13,7 +16,7 @@
 
 ---
 
-If you have any questions, please email us at <%= @library.email  %>.
+If you have any questions, please email us at <%= @library.email %>.
 
 See you at the library!
 
