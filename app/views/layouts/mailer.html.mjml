@@ -54,10 +54,26 @@
     </mj-style>
   </mj-head>
   <mj-body background-color="#F4F4F4">
+    <% if @logo == :small %>
+      <mj-section>
+        <mj-column padding-top="20px">
+          <mj-image src="<%= image_url "logo.jpg" %>" width="100px" />
+        </mj-column>
+      </mj-section>
+    <% end %>
+    <% if @title.present? %>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @title %></mj-text>
+      </mj-column>
+    </mj-section>
+    <% end %>
+    
     <%= yield %>
 
     <mj-section>
       <mj-column>
+        <mj-divider border-width="1px" border-style="dashed" border-color="lightgrey" />
         <mj-text>
           <p>If you have any questions, please email us at <%= mail_to @library.email %>.</p>
           <p>See you at the library!</p>
