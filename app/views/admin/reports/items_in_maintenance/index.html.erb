@@ -34,6 +34,10 @@
             <%= f.label :status_eq, "Ticket Status" %>
             <%= f.select :status_eq, [["Assess", "assess"], ["Parts", "parts"], ["Repairing", "repairing"]], {include_blank: true} %>
           </div>
+          <div class="filter-field tag">
+            <%= f.label :tag_eq, "Tag" %>
+            <%= f.select :tag_eq, ActsAsTaggableOn::Tag.most_used.pluck(:name), {include_blank: true, selected: params[:q][:tag_eq]} %>
+          </div>
         </div>
       </div>
 
@@ -80,6 +84,7 @@
         <th>Categories</th>
         <th><%= sort_link(@q, :title, "Title") %></th>
         <th><%= sort_link(@q, :status, "Status") %></th>
+        <th>Tags</th>
         <th><%= sort_link(@q, :created_at, "Created") %></th>
         <th><%= sort_link(@q, :updated_at, "Updated") %></th>
       </tr>
@@ -102,6 +107,9 @@
           </td>
           <td>
             <%= ticket.status %>
+          </td>
+          <td>
+            <%= ticket.tag_list %>
           </td>
           <td>
             <%= ticket.created_at.to_formatted_s(:short_date) %>
