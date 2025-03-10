@@ -24,7 +24,7 @@ pre-commit:
     erblint:
       tags: style
       glob: "*.erb"
-      run: bundle exec erblint -a {staged_files} && git add {staged_files}
+      run: bundle exec erb_lint -a {staged_files} && git add {staged_files}
     readme:
       glob: "README.md"
       tags: lint
