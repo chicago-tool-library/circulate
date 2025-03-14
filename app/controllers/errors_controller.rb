@@ -16,6 +16,11 @@ class ErrorsController < ApplicationController
         title: "Page not found",
         message: "The page you were looking for could not be found."
       }
+    when 406
+      {
+        title: "Your browser is not supported",
+        message: "Please upgrade your browser to continue."
+      }
     when 422
       {
         title: "Unprocessable entity",

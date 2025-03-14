@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 require "fileutils"
 
-# path to your application root.
 APP_ROOT = File.expand_path("..", __dir__)
+APP_NAME = "circulate"
 
 def system!(*args)
   system(*args, exception: true)
@@ -14,6 +14,7 @@ FileUtils.chdir APP_ROOT do
   # Add necessary setup steps to this file.
 
   puts "== Installing dependencies =="
+  system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")
 
   puts "== Installing yarn packages =="
@@ -40,8 +41,12 @@ FileUtils.chdir APP_ROOT do
   system! 'bin/rails devdata:create_loans_and_holds devdata:create_reservations'
 
   puts "\n== Removing old logs and tempfiles =="
-  system! 'bin/rails log:clear tmp:clear'
+  system! "bin/rails log:clear tmp:clear"
 
   puts "\n== Restarting application server =="
-  system! 'bin/rails restart'
+  system! "bin/rails restart"
+
+  # puts "\n== Configuring puma-dev =="
+  # system "ln -nfs #{APP_ROOT} ~/.puma-dev/#{APP_NAME}"
+  # system "curl -Is https://#{APP_NAME}.test/up | head -n 1"
 end

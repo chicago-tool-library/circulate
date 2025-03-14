@@ -1,3 +1,7 @@
+ActiveSupport.on_load(:action_mailer) do
+  Rails.application.reload_routes_unless_loaded
+end
+
 ActionMailer::Base.perform_deliveries = false
 
 def seed_library(library, email_suffix = "", postal_code = "60609")
