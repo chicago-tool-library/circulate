@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails"
+# Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
@@ -10,12 +11,8 @@ require "action_mailer/railtie"
 # require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
-require "rails/test_unit/railtie"
-require "sprockets/railtie"
-
-# We're not using actioncable, but there's a bug that prevents the app from loading when eagerloading is on
-# https://github.com/hotwired/turbo-rails/issues/512
 require "action_cable/engine"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,7 +21,7 @@ Bundler.require(*Rails.groups)
 module Circulate
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 8.0
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -39,6 +36,9 @@ module Circulate
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
+
     config.active_record.has_many_inversing = false
     config.active_storage.track_variants = true
     config.active_storage.queues.analysis = :active_storage_analysis
@@ -46,7 +46,8 @@ module Circulate
     config.active_job.queue_adapter = :good_job
     config.action_dispatch.cookies_same_site_protection = :lax
     config.action_view.form_with_generates_remote_forms = false
-    ActiveSupport.utc_to_local_returns_utc_offset_times = false
+    config.active_support.to_time_preserves_timezone = :zone
+    config.active_support.utc_to_local_returns_utc_offset_times = false
 
     # Delegates exception handling to the routes
     config.exceptions_app = routes
