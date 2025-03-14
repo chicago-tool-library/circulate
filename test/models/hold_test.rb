@@ -96,6 +96,35 @@ class HoldTest < ActiveSupport::TestCase
     end
   end
 
+  test "when the item's borrow policy requires approval, the member must be approved" do
+    member = create(:verified_member)
+    borrow_policy = create(:borrow_policy, :requires_approval)
+    item = create(:item, borrow_policy:, holds_enabled: true)
+    hold = build(:hold, item:, member:)
+
+    refute hold.save, "hold saved when it should not have"
+    assert_equal ["requires approval"], hold.errors[:borrow_policy]
+
+    borrow_policy_approval = create(:borrow_policy_approval, :requested, borrow_policy:, member:)
+
+    refute hold.save, "hold saved when it should not have"
+    assert_equal ["requires approval"], hold.errors[:borrow_policy]
+
+    borrow_policy_approval.update!(status: "revoked")
+
+    refute hold.save, "hold saved when it should not have"
+    assert_equal ["requires approval"], hold.errors[:borrow_policy]
+
+    borrow_policy_approval.update!(status: "rejected")
+
+    refute hold.save, "hold saved when it should not have"
+    assert_equal ["requires approval"], hold.errors[:borrow_policy]
+
+    borrow_policy_approval.update!(status: "approved")
+
+    assert hold.save, "hold failed to save"
+  end
+
   test "#start!" do
     hold = create(:hold)
     refute hold.started_at
