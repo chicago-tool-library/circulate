@@ -3,6 +3,8 @@ class BorrowPolicy < ApplicationRecord
     greater_than_or_equal_to: 0, less_than_or_equal_to: 10
   }
 
+  has_many :borrow_policy_approvals, dependent: :destroy
+
   validates :name,
     presence: true, uniqueness: {scope: :library_id, case_sensitive: false}
   validates :duration,
