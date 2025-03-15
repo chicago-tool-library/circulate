@@ -31,5 +31,14 @@ class BorrowPolicyApprovalTest < ActiveSupport::TestCase
     refute borrow_policy_approval.save
 
     assert_equal ["is not included in the list"], borrow_policy_approval.errors[:status]
+
+    existing_borrow_policy_approval = create(:borrow_policy_approval, :approved)
+
+    borrow_policy_approval.member = existing_borrow_policy_approval.member
+    borrow_policy_approval.borrow_policy = existing_borrow_policy_approval.borrow_policy
+
+    refute borrow_policy_approval.save
+
+    assert_equal ["has already been taken"], borrow_policy_approval.errors[:borrow_policy_id]
   end
 end

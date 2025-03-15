@@ -8,4 +8,6 @@ class BorrowPolicyApproval < ApplicationRecord
 
   belongs_to :borrow_policy
   belongs_to :member
+
+  validates :borrow_policy_id, uniqueness: {scope: :member_id}
 end

@@ -66,6 +66,7 @@
 
         <% if user_signed_in? %>
           <% current_user_has_checked_out = @item.checked_out_exclusive_loan && @item.checked_out_exclusive_loan.member == current_user.member %>
+          <% borrow_policy_approval = current_user.member.borrow_policy_approvals.find_by(borrow_policy: @item.borrow_policy) %>
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">
@@ -73,13 +74,28 @@
                   You have this item checked out
                 <% elsif @current_hold %>
                   You have this item on hold
+                <% elsif @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
+                  <% if borrow_policy_approval&.requested? %>
+                    You have requested approval to borrow this kind of item
+                  <% elsif borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked? %>
+                    You cannot borrow this kind of item at this time
+                  <% else %>
+                    You can request approval to borrow this kind of item
+                  <% end %>
                 <% else %>
                   You can place this item on hold
                 <% end %>
               </h5>
             </div>
             <div class="card-body">
-              <% if @item.available? %>
+               <% if @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
+                <% if borrow_policy_approval&.requested? %>
+                  <p>Once you're approved you'll be able to place a hold and borrow this kind of item.</p>
+                <% elsif borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked? %>
+                <% else %>
+                  <p>Once you're approved to borrow this item you can return here to place a hold on it.</p>
+                <% end %>
+              <% elsif @item.available? %>
                 <% if @item.active_holds.empty? %>
                   <p>
                     If you place this item on hold you will be <b>first</b> on the waiting list.
@@ -126,6 +142,10 @@
                 <%= render partial: "items/place_hold_on/item_user_checked_out", locals: {loan: @item.checked_out_exclusive_loan} %>
               <% elsif @current_hold %>
                 <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
+              <% elsif @item.borrow_policy.requires_approval? && borrow_policy_approval.blank? %>
+                <%= render partial: "borrow_policy_approvals/request_borrow_policy_approval", locals: {item: @item} %>
+              <% elsif @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
+# render nothing %>
               <% else %>
                 <%= render partial: "items/place_hold_on/item", locals: {item: @item} %>
               <% end %>
