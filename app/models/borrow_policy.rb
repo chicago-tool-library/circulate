@@ -4,6 +4,7 @@ class BorrowPolicy < ApplicationRecord
   }
 
   has_many :borrow_policy_approvals, dependent: :destroy
+  has_many :items
 
   validates :name,
     presence: true, uniqueness: {scope: :library_id, case_sensitive: false}

@@ -23,4 +23,22 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
 
     assert_text "Borrow policy was successfully updated"
   end
+
+  test "viewing a borrow policy" do
+    audited_as_admin do
+      @borrow_policy = create(:borrow_policy, requires_approval: false)
+    end
+
+    visit admin_borrow_policy_path(@borrow_policy)
+
+    assert_text "#{@borrow_policy.code} #{@borrow_policy.name}"
+    assert_text "Duration\n#{@borrow_policy.duration}"
+    assert_text "Fine\n#{@borrow_policy.fine}"
+    assert_text "Fine Period\n#{@borrow_policy.fine_period}"
+    assert_text "Uniquely Numbered\n#{@borrow_policy.uniquely_numbered}"
+    assert_text "Consumable\n#{@borrow_policy.consumable}"
+    assert_text "Default\n#{@borrow_policy.default}"
+    assert_text "Requires Approval\n#{@borrow_policy.default}"
+    assert_text "Edit"
+  end
 end

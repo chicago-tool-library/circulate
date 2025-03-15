@@ -11,19 +11,19 @@
     <%= tag.div "Uniquely Numbered", class: "responsive-table-header" %>
     <%= tag.div "Consumable", class: "responsive-table-header" %>
     <%= tag.div "Default", class: "responsive-table-header" %>
-    <%= tag.div "", class: "responsive-table-header" %>
+    <%= tag.div "Requires Approval", class: "responsive-table-header" %>
 
     <% @borrow_policies.each do |borrow_policy| %>
-      <%= tag.div "#{borrow_policy.code} #{borrow_policy.name}", class: "responsive-table-cell" %>
+      <%= tag.div class: "responsive-table-cell" do %>
+        <%= link_to "#{borrow_policy.code} #{borrow_policy.name}", admin_borrow_policy_path(borrow_policy) %>
+      <% end %>
       <%= tag.div borrow_policy.duration, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.fine, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.fine_period, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.uniquely_numbered, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.consumable, class: "responsive-table-cell" %>
       <%= tag.div borrow_policy.default, class: "responsive-table-cell" %>
-      <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to "Edit", edit_admin_borrow_policy_path(borrow_policy) %>
-      <% end %>
+      <%= tag.div borrow_policy.requires_approval, class: "responsive-table-cell" %>
     <% end %>
   </div>
 
