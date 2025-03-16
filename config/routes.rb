@@ -80,7 +80,9 @@ Rails.application.routes.draw do
     end
     resources :organization_members, only: [:show, :edit, :update, :destroy]
     resources :documents, only: [:show, :edit, :update, :index]
-    resources :borrow_policies, only: [:index, :edit, :update, :show]
+    resources :borrow_policies, only: [:index, :edit, :update, :show] do
+      resources :borrow_policy_approvals, only: [:index], path: :approvals
+    end
     resources :categories, except: :show
     resources :gift_memberships
     resources :questions, except: [:destroy] do

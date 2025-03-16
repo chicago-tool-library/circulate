@@ -1,5 +1,6 @@
 <%= content_for :header do %>
   <%= index_header "#{@borrow_policy.code} #{@borrow_policy.name}" do %>
+    <%= link_to "Manage Approvals", admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), class: "btn" %>
     <%= link_to "Edit", edit_admin_borrow_policy_path(@borrow_policy), class: "btn" %>
   <% end %>
 <% end %>

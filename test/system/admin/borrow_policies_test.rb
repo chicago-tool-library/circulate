@@ -1,6 +1,8 @@
 require "application_system_test_case"
 
 class BorrowPoliciesTest < ApplicationSystemTestCase
+  include AdminHelper
+
   setup do
     sign_in_as_admin
   end
@@ -40,5 +42,57 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     assert_text "Default\n#{@borrow_policy.default}"
     assert_text "Requires Approval\n#{@borrow_policy.default}"
     assert_text "Edit"
+  end
+
+  test "viewing a borrow policy's approvals" do
+    audited_as_admin do
+      @borrow_policy = create(:borrow_policy, requires_approval: true)
+    end
+
+    bpa_ignored = create(:borrow_policy_approval, :approved)
+    bpa_approved = create(:borrow_policy_approval, :approved, borrow_policy: @borrow_policy)
+    bpa_rejected = create(:borrow_policy_approval, :rejected, borrow_policy: @borrow_policy)
+    bpa_requested = create(:borrow_policy_approval, :requested, borrow_policy: @borrow_policy)
+    bpa_revoked = create(:borrow_policy_approval, :revoked, borrow_policy: @borrow_policy)
+
+    visit admin_borrow_policy_path(@borrow_policy)
+
+    click_on "Manage Approvals"
+
+    assert_current_path admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy)
+
+    refute_css("[href='#{admin_member_path(bpa_ignored.member)}']")
+
+    assert_css("[href='#{admin_member_path(bpa_approved.member)}']")
+    assert_css("[href='#{admin_member_path(bpa_rejected.member)}']")
+    assert_css("[href='#{admin_member_path(bpa_requested.member)}']")
+    assert_css("[href='#{admin_member_path(bpa_revoked.member)}']")
+
+    assert_text bpa_approved.status.capitalize
+    assert_text bpa_rejected.status.capitalize
+    assert_text bpa_requested.status.capitalize
+    assert_text bpa_revoked.status.capitalize
+  end
+
+  test "a borrow policy's approvals can be filtered" do
+    audited_as_admin do
+      @borrow_policy = create(:borrow_policy, requires_approval: true)
+    end
+
+    bpa_approved = create(:borrow_policy_approval, :approved, borrow_policy: @borrow_policy)
+    bpa_rejected = create(:borrow_policy_approval, :rejected, borrow_policy: @borrow_policy)
+    bpa_requested = create(:borrow_policy_approval, :requested, borrow_policy: @borrow_policy)
+    bpa_revoked = create(:borrow_policy_approval, :revoked, borrow_policy: @borrow_policy)
+
+    visit admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy)
+
+    select("Requested", from: "Status")
+    click_on "Filter"
+
+    assert_css("[href='#{admin_member_path(bpa_requested.member)}']")
+
+    refute_css("[href='#{admin_member_path(bpa_approved.member)}']")
+    refute_css("[href='#{admin_member_path(bpa_rejected.member)}']")
+    refute_css("[href='#{admin_member_path(bpa_revoked.member)}']")
   end
 end
