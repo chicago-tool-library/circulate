@@ -1,3 +1,6 @@
+<% if @title.present? %>## <%= @title -%> ##
+
+<% end %>
 <%= yield %>
 
 <%= HTMLToMarkdown.new.convert(render(partial: "member_mailer/donation", formats: [:html])) -%>
