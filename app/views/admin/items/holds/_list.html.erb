@@ -23,15 +23,12 @@
                         <td class="text-center"><%= hold.started? ? "✔️" : "" %></td>
                         <td class="text-center">
                             <%= button_to(
-                                    admin_item_hold_remove_path(@item, hold),
-                                    {class: "btn", method: :patch, data: {turbo_confirm: "Are you sure you want to remove this hold?"}, :title => "Remove Hold"},
-
+                                  admin_item_hold_remove_path(@item, hold),
+                                  {class: "btn", method: :patch, data: {turbo_confirm: "Are you sure you want to remove this hold?"}, title: "Remove Hold"}
                                 ) do %>
                                 <%= feather_icon "trash-2" %>
                             <% end %>
                         </td>
-
-
 
                     </tr>
                 <% end %>
