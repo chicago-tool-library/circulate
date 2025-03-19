@@ -198,22 +198,17 @@ class HoldsTest < ApplicationSystemTestCase
   end
 
   test "ending a specific hold on an item" do
-    # use factory bot to create a few started holds
     @holds = create_list(:started_hold, 3)
     @a_hold = @holds.first
     @item = @a_hold.item
 
-    # visit the admin item holds page
     visit admin_item_holds_path(@item)
 
-    # end the hold we're testing and verify the # of active holds has decreased by 1
     within "[data-hold-id='#{@a_hold.id}']" do
-      assert_difference("@item.active_holds.count", -1) do
-        accept_confirm { click_on "Remove Hold" }
-      end
+      accept_confirm { click_on "Remove Hold" }
     end
 
-    # confirm the hold we ended now has a truthy ended_at
+    assert_text "Hold ended"
     assert @a_hold.reload.ended_at.present?
   end
 end
