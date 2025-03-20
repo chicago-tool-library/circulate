@@ -25,6 +25,7 @@
         <th>Member</th>
         <th>Status</th>
         <th>Status Reason</th>
+        <th>Actions</th>
       </tr>
       <% @borrow_policy_approvals.each do |borrow_policy_approval| %>
         <tr>
@@ -35,7 +36,10 @@
             <%= borrow_policy_approval.status.capitalize %>
           </td>
           <td>
-            <%= borrow_policy_approval.status_reason %>
+            <%= truncate(borrow_policy_approval.status_reason, length: 40) %>
+          </td>
+          <td>
+            <%= link_to "Edit", edit_admin_borrow_policy_borrow_policy_approval_path(borrow_policy_approval.borrow_policy, borrow_policy_approval) %>
           </td>
         </tr>
       <% end %>

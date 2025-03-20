@@ -95,4 +95,30 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     refute_css("[href='#{admin_member_path(bpa_rejected.member)}']")
     refute_css("[href='#{admin_member_path(bpa_revoked.member)}']")
   end
+
+  test "editing a borrow policy approval" do
+    audited_as_admin do
+      @borrow_policy = create(:borrow_policy, requires_approval: true)
+    end
+
+    bpa_requested = create(:borrow_policy_approval, :requested, borrow_policy: @borrow_policy)
+
+    visit admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy)
+
+    click_on "Edit"
+
+    assert_text "#{@borrow_policy.code} #{@borrow_policy.name}"
+    assert_text preferred_or_default_name(bpa_requested.member)
+
+    select("Approved", from: "Status")
+    status_reason = "good member in good standing #{rand(100)}"
+    fill_in "Status reason", with: status_reason
+    click_on "Update"
+
+    assert_text "Successfully updated Borrow Policy Approval"
+
+    bpa_requested.reload
+    assert_equal "approved", bpa_requested.status
+    assert_equal status_reason, bpa_requested.status_reason
+  end
 end
