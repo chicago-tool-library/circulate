@@ -21,6 +21,7 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     fill_in "Renewal limit", with: "3"
     fill_in "Renewal limit", with: "3"
     fill_in "Fine period", with: "2"
+    first("label", text: "Requires approval").click # check
     click_on "Update Borrow policy"
 
     assert_text "Borrow policy was successfully updated"

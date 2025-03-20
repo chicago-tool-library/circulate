@@ -12,6 +12,7 @@
   <%= form.check_box :member_renewable %>
   <%= form.check_box :consumable, hint: "Automatically end loans, decrement item quantity, and retire items when quantity reaches zero. Use for seeds and other items that are not returned." %>
   <%= form.check_box :default, hint: "Use as the default policy for new items" %>
+  <%= form.check_box :requires_approval, hint: "Controls whether or not members need to be approved by a librarian before borrowing these tools." %>
   <%= form.rich_text_area :rules, hint: "Displayed for all items associated with this policy" %>
 
   <%= form.actions do %>
