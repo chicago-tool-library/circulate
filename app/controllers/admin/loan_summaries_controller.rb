@@ -11,13 +11,13 @@ module Admin
       @pagy, @loan_summaries = pagy(loan_summaries_scope, items: 50)
     end
 
-    private
-
     INDEX_FILTERS = [
       CHECKED_OUT = "checked_out",
       OVERDUE = "overdue",
       RETURNED = "returned"
     ]
+
+    private
 
     def index_filter
       case params[:filter]
