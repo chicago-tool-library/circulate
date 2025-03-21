@@ -31,13 +31,13 @@ module Admin
       redirect_to admin_renewal_requests_url, flash: flash_message, status: :see_other
     end
 
-    private
-
     INDEX_FILTERS = [
       ALL = "all",
       REJECTED = "rejected",
       REQUESTED = "requested"
     ]
+
+    private
 
     def index_filter
       case params[:filter]

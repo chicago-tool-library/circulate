@@ -16,13 +16,6 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
     execute "DELETE FROM libraries WHERE id = #{library_id}"
   end
 
-  private
-
-  def library_id
-    @library_id ||= select_value("SELECT id FROM libraries WHERE hostname = #{connection.quote(LIBRARY[:hostname])}").presence ||
-      (raise "Error updating #{LIBRARY[:name]} record")
-  end
-
   ADDRESS = <<~ADDRESS.strip
     The Chicago Tool Library
     1048 W 37th Street Suite 102
@@ -52,6 +45,13 @@ class EstablishTenantZero < ActiveRecord::Migration[6.0]
     events
     short_links
   ].freeze
+
+  private
+
+  def library_id
+    @library_id ||= select_value("SELECT id FROM libraries WHERE hostname = #{connection.quote(LIBRARY[:hostname])}").presence ||
+      (raise "Error updating #{LIBRARY[:name]} record")
+  end
 
   private_constant :LIBRARY, :TABLES
 end
