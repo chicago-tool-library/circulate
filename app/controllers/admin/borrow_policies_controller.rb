@@ -27,7 +27,7 @@ module Admin
     end
 
     def borrow_policy_params
-      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default, :renewal_limit, :member_renewable, :consumable, :rules)
+      params.require(:borrow_policy).permit(:name, :duration, :fine, :fine_period, :uniquely_numbered, :code, :description, :default, :renewal_limit, :member_renewable, :consumable, :rules, :requires_approval)
     end
   end
 end

@@ -13,11 +13,28 @@ module Admin
     end
 
     def update
-      @borrow_policy_approval.update!(borrow_policy_params)
+      @borrow_policy_approval.assign_attributes(borrow_policy_params)
+      status_has_changed = @borrow_policy_approval.status_changed?
+      @borrow_policy_approval.save!
+
+      send_status_change_email if status_has_changed
       redirect_to admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), status: :see_other, success: "Successfully updated Borrow Policy Approval"
     end
 
     private
+
+    def send_status_change_email
+      mailer = BorrowPolicyApprovalMailer.with(borrow_policy_approval: @borrow_policy_approval)
+
+      case @borrow_policy_approval.status
+      when BorrowPolicyApproval.statuses[:approved]
+        mailer.approved.deliver_later
+      when BorrowPolicyApproval.statuses[:rejected]
+        mailer.rejected.deliver_later
+      when BorrowPolicyApproval.statuses[:revoked]
+        mailer.revoked.deliver_later
+      end
+    end
 
     def set_borrow_policy
       @borrow_policy = BorrowPolicy.find(params[:borrow_policy_id])
