@@ -189,9 +189,8 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "prevents a member from having an overlapping earlier membership" do
     member = create(:member)
-    membership = create(:membership, member: member)
-
-    earlier_membership = build(:membership, member: member, ended_at: membership.started_at + 1.second)
+    membership = create(:membership, member:, started_at: 1.week.ago, ended_at: 3.days.ago)
+    earlier_membership = build(:membership, member:, started_at: membership.ended_at - 1.second, ended_at: membership.ended_at + 1.year)
     refute earlier_membership.valid?
     assert_equal ["can't overlap with another membership"], earlier_membership.errors[:base]
   end
