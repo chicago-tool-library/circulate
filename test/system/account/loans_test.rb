@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 module Account
-  class ReservationsTest < ApplicationSystemTestCase
+  class LoansTest < ApplicationSystemTestCase
     setup do
       @member = create(:verified_member_with_membership)
       login_as @member.user

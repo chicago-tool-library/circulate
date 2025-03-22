@@ -142,5 +142,13 @@ class Hold < ApplicationRecord
     unless item.holdable?
       errors.add(:item, "can not be placed on hold")
     end
+
+    borrow_policy_approval = member.borrow_policy_approvals.find_by(borrow_policy: item.borrow_policy)
+
+    return unless item.borrow_policy.requires_approval?
+
+    unless borrow_policy_approval&.approved?
+      errors.add(:borrow_policy, "requires approval")
+    end
   end
 end

@@ -1,0 +1,9 @@
+Hi there!
+
+Unfortunately, you have not been approved to borrow <%= "#{@borrow_policy.code} #{@borrow_policy.name}" %> tools at this time.
+
+<% if @borrow_policy_approval.status_reason? %>
+This is because:
+
+<%= @borrow_policy_approval.status_reason %>
+<% end %>

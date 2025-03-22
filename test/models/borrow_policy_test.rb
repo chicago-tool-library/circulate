@@ -1,6 +1,21 @@
 require "test_helper"
 
 class BorrowPolicyTest < ActiveSupport::TestCase
+  [
+    :borrow_policy,
+    [:borrow_policy, :requires_approval],
+    :member_renewable_borrow_policy,
+    :unnumbered_borrow_policy,
+    :consumable_borrow_policy,
+    :default_borrow_policy
+  ].each do |factory_name|
+    test "#{Array(factory_name).join(", ")} is a valid factory/trait" do
+      borrow_policy = build(*factory_name)
+      borrow_policy.valid?
+      assert_equal({}, borrow_policy.errors.messages)
+    end
+  end
+
   test "sets other borrow policies to not be default" do
     old_policy = BorrowPolicy.create!(name: "Old", code: "O", default: true)
     assert old_policy.reload.default
