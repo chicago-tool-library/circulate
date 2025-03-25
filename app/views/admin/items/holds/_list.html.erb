@@ -9,6 +9,7 @@
                 <th>Wait time</th>
                 <th>Expires on</th>
                 <th class="text-center">Notified?</th>
+                <th class="text-center">Actions</th>
             </thead>
             <tbody data-hold-order-target="tbody">
                 <% @holds.ordered_by_position.each_with_index do |hold, index| %>
@@ -20,6 +21,15 @@
                         <td><%= wait_time(hold) %></td>
                         <td><%= date_with_time_title(hold.expires_at) if hold.expires_at %></td>
                         <td class="text-center"><%= hold.started? ? "✔️" : "" %></td>
+                        <td class="text-center">
+                            <%= button_to(
+                                  admin_item_hold_remove_path(@item, hold),
+                                  {class: "btn", method: :patch, data: {turbo_confirm: "Are you sure you want to remove this hold?"}, title: "Remove Hold"}
+                                ) do %>
+                                <%= feather_icon "trash-2" %>
+                            <% end %>
+                        </td>
+
                     </tr>
                 <% end %>
             </tbody>
