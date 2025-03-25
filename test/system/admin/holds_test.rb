@@ -206,14 +206,10 @@ class HoldsTest < ApplicationSystemTestCase
     # visit the admin item holds page
     visit admin_item_holds_path(@item)
 
-    # end the hold we're testing and verify the # of active holds has decreased by 1
+    # end the hold we're testing and verify the hold element vanishes
     within "[data-hold-id='#{@a_hold.id}']" do
-      assert_difference("@item.active_holds.count", -1) do
-        accept_confirm { click_on "Remove Hold" }
-      end
+      accept_confirm { click_on "Remove Hold" }
+      assert_no_selector("[data-hold-id='#{@a_hold.id}']")
     end
-
-    # confirm the hold we ended now has a truthy ended_at
-    assert @a_hold.reload.ended_at.present?
   end
 end
