@@ -175,7 +175,7 @@ namespace :devdata do
     membership.start!
 
     holds.times do
-      item = random_model(Item.active.available.without_active_holds)
+      item = random_model(Item.active.available.without_active_holds.where.not(borrow_policy_id: BorrowPolicy.select(:id).where(requires_approval: true)))
       Hold.create!(member: member, item: item, creator: member.user)
     end
 

@@ -1,0 +1,1 @@
+<%= button_to "Request approval", account_borrow_policy_approvals_path(item_id: item.id, borrow_policy_id: item.borrow_policy_id), class: "btn btn-primary", remote: true, data: {disable_with: "Requesting..."} %>
