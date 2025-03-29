@@ -189,6 +189,18 @@ class Item < ApplicationRecord
     end
   end
 
+  def accessories_text
+    accessories.join("\n")
+  end
+
+  def accessories_text=(value)
+    self.accessories = if value.present?
+      value.split(/\s*\n\s*/)
+    else
+      []
+    end
+  end
+
   private
 
   def cache_description_as_plain_text
