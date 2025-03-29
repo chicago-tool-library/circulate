@@ -11,7 +11,7 @@ class ItemsTest < ApplicationSystemTestCase
   end
 
   test "creating an item" do
-    @item = build(:item)
+    @item = build(:complete_item)
 
     visit admin_items_url
     click_on "New Item"
@@ -25,9 +25,24 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Brand", with: @item.brand
     fill_in "Model", with: @item.model
     fill_in "Serial", with: @item.serial
-    click_on "Create Item"
+    fill_in "Accessories", with: @item.accessories.join("\n")
 
-    assert_text "Item was successfully created"
+    assert_difference("Item.count", 1) do
+      click_on "Create Item"
+      assert_text "Item was successfully created"
+    end
+
+    item = Item.last!
+
+    assert_equal @item.name, item.name
+    assert_equal @item.description.to_plain_text, item.description.to_plain_text
+    assert_equal "gas", item.power_source
+    assert_equal @item.size, item.size
+    assert_equal @item.strength, item.strength
+    assert_equal @item.brand, item.brand
+    assert_equal @item.model, item.model
+    assert_equal @item.serial, item.serial
+    assert_equal @item.accessories, item.accessories
   end
 
   test "updating an item" do
@@ -35,23 +50,35 @@ class ItemsTest < ApplicationSystemTestCase
       @item = create(:item)
     end
 
+    attributes = attributes_for(:complete_item)
+
     visit admin_item_url(@item)
     click_on "Edit"
 
     assert_maintenance_option_is_disabled
-    fill_in "Name", with: "Modified Name"
-    fill_in "Brand", with: "Modified Brand"
-    fill_in_rich_text_area "item_description", with: @item.description
+    fill_in "Name", with: attributes[:name]
+    fill_in "Brand", with: attributes[:brand]
+    fill_in "Strength", with: attributes[:strength]
     select "Solar", from: "Power source"
-    fill_in "Model", with: @item.model
-    fill_in "Serial", with: @item.serial
-    fill_in "Size", with: @item.size
+    fill_in "Model", with: attributes[:model]
+    fill_in "Serial", with: attributes[:serial]
+    fill_in "Size", with: attributes[:size]
+    fill_in "Accessories", with: attributes[:accessories].join("\n")
 
-    click_on "Update Item"
-
-    assert_text "Modified Name"
-    assert_text "Modified Brand"
-    assert_text "Item was successfully updated"
+    assert_difference("Item.count", 0) do
+      click_on "Update Item"
+      assert_text "Item was successfully updated"
+    end
+    puts attributes
+    @item.reload
+    assert_equal attributes[:name], @item.name
+    assert_equal "solar", @item.power_source
+    assert_equal attributes[:size], @item.size
+    assert_equal attributes[:strength], @item.strength
+    assert_equal attributes[:brand], @item.brand
+    assert_equal attributes[:model], @item.model
+    assert_equal attributes[:serial], @item.serial
+    assert_equal attributes[:accessories], @item.accessories
   end
 
   test "adding an image to an item and then deleting it" do
