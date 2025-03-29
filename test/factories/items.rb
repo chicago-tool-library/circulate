@@ -12,10 +12,12 @@ FactoryBot.define do
 
     factory :complete_item do
       brand { "Dewalt" }
+      model { "760S" }
       size { "1/4" }
       strength { "12v" }
       serial { "abcdefg" }
       power_source { Item.power_sources[:electric_battery] }
+      accessories { ["Blade", "Vacuum bag", "Charger"] }
     end
 
     factory :uncounted_item do
