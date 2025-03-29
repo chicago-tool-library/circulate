@@ -1,0 +1,18 @@
+<%= content_for :header do %>
+  <%= index_header "Edit Approval for #{preferred_or_default_name(@borrow_policy_approval.member)}'s use of #{@borrow_policy.code} #{@borrow_policy.name} tools" do %>
+    <%= link_to "Borrow Policy", admin_borrow_policy_path(@borrow_policy), class: "btn" %>
+    <%= link_to "Member", admin_member_path(@borrow_policy_approval.member), class: "btn" %>
+  <% end %>
+<% end %>
+
+<%= form_with(model: @borrow_policy_approval, builder: SpectreFormBuilder, url: admin_borrow_policy_borrow_policy_approval_path(@borrow_policy, @borrow_policy_approval), method: :patch, data: {controller: "form"}, id: dom_id(@borrow_policy_approval)) do |form| %>
+  <%= form.errors %>
+
+  <% status_options = options_for_select(BorrowPolicyApproval.statuses.values.map { |status| [status.capitalize, status] }, @borrow_policy_approval.status) %>
+  <%= form.select :status, status_options %>
+  <%= form.text_area :status_reason, hint: "This will be sent in an email notification to the member, prefaced with 'This is because:'" %>
+
+  <%= form.actions do %>
+    <%= form.submit "Update" %>
+  <% end %>
+<% end %>

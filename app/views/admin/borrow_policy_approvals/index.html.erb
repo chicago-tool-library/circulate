@@ -1,0 +1,51 @@
+<%= content_for :header do %>
+  <%= index_header "Approvals for #{@borrow_policy.code} #{@borrow_policy.name}" %>
+<% end %>
+
+<section class="filters-container">
+  <h2>Filters</h2>
+  <%= search_form_for(@q, url: admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), class: "filters-form") do |f| %>
+    <div class="filters-form-fields">
+      <div class="filter-field status">
+        <%= f.label :status_eq, "Status" %>
+        <%= f.select :status_eq, [["Approved", "approved"], ["Rejected", "rejected"], ["Requested", "requested"], ["Revoked", "revoked"]], {include_blank: true} %>
+      </div>
+    </div>
+
+    <div class="filter-button-container">
+      <%= f.submit "Filter", class: "btn" %>
+    </div>
+  <% end %>
+</section>
+
+<% if @borrow_policy_approvals.any? %>
+  <div class="column col-12">
+    <table class="table">
+      <tr>
+        <th>Member</th>
+        <th>Status</th>
+        <th>Status Reason</th>
+        <th>Actions</th>
+      </tr>
+      <% @borrow_policy_approvals.each do |borrow_policy_approval| %>
+        <tr>
+          <td>
+            <%= link_to preferred_or_default_name(borrow_policy_approval.member), admin_member_path(borrow_policy_approval.member) %>
+          </td>
+          <td>
+            <%= borrow_policy_approval.status.capitalize %>
+          </td>
+          <td>
+            <%= truncate(borrow_policy_approval.status_reason, length: 40) %>
+          </td>
+          <td>
+            <%= link_to "Edit", edit_admin_borrow_policy_borrow_policy_approval_path(borrow_policy_approval.borrow_policy, borrow_policy_approval) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <%== pagy_bootstrap_nav(@pagy) %>
+<% else %>
+  <%= empty_state "There are no borrow policy approvals." %>
+<% end %>

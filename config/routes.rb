@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   namespace :account do
     resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :borrow_policy_approvals, only: [:create]
     resources :holds, only: [:index, :create, :destroy] do
       get :history, to: "holds#history", on: :collection
     end
@@ -79,7 +80,9 @@ Rails.application.routes.draw do
     end
     resources :organization_members, only: [:show, :edit, :update, :destroy]
     resources :documents, only: [:show, :edit, :update, :index]
-    resources :borrow_policies, only: [:index, :edit, :update]
+    resources :borrow_policies, only: [:index, :edit, :update, :show] do
+      resources :borrow_policy_approvals, only: [:index, :edit, :update], path: :approvals
+    end
     resources :categories, except: :show
     resources :gift_memberships
     resources :questions, except: [:destroy] do

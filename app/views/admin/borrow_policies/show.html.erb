@@ -1,21 +1,58 @@
-<p>
-  <strong>Name:</strong>
-  <%= @borrow_policy.name %>
-</p>
+<%= content_for :header do %>
+  <%= index_header "#{@borrow_policy.code} #{@borrow_policy.name}" do %>
+    <%= link_to "Manage Approvals", admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), class: "btn" %>
+    <%= link_to "Edit", edit_admin_borrow_policy_path(@borrow_policy), class: "btn" %>
+  <% end %>
+<% end %>
 
-<p>
-  <strong>Duration:</strong>
-  <%= @borrow_policy.duration %>
-</p>
+<div class="columns">
+  <div class="column col-4 col-sm-12">
+    <div class="panel item-panel">
+      <div class="panel-body">
+        <h2 class="h3" id="panel-heading">Configuration</h2>
+        <dl aria-labelledby="panel-heading">
+          <dt>Duration</dt>
+          <dd><%= @borrow_policy.duration %></dd>
 
-<p>
-  <strong>Fine cents:</strong>
-  <%= @borrow_policy.fine_cents %>
-</p>
+          <dt>Fine</dt>
+          <dd><%= @borrow_policy.fine %></dd>
 
-<p>
-  <strong>Fine period:</strong>
-  <%= @borrow_policy.fine_period %>
-</p>
+          <dt>Fine Period</dt>
+          <dd><%= @borrow_policy.fine_period %></dd>
 
-<%= link_to "Edit", edit_admin_borrow_policy_path(@borrow_policy) %> |
+          <dt>Uniquely Numbered</dt>
+          <dd><%= @borrow_policy.uniquely_numbered %></dd>
+
+          <dt>Consumable</dt>
+          <dd><%= @borrow_policy.consumable %></dd>
+
+          <dt>Default</dt>
+          <dd><%= @borrow_policy.default %></dd>
+
+          <dt>Requires Approval</dt>
+          <dd><%= @borrow_policy.requires_approval %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="column col-sm-12 col-8">
+    <section>
+      <h2>Rules</h2>
+      <%= @borrow_policy.rules %>
+    </section>
+    <section>
+      <h2>Stats</h2>
+
+      <p><b><%= number_with_delimiter(@borrow_policy.items.count) %> items</b> associated with this borrow policy.</p>
+
+      <p>
+        There are <b><%= number_with_delimiter(@borrow_policy.borrow_policy_approvals.count) %> borrow policy approvals</b>
+        in total, with
+        <%= number_with_delimiter(@borrow_policy.borrow_policy_approvals.requested.count) %> requested,
+        <%= number_with_delimiter(@borrow_policy.borrow_policy_approvals.approved.count) %> approved,
+        <%= number_with_delimiter(@borrow_policy.borrow_policy_approvals.rejected.count) %> rejected, and
+        <%= number_with_delimiter(@borrow_policy.borrow_policy_approvals.revoked.count) %> revoked
+      </p>
+    </section>
+  </div>
+</div>

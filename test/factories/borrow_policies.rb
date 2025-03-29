@@ -11,6 +11,11 @@ FactoryBot.define do
     description { "What this policy is used for" }
     uniquely_numbered { true }
     member_renewable { false }
+    requires_approval { false }
+
+    trait :requires_approval do
+      requires_approval { true }
+    end
 
     factory :member_renewable_borrow_policy do
       member_renewable { true }

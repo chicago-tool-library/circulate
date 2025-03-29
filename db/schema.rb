@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_23_214915) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_14_201009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_23_214915) do
   create_enum :answer_type, [
     "text",
     "integer",
+  ], force: :cascade
+
+  create_enum :borrow_policy_approval_status, [
+    "approved",
+    "rejected",
+    "requested",
+    "revoked",
   ], force: :cascade
 
   create_enum :item_attachment_kind, [
@@ -337,8 +344,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_23_214915) do
     t.boolean "member_renewable", default: false, null: false
     t.integer "library_id"
     t.boolean "consumable", default: false
+    t.boolean "requires_approval", default: false, null: false
     t.index ["code", "library_id"], name: "index_borrow_policies_on_code_and_library_id", unique: true
     t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
+  end
+
+  create_table "borrow_policy_approvals", force: :cascade do |t|
+    t.bigint "borrow_policy_id", null: false
+    t.bigint "member_id", null: false
+    t.enum "status", default: "requested", null: false, enum_type: "borrow_policy_approval_status"
+    t.text "status_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["borrow_policy_id", "member_id"], name: "idx_on_borrow_policy_id_member_id_f2459be3a6", unique: true
+    t.index ["borrow_policy_id"], name: "index_borrow_policy_approvals_on_borrow_policy_id"
+    t.index ["member_id"], name: "index_borrow_policy_approvals_on_member_id"
+    t.index ["status"], name: "index_borrow_policy_approvals_on_status"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -951,6 +972,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_23_214915) do
   add_foreign_key "agreement_acceptances", "members"
   add_foreign_key "answers", "reservations"
   add_foreign_key "answers", "stems"
+  add_foreign_key "borrow_policy_approvals", "borrow_policies"
+  add_foreign_key "borrow_policy_approvals", "members"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categorizations", "categories"
   add_foreign_key "gift_memberships", "memberships"

@@ -35,6 +35,7 @@
   code: C
   renewal_limit: 52
   consumable: false
+  requires_approval: true
 - id: 4
   name: Single Use
   duration: 1
