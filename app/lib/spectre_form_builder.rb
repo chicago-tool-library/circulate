@@ -9,6 +9,7 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::TagHelper
 
   alias_method :parent_text_field, :text_field
+  alias_method :parent_number_field, :number_field
   alias_method :parent_collection_select, :collection_select
   alias_method :parent_button, :button
 
@@ -25,6 +26,19 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
       @template.tag.div class: "input-group" do
         @template.tag.span("$", class: "input-group-addon") +
           parent_text_field(method, options)
+      end
+    end
+  end
+
+  def percent_field(method, options = {})
+    options[:class] = "form-input"
+
+    value_from_params = @template.request.params.dig @object.class.to_s.underscore, method
+    options[:value] = value_from_params || object.send(method)
+    sequence_layout(method, options) do
+      @template.tag.div class: "input-group" do
+        parent_number_field(method, options) +
+          @template.tag.span("%", class: "input-group-addon")
       end
     end
   end

@@ -33,7 +33,6 @@ module Admin
       @reservation.submitted_by = current_user
 
       if @reservation.save
-        ReservationMailer.with(reservation: @reservation).reservation_requested.deliver_later
         redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully created."
       else
         @item_pools = ItemPool.all

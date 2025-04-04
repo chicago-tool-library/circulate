@@ -16,6 +16,9 @@
           <%= link_to item_pool.reservation_policy.name, admin_reservation_policy_path(item_pool.reservation_policy) %>
         <% end %>
       <% end %>
+      <%= icon_stat "pie-chart", title: "#{item_pool.max_reservable_percentage_points || "100"}%", placeholder: "No reservation limit" do %>
+        max of <%= pluralize item_pool.max_reservable_quantity(per_reservation: true), "item" %> per reservation
+      <% end %>
     </ul>
   </div>
 </div>

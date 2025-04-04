@@ -10,9 +10,101 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_14_201009) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_04_163403) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
+
+  create_enum :adjustment_kind, [
+    "fine",
+    "membership",
+    "donation",
+    "payment",
+  ], force: :cascade
+
+  create_enum :adjustment_source, [
+    "cash",
+    "square",
+    "forgiveness",
+  ], force: :cascade
+
+  create_enum :answer_type, [
+    "text",
+    "integer",
+  ], force: :cascade
+
+  create_enum :borrow_policy_approval_status, [
+    "approved",
+    "rejected",
+    "requested",
+    "revoked",
+  ], force: :cascade
+
+  create_enum :item_attachment_kind, [
+    "manual",
+    "parts_list",
+    "other",
+  ], force: :cascade
+
+  create_enum :item_status, [
+    "pending",
+    "active",
+    "maintenance",
+    "retired",
+    "missing",
+  ], force: :cascade
+
+  create_enum :membership_type, [
+    "initial",
+    "renewal",
+  ], force: :cascade
+
+  create_enum :organization_member_role, [
+    "admin",
+    "member",
+  ], force: :cascade
+
+  create_enum :power_source, [
+    "solar",
+    "gas",
+    "air",
+    "electric (corded)",
+    "electric (battery)",
+  ], force: :cascade
+
+  create_enum :renewal_request_status, [
+    "requested",
+    "approved",
+    "rejected",
+  ], force: :cascade
+
+  create_enum :reservation_status, [
+    "pending",
+    "requested",
+    "approved",
+    "rejected",
+    "obsolete",
+    "building",
+    "ready",
+    "borrowed",
+    "returned",
+    "unresolved",
+    "cancelled",
+  ], force: :cascade
+
+  create_enum :ticket_status, [
+    "assess",
+    "parts",
+    "repairing",
+    "resolved",
+    "retired",
+  ], force: :cascade
+
+  create_enum :user_role, [
+    "staff",
+    "admin",
+    "member",
+    "super_admin",
+  ], force: :cascade
 
   create_enum :adjustment_kind, [
     "fine",
@@ -559,6 +651,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_201009) do
     t.text "plain_text_description"
     t.bigint "reservation_policy_id"
     t.string "checkout_notice"
+    t.decimal "max_reservable_percent", precision: 2, scale: 2
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"

@@ -4,7 +4,14 @@
   <%= form.autocomplete_text_field :name, path: admin_ui_names_path(format: :json), autofocus: true,
         hint: "Generic name for the tool; e.g. Impact driver, Orchard ladder, Flathead screwdriver" %>
 
-  <%= form.select :reservation_policy_id, options_for_select(@reservation_policy_options, item_pool.reservation_policy_id), include_blank: "None" %>
+  <div class="columns">
+    <div class="column col-4 col-sm-12">
+      <%= form.select :reservation_policy_id, options_for_select(@reservation_policy_options, item_pool.reservation_policy_id), include_blank: "None" %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= form.percent_field :max_reservable_percentage_points, label: "Reservation limit", hint: "Limit how many items a single reservation can claim. There are currently #{item_pool.max_reservable_quantity} items in this pool." %>
+    </div>
+  </div>
 
   <%= form.text_field :other_names, label: "Other names and keywords",
         hint: "Search terms that should return this item; typically slang or other names for the item" %>

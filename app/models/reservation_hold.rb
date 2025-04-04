@@ -41,9 +41,9 @@ class ReservationHold < ApplicationRecord
   private
 
   def ensure_quantity_is_available
-    max_available = item_pool.max_available_between(started_at, ended_at, ignored_reservation_id: reservation_id)
+    max_available = item_pool.max_available_between(started_at, ended_at, ignored_reservation_id: reservation_id, per_reservation: true)
     unless quantity <= max_available
-      message = (max_available == 0) ? "none available" : "only #{max_available} available"
+      message = (max_available == 0) ? "none available" : "only #{max_available} available for this reservation"
       errors.add(:quantity, message)
     end
   end
