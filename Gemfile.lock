@@ -53,9 +53,6 @@ GEM
       activemodel (= 8.0.1)
       activesupport (= 8.0.1)
       timeout (>= 0.4.0)
-    activerecord-postgres_enum (2.1.0)
-      activerecord (>= 5.2)
-      pg
     activestorage (8.0.1)
       actionpack (= 8.0.1)
       activejob (= 8.0.1)
@@ -610,7 +607,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activerecord-postgres_enum
   acts-as-taggable-on (~> 12.0)
   acts_as_list
   acts_as_tenant
