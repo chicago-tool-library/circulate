@@ -14,6 +14,7 @@ module Admin
       holds = 2.times.map {
         create(:hold, member: @member, creator: @user)
       }
+      create_open_day_for_loan(holds.first.item)
 
       assert_difference("@member.loans.count", 2) do
         post admin_member_hold_loan_path(@member)

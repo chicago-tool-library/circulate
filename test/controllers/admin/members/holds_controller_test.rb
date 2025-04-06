@@ -13,6 +13,7 @@ module Admin
       test "should lend a hold to a member" do
         member = create(:member)
         hold = create(:hold, member: member, creator: @admin_user)
+        create_open_day_for_loan(hold.item)
 
         assert_difference("member.holds.active.count", -1) do
           post lend_admin_member_hold_url(member, hold)

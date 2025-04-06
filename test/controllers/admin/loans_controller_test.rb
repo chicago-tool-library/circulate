@@ -17,6 +17,7 @@ module Admin
 
     test "should create loan" do
       member = create(:member)
+      create_open_day_for_loan(@item)
       assert_difference("Loan.count") do
         post admin_loans_url, params: {loan: {item_id: @item.id, member_id: member.id}}
       end

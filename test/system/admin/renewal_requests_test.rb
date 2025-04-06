@@ -5,6 +5,7 @@ class AdminRenewalRequestsTest < ApplicationSystemTestCase
     @member = create(:verified_member_with_membership)
     @item = create(:item)
     @loan = create(:loan, item: @item, member: @member)
+    create_open_day_for_renewal(@loan)
     @renewal_request = create(:renewal_request, loan: @loan)
 
     ActionMailer::Base.deliveries.clear

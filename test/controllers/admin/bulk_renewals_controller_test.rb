@@ -13,6 +13,8 @@ module Admin
       @member = create(:verified_member)
       @loans = create_list(:loan, 5, member: @member)
 
+      @loans.each { |l| create_open_day_for_renewal(l) }
+
       # NOTE(chaserx): ensure that at least on of the items on loan is not renewable.
       @loans[2].item.borrow_policy.update(renewal_limit: 0)
 

@@ -164,4 +164,41 @@ class EventTest < ActiveSupport::TestCase
 
     assert_equal "Something simple", event.title
   end
+
+  test "next_open_day returns first date after passed time with an event on the appointment_slot_calendar_id" do
+    past_event = create(:appointment_slot_event, start: 1.day.ago)
+    next_event = create(:appointment_slot_event, start: 2.days.from_now)
+    future_event = create(:appointment_slot_event, start: 4.days.from_now)
+
+    assert_equal next_event.start.to_date, Event.next_open_day, "finds first open day from now"
+    assert_equal next_event.start.to_date, Event.next_open_day(2.days.from_now), "finds same-day open date"
+    assert_equal past_event.start.to_date, Event.next_open_day(2.days.ago), "finds next open day from past"
+    assert_equal future_event.start.to_date, Event.next_open_day(3.days.from_now), "finds next open day in future"
+    error = assert_raises(RuntimeError, "raises error when no open days found") {
+      Event.next_open_day(7.days.from_now)
+    }
+    assert_match "No open day found on or after #{7.days.from_now.to_date}", error.message
+  end
+
+  test "next_open_day returns the next day as the next open day" do
+    monday = Time.utc(2020, 1, 20)
+    tuesday = Time.utc(2020, 1, 21)
+    wednesday = Time.utc(2020, 1, 22)
+    thursday = Time.utc(2020, 1, 23)
+    friday = Time.utc(2020, 1, 24)
+    saturday = Time.utc(2020, 1, 25)
+    sunday = Time.utc(2020, 1, 26)
+
+    create(:appointment_slot_event, start: thursday)
+    create(:appointment_slot_event, start: sunday)
+
+    assert_equal thursday, Event.next_open_day(monday)
+    assert_equal thursday, Event.next_open_day(tuesday)
+    assert_equal thursday, Event.next_open_day(wednesday)
+    assert_equal thursday, Event.next_open_day(thursday)
+
+    assert_equal sunday, Event.next_open_day(friday)
+    assert_equal sunday, Event.next_open_day(saturday)
+    assert_equal sunday, Event.next_open_day(sunday)
+  end
 end

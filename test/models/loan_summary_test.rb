@@ -23,6 +23,7 @@ class LoanSummaryTest < ActiveSupport::TestCase
     @loom = create(:item, name: "loom")
 
     hammer_loan = create(:loan, member: @member, item: @hammer, created_at: 2.weeks.ago, due_at: 1.week.ago)
+    create_open_day_for_renewal(hammer_loan)
     hammer_renewal = renew_loan(hammer_loan, now: 1.week.ago)
     drill_loan = create(:loan, member: @member, item: @drill)
     loom_loan = create(:loan, member: @member, item: @loom, created_at: 2.weeks.ago, due_at: 1.week.ago)
