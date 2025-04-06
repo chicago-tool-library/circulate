@@ -155,6 +155,9 @@ class CheckInCheckOutTest < ApplicationSystemTestCase
       @item = create(:item)
       @member = create(:verified_member_with_membership)
       create(:loan, item: @item, member: @member, due_at: saturday, created_at: saturday - 7.days)
+      create(:appointment_slot_event, start: Time.zone.parse("2020-01-25 12:00:00"))
+      create(:appointment_slot_event, start: Time.zone.parse("2020-02-01 12:00:00"))
+      create(:appointment_slot_event, start: Time.zone.parse("2020-02-08 12:00:00"))
 
       friday = Time.zone.parse("2020-1-24 12:30")
 

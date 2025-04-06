@@ -31,6 +31,11 @@ class ActiveSupport::TestCase
 
     BaseTexter.client = TwilioHelper::FakeSMS.new
     TwilioHelper::FakeSMS.messages.clear
+
+    # Seed open days for next few weeks
+    [7, 14, 21].each do |d|
+      create(:appointment_slot_event, start: d.days.from_now)
+    end
   end
 
   teardown do
