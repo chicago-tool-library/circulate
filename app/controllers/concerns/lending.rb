@@ -65,7 +65,7 @@ module Lending
       item_id: loan.item_id,
       initial_loan_id: loan.initial_loan_id || loan.id,
       renewal_count: loan.renewal_count + 1,
-      due_at: Loan.next_open_day(period_start_date + loan.item.borrow_policy.duration.days),
+      due_at: Event.next_open_day(period_start_date + loan.item.borrow_policy.duration.days).end_of_day,
       uniquely_numbered: loan.uniquely_numbered,
       created_at: now
     )
