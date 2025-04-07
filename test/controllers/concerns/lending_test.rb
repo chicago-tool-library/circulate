@@ -4,6 +4,9 @@ class LendingTest < ActiveSupport::TestCase
   include Lending
 
   setup do
+    # Remove fixture events from test_helper
+    Event.delete_all
+
     # Open a few specific sundays and thursdays in the past
     create(:appointment_slot_event, start: Time.utc(2020, 1, 26))
     create(:appointment_slot_event, start: Time.utc(2020, 1, 30))

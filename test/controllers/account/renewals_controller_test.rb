@@ -17,6 +17,7 @@ module Account
       borrow_policy = create(:member_renewable_borrow_policy)
       item = create(:item, borrow_policy: borrow_policy)
       loan = create(:loan, member: @member, item: item)
+      create_open_day_for_renewal(loan)
 
       post account_renewals_url(loan_id: loan)
       assert_redirected_to account_loans_url
