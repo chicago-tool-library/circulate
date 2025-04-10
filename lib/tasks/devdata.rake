@@ -180,10 +180,10 @@ namespace :devdata do
     end
 
     appointments.times do
-      hold_item = random_model(Item.active.available.without_active_holds)
+      hold_item = random_model(Item.active.available.without_active_holds.does_not_require_approval)
       hold = Hold.create!(member: member, item: hold_item, creator: member.user)
 
-      loan_item = random_model(Item.active.includes(:borrow_policy).available)
+      loan_item = random_model(Item.active.includes(:borrow_policy).available.does_not_require_approval)
       loan = Loan.create!(item: loan_item, member: member, due_at: 1.week.since, uniquely_numbered: loan_item.borrow_policy.uniquely_numbered)
 
       next_appointment_slot = Event.appointment_slots.first
@@ -205,7 +205,7 @@ namespace :devdata do
     end
 
     loans.times do
-      item = random_model(Item.active.includes(:borrow_policy).available)
+      item = random_model(Item.active.includes(:borrow_policy).available.does_not_require_approval)
       Loan.create!(item: item, member: member, due_at: 1.week.since, uniquely_numbered: item.borrow_policy.uniquely_numbered)
     end
   end
