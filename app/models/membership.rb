@@ -19,7 +19,9 @@ class Membership < ApplicationRecord
     select_clauses = year_range_for_export.flat_map { |year|
       [
         %{SUM(adjustments.amount_cents * -1) FILTER (WHERE date_part('year', adjustments.created_at) = #{year}) AS "#{year}_amount"},
-        %{MAX(memberships.started_at) FILTER (WHERE date_part('year', memberships.started_at) = #{year}) AS "#{year}_started_at"}
+        %{MAX(memberships.started_at) FILTER (WHERE date_part('year', memberships.started_at) = #{year}) AS "#{year}_started_at"},
+        # Can use ANY_VALUE() instead of MIN() on postgres 16+.
+        %(MIN(memberships.membership_type) FILTER (WHERE date_part('year', memberships.created_at) = #{year}) AS "#{year}_membership_type")
       ]
     }
 

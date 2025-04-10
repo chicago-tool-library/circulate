@@ -175,7 +175,7 @@ namespace :devdata do
     membership.start!
 
     holds.times do
-      item = random_model(Item.active.available.without_active_holds.where.not(borrow_policy_id: BorrowPolicy.select(:id).where(requires_approval: true)))
+      item = random_model(Item.active.available.without_active_holds.does_not_require_approval)
       Hold.create!(member: member, item: item, creator: member.user)
     end
 
@@ -198,7 +198,7 @@ namespace :devdata do
 
     # holds where this person is in line behind someone else
     waiting_holds.times do
-      item = random_model(Item.active.available.without_active_holds)
+      item = random_model(Item.active.available.without_active_holds.does_not_require_approval)
       member_in_front = random_member
       Hold.create!(member: member_in_front, item: item, creator: member_in_front.user)
       Hold.create!(member: member, item: item, creator: member.user)

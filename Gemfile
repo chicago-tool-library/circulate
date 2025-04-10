@@ -33,7 +33,6 @@ gem "money-rails"
 gem "mjml-rails" # , github: "jim/mjml-rails", branch: "webpacker"
 gem "pagy"
 gem "pg_search"
-gem "activerecord-postgres_enum"
 gem "scenic"
 gem "reverse_markdown", "~>3.0"
 gem "http"
@@ -91,6 +90,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "capybara-playwright-driver"
   gem "rails-controller-testing"
+  gem "timecop"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

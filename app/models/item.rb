@@ -71,6 +71,7 @@ class Item < ApplicationRecord
   scope :holdable, -> { active.and(holds_enabled) }
   scope :holds_enabled, -> { where(holds_enabled: true) }
   scope :missing, -> { where(status: Item.statuses[:missing]) }
+  scope :does_not_require_approval, -> { joins(:borrow_policy).where(borrow_policy: {requires_approval: false}) }
 
   scope :by_name, -> { order(name: :asc) }
 

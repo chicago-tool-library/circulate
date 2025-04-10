@@ -53,19 +53,20 @@ class MemberExporter
   private
 
   def year_headers
-    @year_range.flat_map { |year| ["#{year}_amount", "#{year}_started_on", "#{year}_ended_on"] }
+    @year_range.flat_map { |year| ["#{year}_amount", "#{year}_type", "#{year}_started_on", "#{year}_ended_on"] }
   end
 
-  def year_values(member)
+  def year_values(row)
     @year_range.flat_map { |year|
-      started_at = member["#{year}_started_at"]
-      amount = member["#{year}_amount"].to_i
+      started_at = row["#{year}_started_at"]
+      amount = row["#{year}_amount"].to_i
+      membership_type = (row["#{year}_membership_type"] == "initial") ? "signup" : row["#{year}_membership_type"]
       if started_at
-        [amount / 100, started_at.to_fs(:short_date), (started_at + 1.year).to_fs(:short_date)]
+        [amount / 100, membership_type, started_at.to_fs(:short_date), (started_at + 1.year).to_fs(:short_date)]
       elsif amount > 0
-        [amount / 100, nil, nil]
+        [amount / 100, membership_type, nil, nil]
       else
-        [nil, nil, nil]
+        [nil, nil, nil, nil]
       end
     }
   end
