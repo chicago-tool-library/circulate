@@ -7,7 +7,7 @@ class AddPronounsToMembers < ActiveRecord::Migration[6.0]
   def change
     add_column :members, :pronouns, :text, array: true, default: []
 
-    TemporaryMember.all.each do |member|
+    TemporaryMember.all.find_each do |member|
       if member.custom_pronoun?
         member.pronouns << member.custom_pronoun
       elsif member.pronoun

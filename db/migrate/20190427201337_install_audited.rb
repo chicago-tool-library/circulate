@@ -1,6 +1,6 @@
 class InstallAudited < ActiveRecord::Migration[6.0]
-  def self.up
-    create_table :audits, force: true do |t|
+  def up
+    create_table :audits, force: true do |t| # standard:disable Rails/CreateTableWithTimestamps
       t.column :auditable_id, :integer
       t.column :auditable_type, :string
       t.column :associated_id, :integer
@@ -24,7 +24,7 @@ class InstallAudited < ActiveRecord::Migration[6.0]
     add_index :audits, :created_at
   end
 
-  def self.down
+  def down
     drop_table :audits
   end
 end
