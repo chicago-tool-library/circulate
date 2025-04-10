@@ -10,101 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_14_201009) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_201009) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
-  create_enum :adjustment_kind, [
-    "fine",
-    "membership",
-    "donation",
-    "payment",
-  ], force: :cascade
-
-  create_enum :adjustment_source, [
-    "cash",
-    "square",
-    "forgiveness",
-  ], force: :cascade
-
-  create_enum :answer_type, [
-    "text",
-    "integer",
-  ], force: :cascade
-
-  create_enum :borrow_policy_approval_status, [
-    "approved",
-    "rejected",
-    "requested",
-    "revoked",
-  ], force: :cascade
-
-  create_enum :item_attachment_kind, [
-    "manual",
-    "parts_list",
-    "other",
-  ], force: :cascade
-
-  create_enum :item_status, [
-    "pending",
-    "active",
-    "maintenance",
-    "retired",
-    "missing",
-  ], force: :cascade
-
-  create_enum :membership_type, [
-    "initial",
-    "renewal",
-  ], force: :cascade
-
-  create_enum :organization_member_role, [
-    "admin",
-    "member",
-  ], force: :cascade
-
-  create_enum :power_source, [
-    "solar",
-    "gas",
-    "air",
-    "electric (corded)",
-    "electric (battery)",
-  ], force: :cascade
-
-  create_enum :renewal_request_status, [
-    "requested",
-    "approved",
-    "rejected",
-  ], force: :cascade
-
-  create_enum :reservation_status, [
-    "pending",
-    "requested",
-    "approved",
-    "rejected",
-    "obsolete",
-    "building",
-    "ready",
-    "borrowed",
-    "returned",
-    "unresolved",
-    "cancelled",
-  ], force: :cascade
-
-  create_enum :ticket_status, [
-    "assess",
-    "parts",
-    "repairing",
-    "resolved",
-    "retired",
-  ], force: :cascade
-
-  create_enum :user_role, [
-    "staff",
-    "admin",
-    "member",
-    "super_admin",
-  ], force: :cascade
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "adjustment_kind", ["fine", "membership", "donation", "payment"]
+  create_enum "adjustment_source", ["cash", "square", "forgiveness"]
+  create_enum "answer_type", ["text", "integer"]
+  create_enum "borrow_policy_approval_status", ["approved", "rejected", "requested", "revoked"]
+  create_enum "item_attachment_kind", ["manual", "parts_list", "other"]
+  create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
+  create_enum "membership_type", ["initial", "renewal"]
+  create_enum "organization_member_role", ["admin", "member"]
+  create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
+  create_enum "renewal_request_status", ["requested", "approved", "rejected"]
+  create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
+  create_enum "ticket_status", ["assess", "parts", "repairing", "resolved", "retired"]
+  create_enum "user_role", ["staff", "admin", "member", "super_admin"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
