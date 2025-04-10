@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_201009) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_04_163403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -483,6 +483,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_201009) do
     t.text "plain_text_description"
     t.bigint "reservation_policy_id"
     t.string "checkout_notice"
+    t.decimal "max_reservable_percent", precision: 2, scale: 2
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
