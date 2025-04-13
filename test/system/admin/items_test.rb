@@ -69,7 +69,7 @@ class ItemsTest < ApplicationSystemTestCase
       click_on "Update Item"
       assert_text "Item was successfully updated"
     end
-    puts attributes
+
     @item.reload
     assert_equal attributes[:name], @item.name
     assert_equal "solar", @item.power_source
