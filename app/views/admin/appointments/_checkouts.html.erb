@@ -22,22 +22,23 @@
       <div class="column col-sm-6 col-4">
         <p><%= pickup_item.item.name %></p>
         <p><%= link_to full_item_number(pickup_item.item), admin_item_path(pickup_item.item) %></p>
-        <% if pickup_item.item.accessories? %>
-          <ul>
+      </div>
+      <div class="column col-sm-12 col-4 text-right checkout-button-column" data-controller="confirm-item-accessories">
+        <% if pickup_item.item.accessories? && pickup_item.active? %>
+          <ul class="simple-list of-accessories">
             <% pickup_item.item.accessories.each do |accessory| %>
               <li>
-                <%= checkbox_tag accessory %>
-                <%= label_tag accessory %>
+                <%= label_tag accessory, accessory %>
+                <%= checkbox_tag accessory, data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
               </li>
             <% end %>
           </ul>
         <% end %>
-      </div>
-      <div class="column col-sm-12 col-4 text-right checkout-button-column">
         <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [pickup_item.id]),
               id: "checkout-#{pickup_item.id}",
               class: "btn btn-primary btn-sm",
-              data: {disable_with: "Checking-out..."}, disabled: !pickup_item.active? || !member.borrow? || pickup_item.item.accessories? %>
+              data: {:disable_with => "Checking-out...", "confirm-item-accessories-target" => "button"},
+              disabled: !pickup_item.active? || !member.borrow? || pickup_item.item.accessories? %>
         <div class="checkout-button-group">
           <% if pickup_item.active? %>
             <%= button_to "Cancel Hold",
