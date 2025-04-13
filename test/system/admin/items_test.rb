@@ -237,12 +237,17 @@ class ItemsTest < ApplicationSystemTestCase
     end
   end
 
-  test "viewing an item's status" do
-    item = create(:item, :active)
+  test "viewing an item" do
+    item = create(:complete_item, :active)
     create(:overdue_loan, item:)
 
     visit admin_item_url(item)
 
+    assert item.accessories?, "item must have accessories"
+    item.accessories.each do |accessory|
+      assert_text accessory
+    end
+    # statuses
     assert_text "Overdue"
     assert_text "Active"
   end

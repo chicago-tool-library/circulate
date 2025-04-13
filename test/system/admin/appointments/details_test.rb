@@ -98,8 +98,23 @@ module Admin
     end
 
     test "an admin can see the accessories for an item that's to be returned" do
-      skip
+      @hold.destroy!
       @item.update!(accessories: ["foo", "bar", rand(100).to_s])
+      loan = create(:loan, :checked_out, item: @item)
+      @appointment.update!(loans: [loan])
+
+      visit admin_appointment_path(@appointment)
+
+      assert_css "button[disabled][id='checkin-#{loan.id}']"
+
+      @item.accessories.each do |accessory|
+        find("label", text: accessory).click # check checkbox
+      end
+
+      refute_css "button[disabled][id='checkin-#{loan.id}']"
+
+      click_on "Check-in"
+      assert_text "1 Item checked-in."
     end
   end
 end
