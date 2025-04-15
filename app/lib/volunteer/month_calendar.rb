@@ -25,7 +25,7 @@ module Volunteer
         end
         events = if state.nil?
           @events.select { |event|
-            date.beginning_of_day <= event.start && date.end_of_day >= event.start
+            event.start.between?(date.beginning_of_day, date.end_of_day)
           }
         else
           []
