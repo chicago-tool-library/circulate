@@ -7,7 +7,6 @@ module Admin
     setup do
       @item = create(:item)
       @loan = create(:loan, item: @item)
-      create_open_day_for_renewal(@loan)
       @renewal_request = create(:renewal_request, loan: @loan)
       @user = create(:admin_user)
       sign_in @user
@@ -55,9 +54,7 @@ class RenewalRequestsControllerAdditionalTest < ActionDispatch::IntegrationTest
   test "renews an already renewed loan on approval" do
     item = create(:item)
     loan = create(:loan, item: item)
-    create_open_day_for_renewal(loan)
     renewed_loan = renew_loan(loan)
-    create_open_day_for_renewal(renewed_loan)
 
     renewal_request = create(:renewal_request, loan: renewed_loan)
 

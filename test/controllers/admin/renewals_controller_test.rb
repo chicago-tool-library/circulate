@@ -12,7 +12,6 @@ module Admin
 
     test "should renew loan" do
       @loan = create(:loan)
-      create_open_day_for_renewal(@loan)
 
       assert_difference("Loan.count") do
         post admin_renewals_url(loan_id: @loan)
@@ -36,7 +35,6 @@ module Admin
 
     test "should delete renewal" do
       @loan = create(:loan)
-      create_open_day_for_renewal(@loan)
       @renewal = renew_loan(@loan)
 
       assert_difference("Loan.count", -1) do

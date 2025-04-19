@@ -8,7 +8,6 @@ class HoldsTest < ApplicationSystemTestCase
   test "pending member can reserve items" do
     @member = create(:member, :with_user)
     @item = create(:item)
-    create_open_day_for_loan(@item)
 
     visit admin_member_holds_url(@member)
 
@@ -31,7 +30,6 @@ class HoldsTest < ApplicationSystemTestCase
   test "member without membership can reserve items" do
     @member = create(:verified_member)
     @item = create(:item)
-    create_open_day_for_loan(@item)
 
     visit admin_member_url(@member)
 
@@ -54,7 +52,6 @@ class HoldsTest < ApplicationSystemTestCase
   test "places item on hold" do
     @item = create(:item)
     @member = create(:verified_member_with_membership)
-    create_open_day_for_loan(@item)
 
     visit admin_member_holds_url(@member)
 
@@ -80,7 +77,6 @@ class HoldsTest < ApplicationSystemTestCase
     @loan = create(:loan)
     @item = @loan.item
     @member = create(:verified_member_with_membership)
-    create_open_day_for_loan(@item)
 
     visit admin_member_holds_url(@member)
 
@@ -106,7 +102,6 @@ class HoldsTest < ApplicationSystemTestCase
     @item = create(:item)
     @hold = create(:hold, item: @item, creator: @user)
     @member = create(:verified_member_with_membership)
-    create_open_day_for_loan(@item)
 
     visit admin_member_holds_url(@member)
 
@@ -124,7 +119,6 @@ class HoldsTest < ApplicationSystemTestCase
     @item = create(:item)
     @overdue_item = create(:item)
     @member = create(:verified_member_with_membership)
-    create_open_day_for_loan(@item)
 
     create(:loan, item: @overdue_item, member: @member, due_at: 1.week.ago)
 
@@ -141,7 +135,6 @@ class HoldsTest < ApplicationSystemTestCase
     @member = create(:verified_member_with_membership)
     @item = create(:item)
     @hold = create(:hold, member: @member, item: @item, creator: @user)
-    create_open_day_for_loan(@item)
 
     visit admin_member_holds_url(@member)
 

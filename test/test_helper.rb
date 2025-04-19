@@ -7,7 +7,6 @@ require "minitest/mock"
 require "helpers/return_values"
 require "helpers/ensure_request_tenant"
 require "test_helpers/twilio_helper"
-require "test_helpers/open_days_helper"
 
 # Explicit require means the plugin is available when tests are evaluated;
 # otherwise, the plugin isn't loaded until later.
@@ -22,7 +21,6 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
-  include OpenDaysHelper
 
   def assert_size(expected, subject)
     assert_equal expected, subject.size, "wrong size; got #{subject.size} instead of #{expected}"

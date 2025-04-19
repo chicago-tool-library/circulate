@@ -11,7 +11,6 @@ class MemberMailerTest < ApplicationSystemTestCase
     test "renders renewal request #{status} email for a renewed loan" do
       item = create(:item, :with_image)
       loan = create(:loan, item: item)
-      create_open_day_for_renewal(loan)
       renewed_loan = renew_loan(loan)
       renewal_request = create(:renewal_request, loan: renewed_loan, status: status)
 

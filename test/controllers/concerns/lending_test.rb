@@ -9,7 +9,6 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
 
     renewal = assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
 
@@ -27,7 +26,6 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
     renewal = renew_loan(loan, now: sunday)
 
     assert_equal sunday + 7.days, renewal.due_at
@@ -40,7 +38,6 @@ class LendingTest < ActiveSupport::TestCase
     thursday = Time.utc(2020, 1, 30).end_of_day
 
     loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
     renewal = renew_loan(loan, now: sunday)
 
     assert_equal thursday + 7.days, renewal.due_at
@@ -53,7 +50,6 @@ class LendingTest < ActiveSupport::TestCase
     thursday = Time.utc(2020, 1, 30).end_of_day
 
     loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday)
-    create_open_day_for_renewal(loan, now: wednesday)
     renewal = renew_loan(loan, now: wednesday)
 
     next_day = Event.next_open_day(thursday + 7.days).end_of_day
@@ -67,13 +63,11 @@ class LendingTest < ActiveSupport::TestCase
     monday = Time.utc(2020, 1, 27).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
 
     assert loan.within_renewal_limit?
     renewal = renew_loan(loan, now: sunday)
 
     assert renewal.within_renewal_limit?
-    create_open_day_for_renewal(renewal, now: monday)
     second_renewal = renew_loan(renewal, now: monday)
 
     assert_equal loan.id, second_renewal.initial_loan_id
@@ -86,7 +80,6 @@ class LendingTest < ActiveSupport::TestCase
     item = create(:item, borrow_policy: borrow_policy)
     sunday = Time.utc(2020, 1, 26).end_of_day
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
 
     renewal = renew_loan(loan, now: sunday)
 
@@ -99,7 +92,6 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
 
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
@@ -119,7 +111,6 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
 
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
@@ -141,7 +132,6 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan, now: sunday)
     renewal = renew_loan(loan, now: sunday)
 
     assert_difference "Loan.count", -1 do
@@ -160,9 +150,7 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    create_open_day_for_renewal(loan)
     renewal = renew_loan(loan, now: sunday)
-    create_open_day_for_renewal(renewal)
     second_renewal = renew_loan(renewal, now: sunday)
 
     assert_difference "Loan.count", -1 do
@@ -190,7 +178,6 @@ class LendingTest < ActiveSupport::TestCase
   test "renews a loan with a deleted item" do
     item = create(:item)
     loan = create(:loan, item: item)
-    create_open_day_for_renewal(loan)
 
     assert item.destroy
 
@@ -202,7 +189,6 @@ class LendingTest < ActiveSupport::TestCase
   test "automatically returns consumable items" do
     borrow_policy = create(:consumable_borrow_policy)
     item = create(:item, quantity: 10, borrow_policy: borrow_policy)
-    create_open_day_for_loan(item)
     member = create(:verified_member)
 
     loan = assert_no_difference "Audited::Audit.count" do
@@ -218,7 +204,6 @@ class LendingTest < ActiveSupport::TestCase
     borrow_policy = create(:consumable_borrow_policy)
     item = create(:item, quantity: 10, borrow_policy: borrow_policy)
     member = create(:verified_member)
-    create_open_day_for_loan(item)
 
     loan = create_loan(item, member)
     assert_equal 9, item.quantity
@@ -231,7 +216,6 @@ class LendingTest < ActiveSupport::TestCase
     borrow_policy = create(:default_borrow_policy)
     item = create(:item, quantity: 1, borrow_policy: borrow_policy)
     member = create(:verified_member)
-    create_open_day_for_loan(item)
 
     loan = create_loan(item, member)
     assert !member.checked_out_loans.empty?
@@ -243,7 +227,6 @@ class LendingTest < ActiveSupport::TestCase
   test "can't loan item in maintenance" do
     item = create(:item, status: Item.statuses[:maintenance])
     member = create(:member)
-    create_open_day_for_loan(item)
 
     loan = create_loan(item, member)
     assert !loan.persisted?
@@ -254,7 +237,6 @@ class LendingTest < ActiveSupport::TestCase
     borrow_policy = create(:consumable_borrow_policy)
     item = create(:item, quantity: 1, borrow_policy: borrow_policy)
     member = create(:verified_member)
-    create_open_day_for_loan(item)
 
     assert_difference "Audited::Audit.count" do
       create_loan(item, member)
@@ -269,7 +251,6 @@ class LendingTest < ActiveSupport::TestCase
     borrow_policy = create(:consumable_borrow_policy)
     item = create(:item, quantity: 1, borrow_policy: borrow_policy)
     member = create(:verified_member)
-    create_open_day_for_loan(item)
 
     loan = create_loan(item, member)
 

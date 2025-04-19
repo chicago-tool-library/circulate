@@ -14,8 +14,7 @@ module Account
       create(:loan, item: ignored_item)
 
       renewable_item = create(:item, borrow_policy:)
-      loan = create(:loan, member: @member, item: renewable_item)
-      create_open_day_for_renewal(loan)
+      create(:loan, member: @member, item: renewable_item)
 
       non_renewable_item = create(:item, borrow_policy:)
       create(:loan, member: @member, item: non_renewable_item, renewal_count: borrow_policy.renewal_limit)

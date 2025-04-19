@@ -174,7 +174,16 @@ class EventTest < ActiveSupport::TestCase
     assert_equal next_event.start.to_date, Event.next_open_day(2.days.from_now), "finds same-day open date"
     assert_equal past_event.start.to_date, Event.next_open_day(2.days.ago), "finds next open day from past"
     assert_equal future_event.start.to_date, Event.next_open_day(3.days.from_now), "finds next open day in future"
-    assert_nil Event.next_open_day(7.days.from_now), "returns nil when there are no future open days"
+  end
+
+  test "next_open_day returns the passed in day and records an error if no events were found" do
+    next_week = 7.days.from_now
+    appsignal_spy = Spy.on(Appsignal, :send_error)
+
+    assert_equal next_week.to_date, Event.next_open_day(next_week)
+
+    assert appsignal_spy.has_been_called?
+    assert_match "No open days found", appsignal_spy.calls.first.args.first.message
   end
 
   test "next_open_day returns the next day as the next open day" do

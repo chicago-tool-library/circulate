@@ -8,7 +8,6 @@ class ConsumablesTest < ApplicationSystemTestCase
   test "checks out consumable item to member and then undoes the loan" do
     @item = create(:consumable_item)
     @member = create(:verified_member_with_membership)
-    create_open_day_for_loan(@item)
 
     visit admin_member_url(@member)
 
@@ -53,7 +52,6 @@ class ConsumablesTest < ApplicationSystemTestCase
     @member = create(:verified_member_with_membership)
     hold = create(:hold, item: @item, member: @member)
     appointment = create(:appointment, holds: [hold], member: hold.member)
-    create_open_day_for_loan(@item)
 
     visit admin_appointment_path(appointment)
 
@@ -78,7 +76,6 @@ class ConsumablesTest < ApplicationSystemTestCase
     @member = create(:verified_member_with_membership)
     hold = create(:hold, item: @item, member: @member)
     appointment = create(:appointment, holds: [hold], member: hold.member)
-    create_open_day_for_loan(@item)
 
     visit admin_appointment_path(appointment)
 

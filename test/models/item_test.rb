@@ -106,7 +106,6 @@ class ItemTest < ActiveSupport::TestCase
   test "can delete an item with a renewed loan" do
     item = create(:item)
     loan = create(:loan, item: item)
-    create_open_day_for_renewal(loan)
     renew_loan(loan)
 
     assert item.destroy
