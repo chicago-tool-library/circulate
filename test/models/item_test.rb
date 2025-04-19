@@ -315,4 +315,30 @@ class ItemTest < ActiveSupport::TestCase
 
     assert_not_includes(Item.available_now, item_in_maintenance)
   end
+
+  test "#accessories_text returns all of the accessories as a single string" do
+    random_value = rand(100).to_s
+    item = build(:item, accessories: ["foo", "bar", random_value])
+
+    assert_equal "foo\nbar\n#{random_value}", item.accessories_text
+  end
+
+  test "#accessories_text= assigns accessories to an array based on the given string" do
+    random_value = rand(100).to_s
+    item = build(:item)
+
+    item.accessories_text = "foo\n  bar  \n   #{random_value}"
+
+    assert_equal ["foo", "bar", random_value], item.accessories
+  end
+
+  test "#accessories_text= assigns accessories to an empty array when given nil or a blank string" do
+    item = build(:item)
+
+    item.accessories_text = "    "
+    assert_equal [], item.accessories
+
+    item.accessories_text = nil
+    assert_equal [], item.accessories
+  end
 end

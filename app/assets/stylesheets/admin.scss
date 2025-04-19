@@ -120,3 +120,21 @@ body.admin {
   padding-left: 1rem;
   padding-top: 0.3rem;
 }
+
+ul.simple-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &.of-accessories {
+    font-size: 14px;
+    padding-bottom: 4px;
+
+    li {
+      align-items: center;
+      display: flex;
+      justify-content: end;
+      gap: 0.75ch;
+    }
+  }
+}
