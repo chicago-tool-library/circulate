@@ -10,9 +10,7 @@ class LendingTest < ActiveSupport::TestCase
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
-    }
+    renewal = assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
 
     assert_equal item.id, renewal.item_id
     assert_equal loan.member_id, renewal.member_id
@@ -28,9 +26,7 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 17.days), due_at: (sunday - 10.days), uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: sunday)
-    }
+    renewal = renew_loan(loan, now: sunday)
 
     assert_equal sunday + 7.days, renewal.due_at
   end
@@ -42,9 +38,7 @@ class LendingTest < ActiveSupport::TestCase
     thursday = Time.utc(2020, 1, 30).end_of_day
 
     loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: sunday)
-    }
+    renewal = renew_loan(loan, now: sunday)
 
     assert_equal thursday + 7.days, renewal.due_at
   end
@@ -56,13 +50,9 @@ class LendingTest < ActiveSupport::TestCase
     thursday = Time.utc(2020, 1, 30).end_of_day
 
     loan = create(:loan, item: item, created_at: (thursday - 7.days), due_at: thursday)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: wednesday)
-    }
+    renewal = renew_loan(loan, now: wednesday)
 
-    next_day = Loan.stub(:open_days, [0, 4]) {
-      Loan.next_open_day(thursday + 7.days)
-    }
+    next_day = Event.next_open_day(thursday + 7.days).end_of_day
     assert_equal next_day, renewal.due_at
   end
 
@@ -75,14 +65,10 @@ class LendingTest < ActiveSupport::TestCase
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
     assert loan.within_renewal_limit?
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: sunday)
-    }
+    renewal = renew_loan(loan, now: sunday)
 
     assert renewal.within_renewal_limit?
-    second_renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(renewal, now: monday)
-    }
+    second_renewal = renew_loan(renewal, now: monday)
 
     assert_equal loan.id, second_renewal.initial_loan_id
     assert_equal sunday + 14.days, second_renewal.due_at
@@ -95,9 +81,7 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
 
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: sunday)
-    }
+    renewal = renew_loan(loan, now: sunday)
 
     refute renewal.within_renewal_limit?
   end
@@ -112,9 +96,7 @@ class LendingTest < ActiveSupport::TestCase
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
 
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
-    }
+    renewal = assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
 
     appointment.reload
     appointment_loan.reload
@@ -133,9 +115,7 @@ class LendingTest < ActiveSupport::TestCase
     appointment = create(:appointment, member: loan.member, loans: [loan])
     appointment_loan = appointment.appointment_loans.first
 
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
-    }
+    renewal = assert_difference("Loan.count") { renew_loan(loan, now: sunday) }
 
     undo_loan_renewal(renewal)
 
@@ -152,9 +132,7 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) {
-      renew_loan(loan, now: sunday)
-    }
+    renewal = renew_loan(loan, now: sunday)
 
     assert_difference "Loan.count", -1 do
       undo_loan_renewal(renewal)
@@ -172,8 +150,8 @@ class LendingTest < ActiveSupport::TestCase
     sunday = Time.utc(2020, 1, 26).end_of_day
 
     loan = create(:loan, item: item, created_at: (sunday - 7.days), due_at: sunday, uniquely_numbered: true)
-    renewal = Loan.stub(:open_days, [0, 4]) { renew_loan(loan, now: sunday) }
-    second_renewal = Loan.stub(:open_days, [0, 4]) { renew_loan(renewal, now: sunday) }
+    renewal = renew_loan(loan, now: sunday)
+    second_renewal = renew_loan(renewal, now: sunday)
 
     assert_difference "Loan.count", -1 do
       undo_loan_renewal(second_renewal)
