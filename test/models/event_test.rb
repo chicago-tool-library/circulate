@@ -174,10 +174,7 @@ class EventTest < ActiveSupport::TestCase
     assert_equal next_event.start.to_date, Event.next_open_day(2.days.from_now), "finds same-day open date"
     assert_equal past_event.start.to_date, Event.next_open_day(2.days.ago), "finds next open day from past"
     assert_equal future_event.start.to_date, Event.next_open_day(3.days.from_now), "finds next open day in future"
-    error = assert_raises(RuntimeError, "raises error when no open days found") {
-      Event.next_open_day(7.days.from_now)
-    }
-    assert_match "No open day found on or after #{7.days.from_now.to_date}", error.message
+    assert_nil Event.next_open_day(7.days.from_now), "returns nil when there are no future open days"
   end
 
   test "next_open_day returns the next day as the next open day" do

@@ -22,10 +22,7 @@ class Event < ApplicationRecord
       .order("start ASC")
       .limit(1)
       .first
-    if next_open_event.nil?
-      raise "No open day found on or after #{start_date.to_date} on the appointment calendar!"
-    end
-    next_open_event.start.to_date
+    next_open_event&.start&.to_date
   end
 
   def date
