@@ -70,4 +70,47 @@ class Admin::MembersTest < ApplicationSystemTestCase
 
     assert_text "Undo return"
   end
+
+  test "admins can lend an item to a member" do
+    item = create(:item)
+
+    visit admin_member_url(@member)
+
+    refute_css "#return-#{item.id}"
+
+    fill_in "Enter an item's number to loan it to this member", with: item.number
+
+    click_on "Lookup"
+
+    assert_text item.name
+
+    click_on "Lend"
+
+    assert_css "#return-#{item.id}"
+  end
+
+  test "admins can lend an item with accessories to a member" do
+    item = create(:item, accessories: ["foo", "bar", rand(100).to_s])
+
+    visit admin_member_url(@member)
+
+    refute_css "#return-#{item.id}"
+
+    fill_in "Enter an item's number to loan it to this member", with: item.number
+
+    click_on "Lookup"
+
+    assert_text item.name
+    assert_css "#lend-#{item.id}[disabled]"
+
+    item.accessories.each do |accessory|
+      find("label", text: accessory).click # check checkbox
+    end
+
+    refute_css "#lend-#{item.id}[disabled]"
+
+    click_on "Lend"
+
+    assert_css "#return-#{item.id}"
+  end
 end
