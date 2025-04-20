@@ -94,7 +94,7 @@ class Admin::MembersTest < ApplicationSystemTestCase
 
     visit admin_member_url(@member)
 
-    refute_css "#return-#{item.id}"
+    refute_text "Renew All"
 
     fill_in "Enter an item's number to loan it to this member", with: item.number
 
@@ -111,6 +111,6 @@ class Admin::MembersTest < ApplicationSystemTestCase
 
     click_on "Lend"
 
-    assert_css "#return-#{item.id}"
+    assert_text "Renew All"
   end
 end
