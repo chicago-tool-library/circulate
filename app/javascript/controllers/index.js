@@ -14,6 +14,8 @@ import CollapseController from './collapse_controller'
 
 import ConditionalFieldController from './conditional_field_controller'
 
+import ConfirmItemAccessoriesController from './confirm_item_accessories_controller'
+
 import DynamicFieldsController from './dynamic_fields_controller'
 
 import EmailSettingsEditorController from './email_settings_editor_controller'
@@ -46,6 +48,10 @@ application.register('appointment-date', AppointmentDateController)
 application.register('autocomplete', AutocompleteController)
 application.register('collapse', CollapseController)
 application.register('conditional-field', ConditionalFieldController)
+application.register(
+  'confirm-item-accessories',
+  ConfirmItemAccessoriesController
+)
 application.register('dynamic-fields', DynamicFieldsController)
 application.register('email-settings-editor', EmailSettingsEditorController)
 application.register('find-tool', FindToolController)

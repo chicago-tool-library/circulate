@@ -24,10 +24,21 @@
     currently on loan to <%= link_to preferred_or_default_name(borrower), admin_member_path(borrower) %>
     and due on <%= checked_out_date(@item.checked_out_exclusive_loan.due_at) %>
   <% else %>
-    <%= button_tag class: "btn btn-primary" do %>
-      <%= feather_icon "upload" %>Lend
-    <% end %>
-    will be due on <%= checked_out_date(@loan.due_at) %>
+    <div data-controller="confirm-item-accessories">
+      <% if @item.accessories? %>
+        <ul class="simple-list of-accessories">
+          <% @item.accessories.each do |accessory| %>
+            <li>
+              <%= label_tag accessory, accessory %>
+              <%= checkbox_tag accessory, data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+      <%= button_tag id: "lend-#{@item.id}", class: "btn btn-primary", disabled: @item.accessories?, data: {"confirm-item-accessories-target" => "button"} do %>
+        <%= feather_icon "upload" %>Lend
+      <% end %>
+      will be due on <%= checked_out_date(@loan.due_at) %>
+    </div>
   <% end %>
-
 <% end %>

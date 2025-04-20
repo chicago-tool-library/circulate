@@ -58,6 +58,16 @@
             <%= icon_stat "list", title: "hold list status" do %>
                 holds <%= @item.holds_enabled_status %>
             <% end %>
+
+            <% if @item.accessories? %>
+                <%= icon_stat "box", title: "accessories", css_class: "with-inner-stats" do %>
+                    <ul class="inner-stats">
+                        <% @item.accessories.each do |accessory| %>
+                            <li><%= accessory %></li>
+                        <% end %>
+                    </ul>
+                <% end %>
+            <% end %>
         </ul>
     </div>
 </div>

@@ -86,8 +86,18 @@
                 </span>
               <% end %>
             </div>
-            <div class="column col-sm-12 col-4 text-right">
-              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, class: "btn btn-primary mb-2", remote: true do %>
+            <div class="column col-sm-12 col-4 text-right" data-controller="confirm-item-accessories">
+              <% if summary.item.accessories? %>
+                <ul class="simple-list of-accessories">
+                  <% summary.item.accessories.each do |accessory| %>
+                    <li>
+                      <%= label_tag accessory, accessory %>
+                      <%= checkbox_tag accessory, data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+              <%= button_to [:admin, summary.latest_loan], params: {loan: {ended: 1}}, method: :patch, id: "return-#{summary.item_id}", class: "btn btn-primary mb-2", remote: true, disabled: summary.item.accessories?, data: {"confirm-item-accessories-target" => "button"} do %>
                 <%= feather_icon "download" %>Return
               <% end %>
               <%= renewal_tooltop summary.latest_loan.within_renewal_limit?, summary.item.borrow_policy.renewal_limit do %>

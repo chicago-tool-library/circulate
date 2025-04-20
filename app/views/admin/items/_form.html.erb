@@ -65,6 +65,8 @@
   <%= form.rich_text_area :description,
         hint: "Any details about the tool. Could be notes about parts, usage, etc and will appear on the tool's public page" %>
 
+  <%= form.text_area :accessories_text, label: "Accessories", hint: "Each accessory should be on its own line", value: item.accessories.join("\n") %>
+
   <%= form.text_area :checkout_notice, hint: "Shown when checking item out" %>
 
   <%= form.check_box :holds_enabled, label: "Allow holds to be placed on this item", hint: "Unchecking will hide but not delete existing holds." %>
