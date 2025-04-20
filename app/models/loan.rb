@@ -63,24 +63,8 @@ class Loan < ApplicationRecord
     @summary ||= LoanSummary.find(initial_loan_id || id)
   end
 
-  def self.open_days
-    [
-      4, # Thursday
-      5, # Friday
-      6  # Saturday
-    ]
-  end
-
-  def self.next_open_day(time)
-    day = time
-    until open_days.include? day.wday
-      day += 1.day
-    end
-    day
-  end
-
   def self.lend(item, to:, now: Time.current)
-    due_at = next_open_day(now.end_of_day + item.borrow_policy.duration.days)
+    due_at = Event.next_open_day(now + item.borrow_policy.duration.days).end_of_day
     Loan.new(member: to, item: item, due_at: due_at, uniquely_numbered: item&.borrow_policy&.uniquely_numbered, created_at: now)
   end
 

@@ -13,6 +13,25 @@ class Event < ApplicationRecord
     upcoming.where(calendar_id: volunteer_shift_calendar_id).order("start ASC")
   }
 
+  # Returns the next Date where the library is open on or after the specified time
+  # Use by Loans to set due_at
+  # If no open day is found, returns the Date of the timestamp that was passed in
+  def self.next_open_day(on_or_after_time = Time.current)
+    start = on_or_after_time.beginning_of_day
+    next_open_event = where(calendar_id: appointment_slot_calendar_id)
+      .where("DATE(start) >= ?", start)
+      .order("start ASC")
+      .limit(1)
+      .first
+
+    if next_open_event.nil?
+      Appsignal.send_error(RuntimeError.new("No open days found on Google Calendar #{appointment_slot_calendar_id} after #{start.to_date}"))
+      return start.to_date
+    end
+
+    next_open_event.start.to_date
+  end
+
   def date
     start.to_date
   end

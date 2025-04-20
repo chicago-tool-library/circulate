@@ -88,45 +88,13 @@ class LoanTest < ActiveSupport::TestCase
     member = create(:verified_member_with_membership)
 
     now = Time.utc(2020, 1, 18, 12) # saturday
-    loan = Loan.stub(:open_days, [0, 4]) {
-      Loan.lend(item, to: member, now: now)
-    }
+    # open next sunday
+    next_sunday = Time.utc(2020, 1, 26)
+    create(:appointment_slot_event, start: next_sunday + 10.hours)
 
-    sunday = Time.utc(2020, 1, 26).end_of_day
+    loan = Loan.lend(item, to: member, now: now)
 
-    assert_equal sunday, loan.due_at
-  end
-
-  test "returns the same day as the next open day" do
-    Loan.stub(:open_days, [0, 4]) do
-      sunday = Time.utc(2020, 1, 26).end_of_day
-      assert_equal sunday, Loan.next_open_day(sunday)
-
-      thursday = Time.utc(2020, 1, 23).end_of_day
-      assert_equal thursday, Loan.next_open_day(thursday)
-    end
-  end
-
-  test "returns the next day as the next open day" do
-    monday = Time.utc(2020, 1, 20).end_of_day
-    tuesday = Time.utc(2020, 1, 21).end_of_day
-    wednesday = Time.utc(2020, 1, 22).end_of_day
-    thursday = Time.utc(2020, 1, 23).end_of_day
-
-    Loan.stub(:open_days, [0, 4]) do
-      assert_equal thursday, Loan.next_open_day(monday)
-      assert_equal thursday, Loan.next_open_day(tuesday)
-      assert_equal thursday, Loan.next_open_day(wednesday)
-    end
-
-    friday = Time.utc(2020, 1, 24).end_of_day
-    saturday = Time.utc(2020, 1, 25).end_of_day
-    sunday = Time.utc(2020, 1, 26).end_of_day
-
-    Loan.stub(:open_days, [0, 4]) do
-      assert_equal sunday, Loan.next_open_day(friday)
-      assert_equal sunday, Loan.next_open_day(saturday)
-    end
+    assert_equal next_sunday.end_of_day, loan.due_at
   end
 
   test "status is checked-out when due_at is in the future" do
