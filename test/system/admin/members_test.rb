@@ -35,4 +35,39 @@ class Admin::MembersTest < ApplicationSystemTestCase
     assert_content "he/him"
     assert_no_content "she/her"
   end
+
+  test "admins can return an item for a member" do
+    item = create(:item)
+    create(:loan, :checked_out, item:, member: @member)
+
+    visit admin_member_url(@member)
+
+    assert_css "button[id='return-#{item.id}']"
+    refute_css "button[disabled][id='return-#{item.id}']"
+    refute_text "Undo return"
+
+    click_on "Return"
+
+    assert_text "Undo return"
+  end
+
+  test "admins can return an item with accessories for a member" do
+    item = create(:item, accessories: ["foo", "bar", rand(100).to_s])
+    create(:loan, :checked_out, item:, member: @member)
+
+    visit admin_member_url(@member)
+
+    assert_css "button[disabled][id='return-#{item.id}']"
+    refute_text "Undo return"
+
+    item.accessories.each do |accessory|
+      find("label", text: accessory).click # check checkbox
+    end
+
+    refute_css "button[disabled][id='return-#{item.id}']"
+
+    click_on "Return"
+
+    assert_text "Undo return"
+  end
 end
