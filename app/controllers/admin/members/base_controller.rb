@@ -13,6 +13,7 @@ module Admin
 
       def load_member
         @member = Member.find(params[:member_id])
+        @notes = @member.notes.pinned_first
       end
     end
   end

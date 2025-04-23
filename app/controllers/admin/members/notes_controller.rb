@@ -21,6 +21,9 @@ module Admin
         load_note
 
         if @note.update(note_params)
+          if @note.pinned?
+            @member.notes.where.not(id: @note.id).update_all(pinned: false)
+          end
           redirect_to [:admin, @member, anchor: dom_id(@note)], status: :see_other
         else
           render :edit, status: :unprocessable_entity
@@ -47,7 +50,7 @@ module Admin
       private
 
       def note_params
-        params.require(:note).permit(:body)
+        params.require(:note).permit(:body, :pinned)
       end
 
       def load_note
