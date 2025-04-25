@@ -1,8 +1,15 @@
 <%= turbo_frame_tag "new-note" do %><% end %>
 
-  <div id="notes">
-  <% @member.notes.where(pinned: true).with_all_rich_text.each do |note| %>
-    <%= render partial: "admin/members/notes/note", locals: {note: note, member: @member} %>
+  <% if @member.notes.where(pinned: true).exists? %>
+    <% @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc).each do |note| %>
+      <div class="card my-2 p-2">
+        <div class="d-flex justify-end">
+          <small class="text-gray"><%= display_date(note.created_at, :long_date) %></small>
+        </div>
+        <div class="mt-1">
+          <%= note.body.to_s.html_safe %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
-</div>
-
+  
