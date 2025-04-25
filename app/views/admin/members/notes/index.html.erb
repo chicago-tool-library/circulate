@@ -1,0 +1,11 @@
+<%= render "admin/members/profile" do %>
+
+  <% if @member.notes.any? %>
+    <% @member.notes.pinned_first.with_all_rich_text.each do |note| %>
+      <%= render partial: "admin/members/notes/note", locals: {note: note, member: @member} %>
+    <% end %>
+  <% else %>
+    <p>No notes added yet.</p>
+  <% end %>
+
+<% end %>

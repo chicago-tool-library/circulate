@@ -21,9 +21,6 @@ module Admin
         load_note
 
         if @note.update(note_params)
-          if @note.pinned?
-            @member.notes.where.not(id: @note.id).update_all(pinned: false)
-          end
           redirect_to [:admin, @member, anchor: dom_id(@note)], status: :see_other
         else
           render :edit, status: :unprocessable_entity
@@ -47,6 +44,13 @@ module Admin
         @note.destroy!
       end
 
+      def index
+        @notes = @member.notes.newest_first.with_all_rich_text
+        render layout: false if request.format.turbo_stream?
+      end
+      
+      
+      
       private
 
       def note_params

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "new-note" do %><% end %>
 
   <div id="notes">
-  <% @member.notes.pinned_first.with_all_rich_text.each do |note| %>
+  <% @member.notes.where(pinned: true).with_all_rich_text.each do |note| %>
     <%= render partial: "admin/members/notes/note", locals: {note: note, member: @member} %>
   <% end %>
 </div>
