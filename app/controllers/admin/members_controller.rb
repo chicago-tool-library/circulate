@@ -3,8 +3,9 @@ module Admin
     include Pagy::Backend
 
     include MemberOrdering
+    include Flagging
 
-    before_action :set_member, only: [:show, :edit, :update, :destroy, :resend_verification_email]
+    before_action :set_member, only: [:show, :edit, :update, :destroy, :resend_verification_email, :flag]
 
     def index
       member_scope = (params[:filter] == "closed") ? Member.closed : Member.open
@@ -62,6 +63,15 @@ module Admin
       email = @member.user.unconfirmed_email || @member.user.email
 
       redirect_to admin_member_url(@member), success: "Verification email sent to #{email}", status: :see_other
+    end
+
+    def flag
+      if @member.flagged?
+        unflag_obj(@member)
+      else
+        flag_obj(@member)
+      end
+      redirect_to admin_members_path, status: :see_other
     end
 
     private

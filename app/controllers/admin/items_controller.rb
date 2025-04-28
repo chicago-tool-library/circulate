@@ -1,8 +1,9 @@
 module Admin
   class ItemsController < BaseController
     include Pagy::Backend
+    include Flagging
 
-    before_action :set_item, only: [:show, :edit, :update, :destroy]
+    before_action :set_item, only: [:show, :edit, :update, :destroy, :flag]
 
     def index
       item_scope = Item.includes(:checked_out_exclusive_loan)
@@ -72,6 +73,15 @@ module Admin
     def destroy
       @item.destroy
       redirect_to [:admin, @item], warning: "Item was successfully destroyed.", status: :see_other
+    end
+
+    def flag
+      if @item.flagged?
+        unflag_obj(@item)
+      else
+        flag_obj(@item)
+      end
+      redirect_to admin_items_path, status: :see_other
     end
 
     private
