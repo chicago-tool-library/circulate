@@ -6,6 +6,7 @@
   <%= tag.div "Membership Status", class: "members-table-status members-table-header" %>
   <%= tag.div "Loans", class: "members-table-number members-table-header" %>
   <%= tag.div "Holds", class: "members-table-number members-table-header" %>
+  <%= tag.div "", class: "members-table-button members-table-header" %>
 
   <% members.each do |member| %>
     <%= tag.div member.number || "-", class: "members-table-number" %>
@@ -22,5 +23,12 @@
     <% end %>
     <%= tag.div format_stats_counter(member.checked_out_loans.size), class: "members-table-number" %>
     <%= tag.div format_stats_counter(member.active_holds.size), class: "members-table-number" %>
+    <%= button_to flag_admin_member_path(member), method: :post, class: "btn btn-primary", remote: true do %>
+      <% if member.flagged? %>
+      <%= feather_icon "slash" %> Unflag
+      <% else %>
+      <%= feather_icon "flag" %> Flag
+      <% end %>
+    <% end %>
   <% end %>
 </div>

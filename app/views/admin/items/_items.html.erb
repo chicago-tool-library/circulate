@@ -33,6 +33,11 @@
           <%= link_to "Edit Photo", edit_admin_item_image_path(item), class: "btn btn-sm" %>
         <% end %>
         <%= link_to "Duplicate", new_admin_item_path(item_id: item), class: "btn btn-sm" %>
+        <% if item.flagged? %>
+          <%= button_to "Unflag", flag_admin_item_path(item), method: :post, class: "btn btn-sm", remote: true %>
+        <% else %>
+          <%= button_to "Flag", flag_admin_item_path(item), method: :post, class: "btn btn-sm", remote: true %>
+        <% end %>
       </div>
     <% end %>
 
