@@ -1,0 +1,23 @@
+<% content_for :header do %>
+  <%= index_header "Flagged" %>
+<% end %>
+
+<h2>Flagged Items</h2>
+<% if @items.any? %>
+  <%= render partial: "admin/items/items", locals: {items: @items} %>
+  <%== pagy_bootstrap_nav(@items_pagy) %>
+<% else %>
+  <%= empty_state "There are no flagged items.", subtitle: "Flag an item by pressing the 'flag' button on the items page.", icon: "apps" do %>
+    <%= link_to "Items page", admin_items_path, class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<h2>Flagged Members</h2>
+<% if @members.any? %>
+  <%= render partial: "admin/members/members", locals: {members: @members} %>
+  <%== pagy_bootstrap_nav(@members_pagy) %>
+<% else %>
+  <%= empty_state "There are no flagged members.", subtitle: "Flag a member by pressing the 'flag' button on the members page.", icon: "people" do %>
+    <%= link_to "Members page", admin_members_path, class: "btn btn-primary" %>
+  <% end %>
+<% end %>
