@@ -122,6 +122,9 @@ Rails.application.routes.draw do
       end
 
       get :number
+      member do
+        post :flag
+      end
       resource :image, only: [:edit, :update]
       # resource :manual_import, only: [:edit, :update]
     end
@@ -129,6 +132,7 @@ Rails.application.routes.draw do
     resources :loans, only: [:index, :create, :update, :destroy]
     resources :renewals, only: [:create, :destroy]
     resources :bulk_renewals, only: [:update]
+    resources :flagged_items, only: [:index]
 
     resources :members do
       scope module: "members" do
@@ -151,6 +155,7 @@ Rails.application.routes.draw do
 
       member do
         post :resend_verification_email
+        post :flag
       end
     end
 
