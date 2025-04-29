@@ -42,6 +42,11 @@ module Admin
       def destroy
         load_note
         @note.destroy!
+
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to [:admin, @member], notice: "Note deleted." }
+        end
       end
 
       def index

@@ -4,6 +4,12 @@
   </template>
 </turbo-stream>
 
+<turbo-stream action="replace" target="pinned-notes">
+  <template>
+    <%= render partial: "admin/members/notes/list", formats: [:html], locals: {member: @member} %>
+  </template>
+</turbo-stream>
+
 <turbo-stream action="replace" target="new-note">
   <template>
     <%= turbo_frame_tag "new-note" do %><% end %>

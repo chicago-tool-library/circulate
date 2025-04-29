@@ -1,15 +1,16 @@
 <%= turbo_frame_tag "new-note" do %><% end %>
 
-  <% if @member.notes.where(pinned: true).exists? %>
-    <% @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc).each do |note| %>
-      <div class="card my-2 p-2">
-        <div class="d-flex justify-end">
-          <small class="text-gray"><%= display_date(note.created_at, :long_date) %></small>
+  <%= turbo_frame_tag "pinned-notes" do %>
+    <% if @member.notes.where(pinned: true).exists? %>
+      <% @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc).each do |note| %>
+        <div id="<%= dom_id(note) %>" class="card my-2 p-2">
+          <div class="d-flex justify-end">
+            <small class="text-gray"><%= display_date(note.created_at, :long_date) %></small>
+          </div>
+          <div class="mt-1">
+            <%= note.body.to_s.html_safe %>
+          </div>
         </div>
-        <div class="mt-1">
-          <%= note.body.to_s.html_safe %>
-        </div>
-      </div>
+      <% end %>
     <% end %>
   <% end %>
-  

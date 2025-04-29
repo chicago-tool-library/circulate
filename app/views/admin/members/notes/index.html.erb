@@ -11,7 +11,7 @@
 
       <tbody>
         <% @notes.each do |note| %>
-          <tr>
+          <tr id="<%= dom_id(note) %>" >
             <td><%= note.body.to_plain_text.truncate(100) %></td>
             <td><%= display_date(note.created_at, :long_date) %></td>
             <td>
