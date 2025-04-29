@@ -122,4 +122,27 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     assert_equal "approved", bpa_requested.status
     assert_equal status_reason, bpa_requested.status_reason
   end
+
+  test "viewing a member's borrow policy approvals" do
+    audited_as_admin do
+      create(:borrow_policy, requires_approval: true) # ignored
+      @borrow_policies = create_list(:borrow_policy, 4, requires_approval: true)
+    end
+
+    member = create(:verified_member)
+
+    approvals = @borrow_policies.zip(%w[approved rejected requested revoked]).map do |(borrow_policy, status)|
+      create(:borrow_policy_approval, borrow_policy:, status:, member:)
+    end
+
+    visit admin_member_path(member)
+
+    @borrow_policies.each do |borrow_policy|
+      assert_text borrow_policy.name
+    end
+
+    approvals.each do |approval|
+      assert_text approval.status.capitalize
+    end
+  end
 end
