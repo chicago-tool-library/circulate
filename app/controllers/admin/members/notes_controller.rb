@@ -11,6 +11,7 @@ module Admin
         if @note.save
           respond_to do |format|
             format.turbo_stream
+            format.html { redirect_to admin_member_path(@member) }
           end
         else
           render :new, status: :unprocessable_entity
@@ -21,7 +22,10 @@ module Admin
         load_note
 
         if @note.update(note_params)
-          redirect_to [:admin, @member, anchor: dom_id(@note)], status: :see_other
+          respond_to do |format|
+            format.turbo_stream
+            format.html { redirect_to admin_member_path(@member, anchor: dom_id(@note)), status: :see_other }
+          end
         else
           render :edit, status: :unprocessable_entity
         end
@@ -45,7 +49,7 @@ module Admin
 
         respond_to do |format|
           format.turbo_stream
-          format.html { redirect_to [:admin, @member], notice: "Note deleted." }
+          format.html { redirect_to admin_member_path(@member), notice: "Note deleted." }
         end
       end
 
