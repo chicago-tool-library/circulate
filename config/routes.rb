@@ -145,7 +145,13 @@ Rails.application.routes.draw do
         resources :notifications, only: :index
 
         resources :loan_summaries, only: :index
-        resources :notes
+
+        resources :notes do
+          collection do
+            get :all
+          end
+        end
+
         resource :password, only: [:edit, :update]
       end
 

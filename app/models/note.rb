@@ -8,4 +8,5 @@ class Note < ApplicationRecord
 
   scope :by_creation_date, -> { order(created_at: :asc) }
   scope :newest_first, -> { order(created_at: :desc) }
+  scope :pinned_first, -> { order(pinned: :desc, created_at: :desc)}
 end
