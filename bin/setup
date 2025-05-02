@@ -20,7 +20,7 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing yarn packages =="
   system!("yarn install")
 
-  if ENV["USING_NIX"] == "1"
+  if ENV["PLAYWRIGHT_CHROME_BINARY"]
     # Nix cannot execute misc downloaded binaries so it brings its own browser
     puts "== (Skipping playwright browser install for Nix setup) =="
   else
