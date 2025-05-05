@@ -22,7 +22,7 @@
     "mjml": "^4.15.3",
     "sass": "^1.80.4",
     "sortablejs": "^1.15.6",
-    "trix": "^2.1.13"
+    "trix": "^2.1.14"
   },
   "version": "0.1.0",
   "devDependencies": {
