@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery store: NonSessionCookieStore.new(:csrf_token), with: :exception
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_authenticity_token
+  rescue_from Pagy::VariableError, with: :redirect_to_first_page
 
   set_current_tenant_through_filter
   before_action :set_tenant
@@ -107,5 +108,9 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: root_path, flash: {
       error: "There was an issue with your submission, please try again."
     })
+  end
+
+  def redirect_to_first_page
+    redirect_to url_for(page: 1)
   end
 end
