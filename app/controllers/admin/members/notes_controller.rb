@@ -24,7 +24,7 @@ module Admin
         if @note.update(note_params)
           respond_to do |format|
             format.turbo_stream
-            format.html { redirect_to admin_member_path(@member, anchor: dom_id(@note)), status: :see_other }
+            format.html { redirect_to admin_member_path(@member, anchor: dom_id(@note)), notice: "Note updated successfully.", status: :see_other }
           end
         else
           render :edit, status: :unprocessable_entity
@@ -57,8 +57,6 @@ module Admin
         @notes = @member.notes.newest_first.with_all_rich_text
         render layout: false if request.format.turbo_stream?
       end
-      
-      
       
       private
 

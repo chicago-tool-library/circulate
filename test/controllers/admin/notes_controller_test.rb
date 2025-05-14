@@ -22,7 +22,9 @@ class Admin::NotesControllerTest < ActionDispatch::IntegrationTest
   test "updates a note for a member" do
     note = create(:note, notable: @member_1)
 
-    patch "/admin/members/#{@member_1.id}/notes/#{@member_1.notes[0].id}", params: {note: {body: "updated"}}, as: :turbo_stream
+    patch admin_member_note_path(@member_1, @member_1.notes[0]),
+      params: { note: { body: "updated" } },
+      headers: { "Accept" => "text/html" }
 
     assert_response :see_other
     assert_redirected_to admin_member_url(@member_1, anchor: dom_id(note))
