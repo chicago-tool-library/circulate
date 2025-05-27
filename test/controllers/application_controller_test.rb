@@ -42,6 +42,12 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       get new_user_session_path, headers: {referer: "not a valid referer"}
     end
   end
+
+  test "handles requests for nonexistent page 0 by redirecting to first page" do
+    get items_path(page: 0)
+
+    assert_redirected_to items_path(page: 1)
+  end
 end
 
 # This is a lot of code to work around that I couldn't find a nice way to
