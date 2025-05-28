@@ -7,7 +7,7 @@ module Admin
       @items_pagy, @items = pagy(
         Item.all.order(item_index_order).includes(:categories, :borrow_policy, :active_holds).with_attached_image.where(flagged: true),
         items: 10
-        )
+      )
 
       @members_pagy, @members = pagy(
         Member.all.order(index_order).includes(:active_membership, :last_membership, :checked_out_loans, :active_holds).where(flagged: true),
@@ -26,4 +26,4 @@ module Admin
       Arel.sql options.fetch(params[:sort]) { options["name"] }
     end
   end
-end 
+end
