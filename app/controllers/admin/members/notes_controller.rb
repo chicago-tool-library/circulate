@@ -57,6 +57,7 @@ module Admin
         @notes = @member.notes.newest_first.with_all_rich_text
         render layout: false if request.format.turbo_stream?
       end
+
       private
 
       def note_params

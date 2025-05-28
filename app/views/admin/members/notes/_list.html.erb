@@ -8,7 +8,7 @@
             <small class="text-gray"><%= display_date(note.created_at, :long_date) %></small>
           </div>
           <div class="mt-1">
-            <%= note.body.to_s.html_safe %>
+          <%= sanitize(note.body.to_s) %>
           </div>
         </div>
       <% end %>

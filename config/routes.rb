@@ -144,7 +144,7 @@ Rails.application.routes.draw do
         resources :appointments, only: [:index, :create]
         resources :notifications, only: :index
         resources :loan_summaries, only: :index
-        resources :notes 
+        resources :notes
         resource :password, only: [:edit, :update]
       end
 
