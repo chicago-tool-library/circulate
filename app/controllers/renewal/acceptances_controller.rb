@@ -10,7 +10,7 @@ module Renewal
         redirect_to renewal_confirmation_url, status: :see_other
       else
         activate_step(:agreement)
-        @document = Document.agreement
+        @document = Document.agreement.first!
         render "renewal/documents/agreement", status: :unprocessable_entity
       end
     end
