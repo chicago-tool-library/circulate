@@ -6,7 +6,7 @@ FactoryBot.define do
     end
     body { "Body for #{name}" }
     summary { "Summary for #{name}" }
-    code { name.underscore }
+    code { "borrow_policy" }
 
     factory :agreement_document do
       code { "agreement" }
