@@ -10,7 +10,7 @@ module Signup
         redirect_to signup_confirmation_url, status: :see_other
       else
         activate_step(:agreement)
-        @document = Document.agreement
+        @document = Document.agreement.first!
         render "signup/documents/agreement", status: :unprocessable_entity
       end
     end
