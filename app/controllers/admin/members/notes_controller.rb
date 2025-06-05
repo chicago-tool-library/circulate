@@ -6,7 +6,7 @@ module Admin
       before_action :load_member
 
       def create
-        @note = @member.notes.create(note_params.merge(creator: current_user))
+        @note = @member.notes.new(note_params.merge(creator: current_user))
 
         if @note.save
           respond_to do |format|
@@ -24,7 +24,11 @@ module Admin
         if @note.update(note_params)
           respond_to do |format|
             format.turbo_stream
-            format.html { redirect_to admin_member_path(@member, anchor: dom_id(@note)), notice: "Note updated successfully.", status: :see_other }
+            format.html do
+              redirect_to admin_member_path(@member, anchor: dom_id(@note)),
+                notice: "Note updated successfully.",
+                status: :see_other
+            end
           end
         else
           render :edit, status: :unprocessable_entity

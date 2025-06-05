@@ -1,17 +1,4 @@
-<turbo-stream action="append" target="notes">
-  <template>
-      <%= render partial: "admin/members/notes/note", formats: [:html], locals: {note: @note, member: @member} %>
-  </template>
-</turbo-stream>
-
-<turbo-stream action="replace" target="pinned-notes">
-  <template>
-    <%= render partial: "admin/members/notes/list", formats: [:html], locals: {member: @member} %>
-  </template>
-</turbo-stream>
-
-<turbo-stream action="replace" target="new-note">
-  <template>
-    <%= turbo_frame_tag "new-note" do %><% end %>
-  </template>
-</turbo-stream>
+<%= turbo_stream.replace "pinned-notes" do %>
+  <%= render partial: "admin/members/notes/list",
+        locals: {pinned_notes: @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc)} %>
+<% end %>
