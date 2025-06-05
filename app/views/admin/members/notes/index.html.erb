@@ -1,30 +1,6 @@
 <%= render "admin/members/profile" do %>
-  <% if @notes.any? %>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Note</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @notes.each do |note| %>
-          <tr id="<%= dom_id(note) %>">
-            <td><%= note.body.to_plain_text.truncate(100) %></td>
-            <td><%= display_date(note.created_at, :long_date) %></td>
-            <td>
-              <%= link_to "Edit", edit_admin_member_note_path(@member, note), class: "btn btn-sm" %>
-              <%= button_to "Delete", admin_member_note_path(@member, note), method: :delete,
-                    data: {turbo_confirm: "Are you sure you want to delete this note?"},
-                    class: "btn btn-sm btn-link text-error" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <%= empty_state "No notes yet for this member.", icon: "mail" %>
+  <%= turbo_frame_tag "notes-list" do %>
+    <%= render partial: "admin/members/notes/notes_table",
+          locals: {notes: @notes} %>
   <% end %>
 <% end %>

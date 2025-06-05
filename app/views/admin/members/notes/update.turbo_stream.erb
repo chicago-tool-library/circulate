@@ -2,3 +2,8 @@
     <%= render partial: "admin/members/notes/list",
           locals: {pinned_notes: @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc)} %>
   <% end %>
+
+  <%= turbo_stream.replace "notes-list" do %>
+    <%= render partial: "admin/members/notes/notes_table",
+          locals: {notes: @member.notes.newest_first.with_all_rich_text} %>
+  <% end %>
