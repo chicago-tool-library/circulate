@@ -4,6 +4,11 @@
 
     <%= form.rich_text_area :body, label: (note.new_record? ? "Add a note" : "Edit note") %>
 
+    <div>
+      <%= form.check_box :pinned %>
+      <%= form.label :pinned, "Pin this note" %>
+    </div>
+
     <%= form.actions do %>
       <%= form.submit class: "btn btn-primary" %>
 
