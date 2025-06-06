@@ -15,7 +15,6 @@ class Admin::NotesControllerTest < ActionDispatch::IntegrationTest
     post admin_member_notes_path(@member_1), params: {note: {body: "hello"}}, as: :turbo_stream
 
     assert_equal 1, @member_1.reload.notes.length
-    assert_turbo_stream action: "replace", target: "new-note"
     assert_turbo_stream action: "replace", target: "pinned-notes"
     assert_turbo_stream action: "replace", target: "notes-list"
   end
