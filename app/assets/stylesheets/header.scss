@@ -22,12 +22,18 @@ header.header {
   }
 
   .logo-link {
+    border-radius: 3px;
+
     @include globals.desktop {
       order: 1;
     }
 
     img {
       max-height: 53px;
+    }
+
+    &:focus {
+      outline: solid 1px variables.$primary-color;
     }
   }
 
