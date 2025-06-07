@@ -1,8 +1,10 @@
-<%= form_with url: items_path, method: :get, class: "mr-2 search-box header-search", local: true do |form| %>
+<%= form_with url: items_path, method: :get, class: "mr-2 search-box header-search what", local: true, html: {"aria-role" => "search"} do |form| %>
   <div class="has-icon-left">
     <%= hidden_field_tag :category, @filter_params[:category] if @filter_params&.[](:category) %>
+    <%= form.label local_assigns[:id], "Search", class: "visually-hidden" %>
     <%= form.search_field :query, class: "form-input input-sm", value: params[:query], placeholder: "search items", id: local_assigns[:id] %>
     <%= hidden_field_tag :sort, @filter_params[:sort] if @filter_params&.[](:sort) %>
+    <%= form.submit "Submit Search", class: "visually-hidden" %>
     <i class="form-icon icon icon-search"></i>
   </div>
 <% end %>
