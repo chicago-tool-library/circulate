@@ -133,6 +133,7 @@ $photo-width: 187px;
 .items-list {
   display: flex;
   flex-direction: column;
+  margin: 0;
 
   .item-image {
     display: flex;

@@ -72,9 +72,9 @@
 
     <% if @items.any? %>
       <section>
-        <div class="items-list" role="feed">
+        <ul class="items-list">
           <% @items.each.with_index do |item, index| %>
-            <div class="item-container" role="article" tabindex="0" aria-labelledby="item-name-<%= item.id %>">
+            <li class="item-container" tabindex="0" aria-labelledby="item-name-<%= item.id %>">
               <%= tag.div class: "item-image" do %>
                 <% if item.image.attached? %>
                   <%= link_to item_path(item, search_result_index: index) do %>
@@ -111,9 +111,9 @@
                   <% end %>
                 <% end %>
               </div>
-            </div>
+            </li>
           <% end %>
-        </div>
+        </ul>
       </section>
 
       <%== pagy_bootstrap_nav(@pagy) %>
