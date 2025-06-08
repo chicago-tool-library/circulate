@@ -94,6 +94,11 @@ module ItemsHelper
   def render_tree_node(node, current_value, count_method)
     has_children = node.children.size > 0
     tag.li(class: "tree-node", data: {id: node.value.id}) do
+      # NOTE: This does not reflect current query / category selection
+      count = node.value.send(count_method)
+
+      concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
+
       if has_children
         concat(
           tag.button(
@@ -103,13 +108,7 @@ module ItemsHelper
             "aria-expanded": false
           )
         )
-      end
 
-      # NOTE: This does not reflect current query / category selection
-      count = node.value.send(count_method)
-
-      concat(link_to((node.value.name + "&nbsp;(#{count})").html_safe, add_filter_param(:category, node.value.id)))
-      if has_children
         concat(tag.ul(class: "tree-node-children") do
           node.children.values.sort_by { |node| node.value.name }.map do |child|
             concat(render_tree_node(child, current_value, count_method))

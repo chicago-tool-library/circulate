@@ -5,22 +5,27 @@
     ul {
       list-style: none;
       margin: 0;
+
       @media all and (max-width: 640px) {
         font-size: 0.9rem;
       }
     }
+
     .tree-node {
       padding-left: 1.2rem;
       position: relative;
       line-height: 1.2;
       margin-top: 0.5rem;
+
       ul {
         margin-left: -0.6rem;
       }
+
       @media all and (max-width: 640px) {
         padding-left: 1.4rem;
       }
     }
+
     .tree-node-toggle {
       border: 0;
       background: transparent;
@@ -30,20 +35,30 @@
       left: 0;
       top: -2px;
       color: variables.$dark-color;
+
+      &:focus,
       &:hover {
         cursor: pointer;
         color: variables.$secondary-color;
       }
+
+      &:focus {
+        box-shadow: 0 0 0 0.1rem rgba(47, 120, 144, 0.2);
+        outline: none;
+      }
+
       .icon {
         font-size: 14px;
       }
+
       @media all and (max-width: 640px) {
         .icon {
           font-size: 18px;
         }
       }
     }
-    .tree-node button[aria-expanded='false'] + a + ul.tree-node-children {
+
+    .tree-node:has(> button[aria-expanded='false']) > ul.tree-node-children {
       display: none;
     }
   }
@@ -52,12 +67,15 @@
     li {
       margin-left: 0;
     }
+
     button.toggle-categories {
       margin-bottom: 0.3rem;
+
       @media all and (min-width: 641px) {
         display: none;
       }
     }
+
     .categories {
       margin-bottom: 1rem;
 
