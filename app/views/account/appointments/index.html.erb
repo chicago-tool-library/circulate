@@ -32,9 +32,10 @@
                         <div class="image">
                           <%= link_to item_path(loan.item) do %>
                             <% if loan.item.image.attached? %>
-                              <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                              <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered", alt: loan.item.name %>
                             <% else %>
                               <div class="placeholder p-centered"></div>
+                              <span class="visually-hidden"><%= loan.item.name %></span>
                             <% end %>
                           <% end %>
                         </div>
@@ -93,7 +94,7 @@
 
     <div class="column col-4 col-md-12">
       <div class="rule-list">
-        <h3>How do appointments work?</h3>
+        <h2 class="h3">How do appointments work?</h2>
         <ul>
           <li>We encourage all library members to make an appointment anytime they want to pick up or drop off items.</li>
           <li>When you create an appointment, all of your Holds that you are eligible to borrow will be available for you select to add to your pick ups.  Similarly, items that you have already borrowed will be available for you to select to return.</li>
