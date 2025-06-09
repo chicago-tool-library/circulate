@@ -1,4 +1,4 @@
-<%= form_with url: items_path, method: :get, class: "mr-2 search-box header-search what", local: true, html: {"aria-role" => "search"} do |form| %>
+<%= form_with url: items_path, method: :get, class: "mr-2 search-box header-search", local: true, html: {"role" => "search"} do |form| %>
   <div class="has-icon-left">
     <%= hidden_field_tag :category, @filter_params[:category] if @filter_params&.[](:category) %>
     <%= form.label local_assigns[:id], "Search", class: "visually-hidden" %>
