@@ -150,7 +150,12 @@ $photo-width: 187px;
   }
 }
 
+// Desktop
 @media all and (min-width: 841px) {
+  .search-sort-buttons .btn-group {
+    margin-inline-start: 4px;
+  }
+
   .items-list {
     .item-container {
       gap: 1rem;
@@ -194,7 +199,17 @@ $photo-width: 187px;
   }
 }
 
+// Mobile
 @media all and (max-width: 840px) {
+  .search-sort-buttons .btn-group {
+    display: block;
+
+    .btn.btn {
+      border-radius: 5px;
+      margin-block-end: 3px;
+    }
+  }
+
   .items-list {
     .item-container {
       gap: 0.6rem;

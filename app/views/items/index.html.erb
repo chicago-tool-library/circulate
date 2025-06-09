@@ -49,9 +49,9 @@
         Found <strong><%= pluralize @pagy.count, "item" %></strong>.
       </div>
 
-      <div>
+      <div class="search-sort-buttons">
         <span>Sort by</span>
-        <div class="ml-1 btn-group">
+        <div class="btn-group">
           <%= link_to_unless_current "Name", add_filter_param(:sort, "name"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">Name</button>
           <% end %>
