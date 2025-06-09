@@ -115,9 +115,8 @@
             </li>
           <% end %>
         </ul>
+        <%== pagy_bootstrap_nav(@pagy) %>
       </section>
-
-      <%== pagy_bootstrap_nav(@pagy) %>
 
     <% else %>
       <%= empty_state "There are no matching items" do %>
