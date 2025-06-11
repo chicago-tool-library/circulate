@@ -77,19 +77,19 @@ module Admin
     end
 
     helper_method def items_available_to_add_to_pickup
-      Item.available.eager_load(:borrow_policy)
+      Item.available.includes(:borrow_policy)
     end
 
     helper_method def items_available_to_add_to_dropoff
-      (@appointment.member.loans.checked_out - appointment_return_items).map(&:item)
+      (@appointment.member.loans.checked_out.includes(item: :borrow_policy) - appointment_return_items).map(&:item)
     end
 
     helper_method def appointment_pickup_items
-      @appointment.holds
+      @appointment.holds.includes(hold_includes)
     end
 
     helper_method def appointment_return_items
-      @appointment.loans
+      @appointment.loans.includes(loan_includes)
     end
 
     helper_method def checkout_items_quantity_for_appointment
@@ -98,6 +98,18 @@ module Admin
 
     helper_method def checkin_items_quantity_for_appointment
       appointment_return_items.length
+    end
+
+    def item_includes
+      [:borrow_policy, :image_attachment]
+    end
+
+    def hold_includes
+      {item: item_includes}
+    end
+
+    def loan_includes
+      {item: item_includes}
     end
 
     def appointment_params
