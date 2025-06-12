@@ -9,8 +9,6 @@ class Document < ApplicationRecord
     borrow_policy: "borrow_policy",
   }, validate: true
 
-  scope :coded, ->(code) { where(code: code) }
-
   acts_as_tenant :library
 
   def to_param
