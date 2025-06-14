@@ -35,7 +35,7 @@ module Admin
 
     # Use callbacks to share common setup or constraints between actions.
     def set_document
-      @document = Document.coded(params[:id]).first!
+      @document = Document.where(code: params[:id]).first!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

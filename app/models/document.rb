@@ -3,19 +3,15 @@ class Document < ApplicationRecord
 
   validates :name, :summary, presence: true
 
-  scope :coded, ->(code) { where(code: code) }
+  enum :code, {
+    agreement: "agreement",
+    code_of_conduct: "code_of_conduct",
+    borrow_policy: "borrow_policy"
+  }, validate: true
 
   acts_as_tenant :library
 
   def to_param
     code
-  end
-
-  def self.borrow_policy
-    coded("borrow_policy").first!
-  end
-
-  def self.agreement
-    coded("agreement").first!
   end
 end

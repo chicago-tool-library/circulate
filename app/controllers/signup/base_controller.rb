@@ -28,7 +28,7 @@ module Signup
     end
 
     def load_steps
-      agreement = Document.agreement
+      agreement = Document.agreement.first!
       @steps = if @current_library.allow_payments?
         [
           Step.new(:rules, name: "Rules"),
