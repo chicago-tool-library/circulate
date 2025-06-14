@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       post :renew_all, to: "loans#renew_all", on: :collection
     end
     resource :member, only: [:show, :edit, :update]
+    get :agreement, to: "members#agreement"
+    get :code_of_conduct, to: "members#code_of_conduct"
+    get :borrow_policy, to: "members#borrow_policy"
     resource :password, only: [:edit, :update]
     resources :renewals, only: :create
     resources :renewal_requests, only: :create
