@@ -14,9 +14,10 @@
               <div class="image">
                 <%= link_to item_path(loan.item) do %>
                   <% if loan.item.image.attached? %>
-                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                    <%= image_tag item_image_url(loan.item.image, resize_to_limit: [134, 94]), class: "p-centered", alt: loan.item.name %>
                   <% else %>
                     <div class="placeholder p-centered"></div>
+                    <span class="visually-hidden"><%= loan.item.name %></span>
                   <% end %>
                 <% end %>
               </div>

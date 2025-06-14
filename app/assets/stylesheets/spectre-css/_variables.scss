@@ -14,7 +14,7 @@ $primary-color-dark: color.adjust($primary-color, $lightness: -3%, $space: hsl) 
 $primary-color-light: color.adjust(#2f7890, $lightness: 20%, $space: hsl);
 // $secondary-color: color.adjust($primary-color, $lightness: 37.5%, $space: hsl) !default;
 $secondary-color: color.adjust(#cdabbe, $lightness: -10%, $space: hsl);
-$secondary-color-dark: color.adjust($secondary-color, $lightness: -3%, $space: hsl) !default;
+$secondary-color-dark: color.adjust($secondary-color, $lightness: -14%, $space: hsl) !default;
 // $secondary-color-light: color.adjust($secondary-color, $lightness: 3%, $space: hsl) !default;
 $secondary-color-light: color.adjust(
   $secondary-color,

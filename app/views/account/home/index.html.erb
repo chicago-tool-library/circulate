@@ -10,7 +10,7 @@
     <% end %>
     <div class="column col-6 col-md-12">
         <div class="rule-list">
-        <h3 class="h4">Account Summary</h3>
+        <h2 class="h4">Account Summary</h2>
         <ul>
             <% if @loans.any? %>
                 <li>You have <%= link_to account_loans_path do %><span class="text-bold"><%= pluralize @loans.count, "item" %></span> checked out<% end %>.</li>
@@ -27,7 +27,7 @@
             <% if @ready_holds_count == 0 && @waiting_holds_count == 0 %>
                 <li>You have no items on hold.</li>
             <% end %>
-        <ul>
+        </ul>
     </div>
   </div>
 </div>

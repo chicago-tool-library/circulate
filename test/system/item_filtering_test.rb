@@ -29,7 +29,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Found 1 item."
     end
 
-    within(".items-table") do
+    within(".items-list") do
       assert_content "Nine-Inch Nailgun"
       refute_content "Boring Borer"
       refute_content "Droll Drill"
@@ -46,7 +46,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Found 2 items."
     end
 
-    within(".items-table") do
+    within(".items-list") do
       assert_content "Boring Borer"
       assert_content "Droll Drill"
     end
@@ -67,7 +67,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Found 1 item."
     end
 
-    within(".items-table") do
+    within(".items-list") do
       assert_content "Boring Borer"
       refute_content "Droll Drill"
       refute_content "Nine-Inch Nailgun"
@@ -82,7 +82,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Found 2 items."
     end
 
-    within(".items-table") do
+    within(".items-list") do
       assert_content "Boring Borer"
       refute_content "Droll Drill"
       assert_content "Nine-Inch Nailgun"
@@ -103,7 +103,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
       assert_content "Found 1 item."
     end
 
-    within(".items-table") do
+    within(".items-list") do
       assert_content "Boring Borer"
       refute_content "Droll Drill"
       refute_content "Nine-Inch Nailgun"

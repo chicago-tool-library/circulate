@@ -35,7 +35,7 @@
     <div class="column col-sm-12 col-8">
 
       <% if @item.image.attached? %>
-        <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "mb-5" %>
+        <%= image_tag item_image_url(@item.image, resize_to_limit: [600, 600]), class: "mb-5", alt: @item.name %>
       <% end %>
 
       <% if @item.description.present? %>
@@ -69,7 +69,7 @@
           <% borrow_policy_approval = current_user.member.borrow_policy_approvals.find_by(borrow_policy: @item.borrow_policy) %>
           <div class="card">
             <div class="card-header">
-              <h5 class="card-title">
+              <h2 class="card-title h5">
                 <% if current_user_has_checked_out %>
                   You have this item checked out
                 <% elsif @current_hold %>
@@ -85,7 +85,7 @@
                 <% else %>
                   You can place this item on hold
                 <% end %>
-              </h5>
+              </h2>
             </div>
             <div class="card-body">
                <% if @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>

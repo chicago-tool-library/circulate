@@ -41,7 +41,7 @@ $min-desktop-width: $max-mobile-width + 1px;
   }
   &:active,
   &.active {
-    background-color: variables.$secondary-color;
+    background-color: variables.$secondary-color-dark;
     border-color: color.adjust(
       variables.$secondary-color,
       $lightness: -10%,

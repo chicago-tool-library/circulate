@@ -20,9 +20,10 @@
               <div class="image">
                 <%= link_to item_path(hold.item) do %>
                   <% if hold.item.image.attached? %>
-                    <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered" %>
+                    <%= image_tag item_image_url(hold.item.image, resize_to_limit: [134, 94]), class: "p-centered", alt: hold.item.name %>
                   <% else %>
                     <div class="placeholder p-centered"></div>
+                    <span class="visually-hidden"><%= hold.item.name %></span>
                   <% end %>
                 <% end %>
               </div>
@@ -47,7 +48,7 @@
     </div>
     <div class="column col-4 col-md-12">
       <div class="rule-list">
-        <h3>How do holds work?</h3>
+        <h2 class="h3">How do holds work?</h2>
         <ul>
           <li>Placing a hold means you are putting yourself in line to borrow an item. Please do not do this unless you plan on borrowing the item.</li>
           <li>If you are first in line you have one week to pick up an item. If you do not pick up the item, you will lose your position in line and another person may borrow it.</li>

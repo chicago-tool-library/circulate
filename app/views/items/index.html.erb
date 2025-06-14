@@ -49,9 +49,9 @@
         Found <strong><%= pluralize @pagy.count, "item" %></strong>.
       </div>
 
-      <div>
+      <div class="search-sort-buttons">
         <span>Sort by</span>
-        <div class="ml-1 btn-group">
+        <div class="btn-group">
           <%= link_to_unless_current "Name", add_filter_param(:sort, "name"), class: "btn btn-sm" do %>
             <button class="btn btn-sm active">Name</button>
           <% end %>
@@ -71,48 +71,52 @@
     </div>
 
     <% if @items.any? %>
-      <div class="items-table">
-        <% @items.each.with_index do |item, index| %>
-          <%= tag.div class: "items-table-image" do %>
-            <% if item.image.attached? %>
-              <%= link_to item_path(item, search_result_index: index) do %>
-                <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), class: "p-centered" %>
+      <section>
+        <ul class="items-list">
+          <% @items.each.with_index do |item, index| %>
+            <li class="item-container" tabindex="0" aria-labelledby="item-name-<%= item.id %>">
+              <%= tag.div class: "item-image" do %>
+                <% if item.image.attached? %>
+                  <%= link_to item_path(item, search_result_index: index) do %>
+                    <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), alt: item.name %>
+                  <% end %>
+                <% else %>
+                  <div class="item-image-placeholder"></div>
+                  <span class="visually-hidden"><%= item.name %></span>
+                <% end %>
               <% end %>
-            <% else %>
-              <div class="image-placeholder"></div>
-            <% end %>
+
+              <div class="item-content">
+                <%= tag.div class: "item-info" do %>
+                  <strong><%= link_to item.name, item_path(item, search_result_index: index), class: "item-name", id: "item-name-#{item.id}" %></strong>
+                  <%= item_status_label(item) %>
+                  <% if item.active_holds.any? %>
+                    <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
+                  <% end %>
+                  <br>
+                  <strong><%= full_item_number(item) %></strong>
+                  <% if item.size.present? %>
+                    <span class="label"><%= item.size %></span>
+                  <% end %>
+                  <% if item.strength.present? %>
+                    <span class="label"><%= item.strength %></span>
+                  <% end %>
+                  <br>
+
+                  <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+                <% end %>
+
+                <%= tag.div class: "item-categories" do %>
+                  <% item.categories.each do |category| %>
+                    <%= link_to category.name, {category: category.id} %>
+                  <% end %>
+                <% end %>
+              </div>
+            </li>
           <% end %>
-
-          <%= tag.div class: "items-table-name" do %>
-            <strong><%= link_to item.name, item_path(item, search_result_index: index), class: "item-name" %></strong>
-            <%= item_status_label(item) %>
-            <% if item.active_holds.any? %>
-              <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
-            <% end %>
-            <br>
-            <strong><%= full_item_number(item) %></strong>
-            <% if item.size.present? %>
-              <span class="label"><%= item.size %></span>
-            <% end %>
-            <% if item.strength.present? %>
-              <span class="label"><%= item.strength %></span>
-            <% end %>
-            <br>
-
-            <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
-          <% end %>
-
-          <%= tag.div class: "items-table-categories" do %>
-            <% item.categories.each do |category| %>
-              <%= link_to category.name, {category: category.id} %>
-            <% end %>
-          <% end %>
-          <div class="item-table-divider"></div>
-        <% end %>
-
-      </div>
-
-      <%== pagy_bootstrap_nav(@pagy) %>
+        </ul>
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </section>
 
     <% else %>
       <%= empty_state "There are no matching items" do %>

@@ -18,7 +18,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Date Added"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 4, item_links.size
 
@@ -39,7 +39,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Date Added"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 4, item_links.size
 
@@ -54,7 +54,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Name"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 4, item_links.size
 
@@ -69,7 +69,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Number"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 4, item_links.size
 
@@ -88,7 +88,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Date Added"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 3, item_links.size
 
@@ -107,7 +107,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Name"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 3, item_links.size
 
@@ -126,7 +126,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Number"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 3, item_links.size
 
@@ -151,7 +151,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_selector ".btn.active", text: "Relevance"
 
-    item_links = all(".items-table-name a").map(&:text)
+    item_links = all(".item-name").map(&:text)
 
     assert_equal 3, item_links.size
 

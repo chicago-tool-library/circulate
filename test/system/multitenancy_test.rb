@@ -45,7 +45,7 @@ class MultitenancyTest < ApplicationSystemTestCase
     login_as user
     visit items_url
 
-    within ".items-table" do
+    within ".items-list" do
       assert_text item_in_library.name
       refute_text item_in_different_library.name
     end
