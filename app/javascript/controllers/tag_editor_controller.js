@@ -6,10 +6,15 @@ require('@selectize/selectize')
 export default class extends Controller {
   static targets = ['input']
 
+  initialize() {
+    //Allows users to add new tags based on data-create attribute.
+    this.createEnabled = (this.element.dataset.create === 'true')
+  }
+
   connect() {
     this.selectize = jquery(this.inputTarget).selectize({
       copyClassesToDropdown: false,
-      // create: true,
+      create: this.createEnabled,
       plugins: ['remove_button'], // 'restore_on_backspace'
     })
   }

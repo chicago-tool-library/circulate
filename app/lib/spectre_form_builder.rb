@@ -66,6 +66,19 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  # tag select input that works with acts-as-taggable-on type attributes
+  def tag_list_select(method, tag_list)
+    options = {
+      data: {"tag-editor-target": "input"},
+      multiple: true
+    }
+    @template.tag.div(data: {create: "true", controller: "tag-editor"}) do
+      sequence_layout(method, options) do
+        parent_collection_select method, tag_list, :name, :name, {}, options.merge(data: {target: "tag-editor.input"})
+      end
+    end
+  end
+
   def summarized_collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     options[:wrapper_options] = {data: {controller: "multi-select"}}
     html_options[:data] = {"multi-select-target": "control", action: "multi-select#change"}
