@@ -34,7 +34,7 @@ module Admin
         tag_list = ["a", "b", "c"]
 
         assert_difference("Ticket.count") do
-          post admin_item_tickets_url(@item), params: {ticket: {status:, title:, body:, tag_list: }}
+          post admin_item_tickets_url(@item), params: {ticket: {status:, title:, body:, tag_list:}}
         end
 
         assert_redirected_to admin_item_ticket_url(@item, Ticket.last)

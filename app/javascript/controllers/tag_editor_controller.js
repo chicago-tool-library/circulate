@@ -8,7 +8,7 @@ export default class extends Controller {
 
   initialize() {
     //Allows users to add new tags based on data-create attribute.
-    this.createEnabled = (this.element.dataset.create === 'true')
+    this.createEnabled = this.element.dataset.create === 'true'
   }
 
   connect() {
