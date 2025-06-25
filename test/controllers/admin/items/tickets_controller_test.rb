@@ -31,10 +31,10 @@ module Admin
         status = "assess"
         title = "A ticket title"
         body = "A ticket body"
-        tags = ["a", "b", "c"]
+        tag_list = ["a", "b", "c"]
 
         assert_difference("Ticket.count") do
-          post admin_item_tickets_url(@item), params: {ticket: {status:, title:, body:, tag_list: tags.join(", ")}}
+          post admin_item_tickets_url(@item), params: {ticket: {status:, title:, body:, tag_list:}}
         end
 
         assert_redirected_to admin_item_ticket_url(@item, Ticket.last)
@@ -44,7 +44,7 @@ module Admin
         assert_equal status, ticket.status
         assert_equal title, ticket.title
         assert_equal body, ticket.body.to_plain_text
-        assert_equal tags, ticket.tag_list
+        assert_equal tag_list, ticket.tag_list
       end
 
       test "creating a ticket with any status besides 'retired' updates the ticket's status to 'maintenance'" do
@@ -96,16 +96,16 @@ module Admin
         @ticket = create(:ticket, item: @item, tag_list: %w[foo bar])
         status = "parts"
         body = "Waiting on parts"
-        tags = ["a", "b", "c"]
+        tag_list = ["a", "b", "c"]
 
-        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status:, body:, tag_list: tags.join(", ")}}
+        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status:, body:, tag_list:}}
 
         assert_redirected_to admin_item_ticket_url(@item, @ticket)
 
         @ticket.reload
         assert_equal status, @ticket.status
         assert_equal body, @ticket.body.to_plain_text
-        assert_equal tags, @ticket.tag_list
+        assert_equal tag_list, @ticket.tag_list
       end
 
       test "updating a ticket to retired makes the item retired" do
