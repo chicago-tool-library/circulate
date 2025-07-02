@@ -75,7 +75,10 @@ class ConsumablesTest < ApplicationSystemTestCase
     @item = create(:consumable_item, quantity: 1)
     @member = create(:verified_member_with_membership)
     hold = create(:hold, item: @item, member: @member)
-    appointment = create(:appointment, holds: [hold], member: hold.member)
+    # make this into a loan instead
+
+    loan = create(:loan, member: @member)
+    appointment = create(:appointment, holds: [hold], loans: [loan], member: hold.member)
 
     visit admin_appointment_path(appointment)
 
