@@ -53,7 +53,7 @@ class Hold < ApplicationRecord
     ended? || expired?(now)
   end
 
-  # A hold that was picked up
+  # A hold that was picked up or a hold on an item that was retired
   def ended?
     ended_at.present?
   end
@@ -66,12 +66,16 @@ class Hold < ApplicationRecord
   end
 
   def cancel!
-    if appointment.present?
-      appointment_hold.destroy!
-      appointment.cancel_if_no_items!
-    end
-
+    remove_from_appointment!
     destroy!
+  end
+
+  def remove_from_appointment!
+    return if appointment.blank?
+
+    appointment_hold.destroy!
+
+    appointment.cancel_if_no_items!
   end
 
   # A hold that timed out

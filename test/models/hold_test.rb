@@ -96,6 +96,22 @@ class HoldTest < ActiveSupport::TestCase
     end
   end
 
+  test "remove hold from appointment" do
+    hold1 = create(:hold)
+    hold2 = create(:hold)
+    member = create(:member)
+    create(:appointment, holds: [hold1, hold2], member: member)
+
+    hold1.remove_from_appointment!
+    assert hold1.appointment_hold.destroyed?
+    assert member.appointments.count, 1
+
+    # calls Appointment#cancel_if_no_items! if it's the only hold
+    hold2.remove_from_appointment!
+    assert hold2.appointment_hold.destroyed?
+    assert_equal member.appointments.count, 0
+  end
+
   test "when the item's borrow policy requires approval, the member must be approved" do
     member = create(:verified_member)
     borrow_policy = create(:borrow_policy, :requires_approval)

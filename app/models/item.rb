@@ -216,14 +216,18 @@ class Item < ApplicationRecord
   end
 
   def clear_holds_if_inactive
-    if saved_change_to_status? && status == Item.statuses[:retired]
-      active_holds.update_all(ended_at: Time.current)
-    end
+    return unless saved_change_to_status? && status == Item.statuses[:retired]
+
+    # find any appointments for this item and cancel them, if the appointment has no more items
+    next_hold&.remove_from_appointment!
+    # updates all holds without running callbacks
+    active_holds.update_all(ended_at: Time.current)
   end
 
   def pause_next_hold_if_maintenance
     if saved_change_to_status? && status == Item.statuses[:maintenance]
       next_hold&.update_columns(started_at: nil, expires_at: nil)
+      next_hold&.remove_from_appointment!
     end
   end
 

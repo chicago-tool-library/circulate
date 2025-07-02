@@ -159,18 +159,22 @@ class ItemTest < ActiveSupport::TestCase
     refute item.next_hold
   end
 
-  test "clears holds when changing to an inactive status" do
+  test "clears holds and appointments when changing to an inactive status" do
     item = create(:item)
-    create(:started_hold, item: item)
+    hold = create(:started_hold, item: item)
+    member = create(:member)
+    create(:appointment, member: member, starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours, holds: [hold])
 
     item.update!(status: Item.statuses[:pending])
     assert_equal item.active_holds.count, 1
 
     item.update!(status: Item.statuses[:maintenance])
     assert_equal item.active_holds.count, 1
+    assert_equal member.appointments.count, 0
 
     item.update!(status: Item.statuses[:retired])
     assert_equal item.active_holds.count, 0
+    assert_equal member.appointments.count, 0
   end
 
   test "clears next hold when changed to maintenance" do
