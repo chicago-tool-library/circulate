@@ -1,5 +1,5 @@
 <div class="note-form">
-  <%= form_with(model: note, url: [:admin, member, note], builder: SpectreFormBuilder) do |form| %>
+  <%= form_with(model: note, url: [:admin, member, note], builder: SpectreFormBuilder, data: {turbo: false}) do |form| %>
     <%= form.errors %>
 
     <%= form.rich_text_area :body, label: (note.new_record? ? "Add a note" : "Edit note") %>
