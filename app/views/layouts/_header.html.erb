@@ -33,6 +33,9 @@
         <ul aria-labelledby="nav-membership-label">
           <% if user_signed_in? %>
             <%= navbar_link_to "Profile", account_member_path %>
+            <%= navbar_link_to "Agreement", account_agreement_path %>
+            <%= navbar_link_to "Code of Conduct", account_code_of_conduct_path %>
+            <%= navbar_link_to "Borrow Policy", account_borrow_policy_path %>
             <% if current_user.admin? %>
               <%= navbar_link_to "Librarian View", admin_dashboard_path %>
             <% end %>
