@@ -6,11 +6,12 @@ module Admin
       before_action :load_member
 
       def create
-        @note = @member.notes.create(note_params.merge(creator: current_user))
+        @note = @member.notes.new(note_params.merge(creator: current_user))
 
         if @note.save
           respond_to do |format|
             format.turbo_stream
+            format.html { redirect_to admin_member_path(@member) }
           end
         else
           render :new, status: :unprocessable_entity
@@ -21,7 +22,14 @@ module Admin
         load_note
 
         if @note.update(note_params)
-          redirect_to [:admin, @member, anchor: dom_id(@note)], status: :see_other
+          respond_to do |format|
+            format.turbo_stream
+            format.html do
+              redirect_to admin_member_path(@member, anchor: dom_id(@note)),
+                notice: "Note updated successfully.",
+                status: :see_other
+            end
+          end
         else
           render :edit, status: :unprocessable_entity
         end
@@ -42,12 +50,21 @@ module Admin
       def destroy
         load_note
         @note.destroy!
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to admin_member_path(@member), notice: "Note deleted." }
+        end
+      end
+
+      def index
+        @notes = @member.notes.newest_first.with_all_rich_text
+        render layout: false if request.format.turbo_stream?
       end
 
       private
 
       def note_params
-        params.require(:note).permit(:body)
+        params.require(:note).permit(:body, :pinned)
       end
 
       def load_note
