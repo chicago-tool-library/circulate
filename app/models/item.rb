@@ -77,7 +77,7 @@ class Item < ApplicationRecord
 
   scope :search_and_order_by_availability, ->(query) {
     # allow searching for all number formats, e.g., "B-1234" -> "1234", or "B1234" -> "1234"
-    processed_query = if query.match(/^[A-Z]-?(\d+)$/i) then $1 else query end
+    processed_query = (query =~ /^[A-Z]-?(\d+)$/i) ? $1 : query
     item_scope = search_by_anything(processed_query)
       .with_pg_search_rank
       .with(active_hold_counts: Hold.active.group(:item_id).select(:item_id, "COUNT(*) as active_hold_count"))
