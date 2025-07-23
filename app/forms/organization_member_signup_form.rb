@@ -5,19 +5,18 @@ class OrganizationMemberSignupForm
   include ActiveModel::Model
 
   MEMBER_ATTRIBUTES = %w[
-    full_name preferred_name email
-    address1 address2
+    full_name
   ]
 
   ORGANIZATION_ATTRIBUTES = %w[name website address1 address2]
 
-  USER_ATTRIBUTES = %w[password password_confirmation]
+  USER_ATTRIBUTES = %w[email password password_confirmation]
 
   delegate(*MEMBER_ATTRIBUTES, to: :@member)
   delegate(*ORGANIZATION_ATTRIBUTES, to: :@organization)
   delegate(*USER_ATTRIBUTES, to: :@user)
 
-  def initialize(params)
+  def initialize(params = {})
     @member = OrganizationMember.new(params.slice(*MEMBER_ATTRIBUTES))
     @organization = Organization.new(params.slice(*ORGANIZATION_ATTRIBUTES))
     @user = User.new(params.slice(*USER_ATTRIBUTES))
@@ -26,21 +25,24 @@ class OrganizationMemberSignupForm
   def errors
     errs = @member.errors.dup
     errs.merge! @user.errors
+    errs.merge! @organization.errors
     errs
   end
 
-  def member_id
-    @member.id
-  end
+  attr_reader :user
 
   def save
     ActiveRecord::Base.transaction do
-      @user.email = @member.email
-      @member.user = @user
-      @member.save
-      @user.save
+      if @organization.save && @user.save
+        @member.organization = @organization
+        @member.user = @user
+        @member.save
+      end
 
-      raise ActiveRecord::Rollback unless @user.persisted? && @member.persisted?
+      # ensure the form shows user validation errors if the org is itself invalid
+      @user.valid?
+
+      raise ActiveRecord::Rollback unless @user.persisted? && @member.persisted? && @organization.persisted?
       true
     end
   end

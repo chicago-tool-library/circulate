@@ -5,12 +5,17 @@
       <p class="sub">When you have filled out the fields below, click <em>Save and Continue</em> to go on to the next step.</p>
       <div class="divider"></div>
     </div>
-    <%= form_with(model: @member_signup_form, url: signup_members_url, builder: SpectreFormBuilder) do |form| %>
-      <%= render "admin/members/fields", form: form %>
+    <%= form_with(model: @organization_member_signup_form, url: signup_organizations_profile_url, method: :put, builder: SpectreFormBuilder) do |form| %>
+      <fieldset>
+        <legend>Your Organization</legend>
+        <%= form.text_field :name, label: "Organization Name", required: true %>
+        <%= form.text_field :website %>
+      </fieldset>
 
       <fieldset>
         <legend>Your Account</legend>
-        <p>Choose a password. You can use it to log into your tool library account and view your loans, request tools, and manage your membership.</p>
+        <%= form.text_field :full_name, hint: "Your full name, first and last, found on your ID and other official documents" %>
+        <%= form.text_field :email %>
         <div class="columns form-group">
           <div class="column col-sm-12 col-6">
             <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password %>
