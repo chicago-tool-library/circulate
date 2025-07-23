@@ -57,20 +57,5 @@ module Organizations
       user.reload
       assert user.confirmed?
     end
-
-    # /signup/organization/cost explains costs
-    # /signup/organization/profile create org, user, and organization_member
-    # /signup/organization/payment collect payment info
-    # then we go to stripe and then are redirected back to:
-    # /organizations/:id show status of organization (approved or not)
-
-    # later on
-    # /organizations/:id/payment view or collect payment information
-
-    # maybe later we move thing under the org?
-    # /organizations/:id/reservations
-
-    # see also the following PR, which puts org signup underneath the /signup path
-    # https://github.com/chicago-tool-library/circulate/compare/main...phinze/org-signup
   end
 end
