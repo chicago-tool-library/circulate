@@ -76,11 +76,11 @@
                   You have this item on hold
                 <% elsif @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
                   <% if borrow_policy_approval&.requested? %>
-                    You have requested approval to borrow this kind of item
+                    You have requested access to borrow C-Tools.
                   <% elsif borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked? %>
-                    You cannot borrow this kind of item at this time
+                    This is a C-Tool and requires staff approval to borrow. New members and unreliable borrowers do not have access to C-Tools.
                   <% else %>
-                    You can request approval to borrow this kind of item
+                    This is a C-Tool and requires staff approval. New members and unreliable borrowers do not have access to this tool.
                   <% end %>
                 <% else %>
                   You can place this item on hold
@@ -90,10 +90,11 @@
             <div class="card-body">
                <% if @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
                 <% if borrow_policy_approval&.requested? %>
-                  <p>Once you're approved you'll be able to place a hold and borrow this kind of item.</p>
+                  <p>Once access is granted you will be able to place a hold and borrow this item.</p>
                 <% elsif borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked? %>
+                  <p>You can request access at a later date.</p>
                 <% else %>
-                  <p>Once you're approved to borrow this item you can return here to place a hold on it.</p>
+                  <p>You can request access to borrow C-Tools and our staff will approve or deny your request.</p>
                 <% end %>
               <% elsif @item.available? %>
                 <% if @item.active_holds.empty? %>

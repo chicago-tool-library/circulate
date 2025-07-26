@@ -10,7 +10,15 @@
 
   <% status_options = options_for_select(BorrowPolicyApproval.statuses.values.map { |status| [status.capitalize, status] }, @borrow_policy_approval.status) %>
   <%= form.select :status, status_options %>
-  <%= form.text_area :status_reason, hint: "This will be sent in an email notification to the member, prefaced with 'This is because:'" %>
+  <%= form.select :status_reason,
+        [
+          "",
+          "Unreliable borrowing: overdue tools.",
+          "Unreliable borrowing: damaged or dirty tools.",
+          "Unreliable borrowing: not respecting policies.",
+          "You are a new member. You need to complete more successful loans to earn access."
+        ],
+        hint: "This will be sent in an email notification to the member, prefaced with 'This is because:'" %>
 
   <%= form.actions do %>
     <%= form.submit "Update" %>
