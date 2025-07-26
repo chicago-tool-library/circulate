@@ -1,0 +1,14 @@
+<% requested_borrow_policy_approvals_count = BorrowPolicyApproval.requested.count %>
+<% if requested_borrow_policy_approvals_count > 0 %>
+  <div class="app-banner">
+    <div class="header-header">
+      <div class="container grid-lg">
+        <p>
+          <%= link_to admin_borrow_policies_path do %>
+            There <%= "is".pluralize requested_borrow_policy_approvals_count %> <%= pluralize requested_borrow_policy_approvals_count, "requested borrow policy approval" %>.
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>

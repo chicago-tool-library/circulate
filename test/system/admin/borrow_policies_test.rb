@@ -7,6 +7,24 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     sign_in_as_admin
   end
 
+  test "viewing borrow policies" do
+    borrow_policies = create_list(:borrow_policy, 3)
+
+    create_list(:borrow_policy_approval, 1, :approved, borrow_policy: borrow_policies.first)
+    create_list(:borrow_policy_approval, 2, :requested, borrow_policy: borrow_policies.first)
+    create_list(:borrow_policy_approval, 3, :requested, borrow_policy: borrow_policies.second)
+    create_list(:borrow_policy_approval, 1, :rejected, borrow_policy: borrow_policies.second)
+
+    visit admin_borrow_policies_path
+
+    borrow_policies.each do |borrow_policy|
+      assert_text borrow_policy.name
+    end
+
+    assert_text "2"
+    assert_text "3"
+  end
+
   test "updating a borrow_policy" do
     audited_as_admin do
       @borrow_policy = create(:borrow_policy)
