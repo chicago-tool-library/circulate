@@ -112,8 +112,9 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
     assert_text preferred_or_default_name(bpa_requested.member)
 
     select("Approved", from: "Status")
-    status_reason = "good member in good standing #{rand(100)}"
-    fill_in "Status reason", with: status_reason
+
+    status_reason = "Unreliable borrowing: damaged or dirty tools."
+    select status_reason, from: "Status reason"
     click_on "Update"
 
     assert_text "Successfully updated Borrow Policy Approval"
