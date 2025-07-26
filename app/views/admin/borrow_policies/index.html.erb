@@ -3,30 +3,37 @@
 <% end %>
 
 <% if @borrow_policies.any? %>
-  <div class="responsive-table eight-columns">
-    <%= tag.div "Name", class: "responsive-table-header" %>
-    <%= tag.div "Duration", class: "responsive-table-header" %>
-    <%= tag.div "Fine", class: "responsive-table-header" %>
-    <%= tag.div "Fine Period", class: "responsive-table-header" %>
-    <%= tag.div "Uniquely Numbered", class: "responsive-table-header" %>
-    <%= tag.div "Consumable", class: "responsive-table-header" %>
-    <%= tag.div "Default", class: "responsive-table-header" %>
-    <%= tag.div "Requires Approval", class: "responsive-table-header" %>
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Duration</th>
+      <th>Fine</th>
+      <th>Fine Period</th>
+      <th>Uniquely Numbered</th>
+      <th>Consumable</th>
+      <th>Default</th>
+      <th>Requires Approval</th>
+      <th>Requested Approvals</th>
+    </thead>
+    <tbody>
+      <% @borrow_policies.each do |borrow_policy| %>
+        <tr>
+          <td>
+            <%= link_to "#{borrow_policy.code} #{borrow_policy.name}", admin_borrow_policy_path(borrow_policy) %>
+          </td>
 
-    <% @borrow_policies.each do |borrow_policy| %>
-      <%= tag.div class: "responsive-table-cell" do %>
-        <%= link_to "#{borrow_policy.code} #{borrow_policy.name}", admin_borrow_policy_path(borrow_policy) %>
+          <td><%= borrow_policy.duration %></td>
+          <td><%= borrow_policy.fine %></td>
+          <td><%= borrow_policy.fine_period %></td>
+          <td><%= borrow_policy.uniquely_numbered %></td>
+          <td><%= borrow_policy.consumable %></td>
+          <td><%= borrow_policy.default %></td>
+          <td><%= borrow_policy.requires_approval %></td>
+          <td><%= link_to borrow_policy.borrow_policy_approvals.requested.count, admin_borrow_policy_borrow_policy_approvals_path(borrow_policy) %></td>
+        </tr>
       <% end %>
-      <%= tag.div borrow_policy.duration, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.fine, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.fine_period, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.uniquely_numbered, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.consumable, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.default, class: "responsive-table-cell" %>
-      <%= tag.div borrow_policy.requires_approval, class: "responsive-table-cell" %>
-    <% end %>
-  </div>
-
+    </tbody>
+  </table>
 <% else %>
   <%= empty_state "There are no borrow policies." %>
 <% end %>
