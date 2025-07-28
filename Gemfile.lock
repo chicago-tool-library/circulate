@@ -110,19 +110,19 @@ GEM
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1131.0)
-    aws-sdk-core (3.226.3)
+    aws-partitions (1.1135.0)
+    aws-sdk-core (3.227.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
       base64
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.106.0)
-      aws-sdk-core (~> 3, >= 3.225.0)
+    aws-sdk-kms (1.108.0)
+      aws-sdk-core (~> 3, >= 3.227.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.193.0)
-      aws-sdk-core (~> 3, >= 3.225.0)
+    aws-sdk-s3 (1.194.0)
+      aws-sdk-core (~> 3, >= 3.227.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
@@ -202,7 +202,7 @@ GEM
     factory_bot_rails (6.5.0)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
-    faraday (2.13.2)
+    faraday (2.13.4)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -287,7 +287,7 @@ GEM
     jmespath (1.6.2)
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
-    json (2.13.0)
+    json (2.13.1)
     jwt (2.10.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -358,11 +358,11 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.8-arm64-darwin)
+    nokogiri (1.18.9-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-darwin)
+    nokogiri (1.18.9-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
+    nokogiri (1.18.9-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -393,7 +393,9 @@ GEM
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.9)
+    pg (1.6.0-arm64-darwin)
+    pg (1.6.0-x86_64-darwin)
+    pg (1.6.0-x86_64-linux)
     pg_search (2.3.7)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
@@ -557,7 +559,7 @@ GEM
     statsd-ruby (1.5.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    store_model (4.2.2)
+    store_model (4.3.0)
       activerecord (>= 7.0)
     stringio (3.1.7)
     sync (0.5.0)
@@ -570,7 +572,7 @@ GEM
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
-    twilio-ruby (7.6.5)
+    twilio-ruby (7.7.0)
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, < 3.0)
       nokogiri (>= 1.6, < 2.0)
@@ -664,7 +666,7 @@ DEPENDENCIES
   timecop
   translation
   turbo-rails
-  twilio-ruby (~> 7.6)
+  twilio-ruby (~> 7.7)
   web-console (>= 3.3.0)
 
 RUBY VERSION
