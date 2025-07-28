@@ -2,34 +2,19 @@
 # yarn lockfile v1
 
 
-"@appsignal/core@=1.1.24":
-  version "1.1.24"
-  resolved "https://registry.yarnpkg.com/@appsignal/core/-/core-1.1.24.tgz#a680f582ed4605b2ec77f98107a23ec97410cf69"
-  integrity sha512-5KG2/XiLPM9a5Zvi/iCHwCqgcLD0JIZuc+spfQ6H/83RepCnB4xRdt3FBsuJvDMhW9T6jnoI0asRHx5lWFB/FQ==
+"@appsignal/javascript@=1.6.0", "@appsignal/javascript@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.6.0.tgz#cce05f14f8a5b950c10b6fdf60e3abf55b402111"
+  integrity sha512-QQjPTU9dJ22NfHo/MVgZ88DLTQTCiR8sFZ/nMBUJhki2IdXWgwH38/cjqLf/Clv0o/zLh7swDGjBYw2d8pUfow==
   dependencies:
-    "@appsignal/types" "=3.0.1"
     tslib "^2.3.0"
 
-"@appsignal/javascript@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.5.0.tgz#9304731d202f0804a27a4056c8cb740d5bf8d21d"
-  integrity sha512-Wbf7pzUtksK70ci8kTOhVjd3zgeGFSwXqsGH8Pa/D9b3opJwUwDjbDLhdH7dFSE/lIKWKPoynzOIG+nRHND3vQ==
+"@appsignal/stimulus@^1.0.20":
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.20.tgz#66635b504a8ced16614387878216b029a57f7147"
+  integrity sha512-gWK3meS2VyqdCu2Km8PlitYRiVYtN7vOlIpdUDkqC1D12xbE+uD7hjZMS2iYeI0rLP2Z6eF7mw9WHDCmD6Uyng==
   dependencies:
-    "@appsignal/core" "=1.1.24"
-    "@appsignal/types" "=3.0.1"
-    tslib "^2.3.0"
-
-"@appsignal/stimulus@^1.0.19":
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.19.tgz#e6fa949034bf99b47c56c8095024b9cea600084c"
-  integrity sha512-iOdcQPQraxg+LW9h0HVoN7SGaYysq8fiOPjMI48IcrRmlzv21PRRiZyZc10ZMsbm8GSATG4g5Mp0qBEBYvjp5Q==
-  dependencies:
-    "@appsignal/types" "=3.0.1"
-
-"@appsignal/types@=3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@appsignal/types/-/types-3.0.1.tgz#b3a7848f43c8f175476dccbf02a0958b3d2ef801"
-  integrity sha512-vCAKUohJkhN9jk3v2hTOdUDV5FYPr63dBOnmFdPINVUye8HnkpYZD5wrLaRNNKO5UlyhIt8jTkoKkmjkIlkiuQ==
+    "@appsignal/javascript" "=1.6.0"
 
 "@babel/runtime@^7.23.9":
   version "7.26.10"
