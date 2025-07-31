@@ -33,7 +33,7 @@ module Account
 
       visit item_path(item)
 
-      assert_text "You can request approval to borrow this kind of item"
+      assert_text "This is a C-Tool and requires staff approval. New members and unreliable borrowers do not have access to this tool."
       refute_text "Place a hold"
 
       assert_difference("BorrowPolicyApproval.count", 1) do
@@ -55,7 +55,7 @@ module Account
 
       visit item_path(item)
 
-      assert_text "You have requested approval to borrow this kind of item"
+      assert_text "You have requested access to borrow C-Tools."
       refute_text "Place a hold"
     end
 
@@ -66,7 +66,7 @@ module Account
 
       visit item_path(item)
 
-      assert_text "You cannot borrow this kind of item at this time"
+      assert_text "This is a C-Tool and requires staff approval to borrow. New members and unreliable borrowers do not have access to C-Tools."
       refute_text "Place a hold"
     end
 
@@ -77,7 +77,7 @@ module Account
 
       visit item_path(item)
 
-      assert_text "You cannot borrow this kind of item at this time"
+      assert_text "This is a C-Tool and requires staff approval to borrow. New members and unreliable borrowers do not have access to C-Tools."
       refute_text "Place a hold"
     end
 
