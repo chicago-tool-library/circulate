@@ -4,6 +4,18 @@ module Account
       @member = current_member
     end
 
+    def agreement
+      @document = Document.where(code: 'agreement').last
+    end
+
+    def code_of_conduct
+      @document = Document.where(code: 'code_of_conduct').last
+    end
+    
+    def borrow_policy
+      @document = Document.where(code: 'borrow_policy').last
+    end
+
     def edit
     end
 
