@@ -3,9 +3,14 @@
     <mj-text>
       <p>Welcome <%= @email %>!</p>
 
-      <p>You can confirm your account email through the link below:</p>
-
-      <p><%= link_to "Confirm my account", confirmation_url(@resource, confirmation_token: @token) %></p>
+      <% if @organization_signup %>
+        <p>Please follow this link to confirm your email and continue setting up your organization account:</p>
+        <p><%= link_to "Continue setting up your organization", confirmation_url(@resource, confirmation_token: @token, org: true) %></p>
+      <% else %>
+        <p>You can confirm your account email through the link below:</p>
+        <p><%= link_to "Confirm my account", confirmation_url(@resource, confirmation_token: @token) %></p>
+      <% end %>
+    
     </mj-text>
   </mj-column>
 </mj-section>

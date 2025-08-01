@@ -10,8 +10,13 @@ class UserMailer < Devise::Mailer
     @logo = :small
   end
 
-  def confirmation_instructions(*args)
-    @title = "Please confirm your email"
+  def confirmation_instructions(user, token, opts = {})
+    @organization_signup = user.organizations.any?
+    if @organization_signup
+      opts[:subject] = @title = "Confirm your organization account"
+    else
+      @title = "Please confirm your email"
+    end
     super
   end
 
