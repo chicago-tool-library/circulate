@@ -17,7 +17,7 @@ module Admin
       end
 
       def load_notes
-        @notes = @member.notes.pinned_first
+        @notes = @member&.notes&.pinned_first
       end
     end
   end
