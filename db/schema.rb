@@ -624,6 +624,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_195751) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "pinned"
     t.index ["creator_id"], name: "index_notes_on_creator_id"
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
   end

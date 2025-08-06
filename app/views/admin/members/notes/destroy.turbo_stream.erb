@@ -1,3 +1,5 @@
+<%= turbo_stream.remove dom_id(@note) %>
+
 <%= turbo_stream.replace "pinned-notes" do %>
   <%= render partial: "admin/members/notes/list",
         locals: {pinned_notes: @member.notes.where(pinned: true).with_all_rich_text.order(created_at: :desc)} %>

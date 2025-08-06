@@ -1,0 +1,6 @@
+<%= render "admin/members/profile" do %>
+  <%= turbo_frame_tag "notes-list" do %>
+    <%= render partial: "admin/members/notes/notes_table",
+          locals: {notes: @notes} %>
+  <% end %>
+<% end %>

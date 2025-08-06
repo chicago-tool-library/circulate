@@ -15,14 +15,16 @@ class Admin::NotesControllerTest < ActionDispatch::IntegrationTest
     post admin_member_notes_path(@member_1), params: {note: {body: "hello"}}, as: :turbo_stream
 
     assert_equal 1, @member_1.reload.notes.length
-    assert_turbo_stream action: "replace", target: "new-note"
-    assert_turbo_stream action: "append", target: "notes"
+    assert_turbo_stream action: "replace", target: "pinned-notes"
+    assert_turbo_stream action: "replace", target: "notes-list"
   end
 
   test "updates a note for a member" do
     note = create(:note, notable: @member_1)
 
-    patch "/admin/members/#{@member_1.id}/notes/#{@member_1.notes[0].id}", params: {note: {body: "updated"}}, as: :turbo_stream
+    patch admin_member_note_path(@member_1, @member_1.notes[0]),
+      params: {note: {body: "updated"}},
+      headers: {"Accept" => "text/html"}
 
     assert_response :see_other
     assert_redirected_to admin_member_url(@member_1, anchor: dom_id(note))
@@ -30,11 +32,14 @@ class Admin::NotesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "deletes a note for a member" do
-    create(:note, notable: @member_1)
+    note = create(:note, notable: @member_1)
 
-    delete "/admin/members/#{@member_1.id}/notes/#{@member_1.notes[0].id}", as: :turbo_stream
+    delete admin_member_note_path(@member_1, note), as: :turbo_stream
 
     assert_response :ok
     assert_equal 0, @member_1.reload.notes.length
+    assert_turbo_stream action: "remove", target: dom_id(note)
+    assert_turbo_stream action: "replace", target: "pinned-notes"
+    assert_turbo_stream action: "replace", target: "notes-list"
   end
 end

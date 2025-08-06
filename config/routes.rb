@@ -146,7 +146,6 @@ Rails.application.routes.draw do
         resource :verification, only: [:edit, :update]
         resources :appointments, only: [:index, :create]
         resources :notifications, only: :index
-
         resources :loan_summaries, only: :index
         resources :notes
         resource :password, only: [:edit, :update]

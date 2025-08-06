@@ -1,7 +1,12 @@
-<%= turbo_frame_tag "new-note" do %><% end %>
-
-<div id="notes">
-  <% @member.notes.with_all_rich_text.by_creation_date.each do |note| %>
-    <%= render partial: "admin/members/notes/note", locals: {note: note, member: @member} %>
+<%= turbo_frame_tag "pinned-notes" do %>
+  <% pinned_notes.each do |note| %>
+    <div id="<%= dom_id(note) %>" class="card my-2 p-2">
+      <div class="d-flex justify-end">
+        <small class="text-gray"><%= display_date(note.created_at, :long_date) %></small>
+      </div>
+      <div class="mt-1">
+        <%= sanitize(note.body.to_s) %>
+      </div>
+    </div>
   <% end %>
-</div>
+<% end %>
