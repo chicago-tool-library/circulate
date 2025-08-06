@@ -5,15 +5,15 @@ module Account
     end
 
     def agreement
-      @document = Document.where(code: 'agreement').last
+      @document = Document.where(code: "agreement").last
     end
 
     def code_of_conduct
-      @document = Document.where(code: 'code_of_conduct').last
+      @document = Document.where(code: "code_of_conduct").last
     end
-    
+
     def borrow_policy
-      @document = Document.where(code: 'borrow_policy').last
+      @document = Document.where(code: "borrow_policy").last
     end
 
     def edit
