@@ -7,7 +7,7 @@ module Signup
       @org_signup_url = if FeatureFlags.group_lending_enabled?
         signup_organizations_policies_url
       else
-        "https://docs.google.com/forms/d/e/1FAIpQLScr5icM-G09-MwxkluIYibcWbzNm8t0xYRODgFoXtt_Hom1dQ/viewfor"
+        ENV.get("ORGANIZATION_SIGNUP_URL")
       end
     end
   end
