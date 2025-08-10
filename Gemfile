@@ -47,6 +47,7 @@ gem "square.rb"
 gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem "stripe"
 
 # Calendar syncing
 gem "googleauth"
