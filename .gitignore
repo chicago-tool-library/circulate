@@ -56,3 +56,6 @@ gallery-dl
 
 # The nix development setup puts gems here
 /vendor/bundle
+
+/myturn_images
+/myturn_images.json
