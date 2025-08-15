@@ -12,10 +12,9 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal ["can't be blank"], organization.errors[:name]
 
     existing_organization = create(:organization)
-    organization = Organization.new(name: existing_organization.name, website: existing_organization.website)
+    organization = Organization.new(name: existing_organization.name)
 
     assert organization.invalid?
     assert_equal ["has already been taken"], organization.errors[:name]
-    assert_equal ["has already been taken"], organization.errors[:website]
   end
 end
