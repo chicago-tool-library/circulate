@@ -7,6 +7,10 @@
     <div class="categories" data-collapse-target="content">
       <h5>Categories</h5>
       <%= category_tree_nav(@categories, @category) %>
+      <div class="staff-approval-required-link-container">
+        <%= link_to "Staff Approval Required", add_filter_param(:staff_approval_required, true),
+              class: @filter_params[:staff_approval_required] ? "text-bold" : "" %>
+      </div>
     </div>
   </div>
 
@@ -38,9 +42,19 @@
               <span class="chip">
                 <%= @category.name %>
                 <%= link_to "", items_path(params: @filter_params.except(:category)), class: "btn btn-clear",
-                      "aria-label": "Clear filter", role: "button", title: "Clear query filter" %>
+                      "aria-label": "Clear category filter", role: "button", title: "Clear category filter" %>
               </span>
             <% end %>
+          </div>
+        <% end %>
+
+        <% if @filter_params[:staff_approval_required] %>
+          <div>
+            <span class="chip">
+              Staff Approval Required
+              <%= link_to "", items_path(params: @filter_params.except(:staff_approval_required)), class: "btn btn-clear",
+                    "aria-label": "Clear staff approval required filter", role: "button", title: "Clear staff approval required filter" %>
+            </span>
           </div>
         <% end %>
 

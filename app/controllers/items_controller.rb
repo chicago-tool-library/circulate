@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
     item_scope = filter_by_category(item_scope) if filter_params[:category].present?
     item_scope = filter_by_query(item_scope) if filter_params[:query].present?
     item_scope = filter_by_available(item_scope) if filter_params[:available].present?
+    item_scope = filter_by_staff_approval_required(item_scope) if filter_params[:staff_approval_required].present?
 
     # One of the filtering methods above may have already redirected
     return if performed?
@@ -44,7 +45,7 @@ class ItemsController < ApplicationController
   private
 
   def filter_params
-    @filter_params ||= params.permit(:sort, :category, :query, :available).to_h.each_with_object({}) do |(k, v), filtered|
+    @filter_params ||= params.permit(:sort, :category, :query, :available, :staff_approval_required).to_h.each_with_object({}) do |(k, v), filtered|
       value = v&.to_s&.strip&.presence
 
       next unless value
@@ -90,6 +91,10 @@ class ItemsController < ApplicationController
 
   def filter_by_available(item_scope)
     item_scope.available_now
+  end
+
+  def filter_by_staff_approval_required(item_scope)
+    item_scope.where(borrow_policy: BorrowPolicy.where(requires_approval: true))
   end
 
   def filter_failed(failed_param, error_message)

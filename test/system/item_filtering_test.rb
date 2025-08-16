@@ -2,12 +2,14 @@ require "application_system_test_case"
 
 class ItemFilteringTest < ApplicationSystemTestCase
   def setup
+    borrow_policy = create(:borrow_policy, :requires_approval)
+
     @category1 = create(:category, name: "Nailguns")
     @category1_subcategory = create(:category, parent: @category1, name: "Pneumatic")
     @category2 = create(:category, name: "Drills")
 
-    @item1 = create(:item, categories: [@category1_subcategory], name: "Nine-Inch Nailgun")
-    @item2 = create(:item, categories: [@category2], name: "Boring Borer")
+    @item1 = create(:item, categories: [@category1_subcategory], name: "Nine-Inch Nailgun", borrow_policy:)
+    @item2 = create(:item, categories: [@category2], name: "Boring Borer", borrow_policy:)
     @item3 = create(:item, categories: [@category2], name: "Droll Drill")
 
     @member = create(:verified_member_with_membership)
@@ -27,6 +29,7 @@ class ItemFilteringTest < ApplicationSystemTestCase
     within(".items-summary") do
       assert_content "Searched for Nine-Inch", normalize_ws: true
       assert_content "Found 1 item."
+      refute_content "Staff Approval Required"
     end
 
     within(".items-list") do
@@ -44,11 +47,28 @@ class ItemFilteringTest < ApplicationSystemTestCase
     within(".items-summary") do
       assert_content "Searched in category Drills", normalize_ws: true
       assert_content "Found 2 items."
+      refute_content "Staff Approval Required"
     end
 
     within(".items-list") do
       assert_content "Boring Borer"
       assert_content "Droll Drill"
+    end
+  end
+
+  test "filters items to only those that require approval" do
+    visit items_url
+
+    click_on "Staff Approval Required"
+
+    within(".items-summary") do
+      assert_content "Staff Approval Required"
+    end
+
+    within(".items-list") do
+      assert_content "Nine-Inch Nailgun"
+      assert_content "Boring Borer"
+      refute_content "Droll Drill"
     end
   end
 

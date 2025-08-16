@@ -86,4 +86,14 @@
       }
     }
   }
+
+  .staff-approval-required-link-container {
+    margin-top: 0.5rem;
+    padding-left: 1.2rem;
+
+    @media all and (max-width: 640px) {
+      font-size: 0.9rem;
+      padding-left: 1.4rem;
+    }
+  }
 }
