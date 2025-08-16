@@ -74,7 +74,7 @@
       <section>
         <ul class="items-list">
           <% @items.each.with_index do |item, index| %>
-            <li class="item-container" tabindex="0" aria-labelledby="item-name-<%= item.id %>">
+            <li id="item-<%= item.id %>" class="item-container" tabindex="0" aria-labelledby="item-name-<%= item.id %>">
               <%= tag.div class: "item-image" do %>
                 <% if item.image.attached? %>
                   <%= link_to item_path(item, search_result_index: index) do %>
@@ -90,6 +90,9 @@
                 <%= tag.div class: "item-info" do %>
                   <strong><%= link_to item.name, item_path(item, search_result_index: index), class: "item-name", id: "item-name-#{item.id}" %></strong>
                   <%= item_status_label(item) %>
+                  <% if item.borrow_policy.requires_approval? %>
+                    <span class="label label-secondary item-borrow-policy"><%= item.borrow_policy.code %>-Tool</span>
+                  <% end %>
                   <% if item.active_holds.any? %>
                     <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
                   <% end %>
