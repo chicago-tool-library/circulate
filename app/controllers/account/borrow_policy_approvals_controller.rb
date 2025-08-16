@@ -8,7 +8,7 @@ module Account
         member: current_user.member
       )
 
-      redirect_to item_path(params[:item_id]), status: :see_other, success: "Approval requested."
+      redirect_to request.referrer.presence || root_path, status: :see_other, success: "Approval requested."
     end
   end
 end
