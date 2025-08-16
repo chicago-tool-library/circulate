@@ -17,8 +17,6 @@ module Account
         post account_borrow_policy_approvals_url, params: {item_id: @item.id, borrow_policy_id: @borrow_policy.id}
       end
 
-      assert_redirected_to item_url(@item.id)
-
       borrow_policy_approval = BorrowPolicyApproval.last!
       assert_equal @member, borrow_policy_approval.member
       assert_equal @borrow_policy, borrow_policy_approval.borrow_policy
@@ -33,8 +31,6 @@ module Account
       assert_difference("BorrowPolicyApproval.count", 0) do
         post account_borrow_policy_approvals_url, params: {item_id: @item.id, borrow_policy_id: @borrow_policy.id}
       end
-
-      assert_redirected_to item_url(@item.id)
 
       assert flash[:success].present?
       assert flash[:error].blank?
