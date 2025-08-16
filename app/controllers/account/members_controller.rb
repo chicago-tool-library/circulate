@@ -2,7 +2,6 @@ module Account
   class MembersController < BaseController
     def show
       @member = current_member
-      load_borrow_policies_and_approvals
     end
 
     def agreement
@@ -52,21 +51,6 @@ module Account
         :receive_newsletter,
         :volunteer_interest,
         pronouns: [])
-    end
-
-    def load_borrow_policies_and_approvals
-      @borrow_policies_and_approvals ||= begin
-        borrow_policies = BorrowPolicy.where(requires_approval: true).order(:code)
-        borrow_policy_approvals = current_member.borrow_policy_approvals
-
-        borrow_policy_approvals_by_borrow_policy_id = borrow_policy_approvals.each_with_object({}) do |approval, approvals|
-          approvals[approval.borrow_policy_id] = approval
-        end
-
-        borrow_policies.each_with_object({}) do |borrow_policy, borrow_policies_and_approvals|
-          borrow_policies_and_approvals[borrow_policy] = borrow_policy_approvals_by_borrow_policy_id[borrow_policy.id]
-        end
-      end
     end
   end
 end

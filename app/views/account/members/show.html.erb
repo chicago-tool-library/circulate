@@ -82,18 +82,6 @@
           <i class="form-icon"></i>I am interested in volunteering with the library
         <% end %>
       </dd>
-
-      <% @borrow_policies_and_approvals.each do |borrow_policy, approval| %>
-        <dt><%= borrow_policy.code %>-Tools:</dt>
-        <dd>
-          <% if approval.present? %>
-            <%= approval.status.capitalize %>
-          <% else %>
-            Never Requested
-            <%= button_to "Request approval", account_borrow_policy_approvals_path(borrow_policy_id: borrow_policy.id), class: "btn btn-secondary", remote: true, data: {disable_with: "Requesting..."} %>
-          <% end %>
-        </dd>
-      <% end %>
     </dl>
   </div>
 </div>
