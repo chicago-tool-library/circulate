@@ -271,29 +271,29 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rails/actioncable@>=7.0", "@rails/actioncable@^8.0.200":
-  version "8.0.200"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.0.200.tgz#1d27d9d55e45266e061190db045925e0b4d53d6b"
-  integrity sha512-EDqWyxck22BHmv1e+mD8Kl6GmtNkhEPdRfGFT7kvsv1yoXd9iYrqHDVAaR8bKmU/syC5eEZ2I5aWWxtB73ukMw==
+"@rails/actioncable@>=7.0", "@rails/actioncable@^8.0.201":
+  version "8.0.201"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.0.201.tgz#f5ac6bfa3ac6f52f8a1c37b2661b66a61d4442e4"
+  integrity sha512-WiXZodvnK7u+wlu72DZydfV75x14HhzXI84sto9xcdsW1DMOHK+jYwQuuE/Wh/hKH5yajFIw/3DUP6MHDeGrbA==
 
-"@rails/actiontext@^8.0.200":
-  version "8.0.200"
-  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-8.0.200.tgz#b0ed8ba50ec31dd8fcc7a8885403c58b2b4f378d"
-  integrity sha512-p9SVulDmWKMChQpNYFrRBGa2aIfMSw8vyCRW9bwHzihFB8eAZ1NE6ak88nr037gwurbCBv4UVdnwndtuh2piAA==
+"@rails/actiontext@^8.0.201":
+  version "8.0.201"
+  resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-8.0.201.tgz#99ae52c0c69a3243a61f03dfe7f42f471b6cad05"
+  integrity sha512-SFo+kFo9SGMP+y4i8yJFyCBpPwrsMwOiGxNiyXqKEqFhqKuEnYyf26vT/u4wygm5lTCW8gexbGuGAahGhhq3pw==
   dependencies:
     "@rails/activestorage" ">= 8.0.0-alpha"
 
-"@rails/activestorage@>= 8.0.0-alpha", "@rails/activestorage@^8.0.200":
-  version "8.0.200"
-  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.0.200.tgz#147c088e2b4167d6d49292431bdbdf10b118d5bd"
-  integrity sha512-V7GnZXsAMPDWVOBv4/XpHwj5sOw5bWjidWCuUbK3Zx1xt2pOfFaeJDUG7fEWb1MwP4aW1oVVlGkJBdXVyvru0A==
+"@rails/activestorage@>= 8.0.0-alpha", "@rails/activestorage@^8.0.201":
+  version "8.0.201"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.0.201.tgz#2d6dd9e7be24b2d57c83124d8189a06f27c8278b"
+  integrity sha512-nwc2UnffHA3lgStYP01JUF9ni9dZTPX7YJESj5qRjrox4Q3oA7bDErKySP6bS9fOTcwtrPvTHBH95gKpLEic6Q==
   dependencies:
     spark-md5 "^3.0.1"
 
-"@rails/ujs@^7.1.501":
-  version "7.1.501"
-  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.1.501.tgz#e560a7b6885a12a659c4beb47f4336c8a9353056"
-  integrity sha512-7EDRGUlgns12IgP3SXVSaxA3CwRzbLOypPXn1EqEZiZ/NS/PwaQ/oa7Z2VRO4B46JifoVr0PYg+G5ERSGQJHxQ==
+"@rails/ujs@^7.1.502":
+  version "7.1.502"
+  resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-7.1.502.tgz#504a05c44ec079432fae894e698556c630fdcd49"
+  integrity sha512-SFtA5X59BimNG8cy60pgZhPf1bGpg5KXVYF6Jj5H5hrwwNXKNmD2yNZhHC+WfuLqBN+972cZHR9Fto6nJQz+Xw==
 
 "@selectize/selectize@^0.15.2":
   version "0.15.2"
