@@ -3,7 +3,7 @@ require "application_system_test_case"
 module Account
   class HoldsTest < ApplicationSystemTestCase
     setup do
-      @member = create(:verified_member_with_membership)
+      @member = create(:verified_member_with_membership, created_at: 1.year.ago)
       login_as @member.user
     end
 
