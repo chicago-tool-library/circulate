@@ -12,6 +12,11 @@
         <div class="rule-list">
         <h2 class="h4">Account Summary</h2>
         <ul>
+            <% if @recent_approvals.any? %>
+              <% @recent_approvals.each do |approval| %>
+                <li>You have been approved to borrow <strong><%= approval.borrow_policy.code %>-Tools</strong> 🎉</li>
+              <% end %>
+            <% end %>
             <% if @loans.any? %>
                 <li>You have <%= link_to account_loans_path do %><span class="text-bold"><%= pluralize @loans.count, "item" %></span> checked out<% end %>.</li>
                 <li> The next day items are due is <span class="text-bold"><%= next_due_date(@loans) %></span>.</li>

@@ -47,5 +47,25 @@ module Account
       assert_match "some good news", response.body
       refute_match "some old news", response.body
     end
+
+    test "shows a message when the member has recently been approved to borrow C-Tools" do
+      approval = create(:borrow_policy_approval, :approved, member: @member, updated_at: 13.days.ago)
+
+      get account_home_url
+
+      assert_match "You have been approved to borrow", response.body
+      assert_match "#{approval.borrow_policy.code}-Tools", response.body
+    end
+
+    test "does not show a message when the member has not been recently approved" do
+      approved = create(:borrow_policy_approval, :approved, member: @member, updated_at: 15.days.ago)
+      requested = create(:borrow_policy_approval, :requested, member: @member, updated_at: 13.days.ago)
+
+      get account_home_url
+
+      refute_match "You have been approved to borrow", response.body
+      refute_match "#{approved.borrow_policy.code}-Tools", response.body
+      refute_match "#{requested.borrow_policy.code}-Tools", response.body
+    end
   end
 end
