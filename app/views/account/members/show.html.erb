@@ -87,7 +87,13 @@
         <dt><%= borrow_policy.code %>-Tools:</dt>
         <dd>
           <% if approval.present? %>
-            <%= approval.status.capitalize %>
+            <% if approval.rejected? %>
+              Not approved
+            <% elsif approval.revoked? %>
+              No longer approved
+            <% else %>
+              <%= approval.status.capitalize %>
+            <% end %>
           <% else %>
             Never Requested
             <%= button_to "Request approval", account_borrow_policy_approvals_path(borrow_policy_id: borrow_policy.id), class: "btn btn-secondary", remote: true, data: {disable_with: "Requesting..."} %>

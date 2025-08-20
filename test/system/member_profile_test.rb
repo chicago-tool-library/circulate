@@ -31,9 +31,9 @@ class MemberProfileTest < ApplicationSystemTestCase
 
     refute_content borrow_policy_code_name(no_approval_borrow_policy)
     assert_content(/#{borrow_policy_code_name(approved.borrow_policy)}:\s+Approved/)
-    assert_content(/#{borrow_policy_code_name(rejected.borrow_policy)}:\s+Rejected/)
+    assert_content(/#{borrow_policy_code_name(rejected.borrow_policy)}:\s+Not approved/)
     assert_content(/#{borrow_policy_code_name(requested.borrow_policy)}:\s+Requested/)
-    assert_content(/#{borrow_policy_code_name(revoked.borrow_policy)}:\s+Revoked/)
+    assert_content(/#{borrow_policy_code_name(revoked.borrow_policy)}:\s+No longer approved/)
     assert_content(/#{borrow_policy_code_name(requires_approval_borrow_policy)}:\s+Never Requested/)
   end
 
