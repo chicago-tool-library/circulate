@@ -67,6 +67,7 @@
         <% if user_signed_in? %>
           <% current_user_has_checked_out = @item.checked_out_exclusive_loan && @item.checked_out_exclusive_loan.member == current_user.member %>
           <% borrow_policy_approval = current_user.member.borrow_policy_approvals.find_by(borrow_policy: @item.borrow_policy) %>
+          <% borrow_policy_authorizer_result = BorrowPolicyAuthorizer.check(borrow_policy_approval:, member: current_user.member, borrow_policy: @item.borrow_policy) %>
           <div class="card">
             <div class="card-header">
               <h2 class="card-title h5">
@@ -91,7 +92,7 @@
                <% if @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
                 <% if borrow_policy_approval&.requested? %>
                   <p>Once access is granted you will be able to place a hold and borrow this item.</p>
-                <% elsif borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked? %>
+                <% elsif !borrow_policy_authorizer_result.can_request? && (borrow_policy_approval&.rejected? || borrow_policy_approval&.revoked?) %>
                   <p>You can request access at a later date.</p>
                 <% else %>
                   <p>You can request access to borrow C-Tools and our staff will approve or deny your request.</p>
@@ -143,7 +144,7 @@
                 <%= render partial: "items/place_hold_on/item_user_checked_out", locals: {loan: @item.checked_out_exclusive_loan} %>
               <% elsif @current_hold %>
                 <%= render partial: "items/place_hold_on/item_already_with_a_hold", locals: {hold: @current_hold} %>
-              <% elsif @item.borrow_policy.requires_approval? && borrow_policy_approval.blank? %>
+              <% elsif @item.borrow_policy.requires_approval? && borrow_policy_authorizer_result.can_request? %>
                 <%= render partial: "borrow_policy_approvals/request_borrow_policy_approval", locals: {item: @item} %>
               <% elsif @item.borrow_policy.requires_approval? && !borrow_policy_approval&.approved? %>
                 <!-- render nothing -->
