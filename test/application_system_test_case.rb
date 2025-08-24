@@ -71,8 +71,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       html = delivered_mail.body.parts[0].body.parts[1].body
       attachments = delivered_mail.attachments
     else
-      html = delivered_mail.body.parts[0].body.to_s
-      text = delivered_mail.body.parts[1].body.to_s
+      text = delivered_mail.body.parts[0].body.to_s
+      html = delivered_mail.body.parts[1].body.to_s
       attachments = []
     end
 

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {sessions: "users/sessions"}
+  devise_for :users, controllers: {sessions: "users/sessions", confirmations: "users/confirmations"}
 
   namespace :signup do
     resources :members, only: [:new, :create]
@@ -17,6 +17,15 @@ Rails.application.routes.draw do
 
     get "confirmation", to: "confirmations#show"
     get "/", to: "home#index"
+
+    namespace :organizations do
+      if FeatureFlags.group_lending_enabled?
+        get :confirm_email, to: "confirm_email#show"
+        resource :policies, only: [:show]
+        resource :profile, only: [:show, :update]
+        resource :approval, only: [:show]
+      end
+    end
   end
 
   namespace :account do
@@ -198,7 +207,7 @@ Rails.application.routes.draw do
     get "/ui/sizes", to: "ui#sizes"
     get "/ui/strengths", to: "ui#strengths"
 
-    if ENV["FEATURE_GROUP_LENDING"] == "on"
+    if FeatureFlags.group_lending_enabled?
       # Group Lending
       resources :reservation_policies
       resources :item_pools do
