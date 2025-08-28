@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class MemberProfileTest < ApplicationSystemTestCase
   def setup
-    @member = create(:verified_member_with_membership)
+    @member = create(:verified_member_with_membership, created_at: 1.year.ago)
     @user = create(:user, member: @member)
     login_as @user
   end
@@ -56,6 +56,16 @@ class MemberProfileTest < ApplicationSystemTestCase
     assert_equal borrow_policy, borrow_policy_approval.borrow_policy
     assert_equal @member, borrow_policy_approval.member
     assert_equal "requested", borrow_policy_approval.status
+  end
+
+  test "a new member cannot request approval for a borrow policy" do
+    borrow_policy = create(:borrow_policy, :requires_approval)
+    @member.update!(created_at: 1.day.ago)
+
+    visit account_member_url
+
+    assert_content(/#{borrow_policy_code_name(borrow_policy)}:\s+Never Requested/)
+    refute_content "Request approval"
   end
 
   test "member can edit profile" do
