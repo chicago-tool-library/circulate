@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     resources :for_later_list_items, path: :for_later, only: [:index, :create, :destroy]
     get "/", to: "home#index", as: "home"
 
-    if ENV["FEATURE_GROUP_LENDING"] == "on"
+    if FeatureFlags.group_lending_enabled?
       resources :reservations do
         scope module: "reservations" do
           resources :reservation_holds
@@ -48,6 +48,9 @@ Rails.application.routes.draw do
         end
       end
       resources :item_pools
+      resources :organization_payments, only: [:new, :create] do
+        get :callback, on: :collection
+      end
     end
   end
 
