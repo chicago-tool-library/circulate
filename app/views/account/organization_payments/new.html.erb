@@ -1,2 +1,2 @@
 <h1>Test</h1>
-<%= button_to "Create Payment", account_organization_payments_path, method: "POST" %>
+<%= button_to "Create Payment", account_organization_payments_path, method: "POST", form: { data: {turbo: false}} %>
