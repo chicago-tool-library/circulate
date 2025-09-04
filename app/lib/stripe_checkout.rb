@@ -40,18 +40,12 @@ class StripeCheckout
   end
 
   def fetch_session(session_id:)
-    session = @client.v1.checkout.sessions.retrieve(params[:session_id])
+    session = @client.v1.checkout.sessions.retrieve(session_id)
     customer = @client.v1.customers.retrieve(session.customer)
-    puts session
-    puts customer
-    binding.irb
 
-    order = order_response.body.order
-    amount_money = order[:tenders][0][:amount_money]
+    raise "non-USD currency is not supported" unless session.currency == "usd"
 
-    raise "non-USD currency is not supported" unless amount_money[:currency] == "USD"
-
-    amount = Money.new(amount_money[:amount])
+    amount = Money.new(session.amount_total)
 
     Result.success(amount)
   rescue Stripe::InvalidRequestError => e

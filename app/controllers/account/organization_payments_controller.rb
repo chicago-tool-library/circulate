@@ -1,7 +1,5 @@
 module Account
   class OrganizationPaymentsController < BaseController
-    skip_before_action :callback
-
     def new
     end
 
@@ -18,7 +16,10 @@ module Account
     end
 
     def callback
-      checkout.fetch_session(params[:session_id])
+      @result = checkout.fetch_session(session_id: params[:session_id])
+    end
+
+    def index
     end
 
     private
