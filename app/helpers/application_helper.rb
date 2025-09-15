@@ -8,7 +8,7 @@ module ApplicationHelper
     if library.image.attached?
       image_tag url_for(library.image.variant(resize_to_limit: [100, 89])), class: classes, alt:
     else
-      image_tag "logo#{small ? "_small" : nil}.png", class: classes, alt:
+      image_tag "logo#{"_small" if small}.png", class: classes, alt:
     end
   end
 

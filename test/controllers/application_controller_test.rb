@@ -2,6 +2,7 @@ require "test_helper"
 
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
+
   setup do
     @user = create(:user)
     @admin_user = create(:admin_user)
