@@ -43,7 +43,7 @@ gem "acts_as_list"
 gem "finite_machine"
 gem "ransack"
 
-gem "square.rb"
+gem "square.rb", "43.0.1.20250716"
 gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"

@@ -538,7 +538,7 @@ GEM
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     spy (1.0.5)
-    square.rb (44.0.0.20250820)
+    square.rb (43.0.1.20250716)
       apimatic_core (~> 0.3.11)
       apimatic_core_interfaces (~> 0.2.1)
       apimatic_faraday_client_adapter (~> 0.1.4)
@@ -659,7 +659,7 @@ DEPENDENCIES
   scenic
   sprockets-rails
   spy
-  square.rb
+  square.rb (= 43.0.1.20250716)
   standard
   standard-rails
   stimulus-rails
