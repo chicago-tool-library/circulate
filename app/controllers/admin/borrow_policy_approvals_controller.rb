@@ -1,6 +1,7 @@
 module Admin
   class BorrowPolicyApprovalsController < BaseController
     include Pagy::Backend
+
     before_action :set_borrow_policy
     before_action :set_borrow_policy_approval, only: %i[edit update]
 

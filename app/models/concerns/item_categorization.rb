@@ -2,6 +2,7 @@ require "active_support/concern"
 
 module ItemCategorization
   extend ActiveSupport::Concern
+
   included do
     has_many :categorizations, dependent: :destroy, as: :categorized
     has_many :categories, through: :categorizations,

@@ -2,6 +2,7 @@ module Admin
   module Reservations
     class PendingReservationItemsController < BaseController
       include Sounds
+
       before_action :load_pending_reservation_item
 
       # Merge into the reservation

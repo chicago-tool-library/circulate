@@ -2,6 +2,7 @@ module Admin
   module Reservations
     class ReservationLoansController < BaseController
       include Sounds
+
       before_action :set_reservation_loan, only: :destroy
 
       def index
