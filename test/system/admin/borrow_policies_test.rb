@@ -144,7 +144,7 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
 
   test "viewing a member's borrow policy approvals" do
     audited_as_admin do
-      create(:borrow_policy, requires_approval: true) # ignored
+      @borrow_policy_without_approval = create(:borrow_policy, requires_approval: true)
       @borrow_policies = create_list(:borrow_policy, 4, requires_approval: true)
     end
 
@@ -156,12 +156,15 @@ class BorrowPoliciesTest < ApplicationSystemTestCase
 
     visit admin_member_path(member)
 
-    @borrow_policies.each do |borrow_policy|
-      assert_text borrow_policy.name
+    approvals.each do |approval|
+      assert_text "#{approval.borrow_policy.name}: #{approval.status.capitalize}"
     end
 
-    approvals.each do |approval|
-      assert_text approval.status.capitalize
-    end
+    assert_text "Approve for #{@borrow_policy_without_approval.name}"
+
+    accept_confirm { click_on "Approve for #{@borrow_policy_without_approval.name}" }
+
+    assert_text "Successfully approved member to borrow #{@borrow_policy_without_approval.name} items"
+    assert_text "#{@borrow_policy_without_approval.name}: Approved"
   end
 end

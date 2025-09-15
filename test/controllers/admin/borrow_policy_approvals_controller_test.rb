@@ -12,6 +12,31 @@ module Admin
       sign_in @user
     end
 
+    test "create creates a borrow policy approval that's approved" do
+      BorrowPolicyApproval.delete_all
+      assert_difference("BorrowPolicyApproval.count", 1) {
+        post admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), params: {member_id: @member.id}
+      }
+
+      approval = BorrowPolicyApproval.first!
+
+      assert_equal @member, approval.member
+      assert_equal @borrow_policy, approval.borrow_policy
+      assert_equal "approved", approval.status
+    end
+
+    test "create sends an approval email" do
+      BorrowPolicyApproval.delete_all
+      assert_emails(1) do
+        post admin_borrow_policy_borrow_policy_approvals_path(@borrow_policy), params: {member_id: @member.id}
+      end
+
+      mail = ActionMailer::Base.deliveries.last
+
+      assert_equal [@member.email], mail.to
+      assert_includes mail.subject, "have been approved to borrow"
+    end
+
     test "update sends an email when updating to approved" do
       assert_emails(1) do
         patch(

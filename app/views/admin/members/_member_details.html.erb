@@ -65,12 +65,24 @@
 
     <h6>Borrow Policy Approvals</h6>
     <ul class="member-stats">
-      <% member.borrow_policy_approvals.each do |borrow_policy_approval| %>
-        <li>
-          <%= link_to edit_admin_borrow_policy_borrow_policy_approval_path(borrow_policy_approval.borrow_policy, borrow_policy_approval) do %>
-            <%= borrow_policy_approval.borrow_policy.name %>: <%= borrow_policy_approval.status.capitalize %>
-          <% end %>
-        </li>
+      <% BorrowPolicy.where(requires_approval: true).order(:name).each do |borrow_policy| %>
+        <% borrow_policy_approval = member.borrow_policy_approvals.to_a.find { |approval| approval.borrow_policy_id == borrow_policy.id } %>
+        <% if borrow_policy_approval.present? %>
+          <li>
+            <%= link_to edit_admin_borrow_policy_borrow_policy_approval_path(borrow_policy_approval.borrow_policy, borrow_policy_approval) do %>
+              <%= borrow_policy_approval.borrow_policy.name %>: <%= borrow_policy_approval.status.capitalize %>
+            <% end %>
+          </li>
+        <% else %>
+          <li>
+            <%= button_to "Approve for #{borrow_policy.name}",
+                  admin_borrow_policy_borrow_policy_approvals_path(borrow_policy),
+                  class: "btn",
+                  params: {member_id: member.id},
+                  method: :post,
+                  form: {data: {"turbo-confirm" => "Are you sure?"}} %>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
