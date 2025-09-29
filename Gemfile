@@ -43,7 +43,7 @@ gem "acts_as_list"
 gem "finite_machine"
 gem "ransack"
 
-gem "square.rb", "43.0.1.20250716"
+gem "square.rb", "44.0.1.20250820"
 gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
@@ -104,7 +104,7 @@ gem "twilio-ruby", "~> 7.8"
 
 gem "ahoy_matey", "~> 5.4"
 
-gem "good_job", "~> 4.11"
+gem "good_job", "~> 4.12"
 
 gem "blazer", "~> 3.3"
 
