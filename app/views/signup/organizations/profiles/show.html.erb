@@ -1,0 +1,34 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+     <div class="instructions">
+      <p class="main">The following information is needed to create your account.</p>
+      <p class="sub">When you have filled out the fields below, click <em>Save and Continue</em> to go on to the next step.</p>
+      <div class="divider"></div>
+    </div>
+    <%= form_with(model: @organization_member_signup_form, url: signup_organizations_profile_url, method: :put, builder: SpectreFormBuilder) do |form| %>
+      <fieldset>
+        <legend>Your Organization</legend>
+        <%= form.text_field :name, label: "Organization Name", required: true %>
+        <%= form.text_field :website %>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your Account</legend>
+        <%= form.text_field :full_name, hint: "Your full name, first and last, found on your ID and other official documents" %>
+        <%= form.text_field :email %>
+        <div class="columns form-group">
+          <div class="column col-sm-12 col-6">
+            <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password %>
+          </div>
+          <div class="column col-sm-12 col-6">
+            <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation %>
+          </div>
+        </div>
+      </fieldset>
+
+      <%= form.actions do %>
+        <%= form.submit "Save and Continue" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

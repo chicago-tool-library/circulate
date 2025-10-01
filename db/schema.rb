@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_30_195751) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -663,7 +663,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_195751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
-    t.index ["library_id", "website"], name: "index_organizations_on_library_id_and_website", unique: true
     t.index ["library_id"], name: "index_organizations_on_library_id"
   end
 
@@ -1058,6 +1057,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_195751) do
     GROUP BY months.month
     ORDER BY months.month;
   SQL
+  create_view "monthly_loans", sql_definition: <<-SQL
+      WITH dates AS (
+           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
+              max(date_trunc('month'::text, loans.created_at)) AS endm
+             FROM loans
+          ), months AS (
+           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
+             FROM dates
+          )
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
+      count(DISTINCT l.id) AS loans_count,
+      count(DISTINCT l.member_id) AS active_members_count
+     FROM (months
+       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
+    WHERE (l.initial_loan_id IS NULL)
+    GROUP BY months.month
+    ORDER BY months.month;
+  SQL
   create_view "monthly_members", sql_definition: <<-SQL
       WITH dates AS (
            SELECT min(date_trunc('month'::text, members.created_at)) AS startm,
@@ -1091,25 +1109,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_195751) do
      FROM (months
        LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
     WHERE (l.initial_loan_id IS NOT NULL)
-    GROUP BY months.month
-    ORDER BY months.month;
-  SQL
-  create_view "monthly_loans", sql_definition: <<-SQL
-      WITH dates AS (
-           SELECT min(date_trunc('month'::text, loans.created_at)) AS startm,
-              max(date_trunc('month'::text, loans.created_at)) AS endm
-             FROM loans
-          ), months AS (
-           SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
-             FROM dates
-          )
-   SELECT (EXTRACT(year FROM months.month))::integer AS year,
-      (EXTRACT(month FROM months.month))::integer AS month,
-      count(DISTINCT l.id) AS loans_count,
-      count(DISTINCT l.member_id) AS active_members_count
-     FROM (months
-       LEFT JOIN loans l ON ((date_trunc('month'::text, l.created_at) = months.month)))
-    WHERE (l.initial_loan_id IS NULL)
     GROUP BY months.month
     ORDER BY months.month;
   SQL
