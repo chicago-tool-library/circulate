@@ -25,6 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   create_enum "item_retired_reason", ["not_returned", "broken", "upgraded", "used_up"]
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
+  create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
   create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
@@ -655,6 +656,34 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_id"
+    t.string "display_brand"
+    t.string "last_four"
+    t.integer "expire_month"
+    t.integer "expire_year"
+    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_id"
+    t.string "display_brand"
+    t.string "last_four"
+    t.integer "expire_month"
+    t.integer "expire_year"
+    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
   create_table "pending_reservation_items", force: :cascade do |t|

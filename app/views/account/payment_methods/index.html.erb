@@ -1,0 +1,32 @@
+<% if @payment_methods.any? %>
+    <table>
+        <tr>
+            <th>Card type</th>
+            <th>Last 4</th>
+            <th>Expires</th>
+            <th></th>
+        </tr>
+
+        <% @payment_methods.each do |pm| %>
+            <tr>
+                <td><%= feather_icon "credit-card" %> <%= pm.display_brand %></td>
+                <td><%= pm.last_four %></td>
+                <td><%= pm.expire_month %>/<%= pm.expire_year %></td>
+                <td><%= button_to "Delete", account_payment_method_path(pm.id), method: :delete, class: "btn btn-sm" %></td>
+            </tr>
+        <% end %>
+
+    </table>
+<p>
+    <%= link_to new_account_payment_method_path, class: "btn btn-primary", data: {turbo: false} do %>
+      <%= feather_icon "credit-card" %> Add new payment method
+    <% end %>
+</p>
+
+<% else %>
+  <%= empty_state "You have no payment methods" do %>
+    <%= link_to new_account_payment_method_path, class: "btn btn-primary", data: {turbo: false} do %>
+      <%= feather_icon "credit-card" %> Add new payment method
+    <% end %>
+  <% end %>
+<% end %>
