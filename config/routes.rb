@@ -56,8 +56,8 @@ Rails.application.routes.draw do
         end
       end
       resources :item_pools
-      resources :organization_payments, only: [:new, :create] do
-        get :callback, on: :collection
+      if FeatureFlags.stripe_payments_enabled?
+        resources :payment_methods, only: [:index, :new, :create, :destroy]
       end
     end
   end

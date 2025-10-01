@@ -14,4 +14,8 @@ class FeatureFlags
   def self.group_lending_enabled?
     ENV["FEATURE_GROUP_LENDING"] == "on"
   end
+
+  def self.stripe_payments_enabled?
+    ENV["FEATURE_STRIPE_PAYMENTS"] == "on"
+  end
 end

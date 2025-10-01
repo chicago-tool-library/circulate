@@ -1,60 +1,57 @@
 class StripeCheckout
-  def initialize(api_key, environment: "production", now: Time.current)
+  def initialize(api_key, now: Time.current)
     @client = Stripe::StripeClient.new(api_key)
     @now = now
   end
 
-  # TODO add user_id:, organization_id:,
-  def checkout_url(amount:, email:, return_to:)
-    session = @client.v1.checkout.sessions.create({
-      customer_email: email,
-      line_items: [{
-        # TODO set the org levels as products in stripe UI and pass one of those here
-        price_data: {
-          currency: "USD",
-          unit_amount: amount.cents,
-          product_data: {
-            name: "Annual Membership"
-          }
-        },
-        quantity: 1
-      }],
+  def ensure_customer_exists(user)
+    if user.stripe_customer_id.blank?
+      customer = @client.v1.customers.create({metadata: {circulate_id: user.id}})
+      user.update!(stripe_customer_id: customer.id)
+    end
+  end
 
-      mode: "payment",
-      currency: "USD",
-      customer_creation: "always",
+  def sync_payment_methods(user)
+    list_payment_methods(user).value.each do |pm|
+      next unless pm.card
 
-      # Allow users to have their payment info prefilled for future purposes
-      saved_payment_method_options: {payment_method_save: "enabled"},
+      payment_method = user.payment_methods.find_or_initialize_by(stripe_id: pm.id)
+      payment_method.update!(
+        display_brand: pm.card.display_brand,
+        last_four: pm.card.last4,
+        expire_month: pm.card.exp_month,
+        expire_year: pm.card.exp_year
+      )
+    end
+  end
 
-      # Save payment info for circulate-created future charges
-      payment_intent_data: {setup_future_usage: "off_session"},
+  def delete_payment_method(payment_method)
+    response = @client.v1.payment_methods.detach(payment_method.stripe_id)
+    payment_method.detach!
+    Result.success(response)
+  rescue Stripe::InvalidRequestError => e
+    Result.failure(e)
+  end
 
-      success_url: return_to + "?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: return_to
+  def list_payment_methods(user)
+    payment_methods = @client.v1.payment_methods.list({
+      customer: user.stripe_customer_id,
+      type: "card"
+    })
+    Result.success(payment_methods)
+  rescue Stripe::InvalidRequestError => e
+    Result.failure(e)
+  end
+
+  def prepare_to_collect_payment_info(user)
+    ensure_customer_exists(user)
+    setup_intent = @client.v1.setup_intents.create({
+      customer: user.stripe_customer_id,
+      payment_method_types: ["card"]
     })
 
-    Result.success(session.url)
+    Result.success(setup_intent.client_secret)
   rescue Stripe::InvalidRequestError => e
     Result.failure(e)
   end
-
-  def fetch_session(session_id:)
-    session = @client.v1.checkout.sessions.retrieve(session_id)
-    customer = @client.v1.customers.retrieve(session.customer)
-
-    raise "non-USD currency is not supported" unless session.currency == "usd"
-
-    amount = Money.new(session.amount_total)
-
-    Result.success(amount)
-  rescue Stripe::InvalidRequestError => e
-    Result.failure(e)
-  end
-
-  # private
-
-  # def random_idempotency_key
-  #   rand(1_000_000_000).to_s
-  # end
 end
