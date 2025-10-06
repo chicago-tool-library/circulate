@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@appsignal/javascript@=1.6.0", "@appsignal/javascript@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.6.0.tgz#cce05f14f8a5b950c10b6fdf60e3abf55b402111"
-  integrity sha512-QQjPTU9dJ22NfHo/MVgZ88DLTQTCiR8sFZ/nMBUJhki2IdXWgwH38/cjqLf/Clv0o/zLh7swDGjBYw2d8pUfow==
+"@appsignal/javascript@=1.6.1", "@appsignal/javascript@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@appsignal/javascript/-/javascript-1.6.1.tgz#091bac411e587d7d432edcb6fd9e0e44b0993f6f"
+  integrity sha512-jRVkTYsLC7tM5no6V2Fw2Vc325KRKductkEEHzXTS+upZdBgzkxeTQ1MjuPcfN73vUEplaaP6tMkqv7Ids6frg==
   dependencies:
     tslib "^2.3.0"
 
-"@appsignal/stimulus@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.20.tgz#66635b504a8ced16614387878216b029a57f7147"
-  integrity sha512-gWK3meS2VyqdCu2Km8PlitYRiVYtN7vOlIpdUDkqC1D12xbE+uD7hjZMS2iYeI0rLP2Z6eF7mw9WHDCmD6Uyng==
+"@appsignal/stimulus@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@appsignal/stimulus/-/stimulus-1.0.21.tgz#43d426d9f661e92a8e803fa672d4e4c6d407e09f"
+  integrity sha512-bvmqmAS9foc2fGbwvqXYMDKax58xeakemjnXasUGe1P1CYF7NvUMAybZxMbesXC82oTBiTd39qoZB1wtMMmJ8A==
   dependencies:
-    "@appsignal/javascript" "=1.6.0"
+    "@appsignal/javascript" "=1.6.1"
 
 "@babel/runtime@^7.28.4":
   version "7.28.4"
