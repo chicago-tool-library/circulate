@@ -172,7 +172,7 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal item.active_holds.count, 1
     assert_equal member.appointments.count, 0
 
-    item.update!(status: Item.statuses[:retired])
+    item.update!(status: Item.statuses[:retired], retired_reason: Item.retired_reasons[:broken])
     assert_equal item.active_holds.count, 0
     assert_equal member.appointments.count, 0
   end
@@ -281,7 +281,7 @@ class ItemTest < ActiveSupport::TestCase
 
   test "sets itself to active when quantity is restored" do
     borrow_policy = create(:borrow_policy, consumable: true, uniquely_numbered: false)
-    item = create(:item, borrow_policy: borrow_policy, quantity: 0, status: "retired")
+    item = create(:item, :retired, borrow_policy: borrow_policy, quantity: 0)
 
     assert_equal "retired", item.status
 
@@ -344,5 +344,13 @@ class ItemTest < ActiveSupport::TestCase
 
     item.accessories_text = nil
     assert_equal [], item.accessories
+  end
+
+  test "validates retired_reason when set to retired" do
+    item = create(:item)
+    item.status = "retired"
+
+    refute item.valid?
+    assert_equal item.errors[:retired_reason], ["is not included in the list"]
   end
 end

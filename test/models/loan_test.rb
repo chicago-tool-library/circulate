@@ -43,7 +43,7 @@ class LoanTest < ActiveSupport::TestCase
 
   %i[pending maintenance retired].each do |status|
     test "is invalid with an item with #{status} status" do
-      item = create(:item, status: status)
+      item = create(:item, status)
       loan = build(:loan, item: item, due_at: Date.tomorrow.end_of_day)
 
       refute loan.save

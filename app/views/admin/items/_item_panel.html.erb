@@ -11,7 +11,10 @@
         <h6>
             <strong><%= item.complete_number %></strong>
             <%= item_status_label(item) %>
-            <span class="label item-checkout-status"><%= item.status.capitalize %></span>
+            <span class="label item-checkout-status">
+                <%= item.status.capitalize %>
+                <% if item.status == "retired" %>(<%= item_retired_reason_name(item.retired_reason) %>)<% end %>
+            </span>
         </h6>
     </div>
 
