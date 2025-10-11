@@ -21,6 +21,8 @@
     <% if @item.active_holds.any? %>
       <span class="text-small"><%= pluralize @item.active_holds.count, "hold" %></span>
     <% end %>
+
+    <%= render "wish_list_item_show", item: @item %>
   </h2>
 
   <div class="columns">
