@@ -47,6 +47,8 @@ class Item < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_one :last_active_ticket, -> { active.newest_first }, class_name: "Ticket"
 
+  has_many :wish_list_items, dependent: :destroy
+
   has_one_attached :image
 
   audited except: :plain_text_description
