@@ -28,8 +28,8 @@ module Admin
           format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully created.", status: :see_other }
           format.json { render :show, status: :created, location: [:admin, @gift_membership] }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @gift_membership.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @gift_membership.errors, status: :unprocessable_content }
         end
       end
     end
@@ -40,8 +40,8 @@ module Admin
           format.html { redirect_to admin_gift_memberships_url, success: "Gift membership was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: [:admin, @gift_membership] }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @gift_membership.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @gift_membership.errors, status: :unprocessable_content }
         end
       end
     end

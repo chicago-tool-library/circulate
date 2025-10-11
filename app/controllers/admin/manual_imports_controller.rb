@@ -12,7 +12,7 @@ module Admin
         @manual_import.update_item!(@item)
         redirect_to admin_item_path(@item), success: "The manual was imported.", status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

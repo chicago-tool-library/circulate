@@ -24,7 +24,7 @@ class Admin::Settings::LibraryUpdatesController < Admin::BaseController
     if @library_update.save
       redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update)), status: :see_other
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -32,7 +32,7 @@ class Admin::Settings::LibraryUpdatesController < Admin::BaseController
     if @library_update.update(library_update_params)
       redirect_to admin_settings_library_updates_url(anchor: dom_id(@library_update)), status: :see_other
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

@@ -14,7 +14,7 @@ module Admin
           redirect_to admin_member_path(@member), success: "Payment recorded.", status: :see_other
         else
           @amount_due = default_payment_value
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 

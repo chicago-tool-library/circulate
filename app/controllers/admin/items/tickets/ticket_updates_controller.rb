@@ -18,7 +18,7 @@ module Admin
           if @ticket_update_form.save
             redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully created.", status: :see_other
           else
-            render :new, status: :unprocessable_entity
+            render :new, status: :unprocessable_content
           end
         end
 
@@ -26,7 +26,7 @@ module Admin
           if @ticket_update.update(ticket_update_update_params)
             redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket update was successfully saved.", status: :see_other
           else
-            render :edit, status: :unprocessable_entity
+            render :edit, status: :unprocessable_content
           end
         end
 

@@ -16,7 +16,7 @@ class Admin::Settings::ClosingController < Admin::BaseController
       redirect_to admin_settings_closing_path, success: "Started holds have been updated.", status: :see_other
     else
       @dates = Hold.next_waiting_hold_dates
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 

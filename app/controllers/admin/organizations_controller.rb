@@ -28,8 +28,8 @@ class Admin::OrganizationsController < Admin::BaseController
         format.html { redirect_to admin_organization_url(@organization), success: "Organization was successfully created." }
         format.json { render :show, status: :created, location: @organization }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @organization.errors, status: :unprocessable_content }
       end
     end
   end
@@ -41,8 +41,8 @@ class Admin::OrganizationsController < Admin::BaseController
         format.html { redirect_to admin_organization_url(@organization), success: "Organization was successfully updated." }
         format.json { render :show, status: :ok, location: @organization }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @organization.errors, status: :unprocessable_content }
       end
     end
   end

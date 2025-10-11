@@ -43,7 +43,7 @@ module Admin
         redirect_to admin_appointments_path, flash: {success: "Appointment updated."}, status: :see_other
       else
         load_appointment_slots
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

@@ -21,7 +21,7 @@ module Admin
       if @category.save
         redirect_to admin_categories_url(anchor: dom_id(@category)), status: :see_other
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -29,7 +29,7 @@ module Admin
       if @category.update(category_params)
         redirect_to admin_categories_url(anchor: dom_id(@category)), status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

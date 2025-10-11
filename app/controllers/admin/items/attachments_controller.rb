@@ -15,7 +15,7 @@ module Admin
         if @attachment.save
           redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -25,7 +25,7 @@ module Admin
         if @attachment.update(attachment_params)
           redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 
@@ -35,7 +35,7 @@ module Admin
         if @attachment.delete
           redirect_to admin_item_attachments_path(@item), status: :see_other
         else
-          redirect_to admin_item_attachments_path(@item), status: :unprocessable_entity, error: "Could delete that attachment"
+          redirect_to admin_item_attachments_path(@item), status: :unprocessable_content, error: "Could delete that attachment"
         end
       end
 

@@ -12,7 +12,7 @@ module Signup
       @form = MembershipPaymentForm.new(form_params)
       unless @form.valid?
         activate_step(:payment)
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
         return
       end
 

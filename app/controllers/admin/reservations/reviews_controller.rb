@@ -21,7 +21,7 @@ module Admin
             ReservationMailer.with(reservation: @reservation).reviewed.deliver_later
             redirect_to default_reservation_tab_path(@reservation), success: "Reservation was successfully updated."
           else
-            render :edit, status: :unprocessable_entity
+            render :edit, status: :unprocessable_content
           end
         end
       end

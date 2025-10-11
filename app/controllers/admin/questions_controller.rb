@@ -31,8 +31,8 @@ class Admin::QuestionsController < Admin::BaseController
         format.json { render :show, status: :created, location: @question }
       else
         @stem = @question.stems.find_or_initialize_by(stem_params)
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @question.errors, status: :unprocessable_content }
       end
     end
   end
@@ -45,8 +45,8 @@ class Admin::QuestionsController < Admin::BaseController
         format.json { render :show, status: :ok, location: @question }
       else
         @stem = @question.stems.find_or_initialize_by(stem_params)
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @question.errors, status: :unprocessable_content }
       end
     end
   end

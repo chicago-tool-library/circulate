@@ -20,7 +20,7 @@ module SuperAdmin
         redirect_to super_admin_libraries_path, success: "Library successfully created.", status: :see_other
       else
         respond_to do |format|
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
         end
       end
     end
@@ -40,7 +40,7 @@ module SuperAdmin
         redirect_to super_admin_library_path(@library), success: "Library successfully updated.", status: :see_other
       else
         respond_to do |format|
-          format.html { render :edit, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
         end
       end
     end

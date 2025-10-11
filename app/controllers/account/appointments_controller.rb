@@ -26,7 +26,7 @@ module Account
       else
         load_holds_and_loans
         load_appointment_slots
-        render :new, alert: @appointment.errors.full_messages, status: :unprocessable_entity
+        render :new, alert: @appointment.errors.full_messages, status: :unprocessable_content
       end
     end
 
@@ -45,7 +45,7 @@ module Account
       else
         load_holds_and_loans
         load_appointment_slots
-        render :edit, alert: @appointment.errors.full_messages, status: :unprocessable_entity
+        render :edit, alert: @appointment.errors.full_messages, status: :unprocessable_content
       end
     end
 

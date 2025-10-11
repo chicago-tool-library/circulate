@@ -14,7 +14,7 @@ module Renewal
       unless @form.valid?
         @amount = @member.last_membership&.amount || Money.new(0)
         activate_step(:payment)
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
         return
       end
 

@@ -39,7 +39,7 @@ module Admin
         set_organization_options
         set_answers
         set_reservation_slots
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -51,7 +51,7 @@ module Admin
         set_organization_options
         set_answers
         set_reservation_slots
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 
