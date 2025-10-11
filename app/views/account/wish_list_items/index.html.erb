@@ -1,0 +1,9 @@
+<ul>
+  <% @wish_list_items.each do |wish_list_item| %>
+    <li>
+      <%= wish_list_item.item.name %>
+    </li>
+  <% end %>
+</ul>
+
+<%== pagy_bootstrap_nav(@pagy) %>

@@ -1,0 +1,10 @@
+<div id="wish_list_item_show">
+  <% wish_list_item = current_member.wish_list_items.find_by(item:) %>
+  <% if wish_list_item.present? %>
+    <%= button_to "Remove from Wish List", account_wish_list_items_path,
+          method: :post, class: "btn" %>
+  <% else %>
+    <%= button_to "Add to Wish List", account_wish_list_items_path,
+          method: :post, class: "btn", params: {wish_list_item: {item_id: item.id}} %>
+  <% end %>
+</div>
