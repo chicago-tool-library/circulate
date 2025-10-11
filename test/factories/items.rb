@@ -42,6 +42,11 @@ FactoryBot.define do
       status { Item.statuses[:maintenance] }
     end
 
+    trait :retired do
+      status { Item.statuses[:retired] }
+      retired_reason { Item.retired_reasons[:broken] }
+    end
+
     trait :uniquely_numbered do
       borrow_policy { association(:borrow_policy, uniquely_numbered: true) }
     end

@@ -33,7 +33,7 @@ module Admin
 
       def update
         if @ticket.update(ticket_params)
-          @ticket.item.update!(status: Item.statuses["retired"]) if @ticket.retired?
+          update_item_status!(@ticket)
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully updated.", status: :see_other
         else
           render :edit, status: :unprocessable_entity
@@ -49,7 +49,8 @@ module Admin
 
       def update_item_status!(ticket)
         status = ticket.retired? ? Item.statuses["retired"] : Item.statuses["maintenance"]
-        @ticket.item.update!(status:)
+        retired_reason = ticket.retired? ? Item.retired_reasons["broken"] : nil
+        @ticket.item.update!(status:, retired_reason:)
       end
 
       def set_ticket

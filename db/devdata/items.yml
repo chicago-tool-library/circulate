@@ -97,6 +97,7 @@
   updated_at: 2020-12-21 19:08:26 UTC
   number: 1189
   status: retired
+  retired_reason: not_returned
   borrow_policy_id: 1
   strength: 2.5 amps
   category_ids:
@@ -274,6 +275,7 @@
   updated_at: 2020-02-16 18:53:45 UTC
   number: 1458
   status: retired
+  retired_reason: used_up
   borrow_policy_id: 1
   category_ids:
   - 59
@@ -598,6 +600,7 @@
   updated_at: 2020-08-23 12:39:25 UTC
   number: 1548
   status: retired
+  retired_reason: broken
   borrow_policy_id: 1
   category_ids:
   - 32
@@ -1749,6 +1752,7 @@
   updated_at: 2020-08-23 12:39:00 UTC
   number: 1624
   status: retired
+  retired_reason: upgraded
   borrow_policy_id: 1
   strength: 18 Volt
   category_ids:
@@ -2013,6 +2017,7 @@
   updated_at: 2020-10-02 00:43:45 UTC
   number: 279
   status: retired
+  retired_reason: broken
   borrow_policy_id: 2
   quantity: 2
   category_ids:
