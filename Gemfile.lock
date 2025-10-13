@@ -329,7 +329,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.25.5)
+    minitest (5.26.0)
     mjml-rails (4.16.0)
     monetize (1.11.0)
       money (~> 6.12)
@@ -643,7 +643,7 @@ DEPENDENCIES
   listen
   lograge
   mini_magick
-  minitest (= 5.25.5)
+  minitest (= 5.26.0)
   mjml-rails
   money-rails
   omniauth-google-oauth2
