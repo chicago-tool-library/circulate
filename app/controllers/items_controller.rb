@@ -18,6 +18,7 @@ class ItemsController < ApplicationController
 
     @categories = CategoryNode.with_items
     @pagy, @items = pagy(item_scope)
+    @wish_list_items_by_item_id = current_member.wish_list_items.where(item: @items).group_by(&:item_id)
 
     # Track that a search was performed if we are on the first page
     if @query && @pagy.page == 1
