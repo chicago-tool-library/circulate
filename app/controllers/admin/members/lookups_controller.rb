@@ -9,7 +9,7 @@ module Admin
           @loan = Loan.lend(@lookup.item, to: @member)
           @item = @lookup.item
         else
-          render partial: "admin/members/lookups/form", status: :unprocessable_entity, locals: {lookup: @lookup}
+          render partial: "admin/members/lookups/form", status: :unprocessable_content, locals: {lookup: @lookup}
         end
       end
 

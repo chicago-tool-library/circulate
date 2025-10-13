@@ -22,7 +22,7 @@ module Signup
         redirect_to signup_confirmation_url, status: :see_other
       else
         activate_step(:payment)
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

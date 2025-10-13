@@ -21,7 +21,7 @@ class Admin::OrganizationMembersController < Admin::BaseController
     if @organization_member.persisted?
       redirect_to admin_organization_member_path(@organization_member), success: "Organization Member was successfully created."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -32,7 +32,7 @@ class Admin::OrganizationMembersController < Admin::BaseController
     if @organization_member.update(organization_member_params)
       redirect_to admin_organization_member_path(@organization_member), success: "Organization Member was successfully updated."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

@@ -11,7 +11,7 @@ module Renewal
       else
         activate_step(:agreement)
         @document = Document.agreement.first!
-        render "renewal/documents/agreement", status: :unprocessable_entity
+        render "renewal/documents/agreement", status: :unprocessable_content
       end
     end
 

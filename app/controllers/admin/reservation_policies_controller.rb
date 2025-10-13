@@ -21,7 +21,7 @@ module Admin
           success: "Reservation policy was successfully created.",
           status: :see_other
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -34,7 +34,7 @@ module Admin
           success: "Reservation policy was successfully updated.",
           status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

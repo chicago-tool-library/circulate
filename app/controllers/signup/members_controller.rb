@@ -25,7 +25,7 @@ module Signup
         redirect_to signup_agreement_url
       else
         activate_step(:profile)
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

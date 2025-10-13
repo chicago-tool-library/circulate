@@ -156,7 +156,9 @@ jobs:
         node-version-file: "package.json"
 
     - name: Install libvips
-      run: sudo apt-get install -y libvips
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y libvips
 
     - name: Run bin/setup script
       env:

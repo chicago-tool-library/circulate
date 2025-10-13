@@ -27,7 +27,7 @@ module Admin
           update_item_status!(@ticket)
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully created.", status: :see_other
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -36,7 +36,7 @@ module Admin
           @ticket.item.update!(status: Item.statuses["retired"]) if @ticket.retired?
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully updated.", status: :see_other
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

@@ -32,7 +32,7 @@ module Account
       else
         set_required_answers
         set_reservation_slots
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -42,7 +42,7 @@ module Account
       else
         set_required_answers
         set_reservation_slots
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

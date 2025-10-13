@@ -42,7 +42,7 @@ module Admin
       else
         set_categories
         set_reservation_policy_options
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -52,7 +52,7 @@ module Admin
       else
         set_categories
         set_reservation_policy_options
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

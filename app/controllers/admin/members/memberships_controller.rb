@@ -15,7 +15,7 @@ module Admin
         if @form.save
           redirect_to admin_member_memberships_path(@member), success: "Membership created.", status: :see_other
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
