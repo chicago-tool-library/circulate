@@ -1,11 +1,54 @@
-<ul>
-  <% @wish_list_items.each do |wish_list_item| %>
-    <li id="<%= dom_id(wish_list_item) %>">
-      <%= wish_list_item.item.name %>
-      <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
-            method: :delete, class: "btn" %>
-    </li>
-  <% end %>
-</ul>
+<h1 class="title">Wish List</h1>
 
-<%== pagy_bootstrap_nav(@pagy) %>
+<% if @wish_list_items.any? %>
+  <ul class="items-list">
+    <% @wish_list_items.each do |wish_list_item| %>
+      <% item = wish_list_item.item %>
+      <li id="<%= dom_id(wish_list_item) %>" class="item-container">
+        <% if item.image.attached? %>
+          <%= link_to item_path(item) do %>
+            <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), alt: "" %>
+          <% end %>
+        <% else %>
+          <div class="item-image-placeholder"></div>
+        <% end %>
+
+        <div class="item-content">
+          <%= tag.div class: "item-info" do %>
+            <strong><%= link_to item.name, item_path(item), class: "item-name", id: "item-name-#{item.id}" %></strong>
+            <%= item_status_label(item) %>
+            <% if item.borrow_policy.requires_approval? %>
+              <span class="label label-secondary item-borrow-policy"><%= item.borrow_policy.code %>-Tool</span>
+            <% end %>
+            <% if item.active_holds.any? %>
+              <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
+            <% end %>
+            <br>
+            <strong><%= full_item_number(item) %></strong>
+            <% if item.size.present? %>
+              <span class="label"><%= item.size %></span>
+            <% end %>
+            <% if item.strength.present? %>
+              <span class="label"><%= item.strength %></span>
+            <% end %>
+            <br>
+
+            <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
+            <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
+                  method: :delete, class: "btn" %>
+          <% end %>
+
+          <%= tag.div class: "item-categories" do %>
+            <% item.categories.each do |category| %>
+              <%= link_to category.name, {category: category.id} %>
+            <% end %>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <%== pagy_bootstrap_nav(@pagy) %>
+<% else %>
+  <p>Your wish listed items will appear here. You can add items to your wish list by <%= link_to "checking out our inventory", items_path %>.</p>
+<% end %>
