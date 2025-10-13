@@ -121,7 +121,9 @@
                   <br>
 
                   <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
-                  <%= render "wish_list_items_index", item:, wish_list_item: @wish_list_items_by_item_id[item.id]&.first %>
+                  <% if user_signed_in? %>
+                    <%= render "wish_list_items_index", item:, wish_list_item: @wish_list_items_by_item_id[item.id]&.first %>
+                  <% end %>
                 <% end %>
 
                 <%= tag.div class: "item-categories" do %>
