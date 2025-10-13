@@ -3,7 +3,7 @@ module Account
     include Pagy::Backend
 
     def index
-      scope = current_member.wish_list_items.includes(:item).strict_loading
+      scope = current_member.wish_list_items.includes(item: [:borrow_policy, :active_holds, :checked_out_exclusive_loan, :categories]).strict_loading
       @pagy, @wish_list_items = pagy(scope, items: 20)
     end
 
