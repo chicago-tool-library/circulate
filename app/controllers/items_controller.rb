@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
     @pagy, @items = pagy(item_scope)
     @wish_list_items_by_item_id = {}
     if user_signed_in?
-      @wish_list_items_by_item_id = current_member.wish_list_items.where(item: @items).group_by(&:item_id) || {}
+      @wish_list_items_by_item_id = current_member.wish_list_items.where(item_id: @items.map(&:id)).group_by(&:item_id) || {}
     end
 
     # Track that a search was performed if we are on the first page
