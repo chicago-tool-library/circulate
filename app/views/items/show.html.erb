@@ -22,7 +22,7 @@
       <span class="text-small"><%= pluralize @item.active_holds.count, "hold" %></span>
     <% end %>
 
-    <%= render "wish_list_item_show", item: @item %>
+    <%= render "wish_list_item_show", item: @item, wish_list_item: current_user&.member&.wish_list_items&.find_by(item: @item) %>
   </h2>
 
   <div class="columns">
