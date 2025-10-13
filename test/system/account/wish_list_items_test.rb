@@ -22,6 +22,23 @@ module Account
       assert_css ".pagy-bootstrap"
     end
 
+    test "members that are not signed in cannot add anything to their wishlist on the item details page" do
+      logout
+      visit item_path(create(:item))
+
+      refute_text "Add to Wish List"
+      refute_text "Remove from Wish List"
+    end
+
+    test "members that are not signed in cannot add anything to their wishlist on the items index page" do
+      logout
+      create(:item)
+      visit items_path
+
+      refute_text "Add to Wish List"
+      refute_text "Remove from Wish List"
+    end
+
     test "members can see that they've previously wish listed an item on the item details page" do
       wish_list_item = create(:wish_list_item, member: @member)
 
