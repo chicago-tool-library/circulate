@@ -1,9 +1,9 @@
-<div id="<%= "#{dom_id(item)}_wish_list_items_index" %>">
+<div id="<%= "#{dom_id(item)}_wish_list_items_index" %>" class="wish-list-button-container">
   <% if wish_list_item.present? %>
     <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
-          method: :delete, class: "btn" %>
+          method: :delete, class: "btn btn-sm" %>
   <% else %>
     <%= button_to "Add to Wish List", account_wish_list_items_path,
-          method: :post, class: "btn", params: {wish_list_item: {item_id: item.id}} %>
+          method: :post, class: "btn btn-sm", params: {wish_list_item: {item_id: item.id}} %>
   <% end %>
 </div>
