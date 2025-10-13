@@ -1,7 +1,9 @@
 <ul>
   <% @wish_list_items.each do |wish_list_item| %>
-    <li>
+    <li id="<%= dom_id(wish_list_item) %>">
       <%= wish_list_item.item.name %>
+      <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
+            method: :delete, class: "btn" %>
     </li>
   <% end %>
 </ul>

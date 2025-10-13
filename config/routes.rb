@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     resource :password, only: [:edit, :update]
     resources :renewals, only: :create
     resources :renewal_requests, only: :create
-    resources :wish_list_items, path: :wish_list, only: [:index, :create]
+    resources :wish_list_items, path: :wish_list, only: [:index, :create, :destroy]
     get "/", to: "home#index", as: "home"
 
     if ENV["FEATURE_GROUP_LENDING"] == "on"

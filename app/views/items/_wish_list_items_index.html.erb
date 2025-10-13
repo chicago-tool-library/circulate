@@ -1,5 +1,4 @@
-<div id="wish_list_item_show">
-  <% wish_list_item = current_member.wish_list_items.find_by(item:) %>
+<div id="<%= "#{dom_id(item)}_wish_list_items_index" %>">
   <% if wish_list_item.present? %>
     <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
           method: :delete, class: "btn" %>

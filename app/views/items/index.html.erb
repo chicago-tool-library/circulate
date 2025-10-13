@@ -110,6 +110,7 @@
                   <% if item.active_holds.any? %>
                     <span class="text-small"><%= pluralize item.active_holds.size, "hold" %></span>
                   <% end %>
+                  <%= render "wish_list_items_index", item:, wish_list_item: @wish_list_items_by_item_id[item.id]&.first %>
                   <br>
                   <strong><%= full_item_number(item) %></strong>
                   <% if item.size.present? %>

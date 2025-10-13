@@ -22,8 +22,20 @@ module Account
       assert_css ".pagy-bootstrap"
     end
 
-    test "members can see that they've wish listed an item on the item details page" do
-      skip
+    test "members can see that they've previously wish listed an item on the item details page" do
+      wish_list_item = create(:wish_list_item, member: @member)
+
+      visit item_path(wish_list_item.item)
+
+      assert_text "Remove from Wish List"
+    end
+
+    test "members can see that they've previously wish listed an item on the items index page" do
+      create(:wish_list_item, member: @member)
+
+      visit items_path
+
+      assert_text "Remove from Wish List"
     end
 
     test "members can add an item to their wish list from the item details page" do
@@ -42,19 +54,56 @@ module Account
     end
 
     test "members can add an item to their wish list from the items index" do
-      skip
+      item = create(:item)
+
+      visit items_path
+
+      assert_difference("@member.wish_list_items.count", 1) do
+        click_button "Add to Wish List"
+        assert_text "Remove from Wish List"
+      end
+
+      wish_list_item = @member.wish_list_items.first!
+
+      assert_equal item, wish_list_item.item
     end
 
     test "members can remove an item from their wishlist from the wish list page" do
-      skip
+      wish_list_item, ignored_wish_list_item = create_list(:wish_list_item, 2, member: @member)
+
+      visit account_wish_list_items_path
+
+      assert_text wish_list_item.item.name
+      assert_text ignored_wish_list_item.item.name
+
+      within("##{dom_id(wish_list_item)}") do
+        click_button "Remove from Wish List"
+      end
+
+      refute_text wish_list_item.item.name
+      assert_text ignored_wish_list_item.item.name
     end
 
     test "members can remove an item from their wish list from the item details page" do
-      skip
+      wish_list_item = create(:wish_list_item, member: @member)
+
+      visit item_path(wish_list_item.item)
+
+      assert_difference("@member.wish_list_items.count", -1) do
+        click_button "Remove from Wish List"
+        assert_text "Add to Wish List"
+      end
     end
 
     test "members can remove an item from their wish list from the items index" do
-      skip
+      create(:wish_list_item, member: @member)
+
+      visit items_path
+
+      assert_difference("@member.wish_list_items.count", -1) do
+        click_button "Remove from Wish List"
+        assert_text "Add to Wish List"
+      end
     end
   end
 end

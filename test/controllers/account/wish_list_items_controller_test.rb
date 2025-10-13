@@ -26,7 +26,44 @@ module Account
         as: :turbo_stream
 
       assert_turbo_stream(action: "replace", target: "wish_list_item_show") do |elements|
+        assert_includes elements.to_s, "wish_list_item_show"
         assert_includes elements.to_s, "Remove from Wish List"
+      end
+
+      assert_turbo_stream(action: "replace", target: "#{dom_id(item)}_wish_list_items_index") do |elements|
+        assert_includes elements.to_s, "#{dom_id(item)}_wish_list_items_index"
+        assert_includes elements.to_s, "Remove from Wish List"
+      end
+    end
+
+    test "member can remove a wish list item" do
+      create(:wish_list_item, member: @member) # ignored
+      wish_list_item = create(:wish_list_item, member: @member)
+
+      assert_difference("WishListItem.count", -1) do
+        delete account_wish_list_item_path(wish_list_item)
+      end
+
+      assert_redirected_to account_wish_list_items_path
+    end
+
+    test "member can remove a wish list item via turbo stream" do
+      create(:wish_list_item, member: @member) # ignored
+      wish_list_item = create(:wish_list_item, member: @member)
+      item = wish_list_item.item
+
+      delete account_wish_list_item_path(wish_list_item), as: :turbo_stream
+
+      assert_turbo_stream(action: "remove", target: dom_id(wish_list_item))
+
+      assert_turbo_stream(action: "replace", target: "wish_list_item_show") do |elements|
+        assert_includes elements.to_s, "wish_list_item_show"
+        assert_includes elements.to_s, "Add to Wish List"
+      end
+
+      assert_turbo_stream(action: "replace", target: "#{dom_id(item)}_wish_list_items_index") do |elements|
+        assert_includes elements.to_s, "#{dom_id(item)}_wish_list_items_index"
+        assert_includes elements.to_s, "Add to Wish List"
       end
     end
   end
