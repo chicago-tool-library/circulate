@@ -17,7 +17,7 @@ module Admin
           flash[:success] = "#{name}'s membership has been activated."
           redirect_to admin_member_url(@member), status: :see_other
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

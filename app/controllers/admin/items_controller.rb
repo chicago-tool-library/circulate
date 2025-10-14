@@ -54,7 +54,7 @@ module Admin
         redirect_to admin_item_number_path(@item), success: "Item was successfully created.", status: :see_other
       else
         set_categories
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -65,7 +65,7 @@ module Admin
         redirect_to [:admin, @item], success: "Item was successfully updated.", status: :see_other
       else
         set_categories
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

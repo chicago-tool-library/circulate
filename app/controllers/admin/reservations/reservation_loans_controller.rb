@@ -89,7 +89,7 @@ module Admin
       end
 
       def render_form
-        render_turbo_response :create_error, status: :unprocessable_entity
+        render_turbo_response :create_error, status: :unprocessable_content
       end
 
       def set_reservation_loan

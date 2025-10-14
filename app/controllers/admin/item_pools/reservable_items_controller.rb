@@ -22,7 +22,7 @@ module Admin
         if @reservable_item.save
           redirect_to admin_item_pool_reservable_items_url(@item_pool), success: "Reservable item was successfully created."
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -31,7 +31,7 @@ module Admin
           redirect_to admin_item_pool_reservable_items_url(@item_pool), success: "Reservable item was successfully updated."
 
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

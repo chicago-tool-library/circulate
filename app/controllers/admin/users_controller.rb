@@ -26,7 +26,7 @@ module Admin
       if @user.save
         redirect_to admin_users_url, success: "User was successfully created.", status: :see_other
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -34,7 +34,7 @@ module Admin
       if @user.update(user_params)
         redirect_to admin_users_url, success: "User was successfully updated.", status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

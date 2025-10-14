@@ -14,7 +14,7 @@ module Signup
           redirect_to signup_organizations_confirm_email_url
         else
           activate_step(:profile)
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
       end
 

@@ -14,7 +14,7 @@ module Admin
             format.html { redirect_to admin_member_path(@member) }
           end
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -31,7 +31,7 @@ module Admin
             end
           end
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

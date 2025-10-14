@@ -13,7 +13,7 @@ module Admin
             format.turbo_stream
           end
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
 
@@ -23,7 +23,7 @@ module Admin
         if @note.update(note_params)
           redirect_to [:admin, @item, anchor: dom_id(@note)], status: :see_other
         else
-          render :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_content
         end
       end
 

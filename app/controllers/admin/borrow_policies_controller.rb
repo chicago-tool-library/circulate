@@ -16,7 +16,7 @@ module Admin
       if @borrow_policy.update(borrow_policy_params)
         redirect_to admin_borrow_policies_url, success: "Borrow policy was successfully updated.", status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

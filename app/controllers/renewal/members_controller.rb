@@ -11,7 +11,7 @@ module Renewal
         redirect_to renewal_agreement_url, status: :see_other
       else
         activate_step(:profile)
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

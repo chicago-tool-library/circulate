@@ -11,7 +11,7 @@ module Signup
       else
         activate_step(:agreement)
         @document = Document.agreement.first!
-        render "signup/documents/agreement", status: :unprocessable_entity
+        render "signup/documents/agreement", status: :unprocessable_content
       end
     end
 
