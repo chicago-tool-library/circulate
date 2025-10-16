@@ -63,6 +63,7 @@ module Admin
 
       test "creating a retired ticket updates the item's status to retired too" do
         retired = Item.statuses["retired"]
+        broken = Item.retired_reasons["broken"]
 
         refute_equal retired, @item.status
 
@@ -73,6 +74,7 @@ module Admin
         ticket = Ticket.first!
         assert_equal retired, ticket.status
         assert_equal retired, @item.reload.status
+        assert_equal broken, @item.retired_reason
       end
 
       test "should show ticket" do
@@ -111,6 +113,7 @@ module Admin
       test "updating a ticket to retired makes the item retired" do
         @ticket = create(:ticket, item: @item)
         retired = Item.statuses["retired"]
+        broken = Item.retired_reasons["broken"]
 
         refute_equal retired, @item.status
         refute_equal retired, @ticket.status
@@ -119,6 +122,7 @@ module Admin
 
         assert_equal retired, @ticket.reload.status
         assert_equal retired, @item.reload.status
+        assert_equal broken, @item.retired_reason
       end
 
       test "should destroy ticket" do

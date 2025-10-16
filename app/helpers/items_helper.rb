@@ -23,6 +23,19 @@ module ItemsHelper
     end
   end
 
+  def item_retired_reason_name(reason)
+    Item::RETIRED_REASON_NAMES[reason]
+  end
+
+  def item_retired_reason_options(disabled_statuses: [])
+    Item.retired_reasons.map do |key, value|
+      description = " (#{Item::RETIRED_REASON_DESCRIPTIONS[key]})" if Item::RETIRED_REASON_DESCRIPTIONS[key]
+      ["#{Item::RETIRED_REASON_NAMES[key]}#{description}", key].tap do |option|
+        option << {disabled: true} if disabled_statuses.include?(key)
+      end
+    end
+  end
+
   def item_power_source_options
     Item.power_sources.map do |key, value|
       [value.titleize, key]

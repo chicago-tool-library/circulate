@@ -92,7 +92,7 @@ module Admin
       params.require(:item).permit(
         :name, :other_names, :description, :size, :brand, :model, :serial, :number, :image, :status, :strength,
         :power_source, :borrow_policy_id, :quantity, :checkout_notice, :delete_image, :location_shelf, :location_area, :url,
-        :purchase_price, :purchase_link, :myturn_item_type, :holds_enabled, :accessories_text, category_ids: []
+        :purchase_price, :purchase_link, :myturn_item_type, :holds_enabled, :accessories_text, :retired_reason, category_ids: []
       )
     end
 

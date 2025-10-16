@@ -186,7 +186,7 @@ class HoldTest < ActiveSupport::TestCase
   Item.statuses.keys.without("active").each do |status|
     test "#ready_for_pickup? is false when an item's status is #{status}" do
       hold = create(:hold)
-      hold.item.update(status: Item.statuses[status])
+      hold.item.update(status: Item.statuses[status], retired_reason: (status == "retired") ? "broken" : nil)
 
       hold.reload
       refute hold.ready_for_pickup?
@@ -322,7 +322,7 @@ class HoldTest < ActiveSupport::TestCase
   test "handles a hold on a retired item" do
     hammer = create(:item)
     create(:hold, item: hammer)
-    hammer.update!(status: "retired")
+    hammer.update!(status: "retired", retired_reason: "broken")
 
     assert_no_difference("Hold.started.count") do
       Hold.start_waiting_holds do |hold|
@@ -394,7 +394,7 @@ class HoldTest < ActiveSupport::TestCase
 
   %i[pending retired maintenance].each do |status|
     test "can't be put on hold if the item is #{status}" do
-      item = create(:item, status: status)
+      item = create(:item, status)
       member = create(:verified_member_with_membership)
 
       hold = Hold.new(item: item, member: member, creator: member.user)
