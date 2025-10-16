@@ -29,8 +29,8 @@
         <ul class="simple-list of-accessories">
           <% @item.accessories.each do |accessory| %>
             <li>
-              <%= label_tag accessory, accessory %>
-              <%= checkbox_tag accessory, data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
+              <%= label_tag "check-#{accessory}", accessory %>
+              <%= checkbox_tag "check-#{accessory}", data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
             </li>
           <% end %>
         </ul>
