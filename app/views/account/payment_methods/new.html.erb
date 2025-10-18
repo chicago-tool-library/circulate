@@ -1,0 +1,30 @@
+<%= content_for :head do %>
+<script src="https://js.stripe.com/basil/stripe.js"></script>
+<meta name="stripe-client-key" content="<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>">
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <%= section_header "New Payment Method" %>
+    <p>We won't charge your card now. This payment information will be saved for future use.</p>
+    <%= form_with id: "payment-form",
+          builder: SpectreFormBuilder,
+          data: {
+            controller: "stripe",
+            stripe_intent_secret_value: @result.value,
+            stripe_return_url_value: account_payment_methods_url,
+            action: "submit->stripe#submit"
+          } do |f| %>
+      <div data-stripe-target="elements">
+        <!-- placeholder for Elements -->
+      </div>
+      <%= f.actions do %>
+        <%= f.submit "Save", class: "btn btn-primary" %>
+        <%= link_to "Cancel", account_payment_methods_path, class: "btn btn-block mt-2" %>
+      <% end %>
+      <div data-stripe-target="errors">
+        <!-- Display error message to your customers here -->
+      </div>
+    <% end %>
+  </div>
+</div>

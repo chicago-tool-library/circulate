@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_18_011950) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
   create_enum "organization_member_role", ["admin", "member"]
+  create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
   create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
@@ -666,6 +667,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.index ["library_id"], name: "index_organizations_on_library_id"
   end
 
+  create_table "payment_methods", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_id"
+    t.string "display_brand"
+    t.string "last_four"
+    t.integer "expire_month"
+    t.integer "expire_year"
+    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
+  end
+
   create_table "pending_reservation_items", force: :cascade do |t|
     t.bigint "reservable_item_id", null: false
     t.bigint "reservation_id", null: false
@@ -881,12 +896,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "stripe_customer_id"
     t.index "lower((email)::text), library_id", name: "index_users_on_lowercase_email_and_library_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id"
     t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end

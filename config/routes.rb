@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     resources :renewal_requests, only: :create
     get "/", to: "home#index", as: "home"
 
-    if ENV["FEATURE_GROUP_LENDING"] == "on"
+    if FeatureFlags.group_lending_enabled?
       resources :reservations do
         scope module: "reservations" do
           resources :reservation_holds
@@ -56,6 +56,9 @@ Rails.application.routes.draw do
         end
       end
       resources :item_pools
+      if FeatureFlags.stripe_payments_enabled?
+        resources :payment_methods, only: [:index, :new, :create, :destroy]
+      end
     end
   end
 
@@ -248,6 +251,7 @@ Rails.application.routes.draw do
   resources :documents, only: :show
 
   post "/twilio/callback", to: "twilio#callback"
+  post "/stripe/webhook", to: "stripe#webhook"
 
   # Mount dashboards for admins
   authenticate :user, ->(user) { user.admin? } do

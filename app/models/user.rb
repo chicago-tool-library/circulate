@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_one :member
   has_many :organization_members, dependent: :destroy
   has_many :organizations, through: :organization_members
+  has_many :payment_methods
 
   # Adapted from https://github.com/heartcombo/devise/blob/main/lib/devise/models/validatable.rb
   # so we can scope email uniqueness to library_id
