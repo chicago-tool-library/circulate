@@ -46,7 +46,7 @@ module Admin
         end
 
         def ticket_update_create_params
-          params.require(:ticket_update_form).permit(:title, :time_spent, :body, :status).merge(creator: current_user)
+          params.require(:ticket_update_form).permit(:title, :time_spent, :body, :status, :retired_reason).merge(creator: current_user)
         end
 
         def ticket_update_update_params

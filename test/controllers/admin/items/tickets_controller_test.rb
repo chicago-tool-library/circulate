@@ -108,17 +108,19 @@ module Admin
         assert_equal tag_list, @ticket.tag_list
       end
 
-      test "updating a ticket to retired makes the item retired" do
+      test "creating a ticket with retired status" do
         @ticket = create(:ticket, item: @item)
         retired = Item.statuses["retired"]
+        used_up = Item.retired_reasons["used_up"]
 
         refute_equal retired, @item.status
         refute_equal retired, @ticket.status
 
-        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status: retired, body: ""}}
+        patch admin_item_ticket_url(@item, @ticket), params: {ticket: {status: retired, body: "", retired_reason: used_up}}
 
         assert_equal retired, @ticket.reload.status
         assert_equal retired, @item.reload.status
+        assert_equal used_up, @item.retired_reason
       end
 
       test "should destroy ticket" do
