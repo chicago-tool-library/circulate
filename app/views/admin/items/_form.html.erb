@@ -39,14 +39,22 @@
 
   <div class="columns" data-controller="conditional-field" data-conditional-field-trigger-value="<%= BorrowPolicy.not_uniquely_numbered_ids.join(",") %>">
     <div class="column col-4 col-sm-12">
-      <%= form.select :status, options_for_select(item_status_options(disabled_statuses: %w[maintenance]), item.status || Item.statuses[:active]), prompt: true, hint: status_hint(item) %>
-    </div>
-    <div class="column col-4 col-sm-12">
       <%= form.select :borrow_policy_id, options_for_select(borrow_policy_options, item.borrow_policy_id || BorrowPolicy.default&.id), {hint: "Borrowing rules used for this item"}, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
     </div>
     <div class="column col-4 col-sm-12">
       <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child" do %>
-        <%= form.text_field :quantity, label: "Approximate quantity", hint: "Just an estimate for planning purposes" %>
+        <%= form.text_field :quantity, label: "Quantity", hint: "Used to determine when the item's inventory is exhausted" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="columns" data-controller="conditional-field" data-conditional-field-trigger-value="<%= Item.statuses["retired"] %>">
+    <div class="column col-4 col-sm-12">
+      <%= form.select :status, options_for_select(item_status_options(disabled_statuses: %w[maintenance]), item.status || Item.statuses[:active]), {hint: status_hint(item)}, data: {action: "conditional-field#change", "conditional-field-target": "parent"} %>
+    </div>
+    <div class="column col-4 col-sm-12">
+      <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child" do %>
+        <%= form.select :retired_reason, options_for_select(item_retired_reason_options, item.retired_reason), label: "Reason for retirement" %>
       <% end %>
     </div>
   </div>

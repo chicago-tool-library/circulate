@@ -42,7 +42,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   [:retired, :pending].each do |status|
     test "doesn't display the show page for a #{status} item" do
-      hidden_item = create(:item, status: status)
+      hidden_item = create(:item, status)
 
       get item_url(hidden_item)
       assert_response :not_found
@@ -50,7 +50,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
     test "hides #{status} items from the item index" do
       available_item = create(:item)
-      hidden_item = create(:item, status: status)
+      hidden_item = create(:item, status)
 
       get items_url
 
@@ -60,7 +60,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
     test "hides #{status} items from the item index for a category" do
       category = create(:category)
-      hidden_item = create(:item, status: status, categories: [category])
+      hidden_item = create(:item, status, categories: [category])
 
       get items_url(category: category)
 

@@ -172,7 +172,7 @@ class Item < ApplicationRecord
   def decrement_quantity
     self.quantity -= 1
     if quantity == 0
-      update!(status: "retired", audit_comment: "Quantity exhausted")
+      update!(status: "retired", retired_reason: "used_up", audit_comment: "Quantity exhausted")
     else
       without_auditing do
         save!

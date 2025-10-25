@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_10_001741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,9 +21,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
   create_enum "answer_type", ["text", "integer"]
   create_enum "borrow_policy_approval_status", ["approved", "rejected", "requested", "revoked"]
   create_enum "item_attachment_kind", ["manual", "parts_list", "other"]
+  create_enum "item_retired_reason", ["not_returned", "broken", "upgraded", "used_up"]
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
   create_enum "organization_member_role", ["admin", "member"]
+  create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
   create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
@@ -516,6 +518,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.string "myturn_item_type"
     t.boolean "holds_enabled", default: true
     t.string "accessories", default: [], null: false, array: true
+    t.enum "retired_reason", enum_type: "item_retired_reason"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"
@@ -624,7 +627,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "pinned"
+    t.boolean "pinned", default: false, null: false
     t.index ["creator_id"], name: "index_notes_on_creator_id"
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
   end
@@ -664,6 +667,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.datetime "updated_at", null: false
     t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
     t.index ["library_id"], name: "index_organizations_on_library_id"
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "stripe_id"
+    t.string "display_brand"
+    t.string "last_four"
+    t.integer "expire_month"
+    t.integer "expire_year"
+    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
   create_table "pending_reservation_items", force: :cascade do |t|
@@ -717,6 +734,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.string "purchase_link"
     t.string "url"
     t.jsonb "myturn_metadata", default: {}
+    t.enum "retired_reason", enum_type: "item_retired_reason"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
@@ -881,12 +899,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_22_032821) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "stripe_customer_id"
     t.index "lower((email)::text), library_id", name: "index_users_on_lowercase_email_and_library_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id"
     t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end

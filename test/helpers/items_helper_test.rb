@@ -117,7 +117,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     [:pending, :retired].each do |status|
       test "item status for an uniquely numbered item with status #{status}" do
-        item = create(:item, status: status)
+        item = create(:item, status)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
       end
     end
@@ -151,7 +151,7 @@ class ItemsHelperTest < ActionView::TestCase
 
     [:pending, :retired].each do |status|
       test "item status for an unnumbered item with status #{status}" do
-        item = create(:uncounted_item, status: status)
+        item = create(:uncounted_item, status)
         assert_equal ["", "Unavailable"], css_class_and_status_label(item)
       end
     end
