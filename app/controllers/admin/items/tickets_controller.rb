@@ -49,7 +49,7 @@ module Admin
 
       def update_item_status!(ticket)
         status = ticket.retired? ? Item.statuses["retired"] : Item.statuses["maintenance"]
-        retired_reason = ticket.retired? ? Item.retired_reasons["broken"] : nil
+        retired_reason = ticket.retired? ? ticket_params[:retired_reason] || Item.retired_reasons["broken"] : nil
         @ticket.item.update!(status:, retired_reason:)
       end
 
@@ -58,7 +58,7 @@ module Admin
       end
 
       def ticket_params
-        params.require(:ticket).permit(:title, :body, :status, tag_list: []).merge(creator_id: current_user.id)
+        params.require(:ticket).permit(:title, :body, :status, :retired_reason, tag_list: []).merge(creator_id: current_user.id)
       end
     end
   end
