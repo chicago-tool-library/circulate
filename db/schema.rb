@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_10_001741) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_11_200137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -911,6 +911,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_10_001741) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "wish_list_items", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id", "member_id"], name: "index_wish_list_items_on_item_id_and_member_id", unique: true
+    t.index ["item_id"], name: "index_wish_list_items_on_item_id"
+    t.index ["member_id"], name: "index_wish_list_items_on_member_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "adjustments", "members"
@@ -964,6 +974,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_10_001741) do
   add_foreign_key "ticket_updates", "users", column: "creator_id"
   add_foreign_key "tickets", "items"
   add_foreign_key "tickets", "users", column: "creator_id"
+  add_foreign_key "wish_list_items", "items"
+  add_foreign_key "wish_list_items", "members"
 
   create_view "category_nodes", materialized: true, sql_definition: <<-SQL
       WITH RECURSIVE search_tree(id, library_id, name, slug, parent_id, path_names, path_ids) AS (
