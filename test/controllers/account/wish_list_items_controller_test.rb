@@ -10,7 +10,15 @@ module Account
       sign_in @user
     end
 
-    test "member can wish list an item" do
+    def self.test_with_wish_items_enabled(test_name, &)
+      test(test_name) do
+        FeatureFlags.stub(:wish_lists_enabled?, true) do
+          instance_eval(&)
+        end
+      end
+    end
+
+    test_with_wish_items_enabled "member can wish list an item" do
       item = create(:item)
 
       post account_wish_list_items_path, params: {wish_list_item: {item_id: item.id}}
@@ -18,7 +26,7 @@ module Account
       assert_redirected_to item_path(item)
     end
 
-    test "member can wish list an item via turbo stream" do
+    test_with_wish_items_enabled "member can wish list an item via turbo stream" do
       item = create(:item)
 
       post account_wish_list_items_path,
@@ -36,7 +44,7 @@ module Account
       end
     end
 
-    test "member can remove a wish list item" do
+    test_with_wish_items_enabled "member can remove a wish list item" do
       create(:wish_list_item, member: @member) # ignored
       wish_list_item = create(:wish_list_item, member: @member)
 
@@ -47,7 +55,7 @@ module Account
       assert_redirected_to account_wish_list_items_path
     end
 
-    test "member can remove a wish list item via turbo stream" do
+    test_with_wish_items_enabled "member can remove a wish list item via turbo stream" do
       create(:wish_list_item, member: @member) # ignored
       wish_list_item = create(:wish_list_item, member: @member)
       item = wish_list_item.item

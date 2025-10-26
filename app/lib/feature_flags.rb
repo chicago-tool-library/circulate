@@ -14,4 +14,8 @@ class FeatureFlags
   def self.group_lending_enabled?
     ENV["FEATURE_GROUP_LENDING"] == "on"
   end
+
+  def self.wish_lists_enabled?
+    ENV["WISH_LISTS"] == "on"
+  end
 end

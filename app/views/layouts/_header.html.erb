@@ -25,7 +25,9 @@
             <% if current_library.allow_appointments? %>
               <%= navbar_link_to "Appointments", account_appointments_path %>
             <% end %>
-            <%= navbar_link_to "Wish List", account_wish_list_items_path %>
+            <% if FeatureFlags.wish_lists_enabled? %>
+              <%= navbar_link_to "Wish List", account_wish_list_items_path %>
+            <% end %>
           <% end %>
         </ul>
       </li>
