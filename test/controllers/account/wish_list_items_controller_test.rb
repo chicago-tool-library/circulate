@@ -35,12 +35,12 @@ module Account
 
       assert_turbo_stream(action: "replace", target: "wish_list_item_show") do |elements|
         assert_includes elements.to_s, "wish_list_item_show"
-        assert_includes elements.to_s, "Remove from Wish List"
+        assert_includes elements.to_s, "Don't need it"
       end
 
       assert_turbo_stream(action: "replace", target: "#{dom_id(item)}_wish_list_items_index") do |elements|
         assert_includes elements.to_s, "#{dom_id(item)}_wish_list_items_index"
-        assert_includes elements.to_s, "Remove from Wish List"
+        assert_includes elements.to_s, "Don't need it"
       end
     end
 
@@ -66,12 +66,12 @@ module Account
 
       assert_turbo_stream(action: "replace", target: "wish_list_item_show") do |elements|
         assert_includes elements.to_s, "wish_list_item_show"
-        assert_includes elements.to_s, "Add to Wish List"
+        assert_includes elements.to_s, "Save for later"
       end
 
       assert_turbo_stream(action: "replace", target: "#{dom_id(item)}_wish_list_items_index") do |elements|
         assert_includes elements.to_s, "#{dom_id(item)}_wish_list_items_index"
-        assert_includes elements.to_s, "Add to Wish List"
+        assert_includes elements.to_s, "Save for later"
       end
     end
   end

@@ -1,4 +1,4 @@
-<h1 class="title">Wish List</h1>
+<h1 class="title">Saved for later</h1>
 
 <% if @wish_list_items.any? %>
   <ul class="items-list">
@@ -34,7 +34,7 @@
             <br>
 
             <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
-            <%= button_to "Remove from Wish List", account_wish_list_item_path(wish_list_item),
+            <%= button_to "Don't need it", account_wish_list_item_path(wish_list_item),
                   method: :delete, class: "btn" %>
           <% end %>
 
@@ -50,5 +50,5 @@
 
   <%== pagy_bootstrap_nav(@pagy) %>
 <% else %>
-  <p>Your wish listed items will appear here. You can add items to your wish list by <%= link_to "checking out our inventory", items_path %>.</p>
+  <p>Your saved for later items will appear here. You can save items by <%= link_to "checking out our inventory", items_path %>.</p>
 <% end %>

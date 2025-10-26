@@ -34,8 +34,8 @@ module Account
       logout
       visit item_path(create(:item))
 
-      refute_text "Add to Wish List"
-      refute_text "Remove from Wish List"
+      refute_text "Save for later"
+      refute_text "Don't need it"
     end
 
     test_with_wish_items_enabled "members that are not signed in cannot add anything to their wishlist on the items index page" do
@@ -43,8 +43,8 @@ module Account
       create(:item)
       visit items_path
 
-      refute_text "Add to Wish List"
-      refute_text "Remove from Wish List"
+      refute_text "Save for later"
+      refute_text "Don't need it"
     end
 
     test_with_wish_items_enabled "members can see that they've previously wish listed an item on the item details page" do
@@ -52,7 +52,7 @@ module Account
 
       visit item_path(wish_list_item.item)
 
-      assert_text "Remove from Wish List"
+      assert_text "Don't need it"
     end
 
     test_with_wish_items_enabled "members can see that they've previously wish listed an item on the items index page" do
@@ -60,7 +60,7 @@ module Account
 
       visit items_path
 
-      assert_text "Remove from Wish List"
+      assert_text "Don't need it"
     end
 
     test_with_wish_items_enabled "members can add an item to their wish list from the item details page" do
@@ -69,8 +69,8 @@ module Account
       visit item_path(item)
 
       assert_difference("@member.wish_list_items.count", 1) do
-        click_button "Add to Wish List"
-        assert_text "Remove from Wish List"
+        click_button "Save for later"
+        assert_text "Don't need it"
       end
 
       wish_list_item = @member.wish_list_items.first!
@@ -84,8 +84,8 @@ module Account
       visit items_path
 
       assert_difference("@member.wish_list_items.count", 1) do
-        click_button "Add to Wish List"
-        assert_text "Remove from Wish List"
+        click_button "Save for later"
+        assert_text "Don't need it"
       end
 
       wish_list_item = @member.wish_list_items.first!
@@ -102,7 +102,7 @@ module Account
       assert_text ignored_wish_list_item.item.name
 
       within("##{dom_id(wish_list_item)}") do
-        click_button "Remove from Wish List"
+        click_button "Don't need it"
       end
 
       refute_text wish_list_item.item.name
@@ -115,8 +115,8 @@ module Account
       visit item_path(wish_list_item.item)
 
       assert_difference("@member.wish_list_items.count", -1) do
-        click_button "Remove from Wish List"
-        assert_text "Add to Wish List"
+        click_button "Don't need it"
+        assert_text "Save for later"
       end
     end
 
@@ -126,8 +126,8 @@ module Account
       visit items_path
 
       assert_difference("@member.wish_list_items.count", -1) do
-        click_button "Remove from Wish List"
-        assert_text "Add to Wish List"
+        click_button "Don't need it"
+        assert_text "Save for later"
       end
     end
   end
