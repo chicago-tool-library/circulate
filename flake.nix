@@ -29,7 +29,6 @@
         mkShell ({
             buildInputs = [
               ruby
-              foreman
               nodejs_20
 
               # Make sure yarn uses the version-specific node package specified
@@ -66,6 +65,12 @@
 
             # Keep gems installed in a subdirectory
             BUNDLE_PATH = "./vendor/bundle";
+            GEM_HOME = "./vendor/bundle/ruby/3.4.0";
+
+            # Add gem bin directory to PATH so installed gem executables are available
+            shellHook = ''
+              export PATH="$GEM_HOME/bin:$PATH"
+            '';
 
             # Point to Docker-hosted db server, using the same settings as
             # config/docker.env
