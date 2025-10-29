@@ -21,7 +21,7 @@ module Admin
       end
 
       def create
-        @ticket = @item.tickets.new(ticket_params)
+        @ticket = @item.tickets.new(ticket_params.except(:retired_reason))
 
         if @ticket.save
           update_item_status!(@ticket)
@@ -32,7 +32,7 @@ module Admin
       end
 
       def update
-        if @ticket.update(ticket_params)
+        if @ticket.update(ticket_params.except(:retired_reason))
           update_item_status!(@ticket)
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully updated.", status: :see_other
         else

@@ -27,10 +27,10 @@ module ItemStatuses
   }
 
   RETIRED_REASON_DESCRIPTIONS = {
-    "not_returned" => "Not returned after being checked out",
-    "broken" => "Returned in a not working state",
-    "used_up" => "Used up, worn out, or otherwise consumed",
-    "upgraded" => "Replaced with a newer or better item"
+    "not_returned" => "not returned after being checked out",
+    "broken" => "returned in a not working state",
+    "used_up" => "used up, worn out, or otherwise consumed",
+    "upgraded" => "replaced with a newer or better item"
   }
 
   included do

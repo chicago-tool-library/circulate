@@ -11,7 +11,13 @@
           <span class="chip"><%= tag %></span>
         <% end %>
         <br>
-        Created by <%= link_to_member(@ticket.creator.member) %> on <%= display_date @ticket.created_at, :short_date %>
+        Created by
+        <% if @ticket.creator.member.present? %>
+          <%= link_to_member(@ticket.creator.member) %>
+        <% else %>
+          <%= @ticket.creator.email %>
+        <% end %>
+         on <%= display_date @ticket.created_at, :short_date %>
       </p>
 
       <div class="card">
@@ -41,7 +47,7 @@
         <% if TicketUpdate === event %>
           <% ticket_update = event %>
           <p class="mb-2">
-            <% if ticket_update.creator.present? %>
+            <% if ticket_update.creator.present? && ticket_update.creator.member.present? %>
               <%= link_to_member(ticket_update.creator.member) %>
             <% else %>
                 someone
