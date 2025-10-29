@@ -22,4 +22,9 @@
     overflow-y: auto;
     padding: 0 variables.$layout-spacing-lg;
   }
+
+  .panel-body-no-overflow {
+    flex: 1 1 auto;
+    padding: 0 variables.$layout-spacing-lg;
+  }
 }
