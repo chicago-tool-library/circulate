@@ -21,7 +21,7 @@ module Admin
       end
 
       def create
-        @ticket = @item.tickets.new(ticket_params)
+        @ticket = @item.tickets.new(ticket_params.except(:retired_reason))
 
         if @ticket.save
           update_item_status!(@ticket)
@@ -32,7 +32,7 @@ module Admin
       end
 
       def update
-        if @ticket.update(ticket_params)
+        if @ticket.update(ticket_params.except(:retired_reason))
           update_item_status!(@ticket)
           redirect_to admin_item_ticket_url(@item, @ticket), success: "Ticket was successfully updated.", status: :see_other
         else
@@ -49,7 +49,7 @@ module Admin
 
       def update_item_status!(ticket)
         status = ticket.retired? ? Item.statuses["retired"] : Item.statuses["maintenance"]
-        retired_reason = ticket.retired? ? Item.retired_reasons["broken"] : nil
+        retired_reason = ticket.retired? ? ticket_params[:retired_reason] || Item.retired_reasons["broken"] : nil
         @ticket.item.update!(status:, retired_reason:)
       end
 
@@ -58,7 +58,7 @@ module Admin
       end
 
       def ticket_params
-        params.require(:ticket).permit(:title, :body, :status, tag_list: []).merge(creator_id: current_user.id)
+        params.require(:ticket).permit(:title, :body, :status, :retired_reason, tag_list: []).merge(creator_id: current_user.id)
       end
     end
   end

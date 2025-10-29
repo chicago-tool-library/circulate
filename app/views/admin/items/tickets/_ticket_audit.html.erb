@@ -1,5 +1,5 @@
 <p class="mt-2 mb-2">
-  <% if audit.user.present? %>
+  <% if audit.user.present? && audit.user.member.present? %>
     <%= link_to_member(audit.user.member) %>
   <% else %>
       someone
