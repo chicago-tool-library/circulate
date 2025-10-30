@@ -206,6 +206,7 @@ Rails.application.routes.draw do
     get "/ui/brands", to: "ui#brands"
     get "/ui/sizes", to: "ui#sizes"
     get "/ui/strengths", to: "ui#strengths"
+    get "/ui/available_items", to: "ui#available_items"
 
     if FeatureFlags.group_lending_enabled?
       # Group Lending

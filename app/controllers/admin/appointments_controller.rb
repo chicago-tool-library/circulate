@@ -76,10 +76,6 @@ module Admin
       end
     end
 
-    helper_method def items_available_to_add_to_pickup
-      Item.available.includes(:borrow_policy)
-    end
-
     helper_method def items_available_to_add_to_dropoff
       (@appointment.member.loans.checked_out.includes(item: :borrow_policy) - appointment_return_items).map(&:item)
     end

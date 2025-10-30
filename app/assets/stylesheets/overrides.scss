@@ -123,6 +123,11 @@ trix-toolbar {
   z-index: 10;
 }
 
+// Panel body styling without overflow constraint for autocomplete dropdowns
+.panel-body-no-overflow {
+  padding: 0 variables.$layout-spacing-lg;
+}
+
 .off-canvas {
   height: auto;
   .off-canvas-content {

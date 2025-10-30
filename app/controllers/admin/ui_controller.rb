@@ -44,5 +44,17 @@ module Admin
 
       render json: strengths
     end
+
+    def available_items
+      items = Item
+        .available
+        .includes(:borrow_policy)
+        .search_by_anything(params[:q])
+        .by_name
+        .limit(20)
+        .map(&:complete_number_and_name)
+
+      render json: items
+    end
   end
 end

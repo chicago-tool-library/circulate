@@ -80,15 +80,12 @@
     <% end %>
   <% end %>
   <div class="divider"></div>
+</div>
+<div class="panel-body-no-overflow">
   <div class="columns">
     <h5>Add an item to the appointment for check-out</h5>
     <%= form_with(model: [:admin, AppointmentHold.new], url: admin_appointment_holds_path(@appointment), method: :post, builder: SpectreFormBuilder) do |form| %>
-      <%= form.text_field :item_id, list: "items", autocomplete: :off, label: false %>
-      <datalist id="items">
-        <%= items_available_to_add_to_pickup.find_each do |item| %>
-          <%= tag(:option, value: item.complete_number_and_name) %>
-        <% end %>
-      </datalist>
+      <%= form.autocomplete_text_field :item_id, path: admin_ui_available_items_path(format: :json), label: false, placeholder: "Search for an item..." %>
       <%= form.submit do %>
         <%= feather_icon "plus" %>Add item to appointment
       <% end %>
