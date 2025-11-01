@@ -21,6 +21,10 @@
     <% if @item.active_holds.any? %>
       <span class="text-small"><%= pluralize @item.active_holds.count, "hold" %></span>
     <% end %>
+
+    <% if user_signed_in? %>
+      <%= render "for_later_list_item_show", item: @item, for_later_list_item: current_user&.member&.for_later_list_items&.find_by(item: @item) %>
+    <% end %>
   </h2>
 
   <div class="columns">

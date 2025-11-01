@@ -1,0 +1,11 @@
+<% if FeatureFlags.for_later_lists_enabled? %>
+  <div id="<%= "#{dom_id(item)}_for_later_list_items_index" %>" class="for-later-list-button-container">
+    <% if for_later_list_item.present? %>
+      <%= button_to "Don't need it", account_for_later_list_item_path(for_later_list_item),
+            method: :delete, class: "btn btn-sm" %>
+    <% else %>
+      <%= button_to "Save for later", account_for_later_list_items_path,
+            method: :post, class: "btn btn-sm", params: {for_later_list_item: {item_id: item.id}} %>
+    <% end %>
+  </div>
+<% end %>
