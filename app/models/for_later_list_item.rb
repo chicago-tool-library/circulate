@@ -1,4 +1,4 @@
-class WishListItem < ApplicationRecord
+class ForLaterListItem < ApplicationRecord
   belongs_to :item
   belongs_to :member
 

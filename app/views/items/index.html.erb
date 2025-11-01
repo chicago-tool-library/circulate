@@ -122,7 +122,7 @@
 
                   <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
                   <% if user_signed_in? %>
-                    <%= render "wish_list_items_index", item:, wish_list_item: @wish_list_items_by_item_id[item.id]&.first %>
+                    <%= render "for_later_list_items_index", item:, for_later_list_item: @for_later_list_items_by_item_id[item.id]&.first %>
                   <% end %>
                 <% end %>
 

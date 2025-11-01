@@ -184,7 +184,7 @@ $photo-width: 187px;
       justify-content: space-between;
     }
 
-    .wish-list-button-container {
+    .for-later-list-button-container {
       margin-block-start: 4px;
     }
 
@@ -463,11 +463,11 @@ $min-width: variables.$size-md + 1;
     gap: 4px;
   }
 
-  #wish_list_item_show {
+  #for_later_list_item_show {
     flex: 1;
   }
 
-  #wish_list_item_show form {
+  #for_later_list_item_show form {
     align-items: center;
     display: flex;
     justify-content: flex-end;

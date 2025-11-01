@@ -23,7 +23,7 @@
     <% end %>
 
     <% if user_signed_in? %>
-      <%= render "wish_list_item_show", item: @item, wish_list_item: current_user&.member&.wish_list_items&.find_by(item: @item) %>
+      <%= render "for_later_list_item_show", item: @item, for_later_list_item: current_user&.member&.for_later_list_items&.find_by(item: @item) %>
     <% end %>
   </h2>
 

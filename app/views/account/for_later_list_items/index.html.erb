@@ -1,10 +1,10 @@
 <h1 class="title">Saved for later</h1>
 
-<% if @wish_list_items.any? %>
+<% if @for_later_list_items.any? %>
   <ul class="items-list">
-    <% @wish_list_items.each do |wish_list_item| %>
-      <% item = wish_list_item.item %>
-      <li id="<%= dom_id(wish_list_item) %>" class="item-container">
+    <% @for_later_list_items.each do |for_later_list_item| %>
+      <% item = for_later_list_item.item %>
+      <li id="<%= dom_id(for_later_list_item) %>" class="item-container">
         <% if item.image.attached? %>
           <%= link_to item_path(item) do %>
             <%= image_tag item_image_url(item.image, resize_to_limit: [200, 140]), alt: "" %>
@@ -34,7 +34,7 @@
             <br>
 
             <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
-            <%= button_to "Don't need it", account_wish_list_item_path(wish_list_item),
+            <%= button_to "Don't need it", account_for_later_list_item_path(for_later_list_item),
                   method: :delete, class: "btn" %>
           <% end %>
 
