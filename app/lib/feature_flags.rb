@@ -16,6 +16,6 @@ class FeatureFlags
   end
 
   def self.for_later_lists_enabled?
-    ENV["for_later_listS"] == "on"
+    ENV["FOR_LATER_LISTS"] == "on"
   end
 end
