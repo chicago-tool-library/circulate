@@ -18,6 +18,10 @@ class ItemsController < ApplicationController
 
     @categories = CategoryNode.with_items
     @pagy, @items = pagy(item_scope)
+    @for_later_list_items_by_item_id = {}
+    if user_signed_in?
+      @for_later_list_items_by_item_id = current_member.for_later_list_items.where(item_id: @items.map(&:id)).group_by(&:item_id) || {}
+    end
 
     # Track that a search was performed if we are on the first page
     if @query && @pagy.page == 1

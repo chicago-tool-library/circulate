@@ -184,6 +184,10 @@ $photo-width: 187px;
       justify-content: space-between;
     }
 
+    .for-later-list-button-container {
+      margin-block-start: 4px;
+    }
+
     .item-info {
       flex: 1;
     }
@@ -452,6 +456,21 @@ $min-width: variables.$size-md + 1;
   }
   h1 {
     margin-bottom: 0.1em;
+  }
+  h2 {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
+  #for_later_list_item_show {
+    flex: 1;
+  }
+
+  #for_later_list_item_show form {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 

@@ -47,6 +47,9 @@ class Item < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_one :last_active_ticket, -> { active.newest_first }, class_name: "Ticket"
 
+  has_many :for_later_list_items, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :for_later_listed_members, through: :for_later_list_items, source: :member
+
   has_one_attached :image
 
   audited except: :plain_text_description
