@@ -32,8 +32,13 @@
       <%= button_to "complete", admin_appointment_completion_path(appointment, params: {new: true}),
             method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
     <% else %>
-      <%= button_to "pull items", admin_appointment_pull_path(appointment, params: {new: true}),
-            method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
+      <% if appointment.dropoff_only? %>
+        <%= button_to "complete", admin_appointment_completion_path(appointment, params: {new: true}),
+              method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
+      <% else %>
+        <%= button_to "pull items", admin_appointment_pull_path(appointment, params: {new: true}),
+              method: :post, class: "btn btn-sm", data: {disable_with: "saving"} %>
+      <% end %>
     <% end %>
   </td>
 <% end %>

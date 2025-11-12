@@ -105,4 +105,39 @@ class AppointmentTest < ActiveSupport::TestCase
 
     assert appointment.destroyed?
   end
+
+  test "#dropoff_only? returns true when appointment has only loans (no holds)" do
+    member = create(:member)
+    loan = create(:loan, member: member)
+    appointment = create(:appointment, loans: [loan], member: member)
+
+    assert appointment.dropoff_only?
+  end
+
+  test "#dropoff_only? returns false when appointment has both holds and loans" do
+    member = create(:member)
+    hold = create(:hold, member: member)
+    loan = create(:loan, member: member)
+    appointment = create(:appointment, holds: [hold], loans: [loan], member: member)
+
+    refute appointment.dropoff_only?
+  end
+
+  test "#dropoff_only? returns false when appointment has only holds (no loans)" do
+    member = create(:member)
+    hold = create(:hold, member: member)
+    appointment = create(:appointment, holds: [hold], member: member)
+
+    refute appointment.dropoff_only?
+  end
+
+  test "#dropoff_only? returns false when appointment has no holds or loans" do
+    # This is a temporary state that should be caught by validation
+    member = create(:member)
+    appointment = build(:appointment, member: member)
+    appointment.staff_updating = true
+    appointment.save!(validate: false)
+
+    refute appointment.dropoff_only?
+  end
 end
