@@ -36,6 +36,10 @@ class Appointment < ApplicationRecord
     completed_at.present?
   end
 
+  def dropoff_only?
+    holds.empty? && !loans.empty?
+  end
+
   def merge!(other_appointment)
     transaction do
       holds << other_appointment.holds
