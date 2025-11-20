@@ -72,8 +72,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    acts-as-taggable-on (12.0.0)
-      activerecord (>= 7.1, < 8.1)
+    acts-as-taggable-on (13.0.0)
+      activerecord (>= 7.1, < 8.2)
       zeitwerk (>= 2.4, < 3.0)
     acts_as_list (1.2.6)
       activerecord (>= 6.1)
@@ -110,7 +110,7 @@ GEM
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1179.0)
+    aws-partitions (1.1181.0)
     aws-sdk-core (3.236.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -119,10 +119,10 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.116.0)
+    aws-sdk-kms (1.117.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.202.0)
+    aws-sdk-s3 (1.203.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -329,7 +329,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.26.0)
+    minitest (5.26.1)
     mjml-rails (4.16.0)
     monetize (1.11.0)
       money (~> 6.12)
@@ -390,7 +390,9 @@ GEM
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
-    pagy (9.4.0)
+    pagy (43.0.0)
+      json
+      yaml
     parallel (1.27.0)
     parser (3.3.9.0)
       ast (~> 2.4.1)
@@ -569,7 +571,7 @@ GEM
     text (1.3.1)
     thor (1.4.0)
     timecop (0.9.10)
-    timeout (0.4.3)
+    timeout (0.4.4)
     translation (1.41)
       gettext (~> 3.2, >= 3.2.5, <= 3.4.9)
     tsort (0.2.0)
@@ -585,7 +587,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     version_gem (1.1.9)
     warden (1.2.9)
@@ -601,6 +603,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     zeitwerk (2.7.3)
     zlib (3.2.1)
 
@@ -614,7 +617,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  acts-as-taggable-on (~> 12.0)
+  acts-as-taggable-on (~> 13.0)
   acts_as_list
   acts_as_tenant
   ahoy_matey (~> 5.4)
@@ -645,7 +648,7 @@ DEPENDENCIES
   listen
   lograge
   mini_magick
-  minitest (= 5.26.0)
+  minitest (= 5.26.1)
   mjml-rails
   money-rails
   omniauth-google-oauth2
