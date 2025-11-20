@@ -16,7 +16,7 @@
     "@rails/ujs": "^7.1.502",
     "@selectize/selectize": "^0.15.2",
     "awesomplete": "^1.1.7",
-    "esbuild": "^0.25.12",
+    "esbuild": "^0.27.0",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
     "mjml": "^4.16.1",
