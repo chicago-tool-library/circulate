@@ -16,10 +16,10 @@
     "@rails/ujs": "^7.1.502",
     "@selectize/selectize": "^0.15.2",
     "awesomplete": "^1.1.7",
-    "esbuild": "^0.27.0",
+    "esbuild": "^0.27.1",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",
-    "mjml": "^4.16.1",
+    "mjml": "^4.17.2",
     "sass": "^1.80.4",
     "sortablejs": "^1.15.6",
     "trix": "^2.1.15"
@@ -29,7 +29,7 @@
     "concurrently": "^9.2.1",
     "markdown-toc": "^1.2.0",
     "playwright": "1.45.0",
-    "prettier": "^3.6.2"
+    "prettier": "^3.7.4"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
