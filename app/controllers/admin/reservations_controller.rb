@@ -29,9 +29,6 @@ module Admin
     def create
       @reservation = Reservation.new(reservation_params)
 
-      # TODO remove this field as it's redundant
-      @reservation.submitted_by = @reservation.member&.user
-
       if @reservation.save
         redirect_to admin_reservation_url(@reservation), success: "Reservation was successfully created."
       else
