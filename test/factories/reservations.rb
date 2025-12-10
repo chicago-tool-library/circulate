@@ -5,7 +5,7 @@ FactoryBot.define do
     ended_at { 1.week.since.at_beginning_of_day }
     submitted_by { association(:user) }
     library { Library.first || association(:library) }
-    organization
+    member
 
     after(:build) { |reservation| reservation.send(:restore_manager) }
 

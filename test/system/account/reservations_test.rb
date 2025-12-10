@@ -9,7 +9,6 @@ module Account
 
       @member = create(:verified_member_with_membership)
       @admin_user = create(:user, role: "admin", library: @member.library)
-      @organization = create(:organization)
       @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
 
       login_as @member.user
@@ -46,9 +45,9 @@ module Account
     test "visiting the index" do
       Time.use_zone("America/Chicago") do
         reservations = [
-          create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
-          create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
-          create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
+          create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now, member: @member),
+          create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now, member: @member),
+          create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now, member: @member)
         ]
 
         visit account_reservations_url

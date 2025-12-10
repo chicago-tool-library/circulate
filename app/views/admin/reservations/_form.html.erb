@@ -1,9 +1,10 @@
 <%= form_with(model: reservation, url: [:admin, reservation], builder: SpectreFormBuilder, data: {controller: "reservation-dates"}) do |form| %>
-  <%= form.errors %>
+  <%= form.errors(true) %>
   <%= form.text_field :name %>
   <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
   <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
-  <%= form.select :organization_id, @organization_options, error_key: "organization", include_blank: true %>
+
+  <%= form.autocomplete_text_field :member_id, path: admin_ui_members_path(format: :json), label: "Member ID", placeholder: "Search for a member..." %>
 
   <%= form.select(:pickup_event_id, grouped_options_for_select(@reservation_slots, reservation.pickup_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
   <%= form.select(:dropoff_event_id, grouped_options_for_select(@reservation_slots, reservation.dropoff_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
