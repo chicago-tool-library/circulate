@@ -12,7 +12,7 @@ class ReservationMailerTest < ApplicationSystemTestCase
 
     expected_subject = "Reservation submitted for #{reservation.started_at.to_fs(:short_date)}"
 
-    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+    assert_delivered_email(to: reservation.member.email) do |html, text, _, subject|
       assert_equal expected_subject, subject
       assert_includes html, expected_subject, "mail should include subject in html part"
       assert_includes text, expected_subject, "mail should include subject in text part"
@@ -41,7 +41,7 @@ class ReservationMailerTest < ApplicationSystemTestCase
 
     message = "Your reservation for #{reservation.started_at.to_fs(:short_date)} was approved"
 
-    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+    assert_delivered_email(to: reservation.member.email) do |html, text, _, subject|
       assert_equal message, subject
 
       assert_includes html, message, "mail should include approval message in html part"
@@ -59,7 +59,7 @@ class ReservationMailerTest < ApplicationSystemTestCase
 
     message = "Your reservation for #{reservation.started_at.to_fs(:short_date)} was rejected"
 
-    assert_delivered_email(to: reservation.submitted_by.email) do |html, text, _, subject|
+    assert_delivered_email(to: reservation.member.email) do |html, text, _, subject|
       assert_equal message, subject
 
       assert_includes html, message, "mail should include rejection message in html part"

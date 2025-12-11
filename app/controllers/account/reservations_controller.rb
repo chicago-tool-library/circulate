@@ -24,10 +24,9 @@ module Account
     end
 
     def create
-      @reservation = Reservation.new(reservation_params.merge(organization_id: Organization.first.id, submitted_by: current_user))
+      @reservation = Reservation.new(reservation_params.merge(member_id: current_member.id))
 
       if @reservation.save
-        # TODO use the current user's actual organization
         redirect_to account_reservation_url(@reservation), success: "Reservation was successfully created."
       else
         set_required_answers

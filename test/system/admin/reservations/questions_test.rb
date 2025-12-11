@@ -3,8 +3,8 @@ require "application_system_test_case"
 class AdminReservationsQuestionsTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
-    @organization = create(:organization)
     @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
+    @member = create(:complete_member)
   end
 
   def date_input_format(datetime)
@@ -37,9 +37,9 @@ class AdminReservationsQuestionsTest < ApplicationSystemTestCase
 
     visit new_admin_reservation_path
     fill_in "Name", with: @attributes[:name]
+    fill_in "Member ID", with: @member.id
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
-    select(@organization.name, from: "Organization")
     fill_in text_stem.content, with: "text answer"
     fill_in integer_stem.content, with: "150"
 

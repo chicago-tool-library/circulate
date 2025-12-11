@@ -5,7 +5,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
 
   setup do
     sign_in_as_admin
-    @organization = create(:organization)
+    @member = create(:complete_member)
     @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
   end
 
@@ -46,9 +46,9 @@ class AdminReservationsTest < ApplicationSystemTestCase
   test "visiting the index" do
     Time.use_zone("America/Chicago") do
       reservations = [
-        create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now, organization: @organization),
-        create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now, organization: @organization),
-        create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now, organization: @organization)
+        create(:reservation, :requested, started_at: 3.days.ago, ended_at: 3.days.from_now, member: @member),
+        create(:reservation, :approved, started_at: 2.days.ago, ended_at: 2.days.from_now, member: @member),
+        create(:reservation, :rejected, started_at: 4.days.ago, ended_at: 4.days.from_now, member: @member)
       ]
 
       visit admin_reservations_url
@@ -102,7 +102,9 @@ class AdminReservationsTest < ApplicationSystemTestCase
     fill_in "Name", with: @attributes[:name]
     find("#start-date-field").set(date_input_format(@attributes[:started_at]))
     find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
-    select(@organization.name, from: "Organization")
+
+    fill_in "Member ID", with: @member.id
+
     select_first_available_pickup_date
     select_last_available_dropoff_date
 
@@ -116,7 +118,7 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert_equal @attributes[:name], reservation.name
     assert_equal @attributes[:started_at].to_date, reservation.started_at.to_date
     assert_equal (@attributes[:ended_at] + 1.day).to_date, reservation.ended_at.to_date
-    assert_equal @user, reservation.submitted_by
+    assert_equal @member.id, reservation.member_id
     assert_equal first_event, reservation.pickup_event
     assert_equal last_event, reservation.dropoff_event
   end

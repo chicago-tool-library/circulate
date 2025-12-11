@@ -135,10 +135,9 @@ namespace :devdata do
     yield Reservation.create!(
       name: name,
       status: status,
-      organization: Organization.find_random,
       started_at: started_at,
       ended_at: ended_at,
-      submitted_by: User.find_random,
+      member: Member.find_random,
       notes: notes,
       pickup_event: pickup_event,
       dropoff_event: dropoff_event

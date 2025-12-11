@@ -56,5 +56,14 @@ module Admin
 
       render json: items
     end
+
+    def members
+      members = Member
+        .matching(params[:q])
+        .open
+        .map { |m| {label: helpers.preferred_or_default_name(m), value: m.id} }
+
+      render json: members
+    end
   end
 end

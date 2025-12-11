@@ -27,7 +27,7 @@
     <div class="panel item-panel">
       <div class="panel-body">
         <ul class="item-stats">
-          <%= icon_stat "user", "org", title: "organization" %>
+          <%= icon_stat "user", link_to(preferred_or_default_name(@reservation.member), admin_member_path(@reservation.member)), title: "reserved by" %>
           <%= icon_stat "clock", @reservation.started_at.to_formatted_s(:long), title: "pickup" %>
           <%= icon_stat "corner-down-left", @reservation.ended_at.to_formatted_s(:long), title: "return" %>
           <%= icon_stat "info", @reservation.status, title: "status" %>
@@ -38,7 +38,6 @@
           <% if @reservation.dropoff_event %>
             <%= icon_stat "corner-down-left", format_reservation_event(@reservation.dropoff_event), title: "dropoff" %>
           <% end %>
-
         </ul>
       </div>
     </div>

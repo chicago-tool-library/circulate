@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_11_200137) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_10_030102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -443,7 +443,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_11_200137) do
     t.index ["labels"], name: "index_good_jobs_on_labels", where: "(labels IS NOT NULL)", using: :gin
     t.index ["locked_by_id"], name: "index_good_jobs_on_locked_by_id", where: "(locked_by_id IS NOT NULL)"
     t.index ["priority", "created_at"], name: "index_good_job_jobs_for_candidate_lookup", where: "(finished_at IS NULL)"
-    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
+    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: {priority: "DESC NULLS LAST"}, where: "(finished_at IS NULL)"
     t.index ["priority", "scheduled_at"], name: "index_good_jobs_on_priority_scheduled_at_unfinished_unlocked", where: "((finished_at IS NULL) AND (locked_by_id IS NULL))"
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
@@ -808,16 +808,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_11_200137) do
     t.datetime "reviewed_at"
     t.bigint "reviewer_id"
     t.bigint "library_id", null: false
-    t.bigint "organization_id", null: false
-    t.bigint "submitted_by_id", null: false
     t.bigint "pickup_event_id"
     t.bigint "dropoff_event_id"
+    t.bigint "member_id", null: false
     t.index ["dropoff_event_id"], name: "index_reservations_on_dropoff_event_id"
     t.index ["library_id"], name: "index_reservations_on_library_id"
-    t.index ["organization_id"], name: "index_reservations_on_organization_id"
+    t.index ["member_id"], name: "index_reservations_on_member_id"
     t.index ["pickup_event_id"], name: "index_reservations_on_pickup_event_id"
     t.index ["reviewer_id"], name: "index_reservations_on_reviewer_id"
-    t.index ["submitted_by_id"], name: "index_reservations_on_submitted_by_id"
   end
 
   create_table "stems", force: :cascade do |t|
@@ -967,8 +965,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_11_200137) do
   add_foreign_key "reservations", "events", column: "dropoff_event_id"
   add_foreign_key "reservations", "events", column: "pickup_event_id"
   add_foreign_key "reservations", "libraries"
+  add_foreign_key "reservations", "members"
   add_foreign_key "reservations", "users", column: "reviewer_id"
-  add_foreign_key "reservations", "users", column: "submitted_by_id"
   add_foreign_key "stems", "questions"
   add_foreign_key "taggings", "tags"
   add_foreign_key "ticket_updates", "audits"
