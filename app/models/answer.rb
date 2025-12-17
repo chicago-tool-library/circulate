@@ -25,7 +25,7 @@ class Answer < ApplicationRecord
     return if suspect.nil?
     case stem.answer_type
     when Stem::AnswerTypes::INTEGER
-      suspect.present? ? suspect.to_i : nil
+      suspect.presence&.to_i
     when Stem::AnswerTypes::TEXT
       suspect.to_s
     end
