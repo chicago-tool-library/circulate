@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
       )
     end
 
-    redirect_back(fallback_location: root_path, flash: {
+    redirect_back_or_to(root_path, flash: {
       error: "There was an issue with your submission, please try again."
     })
   end
