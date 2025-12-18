@@ -22,6 +22,16 @@ module ReservationsHelper
     end
   end
 
+  def grouped_reservation_options(current_reservation, item_pool)
+    options = current_member.reservations.pending
+    format = "%m/%d/%Y @ %l:%M%P"
+    existing_reservation_options = options.map do |reservation|
+      prefix = (reservation == current_reservation) ? "Current Reservation " : ""
+      ["#{prefix}#{reservation.started_at.strftime(format)} - #{reservation.ended_at.strftime(format)} (#{reservation.name})", reservation.id]
+    end
+    grouped_options_for_select({"Existing Reservations" => existing_reservation_options, "New Reservation" => [["Create a new reservation", "new"]]})
+  end
+
   private
 
   def format_event_time(time)

@@ -1,6 +1,6 @@
 <%= tag.tr id: dom_id(reservation_hold) do %>
   <td>
-    <%= link_to reservation_hold.item_pool.name, account_item_pool_path(reservation_hold.item_pool) %>
+    <%= link_to reservation_hold.item_pool.name, item_pool_path(reservation_hold.item_pool) %>
   </td>
   <td>
     <%= reservation_hold.quantity %>

@@ -11,8 +11,8 @@ class FeatureFlags
     end
   end
 
-  def self.group_lending_enabled?
-    ENV["FEATURE_GROUP_LENDING"] == "on"
+  def self.reservable_items_enabled?
+    ENV["FEATURE_RESERVABLE_ITEMS"] == "on"
   end
 
   def self.for_later_lists_enabled?

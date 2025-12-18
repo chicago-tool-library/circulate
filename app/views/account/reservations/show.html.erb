@@ -1,7 +1,7 @@
 <div class="reservation-index">
   <%= section_header "Reservation" do %>
     <% if @reservation.manager.can?(:request) %>
-      <%= link_to "Add Items", account_reservation_item_pool_search_path(@reservation), class: "btn btn-primary" %>
+      <%= button_to "Add Items", account_current_reservation_path(reservation_id: @reservation), class: "btn btn-primary" %>
       <%= link_to "Submit Reservation", account_reservation_submission_path(@reservation), class: "btn btn-primary" %>
     <% end %>
   <% end %>
