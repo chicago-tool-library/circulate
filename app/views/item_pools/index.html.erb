@@ -1,4 +1,5 @@
 <div class="items-index">
+  <%= render "shared/current_reservation_header" %>
   <div class="columns">
     <div class="column col-sm-12 col-3 category-nav" data-controller="collapse">
       <button class="btn toggle-categories" data-collapse-target="button" data-action="collapse#toggle" class="btn">Show Categories</button>
@@ -29,8 +30,9 @@
         <% @item_pools.each do |item_pool| %>
             <%= tag.div class: "items-table-name" do %>
                 <strong>
-                    <%= link_to item_pool.name, account_item_pool_path(item_pool) %>
+                    <%= link_to item_pool.name, item_pool_path(item_pool) %>
                 </strong>
+                (<%= item_pool.max_reservable_quantity %>)
                 <br>
 
                 <div class="items-index-buttons">
@@ -40,7 +42,7 @@
 
             <%= tag.div class: "items-table-categories" do %>
                 <% item_pool.categories.each do |category| %>
-                    <%= link_to tag.name, account_item_pools_path(category: category.id) %>
+                    <%= link_to category.name, item_pools_path(category: category.id) %>
                 <% end %>
             <% end %>
             <div class="item-table-divider"></div>
@@ -49,7 +51,7 @@
         <%== pagy_bootstrap_nav(@pagy) %>
       <% elsif @category %>
         <%= empty_state "There are no item pools in this category", subtitle: "Create one?" do %>
-          <%= link_to "Add an Item Pool to #{@category.name}", new_account_item_pool_path(category_id: @category.id), class: "btn btn-primary" %>
+          <%= link_to "Add an Item Pool to #{@category.name}", new_item_pool_path(category_id: @category.id), class: "btn btn-primary" %>
         <% end %>
       <% end %>
     </div>

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     get "/", to: "home#index"
 
     namespace :organizations do
-      if FeatureFlags.group_lending_enabled?
+      if FeatureFlags.reservable_items_enabled?
         get :confirm_email, to: "confirm_email#show"
         resource :policies, only: [:show]
         resource :profile, only: [:show, :update]
@@ -48,11 +48,12 @@ Rails.application.routes.draw do
     resources :for_later_list_items, path: :for_later, only: [:index, :create, :destroy]
     get "/", to: "home#index", as: "home"
 
-    if ENV["FEATURE_GROUP_LENDING"] == "on"
+    if FeatureFlags.reservable_items_enabled?
+      resources :reservation_holds, only: [:create]
+      resource :current_reservation, only: [:create, :destroy]
       resources :reservations do
         scope module: "reservations" do
           resources :reservation_holds
-          resource :item_pool_search, only: :show
           resource :submission
         end
       end
@@ -210,8 +211,7 @@ Rails.application.routes.draw do
     get "/ui/available_items", to: "ui#available_items"
     get "/ui/members", to: "ui#members"
 
-    if FeatureFlags.group_lending_enabled?
-      # Group Lending
+    if FeatureFlags.reservable_items_enabled?
       resources :reservation_policies
       resources :item_pools do
         scope module: "item_pools" do
@@ -248,6 +248,10 @@ Rails.application.routes.draw do
   end
 
   resources :items, only: [:index, :show]
+  if FeatureFlags.reservable_items_enabled?
+    resources :item_pools, only: [:index, :show], path: "camping_items"
+    resources :reservation_holds, only: :create
+  end
   resources :documents, only: :show
 
   post "/twilio/callback", to: "twilio#callback"
