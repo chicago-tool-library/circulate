@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_10_030102) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_18_181628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -657,28 +657,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_030102) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
-  create_table "organization_members", force: :cascade do |t|
-    t.text "full_name"
-    t.bigint "organization_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.enum "role", default: "member", null: false, enum_type: "organization_member_role"
-    t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
-    t.index ["organization_id"], name: "index_organization_members_on_organization_id"
-    t.index ["user_id"], name: "index_organization_members_on_user_id"
-  end
-
-  create_table "organizations", force: :cascade do |t|
-    t.text "name", null: false
-    t.text "website"
-    t.bigint "library_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["library_id", "name"], name: "index_organizations_on_library_id_and_name", unique: true
-    t.index ["library_id"], name: "index_organizations_on_library_id"
-  end
-
   create_table "payment_methods", force: :cascade do |t|
     t.bigint "user_id"
     t.string "stripe_id"
@@ -947,9 +925,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_030102) do
   add_foreign_key "memberships", "members"
   add_foreign_key "notes", "users", column: "creator_id"
   add_foreign_key "notifications", "members"
-  add_foreign_key "organization_members", "organizations"
-  add_foreign_key "organization_members", "users"
-  add_foreign_key "organizations", "libraries"
   add_foreign_key "pending_reservation_items", "reservable_items"
   add_foreign_key "pending_reservation_items", "reservations"
   add_foreign_key "pending_reservation_items", "users", column: "created_by_id"
