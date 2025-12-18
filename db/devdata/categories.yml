@@ -496,3 +496,26 @@
   created_at: 2020-07-30 19:39:56 UTC
   updated_at: 2020-07-30 19:39:56 UTC
   parent_id: 116
+- id: 500
+  name: Camping & Outdoors
+  slug: camping-outdoors
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+- id: 501
+  name: Tents & Shelters
+  slug: tents-shelters
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  parent_id: 500
+- id: 502
+  name: Sleeping Gear
+  slug: sleeping-gear
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  parent_id: 500
+- id: 503
+  name: Cookware & Eating Utensils
+  slug: cookware-eating-utensils
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  parent_id: 500

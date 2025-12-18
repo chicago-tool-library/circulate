@@ -1,34 +1,44 @@
 ---
 - id: 100
-  name: Pails
+  name: Camping tent (two-person)
   created_at: 2024-02-15 15:42:35 UTC
   updated_at: 2024-02-15 15:42:35 UTC
-  uniquely_numbered: false
-  unnumbered_count: 24
+  uniquely_numbered: true
+  category_ids:
+  - 501
 - id: 101
-  name: Work gloves
+  name: Camping tent (four-person)
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true
+  category_ids:
+  - 501
+- id: 200
+  name: Sleeping bags
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true
+  category_ids:
+  - 501
+- id: 201
+  name: Sleeping pads
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true
+  category_ids:
+  - 502
+- id: 202
+  name: Camp cookware sets
+  created_at: 2024-02-15 15:42:35 UTC
+  updated_at: 2024-02-15 15:42:35 UTC
+  uniquely_numbered: true
+  category_ids:
+  - 503
+- id: 300
+  name: Kindling wood bundles
   created_at: 2024-02-15 15:42:35 UTC
   updated_at: 2024-02-15 15:42:35 UTC
   uniquely_numbered: false
-  unnumbered_count: 100
-- id: 200
-  name: Cordless Drills
-  created_at: 2024-02-15 15:42:35 UTC
-  updated_at: 2024-02-15 15:42:35 UTC
-  uniquely_numbered: true
+  unnumbered_count: 15
   category_ids:
-  - 18
-  - 17
-- id: 201
-  name: Corded Drills
-  created_at: 2024-02-15 15:42:35 UTC
-  updated_at: 2024-02-15 15:42:35 UTC
-  uniquely_numbered: true
-  category_ids:
-  - 18
-  - 17
-- id: 202
-  name: Ladders
-  created_at: 2024-02-15 15:42:35 UTC
-  updated_at: 2024-02-15 15:42:35 UTC
-  uniquely_numbered: true
+  - 500
