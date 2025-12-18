@@ -75,10 +75,6 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
     end
 
     LibraryUpdate.create(title: "December updates", body: "<h1>Library Closures!</h1><div>The tool library will be closed for a bit.</div>", published: true)
-
-    1.upto(5).each do |i|
-      Organization.create!(name: "Organization #{i}")
-    end
   end
 end
 

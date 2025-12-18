@@ -4,7 +4,6 @@ class AccountReservationsQuestionsTest < ApplicationSystemTestCase
   setup do
     ActionMailer::Base.deliveries.clear
 
-    @organization = create(:organization)
     @member = create(:verified_member_with_membership)
     @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
 

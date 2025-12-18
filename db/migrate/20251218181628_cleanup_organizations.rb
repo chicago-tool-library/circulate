@@ -13,5 +13,7 @@ class CleanupOrganizations < ActiveRecord::Migration[8.0]
       t.belongs_to :library, null: false, foreign_key: true
       t.timestamps
     end
+
+    drop_enum :organization_member_role
   end
 end

@@ -24,7 +24,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_18_181628) do
   create_enum "item_retired_reason", ["not_returned", "broken", "upgraded", "used_up"]
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
-  create_enum "organization_member_role", ["admin", "member"]
   create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
