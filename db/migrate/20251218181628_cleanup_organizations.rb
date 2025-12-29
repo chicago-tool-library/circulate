@@ -14,6 +14,6 @@ class CleanupOrganizations < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    drop_enum :organization_member_role
+    drop_enum :organization_member_role, ["admin", "member"]
   end
 end
