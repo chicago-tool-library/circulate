@@ -14,7 +14,7 @@ module Admin
       create(:borrow_policy_approval, :revoked)
 
       # the specific path doesn't matter as long as it's in the admin interface
-      visit admin_organizations_path
+      visit admin_items_path
 
       refute_text "requested borrow policy approvals"
     end
@@ -26,7 +26,7 @@ module Admin
       create_list(:borrow_policy_approval, 2, :requested)
 
       # the specific path doesn't matter as long as it's in the admin interface
-      visit admin_organizations_path
+      visit admin_items_path
 
       assert_text "requested borrow policy approvals"
     end

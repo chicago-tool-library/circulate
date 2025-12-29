@@ -16,7 +16,7 @@ module Admin
       create(:appointment, holds: [create(:hold)], starts_at: today.at_noon, ends_at: today.at_noon + 10.minutes, pulled_at: 3.hours.ago)
 
       # the specific path doesn't matter as long as it's in the admin interface
-      visit admin_organizations_path
+      visit admin_items_path
 
       refute_text "unpulled"
       Timecop.return
@@ -33,7 +33,7 @@ module Admin
       create(:appointment, holds: [create(:hold)], starts_at: today.at_noon + 40.minutes, ends_at: today.at_noon + 50.minutes, pulled_at: nil)
 
       # the specific path doesn't matter as long as it's in the admin interface
-      visit admin_organizations_path
+      visit admin_items_path
 
       assert_text "unpulled appointments"
       Timecop.return

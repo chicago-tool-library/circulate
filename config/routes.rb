@@ -17,15 +17,6 @@ Rails.application.routes.draw do
 
     get "confirmation", to: "confirmations#show"
     get "/", to: "home#index"
-
-    namespace :organizations do
-      if FeatureFlags.group_lending_enabled?
-        get :confirm_email, to: "confirm_email#show"
-        resource :policies, only: [:show]
-        resource :profile, only: [:show, :update]
-        resource :approval, only: [:show]
-      end
-    end
   end
 
   namespace :account do
@@ -88,10 +79,6 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "volunteer/sessions#failure"
 
   namespace :admin do
-    resources :organizations do
-      resources :organization_members, only: [:new, :create]
-    end
-    resources :organization_members, only: [:show, :edit, :update, :destroy]
     resources :documents, only: [:show, :edit, :update, :index]
     resources :borrow_policies, only: [:index, :edit, :update, :show] do
       resources :borrow_policy_approvals, only: [:index, :edit, :update, :create], path: :approvals
