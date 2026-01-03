@@ -22,8 +22,8 @@ class Item < ApplicationRecord
       },
       trigram: {
         only: [:name],
-        threshold: 0.5,
-        sort_only: true
+        threshold: 0.3,
+        sort_only: false
       }
     },
     ranked_by: "(:tsearch * 0.8) + (:trigram * 0.2)"
