@@ -15,7 +15,18 @@ class Item < ApplicationRecord
       size: "D",
       strength: "D"
     },
-    using: {tsearch: {prefix: true, dictionary: "english"}}
+    using: {
+      tsearch: {
+        prefix: true,
+        dictionary: "english"
+      },
+      trigram: {
+        only: [:name],
+        threshold: 0.5,
+        sort_only: true
+      }
+    },
+    ranked_by: "(:tsearch * 0.8) + (:trigram * 0.2)"
 
   has_rich_text :description
 
