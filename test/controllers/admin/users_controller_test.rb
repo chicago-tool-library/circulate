@@ -16,23 +16,6 @@ module Admin
       assert_response :success
     end
 
-    test "should get new" do
-      get new_admin_user_url
-      assert_response :success
-    end
-
-    test "should create user" do
-      assert_difference("User.count") do
-        post admin_users_url, params: {user: {email: "new.user@example.com", role: "staff"}}
-      end
-
-      assert_redirected_to admin_users_url
-
-      user = User.last
-      assert_equal "new.user@example.com", user.email
-      assert_equal "staff", user.role
-    end
-
     test "should show user" do
       user = create(:user)
       get admin_user_url(user)

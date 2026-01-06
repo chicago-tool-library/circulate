@@ -34,11 +34,22 @@ module Admin
     def create
       @member = Member.new(member_params)
 
-      if @member.save
-        redirect_to [:admin, @member], success: "Member was successfully created.", status: :see_other
-      else
-        render :new, status: :unprocessable_content
-      end
+      Member.transaction do
+        user = User.new(
+          email: @member.email,
+          password: Devise.friendly_token,
+          role: :member
+        )
+        user.skip_confirmation!  # Admin-created users are pre-verified
+        @member.user = user
+
+        if @member.save && user.save
+          user.send_reset_password_instructions
+          redirect_to [:admin, @member], success: "Member was successfully created. A password reset email has been sent.", status: :see_other
+        else
+          raise ActiveRecord::Rollback
+        end
+      end || render(:new, status: :unprocessable_content)
     end
 
     def update
