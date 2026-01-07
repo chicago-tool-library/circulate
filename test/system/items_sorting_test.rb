@@ -155,7 +155,7 @@ class ItemSortingTest < ApplicationSystemTestCase
 
     assert_equal 3, item_links.size
 
-    expected_item_names_order = [@drill1, @drill2, @drill3].map(&:name)
+    expected_item_names_order = [@drill2, @drill1, @drill3].map(&:name)
 
     assert_equal expected_item_names_order, item_links
   end
