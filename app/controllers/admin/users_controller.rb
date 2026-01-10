@@ -12,22 +12,7 @@ module Admin
     def show
     end
 
-    def new
-      @user = User.new
-    end
-
     def edit
-    end
-
-    def create
-      password = Devise.friendly_token.first(16)
-      @user = User.new(user_params.merge(password: password))
-
-      if @user.save
-        redirect_to admin_users_url, success: "User was successfully created.", status: :see_other
-      else
-        render :new, status: :unprocessable_content
-      end
     end
 
     def update

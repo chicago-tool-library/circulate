@@ -20,9 +20,11 @@ module Admin
       assert_response :success
     end
 
-    test "should create member" do
+    test "should create member with associated user and send password reset email" do
       member_attrs = build(:member)
-      assert_difference("Member.count") do
+      ActionMailer::Base.deliveries.clear
+
+      assert_difference(["Member.count", "User.count"]) do
         post admin_members_url, params: {
           member: {
             address_verified: member_attrs.address_verified,
@@ -40,6 +42,18 @@ module Admin
       end
 
       assert_redirected_to admin_member_url(Member.last)
+
+      # Verify the member has an associated user
+      member = Member.last
+      assert_not_nil member.user
+      assert_equal member.email, member.user.email
+      assert_equal "member", member.user.role
+
+      # Verify password reset email was sent
+      assert_equal 1, ActionMailer::Base.deliveries.count
+      mail = ActionMailer::Base.deliveries.last
+      assert_equal [member.email], mail.to
+      assert_equal "Reset password instructions", mail.subject
     end
 
     test "should show member" do
