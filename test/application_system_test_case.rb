@@ -38,6 +38,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
+    Warden.test_reset!
     ActsAsTenant.test_tenant = nil
     ActionController::Base.allow_forgery_protection = false
   end

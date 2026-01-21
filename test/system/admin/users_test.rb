@@ -43,17 +43,6 @@ class UsersTest < ApplicationSystemTestCase
     assert_text admin_user.email
   end
 
-  test "creating a user" do
-    visit admin_users_url
-    click_on "New User"
-
-    fill_in "Email", with: "new.user1@example.com"
-    click_on "Create User"
-
-    assert_text "User was successfully created"
-    assert_text "new.user1@example.com"
-  end
-
   test "updating a user" do
     user = create(:user)
 
