@@ -118,11 +118,6 @@ trix-toolbar {
   background: variables.$bg-color;
 }
 
-// Fix issue where the tag input is being drawn above the name autocomplete
-.form-group .awesomplete > ul {
-  z-index: 10;
-}
-
 // Panel body styling without overflow constraint for autocomplete dropdowns
 .panel-body-no-overflow {
   padding: 0 variables.$layout-spacing-lg;
