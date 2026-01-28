@@ -100,7 +100,7 @@ gem "jsbundling-rails", "~> 1.3"
 
 gem "cssbundling-rails", "~> 1.4"
 
-gem "twilio-ruby", "~> 7.9"
+gem "twilio-ruby", "~> 7.10"
 
 gem "ahoy_matey", "~> 5.4"
 
