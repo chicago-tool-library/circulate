@@ -15,7 +15,6 @@
     "@rails/activestorage": "^8.0.300",
     "@rails/ujs": "^7.1.502",
     "@selectize/selectize": "^0.15.2",
-    "awesomplete": "^1.1.7",
     "esbuild": "^0.27.2",
     "feather-icons": "^4.29.2",
     "jquery": "^3.7.1",

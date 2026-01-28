@@ -1,26 +1,61 @@
 import { Controller } from '@hotwired/stimulus'
 
-import Awesomplete from 'awesomplete'
+let LIST_NUMBER = 0
+
+const nextListNumber = () => LIST_NUMBER++
 
 export default class extends Controller {
   static targets = ['input']
 
+  datalistId = `autocomplete-datalist-${nextListNumber()}`
+
   connect() {
-    this.awesomplete = new Awesomplete(this.inputTarget, {
-      minChars: 1,
-    })
+    this.datalist = this.createDataList()
+    this.inputTarget.after(this.datalist)
+    this.inputTarget.setAttribute('list', this.datalistId)
   }
 
   input(event) {
-    const url = new URL(this.data.get('path'), document.location)
-    url.searchParams.set('q', event.target.value)
-    fetch(url)
-      .then((response) => response.json())
+    const query = event.target.value
+
+    if (query.length < 1) return
+
+    this.fetchData(query)
       .then((data) => {
-        this.awesomplete.list = data
+        this.populateDatalist(data)
       })
       .catch((e) => {
         console.error(e)
       })
+  }
+
+  fetchData(query) {
+    const url = new URL(this.data.get('path'), document.location)
+    url.searchParams.set('q', query)
+    return fetch(url).then((response) => response.json())
+  }
+
+  createDataList() {
+    const datalist = document.createElement('datalist')
+    datalist.id = this.datalistId
+    return datalist
+  }
+
+  createOption({ value }) {
+    const option = document.createElement('option')
+    option.value = value
+    return option
+  }
+
+  clearDatalist() {
+    this.datalist.replaceChildren()
+  }
+
+  populateDatalist(data) {
+    this.clearDatalist()
+    data.forEach((value) => {
+      const option = this.createOption({ value })
+      this.datalist.appendChild(option)
+    })
   }
 }

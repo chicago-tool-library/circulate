@@ -371,11 +371,6 @@ autolinker@~0.28.0:
   dependencies:
     gulp-header "^1.7.1"
 
-awesomplete@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/awesomplete/-/awesomplete-1.1.7.tgz#480f7bb571e30c7a6d411c0139f07032943cd25a"
-  integrity sha512-hwClzFReIIfheoMWpoJ7juLp1o6Q7YjTtEdZIGfXvhRHA9ewKM03VS4ZoK+OEFIKM066PfQt9pzRIGV1TguRBw==
-
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
