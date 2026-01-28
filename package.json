@@ -9,7 +9,7 @@
     "@appsignal/javascript": "^1.6.1",
     "@appsignal/stimulus": "^1.0.21",
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.20",
+    "@hotwired/turbo-rails": "^8.0.21",
     "@rails/actioncable": "^8.0.300",
     "@rails/actiontext": "^8.0.300",
     "@rails/activestorage": "^8.0.300",
@@ -17,7 +17,7 @@
     "@selectize/selectize": "^0.15.2",
     "esbuild": "^0.27.2",
     "feather-icons": "^4.29.2",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "mjml": "^4.18.0",
     "sass": "^1.80.4",
     "sortablejs": "^1.15.6",
@@ -28,7 +28,7 @@
     "concurrently": "^9.2.1",
     "markdown-toc": "^1.2.0",
     "playwright": "1.45.0",
-    "prettier": "^3.7.4"
+    "prettier": "^3.8.1"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",
