@@ -156,15 +156,15 @@
   resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.2.2.tgz#071aab59c600fed95b97939e605ff261a4251608"
   integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
 
-"@hotwired/turbo-rails@^8.0.20":
-  version "8.0.20"
-  resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-8.0.20.tgz#a6f6f78591e9868ca1e5e67f4c7d453dbd49a475"
-  integrity sha512-4aYkYF9XMKL7ZZPfgElq15+60osZOwMwhztE4myKQYEzCPvaPUxwZH301tOrBNtWUwOD+TNOm1Hrpeaq22RX9A==
+"@hotwired/turbo-rails@^8.0.21":
+  version "8.0.21"
+  resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-8.0.21.tgz#403bfb2b1b92a921d854471772a7aa906f75ab04"
+  integrity sha512-RUnqt7tOVlQT539eVqFaAp4/32y7sLxvt3G7OIMROVlIMWvM8CXJk08xvIro2ueQViYRB6jwRjruNx7drIJPXg==
   dependencies:
-    "@hotwired/turbo" "^8.0.20"
+    "@hotwired/turbo" "^8.0.21"
     "@rails/actioncable" ">=7.0"
 
-"@hotwired/turbo@^8.0.20":
+"@hotwired/turbo@^8.0.21":
   version "8.0.21"
   resolved "https://registry.yarnpkg.com/@hotwired/turbo/-/turbo-8.0.21.tgz#a3e80c01d70048200f64bbe3582b84f9bfac034e"
   integrity sha512-fJTv3JnzFHeDxBb23esZSOhT4r142xf5o3lKMFMvzPC6AllkqbBKk5Yb31UZhtIsKQCwmO/pUQrtTUlYl5CHAQ==
@@ -1081,10 +1081,15 @@ jquery-ui@^1.13.2:
   dependencies:
     jquery ">=1.8.0 <4.0.0"
 
-"jquery@>=1.8.0 <4.0.0", jquery@^3.7.1:
+"jquery@>=1.8.0 <4.0.0":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
+jquery@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-4.0.0.tgz#95c33ac29005ff72ec444c5ba1cf457e61404fbb"
+  integrity sha512-TXCHVR3Lb6TZdtw1l3RTLf8RBWVGexdxL6AC8/e0xZKEpBflBsjh9/8LXw+dkNFuOyW9B7iB3O1sP7hS0Kiacg==
 
 js-beautify@^1.6.14:
   version "1.13.0"
@@ -1720,10 +1725,10 @@ playwright@1.45.0:
   optionalDependencies:
     fsevents "2.3.2"
 
-prettier@^3.7.4:
-  version "3.7.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.7.4.tgz#d2f8335d4b1cec47e1c8098645411b0c9dff9c0f"
-  integrity sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==
+prettier@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.8.1.tgz#edf48977cf991558f4fcbd8a3ba6015ba2a3a173"
+  integrity sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
