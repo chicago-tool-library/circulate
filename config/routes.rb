@@ -186,8 +186,6 @@ Rails.application.routes.draw do
     resources :users
     resources :renewal_requests, only: [:index, :update]
 
-    resource :map, only: :show
-
     get "search", to: "searches#show"
 
     get "/ui/names", to: "ui#names"

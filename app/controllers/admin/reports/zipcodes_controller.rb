@@ -4,9 +4,11 @@ module Admin
   module Reports
     class ZipcodesController < BaseController
       def index
-        @data = Member.open.group(:postal_code).order(:postal_code).count
+        @data = Member.open.where("TRIM(postal_code) ~ '[0-9]{5}'").group(:postal_code).order(count_all: :desc).count
         respond_to do |format|
-          format.html
+          format.html do
+            @inline_svg = Map::Chicago.new(@data).to_xml
+          end
 
           format.csv do
             text = CSV.generate(headers: true) { |csv|

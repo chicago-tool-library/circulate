@@ -37,7 +37,7 @@ class Member < ApplicationRecord
   validates :address1, presence: true
   validates :city, presence: true
   validates :region, presence: true
-  validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}
+  validates :postal_code, length: {is: 5, blank: false, message: "must be 5 digits"}, numericality: {only_integer: true}
   validate :postal_code_must_be_in_library_service_area
 
   scope :matching, ->(query) {
@@ -166,7 +166,7 @@ class Member < ApplicationRecord
   end
 
   def strip_phone_number
-    self.phone_number = phone_number.gsub(/\D/, "")
+    self.phone_number = phone_number.gsub(/\D/, "") if phone_number.present?
   end
 
   def set_default_address_fields

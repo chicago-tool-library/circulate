@@ -138,3 +138,12 @@ ul.simple-list {
     }
   }
 }
+
+.inline-map {
+  width: 100%;
+  height: auto;
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}

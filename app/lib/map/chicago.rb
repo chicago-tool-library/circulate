@@ -10,7 +10,7 @@ module Map
 
     def to_xml(options = {})
       load_svg
-      add_fills_to_zipcodes
+      add_fills_and_titles_to_zipcodes
       serialize
     end
 
@@ -29,11 +29,24 @@ module Map
       end
     end
 
-    def add_fills_to_zipcodes
+    def add_fills_and_titles_to_zipcodes
       max = @values.values.max
       @values.each do |key, value|
-        node = @doc.at_css("##{key.to_s.strip}")
-        node["style"] = self.class.generate_style(value, max, @fill) if node
+        key_value = key.to_s.strip
+        next unless key_value.match?(/^\d{5}$/)
+        node = @doc.at_css("##{key_value}")
+        next unless node
+      end
+
+      @doc.css("#combined path").each do |node|
+        zipcode = node["id"]
+        value = @values[zipcode]
+        if value
+          node["style"] = self.class.generate_style(value, max, @fill)
+          node.add_child("<title>#{zipcode}: #{value}</title>")
+        else
+          node.add_child("<title>#{zipcode}: 0</title>")
+        end
       end
     end
 
