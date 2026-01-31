@@ -83,6 +83,13 @@ class MemberTest < ActiveSupport::TestCase
     end
   end
 
+  test "requires 5 digit postal codes" do
+    member = Member.new(postal_code: "1234")
+    refute member.valid?
+    assert member.errors.messages.include?(:postal_code)
+    assert member.errors.messages[:postal_code].include?("must be 5 digits")
+  end
+
   test "member without a user has a role 'member'" do
     member = Member.new
 
