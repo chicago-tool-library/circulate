@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="columns">
-  <div class="column col-6">
+  <div class="column col-3">
     <table class="table">
       <thead>
         <tr>
@@ -23,7 +23,13 @@
       </tbody>
     </table>
   </div>
-  <div class="column col-6">
-    <%= image_tag admin_map_path(format: "svg") %>
+  <div class="column col-9">
+    <div class="inline-map"><%== @inline_svg %></div>
+  </div>
+</div>
+
+<div class="columns mt-2">
+  <div class="column col-12">
+    <p class="text-small">Map image released under <a href="https://opendatacommons.org/licenses/odbl/">ODbL 1.0</a> by <a href="https://simplemaps.com/city/chicago/zips">SimpleMaps.com</a>.</p>
   </div>
 </div>
