@@ -7,10 +7,12 @@ FactoryBot.define do
     library { Library.first || create(:library) }
     calendar_id { "calid1234" }
     calendar_event_id
-    start { "2020-07-22 12:51:56" }
-    finish { "2020-07-22 12:51:56" }
     summary { "An event" }
     description { "More information about the event" }
+    after(:build) do |event|
+      event.start ||= "2020-07-22 12:51:56"
+      event.finish ||= event.start + 1.hour
+    end
   end
 
   factory :volunteer_shift_event, class: Event do

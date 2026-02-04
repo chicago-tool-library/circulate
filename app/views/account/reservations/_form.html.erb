@@ -1,8 +1,6 @@
 <%= form_with(model: reservation, url: [:account, reservation], builder: SpectreFormBuilder, data: {controller: "reservation-dates"}) do |form| %>
   <%= form.errors %>
-  <%= form.text_field :name %>
-  <%= form.date_field :started_at, label: "Start", data: {"reservation-dates-target": "startDate"}, id: "start-date-field" %>
-  <%= form.date_field :ended_at, label: "End", data: {"reservation-dates-target": "endDate"}, id: "end-date-field" %>
+  <%= form.text_field :name, hint: "A way to refer to this reservation, e.g. the project you're working on or where you'll be camping" %>
 
   <%= form.select(:pickup_event_id, grouped_options_for_select(@reservation_slots, reservation.pickup_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
   <%= form.select(:dropoff_event_id, grouped_options_for_select(@reservation_slots, reservation.dropoff_event_id), {include_blank: "Select a Date"}, class: "form-select") %>
@@ -10,6 +8,6 @@
   <%= render "answers", answers: @answers %>
 
   <%= form.actions do %>
-    <%= form.submit %>
+    <%= form.submit @reservation.new_record? ? "Continue to Add Items" : "Update Reservation" %>
   <% end %>
 <% end %>
