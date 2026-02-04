@@ -14,13 +14,13 @@
         <div>
           Viewing
           <% if @category %>
-            <strong><%= pluralize @pagy.count, "item pools" %></strong> assigned to
+            <strong><%= pluralize @pagy.count, "type" %></strong> of items assigned to
             <span class="chip">
               <%= @category.name %>
               <%= link_to "", {tag: nil}, :class => "btn btn-clear", "aria-label" => "Clear filter", :role => "button", :title => "Clear filter" %>
             </span>
           <% else %>
-            all <strong><%= pluralize @pagy.count, "item pools" %></strong>
+            <strong><%= pluralize @pagy.count, "type" %> of items</strong>
           <% end %>
         </div>
       </div>

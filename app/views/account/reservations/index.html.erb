@@ -1,43 +1,63 @@
-<% content_for :header do %>
-  <%= index_header "Reservations" do %>
-    <%= link_to "New reservation", new_account_reservation_path, class: "btn" %>
-  <% end %>
-<% end %>
+<div class="account-home-index">
+  <div class="columns">
 
-<table class="table">
-  <thead>
-    <th>Name</th>
-    <th>Starts</th>
-    <th>Ends</th>
-    <th>Status</th>
-    <th>Items</th>
-  </thead>
-  <tbody>
-    <% @reservations.each do |reservation| %>
-      <tr id="<%= dom_id reservation %>">
-        <td>
-          <%= link_to reservation.name, account_reservation_path(reservation) %>
-        </td>
+    <div class="column col-8 col-md-12">
+      <%= section_header "Reservations" do %>
+        <%= link_to "New reservation", new_account_reservation_path, class: "btn btn-primary" %>
+      <% end %>
 
-        <td>
-          <%= reservation.started_at.to_formatted_s(:long) %>
-        </td>
+      <%= render "index_tabs" do %>
 
-        <td>
-          <%= reservation.ended_at.to_formatted_s(:long) %>
-        </td>
+        <table class="table">
+          <thead>
+            <th>Name</th>
+            <th>Starts</th>
+            <th>Ends</th>
+            <th>Status</th>
+            <th>Items</th>
+          </thead>
+          <tbody>
+            <% @reservations.each do |reservation| %>
+              <tr id="<%= dom_id reservation %>">
+                <td>
+                  <%= link_to reservation.name, account_reservation_path(reservation) %>
+                </td>
 
-        <td>
-          <%= reservation.status %>
-        </td>
+                <td>
+                  <%= reservation.started_at.to_formatted_s(:long) %>
+                </td>
 
-        <td>
-          <%= reservation.item_quantity %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
+                <td>
+                  <%= reservation.ended_at.to_formatted_s(:long) %>
+                </td>
 
-</table>
+                <td>
+                  <%= reservation.status %>
+                </td>
 
-<%== pagy_bootstrap_nav(@pagy) %>
+                <td>
+                  <%= reservation.item_quantity %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+
+        <%== pagy_bootstrap_nav(@pagy) %>
+
+      <% end %>
+    </div>
+
+    <div class="column col-4 col-md-12">
+      <div class="rule-list">
+        <h2 class="h3">How do reservations work?</h2>
+        <ul>
+          <li>You must have an active camping membership to make a reservation.</li>
+          <li>Camping items can be reserved for use on specific days.</li>
+          <li>Reservations are picked up and dropped off at scheduled appointments.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

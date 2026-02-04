@@ -31,7 +31,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
 
   test "#errors is blank when there are none" do
     default_reservation_policy = create(:reservation_policy, default: true, minimum_start_distance: 1)
-    reservation = create(:reservation, started_at: 2.days.from_now)
+    reservation = create(:reservation, pickup_event: build(:event, start: 2.days.from_now))
     validator = ReservationDateValidator.new(reservation:, default_reservation_policy:)
     errors = validator.errors
 
@@ -46,7 +46,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     policy_a = create(:reservation_policy, maximum_duration: 10)
     policy_b = create(:reservation_policy, maximum_duration: 5)
     policy_c = create(:reservation_policy, maximum_duration: 3)
-    reservation = create(:reservation, started_at: 3.day.from_now, ended_at: 9.days.from_now)
+    reservation = create(:reservation, started_at: 3.day.from_now.beginning_of_day, ended_at: 9.days.from_now.end_of_day)
     associate_reservation_with_policy!(reservation, policy_a)
     associate_reservation_with_policy!(reservation, policy_b)
     associate_reservation_with_policy!(reservation, policy_c)

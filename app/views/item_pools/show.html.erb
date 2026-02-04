@@ -1,3 +1,5 @@
+<%= render "shared/current_reservation_header" %>
+
 <h1><%= @item_pool.name %></h1>
 
 <div class="item-pool-show">
@@ -20,10 +22,45 @@
   <h2>Reserve This Item</h2>
 
   <div class="reserve-item-form">
-    <%= form_with(model: @reservation_hold, url: [:account, @reservation_hold], builder: SpectreFormBuilder) do |form| %>
-      <%= form.hidden_field :item_pool_id, value: @item_pool.id %>
-      <%= form.select :reservation_id, grouped_reservation_options(current_reservation, @item_pool) %>
-      <%= form.submit "Reserve" %>
+    <% if current_reservation %>
+      <% if @reservation_hold.persisted? %>
+        <p>You have reserved <strong><%= @reservation_hold.quantity %></strong> of this item in your current reservation.</p>
+        <h3>Update Reservation</h3>
+        <%= form_with(model: @reservation_hold, url: [:account, @reservation_hold], builder: SpectreFormBuilder) do |form| %>
+          <%= form.number_field :quantity, min: 1, max: @item_pool.max_reservable_for_reservation(current_reservation), hint: "You can reserve up to #{pluralize(@item_pool.max_reservable_for_reservation(current_reservation), "item")} " %>
+          <%= form.submit "Update Reservation" %>
+        <% end %>
+        <%= button_to "Remove", [:account, @reservation_hold], method: :delete, class: "btn btn-sm btn-danger" %>
+      <% else %>
+        <h3>Add to Reservation</h3>
+        <%= form_with(model: @reservation_hold, url: [:account, @reservation_hold], builder: SpectreFormBuilder) do |form| %>
+          <%= form.number_field :quantity, min: 1, max: @item_pool.max_reservable_for_reservation(current_reservation), hint: "You can reserve up to #{pluralize(@item_pool.max_reservable_for_reservation(current_reservation), "item")} " %>
+          <%= form.hidden_field :item_pool_id, value: @item_pool.id %>
+          <%= form.hidden_field :reservation_id, value: current_reservation.id %>
+          <%= form.submit "Add to Reservation" %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p>
+        To reserve this item, please choose one of your existing reservations:
+        <ul>
+          <% @upcoming_reservations.each do |reservation| %>
+            <li>
+              <%= reservation.name %> (<%= reservation_date_range(reservation) %>)
+              <% if reservation_hold = reservation.hold_for_item_pool(@item_pool) %>
+                <strong>includes <%= reservation_hold.quantity %> of this item</strong>
+              <% else %>
+                <% if @item_pool.available_for_reservation?(reservation) %>
+                  <%= button_to "Select", account_current_reservation_path(reservation_id: reservation, item_pool_id: @item_pool.id), class: "btn btn-sm" %>
+                <% else %>
+                  <span class="text-muted">Not availabile for these dates</span>
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+        <%= link_to "Create a New Reservation", new_account_reservation_path, class: "btn" %>
+    </p>
     <% end %>
   </div>
 

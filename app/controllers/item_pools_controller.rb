@@ -20,7 +20,10 @@ class ItemPoolsController < ApplicationController
   end
 
   def show
-    @reservation_hold = ReservationHold.new
+    if current_reservation
+      @reservation_hold = current_reservation.hold_for_item_pool(@item_pool) || current_reservation.reservation_holds.new(item_pool: @item_pool)
+    end
+    @upcoming_reservations = current_member.reservations.upcoming if current_member
   end
 
   private

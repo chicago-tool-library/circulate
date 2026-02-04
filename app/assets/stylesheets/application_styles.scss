@@ -747,3 +747,15 @@ footer.page-footer {
     right: 10rem;
   }
 }
+
+ul.breadcrumb {
+  margin: -0.3rem 0 0 0;
+  padding: 0;
+  .breadcrumb-item {
+    padding-right: 0.2rem;
+  }
+  .breadcrumb-item:last-child::after {
+    padding-left: 0.2rem;
+    content: '›';
+  }
+}

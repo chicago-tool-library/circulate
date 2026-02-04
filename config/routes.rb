@@ -40,9 +40,10 @@ Rails.application.routes.draw do
     get "/", to: "home#index", as: "home"
 
     if FeatureFlags.reservable_items_enabled?
-      resources :reservation_holds, only: [:create]
+      resources :reservation_holds, only: [:create, :update, :destroy]
       resource :current_reservation, only: [:create, :destroy]
       resources :reservations do
+        get :past, to: "reservations#past", on: :collection
         scope module: "reservations" do
           resources :reservation_holds
           resource :submission

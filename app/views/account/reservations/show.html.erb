@@ -1,37 +1,31 @@
 <div class="reservation-index">
-  <%= section_header "Reservation" do %>
+  <%= breadcrumbs "Reservations", account_reservations_path %>
+  <%= section_header @reservation.name do %>
     <% if @reservation.manager.can?(:request) %>
       <%= button_to "Add Items", account_current_reservation_path(reservation_id: @reservation), class: "btn btn-primary" %>
+      <%= link_to "Edit Name and Dates", edit_account_reservation_path(@reservation), class: "btn" %>
       <%= link_to "Submit Reservation", account_reservation_submission_path(@reservation), class: "btn btn-primary" %>
     <% end %>
   <% end %>
   <div class="columns">
     <div class="col-4 col-md-12">
-      <h2><%= @reservation.name %></h2>
-      <p>
-        <%= @reservation.started_at.to_formatted_s(:long) %>
-        to
-        <%= @reservation.ended_at.to_formatted_s(:long) %>
-      </p>
 
-      <p>
-        <%= @reservation.status %>
-      </p>
+      <div class="panel item-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <strong><%= reservation_date_range(@reservation) %></strong>
+          </div>
+        </div>
+        <div class="panel-body">
+          <ul class="item-stats">
+            <%= icon_stat "upload", reservation_event_datetime(@reservation.pickup_event), title: "pickup" %>
+            <%= icon_stat "download", reservation_event_datetime(@reservation.dropoff_event), title: "dropoff" %>
+            <%= icon_stat "package", @reservation.item_quantity, title: "items" %>
+            <%= icon_stat "check-circle", @reservation.status, title: "status" %>
+          </ul>
+        </div>
+      </div>
 
-      <p>
-        <%= @reservation.item_quantity %>
-      </p>
-
-       <% if @reservation.pickup_event %>
-        <p>
-          Pickup: <%= format_reservation_event(@reservation.pickup_event) %>
-        </p>
-      <% end %>
-      <% if @reservation.dropoff_event %>
-        <p>
-          Dropoff: <%= format_reservation_event(@reservation.dropoff_event) %>
-        </p>
-      <% end %>
       <dl>
         <% @reservation.answers.includes(:stem).each do |answer| %>
           <dt><%= answer.stem.content %></dt>

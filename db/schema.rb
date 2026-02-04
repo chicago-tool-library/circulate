@@ -25,7 +25,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_012305) do
   create_enum "item_retired_reason", ["not_returned", "broken", "upgraded", "used_up"]
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
-  create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
   create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
@@ -657,20 +656,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_012305) do
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
-  create_table "payment_methods", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "stripe_id"
-    t.string "display_brand"
-    t.string "last_four"
-    t.integer "expire_month"
-    t.integer "expire_year"
-    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
-    t.index ["user_id"], name: "index_payment_methods_on_user_id"
-  end
-
   create_table "pending_reservation_items", force: :cascade do |t|
     t.bigint "reservable_item_id", null: false
     t.bigint "reservation_id", null: false
@@ -885,14 +870,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_012305) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "stripe_customer_id"
     t.index "lower((email)::text), library_id", name: "index_users_on_lowercase_email_and_library_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id"
     t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end

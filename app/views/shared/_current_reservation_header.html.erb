@@ -12,7 +12,10 @@
         <dd><%= current_reservation.item_quantity %></dd>
       </dl>
       <div class="actions">
-        <%= button_to "clear", account_current_reservation_path, method: :delete, class: "btn btn-sm" %>
+        <%= link_to "Review and Submit", account_reservation_path(current_reservation), class: "btn btn-sm" %>
+        <%= button_to account_current_reservation_path, method: :delete, class: "btn btn-sm" do %>
+          <%= "Stop Building" %>
+        <% end %>
       </div>
     </div>
   </div>
