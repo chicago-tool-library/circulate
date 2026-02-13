@@ -1,5 +1,8 @@
-class CreatePaymentMethods < ActiveRecord::Migration[8.0]
+class AddStripeCustomerIdToUsersAndCreateCustomPaymentMethods < ActiveRecord::Migration[8.0]
   def change
+    add_column :users, :stripe_customer_id, :string
+    add_index :users, :stripe_customer_id
+
     create_enum :payment_method_status, [:active, :expired, :detached]
     create_table :payment_methods do |t|
       t.belongs_to :user

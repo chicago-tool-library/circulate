@@ -672,20 +672,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
     t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
-  create_table "payment_methods", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "stripe_id"
-    t.string "display_brand"
-    t.string "last_four"
-    t.integer "expire_month"
-    t.integer "expire_year"
-    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
-    t.index ["user_id"], name: "index_payment_methods_on_user_id"
-  end
-
   create_table "pending_reservation_items", force: :cascade do |t|
     t.bigint "reservable_item_id", null: false
     t.bigint "reservation_id", null: false
