@@ -80,7 +80,7 @@ class MembershipRenewalTest < ApplicationSystemTestCase
   end
 
   test "renews membership that expires soon" do
-    @membership = create(:membership, member: @member, created_at: 336.days.ago, started_at: 336.days.ago, ended_at: 30.days.since)
+    @membership = create(:membership, member: @member, created_at: 336.days.ago, started_at: 336.days.ago, ended_at: 29.days.since)
     visit account_home_url
 
     assert_content "Your membership ends on"
