@@ -78,19 +78,6 @@
                   </ul>
                 <% end %>
 
-                <% if appointment.pickup_reservations.any? || appointment.dropoff_reservations.any? %>
-                  <h3 class="h5">Here's what you're picking up or dropping off</h3>
-                  <ul class="reservation-list">
-                    <% appointment.pickup_reservations.each do |reservation| %>
-                      <li>Picking up <%= pluralize(reservation.item_quantity, "item") %> from <%= link_to reservation.name, account_reservation_path(reservation) %></li>
-                    <% end %>
-
-                    <% appointment.dropoff_reservations.each do |reservation| %>
-                      <li>Dropping off <%= pluralize(reservation.item_quantity, "item") %> from <%= link_to reservation.name, account_reservation_path(reservation) %></li>
-                    <% end %>
-                  </ul>
-                <% end %>
-
                 <% if appointment.comment.present? %>
                   <h3 class="h5">What kind of project are you working on?</h3>
                   <%= simple_format appointment.comment %>
