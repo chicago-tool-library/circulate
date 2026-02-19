@@ -1,0 +1,22 @@
+<% if current_user && current_reservation %>
+  <div class="columns">
+    <div class="column col-12 current-reservation text-small">
+      <h3>Current reservation:</h3>
+      <%= link_to current_reservation.name, account_reservation_path(current_reservation) %><br>
+      <dl>
+        <dt>Starting</dt>
+        <dd><%= current_reservation.started_at.to_formatted_s(:brief) %></dd>
+        <dt>Ending</dt>
+        <dd><%= current_reservation.ended_at.to_formatted_s(:brief) %></dd>
+        <dt>Items</dt>
+        <dd><%= current_reservation.item_quantity %></dd>
+      </dl>
+      <div class="actions">
+        <%= link_to "Review and Submit", account_reservation_path(current_reservation), class: "btn btn-sm" %>
+        <%= button_to account_current_reservation_path, method: :delete, class: "btn btn-sm" do %>
+          <%= "Stop Building" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

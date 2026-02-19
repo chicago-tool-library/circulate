@@ -19,6 +19,9 @@
         <span class="link-group-label" id="nav-borrow-tools-label">Borrow Tools</span>
         <ul aria-labelledby="nav-borrow-tools-label">
           <%= navbar_link_to "Inventory", items_path %>
+          <% if FeatureFlags.reservable_items_enabled? %>
+            <%= navbar_link_to "Camping Inventory", item_pools_path %>
+          <% end %>
           <% if user_signed_in? %>
             <%= navbar_link_to "Loans", account_loans_path %>
             <%= navbar_link_to "Holds", account_holds_path %>
@@ -27,6 +30,9 @@
             <% end %>
             <% if FeatureFlags.for_later_lists_enabled? %>
               <%= navbar_link_to "For Later", account_for_later_list_items_path %>
+            <% end %>
+            <% if FeatureFlags.reservable_items_enabled? %>
+              <%= navbar_link_to "Reservations", account_reservations_path %>
             <% end %>
           <% end %>
         </ul>

@@ -104,17 +104,15 @@ namespace :devdata do
     ActiveRecord::Base.transaction do
       Library.all.each_with_index do |library, index|
         ActsAsTenant.with_tenant(library) do
-          create_reservation(name: "Pending reservation", status: Reservation.statuses[:pending], delay: 1, duration: 3) do |reservation|
+          create_reservation(name: "Pending reservation", status: Reservation.statuses[:pending], delay_weeks: 1) do |reservation|
             reservation.reservation_holds.create!(item_pool: ItemPool.uniquely_numbered.find_random, quantity: 2)
             reservation.reservation_holds.create!(item_pool: ItemPool.not_uniquely_numbered.find_random, quantity: 2)
           end
           create_reservation(
             name: "Approved reservation",
             status: Reservation.statuses[:approved],
-            delay: 10,
-            duration: 4,
+            delay_weeks: 3,
             notes: "This looks good.",
-            assign_events: true
           ) do |reservation|
             reservation.reservation_holds.create!(item_pool: ItemPool.uniquely_numbered.find_random, quantity: 2)
             reservation.reservation_holds.create!(item_pool: ItemPool.not_uniquely_numbered.find_random, quantity: 2)
@@ -124,24 +122,23 @@ namespace :devdata do
     end
   end
 
-  def create_reservation(name:, status:, delay: 0, duration: 1, notes: nil, assign_events: false)
-    started_at = Time.current.beginning_of_day + delay.days
-    ended_at = started_at.end_of_day + duration.days
-    pickup_event, dropoff_event = if assign_events
-      [Event.appointment_slots.where(start: started_at..).first, Event.appointment_slots.where(finish: ..ended_at).last]
-    else
-      [nil, nil]
-    end
-    yield Reservation.create!(
+  def create_reservation(name:, status:, delay_weeks: 0, notes: nil)
+    earliest_start = Time.current.beginning_of_day + delay_weeks.weeks
+    pickup_event = Event.appointment_slots.where(start: earliest_start..).order(start: :asc).first
+
+    earliest_dropoff = pickup_event.start + 3.days
+    dropoff_event = Event.appointment_slots.where(start: earliest_dropoff..).order(start: :asc).first
+
+    reservation = Reservation.create(
       name: name,
       status: status,
-      started_at: started_at,
-      ended_at: ended_at,
       member: Member.find_random,
       notes: notes,
       pickup_event: pickup_event,
       dropoff_event: dropoff_event
     )
+
+    yield reservation if block_given?
   end
 
   def create_member(username, city:, holds: 0, waiting_holds: 0, loans: 0, appointments: 0, status: :verified, postal_code: "60609")

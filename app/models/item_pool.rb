@@ -63,6 +63,14 @@ class ItemPool < ApplicationRecord
     end
   end
 
+  def max_reservable_for_reservation(reservation)
+    max_available_between(reservation.pickup_event.start, reservation.dropoff_event.finish, ignored_reservation_id: reservation.id, per_reservation: true)
+  end
+
+  def available_for_reservation?(reservation)
+    max_reservable_for_reservation(reservation) > 0
+  end
+
   private
 
   # Return a Hash of date => total reservations for the given range.
