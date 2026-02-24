@@ -112,7 +112,7 @@ namespace :devdata do
             name: "Approved reservation",
             status: Reservation.statuses[:approved],
             delay_weeks: 3,
-            notes: "This looks good.",
+            notes: "This looks good."
           ) do |reservation|
             reservation.reservation_holds.create!(item_pool: ItemPool.uniquely_numbered.find_random, quantity: 2)
             reservation.reservation_holds.create!(item_pool: ItemPool.not_uniquely_numbered.find_random, quantity: 2)
