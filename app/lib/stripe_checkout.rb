@@ -7,7 +7,7 @@ class StripeCheckout
 
   def ensure_customer_exists(user)
     if user.stripe_customer_id.blank?
-      customer = @client.v1.customers.create({metadata: {circulate_id: user.id}})
+      customer = client.v1.customers.create({metadata: {circulate_id: user.id}})
       user.update!(stripe_customer_id: customer.id)
     end
   end
@@ -27,7 +27,7 @@ class StripeCheckout
   end
 
   def delete_payment_method(payment_method)
-    response = @client.v1.payment_methods.detach(payment_method.stripe_id)
+    response = client.v1.payment_methods.detach(payment_method.stripe_id)
     payment_method.detach!
     Result.success(response)
   rescue Stripe::InvalidRequestError => e
@@ -35,7 +35,7 @@ class StripeCheckout
   end
 
   def list_payment_methods(user)
-    payment_methods = @client.v1.payment_methods.list({
+    payment_methods = client.v1.payment_methods.list({
       customer: user.stripe_customer_id,
       type: "card"
     })
@@ -46,7 +46,7 @@ class StripeCheckout
 
   def prepare_to_collect_payment_info(user)
     ensure_customer_exists(user)
-    setup_intent = @client.v1.setup_intents.create({
+    setup_intent = client.v1.setup_intents.create({
       customer: user.stripe_customer_id,
       payment_method_types: ["card"]
     })
