@@ -1,5 +1,5 @@
 class StripeController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: %i[webhook]
 
   def webhook
     payload = request.body.read
@@ -9,7 +9,7 @@ class StripeController < ApplicationController
       event = Stripe::Event.construct_from(
         JSON.parse(payload, symbolize_names: true)
       )
-    rescue JSON::ParserError => e
+    rescue JSON::ParserError
       # Invalid payload
       render status: 400
       return
@@ -32,9 +32,9 @@ class StripeController < ApplicationController
     case event.type
     when "checkout.session.completed"
       session = event.data.object # contains a Stripe::PaymentIntent
-      puts session
+      Rails.logger.info session
     else
-      puts "Unhandled event type: #{event.type}"
+      Rails.logger.info "Unhandled event type: #{event.type}"
     end
     render json: {message: :success}
   end
