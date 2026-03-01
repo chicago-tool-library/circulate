@@ -9,6 +9,13 @@ class StripeCheckoutTest < ActiveSupport::TestCase
     assert_equal Stripe::StripeClient, stripe_checkout.client.class
   end
 
+  test ".build creates a stripe client without needing to pass the API key" do
+    stripe_checkout = StripeCheckout.build
+
+    assert stripe_checkout.client
+    assert_equal Stripe::StripeClient, stripe_checkout.client.class
+  end
+
   test "#ensure_customer_exists creates a stripe customer and saves its id to the given user when the user lacks a stripe id" do
     stripe_checkout = StripeCheckout.new(ENV.fetch("STRIPE_API_KEY"))
     user = create(:user, stripe_customer_id: nil)

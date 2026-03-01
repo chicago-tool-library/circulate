@@ -659,12 +659,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "payment_methods", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "stripe_id"
-    t.string "display_brand"
-    t.string "last_four"
-    t.integer "expire_month"
-    t.integer "expire_year"
+    t.bigint "user_id", null: false
+    t.string "stripe_id", null: false
+    t.string "display_brand", null: false
+    t.string "last_four", null: false
+    t.integer "expire_month", null: false
+    t.integer "expire_year", null: false
     t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -8,7 +8,7 @@
         </tr>
 
         <% @payment_methods.each do |pm| %>
-            <tr>
+            <tr id="payment-method-<%= pm.id %>">
                 <td><%= feather_icon "credit-card" %> <%= pm.display_brand %></td>
                 <td><%= pm.last_four %></td>
                 <td><%= pm.expire_month %>/<%= pm.expire_year %></td>
