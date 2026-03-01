@@ -92,6 +92,8 @@ group :test do
   gem "capybara-playwright-driver"
   gem "rails-controller-testing"
   gem "timecop"
+  gem "vcr"
+  gem "webmock"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

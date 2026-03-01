@@ -1,7 +1,8 @@
 class StripeCheckout
-  def initialize(api_key, now: Time.current)
-    @client = Stripe::StripeClient.new(api_key)
-    @now = now
+  attr_accessor :client
+
+  def initialize(api_key)
+    self.client = Stripe::StripeClient.new(api_key)
   end
 
   def ensure_customer_exists(user)
