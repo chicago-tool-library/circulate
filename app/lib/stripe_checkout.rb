@@ -1,6 +1,10 @@
 class StripeCheckout
   attr_accessor :client
 
+  def self.build
+    new(ENV.fetch("STRIPE_API_KEY"))
+  end
+
   def initialize(api_key)
     self.client = Stripe::StripeClient.new(api_key)
   end

@@ -17,7 +17,9 @@ module Account
     def destroy
       @payment_method = current_user.payment_methods.find(params[:id])
       result = checkout.delete_payment_method(@payment_method)
-      unless result.success?
+      if result.success?
+        flash[:success] = "Successfully deleted payment method"
+      else
         flash[:error] = result.error
       end
       redirect_to account_payment_methods_path, status: :see_other
@@ -26,7 +28,7 @@ module Account
     private
 
     def checkout
-      StripeCheckout.new(ENV.fetch("STRIPE_API_KEY"))
+      StripeCheckout.build
     end
   end
 end
