@@ -7,13 +7,7 @@ module Account
         return
       end
 
-      # existing_reservation_hold = @reservation.reservation_holds.find_by(item_pool_id: reservation_hold_params[:item_pool_id])
-      # if existing_reservation_hold
-      #   @reservation_hold = existing_reservation_hold
-      #   @reservation_hold.quantity += 1
-      # else
       @reservation_hold = @reservation.reservation_holds.new(reservation_hold_params)
-      # end
 
       if @reservation_hold.save
         redirect_to item_pool_path(@reservation_hold.item_pool), success: "#{@reservation_hold.item_pool.name} was added to your reservation."
