@@ -97,6 +97,7 @@ namespace :devdata do
           end
         end
       end
+      Hold.start_waiting_holds # start any holds created above to avoid strange states
     end
   end
 
