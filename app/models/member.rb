@@ -25,6 +25,9 @@ class Member < ApplicationRecord
   has_many :for_later_list_items, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :for_later_listed_items, through: :for_later_list_items, source: :item
 
+  has_many :reservations, dependent: :destroy
+  has_many :reservation_holds, through: :reservations
+
   PRONOUNS = ["he/him", "she/her", "they/them"]
   enum :id_kind, {drivers_license: 0, state_id: 1, city_key: 2, student_id: 3, employee_id: 4, other_id_kind: 5}
   enum :status, {pending: 0, verified: 1, suspended: 2, deactivated: 3}, prefix: true

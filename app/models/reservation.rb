@@ -34,22 +34,26 @@ class Reservation < ApplicationRecord
   validates :started_at, presence: true
   validates :ended_at, presence: true
   validates_associated :reservation_holds
-  validate :must_have_pickup_event
+  validates :pickup_event, presence: true
+  validates :dropoff_event, presence: true
   validate :dropoff_event_must_be_after_pickup_event
 
   after_initialize :restore_manager
   before_validation :restore_manager
   before_validation :move_ended_at_to_end_of_day
   before_validation :set_initial_status, on: :initialize
+  before_validation :update_started_at_and_ended_at_from_events
   after_find :restore_manager
   validate :validate_reservation_dates
 
   scope :by_start_date, -> { order(started_at: :asc) }
+  scope :upcoming, -> { where("ended_at > ?", Time.current).order(started_at: :asc) }
+  scope :past, -> { where("ended_at < ?", Time.current).order(started_at: :desc) }
 
   acts_as_tenant :library
 
   def item_quantity
-    reservation_holds.sum(&:quantity)
+    reservation_holds.select(&:persisted?).sum(&:quantity)
   end
 
   def satisfied?
@@ -58,6 +62,10 @@ class Reservation < ApplicationRecord
 
   def manager
     @manager ||= ReservationStateMachine.new(self)
+  end
+
+  def hold_for_item_pool(item_pool)
+    reservation_holds.find { |rh| rh.item_pool == item_pool }
   end
 
   private
@@ -90,5 +98,10 @@ class Reservation < ApplicationRecord
     if pickup_event.start > dropoff_event.start
       errors.add(:dropoff_event_id, "must be after pickup event")
     end
+  end
+
+  def update_started_at_and_ended_at_from_events
+    self.started_at = pickup_event.start.beginning_of_day if pickup_event.present?
+    self.ended_at = dropoff_event.finish.end_of_day if dropoff_event.present?
   end
 end

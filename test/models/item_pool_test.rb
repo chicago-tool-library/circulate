@@ -2,8 +2,8 @@ require "test_helper"
 
 class ItemPoolTest < ActiveSupport::TestCase
   setup do
-    @starts = Time.zone.parse("2024-02-15")
-    @ends = Time.zone.parse("2024-02-22")
+    @starts = Time.zone.parse("2024-02-15").beginning_of_day
+    @ends = Time.zone.parse("2024-02-22").end_of_day
   end
 
   test "max_reservable_percentage_points is calculated" do
@@ -93,13 +93,13 @@ class ItemPoolTest < ActiveSupport::TestCase
     item_pool = reservable_item.item_pool
     2.times { create(:reservable_item, item_pool: item_pool) }
 
-    reservation1 = create(:reservation, started_at: @starts, ended_at: @starts + 2.days)
+    reservation1 = create(:reservation, started_at: @starts, ended_at: @starts.end_of_day + 2.days)
     create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
-    reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts + 4.days)
+    reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts.end_of_day + 4.days)
     create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
-    reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts + 6.days)
+    reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts.end_of_day + 6.days)
     create(:reservation_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
 
     assert_equal 2, reservable_item.item_pool.max_available_between(@starts, @ends)
@@ -115,13 +115,13 @@ class ItemPoolTest < ActiveSupport::TestCase
     item_pool = reservable_item.item_pool
     2.times { create(:reservable_item, item_pool: item_pool) }
 
-    reservation1 = create(:reservation, started_at: @starts, ended_at: @starts + 4.days)
+    reservation1 = create(:reservation, started_at: @starts, ended_at: @starts.end_of_day + 4.days)
     create(:reservation_hold, reservation: reservation1, item_pool: item_pool, quantity: 1)
 
-    reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts + 4.days)
+    reservation2 = create(:reservation, started_at: @starts + 3.days, ended_at: @starts.end_of_day + 4.days)
     create(:reservation_hold, reservation: reservation2, item_pool: item_pool, quantity: 1)
 
-    reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts + 6.days)
+    reservation3 = create(:reservation, started_at: @starts + 5.days, ended_at: @starts.end_of_day + 6.days)
     create(:reservation_hold, reservation: reservation3, item_pool: item_pool, quantity: 1)
 
     assert_equal 1, reservable_item.item_pool.max_available_between(@starts, @ends)
