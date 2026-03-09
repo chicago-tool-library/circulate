@@ -1,0 +1,18 @@
+.current-reservation {
+  background-color: #f0f0f0;
+  padding: 10px 10px 5px;
+  margin-bottom: 1rem;
+  h3 {
+    font-size: 0.8rem;
+    display: inline;
+  }
+  dl,
+  dl dt,
+  dl dd {
+    display: inline;
+    margin-right: 10px;
+  }
+  .actions {
+    float: right;
+  }
+}
