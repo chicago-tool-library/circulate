@@ -15,13 +15,13 @@
     "@rails/activestorage": "^8.0.300",
     "@rails/ujs": "^7.1.502",
     "@selectize/selectize": "^0.15.2",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.27.4",
     "feather-icons": "^4.29.2",
     "jquery": "^4.0.0",
     "mjml": "^4.18.0",
     "sass": "^1.80.4",
     "sortablejs": "^1.15.7",
-    "trix": "^2.1.16"
+    "trix": "^2.1.17"
   },
   "version": "0.1.0",
   "devDependencies": {
