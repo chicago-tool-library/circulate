@@ -42,6 +42,13 @@ module ItemsHelper
     end
   end
 
+  def hold_duration_options
+    [
+      ["Default (#{Hold::DEFAULT_HOLD_DURATION} days)", nil],
+      ["1 day (next open day only)", 1]
+    ]
+  end
+
   def item_powered_by_label(item)
     Item.power_sources[item.power_source]&.titleize
   end

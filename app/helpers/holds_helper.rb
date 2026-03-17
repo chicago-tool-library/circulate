@@ -51,6 +51,10 @@ module HoldsHelper
     hold.previous_active_holds.count + 1
   end
 
+  def short_hold_item?(item)
+    item.hold_duration.present? && item.hold_duration < Hold::DEFAULT_HOLD_DURATION
+  end
+
   private
 
   def format_date(date)

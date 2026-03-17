@@ -15,7 +15,11 @@
       <p>Please login to your account and <%= link_to "schedule an appointment to pick your item(s)", new_account_appointment_url %>.</p>
 
       <ul>
-        <li>If you aren't able to get an item in the next 7 days, it will become available for another member.</li>
+        <% if @holds.any? { |hold| hold.item.hold_duration.present? } %>
+          <li>Some of your items have a short hold window to help keep them circulating. Please schedule your pickup as soon as possible so you don't miss out!</li>
+        <% else %>
+          <li>If you aren't able to get an item in the next 7 days, it will become available for another member.</li>
+        <% end %>
         <li>If you no longer wish to borrow an item, please cancel the hold in your account so it can be borrowed by another member</li>
       </ul>
     </mj-text>
