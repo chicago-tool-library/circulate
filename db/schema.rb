@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_07_012305) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -529,6 +529,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_07_012305) do
     t.boolean "holds_enabled", default: true
     t.string "accessories", default: [], null: false, array: true
     t.enum "retired_reason", enum_type: "item_retired_reason"
+    t.integer "hold_duration"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"

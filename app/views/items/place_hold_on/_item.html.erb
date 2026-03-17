@@ -1,1 +1,4 @@
+<% if short_hold_item?(item) %>
+  <p class="text-small text-gray"><strong><em>Heads up: this item has a short hold window, so be ready to schedule a pickup right away!</em></strong></p>
+<% end %>
 <%= button_to "Place a hold", account_holds_path(item_id: item.id), class: "btn btn-primary", remote: true, data: {disable_with: "Saving..."} %>
