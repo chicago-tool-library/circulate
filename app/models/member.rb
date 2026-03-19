@@ -20,7 +20,7 @@ class Member < ApplicationRecord
   has_one :pending_membership, -> { merge(Membership.pending) }, class_name: "Membership"
   has_one :last_membership, -> { order("ended_at DESC NULLS FIRST") }, class_name: "Membership"
 
-  belongs_to :user, optional: true
+  belongs_to :user, optional: true, dependent: :destroy
   has_many :notes, as: :notable
   has_many :for_later_list_items, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :for_later_listed_items, through: :for_later_list_items, source: :item

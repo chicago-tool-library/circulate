@@ -71,6 +71,16 @@ module Admin
       assert_redirected_to admin_member_url(@member)
     end
 
+    test "should destroy member and associated user" do
+      member = create(:member, :with_user)
+
+      assert_difference(["Member.count", "User.count"], -1) do
+        delete admin_member_url(member)
+      end
+
+      assert_redirected_to admin_members_url
+    end
+
     test "should resend member verification email to new unconfirmed user" do
       member = create(:member, user: create(:user, :unconfirmed))
       ActionMailer::Base.deliveries.clear
