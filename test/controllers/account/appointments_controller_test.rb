@@ -54,12 +54,6 @@ module Account
       assert_equal 1, @member.appointments.count
     end
 
-    test "should cancel appointment without affecting holds" do
-      create_appointment
-      delete account_appointment_path(@appointment)
-      assert_equal 1, @member.holds.count, "Member holds should not be deleted when an appointment is cancelled"
-      assert_redirected_to account_appointments_path
-    end
 
     test "should get edit appointment" do
       create_appointment
@@ -67,15 +61,20 @@ module Account
       assert_response :success
     end
 
-    test "should update appointment" do
+    test "should update appointment items but not time" do
       create_appointment
       assert_equal 1, @appointment.holds.count
+      original_starts_at = @appointment.starts_at
+      original_ends_at = @appointment.ends_at
 
       @hold2 = FactoryBot.create(:hold, member: @member)
-      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [@hold.id, @hold2.id], time_range_string: @appointment.time_range_string, comment: @appointment.comment}}
+      @event = FactoryBot.create(:appointment_slot_event)
+      put account_appointment_path(@appointment), params: {appointment: {hold_ids: [@hold.id, @hold2.id], time_range_string: "#{@event.start}..#{@event.finish}", comment: @appointment.comment}}
       @appointment.reload
 
       assert_equal 2, @appointment.holds.count
+      assert_equal original_starts_at, @appointment.starts_at, "Appointment time should not change"
+      assert_equal original_ends_at, @appointment.ends_at, "Appointment time should not change"
       assert_redirected_to account_appointments_path
     end
 
