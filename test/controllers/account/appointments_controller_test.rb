@@ -54,7 +54,6 @@ module Account
       assert_equal 1, @member.appointments.count
     end
 
-
     test "should get edit appointment" do
       create_appointment
       get edit_account_appointment_path(@appointment)
