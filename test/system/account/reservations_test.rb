@@ -15,7 +15,7 @@ module Account
     end
 
     def formatted_date_only(datetime)
-      datetime.to_fs(:long).sub(/\d\d:\d\d/, "")
+      datetime.to_fs(:month_day_year).sub(/\d\d:\d\d/, "")
     end
 
     def date_input_format(datetime)
