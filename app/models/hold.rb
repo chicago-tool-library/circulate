@@ -1,5 +1,5 @@
 class Hold < ApplicationRecord
-  HOLD_LENGTH = 7.days
+  DEFAULT_HOLD_DURATION = 7 # days
 
   has_one :appointment_hold, dependent: :destroy
   has_one :appointment, through: :appointment_hold
@@ -59,9 +59,15 @@ class Hold < ApplicationRecord
   end
 
   def start!(now = Time.current)
+    expires_at = if item.hold_duration
+      Event.next_open_day(now + item.hold_duration.days).end_of_day
+    else
+      (now + DEFAULT_HOLD_DURATION.days).end_of_day
+    end
+
     update!(
       started_at: now,
-      expires_at: (now + HOLD_LENGTH).end_of_day
+      expires_at: expires_at
     )
   end
 

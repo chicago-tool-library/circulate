@@ -105,7 +105,11 @@
                 <% if @item.active_holds.empty? %>
                   <p>
                     If you place this item on hold you will be <b>first</b> on the waiting list.
-                    You will have one week to schedule an appointment and come to the library to pick it up.
+                    <% if short_hold_item?(@item) %>
+                      This is a popular item, so holds move quickly to keep it circulating. Please be ready to schedule an appointment and pick it up by the next day we're open.
+                    <% else %>
+                      You will have one week to schedule an appointment and come to the library to pick it up.
+                    <% end %>
                   </p>
                 <% elsif @current_hold %>
                   <% if @current_hold.upcoming_appointment %>
@@ -116,7 +120,11 @@
                 <% else %>
                   <p>
                     If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
-                    When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                    <% if short_hold_item?(@item) %>
+                      This is a popular item, so holds move quickly to keep it circulating. When it's your turn, we'll send you an email and you'll have until the next day we're open to come pick it up.
+                    <% else %>
+                      When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                    <% end %>
                   </p>
                 <% end %>
               <% elsif current_user_has_checked_out %>
@@ -137,7 +145,11 @@
                 <p>
                   This item is currently checked out.
                   If you place this item on hold you will be <b>number <%= @item.active_holds.count + 1 %></b> on the waiting list.
-                  When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                  <% if short_hold_item?(@item) %>
+                    This is a popular item, so holds move quickly to keep it circulating. When it's your turn, we'll send you an email and you'll have until the next day we're open to come pick it up.
+                  <% else %>
+                    When it is your turn to borrow this item, we will send you an email and you will have one week to come to the library to pick it up.
+                  <% end %>
                 </p>
               <% end %>
             </div>
