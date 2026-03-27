@@ -8,6 +8,8 @@ module Account
 
       renew_loan(@loan)
       redirect_to account_loans_path, success: "#{@loan.item.name} was renewed.", status: :see_other
+    rescue Pundit::NotAuthorizedError
+      redirect_to account_loans_path, warning: "This loan can no longer be renewed.", status: :see_other
     end
   end
 end

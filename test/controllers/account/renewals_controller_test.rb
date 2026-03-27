@@ -23,15 +23,15 @@ module Account
     end
 
     test "member cannot renew a non-renewable loan" do
-      assert_raises Pundit::NotAuthorizedError do
-        post account_renewals_url(loan_id: @loan1)
-      end
+      post account_renewals_url(loan_id: @loan1)
+      assert_redirected_to account_loans_url
+      assert_equal "This loan can no longer be renewed.", flash[:warning]
     end
 
     test "member cannot renew another member's loan" do
-      assert_raises Pundit::NotAuthorizedError do
-        post account_renewals_url(loan_id: @loan2)
-      end
+      post account_renewals_url(loan_id: @loan2)
+      assert_redirected_to account_loans_url
+      assert_equal "This loan can no longer be renewed.", flash[:warning]
     end
   end
 end
