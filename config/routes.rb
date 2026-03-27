@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   namespace :account do
-    resources :appointments, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :appointments, only: [:index, :new, :create, :edit, :update]
     resources :borrow_policy_approvals, only: [:create]
     resources :holds, only: [:index, :create, :destroy] do
       get :history, to: "holds#history", on: :collection

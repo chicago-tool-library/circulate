@@ -2,7 +2,7 @@ module Account
   class AppointmentsController < BaseController
     include AppointmentSlots
 
-    before_action :load_appointment_for_editing, only: [:edit, :update, :destroy]
+    before_action :load_appointment_for_editing, only: [:edit, :update]
     before_action :are_appointments_enabled?
 
     def index
@@ -49,23 +49,22 @@ module Account
       end
     end
 
-    def destroy
-      @appointment.destroy
-      redirect_to account_appointments_path, flash: {success: "Appointment cancelled."}, status: :see_other
-    end
-
     private
 
     def appointment_params
       form_params = params.require(:appointment).permit(:comment, :time_range_string, hold_ids: [], loan_ids: [])
 
-      {
+      result = {
         holds: @member.holds.where(id: form_params[:hold_ids]),
         loans: @member.loans.where(id: form_params[:loan_ids]),
         comment: form_params[:comment],
-        time_range_string: form_params[:time_range_string],
         member_updating: true
       }
+
+      # Only allow time_range_string for new appointments
+      result[:time_range_string] = form_params[:time_range_string] if @appointment.new_record?
+
+      result
     end
 
     def load_holds_and_loans

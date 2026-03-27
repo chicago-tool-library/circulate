@@ -79,13 +79,21 @@
 
       <div class="columns">
         <div class="column col-8 col-sm-12 col-mr-auto">
-          <div class="form-group" data-controller="appointment-date">
-            <label class="form-label h3" for="time_range_string">Select a time for the appointment</label>
-            <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), {include_blank: "Select a Date"},
-                  class: "form-select", data: {action: "appointment-date#sync", "appointment-date-target": "select"}, disabled: !can_schedule_appointment) %>
-              <span data-appointment-date-target="display"></span>
+          <% if @appointment.new_record? %>
+            <div class="form-group" data-controller="appointment-date">
+              <label class="form-label h3" for="time_range_string">Select a time for the appointment</label>
+              <%= select("appointment", "time_range_string", grouped_options_for_select(@appointment_slots, @appointment.time_range_string), {include_blank: "Select a Date"},
+                    class: "form-select", data: {action: "appointment-date#sync", "appointment-date-target": "select"}, disabled: !can_schedule_appointment) %>
+                <span data-appointment-date-target="display"></span>
+                <p>Don't worry if you arrive a little bit early or late, as long as it's within the library's open hours.</p>
+            </div>
+          <% else %>
+            <div class="form-group">
+              <label class="form-label h3">Appointment Time</label>
+              <p class="text-bold"><%= @appointment.starts_at.strftime("%A, %B %-d, %Y") %> between <%= appointment_time(@appointment) %></p>
               <p>Don't worry if you arrive a little bit early or late, as long as it's within the library's open hours.</p>
-          </div>
+            </div>
+          <% end %>
 
           <div class="form-group mb-2">
             <label class="form-label" for="appointment_comment">Tell us about the project you're working on. We may be able to recommend a different or additional tool. If you're dropping off, please let us know if you had any issues with the items you're returning.</label>
@@ -100,15 +108,6 @@
       </div>
     <% end %>
 
-    <% unless @appointment.new_record? %>
-      <div class="columns cancel-appointment">
-        <div class="column col-8 col-sm-12 col-mr-auto">
-          <h4 class="h5">Need to cancel?</h4>
-          <p>You can make a new appointment to pick up or return items at a later time.</p>
-          <%= button_to "Cancel Appointment", account_appointment_path(@appointment), class: "btn", method: :delete, data: {turbo_submits_with: "Canceling appointment...", turbo_confirm: "Are you sure to cancel this appointment?"} %>
-        </div>
-      </div>
-    <% end %>
   <% else %>
     <div class="toast toast-warning">
       <p>You can only schedule an appointment if you have at least one item that is:</p>

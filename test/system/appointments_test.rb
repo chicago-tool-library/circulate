@@ -196,13 +196,10 @@ class AppointmentsTest < ApplicationSystemTestCase
     check_list_item_with_name(@held_item2.complete_number)
     check_list_item_with_name(@borrowed_item2.complete_number)
 
-    selected_date = select_first_available_date
-
     fill_in_optional_field("Updated appointment")
     click_on "Update Appointment"
 
     assert_text "Appointments"
-    assert_text selected_date
 
     assert_text "Updated appointment"
 
