@@ -20,15 +20,15 @@ module HoldsHelper
     appointment = hold.upcoming_appointment
 
     if appointment
-      "Scheduled for pick-up at #{format_date(appointment.starts_at)}, " +
+      "Scheduled for pick-up on #{format_date(appointment.starts_at)}, " +
         appointment_time(appointment)
     elsif hold.expired?
       "Hold expired on #{format_date(hold.expires_at)}"
     elsif hold.ready_for_pickup?
       if hold.expires_at
-        "Ready for pickup. Schedule by #{format_date(hold.expires_at)}"
+        "Schedule an appointment to pick up by #{format_date(hold.expires_at)}"
       else
-        "Ready for pickup."
+        "Schedule an appointment to pick up"
       end
     else
       "##{previous_holds_count + 1} on wait list"
@@ -45,6 +45,14 @@ module HoldsHelper
     end
 
     button_to("Remove Hold", account_hold_path(hold), {class: "btn", method: :delete, data: {turbo_confirm: message}})
+  end
+
+  def render_appointment_link(hold)
+    if hold.upcoming_appointment
+      link_to "View Appointment", account_appointment_path(hold.upcoming_appointment), class: "btn"
+    elsif hold.ready_for_pickup?
+      link_to "Schedule Appointment", new_account_appointment_path(hold_id: hold.id), class: "btn btn-primary"
+    end
   end
 
   def place_in_line_for(hold)

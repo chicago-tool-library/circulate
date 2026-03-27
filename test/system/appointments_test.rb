@@ -40,7 +40,7 @@ class AppointmentsTest < ApplicationSystemTestCase
 
     visit account_holds_url
 
-    click_on "Schedule a Pick Up"
+    click_on "Schedule Appointment", match: :first
 
     assert_text "Schedule an Appointment"
 
@@ -74,7 +74,7 @@ class AppointmentsTest < ApplicationSystemTestCase
     visit account_holds_url
 
     within(list_item_containing(@held_item1.complete_number)) { assert_text "Scheduled for pick-up" }
-    within(list_item_containing(@held_item2.complete_number)) { assert_text "Ready for pickup" }
+    within(list_item_containing(@held_item2.complete_number)) { assert_text "Schedule an appointment to pick up by" }
   end
 
   test "attempts to schedule an appointment with no holds" do
@@ -110,18 +110,18 @@ class AppointmentsTest < ApplicationSystemTestCase
     visit account_holds_url
 
     within list_item_containing(@active_item.complete_number) do
-      assert_text "Ready for pickup"
+      assert_text "Schedule an appointment to pick up by"
     end
 
     refute_text @maintenance_item.complete_number
     refute_text @unholdable_item.complete_number
 
-    click_on "Schedule a Pick Up"
+    click_on "Schedule Appointment", match: :first
 
     assert_text "Schedule an Appointment"
 
     within list_item_containing(@active_item.complete_number) do
-      assert_text "Ready for pickup"
+      assert_text "Schedule an appointment to pick up by"
     end
 
     refute_text @maintenance_item.complete_number
@@ -143,7 +143,7 @@ class AppointmentsTest < ApplicationSystemTestCase
 
       visit account_holds_path
 
-      click_on "Schedule a Pick Up"
+      click_on "Schedule Appointment", match: :first
 
       assert_text "Schedule an Appointment"
       check_list_item_with_name(@held_item.complete_number)
