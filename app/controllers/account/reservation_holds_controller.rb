@@ -1,12 +1,9 @@
 module Account
   class ReservationHoldsController < BaseController
-    def create
-      @reservation = current_member.reservations.find(reservation_hold_params[:reservation_id])
-      if !@reservation
-        redirect_to item_pool_path(@reservation_hold.item_pool), error: "Reservation not found."
-        return
-      end
+    rescue_from ActiveRecord::RecordNotFound, with: :reservation_not_found
 
+    def create
+      @reservation = current_member.reservations.find(id: reservation_hold_params[:reservation_id])
       @reservation_hold = @reservation.reservation_holds.new(reservation_hold_params)
 
       if @reservation_hold.save
@@ -18,10 +15,6 @@ module Account
 
     def update
       @reservation_hold = current_member.reservation_holds.find(params[:id])
-      if !@reservation_hold
-        redirect_back_or_to account_reservations_url, error: "Reservation not found."
-        return
-      end
 
       if @reservation_hold.update(reservation_hold_params)
         redirect_to item_pool_path(@reservation_hold.item_pool), success: "#{@reservation_hold.item_pool.name} reservation hold was updated."
@@ -32,10 +25,6 @@ module Account
 
     def destroy
       @reservation_hold = current_member.reservation_holds.find(params[:id])
-      if !@reservation_hold
-        redirect_back_or_to account_reservations_url, error: "Reservation not found."
-        return
-      end
 
       if @reservation_hold.destroy
         redirect_to item_pool_path(@reservation_hold.item_pool), success: "#{@reservation_hold.item_pool.name} reservation hold was removed."
@@ -48,6 +37,10 @@ module Account
 
     def reservation_hold_params
       params.require(:reservation_hold).permit(:item_pool_id, :reservation_id, :quantity)
+    end
+
+    def reservation_not_found
+      redirect_back_or_to account_reservations_url, error: "Reservation not found."
     end
   end
 end
