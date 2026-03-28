@@ -5,8 +5,14 @@ module Account
     before_action :set_reservation, only: %i[show edit update destroy]
 
     def index
-      reservations_scope = Reservation.includes(reservation_holds: :item_pool).by_start_date
+      reservations_scope = Reservation.includes(reservation_holds: :item_pool).upcoming
       @pagy, @reservations = pagy(reservations_scope, items: 50)
+    end
+
+    def past
+      reservations_scope = Reservation.includes(reservation_holds: :item_pool).past
+      @pagy, @reservations = pagy(reservations_scope, items: 50)
+      render :index
     end
 
     def show
@@ -27,7 +33,8 @@ module Account
       @reservation = Reservation.new(reservation_params.merge(member_id: current_member.id))
 
       if @reservation.save
-        redirect_to account_reservation_url(@reservation), success: "Reservation was successfully created."
+        session[:reservation_id] = @reservation.id
+        redirect_to item_pools_path, success: "Reservation was successfully created. You can start adding items to it now."
       else
         set_required_answers
         set_reservation_slots
