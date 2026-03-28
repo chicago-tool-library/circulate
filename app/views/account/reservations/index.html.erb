@@ -6,47 +6,48 @@
         <%= link_to "New reservation", new_account_reservation_path, class: "btn btn-primary" %>
       <% end %>
 
-      <%= render "index_tabs" do %>
+      <ul class="tab">
+        <%= tab_link "Upcoming and Current", account_reservations_path %>
+        <%= tab_link "Past", past_account_reservations_path %>
+      </ul>
 
-        <table class="table">
-          <thead>
-            <th>Name</th>
-            <th>Starts</th>
-            <th>Ends</th>
-            <th>Status</th>
-            <th>Items</th>
-          </thead>
-          <tbody>
-            <% @reservations.each do |reservation| %>
-              <tr id="<%= dom_id reservation %>">
-                <td>
-                  <%= link_to reservation.name, account_reservation_path(reservation) %>
-                </td>
+      <table class="table">
+        <thead>
+          <th>Name</th>
+          <th>Starts</th>
+          <th>Ends</th>
+          <th>Status</th>
+          <th>Items</th>
+        </thead>
+        <tbody>
+          <% @reservations.each do |reservation| %>
+            <tr id="<%= dom_id reservation %>">
+              <td>
+                <%= link_to reservation.name, account_reservation_path(reservation) %>
+              </td>
 
-                <td>
-                  <%= reservation.started_at.to_formatted_s(:month_day_year) %>
-                </td>
+              <td>
+                <%= reservation.started_at.to_formatted_s(:month_day_year) %>
+              </td>
 
-                <td>
-                  <%= reservation.ended_at.to_formatted_s(:month_day_year) %>
-                </td>
+              <td>
+                <%= reservation.ended_at.to_formatted_s(:month_day_year) %>
+              </td>
 
-                <td>
-                  <%= reservation.status %>
-                </td>
+              <td>
+                <%= reservation.status %>
+              </td>
 
-                <td>
-                  <%= reservation.item_quantity %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
+              <td>
+                <%= reservation.item_quantity %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
 
-        </table>
+      </table>
 
-        <%== pagy_bootstrap_nav(@pagy) %>
-
-      <% end %>
+      <%== pagy_bootstrap_nav(@pagy) %>
     </div>
 
     <div class="column col-4 col-md-12">
