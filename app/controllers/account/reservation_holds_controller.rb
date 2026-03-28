@@ -3,7 +3,7 @@ module Account
     rescue_from ActiveRecord::RecordNotFound, with: :reservation_not_found
 
     def create
-      @reservation = current_member.reservations.find(id: reservation_hold_params[:reservation_id])
+      @reservation = current_member.reservations.find(reservation_hold_params[:reservation_id])
       @reservation_hold = @reservation.reservation_holds.new(reservation_hold_params)
 
       if @reservation_hold.save
