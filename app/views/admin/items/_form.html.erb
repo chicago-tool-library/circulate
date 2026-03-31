@@ -79,6 +79,9 @@
 
   <%= form.check_box :holds_enabled, label: "Allow holds to be placed on this item", hint: "Unchecking will hide but not delete existing holds." %>
 
+  <%= form.select :hold_duration, options_for_select(hold_duration_options, item.hold_duration),
+        {label: "Hold duration", hint: "How long a member has to pick up a held item. A 1-day hold expires at the end of the next day the library is open."} %>
+
   <fieldset>
     <legend>Item Location</legend>
     <div class="columns">

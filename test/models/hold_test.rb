@@ -77,11 +77,13 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "doesn't expire until the end of the day" do
-    hold_started = Date.new(2021, 5, 27, 16)
+    hold_started = Date.new(2021, 5, 27)
     hold = create(:hold, ended_at: nil)
+    open_day = hold_started + Hold::DEFAULT_HOLD_DURATION.days
+    create(:appointment_slot_event, start: open_day)
     hold.start!(hold_started)
 
-    travel_to (hold_started + Hold::HOLD_LENGTH).end_of_day do
+    travel_to open_day.end_of_day do
       assert hold.active?
       refute hold.inactive?
       refute hold.ended?
@@ -149,6 +151,49 @@ class HoldTest < ActiveSupport::TestCase
     hold.start!
     assert hold.started_at
     assert hold.expires_at
+  end
+
+  test "#start! uses default hold duration with open-day-aware expiration" do
+    now = Time.current
+    hold = create(:hold)
+
+    # Create an open day 8 days from now (after the 7-day default)
+    open_day = create(:appointment_slot_event, start: now + 8.days)
+
+    hold.start!(now)
+
+    assert_equal open_day.start.to_date.end_of_day, hold.expires_at
+  end
+
+  test "#start! uses item hold_duration with open-day-aware expiration" do
+    now = Time.current
+    item = create(:item, hold_duration: 1)
+    hold = create(:hold, item: item)
+
+    # Create an appointment slot event 3 days from now
+    open_day = create(:appointment_slot_event, start: now + 3.days)
+
+    hold.start!(now)
+
+    assert_equal open_day.start.to_date.end_of_day, hold.expires_at
+  end
+
+  test "#start! with 1-day hold_duration expires on next open day after tomorrow" do
+    monday = Time.utc(2020, 1, 20, 10)
+    wednesday = Time.utc(2020, 1, 22)
+    thursday = Time.utc(2020, 1, 23)
+
+    item = create(:item, hold_duration: 1)
+    hold = create(:hold, item: item)
+
+    # Library is open Wednesday and Thursday
+    create(:appointment_slot_event, start: wednesday)
+    create(:appointment_slot_event, start: thursday)
+
+    # Hold starts Monday, 1 day = Tuesday, next open day on/after Tuesday is Wednesday
+    hold.start!(monday)
+
+    assert_equal wednesday.to_date.end_of_day, hold.expires_at
   end
 
   test "#ready_for_pickup? is true by default" do
