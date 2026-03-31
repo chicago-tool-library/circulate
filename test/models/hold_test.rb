@@ -77,11 +77,13 @@ class HoldTest < ActiveSupport::TestCase
   end
 
   test "doesn't expire until the end of the day" do
-    hold_started = Date.new(2021, 5, 27, 16)
+    hold_started = Date.new(2021, 5, 27)
     hold = create(:hold, ended_at: nil)
+    open_day = hold_started + Hold::DEFAULT_HOLD_DURATION.days
+    create(:appointment_slot_event, start: open_day)
     hold.start!(hold_started)
 
-    travel_to (hold_started + Hold::DEFAULT_HOLD_DURATION.days).end_of_day do
+    travel_to open_day.end_of_day do
       assert hold.active?
       refute hold.inactive?
       refute hold.ended?
@@ -151,13 +153,16 @@ class HoldTest < ActiveSupport::TestCase
     assert hold.expires_at
   end
 
-  test "#start! uses default hold duration when item has no hold_duration" do
+  test "#start! uses default hold duration with open-day-aware expiration" do
     now = Time.current
     hold = create(:hold)
 
+    # Create an open day 8 days from now (after the 7-day default)
+    open_day = create(:appointment_slot_event, start: now + 8.days)
+
     hold.start!(now)
 
-    assert_equal (now + Hold::DEFAULT_HOLD_DURATION.days).end_of_day, hold.expires_at
+    assert_equal open_day.start.to_date.end_of_day, hold.expires_at
   end
 
   test "#start! uses item hold_duration with open-day-aware expiration" do

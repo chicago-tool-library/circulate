@@ -59,11 +59,8 @@ class Hold < ApplicationRecord
   end
 
   def start!(now = Time.current)
-    expires_at = if item.hold_duration
-      Event.next_open_day(now + item.hold_duration.days).end_of_day
-    else
-      (now + DEFAULT_HOLD_DURATION.days).end_of_day
-    end
+    duration = item.hold_duration || DEFAULT_HOLD_DURATION
+    expires_at = Event.next_open_day(now + duration.days).end_of_day
 
     update!(
       started_at: now,
