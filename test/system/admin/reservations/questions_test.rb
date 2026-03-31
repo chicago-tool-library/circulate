@@ -3,12 +3,29 @@ require "application_system_test_case"
 class AdminReservationsQuestionsTest < ApplicationSystemTestCase
   setup do
     sign_in_as_admin
-    @attributes = attributes_for(:reservation, started_at: 3.days.from_now.at_noon, ended_at: 10.days.from_now.at_noon).slice(:name, :started_at, :ended_at)
+    @name = attributes_for(:reservation)[:name]
     @member = create(:complete_member)
   end
 
-  def date_input_format(datetime)
-    datetime.strftime("%Y-%m-%d")
+  def select_first_available_pickup_event
+    first_optgroup = find("#reservation_pickup_event_id optgroup", match: :first)
+    first_optgroup.find("option", match: :first).select_option
+    first_optgroup.text
+  end
+
+  def select_last_available_dropoff_event
+    all_optgroups = all("#reservation_dropoff_event_id optgroup")
+    last_optgroup = all_optgroups.last
+    last_optgroup.all("option").last.select_option
+    last_optgroup.text
+  end
+
+  def create_events
+    base_time = 2.days.from_now.at_noon
+    [
+      create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time, finish: base_time + 1.hour),
+      create(:event, calendar_id: Event.appointment_slot_calendar_id, start: base_time + 2.days + 2.hours, finish: base_time + 2.days + 3.hours)
+    ]
   end
 
   test "viewing a reservation's questions and answers" do
@@ -31,15 +48,16 @@ class AdminReservationsQuestionsTest < ApplicationSystemTestCase
   end
 
   test "creating a reservation with questions and answers" do
+    create_events
     text_stem = create(:stem, :text)
     integer_stem = create(:stem, :integer)
     create(:stem, :archived) # ignored
 
     visit new_admin_reservation_path
-    fill_in "Name", with: @attributes[:name]
+    fill_in "Name", with: @name
+    select_first_available_pickup_event
+    select_last_available_dropoff_event
     fill_in "Member ID", with: @member.id
-    find("#start-date-field").set(date_input_format(@attributes[:started_at]))
-    find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
     fill_in text_stem.content, with: "text answer"
     fill_in integer_stem.content, with: "150"
 
@@ -66,9 +84,7 @@ class AdminReservationsQuestionsTest < ApplicationSystemTestCase
     visit admin_reservation_path(reservation)
     click_on "Edit"
 
-    fill_in "Name", with: @attributes[:name]
-    find("#start-date-field").set(date_input_format(@attributes[:started_at]))
-    find("#end-date-field").set(date_input_format(@attributes[:ended_at]))
+    fill_in "Name", with: @name
     fill_in text_stem.content, with: "text answer"
     fill_in integer_stem.content, with: "150"
 

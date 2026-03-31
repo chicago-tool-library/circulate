@@ -5,9 +5,9 @@
     <div class="col-4 col-md-12">
       <h2><%= @reservation.name %></h2>
       <p>
-        <%= @reservation.started_at.to_formatted_s(:long) %>
+        <%= @reservation.started_at.to_formatted_s(:month_day_year) %>
         to
-        <%= @reservation.ended_at.to_formatted_s(:long) %>
+        <%= @reservation.ended_at.to_formatted_s(:month_day_year) %>
       </p>
 
       <p>

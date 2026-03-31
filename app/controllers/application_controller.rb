@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   set_current_tenant_through_filter
   before_action :set_tenant
 
-  helper_method :current_member, :current_library
+  helper_method :current_member, :current_library, :current_reservation
 
   add_flash_types :success, :error, :warning
 
@@ -53,6 +53,12 @@ class ApplicationController < ActionController::Base
 
   def current_library
     @current_library ||= Library.find_by(hostname: request.host.downcase) || Library.first
+  end
+
+  def current_reservation
+    if user_signed_in? && session[:reservation_id]
+      @current_reservation ||= current_member.reservations.find_by(id: session[:reservation_id])
+    end
   end
 
   def set_tenant
