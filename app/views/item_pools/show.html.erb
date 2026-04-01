@@ -22,7 +22,9 @@
   <h2>Reserve This Item</h2>
 
   <div class="reserve-item-form">
-    <% if current_reservation %>
+    <% if !user_signed_in? %>
+      <p><%= link_to "Sign in", new_user_session_path %> to reserve this item.</p>
+    <% elsif current_reservation %>
       <% if @reservation_hold.persisted? %>
         <p>You have reserved <strong><%= @reservation_hold.quantity %></strong> of this item in your current reservation.</p>
         <h3>Update Reservation</h3>

@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_member
-    current_user.member
+    current_user&.member
   end
 
   def current_library
