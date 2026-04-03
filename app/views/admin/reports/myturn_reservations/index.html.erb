@@ -1,0 +1,86 @@
+<%= content_for :header do %>
+  <%= index_header "Camping Gear" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <p class="text-gray">Daily pick-ups and expected drop-offs for camping gear reservations, pulled from MyTurn.</p>
+    <ul class="pagination">
+      <li class="page-item page-prev appointments-date-nav">
+        <%= link_to admin_reports_myturn_reservations_path(day: previous_day) do %>
+          <div class="page-item-subtitle">
+            <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
+          </div>
+        <% end %>
+      </li>
+      <li class="pt-2 appointments-date"><b><%= current_day_label %></b></li>
+      <li class="page-item page-next appointments-date-nav">
+        <%= link_to admin_reports_myturn_reservations_path(day: next_day) do %>
+          <div class="page-item-subtitle">
+            <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
+          </div>
+        <% end %>
+      </li>
+    </ul>
+
+    <% if @configuration_missing %>
+      <%= empty_state "MyTurn is not configured.", subtitle: "Set MYTURN_USERNAME and MYTURN_PASSWORD environment variables to enable this dashboard." %>
+    <% elsif @api_error %>
+      <div class="toast toast-error mb-2">
+        <p>Could not load reservations from MyTurn: <%= @api_error %></p>
+      </div>
+    <% else %>
+      <h2>Pick-ups</h2>
+      <% if @pickups.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Borrower</th>
+              <th>Items</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @pickups.each do |reservation| %>
+              <tr>
+                <td><%= reservation["pickupStartTime"] %> - <%= reservation["pickupEndTime"] %></td>
+                <td><%= reservation["user"]["firstName"] %> <%= reservation["user"]["lastName"] %></td>
+                <td><%= pluralize(reservation["numItems"], "item") %></td>
+                <td><%= link_to "View in MyTurn", myturn_reservation_url(reservation), target: "_blank", class: "btn btn-sm" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray">No pick-ups scheduled.</p>
+      <% end %>
+
+      <h2 class="mt-2">Drop-offs</h2>
+      <% if @dropoffs.any? %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Loan</th>
+              <th>Borrower</th>
+              <th>Items</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dropoffs.each do |reservation| %>
+              <tr>
+                <td><%= pluralize(reservation["length"], "day") %></td>
+                <td><%= reservation["user"]["firstName"] %> <%= reservation["user"]["lastName"] %></td>
+                <td><%= pluralize(reservation["numItems"], "item") %></td>
+                <td><%= link_to "View in MyTurn", myturn_reservation_url(reservation), target: "_blank", class: "btn btn-sm" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="text-gray">No drop-offs expected.</p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
