@@ -65,7 +65,7 @@ class ReservationDateValidatorTest < ActiveSupport::TestCase
     policy_a = create(:reservation_policy, minimum_start_distance: 2)
     policy_b = create(:reservation_policy, minimum_start_distance: 5)
     policy_c = create(:reservation_policy, minimum_start_distance: 10)
-    reservation = create(:reservation, started_at: 4.days.from_now, ended_at: 1.week.from_now)
+    reservation = create(:reservation, started_at: 4.days.from_now.beginning_of_day, ended_at: 1.week.from_now.beginning_of_day)
     associate_reservation_with_policy!(reservation, policy_a)
     associate_reservation_with_policy!(reservation, policy_b)
     associate_reservation_with_policy!(reservation, policy_c)
