@@ -56,7 +56,7 @@ module Myturn
 
       response = make_request(path, **options)
 
-      if response.status.redirect? || response.status == 401
+      if response.status.redirect? || response.status == 401 || response.status == 403
         authenticate!
         response = make_request(path, **options)
       end
