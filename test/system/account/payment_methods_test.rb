@@ -91,7 +91,7 @@ module Account
         assert_text payment_method_to_delete.last_four
 
         within("#payment-method-#{payment_method_to_delete.id}") do
-          click_button "Delete"
+          accept_confirm { click_button "Delete" }
         end
 
         assert_text "Successfully deleted payment method"

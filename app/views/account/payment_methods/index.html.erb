@@ -14,7 +14,7 @@
           <td><%= feather_icon "credit-card" %> <%= pm.display_brand %></td>
           <td><%= pm.last_four %></td>
           <td><%= pm.expire_month %>/<%= pm.expire_year %></td>
-          <td><%= button_to "Delete", account_payment_method_path(pm.id), method: :delete, class: "btn btn-sm" %></td>
+          <td><%= button_to "Delete", account_payment_method_path(pm.id), method: :delete, class: "btn btn-sm", data: {turbo_confirm: "Are you sure?"} %></td>
         </tr>
       <% end %>
     </tbody>
