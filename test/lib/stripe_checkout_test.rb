@@ -67,7 +67,7 @@ class StripeCheckoutTest < ActiveSupport::TestCase
   test "#sync_payment_methods updates payment method records based on stripe's payment methods" do
     stripe_checkout = StripeCheckout.new(ENV.fetch("STRIPE_API_KEY"))
     user = create(:user, stripe_customer_id: nil)
-    payment_method = create(:payment_method, user:, stripe_id: "pm_1T6Ea8PnUSFzhT0d7yCb8feV")
+    payment_method = create(:payment_method, user:, stripe_id: "pm_1T6Ea8PnUSFzhT0d7yCb8feV", display_brand: "mastercard", expire_month: "1", expire_year: "2027")
     original_display_brand = payment_method.display_brand
     original_last_four = payment_method.last_four
     original_expire_month = payment_method.expire_month
