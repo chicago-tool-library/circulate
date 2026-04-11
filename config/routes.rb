@@ -244,7 +244,6 @@ Rails.application.routes.draw do
   resources :documents, only: :show
 
   post "/twilio/callback", to: "twilio#callback"
-  post "/stripe/webhook", to: "stripe#webhook"
 
   # Mount dashboards for admins
   authenticate :user, ->(user) { user.admin? } do
