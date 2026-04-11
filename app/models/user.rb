@@ -18,6 +18,7 @@ class User < ApplicationRecord
   }
 
   has_one :member
+  has_many :payment_methods
 
   # Adapted from https://github.com/heartcombo/devise/blob/main/lib/devise/models/validatable.rb
   # so we can scope email uniqueness to library_id

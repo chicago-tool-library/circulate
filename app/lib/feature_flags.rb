@@ -18,4 +18,8 @@ class FeatureFlags
   def self.for_later_lists_enabled?
     ENV["FOR_LATER_LISTS"] == "on"
   end
+
+  def self.stripe_payments_enabled?
+    ENV["FEATURE_STRIPE_PAYMENTS"] == "on"
+  end
 end

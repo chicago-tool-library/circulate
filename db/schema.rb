@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_11_221407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -25,6 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   create_enum "item_retired_reason", ["not_returned", "broken", "upgraded", "used_up"]
   create_enum "item_status", ["pending", "active", "maintenance", "retired", "missing"]
   create_enum "membership_type", ["initial", "renewal"]
+  create_enum "payment_method_status", ["active", "expired", "detached"]
   create_enum "power_source", ["solar", "gas", "air", "electric (corded)", "electric (battery)"]
   create_enum "renewal_request_status", ["requested", "approved", "rejected"]
   create_enum "reservation_status", ["pending", "requested", "approved", "rejected", "obsolete", "building", "ready", "borrowed", "returned", "unresolved", "cancelled"]
@@ -32,33 +33,33 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   create_enum "user_role", ["staff", "admin", "member", "super_admin"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
     t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", precision: nil, null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -70,33 +71,33 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "adjustments", force: :cascade do |t|
-    t.string "adjustable_type"
     t.bigint "adjustable_id"
+    t.string "adjustable_type"
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
-    t.bigint "member_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.enum "kind", null: false, enum_type: "adjustment_kind"
+    t.bigint "member_id", null: false
     t.enum "payment_source", enum_type: "adjustment_source"
     t.string "square_transaction_id"
-    t.enum "kind", null: false, enum_type: "adjustment_kind"
+    t.datetime "updated_at", null: false
     t.index ["adjustable_type", "adjustable_id"], name: "index_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["member_id"], name: "index_adjustments_on_member_id"
   end
 
   create_table "agreement_acceptances", force: :cascade do |t|
-    t.bigint "member_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_agreement_acceptances_on_member_id"
   end
 
   create_table "ahoy_events", force: :cascade do |t|
-    t.bigint "visit_id"
-    t.bigint "user_id"
     t.string "name"
     t.jsonb "properties"
     t.datetime "time"
+    t.bigint "user_id"
+    t.bigint "visit_id"
     t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
     t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
     t.index ["user_id"], name: "index_ahoy_events_on_user_id"
@@ -104,41 +105,41 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "ahoy_visits", force: :cascade do |t|
-    t.string "visit_token"
-    t.string "visitor_token"
-    t.bigint "user_id"
-    t.string "ip"
-    t.text "user_agent"
-    t.text "referrer"
-    t.string "referring_domain"
-    t.text "landing_page"
+    t.string "app_version"
     t.string "browser"
-    t.string "os"
-    t.string "device_type"
-    t.string "country"
-    t.string "region"
     t.string "city"
+    t.string "country"
+    t.string "device_type"
+    t.string "ip"
+    t.text "landing_page"
     t.float "latitude"
     t.float "longitude"
-    t.string "utm_source"
-    t.string "utm_medium"
-    t.string "utm_term"
-    t.string "utm_content"
-    t.string "utm_campaign"
-    t.string "app_version"
+    t.string "os"
     t.string "os_version"
     t.string "platform"
+    t.text "referrer"
+    t.string "referring_domain"
+    t.string "region"
     t.datetime "started_at"
+    t.text "user_agent"
+    t.bigint "user_id"
+    t.string "utm_campaign"
+    t.string "utm_content"
+    t.string "utm_medium"
+    t.string "utm_source"
+    t.string "utm_term"
+    t.string "visit_token"
+    t.string "visitor_token"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
     t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
   end
 
   create_table "answers", force: :cascade do |t|
-    t.bigint "stem_id", null: false
+    t.datetime "created_at", null: false
     t.bigint "reservation_id", null: false
     t.jsonb "result", default: {}, null: false
-    t.datetime "created_at", null: false
+    t.bigint "stem_id", null: false
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_answers_on_reservation_id"
     t.index ["stem_id", "reservation_id"], name: "index_answers_on_stem_id_and_reservation_id", unique: true
@@ -147,8 +148,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
 
   create_table "appointment_holds", force: :cascade do |t|
     t.bigint "appointment_id"
-    t.bigint "hold_id"
     t.datetime "created_at", null: false
+    t.bigint "hold_id"
     t.datetime "updated_at", null: false
     t.index ["appointment_id"], name: "index_appointment_holds_on_appointment_id"
     t.index ["hold_id"], name: "index_appointment_holds_on_hold_id"
@@ -156,40 +157,40 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
 
   create_table "appointment_loans", force: :cascade do |t|
     t.bigint "appointment_id"
-    t.bigint "loan_id"
     t.datetime "created_at", null: false
+    t.bigint "loan_id"
     t.datetime "updated_at", null: false
     t.index ["appointment_id"], name: "index_appointment_loans_on_appointment_id"
     t.index ["loan_id"], name: "index_appointment_loans_on_loan_id"
   end
 
   create_table "appointments", force: :cascade do |t|
-    t.datetime "starts_at", precision: nil, null: false
-    t.datetime "ends_at", precision: nil, null: false
     t.text "comment", default: "", null: false
-    t.bigint "member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.datetime "completed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "ends_at", precision: nil, null: false
+    t.bigint "member_id"
     t.datetime "pulled_at", precision: nil
+    t.datetime "starts_at", precision: nil, null: false
+    t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_appointments_on_member_id"
   end
 
   create_table "audits", force: :cascade do |t|
-    t.integer "auditable_id"
-    t.string "auditable_type"
+    t.string "action"
     t.integer "associated_id"
     t.string "associated_type"
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.text "audited_changes"
+    t.string "comment"
+    t.datetime "created_at", precision: nil
+    t.string "remote_address"
+    t.string "request_uuid"
     t.integer "user_id"
     t.string "user_type"
     t.string "username"
-    t.string "action"
-    t.text "audited_changes"
     t.integer "version", default: 0
-    t.string "comment"
-    t.string "remote_address"
-    t.string "request_uuid"
-    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -198,88 +199,88 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "blazer_audits", force: :cascade do |t|
-    t.bigint "user_id"
+    t.datetime "created_at"
+    t.string "data_source"
     t.bigint "query_id"
     t.text "statement"
-    t.string "data_source"
-    t.datetime "created_at"
+    t.bigint "user_id"
     t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
 
   create_table "blazer_checks", force: :cascade do |t|
-    t.bigint "creator_id"
-    t.bigint "query_id"
-    t.string "state"
-    t.string "schedule"
-    t.text "emails"
-    t.text "slack_channels"
     t.string "check_type"
-    t.text "message"
-    t.datetime "last_run_at"
     t.datetime "created_at", null: false
+    t.bigint "creator_id"
+    t.text "emails"
+    t.datetime "last_run_at"
+    t.text "message"
+    t.bigint "query_id"
+    t.string "schedule"
+    t.text "slack_channels"
+    t.string "state"
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
 
   create_table "blazer_dashboard_queries", force: :cascade do |t|
-    t.bigint "dashboard_id"
-    t.bigint "query_id"
-    t.integer "position"
     t.datetime "created_at", null: false
+    t.bigint "dashboard_id"
+    t.integer "position"
+    t.bigint "query_id"
     t.datetime "updated_at", null: false
     t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
     t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
 
   create_table "blazer_dashboards", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "creator_id"
     t.string "name"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
   create_table "blazer_queries", force: :cascade do |t|
-    t.bigint "creator_id"
-    t.string "name"
-    t.text "description"
-    t.text "statement"
-    t.string "data_source"
-    t.string "status"
     t.datetime "created_at", null: false
+    t.bigint "creator_id"
+    t.string "data_source"
+    t.text "description"
+    t.string "name"
+    t.text "statement"
+    t.string "status"
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "borrow_policies", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "code", null: false
+    t.boolean "consumable", default: false
+    t.datetime "created_at", null: false
+    t.boolean "default", default: false, null: false
+    t.string "description"
     t.integer "duration", default: 7, null: false
     t.integer "fine_cents", default: 0, null: false
     t.string "fine_currency", default: "USD", null: false
     t.integer "fine_period", default: 1, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "uniquely_numbered", default: true, null: false
-    t.string "code", null: false
-    t.string "description"
-    t.boolean "default", default: false, null: false
-    t.integer "renewal_limit", default: 0, null: false
-    t.boolean "member_renewable", default: false, null: false
     t.integer "library_id"
-    t.boolean "consumable", default: false
+    t.boolean "member_renewable", default: false, null: false
+    t.string "name", null: false
+    t.integer "renewal_limit", default: 0, null: false
     t.boolean "requires_approval", default: false, null: false
+    t.boolean "uniquely_numbered", default: true, null: false
+    t.datetime "updated_at", null: false
     t.index ["code", "library_id"], name: "index_borrow_policies_on_code_and_library_id", unique: true
     t.index ["library_id", "name"], name: "index_borrow_policies_on_library_id_and_name", unique: true
   end
 
   create_table "borrow_policy_approvals", force: :cascade do |t|
     t.bigint "borrow_policy_id", null: false
+    t.datetime "created_at", null: false
     t.bigint "member_id", null: false
     t.enum "status", default: "requested", null: false, enum_type: "borrow_policy_approval_status"
     t.text "status_reason"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["borrow_policy_id", "member_id"], name: "idx_on_borrow_policy_id_member_id_f2459be3a6", unique: true
     t.index ["borrow_policy_id"], name: "index_borrow_policy_approvals_on_borrow_policy_id"
@@ -288,13 +289,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "categorizations_count", default: 0, null: false
-    t.bigint "parent_id"
+    t.datetime "created_at", null: false
     t.integer "library_id"
+    t.string "name", null: false
+    t.bigint "parent_id"
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
     t.index ["library_id", "name"], name: "index_categories_on_library_id_and_name", unique: true
     t.index ["library_id", "slug"], name: "index_categories_on_library_id_and_slug", unique: true
     t.index ["parent_id"], name: "index_categories_on_parent_id"
@@ -302,44 +303,44 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
 
   create_table "categorizations", force: :cascade do |t|
     t.bigint "categorized_id", null: false
+    t.text "categorized_type", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "categorized_type", null: false
     t.index ["categorized_id"], name: "index_categorizations_on_categorized_id"
     t.index ["category_id", "categorized_id"], name: "index_categorizations_on_category_id_and_categorized_id", unique: true
     t.index ["category_id"], name: "index_categorizations_on_category_id"
   end
 
   create_table "documents", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.integer "library_id"
     t.string "name", null: false
     t.string "summary"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "code"
-    t.integer "library_id"
     t.index ["library_id", "code"], name: "index_documents_on_library_id_and_code"
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "calendar_id", null: false
-    t.string "calendar_event_id", null: false
-    t.datetime "start", precision: nil, null: false
-    t.datetime "finish", precision: nil, null: false
-    t.string "summary"
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.jsonb "attendees"
+    t.string "calendar_event_id", null: false
+    t.string "calendar_id", null: false
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.datetime "finish", precision: nil, null: false
     t.integer "library_id"
+    t.datetime "start", precision: nil, null: false
+    t.string "summary"
+    t.datetime "updated_at", null: false
     t.index ["calendar_id", "calendar_event_id"], name: "index_events_on_calendar_id_and_calendar_event_id", unique: true
     t.index ["library_id"], name: "index_events_on_library_id"
   end
 
   create_table "for_later_list_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "item_id", null: false
     t.bigint "member_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id", "member_id"], name: "index_for_later_list_items_on_item_id_and_member_id", unique: true
     t.index ["item_id"], name: "index_for_later_list_items_on_item_id"
@@ -347,91 +348,91 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "gift_memberships", force: :cascade do |t|
-    t.string "purchaser_email", null: false
-    t.string "purchaser_name", null: false
     t.integer "amount_cents", null: false
     t.string "code", null: false
-    t.bigint "membership_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "recipient_name"
     t.integer "library_id"
+    t.bigint "membership_id"
+    t.string "purchaser_email", null: false
+    t.string "purchaser_name", null: false
+    t.string "recipient_name"
+    t.datetime "updated_at", null: false
     t.index ["library_id", "code"], name: "index_gift_memberships_on_library_id_and_code", unique: true
     t.index ["membership_id"], name: "index_gift_memberships_on_membership_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "callback_priority"
+    t.text "callback_queue_name"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.text "description"
-    t.jsonb "serialized_properties"
+    t.datetime "discarded_at"
+    t.datetime "enqueued_at"
+    t.datetime "finished_at"
+    t.text "on_discard"
     t.text "on_finish"
     t.text "on_success"
-    t.text "on_discard"
-    t.text "callback_queue_name"
-    t.integer "callback_priority"
-    t.datetime "enqueued_at"
-    t.datetime "discarded_at"
-    t.datetime "finished_at"
+    t.jsonb "serialized_properties"
+    t.datetime "updated_at", null: false
   end
 
   create_table "good_job_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.uuid "active_job_id", null: false
-    t.text "job_class"
-    t.text "queue_name"
-    t.jsonb "serialized_params"
-    t.datetime "scheduled_at"
-    t.datetime "finished_at"
-    t.text "error"
-    t.integer "error_event", limit: 2
-    t.text "error_backtrace", array: true
-    t.uuid "process_id"
+    t.datetime "created_at", null: false
     t.interval "duration"
+    t.text "error"
+    t.text "error_backtrace", array: true
+    t.integer "error_event", limit: 2
+    t.datetime "finished_at"
+    t.text "job_class"
+    t.uuid "process_id"
+    t.text "queue_name"
+    t.datetime "scheduled_at"
+    t.jsonb "serialized_params"
+    t.datetime "updated_at", null: false
     t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
     t.index ["process_id", "created_at"], name: "index_good_job_executions_on_process_id_and_created_at"
   end
 
   create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "state"
     t.integer "lock_type", limit: 2
+    t.jsonb "state"
+    t.datetime "updated_at", null: false
   end
 
   create_table "good_job_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.text "key"
+    t.datetime "updated_at", null: false
     t.jsonb "value"
     t.index ["key"], name: "index_good_job_settings_on_key", unique: true
   end
 
   create_table "good_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.text "queue_name"
-    t.integer "priority"
-    t.jsonb "serialized_params"
-    t.datetime "scheduled_at"
-    t.datetime "performed_at"
-    t.datetime "finished_at"
-    t.text "error"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.uuid "active_job_id"
-    t.text "concurrency_key"
-    t.text "cron_key"
-    t.uuid "retried_good_job_id"
-    t.datetime "cron_at"
-    t.uuid "batch_id"
     t.uuid "batch_callback_id"
-    t.boolean "is_discrete"
-    t.integer "executions_count"
-    t.text "job_class"
+    t.uuid "batch_id"
+    t.text "concurrency_key"
+    t.datetime "created_at", null: false
+    t.datetime "cron_at"
+    t.text "cron_key"
+    t.text "error"
     t.integer "error_event", limit: 2
+    t.integer "executions_count"
+    t.datetime "finished_at"
+    t.boolean "is_discrete"
+    t.text "job_class"
     t.text "labels", array: true
-    t.uuid "locked_by_id"
     t.datetime "locked_at"
+    t.uuid "locked_by_id"
+    t.datetime "performed_at"
+    t.integer "priority"
+    t.text "queue_name"
+    t.uuid "retried_good_job_id"
+    t.datetime "scheduled_at"
+    t.jsonb "serialized_params"
+    t.datetime "updated_at", null: false
     t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
     t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"
     t.index ["batch_id"], name: "index_good_jobs_on_batch_id", where: "(batch_id IS NOT NULL)"
@@ -449,17 +450,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "holds", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.bigint "item_id", null: false
-    t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "creator_id", null: false
     t.datetime "ended_at", precision: nil
-    t.bigint "loan_id"
-    t.datetime "started_at", precision: nil
-    t.integer "library_id"
     t.datetime "expires_at", precision: nil
+    t.bigint "item_id", null: false
+    t.integer "library_id"
+    t.bigint "loan_id"
+    t.bigint "member_id", null: false
     t.integer "position", null: false
+    t.datetime "started_at", precision: nil
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_holds_on_creator_id"
     t.index ["item_id", "position"], name: "index_holds_on_item_id_and_position", unique: true
     t.index ["item_id"], name: "index_holds_on_item_id"
@@ -469,66 +470,66 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "item_attachments", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.bigint "creator_id", null: false
-    t.enum "kind", enum_type: "item_attachment_kind"
-    t.string "other_kind"
-    t.string "notes"
     t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "item_id", null: false
+    t.enum "kind", enum_type: "item_attachment_kind"
+    t.string "notes"
+    t.string "other_kind"
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_attachments_on_creator_id"
     t.index ["item_id"], name: "index_item_attachments_on_item_id"
   end
 
   create_table "item_pools", force: :cascade do |t|
-    t.bigint "creator_id", null: false
-    t.string "name"
+    t.string "checkout_notice"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "uniquely_numbered", default: true, null: false
-    t.integer "reservable_items_count", default: 0, null: false
-    t.integer "unnumbered_count"
-    t.bigint "library_id", null: false
+    t.bigint "creator_id", null: false
     t.text "description"
+    t.bigint "library_id", null: false
+    t.decimal "max_reservable_percent", precision: 2, scale: 2
+    t.string "name"
     t.text "other_names"
     t.text "plain_text_description"
+    t.integer "reservable_items_count", default: 0, null: false
     t.bigint "reservation_policy_id"
-    t.string "checkout_notice"
-    t.decimal "max_reservable_percent", precision: 2, scale: 2
+    t.boolean "uniquely_numbered", default: true, null: false
+    t.integer "unnumbered_count"
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
   end
 
   create_table "items", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "size"
-    t.string "brand"
-    t.string "model"
-    t.string "serial"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "number", null: false
-    t.enum "status", default: "active", null: false, enum_type: "item_status"
+    t.string "accessories", default: [], null: false, array: true
     t.bigint "borrow_policy_id", null: false
-    t.string "strength"
-    t.integer "quantity"
+    t.string "brand"
     t.string "checkout_notice"
+    t.datetime "created_at", null: false
+    t.integer "hold_duration"
     t.integer "holds_count", default: 0, null: false
-    t.string "other_names"
-    t.enum "power_source", enum_type: "power_source"
+    t.boolean "holds_enabled", default: true
+    t.integer "library_id"
     t.text "location_area"
     t.text "location_shelf"
-    t.integer "library_id"
+    t.string "model"
+    t.string "myturn_item_type"
+    t.string "name", null: false
+    t.integer "number", null: false
+    t.string "other_names"
     t.text "plain_text_description"
-    t.string "url"
+    t.enum "power_source", enum_type: "power_source"
     t.string "purchase_link"
     t.integer "purchase_price_cents"
-    t.string "myturn_item_type"
-    t.boolean "holds_enabled", default: true
-    t.string "accessories", default: [], null: false, array: true
+    t.integer "quantity"
     t.enum "retired_reason", enum_type: "item_retired_reason"
-    t.integer "hold_duration"
+    t.string "serial"
+    t.string "size"
+    t.enum "status", default: "active", null: false, enum_type: "item_status"
+    t.string "strength"
+    t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["borrow_policy_id", "library_id"], name: "index_items_on_borrow_policy_id_and_library_id"
     t.index ["borrow_policy_id"], name: "index_items_on_borrow_policy_id"
     t.index ["library_id"], name: "index_items_on_library_id"
@@ -536,42 +537,42 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "libraries", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "hostname", null: false
-    t.string "member_postal_code_pattern", limit: 100
-    t.string "city", null: false
-    t.string "email", null: false
     t.text "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean "allow_appointments", default: true, null: false
     t.boolean "allow_members", default: true, null: false
     t.boolean "allow_payments", default: true, null: false
     t.boolean "allow_volunteers", default: true, null: false
-    t.boolean "allow_appointments", default: true, null: false
+    t.string "city", null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "hostname", null: false
+    t.string "member_postal_code_pattern", limit: 100
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
 
   create_table "library_updates", force: :cascade do |t|
-    t.string "title"
-    t.boolean "published"
-    t.bigint "library_id"
     t.datetime "created_at", null: false
+    t.bigint "library_id"
+    t.boolean "published"
+    t.string "title"
     t.datetime "updated_at", null: false
     t.index ["library_id", "published"], name: "index_library_updates_on_library_id_and_published"
     t.index ["library_id"], name: "index_library_updates_on_library_id"
   end
 
   create_table "loans", force: :cascade do |t|
-    t.bigint "item_id"
-    t.bigint "member_id"
+    t.datetime "created_at", null: false
     t.datetime "due_at", precision: nil
     t.datetime "ended_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "uniquely_numbered", null: false
-    t.integer "renewal_count", default: 0, null: false
     t.bigint "initial_loan_id"
+    t.bigint "item_id"
     t.integer "library_id"
+    t.bigint "member_id"
+    t.integer "renewal_count", default: 0, null: false
+    t.boolean "uniquely_numbered", null: false
+    t.datetime "updated_at", null: false
     t.index ["ended_at", "library_id"], name: "index_loans_on_ended_at_and_library_id"
     t.index ["ended_at"], name: "index_loans_on_ended_at"
     t.index ["initial_loan_id", "library_id"], name: "index_loans_on_initial_loan_id_and_library_id"
@@ -588,32 +589,32 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "members", force: :cascade do |t|
-    t.string "full_name", null: false
-    t.string "preferred_name"
-    t.string "email", null: false
-    t.string "phone_number", null: false
-    t.text "bio"
-    t.integer "id_kind"
-    t.string "other_id_kind"
-    t.boolean "address_verified"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
-    t.string "postal_code"
-    t.boolean "reminders_via_email", default: false, null: false
-    t.boolean "reminders_via_text", default: false, null: false
-    t.boolean "receive_newsletter", default: false, null: false
-    t.boolean "volunteer_interest", default: false, null: false
-    t.string "desires"
     t.string "address1"
     t.string "address2"
+    t.boolean "address_verified"
+    t.text "bio"
     t.string "city"
-    t.string "region"
+    t.datetime "created_at", null: false
+    t.string "desires"
+    t.string "email", null: false
+    t.string "full_name", null: false
+    t.integer "id_kind"
+    t.integer "library_id"
     t.integer "number"
+    t.string "other_id_kind"
+    t.string "phone_number", null: false
+    t.string "postal_code"
+    t.string "preferred_name"
     t.text "pronouns", default: [], array: true
     t.string "pronunciation"
-    t.integer "library_id"
+    t.boolean "receive_newsletter", default: false, null: false
+    t.string "region"
+    t.boolean "reminders_via_email", default: false, null: false
+    t.boolean "reminders_via_text", default: false, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.boolean "volunteer_interest", default: false, null: false
     t.index ["library_id", "number"], name: "index_members_on_library_id_and_number", unique: true
     t.index ["library_id", "user_id"], name: "index_members_on_library_id_and_user_id", unique: true
     t.index ["library_id"], name: "index_members_on_library_id"
@@ -621,47 +622,61 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.datetime "started_at"
-    t.datetime "ended_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "ended_at"
     t.integer "library_id"
+    t.bigint "member_id", null: false
     t.enum "membership_type", default: "initial", null: false, enum_type: "membership_type"
+    t.datetime "started_at"
+    t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_memberships_on_member_id"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string "notable_type", null: false
-    t.bigint "notable_id", null: false
-    t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "notable_id", null: false
+    t.string "notable_type", null: false
     t.boolean "pinned", default: false, null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_notes_on_creator_id"
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.string "address", null: false
     t.string "action", null: false
+    t.string "address", null: false
+    t.datetime "created_at", null: false
+    t.integer "library_id"
     t.bigint "member_id"
-    t.string "uuid", null: false
     t.string "status", default: "pending", null: false
     t.string "subject", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "library_id"
+    t.string "uuid", null: false
     t.index ["library_id"], name: "index_notifications_on_library_id"
     t.index ["member_id"], name: "index_notifications_on_member_id"
     t.index ["uuid"], name: "index_notifications_on_uuid"
   end
 
+  create_table "payment_methods", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "display_brand", null: false
+    t.integer "expire_month", null: false
+    t.integer "expire_year", null: false
+    t.string "last_four", null: false
+    t.enum "status", default: "active", null: false, enum_type: "payment_method_status"
+    t.string "stripe_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["stripe_id"], name: "index_payment_methods_on_stripe_id", unique: true
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
+  end
+
   create_table "pending_reservation_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id", null: false
     t.bigint "reservable_item_id", null: false
     t.bigint "reservation_id", null: false
-    t.bigint "created_by_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_pending_reservation_items_on_created_by_id"
     t.index ["reservable_item_id"], name: "index_pending_reservation_items_on_reservable_item_id", unique: true
@@ -669,46 +684,46 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "archived_at"
-    t.bigint "library_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "library_id", null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["library_id"], name: "index_questions_on_library_id"
     t.index ["name"], name: "index_questions_on_name", unique: true
   end
 
   create_table "renewal_requests", force: :cascade do |t|
-    t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
-    t.bigint "loan_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "library_id"
+    t.bigint "loan_id"
+    t.enum "status", default: "requested", null: false, enum_type: "renewal_request_status"
+    t.datetime "updated_at", null: false
     t.index ["library_id"], name: "index_renewal_requests_on_library_id"
     t.index ["loan_id"], name: "index_renewal_requests_on_loan_id"
   end
 
   create_table "reservable_items", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "item_pool_id", null: false
-    t.bigint "creator_id", null: false
-    t.bigint "library_id", null: false
-    t.enum "status", enum_type: "item_status"
     t.string "brand"
-    t.string "model"
-    t.string "serial"
-    t.integer "number", null: false
-    t.integer "purchase_price_cents"
-    t.string "size"
-    t.string "strength"
-    t.enum "power_source", enum_type: "power_source"
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "item_pool_id", null: false
+    t.bigint "library_id", null: false
     t.string "location_area"
     t.string "location_shelf"
-    t.string "purchase_link"
-    t.string "url"
+    t.string "model"
     t.jsonb "myturn_metadata", default: {}
+    t.integer "number", null: false
+    t.enum "power_source", enum_type: "power_source"
+    t.string "purchase_link"
+    t.integer "purchase_price_cents"
     t.enum "retired_reason", enum_type: "item_retired_reason"
+    t.string "serial"
+    t.string "size"
+    t.enum "status", enum_type: "item_status"
+    t.string "strength"
+    t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["creator_id"], name: "index_reservable_items_on_creator_id"
     t.index ["item_pool_id"], name: "index_reservable_items_on_item_pool_id"
     t.index ["library_id"], name: "index_reservable_items_on_library_id"
@@ -716,14 +731,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "reservation_holds", force: :cascade do |t|
-    t.bigint "reservation_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "item_pool_id", null: false
-    t.integer "quantity", default: 1, null: false
-    t.bigint "library_id", null: false
-    t.datetime "started_at"
     t.datetime "ended_at"
+    t.bigint "item_pool_id", null: false
+    t.bigint "library_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.bigint "reservation_id", null: false
+    t.datetime "started_at"
+    t.datetime "updated_at", null: false
     t.index ["item_pool_id", "reservation_id"], name: "index_reservation_holds_on_item_pool_id_and_reservation_id", unique: true
     t.index ["item_pool_id"], name: "index_reservation_holds_on_item_pool_id"
     t.index ["library_id"], name: "index_reservation_holds_on_library_id"
@@ -731,15 +746,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "reservation_loans", force: :cascade do |t|
-    t.bigint "reservation_hold_id", null: false
-    t.bigint "reservable_item_id"
-    t.integer "quantity", default: 1, null: false
-    t.bigint "library_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "checked_out_at", precision: nil
     t.datetime "checked_in_at", precision: nil
+    t.datetime "checked_out_at", precision: nil
+    t.datetime "created_at", null: false
+    t.bigint "library_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.bigint "reservable_item_id"
+    t.bigint "reservation_hold_id", null: false
     t.bigint "reservation_id", null: false
+    t.datetime "updated_at", null: false
     t.index ["library_id"], name: "index_reservation_loans_on_library_id"
     t.index ["reservable_item_id", "reservation_hold_id"], name: "idx_on_reservable_item_id_reservation_hold_id_1dde83e836", unique: true
     t.index ["reservable_item_id"], name: "index_reservation_loans_on_reservable_item_id"
@@ -748,33 +763,33 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "reservation_policies", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description"
-    t.boolean "default", default: false, null: false
-    t.integer "maximum_duration", default: 21, null: false
-    t.integer "minimum_start_distance", default: 2, null: false
-    t.integer "maximum_start_distance", default: 90, null: false
-    t.bigint "library_id", null: false
     t.datetime "created_at", null: false
+    t.boolean "default", default: false, null: false
+    t.text "description"
+    t.bigint "library_id", null: false
+    t.integer "maximum_duration", default: 21, null: false
+    t.integer "maximum_start_distance", default: 90, null: false
+    t.integer "minimum_start_distance", default: 2, null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["library_id", "name"], name: "index_reservation_policies_on_library_id_and_name", unique: true
     t.index ["library_id"], name: "index_reservation_policies_on_library_id"
   end
 
   create_table "reservations", force: :cascade do |t|
-    t.string "name"
-    t.datetime "started_at"
-    t.datetime "ended_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.enum "status", default: "pending", enum_type: "reservation_status"
+    t.bigint "dropoff_event_id"
+    t.datetime "ended_at"
+    t.bigint "library_id", null: false
+    t.bigint "member_id", null: false
+    t.string "name"
     t.string "notes"
+    t.bigint "pickup_event_id"
     t.datetime "reviewed_at"
     t.bigint "reviewer_id"
-    t.bigint "library_id", null: false
-    t.bigint "pickup_event_id"
-    t.bigint "dropoff_event_id"
-    t.bigint "member_id", null: false
+    t.datetime "started_at"
+    t.enum "status", default: "pending", enum_type: "reservation_status"
+    t.datetime "updated_at", null: false
     t.index ["dropoff_event_id"], name: "index_reservations_on_dropoff_event_id"
     t.index ["library_id"], name: "index_reservations_on_library_id"
     t.index ["member_id"], name: "index_reservations_on_member_id"
@@ -783,22 +798,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "stems", force: :cascade do |t|
-    t.bigint "question_id", null: false
-    t.text "content", null: false
     t.enum "answer_type", default: "text", null: false, enum_type: "answer_type"
+    t.text "content", null: false
     t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_stems_on_question_id"
   end
 
   create_table "taggings", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.string "taggable_type"
-    t.bigint "taggable_id"
-    t.string "tagger_type"
-    t.bigint "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at", precision: nil
+    t.bigint "tag_id"
+    t.bigint "taggable_id"
+    t.string "taggable_type"
+    t.bigint "tagger_id"
+    t.string "tagger_type"
     t.string "tenant", limit: 128
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
@@ -815,21 +830,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "name"
     t.integer "taggings_count", default: 0
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "ticket_updates", force: :cascade do |t|
-    t.integer "time_spent"
-    t.bigint "ticket_id", null: false
-    t.bigint "creator_id", null: false
     t.bigint "audit_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "creator_id", null: false
     t.bigint "library_id"
+    t.bigint "ticket_id", null: false
+    t.integer "time_spent"
+    t.datetime "updated_at", null: false
     t.index ["audit_id"], name: "index_ticket_updates_on_audit_id"
     t.index ["creator_id"], name: "index_ticket_updates_on_creator_id"
     t.index ["library_id"], name: "index_ticket_updates_on_library_id"
@@ -837,46 +852,48 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "item_id", null: false
-    t.enum "status", default: "assess", null: false, enum_type: "ticket_status"
-    t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "item_id", null: false
     t.bigint "library_id"
+    t.enum "status", default: "assess", null: false, enum_type: "ticket_status"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["item_id"], name: "index_tickets_on_item_id"
     t.index ["library_id"], name: "index_tickets_on_library_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.enum "role", default: "member", null: false, enum_type: "user_role"
-    t.integer "library_id"
+    t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.inet "current_sign_in_ip"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "last_sign_in_at", precision: nil
+    t.inet "last_sign_in_ip"
+    t.integer "library_id"
+    t.datetime "locked_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.enum "role", default: "member", null: false, enum_type: "user_role"
+    t.integer "sign_in_count", default: 0, null: false
+    t.string "stripe_customer_id"
     t.string "unconfirmed_email"
+    t.string "unlock_token"
+    t.datetime "updated_at", null: false
     t.index "lower((email)::text), library_id", name: "index_users_on_lowercase_email_and_library_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["library_id"], name: "index_users_on_library_id"
     t.index ["reset_password_token", "library_id"], name: "index_users_on_reset_password_token_and_library_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id"
     t.index ["unlock_token", "library_id"], name: "index_users_on_unlock_token_and_library_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
@@ -971,15 +988,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
              FROM search_tree
             ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)))
           )
-   SELECT tree_nodes.id,
-      tree_nodes.library_id,
-      tree_nodes.name,
-      tree_nodes.slug,
-      tree_nodes.parent_id,
-      tree_nodes.path_names,
-      tree_nodes.path_ids,
-      tree_nodes.sort_name,
-      tree_nodes.tree_ids,
+   SELECT id,
+      library_id,
+      name,
+      slug,
+      parent_id,
+      path_names,
+      path_ids,
+      sort_name,
+      tree_ids,
       ( SELECT json_build_object('active', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
              FROM (categorizations
                LEFT JOIN items ON ((categorizations.categorized_id = items.id)))
@@ -994,24 +1011,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
 
   create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT loans.library_id,
-      loans.item_id,
-      loans.member_id,
-      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
-      max(loans.id) AS latest_loan_id,
-      min(loans.created_at) AS created_at,
-      max(loans.due_at) AS due_at,
+      SELECT library_id,
+      item_id,
+      member_id,
+      COALESCE(initial_loan_id, id) AS initial_loan_id,
+      max(id) AS latest_loan_id,
+      min(created_at) AS created_at,
+      max(due_at) AS due_at,
           CASE
-              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              WHEN (count(ended_at) = count(id)) THEN max(ended_at)
               ELSE NULL::timestamp without time zone
           END AS ended_at,
-      max(loans.renewal_count) AS renewal_count
+      max(renewal_count) AS renewal_count
      FROM loans
-    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+    GROUP BY library_id, item_id, member_id, COALESCE(initial_loan_id, id);
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
-      SELECT (date_part('year'::text, adjustments.created_at))::integer AS year,
-      (date_part('month'::text, adjustments.created_at))::integer AS month,
+      SELECT (EXTRACT(year FROM adjustments.created_at))::integer AS year,
+      (EXTRACT(month FROM adjustments.created_at))::integer AS month,
       count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_count,
       sum((- adjustments.amount_cents)) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id = first_memberships.first_membership_id))) AS new_membership_total_cents,
       count(*) FILTER (WHERE ((adjustments.kind = 'membership'::adjustment_kind) AND (adjustments.adjustable_id <> first_memberships.first_membership_id))) AS renewal_membership_count,
@@ -1025,8 +1042,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
              FROM (members
                LEFT JOIN memberships ON ((members.id = memberships.member_id)))
             GROUP BY members.id) first_memberships ON ((first_memberships.member_id = adjustments.member_id)))
-    GROUP BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer)
-    ORDER BY ((date_part('year'::text, adjustments.created_at))::integer), ((date_part('month'::text, adjustments.created_at))::integer);
+    GROUP BY ((EXTRACT(year FROM adjustments.created_at))::integer), ((EXTRACT(month FROM adjustments.created_at))::integer)
+    ORDER BY ((EXTRACT(year FROM adjustments.created_at))::integer), ((EXTRACT(month FROM adjustments.created_at))::integer);
   SQL
   create_view "monthly_appointments", sql_definition: <<-SQL
       WITH dates AS (
@@ -1037,8 +1054,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
            SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
              FROM dates
           )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
       count(DISTINCT a.id) AS appointments_count,
       count(DISTINCT a.id) FILTER (WHERE (a.completed_at IS NOT NULL)) AS completed_appointments_count
      FROM (months
@@ -1074,8 +1091,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_142040) do
            SELECT generate_series(dates.startm, dates.endm, 'P1M'::interval) AS month
              FROM dates
           )
-   SELECT (date_part('year'::text, months.month))::integer AS year,
-      (date_part('month'::text, months.month))::integer AS month,
+   SELECT (EXTRACT(year FROM months.month))::integer AS year,
+      (EXTRACT(month FROM months.month))::integer AS month,
       count(DISTINCT m.id) FILTER (WHERE (m.status = 0)) AS pending_members_count,
       count(DISTINCT m.id) FILTER (WHERE (m.status = 1)) AS new_members_count
      FROM (months

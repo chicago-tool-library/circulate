@@ -50,6 +50,9 @@ Rails.application.routes.draw do
         end
       end
       resources :item_pools
+      if FeatureFlags.stripe_payments_enabled?
+        resources :payment_methods, only: [:index, :new, :create, :destroy]
+      end
     end
   end
 

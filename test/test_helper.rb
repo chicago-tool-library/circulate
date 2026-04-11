@@ -3,6 +3,7 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "spy/integration"
 require "minitest/mock"
+require "vcr"
 
 require "helpers/return_values"
 require "helpers/ensure_request_tenant"
@@ -11,6 +12,13 @@ require "test_helpers/twilio_helper"
 # Explicit require means the plugin is available when tests are evaluated;
 # otherwise, the plugin isn't loaded until later.
 require "minitest/tags_plugin"
+
+VCR.configure do |config|
+  config.cassette_library_dir = "test/vcr_cassettes"
+  config.hook_into :webmock
+  config.filter_sensitive_data("<STRIPE_API_KEY>") { ENV.fetch("STRIPE_API_KEY") }
+  config.allow_http_connections_when_no_cassette = true
+end
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
