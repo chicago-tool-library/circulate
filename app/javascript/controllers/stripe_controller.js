@@ -54,6 +54,4 @@ export default class extends Controller {
       // site first to authorize the payment, then redirected to the `return_url`.
     }
   }
-
-  disconnect() {}
 }

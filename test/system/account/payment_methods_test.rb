@@ -28,8 +28,48 @@ module Account
       refute_text detached_payment_method.last_four
     end
 
+    # This test is really just confirming that a form is created
+    # with the generated stripe intent
     test "creating a payment method" do
-      skip
+      mock_stripe_intent = SecureRandom.hex
+
+      mock_stripe_result = Minitest::Mock.new
+      mock_stripe_result.expect :success?, true
+      mock_stripe_result.expect :value, mock_stripe_intent
+
+      mock_stripe_checkout = Minitest::Mock.new
+      mock_stripe_checkout.expect :sync_payment_methods, nil, [@member.user]
+      mock_stripe_checkout.expect :prepare_to_collect_payment_info, mock_stripe_result, [@member.user]
+
+      StripeCheckout.stub :build, mock_stripe_checkout do
+        visit account_payment_methods_url
+        click_link "Add new payment method"
+
+        form = find("#payment-form")
+        form_intent = form["data-stripe-intent-secret-value"]
+
+        assert_equal mock_stripe_intent, form_intent
+      end
+    end
+
+    test "failing to create a payment method" do
+      mock_stripe_result = Minitest::Mock.new
+      mock_stripe_result.expect :success?, false
+      mock_stripe_result.expect :error, "Something went wrong"
+
+      mock_stripe_checkout = Minitest::Mock.new
+      # this will be called twice
+      mock_stripe_checkout.expect :sync_payment_methods, nil, [@member.user]
+      mock_stripe_checkout.expect :sync_payment_methods, nil, [@member.user]
+      mock_stripe_checkout.expect :prepare_to_collect_payment_info, mock_stripe_result, [@member.user]
+
+      StripeCheckout.stub :build, mock_stripe_checkout do
+        visit account_payment_methods_url
+        click_link "Add new payment method"
+
+        assert_text "There was a problem connecting to our payment processor."
+        assert_equal account_payment_methods_path, current_path
+      end
     end
 
     test "deleting a payment method" do
@@ -37,6 +77,7 @@ module Account
       payment_method_to_delete = create(:payment_method, :active, user: @member.user)
 
       mock_stripe_checkout = Minitest::Mock.new
+      # this will be called twice
       mock_stripe_checkout.expect :sync_payment_methods, nil, [@member.user]
       mock_stripe_checkout.expect :sync_payment_methods, nil, [@member.user]
       mock_stripe_checkout.expect :delete_payment_method, Result.success(nil) do |given_payment_method|

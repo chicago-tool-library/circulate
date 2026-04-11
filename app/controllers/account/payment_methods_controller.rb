@@ -3,9 +3,9 @@ module Account
     def new
       @result = checkout.prepare_to_collect_payment_info(current_user)
       unless @result.success?
-        Rails.logger.error(result.error)
+        Rails.logger.error(@result.error)
         flash[:error] = "There was a problem connecting to our payment processor."
-        redirect_to_back_or_default
+        redirect_to account_payment_methods_path
       end
     end
 
