@@ -161,6 +161,7 @@ Rails.application.routes.draw do
       resources :missing_items, only: :index
       resources :monthly_activities, only: :index
       resources :member_requests, only: :index
+      resources :myturn_reservations, only: :index
       resources :notifications, only: :index
       resources :potential_volunteers, only: :index
       resources :shifts, only: :index
