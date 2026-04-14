@@ -50,6 +50,9 @@
             </li>
           <% end %>
           <li class="nav-item">
+            <%= link_to "Camping Gear", admin_camping_gear_index_path, class: "btn btn-link" %>
+          </li>
+          <li class="nav-item">
             <span class="nav-category">Reports</span>
             <ul class="nav">
               <li class="nav-item"><%= link_to "Activity", admin_reports_monthly_activities_path %></li>
@@ -64,7 +67,6 @@
               <li class="nav-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
               <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %></li>
               <li class="nav-item"><%= link_to "Missing Items", admin_reports_missing_items_path %></li>
-              <li class="nav-item"><%= link_to "Camping Gear", admin_reports_myturn_reservations_path %></li>
               <li class="nav-item"><%= link_to "Zipcodes", admin_reports_zipcodes_path %></li>
             </ul>
           </li>
@@ -150,6 +152,9 @@
               </div>
             <% end %>
             <div class="dropdown">
+              <%= link_to "Camping Gear", admin_camping_gear_index_path, class: "btn btn-link" %>
+            </div>
+            <div class="dropdown">
               <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
                 Reports <i class="icon icon-caret"></i>
               </a>
@@ -166,7 +171,6 @@
                 <li class="menu-item"><%= link_to "Items without Image", admin_reports_items_without_image_index_path %></li>
                 <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %></li>
                 <li class="menu-item"><%= link_to "Missing Items", admin_reports_missing_items_path %></li>
-                <li class="menu-item"><%= link_to "Camping Gear", admin_reports_myturn_reservations_path %></li>
                 <li class="menu-item"><%= link_to "Zipcodes", admin_reports_zipcodes_path %></li>
               </ul>
             </div>

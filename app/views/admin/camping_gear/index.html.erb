@@ -11,7 +11,7 @@
     <p class="text-gray">Daily pick-ups and expected drop-offs for camping gear reservations, pulled from MyTurn.</p>
     <ul class="pagination">
       <li class="page-item page-prev appointments-date-nav">
-        <%= link_to admin_reports_myturn_reservations_path(day: previous_day) do %>
+        <%= link_to admin_camping_gear_index_path(day: previous_day) do %>
           <div class="page-item-subtitle">
             <i class="icon icon-1x icon-arrow-left"></i> <span class="text-primary">Previous Date</span>
           </div>
@@ -19,7 +19,7 @@
       </li>
       <li class="pt-2 appointments-date"><b><%= current_day_label %></b></li>
       <li class="page-item page-next appointments-date-nav">
-        <%= link_to admin_reports_myturn_reservations_path(day: next_day) do %>
+        <%= link_to admin_camping_gear_index_path(day: next_day) do %>
           <div class="page-item-subtitle">
             <span class="text-primary">Next Date</span> <i class="icon icon-1x icon-arrow-right"></i>
           </div>
