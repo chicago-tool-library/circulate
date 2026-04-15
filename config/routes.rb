@@ -104,6 +104,7 @@ Rails.application.routes.draw do
       resource :detail_completion, only: [:create, :destroy], controller: :appointment_detail_completions
       resource :detail_pull, only: [:create, :destroy], controller: :appointment_detail_pulls
     end
+    resources :camping_gear, only: :index
     resources :manage_features, only: [:index, :update]
     resources :items do
       scope module: "items" do
@@ -159,12 +160,12 @@ Rails.application.routes.draw do
     end
 
     namespace :reports do
+      get "myturn_reservations", to: redirect("/admin/camping_gear")
       resources :memberships, only: :index
       resources :items_in_maintenance, only: :index
       resources :missing_items, only: :index
       resources :monthly_activities, only: :index
       resources :member_requests, only: :index
-      resources :myturn_reservations, only: :index
       resources :notifications, only: :index
       resources :potential_volunteers, only: :index
       resources :shifts, only: :index
