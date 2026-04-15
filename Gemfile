@@ -47,6 +47,7 @@ gem "square.rb", "43.0.1.20250716"
 gem "aws-sdk-s3", require: false
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem "stripe"
 
 # Calendar syncing
 gem "googleauth"
@@ -91,6 +92,8 @@ group :test do
   gem "capybara-playwright-driver"
   gem "rails-controller-testing"
   gem "timecop"
+  gem "vcr"
+  gem "webmock"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
