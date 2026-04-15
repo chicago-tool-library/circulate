@@ -44,13 +44,14 @@
               <% end %>
             </ul>
           </li>
-          <% if current_library.allow_appointments? %>
-            <li class="nav-item">
-              <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
-            </li>
-          <% end %>
           <li class="nav-item">
-            <%= link_to "Camping Gear", admin_camping_gear_index_path, class: "btn btn-link" %>
+            <span class="nav-category">Appointments</span>
+            <ul class="nav">
+              <% if current_library.allow_appointments? %>
+                <li class="nav-item"><%= link_to "Tool Lending", admin_appointments_path %></li>
+              <% end %>
+              <li class="nav-item"><%= link_to "Camping Gear", admin_camping_gear_index_path %></li>
+            </ul>
           </li>
           <li class="nav-item">
             <span class="nav-category">Reports</span>
@@ -146,13 +147,16 @@
                 <% end %>
               </ul>
             </div>
-            <% if current_library.allow_appointments? %>
-              <div class="dropdown">
-                <%= link_to "Appointments", admin_appointments_path, class: "btn btn-link" %>
-              </div>
-            <% end %>
             <div class="dropdown">
-              <%= link_to "Camping Gear", admin_camping_gear_index_path, class: "btn btn-link" %>
+              <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
+                Appointments <i class="icon icon-caret"></i>
+              </a>
+              <ul class="menu">
+                <% if current_library.allow_appointments? %>
+                  <li class="menu-item"><%= link_to "Tool Lending", admin_appointments_path %></li>
+                <% end %>
+                <li class="menu-item"><%= link_to "Camping Gear", admin_camping_gear_index_path %></li>
+              </ul>
             </div>
             <div class="dropdown">
               <a href="#" class="btn btn-link dropdown-toggle" tabindex="0" data-turbo="false">
