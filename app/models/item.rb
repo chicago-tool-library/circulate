@@ -138,6 +138,7 @@ class Item < ApplicationRecord
   before_validation :strip_whitespace
 
   before_save :cache_description_as_plain_text
+  before_save :clear_hold_duration_when_holds_disabled
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
   def self.ransackable_attributes(auth_object = nil)
@@ -230,6 +231,10 @@ class Item < ApplicationRecord
       next if value.blank?
       self[attr_name] = value.strip
     end
+  end
+
+  def clear_hold_duration_when_holds_disabled
+    self.hold_duration = nil unless holds_enabled
   end
 
   def clear_holds_if_inactive
