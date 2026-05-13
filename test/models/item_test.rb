@@ -143,6 +143,12 @@ class ItemTest < ActiveSupport::TestCase
     refute item.holdable?
   end
 
+  test "clears hold_duration when holds are disabled" do
+    item = create(:item, holds_enabled: true, hold_duration: 1)
+    item.update!(holds_enabled: false)
+    assert_nil item.reload.hold_duration
+  end
+
   test "has a next_hold" do
     item = create(:item)
     hold = create(:hold, item: item, created_at: 2.days.ago)
