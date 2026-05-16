@@ -30,4 +30,8 @@ module ApplicationHelper
       "#{current_library.name} Inventory"
     end
   end
+
+  def camping_homepage_url
+    ENV.fetch("CAMPING_HOMEPAGE_URL", "https://www.chicagotoollibrary.org/camping")
+  end
 end
