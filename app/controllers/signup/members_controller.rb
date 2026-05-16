@@ -1,6 +1,11 @@
 module Signup
   class MembersController < BaseController
     before_action :is_membership_enabled?
+    # Skip CSRF to stop InvalidAuthenticityToken errors that hurt real users
+    # (long signup form, lost data on retry). Signup is public and #create
+    # doesn't read current_user, so spam prevention belongs in rate-limiting,
+    # not CSRF. See application_controller.rb for prior chapters.
+    skip_before_action :verify_authenticity_token, only: :create
 
     def new
       if session[:member_id]
