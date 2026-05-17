@@ -102,7 +102,7 @@ module Account
       assert_text ignored_for_later_list_item.item.name
 
       within("##{dom_id(for_later_list_item)}") do
-        click_button "Remove from saved for later"
+        click_button "Remove"
       end
 
       refute_text for_later_list_item.item.name

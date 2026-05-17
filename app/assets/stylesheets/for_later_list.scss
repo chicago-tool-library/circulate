@@ -1,12 +1,25 @@
-.save-for-later-button svg {
-}
+@use 'sass:color';
 
 .remove-from-save-for-later-button {
   svg {
-    fill: lighten(#605045, 40%);
+    fill: color.adjust(#605045, $lightness: 40%, $space: hsl);
   }
 
   &:hover svg {
     fill: white;
   }
+
+  &:active svg {
+    fill: color.adjust(#605045, $lightness: 40%, $space: hsl);
+  }
+}
+
+.for-later-list-button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.saved-for-later-list {
+  padding-block-start: 22px;
 }

@@ -145,6 +145,7 @@ $photo-width: 187px;
   .item-container {
     display: flex;
     border-bottom: 1px solid #dadee4;
+    position: relative;
   }
 
   .item-container .item-name {
