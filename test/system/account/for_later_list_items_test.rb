@@ -35,7 +35,7 @@ module Account
       visit item_path(create(:item))
 
       refute_text "Save for later"
-      refute_text "Don't need it"
+      refute_text "Remove from saved for later"
     end
 
     test_with_for_later_list_items_enabled "members that are not signed in cannot add anything to their for later list on the items index page" do
@@ -44,7 +44,7 @@ module Account
       visit items_path
 
       refute_text "Save for later"
-      refute_text "Don't need it"
+      refute_text "Remove from saved for later"
     end
 
     test_with_for_later_list_items_enabled "members can see that they've previously for later listed an item on the item details page" do
@@ -52,7 +52,7 @@ module Account
 
       visit item_path(for_later_list_item.item)
 
-      assert_text "Don't need it"
+      assert_text "Remove from saved for later"
     end
 
     test_with_for_later_list_items_enabled "members can see that they've previously for later listed an item on the items index page" do
@@ -60,7 +60,7 @@ module Account
 
       visit items_path
 
-      assert_text "Don't need it"
+      assert_text "Remove from saved for later"
     end
 
     test_with_for_later_list_items_enabled "members can add an item to their for later list from the item details page" do
@@ -70,7 +70,7 @@ module Account
 
       assert_difference("@member.for_later_list_items.count", 1) do
         click_button "Save for later"
-        assert_text "Don't need it"
+        assert_text "Remove from saved for later"
       end
 
       for_later_list_item = @member.for_later_list_items.first!
@@ -85,7 +85,7 @@ module Account
 
       assert_difference("@member.for_later_list_items.count", 1) do
         click_button "Save for later"
-        assert_text "Don't need it"
+        assert_text "Remove from saved for later"
       end
 
       for_later_list_item = @member.for_later_list_items.first!
@@ -102,7 +102,7 @@ module Account
       assert_text ignored_for_later_list_item.item.name
 
       within("##{dom_id(for_later_list_item)}") do
-        click_button "Don't need it"
+        click_button "Remove from saved for later"
       end
 
       refute_text for_later_list_item.item.name
@@ -115,7 +115,7 @@ module Account
       visit item_path(for_later_list_item.item)
 
       assert_difference("@member.for_later_list_items.count", -1) do
-        click_button "Don't need it"
+        click_button "Remove from saved for later"
         assert_text "Save for later"
       end
     end
@@ -126,7 +126,7 @@ module Account
       visit items_path
 
       assert_difference("@member.for_later_list_items.count", -1) do
-        click_button "Don't need it"
+        click_button "Remove from saved for later"
         assert_text "Save for later"
       end
     end

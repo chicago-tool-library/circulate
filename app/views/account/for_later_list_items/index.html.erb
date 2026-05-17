@@ -34,7 +34,7 @@
             <br>
 
             <%= tag.div [item.brand, item.model].select(&:present?).join(", ") %>
-            <%= button_to "Don't need it", account_for_later_list_item_path(for_later_list_item),
+            <%= button_to "Remove from saved for later", account_for_later_list_item_path(for_later_list_item),
                   method: :delete, class: "btn" %>
           <% end %>
 
