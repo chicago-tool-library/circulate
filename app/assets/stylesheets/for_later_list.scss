@@ -1,0 +1,12 @@
+.save-for-later-button svg {
+}
+
+.remove-from-save-for-later-button {
+  svg {
+    fill: lighten(#605045, 40%);
+  }
+
+  &:hover svg {
+    fill: white;
+  }
+}
