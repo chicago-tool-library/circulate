@@ -5,7 +5,9 @@ module Account
       result = BorrowPolicyAuthorizer.check(borrow_policy:, member: current_member)
 
       if result.can_request?
-        BorrowPolicyApproval.create!(borrow_policy:, member: current_user.member)
+        approval = result.borrow_policy_approval || BorrowPolicyApproval.new(borrow_policy:, member: current_member)
+        approval.status = "requested"
+        approval.save!
 
         redirect_to request.referrer.presence || root_path, status: :see_other, success: "Approval requested."
       else

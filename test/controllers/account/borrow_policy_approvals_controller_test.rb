@@ -36,6 +36,18 @@ module Account
       assert flash[:error].present?
     end
 
+    test "reuses an old rejected approval when re-requesting after the cooldown" do
+      approval = create(:borrow_policy_approval, :rejected, borrow_policy: @borrow_policy, member: @member, updated_at: 3.months.ago)
+
+      assert_difference("BorrowPolicyApproval.count", 0) do
+        post account_borrow_policy_approvals_url, params: {item_id: @item.id, borrow_policy_id: @borrow_policy.id}
+      end
+
+      assert_equal "requested", approval.reload.status
+      assert flash[:success].present?
+      assert flash[:error].blank?
+    end
+
     test "does not create borrow policy approval when the member is new" do
       @member.update!(created_at: 1.day.ago)
 
