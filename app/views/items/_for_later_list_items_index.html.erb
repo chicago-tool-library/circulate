@@ -4,7 +4,7 @@
       <%= button_to account_for_later_list_item_path(for_later_list_item),
             method: :delete, class: "btn btn-sm remove-from-save-for-later-button", title: "Remove from save for later list" do %>
         <%= render partial: "shared/icons/bookmark" %>
-        <span class="visually-hidden">Remove from saved for later</span>
+        <span class="visually-hidden">Remove from saved for later list</span>
       <% end %>
     <% else %>
       <%= button_to account_for_later_list_items_path,
