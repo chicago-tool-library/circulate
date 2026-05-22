@@ -38,6 +38,17 @@ module Account
       assert_select "a.btn-default", "Renew Membership"
     end
 
+    test "signs out and redirects when a user has no member record" do
+      orphan = create(:member_user)
+      sign_in orphan
+
+      get account_home_url
+
+      assert_redirected_to root_path
+      assert_match(/problem with your account/i, flash[:alert])
+      assert_nil controller.current_user, "expected the orphan user to be signed out"
+    end
+
     test "shows updates on the home page" do
       create(:library_update, published: true, body: "some good news")
       create(:library_update, published: false, body: "some old news")
