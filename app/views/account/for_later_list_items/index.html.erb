@@ -42,7 +42,7 @@
             <% end %>
           <% end %>
           <%= button_to "Remove", account_for_later_list_item_path(for_later_list_item),
-                method: :delete, class: "btn" %>
+                method: :delete, class: "btn", data: {turbo_confirm: "Are you sure?"} %>
         </div>
       </li>
     <% end %>
