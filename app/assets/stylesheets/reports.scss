@@ -1,5 +1,6 @@
 .items_in_maintenance,
-.borrow_policy_approvals {
+.borrow_policy_approvals,
+.items-search {
   --border-color: rgb(206.3684210526, 195.2236842105, 188.1315789474);
   --box-shadow: 0 0 0 0.1rem rgba(47, 120, 144, 0.2);
   --blue: #2f7890;
@@ -104,5 +105,22 @@
     display: flex;
     justify-content: flex-end;
     padding: 1rem 0;
+  }
+
+  .status-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+
+    .form-checkbox {
+      margin: 0;
+      padding: 0.1rem 0.4rem 0.1rem 1.2rem;
+    }
+  }
+}
+
+.items-search {
+  .filter-column {
+    flex: 1;
   }
 }

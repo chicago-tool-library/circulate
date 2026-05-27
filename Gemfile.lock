@@ -229,6 +229,7 @@ GEM
       net-http-persistent (>= 4.0.4, < 5)
     faraday-retry (2.3.2)
       faraday (~> 2.0)
+    ffi (1.17.3-aarch64-linux-gnu)
     ffi (1.17.3-arm64-darwin)
     ffi (1.17.3-x86_64-darwin)
     ffi (1.17.3-x86_64-linux-gnu)
@@ -363,6 +364,8 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.3-aarch64-linux-gnu)
+      racc (~> 1.4)
     nokogiri (1.19.3-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.3-x86_64-darwin)
@@ -400,6 +403,7 @@ GEM
     parser (3.3.10.1)
       ast (~> 2.4.1)
       racc
+    pg (1.6.3-aarch64-linux)
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
@@ -618,6 +622,7 @@ GEM
     zlib (3.2.3)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-22
   arm64-darwin-23
   arm64-darwin-24

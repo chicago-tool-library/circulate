@@ -1,0 +1,121 @@
+<% content_for :header do %>
+  <%= index_header "Search Items" %>
+<% end %>
+
+<div class="items-search">
+  <section class="filters-container">
+    <h2>Filters</h2>
+    <%= search_form_for(@q, url: search_admin_items_path, class: "filters-form") do |f| %>
+      <div class="filters-form-fields">
+        <div class="filter-column">
+          <div class="filter-row">
+            <div class="filter-field name">
+              <%= f.label :name_cont, "Name" %>
+              <%= f.search_field :name_cont %>
+            </div>
+
+            <div class="filter-field number">
+              <%= f.label :number_eq, "Item Number" %>
+              <%= f.search_field :number_eq %>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-field brand">
+              <%= f.label :brand_cont, "Brand" %>
+              <%= f.search_field :brand_cont %>
+            </div>
+
+            <div class="filter-field model">
+              <%= f.label :model_cont, "Model" %>
+              <%= f.search_field :model_cont %>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-field size">
+              <%= f.label :size_cont, "Size" %>
+              <%= f.search_field :size_cont %>
+            </div>
+
+            <div class="filter-field strength">
+              <%= f.label :strength_cont, "Strength" %>
+              <%= f.search_field :strength_cont %>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-field status">
+              <span class="form-label">Status</span>
+              <div class="status-checkboxes">
+                <%= f.collection_check_boxes :status_in, Item.statuses.keys.map { |value| [value, value.humanize] }, :first, :last do |b| %>
+                  <%= b.label(class: "form-checkbox") do %>
+                    <%= b.check_box %>
+                    <i class="form-icon"></i> <%= b.text %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-button-container">
+        <%= f.submit "Search", class: "btn" %>
+        <%= link_to "Clear", search_admin_items_path, class: "btn btn-link" %>
+      </div>
+    <% end %>
+  </section>
+
+  <% if @items.any? %>
+    <div class="column col-12">
+      <table class="table">
+        <tr>
+          <th>Image</th>
+          <th><%= sort_link(@q, :number, "Item Number") %></th>
+          <th><%= sort_link(@q, :status, "Status") %></th>
+          <th><%= sort_link(@q, :name, "Name") %></th>
+          <th><%= sort_link(@q, :size, "Size / Strength") %></th>
+          <th><%= sort_link(@q, :active_holds_count, "# of Holds") %></th>
+          <th><%= sort_link(@q, :brand, "Brand / Model") %></th>
+          <th>Category</th>
+        </tr>
+        <% @items.each do |item| %>
+          <tr>
+            <td>
+              <% if item.image.attached? %>
+                <%= link_to admin_item_path(item) do %>
+                  <%= image_tag item_image_url(item.image, resize_to_limit: [60, 60]) %>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to item.complete_number, admin_item_path(item) %>
+            </td>
+            <td>
+              <%= item.status.humanize %>
+            </td>
+            <td>
+              <%= link_to item.name, admin_item_path(item) %>
+            </td>
+            <td>
+              <%= [item.size, item.strength].select(&:present?).join(" / ") %>
+            </td>
+            <td>
+              <%= item.active_holds_count %>
+            </td>
+            <td>
+              <%= [item.brand, item.model].select(&:present?).join(" / ") %>
+            </td>
+            <td>
+              <%= item.categories.map(&:name).join(", ") %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <%== pagy_bootstrap_nav(@pagy) %>
+  <% else %>
+    <%= empty_state "There are no items that match the current filters!" %>
+  <% end %>
+</div>
