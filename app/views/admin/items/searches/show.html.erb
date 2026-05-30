@@ -21,9 +21,14 @@
               <div class="status-checkboxes">
                 <% selected_statuses = params.dig(:q, :status_in) || %w[active pending maintenance] %>
                 <% Item.statuses.keys.each do |status| %>
-                  <%= label_tag "q_status_in_#{status}", class: "form-checkbox" do %>
-                    <%= check_box_tag "q[status_in][]", status, selected_statuses.include?(status), id: "q_status_in_#{status}" %>
+                  <%= label_tag "q_status_in_#{status}", class: "form-checkbox #{"disabled" if @status_filter_ignored}" do %>
+                    <%= check_box_tag "q[status_in][]", status, selected_statuses.include?(status), id: "q_status_in_#{status}", disabled: @status_filter_ignored %>
                     <i class="form-icon"></i> <%= status.humanize %>
+                  <% end %>
+                <% end %>
+                <% if @status_filter_ignored %>
+                  <% selected_statuses.each do |status| %>
+                    <%= hidden_field_tag "q[status_in][]", status %>
                   <% end %>
                 <% end %>
               </div>
