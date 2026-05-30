@@ -1,9 +1,6 @@
 require "test_helper"
 
 class AdminHelperTest < ActionView::TestCase
-  setup do
-  end
-
   test "flash_message returns nothing when there is no matching flash for the given key" do
     flash.now[:notice] = "This is a notice."
 
