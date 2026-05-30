@@ -75,4 +75,17 @@ class ItemSearchQueryTest < ActiveSupport::TestCase
     assert ItemSearchQuery.new("drill").present?
     assert_not ItemSearchQuery.new("").present?
   end
+
+  test "input is truncated past MAX_INPUT_LENGTH" do
+    huge = "a" * (ItemSearchQuery::MAX_INPUT_LENGTH + 50)
+    query = ItemSearchQuery.new(huge)
+    assert_equal 1, query.bare_terms.size
+    assert_equal ItemSearchQuery::MAX_INPUT_LENGTH, query.bare_terms.first.length
+  end
+
+  test "tokens past MAX_INPUT_LENGTH are dropped" do
+    input = ("x" * (ItemSearchQuery::MAX_INPUT_LENGTH - 1)) + " dropped"
+    query = ItemSearchQuery.new(input)
+    assert_equal ["x" * (ItemSearchQuery::MAX_INPUT_LENGTH - 1)], query.bare_terms
+  end
 end

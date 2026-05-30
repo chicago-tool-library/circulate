@@ -1,6 +1,7 @@
 class ItemSearchQuery
   FIELDS = %w[name number brand model size strength].freeze
   FIELD_PATTERN = /\A([A-Za-z]+):(.+)\z/
+  MAX_INPUT_LENGTH = 200
 
   attr_reader :bare_terms, :field_constraints, :raw
 
@@ -8,7 +9,7 @@ class ItemSearchQuery
     @raw = input.to_s
     @bare_terms = []
     @field_constraints = {}
-    parse(@raw)
+    parse(@raw.first(MAX_INPUT_LENGTH))
   end
 
   def blank?
@@ -32,26 +33,10 @@ class ItemSearchQuery
     end
   end
 
+  # Splits on whitespace, but treats a "double quoted" span as one piece so it
+  # can attach to a field prefix (e.g. name:"power drill") or stand alone.
   def tokenize(input)
-    tokens = []
-    buffer = +""
-    in_quotes = false
-    i = 0
-    while i < input.length
-      char = input[i]
-      if char == '"'
-        buffer << char
-        in_quotes = !in_quotes
-      elsif char =~ /\s/ && !in_quotes
-        tokens << buffer unless buffer.empty?
-        buffer = +""
-      else
-        buffer << char
-      end
-      i += 1
-    end
-    tokens << buffer unless buffer.empty?
-    tokens
+    input.scan(/(?:[^\s"]+|"[^"]*")+/)
   end
 
   def strip_quotes(value)

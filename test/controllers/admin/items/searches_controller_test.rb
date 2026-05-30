@@ -72,6 +72,17 @@ module Admin
         assert_response :success
       end
 
+      test "LIKE wildcards in field values are escaped" do
+        literal = create(:item, name: "Saw", brand: "100% pure")
+        decoy = create(:item, name: "Saw", brand: "Makita")
+
+        get search_admin_items_url(query: "brand:%")
+
+        assert_response :success
+        assert_match literal.brand, response.body
+        assert_no_match(/#{decoy.brand}/, response.body)
+      end
+
       test "sorts by active holds count" do
         item = create(:item)
         create(:hold, item: item)

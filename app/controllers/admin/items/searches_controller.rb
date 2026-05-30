@@ -15,7 +15,8 @@ module Admin
         end
         @search_query.field_constraints.each do |field, value|
           raise ArgumentError, "unsupported field" unless ItemSearchQuery::FIELDS.include?(field)
-          scope = scope.where("items.#{field} ILIKE ?", "%#{value}%")
+          escaped = ActiveRecord::Base.sanitize_sql_like(value)
+          scope = scope.where("items.#{field} ILIKE ?", "%#{escaped}%")
         end
 
         @q = scope.ransack(params[:q])
