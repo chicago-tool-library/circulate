@@ -18,15 +18,58 @@ module Admin
         assert_response :success
       end
 
-      test "filters items by field" do
+      test "filters items by bare-term query across fields" do
         match = create(:item, name: "Cordless Drill")
         miss = create(:item, name: "Hammer")
 
-        get search_admin_items_url(q: {name_cont: "Drill"})
+        get search_admin_items_url(query: "Drill")
 
         assert_response :success
         assert_match match.name, response.body
         assert_no_match(/#{miss.name}/, response.body)
+      end
+
+      test "field:value constrains match to that column" do
+        dewalt = create(:item, name: "Saw", brand: "DeWalt")
+        decoy = create(:item, name: "DeWalt mention in name", brand: "Makita")
+
+        get search_admin_items_url(query: "brand:DeWalt")
+
+        assert_response :success
+        assert_match dewalt.name, response.body
+        assert_no_match(/#{decoy.name}/, response.body)
+      end
+
+      test "combines field constraint with bare term using AND" do
+        target = create(:item, name: "Cordless Drill", brand: "DeWalt")
+        wrong_brand = create(:item, name: "Cordless Drill", brand: "Makita")
+        wrong_term = create(:item, name: "Hammer", brand: "DeWalt")
+
+        get search_admin_items_url(query: "brand:DeWalt Drill")
+
+        assert_response :success
+        assert_match target.name, response.body
+        assert_no_match(/#{wrong_brand.brand}/, response.body)
+        assert_no_match(/#{wrong_term.name}/, response.body)
+      end
+
+      test "quoted field value matches a multi-word phrase" do
+        match = create(:item, name: "Power Drill Deluxe")
+        miss = create(:item, name: "Drill bit")
+
+        get search_admin_items_url(query: 'name:"Power Drill"')
+
+        assert_response :success
+        assert_match match.name, response.body
+        assert_no_match(/#{miss.name}/, response.body)
+      end
+
+      test "unknown field prefix does not error and is treated as bare term" do
+        create(:item, name: "Drill")
+
+        get search_admin_items_url(query: "foo:bar")
+
+        assert_response :success
       end
 
       test "sorts by active holds count" do

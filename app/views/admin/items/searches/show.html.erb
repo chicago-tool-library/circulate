@@ -5,42 +5,13 @@
 <div class="items-search">
   <section class="filters-container">
     <h2>Filters</h2>
-    <%= search_form_for(@q, url: search_admin_items_path, class: "filters-form") do |f| %>
+    <%= form_with url: search_admin_items_path, method: :get, local: true, class: "filters-form" do %>
       <div class="filters-form-fields">
         <div class="filter-column">
           <div class="filter-row">
-            <div class="filter-field name">
-              <%= f.label :name_cont, "Name" %>
-              <%= f.search_field :name_cont %>
-            </div>
-
-            <div class="filter-field number">
-              <%= f.label :number_eq, "Item Number" %>
-              <%= f.search_field :number_eq %>
-            </div>
-          </div>
-
-          <div class="filter-row">
-            <div class="filter-field brand">
-              <%= f.label :brand_cont, "Brand" %>
-              <%= f.search_field :brand_cont %>
-            </div>
-
-            <div class="filter-field model">
-              <%= f.label :model_cont, "Model" %>
-              <%= f.search_field :model_cont %>
-            </div>
-          </div>
-
-          <div class="filter-row">
-            <div class="filter-field size">
-              <%= f.label :size_cont, "Size" %>
-              <%= f.search_field :size_cont %>
-            </div>
-
-            <div class="filter-field strength">
-              <%= f.label :strength_cont, "Strength" %>
-              <%= f.search_field :strength_cont %>
+            <div class="filter-field query">
+              <%= label_tag :query, "Search" %>
+              <%= text_field_tag :query, params[:query], placeholder: 'Search items… (try brand:dewalt or name:"power drill")', autocomplete="off" %>
             </div>
           </div>
 
@@ -48,10 +19,11 @@
             <div class="filter-field status">
               <span class="form-label">Status</span>
               <div class="status-checkboxes">
-                <%= f.collection_check_boxes :status_in, Item.statuses.keys.map { |value| [value, value.humanize] }, :first, :last do |b| %>
-                  <%= b.label(class: "form-checkbox") do %>
-                    <%= b.check_box %>
-                    <i class="form-icon"></i> <%= b.text %>
+                <% selected_statuses = params.dig(:q, :status_in) || %w[active pending maintenance] %>
+                <% Item.statuses.keys.each do |status| %>
+                  <%= label_tag "q_status_in_#{status}", class: "form-checkbox" do %>
+                    <%= check_box_tag "q[status_in][]", status, selected_statuses.include?(status), id: "q_status_in_#{status}" %>
+                    <i class="form-icon"></i> <%= status.humanize %>
                   <% end %>
                 <% end %>
               </div>
@@ -61,7 +33,7 @@
       </div>
 
       <div class="filter-button-container">
-        <%= f.submit "Search", class: "btn" %>
+        <%= submit_tag "Search", class: "btn" %>
         <%= link_to "Clear", search_admin_items_path, class: "btn btn-link" %>
       </div>
     <% end %>

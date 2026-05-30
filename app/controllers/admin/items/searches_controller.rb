@@ -7,9 +7,20 @@ module Admin
         params[:q] ||= {}
         params[:q]["s"] ||= "number asc"
         params[:q]["status_in"] ||= %w[active pending maintenance]
-        @q = Item.with_active_holds_count.ransack(params[:q])
-        item_scope = @q.result.includes(:categories, :borrow_policy).with_attached_image
-        @pagy, @items = pagy(item_scope)
+
+        @search_query = ItemSearchQuery.new(params[:query])
+        scope = Item.with_active_holds_count
+        if @search_query.bare_terms.any?
+          scope = scope.search_by_anything(@search_query.bare_terms.join(" "))
+        end
+        @search_query.field_constraints.each do |field, value|
+          raise ArgumentError, "unsupported field" unless ItemSearchQuery::FIELDS.include?(field)
+          scope = scope.where("items.#{field} ILIKE ?", "%#{value}%")
+        end
+
+        @q = scope.ransack(params[:q])
+        result = @q.result.includes(:categories, :borrow_policy).with_attached_image
+        @pagy, @items = pagy(result)
       end
     end
   end
