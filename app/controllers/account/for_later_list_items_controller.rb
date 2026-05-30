@@ -20,7 +20,8 @@ module Account
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.replace("for_later_list_item_show", partial: "items/for_later_list_item_show", locals: {item:, for_later_list_item:}),
-            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item:})
+            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item:}),
+            turbo_stream.update("flash-message-container", view_context.flash_message_html("Successfully saved for later", :success))
           ]
         end
       end
@@ -39,7 +40,8 @@ module Account
           render turbo_stream: [
             turbo_stream.remove(helpers.dom_id(for_later_list_item)),
             turbo_stream.replace("for_later_list_item_show", partial: "items/for_later_list_item_show", locals: {item:, for_later_list_item: nil}),
-            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item: nil})
+            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item: nil}),
+            turbo_stream.update("flash-message-container", view_context.flash_message_html("Successfully removed from saved for later list", :success))
           ]
         end
       end

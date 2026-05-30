@@ -42,6 +42,11 @@ module Account
         assert_includes elements.to_s, "#{dom_id(item)}_for_later_list_items_index"
         assert_includes elements.to_s, "Remove from saved for later"
       end
+
+      assert_turbo_stream(action: "update", target: "flash-message-container") do |elements|
+        assert_includes elements.to_s, "toast-success"
+        assert_includes elements.to_s, "Successfully saved for later"
+      end
     end
 
     test_with_for_later_list_items_enabled "member can unsave an item for later" do
@@ -72,6 +77,11 @@ module Account
       assert_turbo_stream(action: "replace", target: "#{dom_id(item)}_for_later_list_items_index") do |elements|
         assert_includes elements.to_s, "#{dom_id(item)}_for_later_list_items_index"
         assert_includes elements.to_s, "Save for later"
+      end
+
+      assert_turbo_stream(action: "update", target: "flash-message-container") do |elements|
+        assert_includes elements.to_s, "toast-success"
+        assert_includes elements.to_s, "Successfully removed from saved for later list"
       end
     end
   end
