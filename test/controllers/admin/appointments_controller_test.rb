@@ -68,5 +68,14 @@ module Admin
 
       assert_select "em", text: "Item checked-out"
     end
+
+    test "banners unfinished appointments on the index when any exist" do
+      create(:appointment, holds: [create(:hold)], pulled_at: 2.days.ago,
+        starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+
+      get admin_appointments_path(day: Date.current.strftime("%F"))
+
+      assert_select "a[href=?]", admin_reports_unfinished_appointments_path
+    end
   end
 end

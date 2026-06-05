@@ -1,0 +1,9 @@
+<% if @unfinished_appointments_count.to_i > 0 %>
+  <div class="toast toast-warning mb-2">
+    <%= link_to "Review", admin_reports_unfinished_appointments_path, class: "btn btn-sm float-right" %>
+    <%= pluralize(@unfinished_appointments_count, "appointment") %> from the last
+    <%= pluralize(Appointment.unfinished_window_days, "day") %>
+    <%= (@unfinished_appointments_count == 1) ? "was" : "were" %> pulled but never completed,
+    with items that were never checked out.
+  </div>
+<% end %>

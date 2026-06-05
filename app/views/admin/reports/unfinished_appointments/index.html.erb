@@ -1,0 +1,56 @@
+<%= content_for :header do %>
+  <%= index_header "Unfinished Appointments" %>
+<% end %>
+
+<div class="columns">
+  <div class="column col-12">
+    <p class="text-gray">
+      Appointments from the last <%= pluralize(Appointment.unfinished_window_days, "day") %>
+      that were pulled but never marked complete, where at least one held item was
+      never checked out. Older appointments aren't shown here, since their items have
+      almost always circulated on to other borrowers by now.
+    </p>
+    <p class="text-gray">
+      Use the appointment or member links to figure out what happened to an item, then
+      <strong>Mark complete</strong> to clear the row. (You can undo that from the
+      appointment page if you need to.)
+    </p>
+
+    <% if @appointments.empty? %>
+      <%= empty_state "No unfinished appointments. Nice and tidy." %>
+    <% else %>
+      <table class="table">
+        <tr>
+          <th>Appointment</th>
+          <th>Member</th>
+          <th>Items not checked out</th>
+          <th></th>
+        </tr>
+        <% @appointments.each do |appointment| %>
+          <tr>
+            <td>
+              <%= link_to l(appointment.starts_at, format: :date), admin_appointment_path(appointment) %>
+            </td>
+            <td>
+              <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %>
+            </td>
+            <td>
+              <ul class="simple-list">
+                <% appointment.holds_not_checked_out.each do |hold| %>
+                  <li>
+                    <%= link_to "#{hold.item.name} (#{full_item_number(hold.item)})", admin_item_path(hold.item) %>
+                  </li>
+                <% end %>
+              </ul>
+            </td>
+            <td class="text-right">
+              <%= button_to "Mark complete", complete_admin_reports_unfinished_appointment_path(appointment),
+                    method: :post, class: "btn btn-sm",
+                    data: {turbo_submits_with: "Marking complete..."} %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>

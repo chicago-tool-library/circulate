@@ -23,6 +23,31 @@ class Appointment < ApplicationRecord
   scope :chronologically, -> { order("starts_at ASC") }
   scope :simultaneous, ->(appointment) { where(starts_at: appointment.starts_at, ends_at: appointment.ends_at).where.not(id: appointment.id) }
   scope :not_pulled, -> { where(pulled_at: nil) }
+  scope :pulled, -> { where.not(pulled_at: nil) }
+  scope :not_completed, -> { where(completed_at: nil) }
+
+  # How far back the "unfinished appointments" report looks. Anything older is
+  # almost always a stale record whose item has long since circulated to other
+  # borrowers (an expired hold is a fine terminal state on its own), so we don't
+  # nag staff about it.
+  UNFINISHED_WINDOW = 30.days
+
+  # Appointments from the last UNFINISHED_WINDOW that were pulled, never marked
+  # complete, and still have at least one held item that was neither checked out
+  # nor explicitly ended (cancelled / retired). These are where an item came off
+  # the shelf for a member and nobody closed the loop (#2182). What's unresolved
+  # is the appointment itself, which is why we key on completion rather than on
+  # the hold's own clock.
+  scope :unfinished, ->(now = Time.current) {
+    pulled
+      .not_completed
+      .where(starts_at: (now - UNFINISHED_WINDOW).beginning_of_day...now.beginning_of_day)
+      .where(id: AppointmentHold.where(hold: Hold.where(loan_id: nil, ended_at: nil)).select(:appointment_id))
+  }
+
+  def self.unfinished_window_days
+    (UNFINISHED_WINDOW / 1.day).to_i
+  end
 
   attr_accessor :member_updating, :staff_updating
 
@@ -42,6 +67,11 @@ class Appointment < ApplicationRecord
 
   def completed?
     completed_at.present?
+  end
+
+  # Held items on this appointment that never became a loan.
+  def holds_not_checked_out
+    holds.select { |hold| hold.loan_id.nil? }
   end
 
   def dropoff_only?

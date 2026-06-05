@@ -10,6 +10,8 @@ module Admin
         .chronologically
         .includes(:member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
 
+      @unfinished_appointments_count = Appointment.unfinished.count
+
       @pending_appointments = []
       @pulled_appointments = []
       @completed_appointments = []
