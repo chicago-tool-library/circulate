@@ -140,4 +140,38 @@ class AppointmentTest < ActiveSupport::TestCase
 
     refute appointment.dropoff_only?
   end
+
+  test "pulling an appointment protects attached holds from expiring on their own clock" do
+    member = create(:member, :with_user)
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: 1.day.from_now)
+    appointment = create(:appointment, member: member, holds: [hold])
+
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+
+    expected = (appointment.pulled_at + Appointment::HOLD_PULL_EXPIRY_BACKSTOP).end_of_day
+    assert_equal expected.to_i, hold.reload.expires_at.to_i
+  end
+
+  test "pulling never shortens a hold that already expires after the backstop" do
+    member = create(:member, :with_user)
+    far_future = 30.days.from_now
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: far_future)
+    appointment = create(:appointment, member: member, holds: [hold])
+
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+
+    assert_equal far_future.to_i, hold.reload.expires_at.to_i
+  end
+
+  test "un-pulling an appointment leaves the already-extended hold expiry untouched" do
+    member = create(:member, :with_user)
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: 1.day.from_now)
+    appointment = create(:appointment, member: member, holds: [hold])
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+    extended = hold.reload.expires_at
+
+    appointment.update!(pulled_at: nil, staff_updating: true)
+
+    assert_equal extended.to_i, hold.reload.expires_at.to_i
+  end
 end
