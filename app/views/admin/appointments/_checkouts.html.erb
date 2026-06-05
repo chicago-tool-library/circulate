@@ -7,12 +7,12 @@
       <%#= button_to "Check-out All", admin_appointment_checkouts_path(@appointment, hold_ids: appointment_pickup_items.active.pluck(:id)), class: "btn btn-primary", data: { disable_with: "Checking-out...", turbo_confirm: "Are you sure you want to check-out all items?" }, disabled: !appointment_pickup_items.active.exists? || !member.borrow? %>
     </div>
   </div>
-  <% appointment_pickup_items.each do |loan| %>
+  <% appointment_pickup_items.each do |hold| %>
     <div class="columns mt-2 mb-2">
       <div class="column col-sm-6 col-4">
         <%= tag.div class: "item-image" do %>
-          <% if loan.item.image.attached? %>
-            <%= image_tag item_image_url(loan.item.image, resize_to_limit: [160, 112]) %>
+          <% if hold.item.image.attached? %>
+            <%= image_tag item_image_url(hold.item.image, resize_to_limit: [160, 112]) %>
           <% else %>
             <div class="image-placeholder"></div>
           <% end %>
@@ -20,13 +20,13 @@
         <div class="divider"></div>
       </div>
       <div class="column col-sm-6 col-4">
-        <p><%= loan.item.name %></p>
-        <p><%= link_to full_item_number(loan.item), admin_item_path(loan.item) %></p>
+        <p><%= hold.item.name %></p>
+        <p><%= link_to full_item_number(hold.item), admin_item_path(hold.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right checkout-button-column" data-controller="confirm-item-accessories">
-        <% if loan.item.accessories? && loan.active? %>
+        <% if hold.item.accessories? && hold.active? %>
           <ul class="simple-list of-accessories">
-            <% loan.item.accessories.each do |accessory| %>
+            <% hold.item.accessories.each do |accessory| %>
               <li>
                 <%= label_tag accessory, accessory %>
                 <%= checkbox_tag accessory, data: {:action => "confirm-item-accessories#handleCheck", "confirm-item-accessories-target" => "accessory"} %>
@@ -34,15 +34,15 @@
             <% end %>
           </ul>
         <% end %>
-        <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [loan.id]),
-              id: "checkout-#{loan.id}",
+        <%= button_to "Check-out", admin_appointment_checkouts_path(@appointment, hold_ids: [hold.id]),
+              id: "checkout-#{hold.id}",
               class: "btn btn-primary btn-sm",
               data: {:disable_with => "Checking-out...", "confirm-item-accessories-target" => "button"},
-              disabled: !loan.active? || !member.borrow? || loan.item.accessories? %>
+              disabled: !hold.active? || !member.borrow? || hold.item.accessories? %>
         <div class="checkout-button-group">
-          <% if loan.active? %>
+          <% if hold.active? %>
             <%= button_to "Cancel Hold",
-                  admin_appointment_hold_path(@appointment, loan), {
+                  admin_appointment_hold_path(@appointment, hold), {
                     params: {cancel_hold: true},
                       method: :delete,
                       class: "btn btn-sm mt-2 float-right",
@@ -52,7 +52,7 @@
                       }
                   } %>
             <%= button_to "Remove Item",
-                  admin_appointment_hold_path(@appointment, loan), {
+                  admin_appointment_hold_path(@appointment, hold), {
                     params: {cancel_hold: false},
                       method: :delete,
                       class: "btn btn-sm mt-2 float-right",
@@ -61,19 +61,24 @@
                         turbo_confirm: "Are you sure you want to remove this item from the appointment?"
                       }
                   } %>
-          <% end %>
-          <% if !loan.active? %>
-            <em>Item checked-out</em>
+          <% else %>
+            <% if hold.loan.present? %>
+              <em>Item checked-out</em>
+            <% elsif hold.expired? %>
+              <em>Hold expired without pickup</em>
+            <% else %>
+              <em>Hold ended without checkout</em>
+            <% end %>
           <% end %>
         </div>
       </div>
     </div>
-    <% if loan.item.checkout_notice? %>
+    <% if hold.item.checkout_notice? %>
       <div>
         <div class="info-box">
           <p>
             <strong>Checkout Notice:</strong><br>
-            <%= loan.item.checkout_notice %>
+            <%= hold.item.checkout_notice %>
           </p>
         </div>
       </div>
