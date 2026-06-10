@@ -147,3 +147,9 @@ ul.simple-list {
     height: auto;
   }
 }
+
+.items-search .search-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

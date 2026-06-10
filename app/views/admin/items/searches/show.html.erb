@@ -3,57 +3,46 @@
 <% end %>
 
 <div class="items-search">
-  <section class="filters-container">
-    <h2>Filters</h2>
-    <%= form_with url: search_admin_items_path, method: :get, local: true, class: "filters-form" do %>
-      <div class="filters-form-fields">
-        <div class="filter-column">
-          <div class="filter-row">
-            <div class="filter-field query">
-              <%= label_tag :query, "Search" %>
-              <%= text_field_tag :query, params[:query], placeholder: 'Search items… (try brand:dewalt or name:"power drill")', autocomplete: "off" %>
-            </div>
-          </div>
-
-          <div class="filter-row">
-            <div class="filter-field status">
-              <span class="form-label">Status</span>
-              <div class="status-checkboxes">
-                <% selected_statuses = params.dig(:q, :status_in) || %w[active pending maintenance] %>
-                <% Item.statuses.keys.each do |status| %>
-                  <%= label_tag "q_status_in_#{status}", class: "form-checkbox #{"disabled" if @status_filter_ignored}" do %>
-                    <%= check_box_tag "q[status_in][]", status, selected_statuses.include?(status), id: "q_status_in_#{status}", disabled: @status_filter_ignored %>
-                    <i class="form-icon"></i> <%= status.humanize %>
-                  <% end %>
-                <% end %>
-                <% if @status_filter_ignored %>
-                  <% selected_statuses.each do |status| %>
-                    <%= hidden_field_tag "q[status_in][]", status %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
+  <%= form_with url: search_admin_items_path, method: :get, local: true, class: "filters-form" do %>
+    <div class="columns">
+      <div class="column col-12">
+        <%= label_tag :query, "Search", class: "form-label" %>
+        <%= text_field_tag :query, params[:query], placeholder: "", autocomplete: "off", class: "form-input" %>
+        <div class="form-input-hint">Scope search to specific fields using brand:dewalt or name:"power drill")</div>
       </div>
-
-      <div class="filter-button-container">
-        <%= submit_tag "Search", class: "btn" %>
-        <%= link_to "Clear", search_admin_items_path, class: "btn btn-link" %>
+      <div class="column col-9">
+        <fieldset class="form-fieldset">
+          <legend class="text-normal">Status</legend>
+            <% selected_statuses = params.dig(:q, :status_in) || %w[active pending maintenance] %>
+            <% Item.statuses.keys.each do |status| %>
+              <%= label_tag "q_status_in_#{status}", class: "form-checkbox form-inline #{"disabled" if @status_filter_ignored}" do %>
+                <%= check_box_tag "q[status_in][]", status, selected_statuses.include?(status), id: "q_status_in_#{status}", disabled: @status_filter_ignored %>
+                <i class="form-icon"></i> <%= status.humanize %>
+              <% end %>
+            <% end %>
+            <% if @status_filter_ignored %>
+              <% selected_statuses.each do |status| %>
+                <%= hidden_field_tag "q[status_in][]", status %>
+              <% end %>
+            <% end %>
+        </fieldset>
       </div>
-    <% end %>
-  </section>
+      <div class="column col-3 search-button-wrapper">
+        <%= submit_tag "Search", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
 
   <% if @items.any? %>
-    <div class="column col-12">
+    <div class="column col-12 mt-2">
       <table class="table">
         <tr>
           <th>Image</th>
-          <th><%= sort_link(@q, :number, "Item Number") %></th>
+          <th><%= sort_link(@q, :number, "Number") %></th>
           <th><%= sort_link(@q, :status, "Status") %></th>
           <th><%= sort_link(@q, :name, "Name") %></th>
           <th><%= sort_link(@q, :size, "Size / Strength") %></th>
-          <th><%= sort_link(@q, :active_holds_count, "# of Holds") %></th>
+          <th><%= sort_link(@q, :active_holds_count, "Holds") %></th>
           <th><%= sort_link(@q, :brand, "Brand / Model") %></th>
           <th>Category</th>
         </tr>
