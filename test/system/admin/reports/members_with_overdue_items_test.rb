@@ -44,6 +44,9 @@ class AdminMembersWithOverdueItemsTest < ApplicationSystemTestCase
         assert_text loan.item.name
         assert_text time_ago_in_words(loan.due_at)
       end
+
+      oldest_due_at = member.overdue_loans.map(&:due_at).min
+      assert_text oldest_due_at.to_fs(:short_date)
     end
     assert_equal 3, all("tr").size # 2 for members, 1 for the header
   end

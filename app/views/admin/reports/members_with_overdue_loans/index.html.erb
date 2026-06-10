@@ -27,6 +27,7 @@
         <th>Overdue Tools</th>
         <th>Email</th>
         <th>Phone</th>
+        <th>Oldest Item Due Date</th>
       </tr>
       <% @members.each do |member| %>
         <tr>
@@ -44,6 +45,9 @@
           </td>
           <td>
             <%= format_phone_number(member.phone_number) %>
+          </td>
+          <td>
+            <%= member.overdue_loan_min.to_fs(:short_date) %>
           </td>
         </tr>
       <% end %>
