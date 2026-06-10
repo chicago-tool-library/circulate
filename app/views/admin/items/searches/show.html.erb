@@ -39,11 +39,11 @@
         <tr>
           <th>Image</th>
           <th><%= sort_link(@q, :number, "Number") %></th>
-          <th><%= sort_link(@q, :status, "Status") %></th>
           <th><%= sort_link(@q, :name, "Name") %></th>
-          <th><%= sort_link(@q, :size, "Size / Strength") %></th>
+          <th>Status</th>
           <th><%= sort_link(@q, :active_holds_count, "Holds") %></th>
-          <th><%= sort_link(@q, :brand, "Brand / Model") %></th>
+          <th class="no-wrap"><%= sort_link(@q, :size, "Size / Strength") %></th>
+          <th class="no-wrap"><%= sort_link(@q, :brand, "Brand / Model") %></th>
           <th>Category</th>
         </tr>
         <% @items.each do |item| %>
@@ -59,16 +59,16 @@
               <%= link_to item.complete_number, admin_item_path(item) %>
             </td>
             <td>
-              <%= item.status.humanize %>
-            </td>
-            <td>
               <%= link_to item.name, admin_item_path(item) %>
             </td>
             <td>
-              <%= [item.size, item.strength].select(&:present?).join(" / ") %>
+              <%= item.status.humanize %>
             </td>
             <td>
               <%= item.active_holds_count %>
+            </td>
+            <td>
+              <%= [item.size, item.strength].select(&:present?).join(" / ") %>
             </td>
             <td>
               <%= [item.brand, item.model].select(&:present?).join(" / ") %>
