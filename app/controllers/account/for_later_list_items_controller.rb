@@ -15,12 +15,15 @@ module Account
 
       item = for_later_list_item.item
 
+      success_message = "Successfully saved for later"
+
       respond_to do |format|
-        format.html { redirect_to item_path(for_later_list_item.item) }
+        format.html { redirect_to item_path(for_later_list_item.item), success: success_message }
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.replace("for_later_list_item_show", partial: "items/for_later_list_item_show", locals: {item:, for_later_list_item:}),
-            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item:})
+            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item:}),
+            turbo_stream.update("flash-message-container", view_context.flash_message_html(success_message, :success))
           ]
         end
       end
@@ -33,13 +36,16 @@ module Account
 
       item = for_later_list_item.item
 
+      success_message = "Successfully removed from saved for later list"
+
       respond_to do |format|
-        format.html { redirect_to account_for_later_list_items_path }
+        format.html { redirect_to account_for_later_list_items_path, success: success_message }
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.remove(helpers.dom_id(for_later_list_item)),
             turbo_stream.replace("for_later_list_item_show", partial: "items/for_later_list_item_show", locals: {item:, for_later_list_item: nil}),
-            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item: nil})
+            turbo_stream.replace("#{helpers.dom_id(item)}_for_later_list_items_index", partial: "items/for_later_list_items_index", locals: {item:, for_later_list_item: nil}),
+            turbo_stream.update("flash-message-container", view_context.flash_message_html(success_message, :success))
           ]
         end
       end
