@@ -6,9 +6,16 @@ class Appointment < ApplicationRecord
 
   belongs_to :member
 
+  # Backstop window for holds whose items have been pulled but not yet checked
+  # out. Matches the default hold duration so a pulled item is held for the
+  # member roughly as long as a fresh hold would be.
+  HOLD_PULL_EXPIRY_BACKSTOP = Hold::DEFAULT_HOLD_DURATION.days
+
   validate :ends_at_later_than_starts_at, :date_present
   validate :starts_before_holds_expire, if: :member_updating
   validate :item_present, unless: :staff_updating
+
+  after_update :protect_pulled_holds_from_expiring, if: :saved_change_to_pulled_at?
 
   scope :upcoming, -> { where("starts_at > ?", Time.zone.now).order(:starts_at) }
   scope :today_or_later, -> { where("starts_at > ?", Time.zone.now.beginning_of_day).order(:starts_at) }
@@ -55,6 +62,25 @@ class Appointment < ApplicationRecord
   end
 
   private
+
+  # When staff pull the items for an appointment, the member's holds should not
+  # keep ticking down on their own clock while the items sit off the shelf
+  # waiting to be checked out (issue #2181). Otherwise a missed "Check-out"
+  # click can silently expire a hold mid-appointment, flipping the item back to
+  # "available" and bouncing the member out of line. We push expiry out to a
+  # backstop, only ever extending (never shortening), and leave un-pulled
+  # appointments alone.
+  def protect_pulled_holds_from_expiring
+    return if pulled_at.nil?
+
+    backstop = (pulled_at + HOLD_PULL_EXPIRY_BACKSTOP).end_of_day
+    holds.each do |hold|
+      next unless hold.started? && !hold.ended?
+      next if hold.expires_at && hold.expires_at >= backstop
+
+      hold.update_column(:expires_at, backstop)
+    end
+  end
 
   def no_items?
     holds.empty? && loans.empty?

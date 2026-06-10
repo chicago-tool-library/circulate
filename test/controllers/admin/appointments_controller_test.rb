@@ -46,5 +46,27 @@ module Admin
         get admin_appointment_path(@appointment)
       end
     end
+
+    test "labels a hold that timed out as expired, not checked-out" do
+      appointment = build(:appointment, member: @member)
+      appointment.holds << create(:hold, :expired, member: @member)
+      appointment.save!
+
+      get admin_appointment_path(appointment)
+
+      assert_select "em", text: "Hold expired without pickup"
+      assert_select "em", text: "Item checked-out", count: 0
+    end
+
+    test "labels a hold that was actually picked up as checked-out" do
+      appointment = build(:appointment, member: @member)
+      loan = create(:loan, member: @member)
+      appointment.holds << create(:hold, :ended, member: @member, loan: loan)
+      appointment.save!
+
+      get admin_appointment_path(appointment)
+
+      assert_select "em", text: "Item checked-out"
+    end
   end
 end
