@@ -42,7 +42,7 @@ module Admin
 
       def build_csv(members)
         CSV.generate(headers: true) do |csv|
-          csv << %w[preferred_name full_name email phone_number overdue_tools]
+          csv << %w[preferred_name full_name email phone_number overdue_tools oldest_item_due_date]
 
           members.find_each do |member|
             csv << [
@@ -50,7 +50,8 @@ module Admin
               member.full_name,
               member.user.email,
               member.phone_number,
-              member.overdue_loans.map { |loan| "#{loan.item.name} (#{time_ago_in_words(loan.due_at)})" }.join(", ")
+              member.overdue_loans.map { |loan| "#{loan.item.name} (#{time_ago_in_words(loan.due_at)})" }.join(", "),
+              member.overdue_loan_min.to_fs(:short_date)
             ]
           end
         end
