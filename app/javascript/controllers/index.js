@@ -52,6 +52,9 @@ application.register('multi-select', MultiSelectController)
 import NotesController from './notes_controller'
 application.register('notes', NotesController)
 
+import PasswordVisibilityController from './password_visibility_controller'
+application.register('password-visibility', PasswordVisibilityController)
+
 import ReservationDatesController from './reservation_dates_controller'
 application.register('reservation-dates', ReservationDatesController)
 
