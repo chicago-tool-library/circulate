@@ -172,6 +172,11 @@ Rails.application.routes.draw do
       resources :shifts, only: :index
       resources :items_without_image, only: :index
       resources :items_with_holds, only: :index
+      resources :unfinished_appointments, only: :index do
+        member do
+          post :complete
+        end
+      end
       resources :zipcodes, only: :index
       get "money", to: "money#index"
       get "members-with-overdue-loans", to: "members_with_overdue_loans#index"

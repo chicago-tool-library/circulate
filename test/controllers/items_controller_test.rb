@@ -27,6 +27,16 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     get items_url(category: 999999)
 
     assert_response :redirect
+    assert_redirected_to items_path
+  end
+
+  test "attempting to view a category that doesn't exist with other filters preserves them on redirect" do
+    get items_url(category: 999999, query: "hammer", staff_approval_required: "true", sort: "name")
+
+    assert_response :redirect
+    assert_redirected_to items_path(query: "hammer", staff_approval_required: "true", sort: "name")
+    follow_redirect!
+    assert_response :success
   end
 
   test "only shows one of a given item regardless of how many categories it is in" do

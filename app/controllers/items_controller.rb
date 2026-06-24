@@ -5,12 +5,11 @@ class ItemsController < ApplicationController
     item_scope = Item.listed_publicly.includes(:borrow_policy, :active_holds, :checked_out_exclusive_loan, :categories)
 
     item_scope = filter_by_category(item_scope) if filter_params[:category].present?
+    return if performed?
+
     item_scope = filter_by_query(item_scope) if filter_params[:query].present?
     item_scope = filter_by_available(item_scope) if filter_params[:available].present?
     item_scope = filter_by_staff_approval_required(item_scope) if filter_params[:staff_approval_required].present?
-
-    # One of the filtering methods above may have already redirected
-    return if performed?
 
     item_scope = apply_order(item_scope.with_attached_image)
 
@@ -102,14 +101,7 @@ class ItemsController < ApplicationController
   end
 
   def filter_failed(failed_param, error_message)
-    filter_params = %i[sort category query].each_with_object({}) do |filter_param, accepted_params|
-      next if filter_param == failed_param
-      next if params[:filter_param].blank?
-
-      accepted_params[filter_param] = params[filter_param]
-    end
-
-    redirect_to items_path(filter_params), error: error_message, status: :see_other
+    redirect_to items_path(filter_params.except(failed_param)), error: error_message, status: :see_other
   end
 
   def apply_order(query)

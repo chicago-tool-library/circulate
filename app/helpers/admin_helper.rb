@@ -15,11 +15,15 @@ module AdminHelper
     end
   end
 
-  def flash_message(key, classname = key)
+  def flash_message(key, type_override = key)
     if flash.key?(key)
-      tag.div(class: "toast toast-#{classname}", data: {controller: "alert"}) do
-        tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + flash[key].html_safe
-      end
+      flash_message_html(flash[key].html_safe, type_override)
+    end
+  end
+
+  def flash_message_html(message, type)
+    tag.div(class: "toast toast-#{type}", data: {controller: "alert"}) do
+      tag.button(class: "btn btn-clear float-right", data: {action: "alert#remove"}) + message
     end
   end
 

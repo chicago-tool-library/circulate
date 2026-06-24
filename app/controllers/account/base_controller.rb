@@ -29,6 +29,7 @@ module Account
         )
       end
 
+      sign_out current_user
       redirect_to root_path, alert: "There's a problem with your account. Please contact the library for assistance."
     end
   end

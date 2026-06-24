@@ -97,6 +97,38 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_equal not_pulled_appointments, Appointment.all.not_pulled
   end
 
+  test ".unfinished surfaces recent pulled, never-completed appointments with items still not checked out" do
+    unfinished = create(:appointment, holds: [create(:hold)], pulled_at: 2.days.ago,
+      starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+
+    # completed -> resolved, excluded
+    create(:appointment, holds: [create(:hold)], pulled_at: 2.days.ago, completed_at: 1.day.ago,
+      starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+    # never pulled -> not in progress, excluded
+    create(:appointment, holds: [create(:hold)], pulled_at: nil,
+      starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+    # pulled today -> still legitimately in progress, excluded
+    create(:appointment, holds: [create(:hold)], pulled_at: Time.current,
+      starts_at: Time.current, ends_at: 1.hour.from_now)
+    # older than the window -> stale, excluded
+    create(:appointment, holds: [create(:hold)],
+      pulled_at: (Appointment::UNFINISHED_WINDOW + 5.days).ago,
+      starts_at: (Appointment::UNFINISHED_WINDOW + 5.days).ago,
+      ends_at: (Appointment::UNFINISHED_WINDOW + 5.days).ago + 1.hour)
+    # pulled, but every held item was checked out -> nothing dangling, excluded
+    member = create(:member)
+    checked_out = create(:hold, member: member, loan: create(:loan, member: member))
+    create(:appointment, holds: [checked_out], pulled_at: 2.days.ago, member: member,
+      starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+    # held item resolved by an explicit end (cancelled / retired) -> excluded
+    ended_member = create(:member)
+    ended_hold = create(:hold, :ended, member: ended_member)
+    create(:appointment, holds: [ended_hold], pulled_at: 2.days.ago, member: ended_member,
+      starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+
+    assert_equal [unfinished], Appointment.unfinished
+  end
+
   test "#cancel_if_no_items!" do
     appointment = create(:appointment_with_holds)
     appointment.holds.destroy_all
@@ -139,5 +171,39 @@ class AppointmentTest < ActiveSupport::TestCase
     appointment.save!(validate: false)
 
     refute appointment.dropoff_only?
+  end
+
+  test "pulling an appointment protects attached holds from expiring on their own clock" do
+    member = create(:member, :with_user)
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: 1.day.from_now)
+    appointment = create(:appointment, member: member, holds: [hold])
+
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+
+    expected = (appointment.pulled_at + Appointment::HOLD_PULL_EXPIRY_BACKSTOP).end_of_day
+    assert_equal expected.to_i, hold.reload.expires_at.to_i
+  end
+
+  test "pulling never shortens a hold that already expires after the backstop" do
+    member = create(:member, :with_user)
+    far_future = 30.days.from_now
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: far_future)
+    appointment = create(:appointment, member: member, holds: [hold])
+
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+
+    assert_equal far_future.to_i, hold.reload.expires_at.to_i
+  end
+
+  test "un-pulling an appointment leaves the already-extended hold expiry untouched" do
+    member = create(:member, :with_user)
+    hold = create(:hold, member: member, creator: member.user, started_at: Time.current, expires_at: 1.day.from_now)
+    appointment = create(:appointment, member: member, holds: [hold])
+    appointment.update!(pulled_at: Time.current, staff_updating: true)
+    extended = hold.reload.expires_at
+
+    appointment.update!(pulled_at: nil, staff_updating: true)
+
+    assert_equal extended.to_i, hold.reload.expires_at.to_i
   end
 end
