@@ -14,10 +14,9 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
       </div>
 
-      <div class="field text mb-1" data-controller="password-visibility">
+      <div class="field text mb-1">
         <%= f.label :password %><br>
-        <%= f.password_field :password, autocomplete: "current-password", data: {password_visibility_target: "input"} %>
-        <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="user_password">Show password</button>
+        <%= password_visibility_field(f, :password, autocomplete: "current-password") %>
       </div>
 
       <% if devise_mapping.rememberable? %>
