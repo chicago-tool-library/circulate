@@ -12,11 +12,13 @@
         <legend>Your Account</legend>
         <p>Choose a password. You can use it to log into your tool library account and view your loans, request tools, and manage your membership.</p>
         <div class="columns form-group">
-          <div class="column col-sm-12 col-6">
-            <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password %>
+          <div class="column col-sm-12 col-6" data-controller="password-visibility">
+            <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password, data: {password_visibility_target: "input"} %>
+            <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="member_signup_form_password">Show password</button>
           </div>
-          <div class="column col-sm-12 col-6">
-            <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation %>
+          <div class="column col-sm-12 col-6" data-controller="password-visibility">
+            <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation, data: {password_visibility_target: "input"} %>
+            <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="member_signup_form_password_confirmation">Show password</button>
           </div>
         </div>
       </fieldset>
