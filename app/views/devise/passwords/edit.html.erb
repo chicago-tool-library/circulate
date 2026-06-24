@@ -9,12 +9,12 @@
     <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em><br>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+    <%= password_visibility_field(f, :password, autofocus: true, autocomplete: "new-password") %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation, "Confirm new password" %><br>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= password_visibility_field(f, :password_confirmation, autocomplete: "new-password") %>
   </div>
 
   <div class="actions">
