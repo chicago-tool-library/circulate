@@ -3,9 +3,18 @@
 <% end %>
 
 <%= form_with(model: @user, url: {action: "update"}, builder: SpectreFormBuilder) do |f| %>
-  <%= f.password_field :current_password, autocomplete: "off" %>
-  <%= f.password_field :password, label: "New password", autocomplete: "off" %>
-  <%= f.password_field :password_confirmation, label: "Confirm new password" %>
+  <div data-controller="password-visibility">
+    <%= f.password_field :current_password, autocomplete: "off", data: {password_visibility_target: "input"} %>
+    <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="user_current_password">Show password</button>
+  </div>
+  <div data-controller="password-visibility">
+    <%= f.password_field :password, label: "New password", autocomplete: "off", data: {password_visibility_target: "input"} %>
+    <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="user_password">Show password</button>
+  </div>
+  <div data-controller="password-visibility">
+    <%= f.password_field :password_confirmation, label: "Confirm new password", data: {password_visibility_target: "input"} %>
+    <button type="button" data-password-visibility-target="button" data-action="password-visibility#toggle" aria-pressed="false" aria-controls="user_password_confirmation">Show password</button>
+  </div>
   <%= f.actions do %>
     <%= f.submit "Update Password" %>
   <% end %>
