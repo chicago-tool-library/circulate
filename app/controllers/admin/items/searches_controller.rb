@@ -3,7 +3,7 @@ module Admin
     class SearchesController < Admin::BaseController
       include Pagy::Backend
 
-      LONE_NUMBER_PATTERN = /\A(?:([A-Za-z])-?)?(\d+)\z/
+      LONE_NUMBER_PATTERN = /\A(?:([A-Za-z]+)-?)?(\d+)\z/
 
       def show
         params[:q] ||= {}
@@ -54,7 +54,7 @@ module Admin
       end
 
       def strip_item_number_prefix(term)
-        (term =~ /\A[A-Za-z]-?(\d+)\z/) ? $1 : term
+        (term =~ /\A[A-Za-z]+-?(\d+)\z/) ? $1 : term
       end
     end
   end
