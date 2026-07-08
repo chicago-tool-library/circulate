@@ -13,10 +13,10 @@
         <p>Choose a password. You can use it to log into your tool library account and view your loans, request tools, and manage your membership.</p>
         <div class="columns form-group">
           <div class="column col-sm-12 col-6">
-            <%= form.password_field :password, hint: "Use at least 6 characters", required: true, value: form.object.password %>
+            <%= password_visibility_field(form, :password, hint: "Use at least 6 characters", required: true, value: form.object.password) %>
           </div>
           <div class="column col-sm-12 col-6">
-            <%= form.password_field :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation %>
+            <%= password_visibility_field(form, :password_confirmation, hint: "Repeat your password here", required: true, value: form.object.password_confirmation) %>
           </div>
         </div>
       </fieldset>

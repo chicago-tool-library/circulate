@@ -16,7 +16,7 @@
 
       <div class="field text mb-1">
         <%= f.label :password %><br>
-        <%= f.password_field :password, autocomplete: "current-password" %>
+        <%= password_visibility_field(f, :password, autocomplete: "current-password") %>
       </div>
 
       <% if devise_mapping.rememberable? %>
