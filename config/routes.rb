@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     resources :camping_gear, only: :index
     resources :manage_features, only: [:index, :update]
     resources :items do
+      get :search, on: :collection, to: "items/searches#show"
       scope module: "items" do
         resources :attachments
         resource :loan_history, only: :show

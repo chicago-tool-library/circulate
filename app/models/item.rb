@@ -89,6 +89,18 @@ class Item < ApplicationRecord
 
   scope :by_name, -> { order(name: :asc) }
 
+  scope :with_active_holds_count, -> {
+    joins(
+      "LEFT JOIN (SELECT item_id, COUNT(*) AS hold_count FROM holds " \
+      "WHERE ended_at IS NULL AND (started_at IS NULL OR expires_at >= NOW()) " \
+      "GROUP BY item_id) active_hold_counts ON active_hold_counts.item_id = items.id"
+    ).select("items.*", "COALESCE(active_hold_counts.hold_count, 0) AS active_holds_count")
+  }
+
+  ransacker :active_holds_count, type: :integer do
+    Arel.sql("COALESCE(active_hold_counts.hold_count, 0)")
+  end
+
   scope :search_and_order_by_availability, ->(query) {
     # allow searching for all number formats, e.g., "B-1234" -> "1234", or "B1234" -> "1234"
     processed_query = (query =~ /^[A-Z]-?(\d+)$/i) ? $1 : query
@@ -142,7 +154,11 @@ class Item < ApplicationRecord
   after_update :clear_holds_if_inactive, :pause_next_hold_if_maintenance
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[number name status]
+    %w[number name status size strength brand model]
+  end
+
+  def self.ransortable_attributes(auth_object = nil)
+    ransackable_attributes(auth_object) + %w[active_holds_count]
   end
 
   def self.find_by_complete_number(complete_number)

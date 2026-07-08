@@ -147,3 +147,15 @@ ul.simple-list {
     height: auto;
   }
 }
+
+.items-search {
+  .search-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  th.no-wrap {
+    white-space: nowrap;
+  }
+}
