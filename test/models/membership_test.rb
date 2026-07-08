@@ -32,6 +32,36 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "renewal", membership.membership_type
   end
 
+  test "starts an existing pending membership instead of creating a new one" do
+    member = create(:member)
+    pending = create(:pending_membership, member: member)
+    now = Time.current.beginning_of_day
+
+    membership = assert_no_difference("Membership.count") {
+      Membership.create_for_member(member, now: now, start_membership: true)
+    }
+
+    assert_equal pending, membership
+    assert_equal now, membership.started_at
+    assert_equal now + 364.days, membership.ended_at
+  end
+
+  test "records payment when starting an existing pending membership" do
+    member = create(:member)
+    create(:pending_membership, member: member)
+    now = Time.current.beginning_of_day
+    amount = Money.new(2500)
+
+    membership = assert_no_difference("Membership.count") {
+      assert_difference("Adjustment.count", 2) {
+        Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+      }
+    }
+
+    assert_equal now, membership.started_at
+    assert_equal amount * -1, membership.adjustment.amount
+  end
+
   test "creates a pending membership for a member" do
     member = create(:member)
     now = Time.current.beginning_of_day

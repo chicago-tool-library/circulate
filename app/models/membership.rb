@@ -85,10 +85,16 @@ class Membership < ApplicationRecord
     membership_type = member.memberships.present? ? "renewal" : "initial"
 
     if start_membership
-      start_date = next_start_date_for_member(member, now: now)
-      raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
+      if (membership = member.pending_membership)
+        # Finalize a membership that was left pending, e.g. a renewal the member
+        # chose to complete in person.
+        membership.start!(now)
+      else
+        start_date = next_start_date_for_member(member, now: now)
+        raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
 
-      membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
+        membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
+      end
     else
       membership = member.memberships.create!(library: member.library, membership_type:)
     end
