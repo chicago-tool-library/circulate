@@ -1,4 +1,4 @@
-<div id="<%= dom_id(appointment) %>-mobile" class="card <%= "completed" if appointment.completed? %> <%= "pulled" if appointment.pulled_at? && !appointment.completed? %>">
+<div id="<%= dom_id(appointment) %>-mobile" class="card <%= "completed" if appointment.completed? %> <%= "pulled" if appointment.pulled_at? && !appointment.completed? %> <%= "items-added-after-pull" if !appointment.completed? && appointment.items_added_after_pull? %>">
   <div class="card-header">
     <div class="card-title h5">
       <%= link_to preferred_or_default_name(appointment.member), admin_member_path(appointment.member) %>
@@ -24,6 +24,9 @@
             <div class="columns">
               <div class="column col-8">
                 <%= link_to hold.item.name, admin_item_path(hold.item), title: hold.item.complete_number %>
+                <% if !appointment.completed? && appointment.hold_added_after_pull?(hold) %>
+                  <span class="label label-error">added after pull</span>
+                <% end %>
               </div>
               <div class="column col-4">
                 <%= hold.item.complete_number %>
@@ -43,6 +46,9 @@
             <div class="columns">
               <div class="column col-8">
                 <%= link_to loan.item.name, admin_item_path(loan.item), title: loan.item.complete_number %>
+                <% if !appointment.completed? && appointment.loan_added_after_pull?(loan) %>
+                  <span class="label label-error">added after pull</span>
+                <% end %>
               </div>
               <div class="column col-4">
                 <%= loan.item.complete_number %>
@@ -59,6 +65,10 @@
       <%= button_to "Restore", admin_appointment_completion_path(appointment, new: true),
             method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
     <% elsif appointment.pulled_at? %>
+      <% if appointment.items_added_after_pull? %>
+        <%= button_to "Mark New Items Pulled", admin_appointment_pull_path(appointment, params: {new: true}),
+              method: :post, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
+      <% end %>
       <%= button_to "Mark As Not Pulled", admin_appointment_pull_path(appointment, params: {new: true}),
             method: :delete, class: "btn btn-primary", data: {turbo_stream: true, turbo_disable: "saving"} %>
       <%= button_to "Complete", admin_appointment_completion_path(appointment, new: true),

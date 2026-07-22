@@ -1,6 +1,6 @@
 <%= tag.tr(
       id: "#{dom_id(appointment)}-desktop",
-      class: "appointment #{"completed" if appointment.completed?} #{"pulled" if appointment.pulled_at? && !appointment.completed?} #{"pending" unless appointment.pulled_at? || !appointment.completed?}",
+      class: "appointment #{"completed" if appointment.completed?} #{"pulled" if appointment.pulled_at? && !appointment.completed?} #{"pending" unless appointment.pulled_at? || !appointment.completed?} #{"items-added-after-pull" if !appointment.completed? && appointment.items_added_after_pull?}",
       data: {sort_key: appointment_sort_key(appointment), appointment_id: appointment.id}
     ) do %>
   <td class="time"><%= l appointment.starts_at, format: :hour %> - <%= l appointment.ends_at, format: :hour %></td>
@@ -11,13 +11,21 @@
   <td class="items">
     <% appointment.holds.each do |hold| %>
       <span><%= hold.item.complete_number %></span>
-      <%= link_to hold.item.name, admin_item_path(hold.item) %> <br>
+      <%= link_to hold.item.name, admin_item_path(hold.item) %>
+      <% if !appointment.completed? && appointment.hold_added_after_pull?(hold) %>
+        <span class="label label-error">added after pull</span>
+      <% end %>
+      <br>
     <% end %>
   </td>
   <td class="items">
     <% appointment.loans.each do |loan| %>
       <span><%= loan.item.complete_number %></span>
-      <%= link_to loan.item.name, admin_item_path(loan.item) %> <br>
+      <%= link_to loan.item.name, admin_item_path(loan.item) %>
+      <% if !appointment.completed? && appointment.loan_added_after_pull?(loan) %>
+        <span class="label label-error">added after pull</span>
+      <% end %>
+      <br>
     <% end %>
   </td>
   <td class="notes"><%= appointment.comment %></td>
@@ -27,6 +35,10 @@
       <%= button_to "restore", admin_appointment_completion_path(appointment, params: {new: true}),
             method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
     <% elsif appointment.pulled_at? %>
+      <% if appointment.items_added_after_pull? %>
+        <%= button_to "mark new items pulled", admin_appointment_pull_path(appointment, params: {new: true}),
+              method: :post, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
+      <% end %>
       <%= button_to "mark as not pulled", admin_appointment_pull_path(appointment, params: {new: true}),
             method: :delete, class: "btn btn-sm", data: {turbo_stream: true, turbo_disable: "saving"} %>
       <%= button_to "complete", admin_appointment_completion_path(appointment, params: {new: true}),
