@@ -26,12 +26,6 @@ module Admin
           @pending_appointments << appointment
         end
       end
-
-      if FeatureFlags.new_appointments_page_enabled?(params[:new])
-        render :index
-      else
-        render :index, template: "admin/appointments/index_orig"
-      end
     end
 
     def show
