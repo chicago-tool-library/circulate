@@ -40,5 +40,37 @@ module Admin
         end
       end
     end
+
+    test "removing an item the member already took off the appointment" do
+      # Members can edit their own appointments, so the librarian's page can be
+      # stale by the time they click. Removing an item that is already gone
+      # should land them back on the appointment rather than erroring, and it
+      # must not cancel the member's hold instead (#2212).
+      @appointment.appointment_holds.destroy_all
+
+      assert_no_difference("@member.holds.count") do
+        delete admin_appointment_hold_path(@appointment, @hold), params: {cancel_hold: true}
+      end
+
+      assert_redirected_to admin_appointment_path(@appointment)
+      assert_equal "That item is no longer on this appointment. The member may have updated it.", flash[:warning]
+      assert Hold.exists?(@hold.id), "the member's hold should survive"
+    end
+
+    test "cannot cancel a hold belonging to a different appointment" do
+      # params[:id] is only trustworthy once we've confirmed the hold is on
+      # this appointment, otherwise "Cancel Hold" can destroy someone else's.
+      other_appointment = FactoryBot.create(:appointment_with_holds)
+      other_hold = other_appointment.holds.first
+
+      assert_no_difference("Hold.count") do
+        assert_no_difference("AppointmentHold.count") do
+          delete admin_appointment_hold_path(@appointment, other_hold), params: {cancel_hold: true}
+        end
+      end
+
+      assert_redirected_to admin_appointment_path(@appointment)
+      assert Hold.exists?(other_hold.id), "the other appointment's hold should survive"
+    end
   end
 end
