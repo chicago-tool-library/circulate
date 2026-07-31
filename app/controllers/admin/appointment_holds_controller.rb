@@ -8,18 +8,39 @@ module Admin
     end
 
     def destroy
-      remove_appointment_hold
-      redirect_to admin_appointment_path(appointment), flash: {success: "Item removed from appointment."}, status: :see_other
+      flash_message = if remove_appointment_hold
+        {success: "Item removed from appointment."}
+      else
+        {warning: "That item is no longer on this appointment. The member may have updated it."}
+      end
+
+      redirect_to admin_appointment_path(appointment), flash: flash_message, status: :see_other
     end
 
     private
 
+    # Returns false when the item is already off the appointment. Members can
+    # edit their own appointments and cancel their own holds, so a librarian
+    # working from a page rendered moments earlier can click "Remove Item" for
+    # a hold that is already gone (#2212).
     def remove_appointment_hold
-      @remove_appointment_hold ||= appointment.appointment_holds.find_by(hold_id: params[:id]).destroy
+      appointment_hold = appointment.appointment_holds.find_by(hold_id: params[:id])
+      return false if appointment_hold.nil?
 
-      if params[:cancel_hold].to_s.downcase == "true"
-        Hold.find(params[:id]).destroy
+      # Take the hold from the join row rather than from params[:id], so
+      # cancelling can't reach a hold on someone else's appointment.
+      hold = appointment_hold.hold
+
+      appointment_hold.transaction do
+        appointment_hold.destroy!
+        hold.destroy! if cancel_hold? && hold
       end
+
+      true
+    end
+
+    def cancel_hold?
+      params[:cancel_hold].to_s.downcase == "true"
     end
 
     def add_new_appointment_hold
