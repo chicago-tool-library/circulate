@@ -8,7 +8,8 @@ module Admin
       @appointments = Appointment
         .where(starts_at: @current_day.all_day)
         .chronologically
-        .includes(:member, loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
+        .includes(:appointment_holds, :appointment_loans, :member,
+          loans: {item: :borrow_policy}, holds: {item: :borrow_policy})
 
       @unfinished_appointments_count = Appointment.unfinished.count
 

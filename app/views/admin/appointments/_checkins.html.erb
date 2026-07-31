@@ -21,7 +21,12 @@
         <% end %>
         </div>
         <div class="column col-sm-6 col-4">
-          <p><%= loan.item.name %></p>
+          <p>
+            <%= loan.item.name %>
+            <% if !@appointment.completed? && @appointment.loan_added_after_pull?(loan) %>
+              <span class="label label-error">added after pull</span>
+            <% end %>
+          </p>
           <p><%= link_to full_item_number(loan.item), admin_item_path(loan.item) %></p>
         </div>
         <div class="column col-sm-12 col-4 text-right" data-controller="confirm-item-accessories">

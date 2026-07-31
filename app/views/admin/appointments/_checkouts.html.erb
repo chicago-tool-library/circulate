@@ -20,7 +20,12 @@
         <div class="divider"></div>
       </div>
       <div class="column col-sm-6 col-4">
-        <p><%= hold.item.name %></p>
+        <p>
+          <%= hold.item.name %>
+          <% if !@appointment.completed? && @appointment.hold_added_after_pull?(hold) %>
+            <span class="label label-error">added after pull</span>
+          <% end %>
+        </p>
         <p><%= link_to full_item_number(hold.item), admin_item_path(hold.item) %></p>
       </div>
       <div class="column col-sm-12 col-4 text-right checkout-button-column" data-controller="confirm-item-accessories">

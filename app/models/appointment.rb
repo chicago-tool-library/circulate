@@ -74,6 +74,29 @@ class Appointment < ApplicationRecord
     holds.select { |hold| hold.loan_id.nil? }
   end
 
+  def hold_added_after_pull?(hold)
+    return false if pulled_at.nil?
+
+    appointment_holds.any? do |appointment_hold|
+      appointment_hold.hold_id == hold.id && appointment_hold.created_at > pulled_at
+    end
+  end
+
+  def loan_added_after_pull?(loan)
+    return false if pulled_at.nil?
+
+    appointment_loans.any? do |appointment_loan|
+      appointment_loan.loan_id == loan.id && appointment_loan.created_at > pulled_at
+    end
+  end
+
+  def items_added_after_pull?
+    return false if pulled_at.nil?
+
+    appointment_holds.any? { |appointment_hold| appointment_hold.created_at > pulled_at } ||
+      appointment_loans.any? { |appointment_loan| appointment_loan.created_at > pulled_at }
+  end
+
   def dropoff_only?
     holds.empty? && !loans.empty?
   end

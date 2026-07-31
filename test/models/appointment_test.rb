@@ -97,6 +97,47 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_equal not_pulled_appointments, Appointment.all.not_pulled
   end
 
+  test "late-added holds and loans are distinguished from items attached before the appointment was pulled" do
+    original_hold = create(:hold)
+    original_loan = create(:loan)
+    hold_appointment = create(:appointment, holds: [original_hold])
+    loan_appointment = create(:appointment, loans: [original_loan])
+    unchanged_appointment = create(:appointment, holds: [create(:hold)])
+    unpulled_appointment = create(:appointment, holds: [create(:hold)])
+    pulled_at = Time.current
+
+    [hold_appointment, loan_appointment, unchanged_appointment].each do |appointment|
+      appointment.update_column(:pulled_at, pulled_at)
+    end
+
+    late_hold = create(:appointment_hold, appointment: hold_appointment, created_at: 1.minute.from_now).hold
+    late_loan = create(:appointment_loan, appointment: loan_appointment, created_at: 1.minute.from_now).loan
+    create(:appointment_hold, appointment: unpulled_appointment, created_at: 1.minute.from_now)
+
+    [hold_appointment, loan_appointment, unchanged_appointment, unpulled_appointment].each(&:reload)
+
+    assert hold_appointment.hold_added_after_pull?(late_hold)
+    refute hold_appointment.hold_added_after_pull?(original_hold)
+    assert loan_appointment.loan_added_after_pull?(late_loan)
+    refute loan_appointment.loan_added_after_pull?(original_loan)
+    assert hold_appointment.items_added_after_pull?
+    assert loan_appointment.items_added_after_pull?
+    refute unchanged_appointment.items_added_after_pull?
+    refute unpulled_appointment.items_added_after_pull?
+  end
+
+  test "pulling an appointment again resets which items count as late additions" do
+    appointment = create(:appointment, holds: [create(:hold)])
+    appointment.update_column(:pulled_at, Time.current)
+    create(:appointment_hold, appointment: appointment, created_at: 1.minute.from_now)
+
+    assert appointment.reload.items_added_after_pull?
+
+    appointment.update_column(:pulled_at, 2.minutes.from_now)
+
+    refute appointment.reload.items_added_after_pull?
+  end
+
   test ".unfinished surfaces recent pulled, never-completed appointments with items still not checked out" do
     unfinished = create(:appointment, holds: [create(:hold)], pulled_at: 2.days.ago,
       starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
