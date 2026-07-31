@@ -21,6 +21,11 @@ class MembershipForm
   end
 
   def save
+    if with_payment && !start_membership
+      @payment.errors.add(:base, "Can't accept a payment without starting the membership. Choose \"Create without payment\" to leave it pending.")
+      return false
+    end
+
     if with_payment
       save_with_payment
     else

@@ -1,5 +1,9 @@
 <%= render "admin/members/profile" do %>
-  <%= link_to @memberships.any? ? "Renew Membership" : "Create Membership", new_admin_member_membership_path, class: "btn" %>
+  <% if @member.pending_membership %>
+    <%= link_to "Complete Membership", new_admin_member_membership_path, class: "btn" %>
+  <% else %>
+    <%= link_to @memberships.any? ? "Renew Membership" : "Create Membership", new_admin_member_membership_path, class: "btn" %>
+  <% end %>
 
   <table class="table memberships">
     <thead>

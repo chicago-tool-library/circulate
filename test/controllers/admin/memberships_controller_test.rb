@@ -49,8 +49,8 @@ module Admin
     end
 
     %w[square cash].each do |payment_source|
-      test "creates new pending membership using #{payment_source}" do
-        assert_difference "Adjustment.count", 2 do
+      test "won't create a pending membership while accepting a #{payment_source} payment" do
+        assert_no_difference ["Adjustment.count", "Membership.count"] do
           post admin_member_memberships_url(@member), params: {
             membership_form: {
               amount_dollars: 12,
@@ -60,10 +60,7 @@ module Admin
             }
           }
         end
-        assert_response :redirect
-
-        membership = @member.memberships.last
-        assert membership.pending?
+        assert_response :unprocessable_content
       end
     end
 

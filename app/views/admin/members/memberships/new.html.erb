@@ -1,35 +1,45 @@
 <%= render "admin/members/profile" do %>
   <h3>
-    <% if @member.active_membership.present? %>
+    <% if @member.pending_membership %>
+      Complete Membership
+    <% elsif @member.active_membership.present? %>
       Renew Membership
     <% else %>
       New Membership
     <% end %>
   </h3>
 
+  <% pending = @member.pending_membership %>
   <%= form_with model: @form, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
     <div class="columns">
       <div class="column col-12">
-        <fieldset>
-          <legend>
-            <%= form.radio_button :with_payment, true, label: "Accept payment today", required: false %>
-          </legend>
-          <div class="fieldset-radio-inputs">
-            <%= form.money_field :amount_dollars, label: "This year's membership fee", class: "input-lg" %>
-            <%= form.select :payment_source, options_for_select(membership_payment_source_options, @form.payment_source || "cash"), prompt: true %>
-          </div>
-        </fieldset>
+        <%= form.errors(true) %>
 
-        <fieldset>
-          <legend>
-            <%= form.radio_button :with_payment, false, label: "Create without payment", required: false %>
-          </legend>
-          <div class="fieldset-radio-inputs">
-            <p>Remember that we don't turn anyone away because they can't pay. Use this option to create a membership without accepting a payment.</p>
-          </div>
-        </fieldset>
+        <% if pending&.adjustment %>
+          <p>This membership was already paid (<%= pending.amount.format %>). Completing it will start the membership today.</p>
+          <%= form.hidden_field :with_payment, value: false %>
+        <% else %>
+          <fieldset>
+            <legend>
+              <%= form.radio_button :with_payment, true, label: "Accept payment today", required: false %>
+            </legend>
+            <div class="fieldset-radio-inputs">
+              <%= form.money_field :amount_dollars, label: "This year's membership fee", class: "input-lg" %>
+              <%= form.select :payment_source, options_for_select(membership_payment_source_options, @form.payment_source || "cash"), prompt: true %>
+            </div>
+          </fieldset>
 
-        <% unless @member.active_membership.present? %>
+          <fieldset>
+            <legend>
+              <%= form.radio_button :with_payment, false, label: "Create without payment", required: false %>
+            </legend>
+            <div class="fieldset-radio-inputs">
+              <p>Remember that we don't turn anyone away because they can't pay. Use this option to create a membership without accepting a payment.</p>
+            </div>
+          </fieldset>
+        <% end %>
+
+        <% if pending.nil? && @member.active_membership.blank? %>
           <%= form.check_box :start_membership, label: "Start this membership", hint: "If unchecked, this membership will be pending and can be started at a later time.", checked: true %>
         <% end %>
 
