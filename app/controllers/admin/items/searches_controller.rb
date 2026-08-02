@@ -36,7 +36,9 @@ module Admin
         end
 
         @q = scope.ransack(ransack_params)
-        result = @q.result.includes(:categories, :borrow_policy).with_attached_image
+        result = @q.result
+          .includes(:categories, :borrow_policy, :active_holds, :checked_out_exclusive_loan)
+          .with_attached_image
         @pagy, @items = pagy(result)
       end
 

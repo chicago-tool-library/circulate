@@ -61,8 +61,9 @@
             <td>
               <%= link_to item.name, admin_item_path(item) %>
             </td>
-            <td>
-              <%= item.status.humanize %>
+            <td class="no-wrap">
+              <%= item_status_label(item) %>
+              <%= borrow_status_label(item) %>
             </td>
             <td>
               <%= item.active_holds_count %>

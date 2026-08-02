@@ -517,7 +517,8 @@ $min-width: variables.$size-md + 1;
 }
 
 .item-borrow-policy,
-.item-checkout-status {
+.item-status,
+.borrow-status {
   font-size: 0.8em;
   position: relative;
   top: -1px;
