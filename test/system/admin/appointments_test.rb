@@ -38,30 +38,30 @@ module Admin
     end
 
     def id_selector(appointment)
-      "##{dom_id(appointment)}"
+      "##{dom_id(appointment)}-desktop"
     end
 
     def pull_items_for_appointment(appointment)
       within id_selector(appointment) do
-        click_on "Pull Items"
+        click_on "pull items"
       end
     end
 
     def complete_appointment(appointment)
       within id_selector(appointment) do
-        click_on "Complete"
+        click_on "complete"
       end
     end
 
     def restore_appointment(appointment)
       within id_selector(appointment) do
-        click_on "Restore"
+        click_on "restore"
       end
     end
 
     def mark_appointment_as_not_pulled(appointment)
       within id_selector(appointment) do
-        click_on "Mark As Not Pulled"
+        click_on "mark as not pulled"
       end
     end
 
