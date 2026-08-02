@@ -64,6 +64,25 @@ module Signup
       assert_mock mock_checkout
     end
 
+    test "skip creates a pending membership so staff can complete it in person" do
+      assert_difference "Membership.count" => 1 do
+        post skip_signup_payments_url
+      end
+      assert_redirected_to signup_confirmation_url
+
+      membership = @member.reload.pending_membership
+      assert membership
+      assert_equal "initial", membership.membership_type
+    end
+
+    test "skip does not create a second pending membership" do
+      create(:pending_membership, member: @member)
+      assert_no_difference "Membership.count" do
+        post skip_signup_payments_url
+      end
+      assert_redirected_to signup_confirmation_url
+    end
+
     test "successful callback invocation" do
       mock_result = Minitest::Mock.new
       mock_result.expect :success?, true

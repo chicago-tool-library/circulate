@@ -93,6 +93,12 @@ class UserSignupTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for signing up"
       refute_includes html, "Your payment of"
     end
+
+    member = Member.find_by(email: email)
+    membership = member.last_membership
+    assert_equal 0, member.adjustments.count
+    assert membership.pending?
+    assert_equal "initial", membership.membership_type
   end
 
   test "signs in after signup" do
