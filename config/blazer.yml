@@ -36,7 +36,7 @@ data_sources:
 audit: true
 
 # change the time zone
-# time_zone: "Pacific Time (US & Canada)"
+time_zone: "Central Time (US & Canada)"
 
 # class name of the user model
 # user_class: User
