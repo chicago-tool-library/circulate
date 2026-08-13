@@ -14,6 +14,8 @@ class BorrowPolicy < ApplicationRecord
     numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
   validates :renewal_limit,
     numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 52}
+  validates :maximum_items_per_member,
+    numericality: {only_integer: true, greater_than_or_equal_to: 0}
   validates :code, inclusion: {in: "A".."ZZ", message: "must be 1 or 2 letters from A to ZZ"}, uniqueness: {scope: :library_id}
 
   validate :require_consumables_to_not_be_uniquely_numbered
@@ -35,6 +37,10 @@ class BorrowPolicy < ApplicationRecord
 
   def complete_name
     "#{name} (#{code})"
+  end
+
+  def limit_items_per_member?
+    maximum_items_per_member.positive?
   end
 
   def allow_multiple_holds_per_member?

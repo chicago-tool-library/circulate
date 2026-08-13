@@ -31,6 +31,9 @@
 
           <dt>Requires Approval</dt>
           <dd><%= @borrow_policy.requires_approval %></dd>
+
+          <dt>Maximum Items Per Member</dt>
+          <dd><%= @borrow_policy.maximum_items_per_member.zero? ? "Unlimited" : @borrow_policy.maximum_items_per_member %></dd>
         </dl>
       </div>
     </div>

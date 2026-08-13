@@ -1,6 +1,60 @@
 require "test_helper"
 
 class HoldTest < ActiveSupport::TestCase
+  test "a member cannot exceed a borrow policy's combined hold and loan limit" do
+    member = create(:verified_member, :with_user)
+    borrow_policy = create(:borrow_policy, maximum_items_per_member: 2)
+    create(:hold, member:, creator: member.user, item: create(:item, borrow_policy:))
+    create(:loan, member:, item: create(:item, borrow_policy:))
+
+    hold = build(:hold, member:, creator: member.user, item: create(:item, borrow_policy:))
+
+    refute hold.save
+    assert_equal ["You can have a maximum of 2 #{borrow_policy.code}-Tools checked out or on hold at one time."], hold.errors[:base]
+    assert hold.errors.of_kind?(:base, :maximum_items_per_member)
+    assert_equal 2, hold.existing_items_counted_toward_limit.size
+  end
+
+  test "locks the member before counting items toward the limit" do
+    member = create(:verified_member, :with_user)
+    borrow_policy = create(:borrow_policy, maximum_items_per_member: 1)
+    hold = build(:hold, member:, creator: member.user, item: create(:item, borrow_policy:))
+    member_locked = false
+
+    member.stub(:lock!, -> { member_locked = true }) do
+      assert hold.save
+    end
+
+    assert member_locked
+  end
+
+  test "inactive holds and returned loans do not count toward the limit" do
+    member = create(:verified_member, :with_user)
+    borrow_policy = create(:borrow_policy, maximum_items_per_member: 2)
+    create(:ended_hold, member:, creator: member.user, item: create(:item, borrow_policy:))
+    create(:ended_loan, member:, item: create(:item, borrow_policy:))
+
+    assert build(:hold, member:, creator: member.user, item: create(:item, borrow_policy:)).save
+  end
+
+  test "items governed by other borrow policies do not count toward the limit" do
+    member = create(:verified_member, :with_user)
+    limited_policy = create(:borrow_policy, maximum_items_per_member: 1)
+    other_policy = create(:borrow_policy, maximum_items_per_member: 1)
+    create(:hold, member:, creator: member.user, item: create(:item, borrow_policy: other_policy))
+
+    assert build(:hold, member:, creator: member.user, item: create(:item, borrow_policy: limited_policy)).save
+  end
+
+  test "staff can create a hold beyond the member's limit" do
+    member = create(:verified_member)
+    staff = create(:staff_user)
+    borrow_policy = create(:borrow_policy, maximum_items_per_member: 1)
+    create(:loan, member:, item: create(:item, borrow_policy:))
+
+    assert build(:hold, member:, creator: staff, item: create(:item, borrow_policy:)).save
+  end
+
   test "#upcoming_appointment should call its member.upcoming_appointment_of with itself" do
     member_double = Minitest::Mock.new
     hold = create(:hold)

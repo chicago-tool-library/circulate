@@ -8,6 +8,7 @@ FactoryBot.define do
     fine_currency { "USD" }
     fine_period { 1 }
     renewal_limit { 2 }
+    maximum_items_per_member { 0 }
     description { "What this policy is used for" }
     uniquely_numbered { true }
     member_renewable { false }

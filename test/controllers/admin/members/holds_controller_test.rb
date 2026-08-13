@@ -69,6 +69,17 @@ module Admin
         assert_redirected_to admin_member_holds_url(member, anchor: "checkout")
         assert_equal "Holds are disabled for this item", flash[:checkout_error]
       end
+
+      test "places a hold beyond the member's borrow policy limit" do
+        member = create(:verified_member)
+        borrow_policy = create(:borrow_policy, maximum_items_per_member: 1)
+        create(:loan, member:, item: create(:item, borrow_policy:))
+        item = create(:item, borrow_policy:)
+
+        assert_difference("member.holds.active.count") do
+          post admin_member_holds_url(member), params: {hold: {item_id: item.id}}
+        end
+      end
     end
   end
 end
