@@ -203,6 +203,19 @@ module ItemsHelper
     tag.span label, class: "label item-checkout-status #{class_name}"
   end
 
+  def days_until_due_label(item)
+    return unless show_days_until_due?(item)
+
+    days = (item.due_on - Time.zone.today).to_i
+    text = case days
+    when 0 then "Due today"
+    when 1 then "Due tomorrow"
+    else "Due in #{pluralize(days, "day")}"
+    end
+
+    tag.span text, class: "label item-days-until-due"
+  end
+
   def item_holds_label(item)
     if item.active?
       count = item.active_holds.size
@@ -237,5 +250,14 @@ module ItemsHelper
 
   def add_filter_param(param, value)
     (filter_params || {}).merge(param => value).sort.to_h
+  end
+
+  private
+
+  def show_days_until_due?(item)
+    item.checked_out_exclusive_loan.present? &&
+      item.holdable? &&
+      item.active_holds.empty? &&
+      !item.overdue?
   end
 end
