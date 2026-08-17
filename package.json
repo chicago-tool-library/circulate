@@ -15,7 +15,7 @@
     "@rails/activestorage": "^8.1.0",
     "@rails/ujs": "^7.1.502",
     "@selectize/selectize": "^0.15.2",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.28.1",
     "feather-icons": "^4.29.2",
     "jquery": "^4.0.0",
     "mjml": "^4.18.0",
