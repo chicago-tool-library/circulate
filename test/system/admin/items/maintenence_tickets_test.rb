@@ -45,7 +45,7 @@ class MainteneenceTicketsTest < ApplicationSystemTestCase
     assert_selector ".chip", text: "Parts on Order"
 
     within ".item-panel" do
-      assert_selector ".item-checkout-status", text: "Maintenance"
+      assert_selector ".item-status", text: "Maintenance"
     end
 
     assert_tags tags
@@ -75,7 +75,7 @@ class MainteneenceTicketsTest < ApplicationSystemTestCase
     assert_selector ".chip", text: "Retired"
 
     within ".item-panel" do
-      assert_selector ".item-checkout-status", text: "Retired (Broken)"
+      assert_selector ".item-status", text: "Retired (Broken)"
     end
 
     assert_tags tags
@@ -101,7 +101,7 @@ class MainteneenceTicketsTest < ApplicationSystemTestCase
     assert_selector ".chip", text: "Parts on Order"
 
     within ".item-panel" do
-      assert_selector ".item-checkout-status", text: "Maintenance"
+      assert_selector ".item-status", text: "Maintenance"
     end
 
     click_on "Add Update"
@@ -116,7 +116,7 @@ class MainteneenceTicketsTest < ApplicationSystemTestCase
     assert_content "updated this ticket's status to Retired"
 
     within ".item-panel" do
-      assert_selector ".item-checkout-status", text: "Retired (Broken)"
+      assert_selector ".item-status", text: "Retired (Broken)"
     end
   end
 end

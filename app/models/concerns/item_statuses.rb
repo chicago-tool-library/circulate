@@ -11,6 +11,13 @@ module ItemStatuses
     "retired" => "Retired"
   }
 
+  # Members are shown the borrow status of active items, so these only come up
+  # for items that have left circulation. Members normally can't see those at
+  # all, but an item saved for later can end up in any status.
+  MEMBER_STATUS_NAMES = Hash.new("Unavailable").merge(
+    "maintenance" => "In Maintenance"
+  ).freeze
+
   STATUS_DESCRIPTIONS = {
     "pending" => "just acquired; not ready to loan",
     "active" => "available to loan",
@@ -32,6 +39,29 @@ module ItemStatuses
     "used_up" => "used up, worn out, or otherwise consumed",
     "upgraded" => "replaced with a newer or better item"
   }
+
+  def status_name
+    STATUS_NAMES[status]
+  end
+
+  # The status, plus why the item was retired when we know it
+  def full_status_name
+    retired_reason ? "#{status_name} (#{retired_reason_name})" : status_name
+  end
+
+  def member_status_name
+    MEMBER_STATUS_NAMES[status]
+  end
+
+  # Items that are part of the circulating inventory. Anything else has either
+  # not entered circulation yet or has left it, so its borrow status is moot.
+  def in_circulation?
+    active? || maintenance?
+  end
+
+  def retired_reason_name
+    RETIRED_REASON_NAMES[retired_reason]
+  end
 
   included do
     enum :status, {

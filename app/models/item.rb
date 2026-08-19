@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   include ItemCategorization
   include ItemStatuses
+  include ItemBorrowStatuses
   include ItemNumbering
 
   include PgSearch::Model
@@ -112,27 +113,6 @@ class Item < ApplicationRecord
       )
       .left_joins(:checked_out_exclusive_loan)
       .left_joins(:borrow_policy)
-
-    items = arel_table
-    search_priority = Arel::Nodes::Case
-      .new(items[:status])
-      .when("active").then(
-        Arel::Nodes::Case.new
-        .when(Loan.arel_table[:id].not_eq(nil)).then(
-          Arel::Nodes::Case.new
-          .when(Loan.arel_table[:due_at].lt(Time.current)).then(4).else(3)
-        )
-        .when(
-          Arel::Nodes::And.new([
-            BorrowPolicy.arel_table[:uniquely_numbered],
-            Arel::Nodes::SqlLiteral.new("active_hold_counts.item_id IS NOT NULL")
-          ])
-        ).then(2)
-        .else(1)
-      )
-      .when("maintenance").then(5)
-      .else(6)
-      .as("search_priority")
 
     item_scope.select(
       "#{item_scope.pg_search_rank_table_alias}.rank",

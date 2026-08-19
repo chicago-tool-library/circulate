@@ -103,7 +103,7 @@
               <div class="item-content">
                 <%= tag.div class: "item-info" do %>
                   <strong><%= link_to item.name, item_path(item, search_result_index: index), class: "item-name", id: "item-name-#{item.id}" %></strong>
-                  <%= item_status_label(item) %>
+                  <%= member_item_status_label(item) %>
                   <%= days_until_due_label(item) %>
                   <% if item.borrow_policy.requires_approval? %>
                     <span class="label label-secondary item-borrow-policy"><%= item.borrow_policy.code %>-Tool</span>

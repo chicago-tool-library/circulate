@@ -23,10 +23,6 @@ module ItemsHelper
     end
   end
 
-  def item_retired_reason_name(reason)
-    Item::RETIRED_REASON_NAMES[reason]
-  end
-
   def item_retired_reason_options(disabled_statuses: [])
     Item.retired_reasons.map do |key, value|
       description = " (#{Item::RETIRED_REASON_DESCRIPTIONS[key]})" if Item::RETIRED_REASON_DESCRIPTIONS[key]
@@ -178,29 +174,27 @@ module ItemsHelper
     item.complete_number
   end
 
-  def css_class_and_status_label(item)
-    if item.active?
-      if item.checked_out_exclusive_loan
-        if item.overdue?
-          ["label-error", "Overdue"]
-        else
-          ["label-warning", "Checked Out"]
-        end
-      elsif item.borrow_policy.uniquely_numbered? && item.active_holds.size > 0
-        ["label-warning", "On Hold"]
-      else
-        ["label-success", "Available"]
-      end
-    elsif item.maintenance?
-      ["", "In Maintenance"]
-    else
-      ["", "Unavailable"]
-    end
+  # Admins see both statuses side by side, so each is labeled with a tooltip
+  def item_status_label(item)
+    status_label item.full_status_name, css_class: "item-status", tooltip: "item status"
   end
 
-  def item_status_label(item)
-    class_name, label = css_class_and_status_label(item)
-    tag.span label, class: "label item-checkout-status #{class_name}"
+  def borrow_status_label(item, tooltip: "borrow status")
+    return unless item.in_circulation?
+
+    status_label item.borrow_status_name,
+      css_class: "borrow-status #{Item::BORROW_STATUS_CSS_CLASSES[item.borrow_status]}",
+      tooltip: tooltip
+  end
+
+  # Members see a single label: how borrowable an active item is, or why an item
+  # that has left circulation can't be borrowed at all.
+  def member_item_status_label(item)
+    if item.active?
+      borrow_status_label(item, tooltip: nil)
+    else
+      status_label item.member_status_name, css_class: "item-status"
+    end
   end
 
   def days_until_due_label(item)
@@ -216,13 +210,10 @@ module ItemsHelper
     tag.span text, class: "label item-days-until-due"
   end
 
-  def item_holds_label(item)
-    if item.active?
-      count = item.active_holds.size
-      if count > 0
-        tag.span pluralize(count, "hold"), class: "label item-hold-status"
-      end
-    end
+  private def status_label(name, css_class:, tooltip: nil)
+    css_class = "tooltip tooltip-bottom #{css_class}" if tooltip
+
+    tag.span name, class: "label #{css_class}", data: {tooltip: tooltip}
   end
 
   def audit_item_status(audit)

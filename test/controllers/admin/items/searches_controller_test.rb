@@ -18,6 +18,27 @@ module Admin
         assert_response :success
       end
 
+      test "results show the item status and the borrow status" do
+        item = create(:item, name: "Cordless Drill")
+        create(:loan, item: item)
+
+        get search_admin_items_url(query: "Cordless Drill")
+
+        assert_response :success
+        assert_select ".item-status", text: "Active"
+        assert_select ".borrow-status", text: "Checked Out"
+      end
+
+      test "results omit the borrow status of items out of circulation" do
+        create(:item, :retired, name: "Cordless Drill")
+
+        get search_admin_items_url(query: "Cordless Drill", q: {status_in: %w[retired]})
+
+        assert_response :success
+        assert_select ".item-status", text: "Retired (Broken)"
+        assert_select ".borrow-status", count: 0
+      end
+
       test "filters items by bare-term query across fields" do
         match = create(:item, name: "Cordless Drill")
         miss = create(:item, name: "Hammer")

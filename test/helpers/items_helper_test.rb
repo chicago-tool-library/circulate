@@ -79,81 +79,65 @@ class ItemsHelperTest < ActionView::TestCase
     end
   end
 
-  class ItemStatusTest < ItemsHelperTest
-    test "item status for an available uniquely numbered item" do
-      item = create(:item)
-
-      assert_equal ["label-success", "Available"], css_class_and_status_label(item)
+  class StatusLabelTest < ItemsHelperTest
+    test "the item status label names the status" do
+      assert_equal "Active", label_text(item_status_label(create(:item)))
     end
 
-    test "item status for a checked out uniquely numbered item" do
+    test "the item status label includes why an item was retired" do
+      assert_equal "Retired (Broken)", label_text(item_status_label(create(:item, :retired)))
+    end
+
+    test "the borrow status label names the borrow status" do
       item = create(:item)
       create(:loan, item: item)
-      item.reload
 
-      assert_equal ["label-warning", "Checked Out"], css_class_and_status_label(item)
+      assert_equal "Checked Out", label_text(borrow_status_label(item.reload))
     end
 
-    test "item status for an overdue uniquely numbered item" do
-      item = create(:item)
-      create(:overdue_loan, item: item)
-      item.reload
-
-      assert_equal ["label-error", "Overdue"], css_class_and_status_label(item)
+    test "the borrow status label is shown for items still in circulation" do
+      assert_equal "Available", label_text(borrow_status_label(create(:item)))
+      assert_equal "Available", label_text(borrow_status_label(create(:item, :maintenance)))
     end
 
-    test "item status for a uniquely numbered item with a hold" do
+    test "the borrow status label is not shown for items out of circulation" do
+      assert_nil borrow_status_label(create(:item, status: :pending))
+      assert_nil borrow_status_label(create(:item, status: :missing))
+      assert_nil borrow_status_label(create(:item, :retired))
+    end
+
+    test "the admin labels are identified by a tooltip" do
+      assert_equal "item status", tooltip(item_status_label(create(:item)))
+      assert_equal "borrow status", tooltip(borrow_status_label(create(:item)))
+    end
+
+    test "the single label members see has no tooltip" do
+      assert_nil tooltip(member_item_status_label(create(:item)))
+      assert_nil tooltip(member_item_status_label(create(:item, :maintenance)))
+    end
+
+    test "members see the borrow status of an active item" do
       item = create(:item)
       create(:hold, item: item)
-      item.reload
 
-      assert_equal ["label-warning", "On Hold"], css_class_and_status_label(item)
+      assert_equal "On Hold", label_text(member_item_status_label(item.reload))
     end
 
-    test "item status for an uniquely numbered item with status maintenance" do
-      item = create(:item, status: :maintenance)
-      assert_equal ["", "In Maintenance"], css_class_and_status_label(item)
+    test "members see why an item that has left circulation can't be borrowed" do
+      assert_equal "In Maintenance", label_text(member_item_status_label(create(:item, :maintenance)))
+      assert_equal "Unavailable", label_text(member_item_status_label(create(:item, status: :pending)))
+      assert_equal "Unavailable", label_text(member_item_status_label(create(:item, status: :missing)))
+      assert_equal "Unavailable", label_text(member_item_status_label(create(:item, :retired)))
     end
 
-    [:pending, :retired].each do |status|
-      test "item status for an uniquely numbered item with status #{status}" do
-        item = create(:item, status)
-        assert_equal ["", "Unavailable"], css_class_and_status_label(item)
-      end
+    private
+
+    def label_text(label)
+      Nokogiri::HTML5.fragment(label).text.strip
     end
 
-    test "item status for an available unnumbered item" do
-      item = create(:uncounted_item)
-
-      assert_equal ["label-success", "Available"], css_class_and_status_label(item)
-    end
-
-    test "item status for a checked out unnumbered item" do
-      item = create(:uncounted_item)
-      create(:nonexclusive_loan, item: item)
-      item.reload
-
-      assert_equal ["label-success", "Available"], css_class_and_status_label(item)
-    end
-
-    test "item status for an unnumbered item with a hold" do
-      item = create(:uncounted_item)
-      create(:hold, item: item)
-      item.reload
-
-      assert_equal ["label-success", "Available"], css_class_and_status_label(item)
-    end
-
-    test "item status for an unnumbered item with status maintenance" do
-      item = create(:uncounted_item, status: :maintenance)
-      assert_equal ["", "In Maintenance"], css_class_and_status_label(item)
-    end
-
-    [:pending, :retired].each do |status|
-      test "item status for an unnumbered item with status #{status}" do
-        item = create(:uncounted_item, status)
-        assert_equal ["", "Unavailable"], css_class_and_status_label(item)
-      end
+    def tooltip(label)
+      Nokogiri::HTML5.fragment(label).at_css("span")["data-tooltip"]
     end
   end
 
