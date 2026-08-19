@@ -25,6 +25,18 @@ class BorrowPolicyTest < ActiveSupport::TestCase
     refute old_policy.reload.default
   end
 
+  test "limits items per member only when maximum_items_per_member is positive" do
+    refute BorrowPolicy.new(maximum_items_per_member: 0).limit_items_per_member?
+    assert BorrowPolicy.new(maximum_items_per_member: 2).limit_items_per_member?
+  end
+
+  test "maximum_items_per_member cannot be negative" do
+    policy = build(:borrow_policy, maximum_items_per_member: -1)
+
+    refute policy.valid?
+    assert_equal ["must be greater than or equal to 0"], policy.errors[:maximum_items_per_member]
+  end
+
   test "allow_multiple_holds_per_member? is true when uniquely_numbered is false" do
     policy = BorrowPolicy.new(uniquely_numbered: false)
 

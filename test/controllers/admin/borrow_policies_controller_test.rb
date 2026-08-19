@@ -30,7 +30,7 @@ module Admin
 
     test "should update borrow_policy" do
       @borrow_policy = create(:default_borrow_policy)
-      patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: 10, fine: 8.23, fine_period: 26, name: "New name", code: "Q", member_renewable: true, requires_approval: true}}
+      patch admin_borrow_policy_url(@borrow_policy), params: {borrow_policy: {duration: 10, fine: 8.23, fine_period: 26, name: "New name", code: "Q", member_renewable: true, requires_approval: true, maximum_items_per_member: 2}}
 
       @borrow_policy.reload
       assert_equal 10, @borrow_policy.duration
@@ -40,6 +40,7 @@ module Admin
       assert_equal "Q", @borrow_policy.code
       assert_equal true, @borrow_policy.member_renewable
       assert_equal true, @borrow_policy.requires_approval
+      assert_equal 2, @borrow_policy.maximum_items_per_member
     end
   end
 end
