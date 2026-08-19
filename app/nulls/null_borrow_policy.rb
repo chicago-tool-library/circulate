@@ -1,4 +1,12 @@
 class NullBorrowPolicy
+  def maximum_items_per_member
+    0
+  end
+
+  def limit_items_per_member?
+    false
+  end
+
   def renewal_limit
     0
   end

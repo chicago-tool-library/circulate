@@ -6,6 +6,7 @@
   <%= form.text_area :description, hint: "What tools is this policy intended for?" %>
   <%= form.text_field :duration, label: "Loan length", hint: "How long can an item be kept when loaned?" %>
   <%= form.text_field :renewal_limit, hint: "How many times can an item be renewed?" %>
+  <%= form.number_field :maximum_items_per_member, min: 0, hint: "Maximum number a member may have checked out or on hold at one time. Use 0 for no limit." %>
   <%= form.money_field :fine, value: borrow_policy.fine || 0, hint: "Per fine period (see next field)" %>
   <%= form.text_field :fine_period, hint: "Days that pass before assigning the fine; 1 is every day after something is late, 7 is every week, etc." %>
   <%= form.check_box :uniquely_numbered, hint: "Is each item with this policy given a unique identification number?" %>

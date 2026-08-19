@@ -71,6 +71,9 @@
               <li class="nav-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %></li>
               <li class="nav-item"><%= link_to "Missing Items", admin_reports_missing_items_path %></li>
               <li class="nav-item"><%= link_to "Zipcodes", admin_reports_zipcodes_path %></li>
+              <% if current_user.admin? %>
+                <li class="nav-item"><%= link_to "Blazer", blazer_path %></li>
+              <% end %>
             </ul>
           </li>
 
@@ -180,6 +183,9 @@
                 <li class="menu-item"><%= link_to "Items in Maintenance", admin_reports_items_in_maintenance_index_path %></li>
                 <li class="menu-item"><%= link_to "Missing Items", admin_reports_missing_items_path %></li>
                 <li class="menu-item"><%= link_to "Zipcodes", admin_reports_zipcodes_path %></li>
+                <% if current_user.admin? %>
+                  <li class="menu-item"><%= link_to "Blazer", blazer_path %></li>
+                <% end %>
               </ul>
             </div>
             <div class="dropdown">

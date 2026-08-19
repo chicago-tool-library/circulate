@@ -141,6 +141,76 @@ class ItemsHelperTest < ActionView::TestCase
     end
   end
 
+  class DaysUntilDueLabelTest < ItemsHelperTest
+    def check_out(item, due_at:)
+      create(:loan, :checked_out, :exclusive, item: item, due_at: due_at)
+      item.reload
+    end
+
+    setup do
+      travel_to Time.zone.local(2026, 8, 16, 10, 0, 0)
+    end
+
+    test "it counts the days until an item is due" do
+      item = create(:item)
+      check_out(item, due_at: 3.days.from_now)
+
+      assert_dom_equal %(<span class="label item-days-until-due">Due in 3 days</span>), days_until_due_label(item)
+    end
+
+    test "it says tomorrow for an item due in one day" do
+      item = create(:item)
+      check_out(item, due_at: 1.day.from_now)
+
+      assert_dom_equal %(<span class="label item-days-until-due">Due tomorrow</span>), days_until_due_label(item)
+    end
+
+    test "it says today for an item due today" do
+      item = create(:item)
+      check_out(item, due_at: Time.zone.now.end_of_day)
+
+      assert_dom_equal %(<span class="label item-days-until-due">Due today</span>), days_until_due_label(item)
+    end
+
+    test "it is nothing for an item that isn't checked out" do
+      assert_nil days_until_due_label(create(:item))
+    end
+
+    test "it is nothing for an overdue item" do
+      item = create(:item)
+      create(:overdue_loan, item: item)
+      item.reload
+
+      assert_nil days_until_due_label(item)
+    end
+
+    test "it is nothing for an item with an active hold" do
+      item = create(:item)
+      check_out(item, due_at: 3.days.from_now)
+      create(:hold, :active, item: item)
+      item.reload
+
+      assert_nil days_until_due_label(item)
+    end
+
+    test "it is nothing for an item that can't be held" do
+      item = create(:item, holds_enabled: false)
+      check_out(item, due_at: 3.days.from_now)
+
+      assert_nil days_until_due_label(item)
+    end
+
+    [:maintenance, :retired, :pending, :missing].each do |status|
+      test "it is nothing for an item with status #{status}" do
+        item = create(:item)
+        check_out(item, due_at: 3.days.from_now)
+        item.update_columns(status: Item.statuses[status])
+
+        assert_nil days_until_due_label(item.reload)
+      end
+    end
+  end
+
   class ItemStatusOptionsTest < ItemsHelperTest
     test "it is all item statuses and descriptions" do
       assert_includes item_status_options, ["Pending (just acquired; not ready to loan)", "pending"]

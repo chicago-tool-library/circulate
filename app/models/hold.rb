@@ -31,7 +31,7 @@ class Hold < ApplicationRecord
     message: "is required when started_at is set"
   }, if: :started_at?
 
-  validate :ensure_items_are_holdable, on: :create
+  validate :ensure_items_are_holdable, :ensure_member_is_within_borrow_policy_limit, on: :create
 
   acts_as_tenant :library
 
@@ -121,6 +121,25 @@ class Hold < ApplicationRecord
     Hold.active.started.where(expires_at: ...date).update_all(expires_at: date)
   end
 
+  def existing_items_counted_toward_limit
+    return [] unless item && member
+
+    @existing_items_counted_toward_limit ||= begin
+      borrow_policy_id = item.borrow_policy_id
+      holds = member.active_holds
+        .joins(:item)
+        .where(items: {borrow_policy_id:})
+        .includes(item: :borrow_policy)
+      loans = member.loans
+        .checked_out
+        .joins(:item)
+        .where(items: {borrow_policy_id:})
+        .includes(item: :borrow_policy)
+
+      holds.to_a + loans.to_a
+    end
+  end
+
   def self.start_waiting_holds(now = Time.current, &block)
     started = 0
 
@@ -156,6 +175,25 @@ class Hold < ApplicationRecord
 
     unless borrow_policy_approval&.approved?
       errors.add(:borrow_policy, "requires approval")
+    end
+  end
+
+  def ensure_member_is_within_borrow_policy_limit
+    return unless item && member && creator
+    return if creator.has_role?(:staff)
+
+    borrow_policy = item.borrow_policy
+    return unless borrow_policy.limit_items_per_member?
+
+    member.lock!
+
+    if existing_items_counted_toward_limit.size >= borrow_policy.maximum_items_per_member
+      tool_name = "#{borrow_policy.code}-Tool".pluralize(borrow_policy.maximum_items_per_member)
+      errors.add(
+        :base,
+        :maximum_items_per_member,
+        message: "You can have a maximum of #{borrow_policy.maximum_items_per_member} #{tool_name} checked out or on hold at one time."
+      )
     end
   end
 end

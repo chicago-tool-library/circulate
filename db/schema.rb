@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_24_150504) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -265,6 +265,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_24_150504) do
     t.string "fine_currency", default: "USD", null: false
     t.integer "fine_period", default: 1, null: false
     t.integer "library_id"
+    t.integer "maximum_items_per_member", default: 0, null: false
     t.boolean "member_renewable", default: false, null: false
     t.string "name", null: false
     t.integer "renewal_limit", default: 0, null: false

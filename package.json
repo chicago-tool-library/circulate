@@ -31,7 +31,7 @@
     "prettier": "^3.8.1"
   },
   "resolutions": {
-    "brace-expansion": "^2.0.3"
+    "brace-expansion": "^2.1.4"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets --target=chrome58,firefox57,safari11 --define:process.env.APPSIGNAL_FRONTEND_KEY=\\\"$APPSIGNAL_FRONTEND_KEY\\\"",

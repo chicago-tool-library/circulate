@@ -518,7 +518,8 @@ $min-width: variables.$size-md + 1;
 
 .item-borrow-policy,
 .item-status,
-.borrow-status {
+.borrow-status,
+.item-days-until-due {
   font-size: 0.8em;
   position: relative;
   top: -1px;

@@ -52,7 +52,7 @@ module Admin
       within "tr.items-added-after-pull" do
         assert_text "Circular Saw"
         assert_selector ".label.label-error", text: "added after pull"
-        click_button "Mark New Items Pulled"
+        click_button "mark new items pulled"
       end
 
       refute_selector "tr.items-added-after-pull"
