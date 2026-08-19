@@ -155,7 +155,8 @@ ul.simple-list {
     align-items: center;
   }
 
-  th.no-wrap {
+  th.no-wrap,
+  td.no-wrap {
     white-space: nowrap;
   }
 }
