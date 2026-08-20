@@ -46,6 +46,21 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal now + 364.days, membership.ended_at
   end
 
+  test "completing a pending membership for a still-active member starts it when the active one ends" do
+    member = create(:member)
+    now = Time.current.beginning_of_day
+    active = create(:membership, member: member, started_at: now - 345.days, ended_at: now + 20.days)
+    create(:pending_membership, member: member)
+
+    membership = assert_no_difference("Membership.count") {
+      Membership.create_for_member(member, now: now, start_membership: true)
+    }
+
+    refute membership.pending?
+    assert_equal active.ended_at, membership.started_at
+    assert_equal active.ended_at + 364.days, membership.ended_at
+  end
+
   test "records payment when starting an existing pending membership" do
     member = create(:member)
     create(:pending_membership, member: member)

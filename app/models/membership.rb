@@ -87,8 +87,11 @@ class Membership < ApplicationRecord
     if start_membership
       if (membership = member.pending_membership)
         # Finalize a membership that was left pending, e.g. a renewal the member
-        # chose to complete in person.
-        membership.start!(now)
+        # chose to complete in person. If the member renewed early and still has
+        # an active membership, start this one when that one ends so the dates
+        # don't overlap; otherwise start it now.
+        start_date = member.active_membership&.ended_at || now
+        membership.start!(start_date)
       else
         start_date = next_start_date_for_member(member, now: now)
         raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
