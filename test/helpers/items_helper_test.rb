@@ -95,12 +95,12 @@ class ItemsHelperTest < ActionView::TestCase
       assert_equal "Checked Out", label_text(borrow_status_label(item.reload))
     end
 
-    test "the borrow status label is shown for items still in circulation" do
+    test "the borrow status label is shown for active items" do
       assert_equal "Available", label_text(borrow_status_label(create(:item)))
-      assert_equal "Available", label_text(borrow_status_label(create(:item, :maintenance)))
     end
 
-    test "the borrow status label is not shown for items out of circulation" do
+    test "the borrow status label is not shown for inactive items" do
+      assert_nil borrow_status_label(create(:item, :maintenance))
       assert_nil borrow_status_label(create(:item, status: :pending))
       assert_nil borrow_status_label(create(:item, status: :missing))
       assert_nil borrow_status_label(create(:item, :retired))

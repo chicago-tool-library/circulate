@@ -53,12 +53,6 @@ module ItemStatuses
     MEMBER_STATUS_NAMES[status]
   end
 
-  # Items that are part of the circulating inventory. Anything else has either
-  # not entered circulation yet or has left it, so its borrow status is moot.
-  def in_circulation?
-    active? || maintenance?
-  end
-
   def retired_reason_name
     RETIRED_REASON_NAMES[retired_reason]
   end

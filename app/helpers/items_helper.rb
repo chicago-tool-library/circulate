@@ -180,7 +180,7 @@ module ItemsHelper
   end
 
   def borrow_status_label(item, tooltip: "borrow status")
-    return unless item.in_circulation?
+    return unless item.active?
 
     status_label item.borrow_status_name,
       css_class: "borrow-status #{Item::BORROW_STATUS_CSS_CLASSES[item.borrow_status]}",
