@@ -85,15 +85,27 @@ class Membership < ApplicationRecord
     membership_type = member.memberships.present? ? "renewal" : "initial"
 
     if start_membership
-      start_date = next_start_date_for_member(member, now: now)
-      raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
+      if (membership = member.pending_membership)
+        # Finalize a membership that was left pending, e.g. a renewal the member
+        # chose to complete in person. If the member renewed early and still has
+        # an active membership, start this one when that one ends so the dates
+        # don't overlap; otherwise start it now.
+        start_date = member.active_membership&.ended_at || now
+        membership.start!(start_date)
+      else
+        start_date = next_start_date_for_member(member, now: now)
+        raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
 
-      membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
+        membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
+      end
     else
       membership = member.memberships.create!(library: member.library, membership_type:)
     end
 
-    if amount > 0
+    # Record the payment at most once per membership. A membership can reach here
+    # already paid — e.g. an online signup creates a pending, paid membership that
+    # staff later start in person — and must not be charged a second time.
+    if amount > 0 && !Adjustment.exists?(adjustable: membership)
       Adjustment.record_membership(membership, amount)
       Adjustment.record_member_payment(member, amount, source, square_transaction_id)
     end

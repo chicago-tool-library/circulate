@@ -32,6 +32,70 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "renewal", membership.membership_type
   end
 
+  test "starts an existing pending membership instead of creating a new one" do
+    member = create(:member)
+    pending = create(:pending_membership, member: member)
+    now = Time.current.beginning_of_day
+
+    membership = assert_no_difference("Membership.count") {
+      Membership.create_for_member(member, now: now, start_membership: true)
+    }
+
+    assert_equal pending, membership
+    assert_equal now, membership.started_at
+    assert_equal now + 364.days, membership.ended_at
+  end
+
+  test "completing a pending membership for a still-active member starts it when the active one ends" do
+    member = create(:member)
+    now = Time.current.beginning_of_day
+    active = create(:membership, member: member, started_at: now - 345.days, ended_at: now + 20.days)
+    create(:pending_membership, member: member)
+
+    membership = assert_no_difference("Membership.count") {
+      Membership.create_for_member(member, now: now, start_membership: true)
+    }
+
+    refute membership.pending?
+    assert_equal active.ended_at, membership.started_at
+    assert_equal active.ended_at + 364.days, membership.ended_at
+  end
+
+  test "records payment when starting an existing pending membership" do
+    member = create(:member)
+    create(:pending_membership, member: member)
+    now = Time.current.beginning_of_day
+    amount = Money.new(2500)
+
+    membership = assert_no_difference("Membership.count") {
+      assert_difference("Adjustment.count", 2) {
+        Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+      }
+    }
+
+    assert_equal now, membership.started_at
+    assert_equal amount * -1, membership.adjustment.amount
+  end
+
+  test "does not record a second payment when completing an already-paid pending membership" do
+    member = create(:member)
+    now = Time.current.beginning_of_day
+    amount = Money.new(2500)
+
+    # An online signup creates a pending membership that is already paid.
+    Membership.create_for_member(member, now: now, amount: amount, source: "square")
+    pending = member.reload.pending_membership
+
+    # Staff later complete it in person; it must not be charged again.
+    membership = assert_no_difference(["Membership.count", "Adjustment.count"]) {
+      Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+    }
+
+    assert_equal pending, membership
+    assert_equal now, membership.started_at
+    assert_equal amount * -1, membership.adjustment.amount
+  end
+
   test "creates a pending membership for a member" do
     member = create(:member)
     now = Time.current.beginning_of_day

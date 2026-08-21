@@ -28,7 +28,9 @@ module Signup
     end
 
     def skip
-      # completing in person
+      # completing in person: create a pending membership so staff have a record
+      # to start when the member comes in to pay.
+      Membership.create_for_member(@member, start_membership: false) unless @member.pending_membership
       MemberMailer.with(member: @member).welcome_message.deliver_later
       reset_session
       redirect_to signup_confirmation_url, status: :see_other
