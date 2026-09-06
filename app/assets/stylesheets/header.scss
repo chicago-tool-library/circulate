@@ -177,12 +177,6 @@ header.header {
       &:focus {
         background-color: variables.$light-gray;
       }
-
-      &.extra-space {
-        @include globals.desktop {
-          margin-top: 1.25rem;
-        }
-      }
     }
   }
 
