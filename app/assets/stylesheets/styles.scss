@@ -1209,3 +1209,33 @@ footer.page-footer {
     right: 10rem;
   }
 }
+
+.orientation-settings {
+  margin-bottom: 2.5rem;
+}
+
+.quiz-choice-list {
+  list-style: none;
+  margin: 0;
+
+  li {
+    margin: 0 0 0.2rem;
+  }
+
+  .label {
+    margin-left: 0.3rem;
+  }
+}
+
+.quiz-question-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.quiz-choice-fields {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background: white;
+}

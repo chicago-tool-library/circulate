@@ -11,12 +11,8 @@ module Renewal
       sign_in @member.user
     end
 
-    teardown do
-      ENV.delete("POLICY_DECK_URL")
-    end
-
     test "rules embeds the policy deck when one is configured" do
-      ENV["POLICY_DECK_URL"] = "https://www.canva.com/design/ABC/xyz/view"
+      Library.first.update!(orientation_enabled: true, policy_deck_url: "https://www.canva.com/design/ABC/xyz/view")
 
       get renewal_rules_url
 

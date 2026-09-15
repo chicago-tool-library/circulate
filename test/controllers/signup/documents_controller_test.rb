@@ -7,10 +7,6 @@ module Signup
       create(:document, code: "borrow_policy", body: "The borrow policy text")
     end
 
-    teardown do
-      ENV.delete("POLICY_DECK_URL")
-    end
-
     test "rules renders the policy text when no deck is configured" do
       get signup_rules_url
 
@@ -19,8 +15,18 @@ module Signup
       assert_select ".rich-text", text: /The borrow policy text/
     end
 
+    test "rules keeps the policy text while the orientation is switched off" do
+      Library.first.update!(orientation_enabled: false, policy_deck_url: "https://www.canva.com/design/ABC/xyz/view")
+
+      get signup_rules_url
+
+      assert_response :success
+      assert_select "iframe", count: 0
+      assert_select ".rich-text", text: /The borrow policy text/
+    end
+
     test "rules embeds the policy deck when one is configured" do
-      ENV["POLICY_DECK_URL"] = "https://www.canva.com/design/ABC/xyz/view"
+      Library.first.update!(orientation_enabled: true, policy_deck_url: "https://www.canva.com/design/ABC/xyz/view")
 
       get signup_rules_url
 
