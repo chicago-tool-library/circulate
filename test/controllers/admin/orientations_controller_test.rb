@@ -52,6 +52,29 @@ module Admin
       assert_nil Library.first.reload.policy_deck_url
     end
 
+    test "preview shows the orientation to the admin while it's switched off" do
+      create(:agreement_document)
+      create(:document, code: "borrow_policy")
+      create(:quiz_question)
+      Library.first.update!(orientation_enabled: false, policy_deck_url: "https://www.canva.com/design/ABC/xyz/view")
+
+      post preview_admin_orientation_url
+      assert_redirected_to signup_rules_url
+
+      follow_redirect!
+      assert_select ".orientation-preview-banner"
+      assert_select "iframe[src='https://www.canva.com/design/ABC/xyz/view?embed']"
+      assert_select ".step-item", text: "Quiz"
+
+      delete preview_admin_orientation_url
+      assert_redirected_to admin_orientation_url
+
+      get signup_rules_url
+      assert_select ".orientation-preview-banner", count: 0
+      assert_select "iframe", count: 0
+      assert_select ".step-item", text: "Quiz", count: 0
+    end
+
     test "is only for admins" do
       sign_in create(:user)
 

@@ -881,3 +881,15 @@ ul.breadcrumb {
     content: '›';
   }
 }
+
+.orientation-preview-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .orientation-preview-exit {
+    flex-shrink: 0;
+  }
+}
