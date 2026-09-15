@@ -7,7 +7,11 @@
 
   <fieldset>
     <legend>Answers</legend>
-    <p class="text-gray">Mark exactly one answer as correct. Leave an answer blank to drop it.</p>
+    <% if quiz_question.errors[:choices].any? %>
+      <p class="text-error">Answers <%= quiz_question.errors[:choices].to_sentence %>.</p>
+    <% else %>
+      <p class="text-gray">Mark exactly one answer as correct. Leave an answer blank to drop it.</p>
+    <% end %>
     <%= form.dynamic_fields_for :choices, model: QuizChoice, label: "Add another answer" do |choice_form| %>
       <div class="quiz-choice-fields">
         <%= choice_form.text_field :content, label: "Answer" %>

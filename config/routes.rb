@@ -100,7 +100,8 @@ Rails.application.routes.draw do
       patch :archive, on: :member
       patch :unarchive, on: :member
     end
-    resources :quiz_questions, except: [:show, :destroy] do
+    resource :orientation, only: [:show, :update]
+    resources :quiz_questions, except: [:index, :show, :destroy] do
       patch :archive, on: :member
       patch :unarchive, on: :member
     end

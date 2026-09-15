@@ -5,6 +5,19 @@ module Signup
     setup do
       create(:agreement_document)
       create(:document, code: "borrow_policy")
+      Library.first.update!(orientation_enabled: true)
+    end
+
+    test "quiz stays hidden while the orientation is switched off, even with questions" do
+      Library.first.update!(orientation_enabled: false)
+      create(:quiz_question)
+
+      get signup_rules_url
+      assert_select ".step-item", text: "Quiz", count: 0
+      assert_select "a[href='#{new_signup_member_url}']", text: "Continue"
+
+      get signup_quiz_url
+      assert_redirected_to new_signup_member_url
     end
 
     test "rules step skips the quiz when there are no questions" do

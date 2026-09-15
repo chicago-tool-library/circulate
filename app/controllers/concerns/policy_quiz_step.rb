@@ -1,5 +1,5 @@
-# Shared between the signup and renewal wizards, which both ask the policy
-# quiz right after the rules step whenever staff have written questions.
+# Shared between the signup and renewal wizards, which both show the policy
+# presentation on the rules step and ask the quiz right after it.
 #
 # Answers live in the session and are deliberately never tied to a member:
 # the only thing persisted is a per-answer counter, which is enough for
@@ -9,11 +9,29 @@ module PolicyQuizStep
   extend ActiveSupport::Concern
 
   included do
-    helper_method :quiz_enabled?
+    helper_method :orientation_enabled?, :quiz_enabled?, :policy_deck_url, :policy_deck_embed_url
+  end
+
+  # Staff set up the presentation and draft questions with the orientation
+  # switched off, then turn the whole thing on from the Orientation page.
+  # Until then members see the policy text exactly as before.
+  def orientation_enabled?
+    current_library.orientation_enabled?
   end
 
   def quiz_enabled?
-    QuizQuestion.active.exists?
+    orientation_enabled? && QuizQuestion.active.exists?
+  end
+
+  # Public Canva "view" URL for the presentation. When present, the rules
+  # step embeds the deck instead of rendering the policy document body on
+  # its own.
+  def policy_deck_url
+    current_library.policy_deck_url.presence if orientation_enabled?
+  end
+
+  def policy_deck_embed_url
+    "#{policy_deck_url}?embed"
   end
 
   def quiz_questions

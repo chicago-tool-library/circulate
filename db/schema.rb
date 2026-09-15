@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_15_225856) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -549,6 +549,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_225856) do
     t.string "hostname", null: false
     t.string "member_postal_code_pattern", limit: 100
     t.string "name", null: false
+    t.boolean "orientation_enabled", default: false, null: false
+    t.string "policy_deck_url"
     t.datetime "updated_at", null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end

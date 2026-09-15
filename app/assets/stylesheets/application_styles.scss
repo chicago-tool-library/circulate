@@ -539,25 +539,6 @@ $min-width: variables.$size-md + 1;
   font-size: 0.9rem;
 }
 
-.quiz-choice-list {
-  list-style: none;
-  margin: 0;
-
-  li {
-    margin: 0 0 0.2rem;
-  }
-
-  .label {
-    margin-left: 0.3rem;
-  }
-}
-
-.quiz-choice-fields {
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  background: white;
-}
-
 .instructions {
   .main {
     color: variables.$primary-color;

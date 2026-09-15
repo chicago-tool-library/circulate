@@ -1,10 +1,7 @@
 module Admin
   class QuizQuestionsController < BaseController
+    before_action :require_admin
     before_action :set_quiz_question, only: %i[edit update archive unarchive]
-
-    def index
-      @quiz_questions = QuizQuestion.ordered.includes(:choices)
-    end
 
     def new
       @quiz_question = QuizQuestion.new
@@ -19,7 +16,7 @@ module Admin
       @quiz_question = QuizQuestion.new(quiz_question_params)
 
       if @quiz_question.save
-        redirect_to admin_quiz_questions_url, success: "Question was successfully created."
+        redirect_to admin_orientation_url, success: "Question was successfully created."
       else
         render :new, status: :unprocessable_content
       end
@@ -27,7 +24,7 @@ module Admin
 
     def update
       if @quiz_question.update(quiz_question_params)
-        redirect_to admin_quiz_questions_url, success: "Question was successfully updated."
+        redirect_to admin_orientation_url, success: "Question was successfully updated."
       else
         render :edit, status: :unprocessable_content
       end
@@ -35,12 +32,12 @@ module Admin
 
     def archive
       @quiz_question.update!(archived_at: Time.current)
-      redirect_to admin_quiz_questions_url, success: "Question was archived. It won't be shown to members anymore."
+      redirect_to admin_orientation_url, success: "Question was archived. It won't be shown to members anymore."
     end
 
     def unarchive
       @quiz_question.update!(archived_at: nil)
-      redirect_to admin_quiz_questions_url, success: "Question was unarchived."
+      redirect_to admin_orientation_url, success: "Question was unarchived."
     end
 
     private

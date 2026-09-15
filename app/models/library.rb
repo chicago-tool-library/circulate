@@ -3,6 +3,7 @@ class Library < ApplicationRecord
   validates :hostname, presence: true, uniqueness: true
   validates :city, presence: true
   validates :email, presence: true
+  validates :policy_deck_url, format: {with: %r{\Ahttps://www\.canva\.com/design/\S+/view\z}, message: "should be a Canva design's view link, ending in /view", allow_blank: true}
   validate :member_postal_code_regexp
 
   has_one_attached :image

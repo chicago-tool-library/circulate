@@ -9,17 +9,6 @@ module Admin
       sign_in @user
     end
 
-    test "lists questions with their answers and counts" do
-      question = create(:quiz_question)
-      question.choices.first.update!(times_chosen: 3)
-
-      get admin_quiz_questions_url
-
-      assert_response :success
-      assert_select "td", text: /#{question.content}/
-      assert_select ".label", text: "3 picks"
-    end
-
     test "creates a question with its answers" do
       assert_difference("QuizQuestion.count") do
         post admin_quiz_questions_url, params: {
@@ -36,7 +25,7 @@ module Admin
         }
       end
 
-      assert_redirected_to admin_quiz_questions_url
+      assert_redirected_to admin_orientation_url
       question = QuizQuestion.last
       assert_equal ["7 days", "30 days"], question.choices.map(&:content)
       assert_equal "7 days", question.correct_choice.content
@@ -56,6 +45,7 @@ module Admin
       end
 
       assert_response :unprocessable_content
+      assert_select "fieldset .text-error", text: "Answers must mark one answer as correct."
     end
 
     test "archives and unarchives a question" do
