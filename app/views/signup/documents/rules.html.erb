@@ -1,1 +1,1 @@
-<%= render "shared/policy_rules", document: @document, continue_url: new_signup_member_url %>
+<%= render "shared/policy_rules", document: @document, continue_url: quiz_enabled? ? signup_quiz_url : new_signup_member_url %>

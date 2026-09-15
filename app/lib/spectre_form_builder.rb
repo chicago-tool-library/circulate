@@ -176,13 +176,13 @@ class SpectreFormBuilder < ActionView::Helpers::FormBuilder
   #
   # Based on the "Stimulus" example from this absolute legend:
   # https://stackoverflow.com/a/71715794
-  def dynamic_fields_for(association, label: "Add")
+  def dynamic_fields_for(association, label: "Add", model: association.to_s.classify.constantize)
     tag.div(data: {controller: "dynamic-fields"}) {
       safe_join([
         fields_for(association) { |ff| yield ff },
         tag.button(label, type: "button", data: {action: "dynamic-fields#add"}),
         tag.template(data: {dynamic_fields_target: "template"}) {
-          fields_for(association, association.to_s.classify.constantize.new,
+          fields_for(association, model.new,
             child_index: "__CHILD_INDEX__") { |ff| yield ff }
         }
       ])

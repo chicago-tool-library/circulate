@@ -467,6 +467,97 @@ $min-width: variables.$size-md + 1;
   }
 }
 
+.policy-quiz {
+  margin-bottom: 1rem;
+
+  .policy-quiz-question {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1rem 0.5rem;
+    background: white;
+
+    .policy-quiz-question-text {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-radio {
+      margin: 0.25rem 0;
+    }
+
+    .policy-quiz-actions {
+      margin: 1rem 0 0.5rem;
+    }
+  }
+
+  .policy-quiz-result {
+    border-left: 0.3rem solid variables.$primary-color;
+
+    &.is-incorrect {
+      border-left-color: variables.$error-color;
+    }
+
+    .policy-quiz-choices {
+      list-style: none;
+      margin: 0 0 0.75rem;
+
+      li {
+        margin: 0.25rem 0;
+        padding-left: 1.6rem;
+        position: relative;
+        color: variables.$gray-color-dark;
+
+        &.is-correct {
+          color: variables.$body-font-color;
+          font-weight: 600;
+        }
+
+        &.is-chosen:not(.is-correct) {
+          color: variables.$error-color;
+          text-decoration: line-through;
+        }
+      }
+
+      .policy-quiz-mark {
+        position: absolute;
+        left: 0.2rem;
+        width: 1.2rem;
+        text-align: center;
+      }
+    }
+
+    .policy-quiz-explanation {
+      margin-top: 0.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #eee;
+    }
+  }
+}
+
+.policy-quiz-progress {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.quiz-choice-list {
+  list-style: none;
+  margin: 0;
+
+  li {
+    margin: 0 0 0.2rem;
+  }
+
+  .label {
+    margin-left: 0.3rem;
+  }
+}
+
+.quiz-choice-fields {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background: white;
+}
+
 .instructions {
   .main {
     color: variables.$primary-color;

@@ -1,0 +1,61 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <div class="instructions">
+      <% if number == 1 && chosen.nil? %>
+        <p class="main">A few quick questions about what you just watched.</p>
+        <p class="sub">Don't worry, this isn't a test. We'll show you the right answer either way.</p>
+      <% elsif chosen.nil? %>
+        <p class="main">Question <%= number %> of <%= total %></p>
+      <% elsif chosen.correct? %>
+        <p class="main">That's right!</p>
+      <% else %>
+        <p class="main">Not quite.</p>
+      <% end %>
+      <div class="divider"></div>
+    </div>
+
+    <div class="policy-quiz">
+      <% if chosen.nil? %>
+        <%= form_with url: submit_url, method: :post, class: "policy-quiz-question", role: "group", "aria-labelledby": "quiz_question_#{question.id}" do |form| %>
+          <p class="policy-quiz-question-text" id="quiz_question_<%= question.id %>"><%= number %>. <%= question.content %></p>
+          <% question.choices.each do |choice| %>
+            <label class="form-radio">
+              <%= radio_button_tag "choice_id", choice.id, false, id: "choice_#{choice.id}" %>
+              <i class="form-icon"></i> <%= choice.content %>
+            </label>
+          <% end %>
+          <p class="policy-quiz-actions">
+            <%= form.submit "Check my answer", class: "btn btn-primary btn-block btn-lg" %>
+          </p>
+        <% end %>
+      <% else %>
+        <div class="policy-quiz-question policy-quiz-result <%= chosen.correct? ? "is-correct" : "is-incorrect" %>">
+          <p class="policy-quiz-question-text"><%= number %>. <%= question.content %></p>
+          <ul class="policy-quiz-choices">
+            <% question.choices.each do |choice| %>
+              <li class="<%= "is-chosen" if choice == chosen %> <%= "is-correct" if choice.correct? %>">
+                <% if choice.correct? %>
+                  <span class="policy-quiz-mark">✓</span>
+                <% elsif choice == chosen %>
+                  <span class="policy-quiz-mark">✗</span>
+                <% else %>
+                  <span class="policy-quiz-mark"></span>
+                <% end %>
+                <%= choice.content %>
+              </li>
+            <% end %>
+          </ul>
+          <% if question.explanation.present? %>
+            <p class="policy-quiz-explanation"><%= question.explanation %></p>
+          <% end %>
+        </div>
+
+        <p>
+          <%= link_to (last ? "Continue" : "Next question"), next_url, class: "btn btn-primary btn-block btn-lg" %>
+        </p>
+      <% end %>
+    </div>
+
+    <p class="policy-quiz-progress text-gray">Question <%= number %> of <%= total %></p>
+  </div>
+</div>
