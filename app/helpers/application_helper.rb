@@ -34,4 +34,15 @@ module ApplicationHelper
   def camping_homepage_url
     ENV.fetch("CAMPING_HOMEPAGE_URL", "https://www.chicagotoollibrary.org/camping")
   end
+
+  # Public Canva "view" URL for the policy orientation deck. When set, the
+  # signup and renewal rules step embeds the deck instead of rendering the
+  # policy document body on its own.
+  def policy_deck_url
+    ENV["POLICY_DECK_URL"].presence
+  end
+
+  def policy_deck_embed_url
+    "#{policy_deck_url}?embed"
+  end
 end

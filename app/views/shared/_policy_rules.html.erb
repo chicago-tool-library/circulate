@@ -1,0 +1,42 @@
+<div class="columns">
+  <div class="column col-8 col-sm-12 col-mx-auto">
+    <% if policy_deck_url %>
+      <div class="instructions">
+        <p class="main">Please watch this short presentation about our policies.</p>
+        <p class="sub">Use the arrows to move through the slides. When you're done, click <em>Continue</em> to go on to the next step.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="policy-deck">
+        <div class="policy-deck-player">
+          <iframe src="<%= policy_deck_embed_url %>" title="<%= document.name %> presentation" loading="lazy" allowfullscreen allow="fullscreen"></iframe>
+        </div>
+        <p class="policy-deck-popout">
+          <%= link_to policy_deck_url, target: "_blank", rel: "noopener noreferrer" do %>
+            <%= feather_icon "external-link" %> Open in a new tab
+          <% end %>
+        </p>
+        <details class="policy-deck-text">
+          <summary>Read the full text of our policies</summary>
+          <div class="rich-text">
+            <%= document.body %>
+          </div>
+        </details>
+      </div>
+    <% else %>
+      <div class="instructions">
+        <p class="main">Please read through the following description of our policies.</p>
+        <p class="sub">When you're done, click <em>Continue</em> to go on to the next step.</p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="rich-text">
+        <%= document.body %>
+      </div>
+    <% end %>
+
+    <p>
+      <%= link_to "Continue", continue_url, class: "btn btn-primary btn-block btn-lg" %>
+    </p>
+  </div>
+</div>
