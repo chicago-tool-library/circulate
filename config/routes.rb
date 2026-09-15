@@ -9,6 +9,9 @@ Rails.application.routes.draw do
 
       resource :acceptance, only: [:create, :destroy]
     end
+    get "quiz", to: "quizzes#show"
+    get "quiz/:number", to: "quizzes#question", as: :quiz_question
+    post "quiz/:number", to: "quizzes#answer", as: nil
     resources :payments, only: [:new, :create] do
       get :callback, on: :collection
       post :skip, on: :collection
@@ -64,6 +67,9 @@ Rails.application.routes.draw do
 
       resource :acceptance, only: [:create, :destroy]
     end
+    get "quiz", to: "quizzes#show"
+    get "quiz/:number", to: "quizzes#question", as: :quiz_question
+    post "quiz/:number", to: "quizzes#answer", as: nil
     resources :payments, only: [:new, :create] do
       get :callback, on: :collection
       post :skip, on: :collection
@@ -91,6 +97,10 @@ Rails.application.routes.draw do
     resources :categories, except: :show
     resources :gift_memberships
     resources :questions, except: [:destroy] do
+      patch :archive, on: :member
+      patch :unarchive, on: :member
+    end
+    resources :quiz_questions, except: [:show, :destroy] do
       patch :archive, on: :member
       patch :unarchive, on: :member
     end

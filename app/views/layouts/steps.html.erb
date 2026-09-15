@@ -15,10 +15,6 @@
 
   <body>
     <div class="container grid-lg signup app">
-      <%= flash_message :success %>
-      <%= flash_message :warning %>
-      <%= flash_message :error %>
-
       <div class="columns">
         <div class="column col-12">
           <div class="signup-logo <%= "on-step" if @active_step %>">
@@ -28,6 +24,16 @@
           <%= render "shared/steps", steps: @steps unless @hide_steps %>
         </div>
       </div>
+
+      <% if flash.any? %>
+        <div class="columns">
+          <div class="column col-8 col-sm-12 col-mx-auto">
+            <%= flash_message :success %>
+            <%= flash_message :warning %>
+            <%= flash_message :error %>
+          </div>
+        </div>
+      <% end %>
 
       <%= yield %>
     </div>
