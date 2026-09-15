@@ -19,6 +19,19 @@ module Admin
       end
     end
 
+    # Walk through the rules step and the quiz as a member would, even while
+    # the orientation is switched off. The flag lives in the admin's own
+    # session, so members are never affected.
+    def preview
+      session[:orientation_preview] = true
+      redirect_to signup_rules_url
+    end
+
+    def end_preview
+      session.delete(:orientation_preview)
+      redirect_to admin_orientation_url
+    end
+
     private
 
     def orientation_params

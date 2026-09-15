@@ -15,6 +15,8 @@
 
   <body>
     <div class="container grid-lg signup app">
+      <%= render "shared/orientation_preview_banner" if respond_to?(:orientation_preview?) && orientation_preview? %>
+
       <div class="columns">
         <div class="column col-12">
           <div class="signup-logo <%= "on-step" if @active_step %>">

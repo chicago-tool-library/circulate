@@ -18,6 +18,11 @@
       <%= form.submit "Save" %>
     <% end %>
   <% end %>
+
+  <div class="orientation-preview">
+    <%= button_to "Preview as a member", preview_admin_orientation_path, method: :post, class: "btn" %>
+    <span class="text-gray">Walks through the presentation and the quiz the way a new member sees them, even while the orientation is switched off.</span>
+  </div>
 </section>
 
 <section>

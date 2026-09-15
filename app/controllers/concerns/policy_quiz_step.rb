@@ -9,14 +9,15 @@ module PolicyQuizStep
   extend ActiveSupport::Concern
 
   included do
-    helper_method :orientation_enabled?, :quiz_enabled?, :policy_deck_url, :policy_deck_embed_url
+    helper_method :orientation_enabled?, :quiz_enabled?, :policy_deck_url, :policy_deck_embed_url, :orientation_preview?
   end
 
   # Staff set up the presentation and draft questions with the orientation
   # switched off, then turn the whole thing on from the Orientation page.
-  # Until then members see the policy text exactly as before.
+  # Until then members see the policy text exactly as before. An admin who
+  # started a preview from that page sees all of it regardless.
   def orientation_enabled?
-    current_library.orientation_enabled?
+    current_library.orientation_enabled? || orientation_preview?
   end
 
   def quiz_enabled?
@@ -32,6 +33,10 @@ module PolicyQuizStep
 
   def policy_deck_embed_url
     "#{policy_deck_url}?embed"
+  end
+
+  def orientation_preview?
+    session[:orientation_preview].present? && current_user&.has_role?(:admin) || false
   end
 
   def quiz_questions
@@ -51,7 +56,9 @@ module PolicyQuizStep
   def record_quiz_answer(question, choice)
     return if quiz_answers.key?(question.id.to_s)
 
-    QuizChoice.increment_counter(:times_chosen, choice.id)
+    # An admin clicking through a preview shouldn't skew the counts staff
+    # read to find the slide that isn't landing.
+    QuizChoice.increment_counter(:times_chosen, choice.id) unless orientation_preview?
     session[:quiz_answers] = quiz_answers.merge(question.id.to_s => choice.id)
   end
 
