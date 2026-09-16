@@ -4,3 +4,8 @@
     <%= link_to "Renew Membership", renewal_path, class: "btn btn-lg btn-default" %>
   </div>
 <% end %>
+<% if current_member.last_membership && current_member.last_membership.pending? && current_member.last_membership.membership_type == "renewal" %>
+  <div class="toast toast-success">
+    <p>You have started the renewal process for your membership. <strong>Come in to the library to complete it.</strong></p>
+  </div>
+<% end %>
