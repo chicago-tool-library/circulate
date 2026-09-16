@@ -43,7 +43,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal pending, membership
     assert_equal now, membership.started_at
-    assert_equal now + 364.days, membership.ended_at
+    assert_equal now + 1.year, membership.ended_at
   end
 
   test "completing a pending membership for a still-active member starts it when the active one ends" do
@@ -58,7 +58,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     refute membership.pending?
     assert_equal active.ended_at, membership.started_at
-    assert_equal active.ended_at + 364.days, membership.ended_at
+    assert_equal active.ended_at + 1.year, membership.ended_at
   end
 
   test "records payment when starting an existing pending membership" do

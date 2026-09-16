@@ -65,7 +65,7 @@ class Membership < ApplicationRecord
   end
 
   def start!(now = Time.current)
-    update!(started_at: now, ended_at: now + 364.days)
+    update!(started_at: now, ended_at: now + 1.year)
   end
 
   def self.next_start_date_for_member(member, now: Time.current)
@@ -96,7 +96,7 @@ class Membership < ApplicationRecord
         start_date = next_start_date_for_member(member, now: now)
         raise PendingMembership.new("member with pending membership can't start a new membership") unless start_date
 
-        membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 365.days, library: member.library, membership_type:)
+        membership = member.memberships.create!(started_at: start_date, ended_at: start_date + 1.year, library: member.library, membership_type:)
       end
     else
       membership = member.memberships.create!(library: member.library, membership_type:)
