@@ -10,7 +10,7 @@
   </h3>
 
   <% pending = @member.pending_membership %>
-  <%= form_with model: @form, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder do |form| %>
+  <%= form_with model: @form, url: admin_member_memberships_path(@member), builder: SpectreFormBuilder, class: "membership-form" do |form| %>
     <div class="columns">
       <div class="column col-12">
         <%= form.errors(true) %>
@@ -18,6 +18,7 @@
         <% if pending&.adjustment %>
           <p>This membership was already paid (<%= pending.amount.format %>). Completing it will start the membership today.</p>
           <%= form.hidden_field :with_payment, value: false %>
+          <%= form.submit "Complete and Start Membership" %>
         <% else %>
           <fieldset>
             <legend>
@@ -37,13 +38,14 @@
               <p>Remember that we don't turn anyone away because they can't pay. Use this option to create a membership without accepting a payment.</p>
             </div>
           </fieldset>
-        <% end %>
 
-        <% if pending.nil? && @member.active_membership.blank? %>
-          <%= form.check_box :start_membership, label: "Start this membership", hint: "If unchecked, this membership will be pending and can be started at a later time.", checked: true %>
+          <% if pending.nil? && @member.active_membership.blank? %>
+            <%= form.check_box :start_membership, label: "Start this membership", hint: "If unchecked, this membership will be pending and can be started at a later time.", checked: true %>
+            <%= form.submit "Create Membership" %>
+          <% else %>
+            <%= form.submit "Update and Start Membership" %>
+          <% end %>
         <% end %>
-
-        <%= form.submit "Save Membership" %>
       </div>
     </div>
   <% end %>

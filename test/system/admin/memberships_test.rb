@@ -17,7 +17,7 @@ class MembershipsTest < ApplicationSystemTestCase
 
       assert_content "Complete Membership"
       first("label", text: "Create without payment").click
-      click_on "Save Membership"
+      click_on "Update and Start Membership"
 
       assert_content "Membership created"
       refute_content "pending membership"
@@ -41,8 +41,11 @@ class MembershipsTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    first("label", text: "Create without payment").click
-    click_on "Save Membership"
+
+    within ".membership-form" do
+      first("label", text: "Create without payment").click
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Expires"
@@ -58,10 +61,13 @@ class MembershipsTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    first("label", text: "Create without payment").click
-    first("label", text: "Start this membership").click # uncheck
 
-    click_on "Save Membership"
+    within ".membership-form" do
+      first("label", text: "Create without payment").click
+      first("label", text: "Start this membership").click # uncheck
+
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Pending"
@@ -78,8 +84,10 @@ class MembershipsTest < ApplicationSystemTestCase
 
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "30"
-    click_on "Save Membership"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Expires"
@@ -96,9 +104,11 @@ class MembershipsTest < ApplicationSystemTestCase
 
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "30"
-    first("label", text: "Start this membership").click # uncheck
-    click_on "Save Membership"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      first("label", text: "Start this membership").click # uncheck
+      click_on "Create Membership"
+    end
 
     assert_content "Can't accept a payment without starting the membership"
     assert_equal 0, @member.memberships.count
@@ -121,8 +131,11 @@ class MembershipsTest < ApplicationSystemTestCase
     assert_equal 1, all("table.memberships tbody tr").size
 
     click_on "Renew Membership"
-    fill_in "This year's membership fee", with: "30"
-    click_on "Save Membership"
+
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      click_on "Update and Start Membership"
+    end
 
     assert_content "Membership created"
 
