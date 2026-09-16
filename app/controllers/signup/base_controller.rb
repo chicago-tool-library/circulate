@@ -1,5 +1,7 @@
 module Signup
   class BaseController < ApplicationController
+    include PolicyQuizStep
+
     SIGNUP_TIMEOUT = 2.hours
 
     before_action :load_steps
@@ -29,22 +31,12 @@ module Signup
 
     def load_steps
       agreement = Document.agreement.first!
-      @steps = if @current_library.allow_payments?
-        [
-          Step.new(:rules, name: "Rules"),
-          Step.new(:profile, name: "Profile"),
-          Step.new(:agreement, name: agreement.name),
-          Step.new(:payment, name: "Payment"),
-          Step.new(:complete, name: "Complete")
-        ]
-      else
-        [
-          Step.new(:rules, name: "Rules"),
-          Step.new(:profile, name: "Profile"),
-          Step.new(:agreement, name: agreement.name),
-          Step.new(:complete, name: "Complete")
-        ]
-      end
+      @steps = [Step.new(:rules, name: "Rules")]
+      @steps << Step.new(:quiz, name: "Quiz") if quiz_enabled?
+      @steps << Step.new(:profile, name: "Profile")
+      @steps << Step.new(:agreement, name: agreement.name)
+      @steps << Step.new(:payment, name: "Payment") if @current_library.allow_payments?
+      @steps << Step.new(:complete, name: "Complete")
     end
 
     def activate_step(step_id)

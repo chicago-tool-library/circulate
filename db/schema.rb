@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -549,6 +549,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
     t.string "hostname", null: false
     t.string "member_postal_code_pattern", limit: 100
     t.string "name", null: false
+    t.boolean "orientation_enabled", default: false, null: false
+    t.string "policy_deck_url"
     t.datetime "updated_at", null: false
     t.index ["hostname"], name: "index_libraries_on_hostname", unique: true
   end
@@ -692,6 +694,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
     t.datetime "updated_at", null: false
     t.index ["library_id"], name: "index_questions_on_library_id"
     t.index ["name"], name: "index_questions_on_name", unique: true
+  end
+
+  create_table "quiz_choices", force: :cascade do |t|
+    t.text "content", null: false
+    t.boolean "correct", default: false, null: false
+    t.datetime "created_at", null: false
+    t.integer "position", default: 0, null: false
+    t.bigint "quiz_question_id", null: false
+    t.integer "times_chosen", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["quiz_question_id"], name: "index_quiz_choices_on_quiz_question_id"
+  end
+
+  create_table "quiz_questions", force: :cascade do |t|
+    t.datetime "archived_at"
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.text "explanation"
+    t.bigint "library_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["library_id"], name: "index_quiz_questions_on_library_id"
   end
 
   create_table "renewal_requests", force: :cascade do |t|
@@ -930,6 +954,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
   add_foreign_key "pending_reservation_items", "reservable_items"
   add_foreign_key "pending_reservation_items", "reservations"
   add_foreign_key "pending_reservation_items", "users", column: "created_by_id"
+  add_foreign_key "quiz_choices", "quiz_questions"
+  add_foreign_key "quiz_questions", "libraries"
   add_foreign_key "renewal_requests", "loans"
   add_foreign_key "reservable_items", "item_pools"
   add_foreign_key "reservable_items", "libraries"
@@ -989,15 +1015,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
              FROM search_tree
             ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)))
           )
-   SELECT id,
-      library_id,
-      name,
-      slug,
-      parent_id,
-      path_names,
-      path_ids,
-      sort_name,
-      tree_ids,
+   SELECT tree_nodes.id,
+      tree_nodes.library_id,
+      tree_nodes.name,
+      tree_nodes.slug,
+      tree_nodes.parent_id,
+      tree_nodes.path_names,
+      tree_nodes.path_ids,
+      tree_nodes.sort_name,
+      tree_nodes.tree_ids,
       ( SELECT json_build_object('active', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
              FROM (categorizations
                LEFT JOIN items ON ((categorizations.categorized_id = items.id)))
@@ -1012,20 +1038,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_000000) do
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
 
   create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT library_id,
-      item_id,
-      member_id,
-      COALESCE(initial_loan_id, id) AS initial_loan_id,
-      max(id) AS latest_loan_id,
-      min(created_at) AS created_at,
-      max(due_at) AS due_at,
+      SELECT loans.library_id,
+      loans.item_id,
+      loans.member_id,
+      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
+      max(loans.id) AS latest_loan_id,
+      min(loans.created_at) AS created_at,
+      max(loans.due_at) AS due_at,
           CASE
-              WHEN (count(ended_at) = count(id)) THEN max(ended_at)
+              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
               ELSE NULL::timestamp without time zone
           END AS ended_at,
-      max(renewal_count) AS renewal_count
+      max(loans.renewal_count) AS renewal_count
      FROM loans
-    GROUP BY library_id, item_id, member_id, COALESCE(initial_loan_id, id);
+    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (EXTRACT(year FROM adjustments.created_at))::integer AS year,

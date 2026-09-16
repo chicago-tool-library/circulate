@@ -1,0 +1,6 @@
+<% content_for :header do %>
+  <%= breadcrumbs "Orientation", admin_orientation_path %>
+  <%= index_header "New Question" %>
+<% end %>
+
+<%= render "form", quiz_question: @quiz_question %>
