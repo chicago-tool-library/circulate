@@ -19,18 +19,6 @@ module Admin
         end
       end
 
-      # This should probably be a MembershipActivation controller since it doesn't rely on params.
-      def update
-        @membership = @member.pending_membership
-
-        if @membership
-          @membership.start!
-          redirect_to admin_member_memberships_path(@member), success: "Membership started.", status: :see_other
-        else
-          redirect_to admin_member_path(@member), error: "Could not start membership", status: :see_other
-        end
-      end
-
       private
 
       def membership_form_params

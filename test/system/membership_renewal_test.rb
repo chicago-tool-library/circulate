@@ -99,6 +99,17 @@ class MembershipRenewalTest < ApplicationSystemTestCase
       assert_includes html, "Thank you for renewing"
       refute_includes html, "Your payment of"
     end
+
+    @member.reload
+    assert_equal 2, @member.memberships.count
+    assert @member.pending_membership, "expected a pending membership after completing in person"
+
+    # The renewal banner should no longer appear now that a (pending) renewal exists.
+    visit account_home_url
+    refute_content "Your membership ends on"
+
+    # In its place, there is message reminding folks to come in to the library.
+    assert_content "You have started the renewal process for your membership"
   end
 
   test "renewing before end and pay through square", :remote do
