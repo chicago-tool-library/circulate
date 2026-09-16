@@ -119,11 +119,9 @@ Rails.application.routes.draw do
           end
         end
         resources :notes
-        if ENV["FEATURE_MAINTENANCE_WORKFLOW"] == "on"
-          resources :tickets do
-            scope module: "tickets" do
-              resources :ticket_updates, only: [:new, :create, :edit, :update, :destroy]
-            end
+        resources :tickets do
+          scope module: "tickets" do
+            resources :ticket_updates, only: [:new, :create, :edit, :update, :destroy]
           end
         end
       end
