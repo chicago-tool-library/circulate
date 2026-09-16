@@ -105,9 +105,14 @@ class Membership < ApplicationRecord
     # Record the payment at most once per membership. A membership can reach here
     # already paid — e.g. an online signup creates a pending, paid membership that
     # staff later start in person — and must not be charged a second time.
-    if amount > 0 && !Adjustment.exists?(adjustable: membership)
-      Adjustment.record_membership(membership, amount)
-      Adjustment.record_member_payment(member, amount, source, square_transaction_id)
+    if amount > 0
+      if !Adjustment.exists?(adjustable: membership)
+        Adjustment.record_membership(membership, amount)
+        Adjustment.record_member_payment(member, amount, source, square_transaction_id)
+      else
+        # UI should not allow this to happen
+        raise "Can not record payment for an already paid membership"
+      end
     end
     membership
   end

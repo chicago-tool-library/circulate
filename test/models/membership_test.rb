@@ -84,16 +84,14 @@ class MembershipTest < ActiveSupport::TestCase
 
     # An online signup creates a pending membership that is already paid.
     Membership.create_for_member(member, now: now, amount: amount, source: "square")
-    pending = member.reload.pending_membership
+    member.reload.pending_membership
 
     # Staff later complete it in person; it must not be charged again.
-    membership = assert_no_difference(["Membership.count", "Adjustment.count"]) {
-      Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+    assert_no_difference(["Membership.count", "Adjustment.count"]) {
+      assert_raises("Can not record payment for an already paid membership") {
+        Membership.create_for_member(member, now: now, amount: amount, source: "cash", start_membership: true)
+      }
     }
-
-    assert_equal pending, membership
-    assert_equal now, membership.started_at
-    assert_equal amount * -1, membership.adjustment.amount
   end
 
   test "creates a pending membership for a member" do
