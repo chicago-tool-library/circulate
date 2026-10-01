@@ -1,0 +1,92 @@
+<% content_for :header do %>
+  <%= index_header "Orientation" %>
+<% end %>
+
+<section class="orientation-settings">
+  <p>
+    New and renewing members watch a presentation on the rules step in place of the policy text, then answer a few questions.
+    Edit the presentation in Canva and the change shows up here as soon as you publish.
+  </p>
+
+  <%= form_with(model: @library, url: admin_orientation_path, builder: SpectreFormBuilder) do |form| %>
+    <%= form.errors %>
+    <%= form.text_field :policy_deck_url, label: "Canva presentation link", placeholder: "https://www.canva.com/design/.../view", required: false,
+          hint: "In Canva, open the presentation and choose Share, then More, then Embed. Paste the link ending in /view. Leave blank to show the policy text instead." %>
+    <%= form.check_box :orientation_enabled, label: "Show the orientation to members", required: false,
+          hint: "Leave this off while you're setting things up. Until it's on, members see the policy text exactly as they do today." %>
+    <%= form.actions do %>
+      <%= form.submit "Save" %>
+    <% end %>
+  <% end %>
+
+  <div class="orientation-preview">
+    <%= button_to "Preview as a member", preview_admin_orientation_path, method: :post, class: "btn" %>
+    <span class="text-gray">Walks through the presentation and the quiz the way a new member sees them, even while the orientation is switched off.</span>
+  </div>
+</section>
+
+<section>
+  <h2>Quiz questions</h2>
+  <p>
+    Members answer these one at a time and see the correct answer either way.
+    The counts show how often each answer gets picked, which is a good way to spot a slide that isn't landing.
+  </p>
+
+  <% if @quiz_questions.empty? %>
+    <%= empty_state "No quiz questions yet", subtitle: "Add one and members will see the quiz after the presentation." do %>
+      <%= link_to "New question", new_admin_quiz_question_path, class: "btn btn-primary" %>
+    <% end %>
+  <% else %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Question</th>
+          <th>Answers</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @quiz_questions.each do |question| %>
+          <tr class="<%= "text-gray" if question.archived? %>">
+            <td><%= question.position %></td>
+            <td>
+              <%= question.content %>
+              <% if question.archived? %>
+                <br><small>Archived <%= l(question.archived_at.to_date) %></small>
+              <% end %>
+            </td>
+            <td>
+              <ul class="quiz-choice-list">
+                <% question.choices.each do |choice| %>
+                  <li>
+                    <% if choice.correct? %>
+                      <strong><%= choice.content %></strong>
+                    <% else %>
+                      <%= choice.content %>
+                    <% end %>
+                    <span class="label"><%= pluralize(choice.times_chosen, "pick") %></span>
+                  </li>
+                <% end %>
+              </ul>
+            </td>
+            <td>
+              <div class="quiz-question-actions">
+                <%= link_to "Edit", edit_admin_quiz_question_path(question), class: "btn btn-sm" %>
+                <% if question.archived? %>
+                  <%= button_to "Unarchive", unarchive_admin_quiz_question_path(question), method: :patch, class: "btn btn-sm" %>
+                <% else %>
+                  <%= button_to "Archive", archive_admin_quiz_question_path(question), method: :patch, data: {turbo_confirm: "Archive this question? Members won't see it anymore."}, class: "btn btn-sm" %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <p>
+      <%= link_to "New question", new_admin_quiz_question_path, class: "btn" %>
+    </p>
+  <% end %>
+</section>

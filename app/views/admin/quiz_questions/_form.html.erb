@@ -1,0 +1,29 @@
+<%= form_with(model: [:admin, quiz_question], builder: SpectreFormBuilder) do |form| %>
+  <%= form.errors %>
+
+  <%= form.text_area :content, label: "Question" %>
+  <%= form.text_area :explanation, label: "Explanation", hint: "Shown to members after they answer, whether they got it right or not." %>
+  <%= form.number_field :position, label: "Order" %>
+
+  <fieldset>
+    <legend>Answers</legend>
+    <% if quiz_question.errors[:choices].any? %>
+      <p class="text-error">Answers <%= quiz_question.errors[:choices].to_sentence %>.</p>
+    <% else %>
+      <p class="text-gray">Mark exactly one answer as correct. Leave an answer blank to drop it.</p>
+    <% end %>
+    <%= form.dynamic_fields_for :choices, model: QuizChoice, label: "Add another answer" do |choice_form| %>
+      <div class="quiz-choice-fields">
+        <%= choice_form.text_field :content, label: "Answer" %>
+        <%= choice_form.check_box :correct, label: "This is the correct answer", required: false %>
+        <% if choice_form.object.persisted? %>
+          <%= choice_form.check_box :_destroy, label: "Remove", required: false %>
+        <% end %>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <%= form.actions do %>
+    <%= form.submit "Save question" %>
+  <% end %>
+<% end %>

@@ -15,9 +15,7 @@
 
   <body>
     <div class="container grid-lg signup app">
-      <%= flash_message :success %>
-      <%= flash_message :warning %>
-      <%= flash_message :error %>
+      <%= render "shared/orientation_preview_banner" if respond_to?(:orientation_preview?) && orientation_preview? %>
 
       <div class="columns">
         <div class="column col-12">
@@ -28,6 +26,16 @@
           <%= render "shared/steps", steps: @steps unless @hide_steps %>
         </div>
       </div>
+
+      <% if flash.any? %>
+        <div class="columns">
+          <div class="column col-8 col-sm-12 col-mx-auto">
+            <%= flash_message :success %>
+            <%= flash_message :warning %>
+            <%= flash_message :error %>
+          </div>
+        </div>
+      <% end %>
 
       <%= yield %>
     </div>

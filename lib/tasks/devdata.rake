@@ -76,8 +76,49 @@ namespace :devdata do
           Item.find_each do |item|
             item.image.attach(image_blob)
           end
+
+          create_quiz_questions
         end
       end
+    end
+  end
+
+  # A handful of questions drawn from the borrow policy so the signup quiz
+  # has something realistic to show. Staff edit the real ones in admin.
+  def create_quiz_questions
+    [
+      {
+        content: "How long can you keep a tool you've checked out?",
+        explanation: "Loans are for 7 days. Need more time? Ask for a renewal from your member portal. Tools can be renewed up to 4 times.",
+        choices: ["3 days", ["7 days", true], "14 days", "30 days"]
+      },
+      {
+        content: "You just joined. Can you borrow a C-Tool (an item with a \"C\" before its number)?",
+        explanation: "Not yet. C-Tools are our high-demand tools. After 3 successful loans, with everything back on time and in good shape, you can request access from your member portal. There are no exceptions for new members.",
+        choices: ["Yes, any member can", "Yes, if you ask at the front desk", ["Not yet", true]]
+      },
+      {
+        content: "Can you return tools after we've closed for the day?",
+        explanation: "All tools come back during our open hours. There's no after-hours drop-off, so please plan around our hours before you sign up.",
+        choices: [["No, returns happen during open hours", true], "Yes, leave them by the door", "Yes, if you email us first"]
+      },
+      {
+        content: "What condition should tools be in when you return them?",
+        explanation: "Clean, and in the same or better condition than when you picked them up. The tools belong to the whole community.",
+        choices: ["Whatever condition they end up in", ["Clean, and the same or better than you got them", true], "Just make sure all the parts are there"]
+      },
+      {
+        content: "How much does a membership cost?",
+        explanation: "It's pay-what-you-can. We suggest $100 for the year, but it isn't required. You can pay online at the end of signup or in person.",
+        choices: ["$100, no exceptions", "$50", ["Pay what you can, $100 suggested", true], "It's free"]
+      }
+    ].each_with_index do |attrs, index|
+      question = QuizQuestion.new(content: attrs[:content], explanation: attrs[:explanation], position: index + 1)
+      attrs[:choices].each_with_index do |choice, choice_index|
+        content, correct = Array(choice)
+        question.choices.build(content: content, correct: correct == true, position: choice_index + 1)
+      end
+      question.save!
     end
   end
 
