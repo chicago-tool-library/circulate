@@ -20,6 +20,14 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     end
   end
 
+  test "listing item pools with images" do
+    item_pool = create(:item_pool, :with_image)
+
+    visit admin_item_pools_path
+
+    assert_selector ".items-table-image img[alt='#{item_pool.name}']"
+  end
+
   test "viewing an item pool" do
     item_pool = create(:item_pool)
 
