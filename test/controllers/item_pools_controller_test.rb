@@ -15,6 +15,12 @@ class ItemPoolsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "shows the item pool's image" do
+    item_pool = create(:item_pool, :with_image)
+    get item_pool_url(item_pool)
+    assert_select "img[alt='#{item_pool.name}']"
+  end
+
   test "shows sign in link when not signed in" do
     item_pool = create(:item_pool)
     get item_pool_url(item_pool)

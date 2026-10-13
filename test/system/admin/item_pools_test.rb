@@ -115,6 +115,31 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     assert item_pool.uniquely_numbered
   end
 
+  test "adding an image to an item pool and then deleting it" do
+    item_pool = create(:item_pool)
+
+    visit admin_item_pool_path(item_pool)
+    click_on "Edit"
+
+    attach_file "Image", Rails.root + "test/fixtures/files/tool-image.jpg"
+    click_on "Update Item pool"
+
+    assert_text "Item pool was successfully updated"
+    assert_selector ".item-image img"
+
+    # Make sure it's only deleted when checkbox is toggled
+    click_on "Edit"
+    click_on "Update Item pool"
+    assert_selector ".item-image img"
+
+    click_on "Edit"
+    # Can't use check method with spectre as its labels obscure checkboxes
+    page.find("label", text: "Delete current image").click
+    click_on "Update Item pool"
+
+    refute_selector ".item-image img"
+  end
+
   test "destroying an item pool" do
     item_pool = create(:item_pool)
     visit edit_admin_item_pool_path(item_pool)

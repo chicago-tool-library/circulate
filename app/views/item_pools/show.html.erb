@@ -3,6 +3,10 @@
 <h1><%= @item_pool.name %></h1>
 
 <div class="item-pool-show">
+  <% if @item_pool.image.attached? %>
+    <%= image_tag item_image_url(@item_pool.image, resize_to_limit: [600, 600]), class: "mb-5", alt: @item_pool.name %>
+  <% end %>
+
   <table class="table">
     <thead>
       <th>Number</th>

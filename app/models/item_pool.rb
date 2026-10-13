@@ -2,6 +2,7 @@ class ItemPool < ApplicationRecord
   include ItemCategorization
 
   has_rich_text :description
+  has_one_attached :image
 
   belongs_to :creator, class_name: "User"
   belongs_to :reservation_policy, optional: true
