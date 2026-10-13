@@ -70,6 +70,25 @@ module Renewal
       assert_mock mock_checkout
     end
 
+    test "skip creates a pending membership so the renewal banner clears" do
+      assert_difference "Membership.count" => 1 do
+        post skip_renewal_payments_url
+      end
+
+      assert_redirected_to renewal_confirmation_url
+      assert @member.reload.pending_membership
+    end
+
+    test "skip does not create a second pending membership" do
+      create(:pending_membership, member: @member)
+
+      assert_no_difference "Membership.count" do
+        post skip_renewal_payments_url
+      end
+
+      assert_redirected_to renewal_confirmation_url
+    end
+
     test "successful callback invocation" do
       mock_result = Minitest::Mock.new
       mock_result.expect :success?, true

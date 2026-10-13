@@ -29,10 +29,12 @@ class MemberVerificationTest < ApplicationSystemTestCase
     assert_content "needs to start a membership"
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "35"
-    select "cash", from: "Payment source"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "35"
+      select "cash", from: "Payment source"
 
-    click_on "Save Membership"
+      click_on "Create Membership"
+    end
 
     assert_content "Expires"
 
@@ -57,10 +59,12 @@ class MemberVerificationTest < ApplicationSystemTestCase
     assert_content "needs to start a membership"
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "43"
-    select "square", from: "Payment source"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "43"
+      select "square", from: "Payment source"
+      click_on "Create Membership"
+    end
 
-    click_on "Save Membership"
     assert_content "Expires"
 
     click_on "Membership"
@@ -89,8 +93,11 @@ class MemberVerificationTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    first("label", text: "Create without payment").click
-    click_on "Save Membership"
+
+    within ".membership-form" do
+      first("label", text: "Create without payment").click
+      click_on "Create Membership"
+    end
 
     assert_content "Expires"
 

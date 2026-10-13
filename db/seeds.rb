@@ -24,6 +24,18 @@ def seed_library(library, email_suffix = "", postal_code = "60609")
       email: unconfirmed_email_user.email, full_name: "Unconfirmed Email", preferred_name: "Unconfirmed Email", user: unconfirmed_email_user
     ))
 
+    pending_member_user = User.create!(email: "pending_member#{email_suffix}@example.com", password: "password", unconfirmed_email: "pending_member#{email_suffix}@example.com")
+    Member.create!(member_attrs.merge(
+      email: pending_member_user.email, full_name: "Pending Member", preferred_name: "Pending", user: pending_member_user
+    ))
+    Membership.create_for_member(pending_member_user.member)
+
+    pending_member_who_paid_user = User.create!(email: "pending_member_who_paid#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
+    Member.create!(member_attrs.merge(
+      email: pending_member_who_paid_user.email, full_name: "Pending Member Who Paid", preferred_name: "Pending Paid", user: pending_member_who_paid_user
+    ))
+    Membership.create_for_member(pending_member_who_paid_user.member, amount: Money.new(1000), source: "square", square_transaction_id: "fake-transaction-id")
+
     verified_user = User.create!(email: "verified_member#{email_suffix}@example.com", password: "password", **confirmed_email_attrs)
     verified_member = Member.create!(member_attrs.merge(
       email: verified_user.email, full_name: "Firstname Lastname", preferred_name: "Verified", status: 1, address_verified: true, user: verified_user

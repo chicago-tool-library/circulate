@@ -30,7 +30,10 @@ module Renewal
     end
 
     def skip
-      # completing in person
+      # completing in person: create a pending membership so the renewal banner
+      # clears right away. Staff record the payment and start it when the member
+      # comes in to pay.
+      Membership.create_for_member(@member, start_membership: false) unless @member.pending_membership
       MemberMailer.with(member: @member).renewal_message.deliver_later
       redirect_to renewal_confirmation_url, status: :see_other
     end

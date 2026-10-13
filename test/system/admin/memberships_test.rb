@@ -5,7 +5,7 @@ class MembershipsTest < ApplicationSystemTestCase
     sign_in_as_admin
   end
 
-  test "starts membership for pending member" do
+  test "completes a pending membership by editing details before starting it" do
     membership = create(:pending_membership)
     member = membership.member
 
@@ -13,12 +13,17 @@ class MembershipsTest < ApplicationSystemTestCase
       visit admin_member_url(member)
 
       assert_content "pending membership"
-      click_on "Start Membership"
+      click_on "Complete Membership"
 
+      assert_content "Complete Membership"
+      first("label", text: "Create without payment").click
+      click_on "Update and Start Membership"
+
+      assert_content "Membership created"
       refute_content "pending membership"
-      assert_content "Membership started"
 
       membership.reload
+      refute membership.pending?
 
       within ".account" do
         assert_date_displayed(membership.ended_at)
@@ -36,8 +41,11 @@ class MembershipsTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    first("label", text: "Create without payment").click
-    click_on "Save Membership"
+
+    within ".membership-form" do
+      first("label", text: "Create without payment").click
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Expires"
@@ -53,10 +61,13 @@ class MembershipsTest < ApplicationSystemTestCase
     visit admin_member_url(@member)
 
     click_on "Create Membership"
-    first("label", text: "Create without payment").click
-    first("label", text: "Start this membership").click # uncheck
 
-    click_on "Save Membership"
+    within ".membership-form" do
+      first("label", text: "Create without payment").click
+      first("label", text: "Start this membership").click # uncheck
+
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Pending"
@@ -73,8 +84,10 @@ class MembershipsTest < ApplicationSystemTestCase
 
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "30"
-    click_on "Save Membership"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      click_on "Create Membership"
+    end
 
     within ".account" do
       assert_content "Expires"
@@ -84,23 +97,21 @@ class MembershipsTest < ApplicationSystemTestCase
     assert_content "$30.00"
   end
 
-  test "create pending membership with payment" do
+  test "can't create a pending membership while accepting a payment" do
     @member = create(:verified_member)
 
     visit admin_member_url(@member)
 
     click_on "Create Membership"
 
-    fill_in "This year's membership fee", with: "30"
-    first("label", text: "Start this membership").click # uncheck
-    click_on "Save Membership"
-
-    within ".account" do
-      assert_content "Pending"
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      first("label", text: "Start this membership").click # uncheck
+      click_on "Create Membership"
     end
 
-    click_on "Membership"
-    assert_content "$30.00"
+    assert_content "Can't accept a payment without starting the membership"
+    assert_equal 0, @member.memberships.count
   end
 
   test "member with active membership can renew early" do
@@ -120,8 +131,11 @@ class MembershipsTest < ApplicationSystemTestCase
     assert_equal 1, all("table.memberships tbody tr").size
 
     click_on "Renew Membership"
-    fill_in "This year's membership fee", with: "30"
-    click_on "Save Membership"
+
+    within ".membership-form" do
+      fill_in "This year's membership fee", with: "30"
+      click_on "Update and Start Membership"
+    end
 
     assert_content "Membership created"
 
@@ -145,13 +159,14 @@ class MembershipsTest < ApplicationSystemTestCase
     refute_selector "#membership_form_start_membership"
   end
 
-  test "member with pending membership can't create another" do
+  test "member with pending membership can complete it" do
     @membership = create(:pending_membership)
     @member = @membership.member
 
     visit admin_member_memberships_url(@member)
 
     refute_selector "a", text: "Renew Membership"
+    assert_selector "a", text: "Complete Membership"
   end
 end
 
