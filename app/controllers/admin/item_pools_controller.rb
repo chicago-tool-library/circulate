@@ -48,7 +48,7 @@ module Admin
 
     def update
       if @item_pool.update(item_pool_params)
-        @item_pool.image.purge_later if all_item_pool_params[:delete_image] == "1"
+        @item_pool.image.purge_later if all_item_pool_params[:delete_image] == "1" && item_pool_params[:image].blank?
 
         redirect_to admin_item_pool_url(@item_pool), success: "Item pool was successfully updated."
       else
