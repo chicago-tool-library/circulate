@@ -56,6 +56,18 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     assert_text "Number #{item_pool.number}"
   end
 
+  test "count and number fields are only shown for unnumbered pools" do
+    visit new_admin_item_pool_path
+
+    assert_no_field "Count"
+    assert_no_field "Number"
+
+    find("label", text: "Uniquely numbered").click # uncheck "uniquely numbered" box
+
+    assert_field "Count"
+    assert_field "Number"
+  end
+
   test "creating an item pool with errors" do
     visit admin_item_pools_path
     click_on "New Item Pool"
