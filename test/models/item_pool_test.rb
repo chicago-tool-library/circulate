@@ -6,6 +6,42 @@ class ItemPoolTest < ActiveSupport::TestCase
     @ends = Time.zone.parse("2024-02-22").end_of_day
   end
 
+  test "unnumbered pools are assigned the next number after reservable items" do
+    create(:reservable_item, number: 41)
+    item_pool = create(:item_pool, :unnumbered)
+
+    assert_equal 42, item_pool.number
+  end
+
+  test "uniquely numbered pools are not assigned a number" do
+    item_pool = create(:item_pool)
+
+    assert_nil item_pool.number
+  end
+
+  test "switching a pool to unnumbered assigns a number" do
+    item_pool = create(:item_pool)
+    item_pool.update!(uniquely_numbered: false, unnumbered_count: 3)
+
+    assert item_pool.number.present?
+  end
+
+  test "a pool can't use a number used by a reservable item" do
+    reservable_item = create(:reservable_item)
+    item_pool = build(:item_pool, :unnumbered, number: reservable_item.number)
+
+    refute item_pool.valid?
+    assert_includes item_pool.errors[:number], "is already used by a reservable item"
+  end
+
+  test "a pool can't use a number used by another pool" do
+    other_pool = create(:item_pool, :unnumbered)
+    item_pool = build(:item_pool, :unnumbered, number: other_pool.number)
+
+    refute item_pool.valid?
+    assert_includes item_pool.errors[:number], "has already been taken"
+  end
+
   test "max_reservable_percentage_points is calculated" do
     item_pool = create(:item_pool, max_reservable_percent: 0.7)
 

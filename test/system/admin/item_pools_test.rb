@@ -52,6 +52,8 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     assert_equal @attributes[:other_names], item_pool.other_names
     assert_equal selected_reservation_policy, item_pool.reservation_policy
     refute item_pool.uniquely_numbered
+    assert item_pool.number.present?
+    assert_text "Number #{item_pool.number}"
   end
 
   test "creating an item pool with errors" do

@@ -27,6 +27,11 @@
         <%= form.number_field :unnumbered_count, label: "Count" %>
       <% end %>
     </div>
+    <div class="column col-4 col-sm-12">
+      <%= tag.div data: {"conditional-field-target": "child"}, class: "conditional-field-child" do %>
+        <%= form.text_field :number, hint: "Leave blank to assign automatically. Next available number is #{ItemPool.next_reservable_number}." %>
+      <% end %>
+    </div>
   </div>
 
   <%= form.rich_text_area :description,
