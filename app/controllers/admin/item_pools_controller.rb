@@ -70,7 +70,7 @@ module Admin
 
     def item_pool_params
       params.require(:item_pool).permit(
-        :name, :other_names, :description, :uniquely_numbered, :unnumbered_count,
+        :name, :other_names, :description, :uniquely_numbered, :unnumbered_count, :number,
         :reservation_policy_id, :checkout_notice, :max_reservable_percentage_points, category_ids: []
       )
     end

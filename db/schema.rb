@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -444,7 +444,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.index ["labels"], name: "index_good_jobs_on_labels", where: "(labels IS NOT NULL)", using: :gin
     t.index ["locked_by_id"], name: "index_good_jobs_on_locked_by_id", where: "(locked_by_id IS NOT NULL)"
     t.index ["priority", "created_at"], name: "index_good_job_jobs_for_candidate_lookup", where: "(finished_at IS NULL)"
-    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
+    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: {priority: "DESC NULLS LAST"}, where: "(finished_at IS NULL)"
     t.index ["priority", "scheduled_at"], name: "index_good_jobs_on_priority_scheduled_at_unfinished_unlocked", where: "((finished_at IS NULL) AND (locked_by_id IS NULL))"
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
@@ -490,6 +490,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.bigint "library_id", null: false
     t.decimal "max_reservable_percent", precision: 2, scale: 2
     t.string "name"
+    t.integer "number"
     t.text "other_names"
     t.text "plain_text_description"
     t.integer "reservable_items_count", default: 0, null: false
@@ -499,6 +500,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
+    t.index ["number", "library_id"], name: "index_item_pools_on_number_and_library_id", unique: true, where: "(number IS NOT NULL)"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
   end
 

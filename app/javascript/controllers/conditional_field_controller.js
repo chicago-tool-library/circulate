@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
-// This controller will toggle the visibility of the child target based on
+// This controller will toggle the visibility of the child targets based on
 // a value from the parent target. By default, the value property of the parent
 // target will be used, but this can be overriddeen using accessorValue.
 export default class extends Controller {
@@ -19,6 +19,8 @@ export default class extends Controller {
     const value = String(this.parentTarget[accessor])
     const triggers = this.triggerValue.split(',')
     const displayValue = triggers.includes(value) ? 'block' : 'none'
-    this.childTarget.style.display = displayValue
+    this.childTargets.forEach((child) => {
+      child.style.display = displayValue
+    })
   }
 }
