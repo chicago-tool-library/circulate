@@ -60,7 +60,7 @@ module Admin
 
     def update
       if @item.update(item_params)
-        @item.image.purge_later if all_item_params[:delete_image] == "1"
+        @item.image.purge_later if all_item_params[:delete_image] == "1" && item_params[:image].blank?
 
         redirect_to [:admin, @item], success: "Item was successfully updated.", status: :see_other
       else

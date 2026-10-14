@@ -14,7 +14,7 @@ module Admin
         item_pool_scope = @category.item_pools
       end
 
-      item_pool_scope = item_pool_scope.includes(:categories).order("name ASC")
+      item_pool_scope = item_pool_scope.includes(:categories).with_attached_image.order("name ASC")
 
       @pagy, @item_pools = pagy(item_pool_scope)
       @categories = CategoryNode.with_item_pools
@@ -48,6 +48,8 @@ module Admin
 
     def update
       if @item_pool.update(item_pool_params)
+        @item_pool.image.purge_later if all_item_pool_params[:delete_image] == "1" && item_pool_params[:image].blank?
+
         redirect_to admin_item_pool_url(@item_pool), success: "Item pool was successfully updated."
       else
         set_categories
@@ -69,8 +71,12 @@ module Admin
     end
 
     def item_pool_params
+      all_item_pool_params.except(:delete_image)
+    end
+
+    def all_item_pool_params
       params.require(:item_pool).permit(
-        :name, :other_names, :description, :uniquely_numbered, :unnumbered_count,
+        :name, :other_names, :description, :uniquely_numbered, :unnumbered_count, :image, :delete_image,
         :reservation_policy_id, :checkout_notice, :max_reservable_percentage_points, category_ids: []
       )
     end
