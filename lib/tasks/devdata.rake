@@ -51,10 +51,10 @@ namespace :devdata do
       offset = (index + 1) * 10000
       admin = library.users.where(role: "admin").first
 
-      # Attach a fixture image to all items by having them all share a single
-      # ActiveStorage::Blob. This means rotating the fixture image in dev will
-      # impact every item, but it saves us from duplicating the image hundreds
-      # of times.
+      # Attach a fixture image to all items and item pools by having them all
+      # share a single ActiveStorage::Blob. This means rotating the fixture
+      # image in dev will impact every item, but it saves us from duplicating
+      # the image hundreds of times.
       image = Rails.root.join("test/fixtures/files/tool-image.jpg").open
       image_blob = ActiveStorage::Blob.create_and_upload!(io: image, filename: "tool-image.jpg")
 
@@ -75,6 +75,10 @@ namespace :devdata do
 
           Item.find_each do |item|
             item.image.attach(image_blob)
+          end
+
+          ItemPool.find_each do |item_pool|
+            item_pool.image.attach(image_blob)
           end
 
           create_quiz_questions
