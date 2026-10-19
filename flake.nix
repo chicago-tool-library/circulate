@@ -36,7 +36,7 @@
               (yarn.override {nodejs = nodejs_20;})
 
               # needed to build pg gem, even though we'll run the db from Docker
-              postgresql_15
+              postgresql_18
 
               # lib/certificate/generator.rb shells out to convert
               # ghostscript override fixes issue with with convert being unable
