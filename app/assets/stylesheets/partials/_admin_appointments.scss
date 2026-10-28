@@ -39,6 +39,7 @@
       }
       &.notes {
         width: 25%;
+        overflow-wrap: anywhere;
       }
     }
 
@@ -80,6 +81,7 @@
 
 p.appointment-comment {
   margin-bottom: 0.8em;
+  overflow-wrap: anywhere;
 }
 
 .appointments-date-nav {
