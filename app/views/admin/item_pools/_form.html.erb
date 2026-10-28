@@ -13,6 +13,21 @@
     </div>
   </div>
 
+  <fieldset>
+    <legend>Usage Fees</legend>
+    <div class="columns">
+      <div class="column col-4 col-sm-12">
+        <%= form.money_field :usage_fee, hint: "Charged once per item for each reservation" %>
+      </div>
+      <div class="column col-4 col-sm-12">
+        <%= form.money_field :periodic_fee, hint: "Charged per item for each fee period (see next field), in addition to the usage fee" %>
+      </div>
+      <div class="column col-4 col-sm-12">
+        <%= form.number_field :periodic_fee_period, label: "Fee period", min: 1, hint: "Days in each fee period; 1 charges every day, 7 every week, etc." %>
+      </div>
+    </div>
+  </fieldset>
+
   <%= form.text_field :other_names, label: "Other names and keywords",
         hint: "Search terms that should return this item; typically slang or other names for the item" %>
 

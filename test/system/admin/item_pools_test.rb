@@ -92,6 +92,23 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     refute item_pool.uniquely_numbered
   end
 
+  test "updating an item pool's usage fees" do
+    item_pool = create(:item_pool)
+    visit edit_admin_item_pool_path(item_pool)
+
+    fill_in "Usage fee", with: "10.00"
+    fill_in "Periodic fee", with: "2.50"
+    fill_in "Fee period", with: "7"
+    click_on "Update Item pool"
+    assert_text "Item pool was successfully updated"
+    assert_text "$10.00 + $2.50 every 7 days"
+
+    item_pool.reload
+    assert_equal Money.new(10_00), item_pool.usage_fee
+    assert_equal Money.new(2_50), item_pool.periodic_fee
+    assert_equal 7, item_pool.periodic_fee_period
+  end
+
   test "updating an item pool with errors" do
     reservation_policies = create_list(:reservation_policy, 3)
     selected_reservation_policy = reservation_policies.sample

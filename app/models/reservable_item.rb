@@ -8,6 +8,9 @@ class ReservableItem < ApplicationRecord
   has_many :reservation_loans
   has_one_attached :image
 
+  delegate :usage_fee, :periodic_fee, :periodic_fee_period, :usage_fee?, :usage_fee_for, :usage_fee_for_reservation,
+    to: :item_pool
+
   store_accessor :myturn_metadata,
     :image_url, :dimensions, :weight, :item_type, :supplier
 

@@ -11,6 +11,10 @@ class ItemPool < ApplicationRecord
   validates :name, presence: true
   validate :unnumbered_has_no_items
   validates :max_reservable_percentage_points, numericality: {only_integer: true, allow_nil: true, in: 1..100}
+  validates :periodic_fee_period, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 365}
+
+  monetize :usage_fee_cents, numericality: {greater_than_or_equal_to: 0}
+  monetize :periodic_fee_cents, numericality: {greater_than_or_equal_to: 0}
 
   scope :uniquely_numbered, -> { where(uniquely_numbered: true) }
   scope :not_uniquely_numbered, -> { where(uniquely_numbered: false) }
@@ -69,6 +73,21 @@ class ItemPool < ApplicationRecord
 
   def available_for_reservation?(reservation)
     max_reservable_for_reservation(reservation) > 0
+  end
+
+  def usage_fee?
+    usage_fee.positive? || periodic_fee.positive?
+  end
+
+  # Return the fee for using one item from this pool between starts and ends. The usage fee is charged once,
+  # and the periodic fee is charged for every started period, with a minimum of one period.
+  def usage_fee_for(starts, ends)
+    periods = ((ends - starts) / periodic_fee_period.days.to_f).ceil
+    usage_fee + periodic_fee * [periods, 1].max
+  end
+
+  def usage_fee_for_reservation(reservation)
+    usage_fee_for(reservation.started_at, reservation.ended_at)
   end
 
   private

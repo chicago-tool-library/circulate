@@ -1,4 +1,17 @@
 module ReservationsHelper
+  # e.g. "$10.00 + $2.00 every 7 days"
+  def format_usage_fee(item_pool)
+    return unless item_pool.usage_fee?
+
+    parts = []
+    parts << item_pool.usage_fee.format if item_pool.usage_fee.positive?
+    if item_pool.periodic_fee.positive?
+      period = (item_pool.periodic_fee_period == 1) ? "day" : "#{item_pool.periodic_fee_period} days"
+      parts << "#{item_pool.periodic_fee.format} every #{period}"
+    end
+    parts.join(" + ")
+  end
+
   def reservation_status_options
     Reservation.statuses.map do |key, value|
       [key, key]

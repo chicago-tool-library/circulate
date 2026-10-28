@@ -137,4 +137,73 @@ class ItemPoolTest < ActiveSupport::TestCase
     item_pool.reservable_items.last.destroy!
     assert_equal 3, item_pool.max_reservable_quantity(per_reservation: true)
   end
+
+  test "defaults to no usage fee" do
+    item_pool = build(:item_pool)
+
+    assert_equal Money.new(0), item_pool.usage_fee
+    assert_equal Money.new(0), item_pool.periodic_fee
+    assert_equal 1, item_pool.periodic_fee_period
+    refute item_pool.usage_fee?
+  end
+
+  test "validates fees are not negative" do
+    item_pool = build(:item_pool, usage_fee: -1, periodic_fee: -1)
+
+    refute item_pool.valid?
+    assert item_pool.errors.of_kind?(:usage_fee, :greater_than_or_equal_to)
+    assert item_pool.errors.of_kind?(:periodic_fee, :greater_than_or_equal_to)
+  end
+
+  test "validates the periodic fee period" do
+    refute build(:item_pool, periodic_fee_period: 0).valid?
+    refute build(:item_pool, periodic_fee_period: 1.5).valid?
+    refute build(:item_pool, periodic_fee_period: 366).valid?
+    assert build(:item_pool, periodic_fee_period: 7).valid?
+  end
+
+  test "usage_fee_for charges the usage fee once" do
+    item_pool = build(:item_pool, usage_fee: 10)
+
+    assert_equal Money.new(10_00), item_pool.usage_fee_for(@starts, @starts + 1.day)
+    assert_equal Money.new(10_00), item_pool.usage_fee_for(@starts, @starts + 30.days)
+  end
+
+  test "usage_fee_for charges the periodic fee for each started period" do
+    item_pool = build(:item_pool, periodic_fee: 2)
+
+    assert_equal Money.new(2_00), item_pool.usage_fee_for(@starts, @starts + 1.day)
+    assert_equal Money.new(6_00), item_pool.usage_fee_for(@starts, @starts + 3.days)
+    assert_equal Money.new(8_00), item_pool.usage_fee_for(@starts, @starts + 3.days + 1.hour)
+  end
+
+  test "usage_fee_for charges at least one period" do
+    item_pool = build(:item_pool, periodic_fee: 2)
+
+    assert_equal Money.new(2_00), item_pool.usage_fee_for(@starts, @starts + 2.hours)
+    assert_equal Money.new(2_00), item_pool.usage_fee_for(@starts, @starts)
+  end
+
+  test "usage_fee_for uses the periodic fee period" do
+    item_pool = build(:item_pool, periodic_fee: 5, periodic_fee_period: 7)
+
+    assert_equal Money.new(5_00), item_pool.usage_fee_for(@starts, @starts + 7.days)
+    assert_equal Money.new(10_00), item_pool.usage_fee_for(@starts, @starts + 8.days)
+  end
+
+  test "usage_fee_for combines the usage fee and periodic fee" do
+    item_pool = build(:item_pool, usage_fee: 10, periodic_fee: 2)
+
+    assert_equal Money.new(16_00), item_pool.usage_fee_for(@starts, @starts + 3.days)
+  end
+
+  test "usage_fee_for_reservation uses the reservation dates" do
+    item_pool = build(:item_pool, usage_fee: 10, periodic_fee: 2)
+    reservation = build(:reservation,
+      started_at: Time.zone.parse("2026-10-02 00:00"),
+      ended_at: Time.zone.parse("2026-10-04 12:00"))
+    reservation.valid? # moves ended_at to the end of the day
+
+    assert_equal Money.new(16_00), item_pool.usage_fee_for_reservation(reservation)
+  end
 end
