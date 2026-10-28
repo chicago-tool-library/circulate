@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_13_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -492,12 +492,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_13_120000) do
     t.string "name"
     t.integer "number"
     t.text "other_names"
+    t.integer "periodic_fee_cents", default: 0, null: false
+    t.string "periodic_fee_currency", default: "USD", null: false
+    t.integer "periodic_fee_period", default: 1, null: false
     t.text "plain_text_description"
     t.integer "reservable_items_count", default: 0, null: false
     t.bigint "reservation_policy_id"
     t.boolean "uniquely_numbered", default: true, null: false
     t.integer "unnumbered_count"
     t.datetime "updated_at", null: false
+    t.integer "usage_fee_cents", default: 0, null: false
+    t.string "usage_fee_currency", default: "USD", null: false
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
     t.index ["number", "library_id"], name: "index_item_pools_on_number_and_library_id", unique: true, where: "(number IS NOT NULL)"
