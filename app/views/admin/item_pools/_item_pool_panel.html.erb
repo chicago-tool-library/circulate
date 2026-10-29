@@ -7,6 +7,9 @@
 
   <div class="panel-body">
     <ul class="item-stats">
+      <% unless item_pool.uniquely_numbered? %>
+        <%= icon_stat "hash", item_pool.number, title: "number" %>
+      <% end %>
       <%= icon_stat "layers", "#{item_pool.reservable_items.count} items", title: "quantity", placeholder: "No quantity" %>
       <%= icon_stat "tag", title: "categories", css_class: "with-inner-stats", placeholder: "No categories" do %>
         <% if item_pool.category_nodes.size > 0 %>

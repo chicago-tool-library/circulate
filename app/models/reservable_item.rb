@@ -2,6 +2,7 @@
 class ReservableItem < ApplicationRecord
   include ItemStatuses
   include ItemNumbering
+  include ReservableNumbering
 
   belongs_to :creator, class_name: "User"
   belongs_to :item_pool, counter_cache: true
@@ -22,6 +23,10 @@ class ReservableItem < ApplicationRecord
   validates :power_source, inclusion: {in: power_sources.keys}, allow_blank: true
 
   acts_as_tenant :library
+
+  def self.next_number
+    next_reservable_number
+  end
 
   monetize :purchase_price_cents,
     allow_nil: true,

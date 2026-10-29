@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -444,7 +444,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.index ["labels"], name: "index_good_jobs_on_labels", where: "(labels IS NOT NULL)", using: :gin
     t.index ["locked_by_id"], name: "index_good_jobs_on_locked_by_id", where: "(locked_by_id IS NOT NULL)"
     t.index ["priority", "created_at"], name: "index_good_job_jobs_for_candidate_lookup", where: "(finished_at IS NULL)"
-    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
+    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: {priority: "DESC NULLS LAST"}, where: "(finished_at IS NULL)"
     t.index ["priority", "scheduled_at"], name: "index_good_jobs_on_priority_scheduled_at_unfinished_unlocked", where: "((finished_at IS NULL) AND (locked_by_id IS NULL))"
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
@@ -490,6 +490,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.bigint "library_id", null: false
     t.decimal "max_reservable_percent", precision: 2, scale: 2
     t.string "name"
+    t.integer "number"
     t.text "other_names"
     t.text "plain_text_description"
     t.integer "reservable_items_count", default: 0, null: false
@@ -499,6 +500,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_item_pools_on_creator_id"
     t.index ["library_id"], name: "index_item_pools_on_library_id"
+    t.index ["number", "library_id"], name: "index_item_pools_on_number_and_library_id", unique: true, where: "(number IS NOT NULL)"
     t.index ["reservation_policy_id"], name: "index_item_pools_on_reservation_policy_id"
   end
 
@@ -1015,15 +1017,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
              FROM search_tree
             ORDER BY (lower(array_to_string(search_tree.path_names, ' '::text)))
           )
-   SELECT tree_nodes.id,
-      tree_nodes.library_id,
-      tree_nodes.name,
-      tree_nodes.slug,
-      tree_nodes.parent_id,
-      tree_nodes.path_names,
-      tree_nodes.path_ids,
-      tree_nodes.sort_name,
-      tree_nodes.tree_ids,
+   SELECT id,
+      library_id,
+      name,
+      slug,
+      parent_id,
+      path_names,
+      path_ids,
+      sort_name,
+      tree_ids,
       ( SELECT json_build_object('active', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'active'::item_status)), 'retired', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'pending'::item_status)), 'maintenance', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'maintenance'::item_status)), 'pending', count(DISTINCT categorizations.categorized_id) FILTER (WHERE (items.status = 'retired'::item_status))) AS json_build_object
              FROM (categorizations
                LEFT JOIN items ON ((categorizations.categorized_id = items.id)))
@@ -1038,20 +1040,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_232728) do
   add_index "category_nodes", ["id"], name: "index_category_nodes_on_id", unique: true
 
   create_view "loan_summaries", sql_definition: <<-SQL
-      SELECT loans.library_id,
-      loans.item_id,
-      loans.member_id,
-      COALESCE(loans.initial_loan_id, loans.id) AS initial_loan_id,
-      max(loans.id) AS latest_loan_id,
-      min(loans.created_at) AS created_at,
-      max(loans.due_at) AS due_at,
+      SELECT library_id,
+      item_id,
+      member_id,
+      COALESCE(initial_loan_id, id) AS initial_loan_id,
+      max(id) AS latest_loan_id,
+      min(created_at) AS created_at,
+      max(due_at) AS due_at,
           CASE
-              WHEN (count(loans.ended_at) = count(loans.id)) THEN max(loans.ended_at)
+              WHEN (count(ended_at) = count(id)) THEN max(ended_at)
               ELSE NULL::timestamp without time zone
           END AS ended_at,
-      max(loans.renewal_count) AS renewal_count
+      max(renewal_count) AS renewal_count
      FROM loans
-    GROUP BY loans.library_id, loans.item_id, loans.member_id, COALESCE(loans.initial_loan_id, loans.id);
+    GROUP BY library_id, item_id, member_id, COALESCE(initial_loan_id, id);
   SQL
   create_view "monthly_adjustments", sql_definition: <<-SQL
       SELECT (EXTRACT(year FROM adjustments.created_at))::integer AS year,

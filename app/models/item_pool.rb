@@ -1,5 +1,6 @@
 class ItemPool < ApplicationRecord
   include ItemCategorization
+  include ReservableNumbering
 
   has_rich_text :description
   has_one_attached :image
@@ -9,7 +10,11 @@ class ItemPool < ApplicationRecord
   has_many :reservable_items
   has_many :reservation_holds
 
+  before_validation :assign_number
+
   validates :name, presence: true
+  validates :number, numericality: {only_integer: true, allow_nil: true}, uniqueness: {scope: :library, allow_nil: true}
+  validates :number, presence: true, unless: :uniquely_numbered
   validate :unnumbered_has_no_items
   validates :max_reservable_percentage_points, numericality: {only_integer: true, allow_nil: true, in: 1..100}
 
@@ -92,6 +97,12 @@ class ItemPool < ApplicationRecord
       query.pluck("the_day", Arel.sql("COALESCE(SUM(reservation_holds.quantity), 0)")).each do |day, reserved|
         hash[day.to_date] = reserved
       end
+    end
+  end
+
+  def assign_number
+    if !uniquely_numbered && number.blank?
+      self.number = self.class.next_reservable_number
     end
   end
 
