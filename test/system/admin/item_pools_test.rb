@@ -53,11 +53,14 @@ class AdminItemPoolsTest < ApplicationSystemTestCase
     assert_equal selected_reservation_policy, item_pool.reservation_policy
     refute item_pool.uniquely_numbered
     assert item_pool.number.present?
-    assert_text "Number #{item_pool.number}"
+
+    assert_selector "li[title=number]", text: item_pool.number
   end
 
   test "count and number fields are only shown for unnumbered pools" do
     visit new_admin_item_pool_path
+
+    assert_checked_field "Uniquely numbered"
 
     assert_no_field "Count"
     assert_no_field "Number"
