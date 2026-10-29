@@ -1,4 +1,10 @@
 <div class="panel item-panel">
+  <div class="item-image">
+    <% if item_pool.image.attached? %>
+      <%= image_tag item_image_url(item_pool.image, resize_to_limit: [600, 600]), class: "p-centered", alt: item_pool.name %>
+    <% end %>
+  </div>
+
   <div class="panel-body">
     <ul class="item-stats">
       <% unless item_pool.uniquely_numbered? %>

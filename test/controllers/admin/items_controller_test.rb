@@ -43,6 +43,24 @@ module Admin
       assert_redirected_to admin_item_url(@item)
     end
 
+    test "uploading a new image replaces the old one even when delete is checked" do
+      @item.update!(image: fixture_file_upload("tool-image.jpg", "image/jpeg"))
+      old_blob = @item.image.blob
+
+      patch admin_item_url(@item), params: {item: {image: fixture_file_upload("tool-image.jpg", "image/jpeg"), delete_image: "1"}}
+
+      assert @item.reload.image.attached?
+      refute_equal old_blob, @item.image.blob
+    end
+
+    test "checking delete without uploading removes the image" do
+      @item.update!(image: fixture_file_upload("tool-image.jpg", "image/jpeg"))
+
+      patch admin_item_url(@item), params: {item: {delete_image: "1"}}
+
+      refute @item.reload.image.attached?
+    end
+
     test "should destroy item" do
       assert_difference("Item.count", -1) do
         delete admin_item_url(@item)

@@ -13,7 +13,7 @@ class ItemPoolsController < ApplicationController
       item_pool_scope = @category.item_pools
     end
 
-    item_pool_scope = item_pool_scope.includes(:categories).order("name ASC")
+    item_pool_scope = item_pool_scope.includes(:categories).with_attached_image.order("name ASC")
 
     @pagy, @item_pools = pagy(item_pool_scope)
     @categories = CategoryNode.with_item_pools
