@@ -124,8 +124,8 @@ namespace :staging do
     sh "rails db:drop", verbose: true
     sh "heroku pg:pull DATABASE circulate_staging --app chicagotoollibrary", verbose: true
     sh "rails staging:scrub_data"
-    sh "heroku pg:reset DATABASE_URL --app circulate-staging --confirm circulate-staging", verbose: true
-    sh "heroku pg:push circulate_staging DATABASE_URL --app circulate-staging", verbose: true
+    sh "heroku pg:reset DATABASE_URL --app chicagotoollibrary-staging --confirm chicagotoollibrary-staging", verbose: true
+    sh "heroku pg:push circulate_staging DATABASE_URL --app chicagotoollibrary-staging", verbose: true
   end
 
   task :update_s3 do
