@@ -8,14 +8,17 @@ class VersionConsistencyTest < ActiveSupport::TestCase
       h
     end
   end
-  # Heroku buildpack reads from package.json
+  # Heroku buildpack (heroku/nodejs) reads from package.json
   # asdf reads from .tool-versions
-  test "node and yarn versions match between package.json and .tool-versions" do
+  # nvm reads from .nvmrc
+  test "node and yarn versions match between package.json, .tool-versions, and .nvmrc" do
     tool_versions = parse_tool_versions
     package_json = JSON.parse(Rails.root.join("package.json").read)
+    nvmrc_version = Rails.root.join(".nvmrc").read.strip
 
     assert_equal tool_versions["yarn"].split(".").take(2), package_json["engines"]["yarn"].split(".").take(2), "major and minor yarn version match"
     assert_equal tool_versions["nodejs"].split(".").take(1), package_json["engines"]["node"].split(".").take(1), "major node version matches"
+    assert_equal tool_versions["nodejs"], nvmrc_version, "exact node version matches between .tool-versions and .nvmrc"
   end
 
   # Heroku buildpack reads from Gemfile, which reads from .tool-version
