@@ -1127,10 +1127,10 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.npmjs.org/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz"
   integrity sha512-xYHt68QRoYGjeeM/XOE1uJtvXQAgvszfBhjV4yvsQH0u2i9I6cI6c6/eG4Hh3UAOVn0y/xAXwmTzEay49Q//HA==
 
-lodash.template@^4.4.0:
-  version "4.5.0"
-  resolved "https://registry.npmjs.org/lodash.template/-/lodash.template-4.5.0.tgz"
-  integrity sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==
+lodash.template@^4.18.0, lodash.template@^4.4.0:
+  version "4.18.1"
+  resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.18.1.tgz#9968d00568070d03e358505b5a28b0cbd8fbfd5f"
+  integrity sha512-5urZrLnV/VD6zHK5KsVtZgt7H19v51mIzoS0aBNH8yp3I8tbswrEjOABOPY8m8uB7NuibubLrMX+Y0PXsU9X+w==
   dependencies:
     lodash._reinterpolate "^3.0.0"
     lodash.templatesettings "^4.0.0"
@@ -1786,10 +1786,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.8.3.tgz"
-  integrity sha512-ObmnIF4hXNg1BqhnHmgbDETF8dLPCggZWBjkQfhZpbszZnYur5DUljTcCHii5LC3J5E0yeO/1LIMyH+UvHQgyw==
+shell-quote@1.8.3, shell-quote@^1.9.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.12.0.tgz#e98fdfd2e921d8a58ae2820f4fc0f75c39f09675"
+  integrity sha512-PcByqNyT/38F2kDNi006HAMRJaULuBzq/FOsw3qdZvX/GA9W/jamDaRskgHjubHiftXK5sIFxLNkvrXUwcof6Q==
 
 signal-exit@^4.0.1:
   version "4.1.0"
@@ -1922,10 +1922,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-toml@^2.3.2:
-  version "2.3.6"
-  resolved "https://registry.npmjs.org/toml/-/toml-2.3.6.tgz"
-  integrity sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ==
+toml@^2.3.2, toml@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/toml/-/toml-5.0.1.tgz#67ca011810a2dd8741c2cede1027ee2084b73d67"
+  integrity sha512-EqYNA/YvUNndrA2B3O2ojzLQoTQrBxeZ9UIjQwk8t10oe6n7dwclBwd9IdZQTOKwe6vWX+AXtl6IntXRbepdxQ==
 
 tr46@~0.0.3:
   version "0.0.3"
