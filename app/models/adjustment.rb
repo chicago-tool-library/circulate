@@ -11,7 +11,8 @@ class Adjustment < ApplicationRecord
     fine: "fine",
     membership: "membership",
     donation: "donation",
-    payment: "payment"
+    payment: "payment",
+    usage_fee: "usage_fee"
   }
 
   belongs_to :adjustable, polymorphic: true, optional: true

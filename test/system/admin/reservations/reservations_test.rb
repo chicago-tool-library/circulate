@@ -347,6 +347,51 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert glove_loan.reload.checked_in_at
   end
 
+  test "completing check-in after returning all items" do
+    hammer_pool = create(:item_pool, name: "Hammer", usage_fee: 7)
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation, :borrowed)
+    hammer_hold = create(:reservation_hold, item_pool: hammer_pool, reservation:)
+    reservation.reservation_loans.create!(reservation_hold: hammer_hold, reservable_item: hammer, checked_out_at: Time.current)
+
+    visit admin_reservation_loans_path(reservation)
+    refute_button "Complete Check-in"
+
+    fill_in "Item Number", with: hammer.number
+    click_on "Return Item"
+
+    within "#pickup-status" do
+      assert_text "All items returned."
+      click_on "Complete Check-in"
+    end
+
+    assert_text "Reservation was successfully updated."
+    assert_equal "returned", reservation.reload.status
+    assert_equal Money.new(-7_00), reservation.adjustments.usage_fee.sole.amount
+    refute_field "Item Number"
+    refute_button "Undo return"
+  end
+
+  test "marking a reservation with missing items as unresolved and resolving it" do
+    hammer_pool = create(:item_pool, name: "Hammer")
+    hammer = create(:reservable_item, item_pool: hammer_pool)
+
+    reservation = create(:reservation, :borrowed)
+    hammer_hold = create(:reservation_hold, item_pool: hammer_pool, reservation:)
+    reservation.reservation_loans.create!(reservation_hold: hammer_hold, reservable_item: hammer, checked_out_at: Time.current)
+
+    visit admin_reservation_loans_path(reservation)
+
+    accept_confirm { click_on "Mark Unresolved" }
+    assert_text "Reservation was successfully updated."
+    assert_equal "unresolved", reservation.reload.status
+
+    accept_confirm { click_on "Resolve" }
+    assert_text "Reservation was successfully updated."
+    assert_equal "returned", reservation.reload.status
+  end
+
   test "viewing usage fees for a reservation" do
     tent_pool = create(:item_pool, :unnumbered, name: "Tent", unnumbered_count: 5, usage_fee: 10)
     stove_pool = create(:item_pool, :unnumbered, name: "Stove", unnumbered_count: 5)

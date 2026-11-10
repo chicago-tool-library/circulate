@@ -21,6 +21,7 @@ class Reservation < ApplicationRecord
   has_many :reservation_policies, through: :item_pools
   has_many :answers, dependent: :destroy
   has_many :required_answers, dependent: :destroy
+  has_many :adjustments, as: :adjustable
   belongs_to :reviewer, class_name: "User", optional: true
   belongs_to :member
   belongs_to :pickup_event, class_name: "Event", optional: true
@@ -43,6 +44,8 @@ class Reservation < ApplicationRecord
   before_validation :move_ended_at_to_end_of_day
   before_validation :set_initial_status, on: :initialize
   before_validation :update_started_at_and_ended_at_from_events
+  after_save :mark_loans_checked_out, if: -> { saved_change_to_status?(to: Reservation.statuses[:borrowed]) }
+  after_save :charge_usage_fees, if: -> { saved_change_to_status?(to: Reservation.statuses[:returned]) }
   after_find :restore_manager
   validate :validate_reservation_dates
 
@@ -60,6 +63,16 @@ class Reservation < ApplicationRecord
     reservation_holds.select(&:persisted?).sum(Money.new(0), &:usage_fee)
   end
 
+  # Have all of the loaned items been checked back in?
+  def all_items_returned?
+    reservation_loans.exists? && !reservation_loans.where(checked_in_at: nil).exists?
+  end
+
+  # Can loans on this reservation currently be checked in (or have their check-in undone)?
+  def accepting_returns?
+    manager.state.in?([:borrowed, :unresolved])
+  end
+
   def satisfied?
     reservation_holds.all? { |rh| rh.satisfied? }
   end
@@ -73,6 +86,17 @@ class Reservation < ApplicationRecord
   end
 
   private
+
+  def mark_loans_checked_out
+    reservation_loans.where(checked_out_at: nil).update_all(checked_out_at: Time.current)
+  end
+
+  def charge_usage_fees
+    fee = usage_fee_total
+    return if fee.zero? || adjustments.usage_fee.exists?
+
+    adjustments.create!(member:, amount: -fee, kind: Adjustment.kinds[:usage_fee])
+  end
 
   def set_initial_status
     self.status = state.current

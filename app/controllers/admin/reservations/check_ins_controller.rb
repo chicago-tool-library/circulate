@@ -1,6 +1,8 @@
 module Admin
   module Reservations
     class CheckInsController < BaseController
+      before_action :ensure_accepting_returns
+
       def create
         if (reservation_item_number = reservation_loan_lookup_params[:reservable_item_number])
           @reservable_item = ReservableItem.find_by(number: reservation_item_number)
@@ -48,6 +50,12 @@ module Admin
       end
 
       private
+
+      def ensure_accepting_returns
+        return if @reservation.accepting_returns?
+
+        redirect_to default_reservation_tab_path(@reservation), error: "Can't return items on a reservation with status #{@reservation.status}"
+      end
 
       def render_form_with_error(message)
         @reservation_loan_lookup_form = ReservationLoanLookupForm.new

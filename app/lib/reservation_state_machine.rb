@@ -14,6 +14,7 @@ ReservationStateMachine = FiniteMachine.define do
   event :ready, from: :building, to: :ready
 
   event :borrow, from: :ready, to: :borrowed
+  event :check_in, from: :borrowed, to: :returned, if: ->(reservation) { reservation.all_items_returned? }
   event :unresolve, from: :borrowed, to: :unresolved
   event :resolve, from: :unresolved, to: :returned
 

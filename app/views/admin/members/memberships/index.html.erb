@@ -48,7 +48,7 @@
             <% if adjustment.payment? %>
               <%= adjustment.payment_source.capitalize %> payment
             <% else %>
-              <%= adjustment.kind.capitalize %>
+              <%= adjustment.kind.humanize %>
             <% end %>
           </td>
         </tr>

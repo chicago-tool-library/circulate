@@ -2,7 +2,17 @@
   <% if reservation.satisfied? && reservation.status == Reservation.statuses[:building] %>
     <div class="toast toast-success">
       All requirements satisfied.
-      <%= button_to "Mark Ready for Pickup", admin_reservation_status_path(reservation), method: :patch, params: {reservation: {status: Reservation.statuses[:ready]}}, remote: true, class: "btn" %>
+      <%= button_to "Mark Ready for Pickup", admin_reservation_status_path(reservation), method: :patch, params: {event: "ready"}, class: "btn" %>
+    </div>
+  <% elsif reservation.manager.can?(:check_in) %>
+    <div class="toast toast-success">
+      All items returned.
+      <%= button_to "Complete Check-in", admin_reservation_status_path(reservation), method: :patch, params: {event: "check_in"}, class: "btn" %>
+    </div>
+  <% elsif reservation.manager.unresolved? && reservation.all_items_returned? %>
+    <div class="toast toast-success">
+      All items returned.
+      <%= button_to "Resolve", admin_reservation_status_path(reservation), method: :patch, params: {event: "resolve"}, class: "btn" %>
     </div>
   <% end %>
 </div>

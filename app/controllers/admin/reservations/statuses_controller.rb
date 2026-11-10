@@ -1,19 +1,25 @@
 module Admin
   module Reservations
     class StatusesController < BaseController
+      EVENTS = %w[request build ready borrow check_in unresolve resolve].freeze
+
       def update
-        if @reservation.update(reservation_params)
-          redirect_to default_reservation_tab_path(@reservation), notice: "Reservation was successfully updated."
-        else
-          redirect_to default_reservation_tab_path(@reservation), error: "Reservation could not updated: #{@reservation.errors.full_messages.join(", ")}"
+        event = params.require(:event)
+
+        unless EVENTS.include?(event) && @reservation.manager.can?(event.to_sym)
+          redirect_to default_reservation_tab_path(@reservation), error: "Can't #{event.humanize(capitalize: false)} a reservation with status #{@reservation.status}"
+          return
         end
-      end
 
-      private
+        saved = @reservation.transaction do
+          @reservation.manager.trigger(event.to_sym) && @reservation.save || raise(ActiveRecord::Rollback)
+        end
 
-      # Only allow a list of trusted parameters through.
-      def reservation_params
-        params.require(:reservation).permit(:status)
+        if saved
+          redirect_to default_reservation_tab_path(@reservation), success: "Reservation was successfully updated."
+        else
+          redirect_to default_reservation_tab_path(@reservation), error: "Reservation could not be updated: #{@reservation.errors.full_messages.join(", ")}"
+        end
       end
     end
   end

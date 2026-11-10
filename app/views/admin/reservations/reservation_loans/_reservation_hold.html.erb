@@ -20,11 +20,13 @@
         <% end %>
         <% if reservation_loan.checked_in_at.present? %>
           returned
-          <%= button_to "Undo return",
-                admin_reservation_check_in_path(reservation, reservation_loan.id),
-                method: :delete,
-                class: "btn btn-sm" %>
-        <% elsif reservation.status == Reservation.statuses[:borrowed] && !reservation_hold.item_pool.uniquely_numbered? %>
+          <% if reservation.accepting_returns? %>
+            <%= button_to "Undo return",
+                  admin_reservation_check_in_path(reservation, reservation_loan.id),
+                  method: :delete,
+                  class: "btn btn-sm" %>
+          <% end %>
+        <% elsif reservation.accepting_returns? && !reservation_hold.item_pool.uniquely_numbered? %>
           <%= button_to "Return all",
                 admin_reservation_check_ins_path(reservation),
                 method: :post,
