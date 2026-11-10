@@ -1,2 +1,7 @@
 <turbo-stream action="remove" target="<%= dom_id(@reservation_hold) %>">
 </turbo-stream>
+<turbo-stream action="replace" target="reservation_holds_totals">
+  <template>
+    <%= render partial: "admin/reservations/reservation_holds/totals", formats: [:html], locals: {reservation: @reservation} %>
+  </template>
+</turbo-stream>

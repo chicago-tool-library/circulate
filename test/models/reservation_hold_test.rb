@@ -50,4 +50,19 @@ class ReservationHoldTest < ActiveSupport::TestCase
     refute reservation_hold.valid?
     assert_equal reservation_hold.errors[:quantity], ["3 are required by existing loans"]
   end
+
+  test "usage_fee charges the item pool's fee for each held item" do
+    item_pool = build(:item_pool, usage_fee: 10, periodic_fee: 2)
+    reservation_hold = build(:reservation_hold, item_pool:, quantity: 3,
+      started_at: Time.zone.parse("2026-10-02 00:00"), ended_at: Time.zone.parse("2026-10-05 00:00"))
+
+    assert_equal Money.new(48_00), reservation_hold.usage_fee
+  end
+
+  test "usage_fee is zero when the item pool has no fee" do
+    reservation_hold = build(:reservation_hold, quantity: 2,
+      started_at: Time.zone.parse("2026-10-02 00:00"), ended_at: Time.zone.parse("2026-10-05 00:00"))
+
+    assert_equal Money.new(0), reservation_hold.usage_fee
+  end
 end

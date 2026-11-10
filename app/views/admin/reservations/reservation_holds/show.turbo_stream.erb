@@ -3,3 +3,8 @@
     <%= render partial: "admin/reservations/reservation_holds/reservation_hold", formats: [:html], locals: {reservation: @reservation, reservation_hold: @reservation_hold} %>
   </template>
 </turbo-stream>
+<turbo-stream action="replace" target="reservation_holds_totals">
+  <template>
+    <%= render partial: "admin/reservations/reservation_holds/totals", formats: [:html], locals: {reservation: @reservation} %>
+  </template>
+</turbo-stream>

@@ -38,6 +38,11 @@ class ReservationHold < ApplicationRecord
     item_pool.uniquely_numbered?
   end
 
+  # Total usage fee for all of the held items
+  def usage_fee
+    item_pool.usage_fee_for(started_at, ended_at) * quantity
+  end
+
   private
 
   def ensure_quantity_is_available

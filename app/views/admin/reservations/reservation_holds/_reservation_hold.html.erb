@@ -6,6 +6,9 @@
     <%= reservation_hold.quantity %>
   </td>
   <td>
+    <%= reservation_hold.usage_fee.format %>
+  </td>
+  <td>
     <%= link_to "Edit", edit_admin_reservation_reservation_hold_path(reservation, reservation_hold), data: {turbo_stream: true} %>
   </td>
 <% end %>

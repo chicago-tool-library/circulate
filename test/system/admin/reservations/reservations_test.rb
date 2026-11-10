@@ -346,4 +346,41 @@ class AdminReservationsTest < ApplicationSystemTestCase
     assert hammer_loan.reload.checked_in_at
     assert glove_loan.reload.checked_in_at
   end
+
+  test "viewing usage fees for a reservation" do
+    tent_pool = create(:item_pool, :unnumbered, name: "Tent", unnumbered_count: 5, usage_fee: 10)
+    stove_pool = create(:item_pool, :unnumbered, name: "Stove", unnumbered_count: 5)
+    reservation = create(:reservation)
+    tent_hold = create(:reservation_hold, reservation:, item_pool: tent_pool, quantity: 2)
+    create(:reservation_hold, reservation:, item_pool: stove_pool, quantity: 1)
+
+    visit admin_reservation_path(reservation)
+
+    within_dom_id(tent_hold) { assert_selector "td", exact_text: "$20.00" }
+    assert_totals quantity: "3", fees: "$20.00"
+
+    within_dom_id(tent_hold) do
+      click_on "Edit"
+      fill_in "Quantity", with: 3
+      click_on "Update"
+    end
+
+    within_dom_id(tent_hold) { assert_selector "td", exact_text: "$30.00" }
+    assert_totals quantity: "4", fees: "$30.00"
+
+    within_dom_id(tent_hold) do
+      click_on "Edit"
+      click_on "Remove"
+    end
+
+    refute_selector "##{dom_id(tent_hold)}"
+    assert_totals quantity: "1", fees: "$0.00"
+  end
+
+  def assert_totals(quantity:, fees:)
+    within "#reservation_holds_totals" do
+      assert_selector "th:nth-child(2)", exact_text: quantity
+      assert_selector "th:nth-child(3)", exact_text: fees
+    end
+  end
 end

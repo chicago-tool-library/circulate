@@ -1,5 +1,5 @@
 <%= tag.tr id: dom_id(reservation_hold) do %>
-  <td colspan="3">
+  <td colspan="4">
     <%= form_with(model: reservation_hold, url: [:admin, reservation, reservation_hold], builder: SpectreFormBuilder) do |form| %>
       <%= form.text_field :item_pool_id, label: "Item ID", autocomplete: "off", autofocus: true %>
       <%= form.number_field :quantity, min: 1, max: reservation_hold.item_pool.max_reservable_quantity %>

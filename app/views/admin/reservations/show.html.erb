@@ -3,6 +3,7 @@
     <thead>
       <th>Item</th>
       <th>Quantity</th>
+      <th>Fees</th>
       <th></th>
     </thead>
     <tbody>
@@ -11,8 +12,9 @@
       <% end %>
     </tbody>
     <tfoot>
+      <%= render partial: "admin/reservations/reservation_holds/totals", locals: {reservation: @reservation} %>
       <tr>
-        <td colspan="3">
+        <td colspan="4">
           <%= link_to "Add Item", admin_reservation_item_pool_search_path(@reservation), class: "btn" %>
         </td>
       </tr>

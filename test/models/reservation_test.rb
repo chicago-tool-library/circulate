@@ -29,4 +29,18 @@ class ReservationTest < ActiveSupport::TestCase
     assert reservation.invalid?
     assert_equal ["must be after pickup event"], reservation.errors[:dropoff_event_id]
   end
+
+  test "usage_fee_total adds up the fees for every hold" do
+    reservation = create(:reservation)
+    tent_pool = create(:item_pool, :unnumbered, unnumbered_count: 5, usage_fee: 10)
+    canopy_pool = create(:item_pool, :unnumbered, unnumbered_count: 5, usage_fee: 25)
+    create(:reservation_hold, reservation:, item_pool: tent_pool, quantity: 2)
+    create(:reservation_hold, reservation:, item_pool: canopy_pool, quantity: 1)
+
+    assert_equal Money.new(45_00), reservation.reload.usage_fee_total
+  end
+
+  test "usage_fee_total is zero without holds" do
+    assert_equal Money.new(0), create(:reservation).usage_fee_total
+  end
 end

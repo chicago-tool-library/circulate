@@ -56,6 +56,10 @@ class Reservation < ApplicationRecord
     reservation_holds.select(&:persisted?).sum(&:quantity)
   end
 
+  def usage_fee_total
+    reservation_holds.select(&:persisted?).sum(Money.new(0), &:usage_fee)
+  end
+
   def satisfied?
     reservation_holds.all? { |rh| rh.satisfied? }
   end
