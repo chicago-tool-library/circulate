@@ -321,8 +321,9 @@ The following buildpacks are currently used in production:
 1. heroku-community/apt
 2. https://github.com/mojodna/heroku-buildpack-jemalloc.git
 3. heroku/metrics
-4. https://github.com/heroku/heroku-buildpack-activestorage-preview
-5. heroku/ruby
+4. heroku/nodejs
+5. https://github.com/heroku/heroku-buildpack-activestorage-preview
+6. heroku/ruby
 ```
 
 ### Release Command
