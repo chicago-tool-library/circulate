@@ -3,8 +3,6 @@
 
     <h2><%= @document.name %></h2>
 
-    <div class="rich-text">
-      <%= @document.body %>
-    </div>
+    <%= render "documents/content", document: @document %>
   </div>
 </div>

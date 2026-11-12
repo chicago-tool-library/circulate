@@ -1,0 +1,15 @@
+<%# Shows a document wherever members read it: the Google Doc staff keep it in, or the text stored here when there isn't one. %>
+<% if document.google_doc? %>
+  <div class="document-embed">
+    <iframe src="<%= document.google_doc_embed_url %>" title="<%= document.name %>" loading="lazy"></iframe>
+    <p class="document-embed-popout">
+      <%= link_to document.google_doc_url, target: "_blank", rel: "noopener noreferrer" do %>
+        <%= feather_icon "external-link" %> Open <%= document.name %> in a new tab
+      <% end %>
+    </p>
+  </div>
+<% else %>
+  <div class="rich-text">
+    <%= document.body %>
+  </div>
+<% end %>

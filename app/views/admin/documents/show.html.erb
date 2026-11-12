@@ -12,6 +12,13 @@
 
 <div class="divider"></div>
 
+<% if @document.google_doc? %>
+  <p>Members see this Google Doc in place of the text below.</p>
+  <%= render "documents/content", document: @document %>
+
+  <div class="divider"></div>
+<% end %>
+
 <div class="rich-text">
   <blockquote>
     <%= @document.body %>
