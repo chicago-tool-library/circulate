@@ -31,6 +31,17 @@ class MemberTexter < BaseTexter
     result
   end
 
+  def hold_returned_to_line(hold)
+    return unless should_text?
+
+    message = <<~EOM.chomp
+      Chicago Tool Library: Sorry, #{hold.item.complete_number} went out to another member after all. You're still first in line and we'll let you know when it's back.
+    EOM
+    result = text(to: @member.canonical_phone_number, body: message)
+    store_notification("hold_returned_to_line", message, result)
+    result
+  end
+
   def holds_available(holds)
     return unless should_text?
 

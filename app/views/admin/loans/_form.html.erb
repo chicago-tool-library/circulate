@@ -24,7 +24,15 @@
     currently on loan to <%= link_to preferred_or_default_name(borrower), admin_member_path(borrower) %>
     and due on <%= checked_out_date(@item.checked_out_exclusive_loan.due_at) %>
   <% else %>
+    <% ready_hold = @item.ready_hold_for_someone_other_than(@member) %>
     <div data-controller="confirm-item-accessories">
+      <% if ready_hold %>
+        <p class="text-warning">
+          <%= feather_icon "alert-triangle" %>
+          Ready for pickup by <%= link_to preferred_or_default_name(ready_hold.member), admin_member_path(ready_hold.member) %>.
+          Lending it anyway keeps their place at the front of the line and lets them know it went out.
+        </p>
+      <% end %>
       <% if @item.accessories? %>
         <ul class="simple-list of-accessories">
           <% @item.accessories.each do |accessory| %>
@@ -35,8 +43,14 @@
           <% end %>
         </ul>
       <% end %>
-      <%= button_tag id: "lend-#{@item.id}", class: "btn btn-primary", disabled: @item.accessories?, data: {"confirm-item-accessories-target" => "button"} do %>
-        <%= feather_icon "upload" %>Lend
+      <% if ready_hold %>
+        <%= button_tag id: "lend-#{@item.id}", name: "over_ready_hold", value: "1", class: "btn btn-error", disabled: @item.accessories?, data: {"confirm-item-accessories-target" => "button"} do %>
+          <%= feather_icon "upload" %>Lend anyway
+        <% end %>
+      <% else %>
+        <%= button_tag id: "lend-#{@item.id}", class: "btn btn-primary", disabled: @item.accessories?, data: {"confirm-item-accessories-target" => "button"} do %>
+          <%= feather_icon "upload" %>Lend
+        <% end %>
       <% end %>
       will be due on <%= checked_out_date(@loan.due_at) %>
     </div>

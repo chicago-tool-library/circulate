@@ -16,7 +16,7 @@ module Admin
       @item = Item.find(new_loan_params[:item_id])
       @member = Member.find(new_loan_params[:member_id])
 
-      @loan = create_loan(@item, @member)
+      @loan = lend_to_member(@item, @member, over_ready_hold: params[:over_ready_hold] == "1")
 
       if @loan.persisted?
         flash_highlight(@loan)

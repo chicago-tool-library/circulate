@@ -1,0 +1,12 @@
+<%= @subject %>
+
+We let you know that <%= @item.name %> (<%= @item.complete_number %>) was ready for you, but a librarian has since lent it to another member. Sorry about that!
+
+You're still first in line. As soon as it comes back, your hold will be ready again and we'll let you know.
+<% if @appointment_change == :cancelled %>
+
+Your appointment on <%= @appointment_when %> was only for this item, so we've cancelled it.
+<% elsif @appointment_change == :removed %>
+
+We've taken it off your appointment on <%= @appointment_when %>. The rest of that appointment is unchanged.
+<% end %>

@@ -33,6 +33,15 @@ class Hold < ApplicationRecord
 
   validate :ensure_items_are_holdable, :ensure_member_is_within_borrow_policy_limit, on: :create
 
+  # When a ready hold ends without becoming a loan (cancelled, ended by staff),
+  # the item is back on the shelf for the next member in line. Start their hold
+  # now rather than waiting for the scheduled task, so a walk-in can't slip in
+  # ahead of the line in the meantime.
+  # (Two methods because Rails keeps only the last after_commit registered for
+  # a given method name.)
+  after_commit :promote_next_hold, on: :update, if: :released_item?
+  after_commit :promote_next_hold_after_destroy, on: :destroy, if: -> { started? && !ended? }
+
   acts_as_tenant :library
 
   def self.active_hold_count_for_item(item)
@@ -71,6 +80,27 @@ class Hold < ApplicationRecord
   def cancel!
     remove_from_appointment!
     destroy!
+  end
+
+  # Staff lent the item over this ready hold. Put the hold back in line without
+  # touching its position, so the member is still next and gets a fresh pickup
+  # window when the item comes back. Any appointment they booked for it can't
+  # happen, so the hold comes off that too. Returns what happened to the
+  # appointment (nil, :removed or :cancelled) for the member's notification.
+  def return_to_line!(now = Time.current)
+    update!(started_at: nil, expires_at: nil)
+    take_off_upcoming_appointment!(now)
+  end
+
+  # Takes the hold off an appointment that hasn't happened yet (today counts).
+  # Returns nil if there was nothing to do, otherwise :removed, or :cancelled
+  # when the appointment had nothing else on it.
+  def take_off_upcoming_appointment!(now = Time.current)
+    upcoming = appointment
+    return if upcoming.blank? || upcoming.completed? || upcoming.starts_at < now.beginning_of_day
+
+    remove_from_appointment!
+    Appointment.exists?(upcoming.id) ? :removed : :cancelled
   end
 
   def remove_from_appointment!
@@ -140,10 +170,26 @@ class Hold < ApplicationRecord
     end
   end
 
-  def self.start_waiting_holds(now = Time.current, &block)
+  # Starts every hold that's ready and tells the members. Pass an item to only
+  # look at that item's line.
+  def self.start_waiting_holds_and_notify(item: nil)
+    Time.use_zone("America/Chicago") do
+      holds = []
+      start_waiting_holds(item:) { |hold| holds << hold }
+
+      holds.group_by(&:member).each do |member, member_holds|
+        MemberMailer.with(member:, holds: member_holds).holds_available.deliver_now
+        MemberTexter.new(member).holds_available(member_holds)
+      end
+    end
+  end
+
+  def self.start_waiting_holds(now = Time.current, item: nil, &block)
     started = 0
 
-    active(now).waiting.joins(:item).merge(Item.holdable).includes(:member, item: :borrow_policy).find_each do |hold|
+    scope = active(now).waiting.joins(:item).merge(Item.holdable)
+    scope = scope.where(item:) if item
+    scope.includes(:member, item: :borrow_policy).find_each do |hold|
       unless hold.ready_for_pickup?(now)
         Rails.logger.debug { "[hold #{hold.id}]: not ready for pickup" }
         next
@@ -161,6 +207,15 @@ class Hold < ApplicationRecord
   end
 
   private
+
+  def released_item?
+    saved_change_to_ended_at? && ended? && started? && loan_id.nil?
+  end
+
+  def promote_next_hold
+    StartWaitingHoldsJob.perform_later(item_id)
+  end
+  alias_method :promote_next_hold_after_destroy, :promote_next_hold
 
   def ensure_items_are_holdable
     return unless item
