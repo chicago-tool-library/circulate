@@ -2,7 +2,7 @@
   <mj-column>
     <mj-text
       font-size="36px"
-      line-height="28px"
+      line-height="40px"
       font-weight="bold"
       align="center"
       ><%= @subject %></mj-text
