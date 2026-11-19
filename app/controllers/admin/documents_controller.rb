@@ -40,7 +40,7 @@ module Admin
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def document_params
-      params.require(:document).permit(:name, :summary, :body)
+      params.require(:document).permit(:name, :summary, :google_doc_url, :body)
     end
   end
 end

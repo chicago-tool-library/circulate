@@ -2,8 +2,8 @@
   <div class="column col-8 col-sm-12 col-mx-auto">
     <% if policy_deck_url %>
       <div class="instructions">
-        <p class="main">Please watch this short presentation about our policies.</p>
-        <p class="sub">Use the arrows to move through the slides. When you're done, click <em>Continue</em> to go on to the next step.</p>
+        <p class="main">Please read through this short presentation about our policies.</p>
+        <p class="sub">Use the arrows to move through the slides. To make the presentation bigger, move your mouse over it and click the two arrows in the bottom-right corner. When you're done, click <em>Continue</em> to go to the next step.</p>
         <div class="divider"></div>
       </div>
 
@@ -13,15 +13,21 @@
         </div>
         <p class="policy-deck-popout">
           <%= link_to policy_deck_url, target: "_blank", rel: "noopener noreferrer" do %>
-            <%= feather_icon "external-link" %> Open in a new tab
+            <%= feather_icon "external-link" %> Open a new tab to make the presentation larger
           <% end %>
         </p>
-        <details class="policy-deck-text">
-          <summary>Read the full text of our policies</summary>
-          <div class="rich-text">
-            <%= document.body %>
-          </div>
-        </details>
+        <% if document.google_doc? %>
+          <p class="policy-deck-text">
+            <%= link_to "Read the full text of our policies", document.google_doc_url, target: "_blank", rel: "noopener noreferrer" %>
+          </p>
+        <% else %>
+          <details class="policy-deck-text">
+            <summary>Read the full text of our policies</summary>
+            <div class="rich-text">
+              <%= document.body %>
+            </div>
+          </details>
+        <% end %>
       </div>
     <% else %>
       <div class="instructions">
@@ -30,9 +36,7 @@
         <div class="divider"></div>
       </div>
 
-      <div class="rich-text">
-        <%= document.body %>
-      </div>
+      <%= render "documents/content", document: document %>
     <% end %>
 
     <p>
