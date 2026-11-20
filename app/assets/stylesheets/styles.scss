@@ -100,6 +100,15 @@ header.navbar {
   a {
     color: variables.$primary-color;
   }
+  // The primary blue only reaches 4:1 on the yellow warning background;
+  // darken it enough to clear WCAG AA (4.5:1).
+  &.toast-warning a {
+    color: color.adjust(
+      variables.$primary-color,
+      $lightness: -10%,
+      $space: hsl
+    );
+  }
 }
 
 .off-canvas-content {

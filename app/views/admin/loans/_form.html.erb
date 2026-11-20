@@ -27,11 +27,11 @@
     <% ready_hold = @item.ready_hold_for_someone_other_than(@member) %>
     <div data-controller="confirm-item-accessories">
       <% if ready_hold %>
-        <p class="text-warning">
+        <div class="toast toast-warning mb-2">
           <%= feather_icon "alert-triangle" %>
           Ready for pickup by <%= link_to preferred_or_default_name(ready_hold.member), admin_member_path(ready_hold.member) %>.
           Lending it anyway keeps their place at the front of the line and lets them know it went out.
-        </p>
+        </div>
       <% end %>
       <% if @item.accessories? %>
         <ul class="simple-list of-accessories">
