@@ -5,7 +5,7 @@
 </mj-section>
 <mj-section>
   <mj-column>
-    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @subject %></mj-text>
+    <mj-text font-size="36px" line-height="40px" font-weight="bold" align="center"><%= @subject %></mj-text>
   </mj-column>
 </mj-section>
 <mj-section>

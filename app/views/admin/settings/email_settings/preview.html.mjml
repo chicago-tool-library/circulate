@@ -6,7 +6,7 @@
 
 <mj-section>
   <mj-column>
-    <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center">Example message</mj-text>
+    <mj-text font-size="36px" line-height="40px" font-weight="bold" align="center">Example message</mj-text>
   </mj-column>
 </mj-section>
 

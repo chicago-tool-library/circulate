@@ -15,7 +15,10 @@ module Admin
 
       def remove
         @hold = @item.holds.find(params[:hold_id])
-        @hold.update(ended_at: Time.current)
+        @hold.transaction do
+          @hold.update!(ended_at: Time.current)
+          @hold.take_off_upcoming_appointment!
+        end
         redirect_to admin_item_holds_path(@item), flash: {success: "Hold ended."}, status: :see_other
       end
 

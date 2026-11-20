@@ -64,7 +64,7 @@
     <% if @title.present? %>
     <mj-section>
       <mj-column>
-        <mj-text font-size="36px" line-height="28px" font-weight="bold" align="center"><%= @title %></mj-text>
+        <mj-text font-size="36px" line-height="40px" font-weight="bold" align="center"><%= @title %></mj-text>
       </mj-column>
     </mj-section>
     <% end %>

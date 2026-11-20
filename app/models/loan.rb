@@ -47,6 +47,10 @@ class Loan < ApplicationRecord
 
   acts_as_tenant :library
 
+  # A returned item goes straight to the next member in line, instead of
+  # sitting unprotected on the shelf until the scheduled task runs.
+  after_commit :promote_next_hold, on: :update, if: -> { saved_change_to_ended_at? && ended? && uniquely_numbered? }
+
   def item
     super || NullItem.new
   end
@@ -106,5 +110,11 @@ class Loan < ApplicationRecord
 
   def upcoming_appointment
     member.upcoming_appointment_of(self)
+  end
+
+  private
+
+  def promote_next_hold
+    StartWaitingHoldsJob.perform_later(item_id) if item_id
   end
 end

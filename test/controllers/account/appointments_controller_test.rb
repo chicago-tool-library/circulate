@@ -99,5 +99,21 @@ module Account
       assert_template :edit
       assert_select "ul.error", /on or before hold expires on/
     end
+
+    test "rejects booking pickup of a hold that isn't ready because the item is on loan to someone else" do
+      event = FactoryBot.create(:appointment_slot_event)
+      item = FactoryBot.create(:item)
+      FactoryBot.create(:loan, item: item)
+      hold = FactoryBot.create(:hold, member: @member, item: item)
+      refute hold.ready_for_pickup?
+
+      post account_appointments_path, params: {appointment: {
+        hold_ids: [hold.id],
+        comment: "",
+        time_range_string: "#{event.start}..#{event.finish}"
+      }}
+
+      assert_equal 0, @member.appointments.count, "appointment was created for an item on loan to another member"
+    end
   end
 end

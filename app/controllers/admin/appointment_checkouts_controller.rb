@@ -33,7 +33,7 @@ module Admin
     def create_loans_for_holds
       self.new_loans = member.transaction do
         holds.map do |hold|
-          create_loan_from_hold(hold)
+          create_loan_from_hold(hold, appointment: appointment)
         end
       end
     end
