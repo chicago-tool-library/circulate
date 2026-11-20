@@ -5,6 +5,7 @@ require "test_helper"
 module Admin
   class LoanEndsHoldsTest < ActionDispatch::IntegrationTest
     include Devise::Test::IntegrationHelpers
+    include ActionMailer::TestHelper
 
     setup do
       @item = create(:item)
@@ -51,16 +52,21 @@ module Admin
       assert ready.reload.started?
     end
 
-    test "lending over a ready hold keeps the line in order and tells the member" do
+    test "an admin lending over a ready hold keeps the line in order and leaves notifying the member to staff" do
       first = create(:verified_member)
       ready = create(:started_hold, member: first, item: @item)
       second = create(:hold, member: create(:verified_member), item: @item)
       appointment = create(:appointment, member: first, holds: [ready], starts_at: 1.day.from_now, ends_at: 1.day.from_now + 2.hours)
       walk_in = create(:verified_member)
 
-      assert_enqueued_with(job: HoldReturnedToLineJob, args: ->(args) { args[0] == ready.id && args[1].to_i == appointment.starts_at.to_i && args[2] == :cancelled }) do
-        post admin_loans_url, params: {loan: {item_id: @item.id, member_id: walk_in.id}, over_ready_hold: "1"}
+      assert_no_emails do
+        assert_no_enqueued_jobs(except: StartWaitingHoldsJob) do
+          post admin_loans_url, params: {loan: {item_id: @item.id, member_id: walk_in.id}, over_ready_hold: "1"}
+        end
       end
+      assert_match "They haven't been notified", flash[:warning]
+      assert_match "##{first.number}", flash[:warning]
+      assert_match "was cancelled", flash[:warning]
 
       assert_equal walk_in, @item.reload.checked_out_exclusive_loan.member
       ready.reload
@@ -139,8 +145,24 @@ module Admin
       get admin_member_lookup_url(walk_in, admin_lookup: {item_number: @item.number.to_s})
 
       assert_response :success
-      assert_match "Ready for pickup by", response.body
+      assert_match "Only lend it anyway in an emergency", response.body
       assert_select "button[name=over_ready_hold][value='1']", text: /Lend anyway/
+    end
+
+    test "staff without the admin role can't lend over a ready hold" do
+      sign_in create(:staff_user)
+      first = create(:verified_member)
+      ready = create(:started_hold, member: first, item: @item)
+      walk_in = create(:verified_member_with_membership)
+
+      get admin_member_lookup_url(walk_in, admin_lookup: {item_number: @item.number.to_s})
+      assert_match "DO NOT lend it out to another member", response.body
+      assert_select "button[name=over_ready_hold]", count: 0
+
+      assert_no_difference("Loan.count") do
+        post admin_loans_url, params: {loan: {item_id: @item.id, member_id: walk_in.id}, over_ready_hold: "1"}
+      end
+      assert ready.reload.started?
     end
   end
 end

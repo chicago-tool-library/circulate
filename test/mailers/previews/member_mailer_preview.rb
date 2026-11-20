@@ -69,11 +69,6 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(member: Member.first, holds:, library: member.library).holds_available
   end
 
-  def hold_returned_to_line
-    hold = Hold.joins(:item).first || Hold.create!(item: Item.active.first, member: Member.second, creator: User.first, library: Member.second.library)
-    MemberMailer.with(member: hold.member, hold:, appointment_starts_at: Time.current.in_time_zone("America/Chicago").tomorrow.change(hour: 12), appointment_change: :removed).hold_returned_to_line
-  end
-
   def membership_renewal_reminder
     MemberMailer.with(member: Member.first).membership_renewal_reminder
   end

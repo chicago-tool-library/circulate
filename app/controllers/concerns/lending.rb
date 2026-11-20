@@ -48,13 +48,12 @@ module Lending
       end
     end
 
-    bumped = []
     loan = nil
     Loan.transaction do
       if ready_hold
         appointment_starts_at = ready_hold.appointment&.starts_at
         appointment_change = ready_hold.return_to_line!(now)
-        bumped << [ready_hold, appointment_change && appointment_starts_at, appointment_change]
+        @hold_returned_to_line = {hold: ready_hold, appointment_starts_at:, appointment_change:}
       end
 
       own_hold = member.active_holds.find_by(item:)
@@ -62,9 +61,7 @@ module Lending
       raise ActiveRecord::Rollback unless loan.persisted?
     end
 
-    if loan.persisted?
-      bumped.each { |hold, starts_at, change| HoldReturnedToLineJob.perform_later(hold.id, starts_at, change) }
-    end
+    @hold_returned_to_line = nil unless loan.persisted?
     loan
   end
 

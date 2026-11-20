@@ -60,18 +60,6 @@ class MemberMailer < ApplicationMailer
     mail(to: @member.email, subject: "#{@subject} (#{item_names})")
   end
 
-  def hold_returned_to_line
-    @member = params[:member]
-    @hold = params[:hold]
-    @appointment_change = params[:appointment_change]&.to_sym
-    @appointment_when = params[:appointment_starts_at]&.in_time_zone("America/Chicago")&.strftime("%A, %B %-d at %-I:%M%P")
-    @item = @hold.item
-
-    @subject = "Sorry, #{@item.name} isn't ready after all"
-    @library = @member.library
-    mail(to: @member.email, subject: "#{@subject} (#{@item.complete_number})")
-  end
-
   def renewal_request_updated
     @renewal_request = params[:renewal_request]
     @item = @renewal_request.loan.item
