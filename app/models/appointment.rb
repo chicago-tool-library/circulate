@@ -12,7 +12,7 @@ class Appointment < ApplicationRecord
   HOLD_PULL_EXPIRY_BACKSTOP = Hold::DEFAULT_HOLD_DURATION.days
 
   validate :ends_at_later_than_starts_at, :date_present
-  validate :starts_before_holds_expire, if: :member_updating
+  validate :starts_before_holds_expire, :holds_ready_for_pickup, if: :member_updating
   validate :item_present, unless: :staff_updating
 
   after_update :protect_pulled_holds_from_expiring, if: :saved_change_to_pulled_at?
@@ -156,6 +156,15 @@ class Appointment < ApplicationRecord
 
     if ends_at < starts_at
       errors.add(:ends_at, "must be after the starts_at date")
+    end
+  end
+
+  # The booking form only greys out holds that aren't ready; this is the check
+  # that actually keeps a member from booking pickup of an item that's still on
+  # loan to someone else or has members ahead of them in line.
+  def holds_ready_for_pickup
+    holds.reject(&:ready_for_pickup?).each do |hold|
+      errors.add(:base, "#{hold.item.complete_number} #{hold.item.name} isn't ready for pickup yet.")
     end
   end
 

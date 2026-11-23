@@ -11,12 +11,58 @@ module Lending
     end
   end
 
-  def create_loan_from_hold(hold, now: Time.current)
+  # Pass the appointment when the hold is being checked out as part of that
+  # appointment. Otherwise the hold is leaving the library some other way (a
+  # walk-in, the member's holds page), so take it off any appointment the member
+  # booked for a later day, or that appointment keeps promising an item the
+  # member already has.
+  def create_loan_from_hold(hold, now: Time.current, appointment: nil)
     hold.transaction do
       create_loan(hold.item, hold.member, now: now).tap do |loan|
+        next unless loan.persisted?
+
         hold.update!(loan: loan, ended_at: now)
+        upcoming = hold.appointment
+        if upcoming && upcoming != appointment && upcoming.starts_at > now.end_of_day
+          hold.remove_from_appointment!
+        end
       end
     end
+  end
+
+  # Lends an item to a member from the checkout screen, respecting the hold line.
+  #
+  # If the item is sitting on the shelf for someone else's ready hold, staff
+  # can't lend it by default: the loan comes back unsaved with an error. With
+  # over_ready_hold, staff are deliberately lending it anyway. The other
+  # member's hold goes back to waiting in its same place in line, comes off any
+  # appointment they booked, and they're told what happened.
+  #
+  # If the member has their own hold on the item, the loan fulfils it.
+  def lend_to_member(item, member, over_ready_hold: false, now: Time.current)
+    ready_hold = item.ready_hold_for_someone_other_than(member)
+
+    if ready_hold && !over_ready_hold
+      return Loan.lend(item, to: member, now:).tap do |loan|
+        loan.errors.add(:item_id, "is ready for pickup by member ##{ready_hold.member.number}")
+      end
+    end
+
+    loan = nil
+    Loan.transaction do
+      if ready_hold
+        appointment_starts_at = ready_hold.appointment&.starts_at
+        appointment_change = ready_hold.return_to_line!(now)
+        @hold_returned_to_line = {hold: ready_hold, appointment_starts_at:, appointment_change:}
+      end
+
+      own_hold = member.active_holds.find_by(item:)
+      loan = own_hold ? create_loan_from_hold(own_hold, now:) : create_loan(item, member, now:)
+      raise ActiveRecord::Rollback unless loan.persisted?
+    end
+
+    @hold_returned_to_line = nil unless loan.persisted?
+    loan
   end
 
   def return_loan(loan, now: Time.current)

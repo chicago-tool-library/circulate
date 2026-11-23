@@ -170,6 +170,14 @@ class Item < ApplicationRecord
     active? && holds_enabled
   end
 
+  # The hold this item is waiting on the shelf for, if it belongs to someone
+  # other than member. Only uniquely numbered items are set aside for a hold.
+  def ready_hold_for_someone_other_than(member)
+    return unless borrow_policy.uniquely_numbered?
+
+    active_holds.started.where.not(member:).ordered_by_position.first
+  end
+
   def holds_enabled_status
     holds_enabled ? "enabled" : "disabled"
   end
