@@ -467,6 +467,35 @@ $min-width: variables.$size-md + 1;
   }
 }
 
+// A Google Doc shown in place of a document's stored text. Docs have no
+// natural aspect ratio, so the frame takes most of the screen and scrolls
+// inside; the pop-out link is there for anyone who'd rather read full-page.
+.document-embed {
+  margin-bottom: 2rem;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 70vh;
+    min-height: 24rem;
+    border: 1px solid #e7e9ed;
+    background: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .document-embed-popout {
+    text-align: right;
+    font-size: 0.9rem;
+    margin: 0;
+
+    svg {
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.15em;
+    }
+  }
+}
+
 .policy-quiz {
   margin-bottom: 1rem;
 
