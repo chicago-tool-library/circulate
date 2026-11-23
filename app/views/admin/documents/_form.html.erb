@@ -3,6 +3,8 @@
 
   <%= form.text_field :name %>
   <%= form.text_field :summary, hint: "Single sentence overview of this document" %>
+  <%= form.text_field :google_doc_url, label: "Google Doc link", placeholder: "https://docs.google.com/document/d/.../edit", required: false,
+        hint: "Members see this Google Doc in place of the text below. In Google Docs, choose Share and set General access to \"Anyone with the link\" as a Viewer, then copy the link. Leave blank to show the text below instead." %>
   <%= form.rich_text_area :body, hint: "The full copy of the document" %>
 
   <%= form.actions do %>

@@ -8,9 +8,7 @@
 
     <h2><%= @document.name %></h2>
 
-    <div class="rich-text">
-      <%= @document.body %>
-    </div>
+    <%= render "documents/content", document: @document %>
 
     <%= form_with(model: @acceptance, url: signup_acceptance_url(document_id: @document), builder: SpectreFormBuilder) do |form| %>
       <%= form.errors %>
