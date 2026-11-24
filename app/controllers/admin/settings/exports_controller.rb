@@ -1,6 +1,8 @@
 class Admin::Settings::ExportsController < Admin::BaseController
   include ActionController::Live
 
+  before_action :require_admin
+
   def index
   end
 

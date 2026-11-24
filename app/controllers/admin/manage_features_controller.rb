@@ -1,5 +1,7 @@
 module Admin
   class ManageFeaturesController < BaseController
+    before_action :require_admin
+
     def index
       @current_library = current_library
     end
