@@ -86,7 +86,7 @@ class Hold < ApplicationRecord
   # touching its position, so the member is still next and gets a fresh pickup
   # window when the item comes back. Any appointment they booked for it can't
   # happen, so the hold comes off that too. Returns what happened to the
-  # appointment (nil, :removed or :cancelled) for the member's notification.
+  # appointment (nil, :removed or :cancelled) for the reminder staff see.
   def return_to_line!(now = Time.current)
     update!(started_at: nil, expires_at: nil)
     take_off_upcoming_appointment!(now)
