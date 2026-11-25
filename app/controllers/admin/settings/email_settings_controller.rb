@@ -1,6 +1,8 @@
 module Admin
   module Settings
     class EmailSettingsController < BaseController
+      before_action :require_admin
+
       def show
       end
 

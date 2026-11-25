@@ -36,7 +36,8 @@ module Lending
   # can't lend it by default: the loan comes back unsaved with an error. With
   # over_ready_hold, staff are deliberately lending it anyway. The other
   # member's hold goes back to waiting in its same place in line, comes off any
-  # appointment they booked, and they're told what happened.
+  # appointment they booked, and staff get a reminder to reach out to them
+  # (Circulate doesn't notify the member).
   #
   # If the member has their own hold on the item, the loan fulfils it.
   def lend_to_member(item, member, over_ready_hold: false, now: Time.current)

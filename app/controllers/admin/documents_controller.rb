@@ -1,5 +1,6 @@
 module Admin
   class DocumentsController < BaseController
+    before_action :require_admin
     before_action :set_document, only: [:show, :edit, :update]
 
     # GET /documents
